@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="jp.sourceforge.tmdmaker.TMDEditor"
+            contributorClass="jp.sourceforge.tmdmaker.TMDEditorContributor"
+            default="false"
+            extensions="tmd"
+            icon="icons/tmd.ico"
+            id="tmdmaker.tmdeditor"
+            name="TM Diagram Editor">
+      </editor>
+   </extension>
+
+</plugin>
