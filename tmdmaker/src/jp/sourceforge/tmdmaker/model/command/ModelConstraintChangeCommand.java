@@ -1,12 +1,12 @@
 package jp.sourceforge.tmdmaker.model.command;
 
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.ModelElement;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
-public class EntityConstraintChangeCommand extends Command {
-	private AbstractEntityModel model;
+public class ModelConstraintChangeCommand extends Command {
+	private ModelElement model;
 	private Rectangle constraint;
 	private Rectangle oldConstraint;
 	/* (non-Javadoc)
@@ -20,7 +20,7 @@ public class EntityConstraintChangeCommand extends Command {
 	public void setConstraint(Rectangle constraint) {
 		this.constraint = constraint;
 	}
-	public void setModel(AbstractEntityModel model) {
+	public void setModel(ModelElement model) {
 		this.model = model;
 		this.oldConstraint = model.getConstraint();
 	}

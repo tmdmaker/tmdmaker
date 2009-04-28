@@ -6,7 +6,7 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.command.EntityConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
 
 import org.eclipse.draw2d.Figure;
@@ -68,8 +68,8 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 		protected Command createChangeConstraintCommand(EditPart child,
 				Object constraint) {
 			System.out.println(getClass().toString() + "#createChangeConstraintCommand()");
-			EntityConstraintChangeCommand command = new EntityConstraintChangeCommand();
-			command.setModel((AbstractEntityModel)child.getModel());
+			ModelConstraintChangeCommand command = new ModelConstraintChangeCommand();
+			command.setModel((ModelElement)child.getModel());
 			command.setConstraint((Rectangle) constraint);
 			return command;
 		}

@@ -1,5 +1,6 @@
 package jp.sourceforge.tmdmaker.editpolicy;
 
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
@@ -14,6 +15,11 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public abstract class AbstractEntityGraphicalNodeEditPolicy extends
 		GraphicalNodeEditPolicy {
 
@@ -123,7 +129,7 @@ public abstract class AbstractEntityGraphicalNodeEditPolicy extends
 		System.out.println(getClass().toString()
 				+ "#getConnectionCreateCommand()");
 		ConnectionCreateCommand command = new ConnectionCreateCommand();
-		command.setConnection(request.getNewObject());
+		command.setConnection((AbstractConnectionModel) request.getNewObject());
 		command.setSource(getHost().getModel());
 		request.setStartCommand(command);
 		return command;

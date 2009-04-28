@@ -1,5 +1,8 @@
 package jp.sourceforge.tmdmaker;
 
+import java.util.List;
+
+import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.editpart.DoubleClickSupport;
 import jp.sourceforge.tmdmaker.editpart.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
@@ -14,6 +17,7 @@ import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
@@ -29,6 +33,7 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
@@ -50,22 +55,33 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @author nakaG
+ * 
+ */
 public class TMDEditor extends GraphicalEditorWithPalette {
+	/** logging */
+	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public TMDEditor() {
 		super();
+		logger.debug("{} is instanciate.", TMDEditor.class);
 		setEditDomain(new DefaultEditDomain(this));
-		getActionRegistry().registerAction(new UndoRetargetAction());
-		getActionRegistry().registerAction(new RedoRetargetAction());
-		getActionRegistry().registerAction(new DeleteRetargetAction());
+		// getActionRegistry().registerAction(new UndoRetargetAction());
+		// getActionRegistry().registerAction(new RedoRetargetAction());
+		// getActionRegistry().registerAction(new DeleteRetargetAction());
 	}
 
 	@Override
 	protected void initializeGraphicalViewer() {
+		logger.debug("initializeGraphicalViewer() called");
 		GraphicalViewer viewer = getGraphicalViewer();
 		// TODO ファイルからオブジェクトを取得
 		Diagram diagram = new Diagram();
@@ -99,6 +115,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	 */
 	@Override
 	protected PaletteRoot getPaletteRoot() {
+		logger.debug("getPaletteRoot() called");
 		PaletteRoot root = new PaletteRoot();
 
 		PaletteGroup toolGroup = new PaletteGroup("ツール");
@@ -141,14 +158,38 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
+		logger.debug("doSave() called");
 		// TODO ファイルへオブジェクトを保存
 	}
 
 	@Override
+	protected void createActions() {
+		logger.debug("createAction() called");
+
+		super.createActions();
+		ActionRegistry registry = getActionRegistry();
+		SubsetCreateAction action = new SubsetCreateAction(this);
+		registry.registerAction(action);
+
+		@SuppressWarnings("unchecked")
+		List<String> selectionActions = getSelectionActions();
+		selectionActions.add(action.getId());
+		action.setSelectionProvider(getGraphicalViewer());
+	}
+
+	@Override
 	protected void configureGraphicalViewer() {
+		logger.debug("configureGraphicalViewer() called");
 		super.configureGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setEditPartFactory(new TMDEditPartFactory());
+
+		ContextMenuProvider provider = new TMDContextMenuProvider(viewer,
+				getActionRegistry());
+		viewer.setContextMenu(provider);
+		// ContextMenuにRun as等を表示しないようにするためIWorkbenchPartSiteに登録しない
+		// getSite().registerContextMenu("tmd.contextmenu", provider, viewer);
+
 		// when entity create, show dialog and set properties.
 
 		getCommandStack().addCommandStackEventListener(
@@ -208,7 +249,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 						Command cmd = event.getCommand();
 						if (cmd instanceof ConnectionCreateCommand) {
 							ConnectionCreateCommand command = (ConnectionCreateCommand) cmd;
-							AbstractConnectionModel cnt = command
+							AbstractConnectionModel<?> cnt = command
 									.getConnection();
 							if (cnt instanceof Event2EventRelationship) {
 								Event2EventRelationship relationship = (Event2EventRelationship) cnt;
@@ -239,51 +280,10 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 						}
 					}
 				});
-		// @Override
-		// public void stackChanged(CommandStackEvent event) {
-		// Event2EventConnectionCreateCommand command = null;
-		// if (event.getCommand() instanceof Event2EventConnectionCreateCommand)
-		// {
-		// command = (Event2EventConnectionCreateCommand) event
-		// .getCommand();
-		// } else {
-		// return;
-		// }
-		// if (event.getDetail() == CommandStack.PRE_EXECUTE
-		// //|| event.getDetail() == CommandStack.PRE_REDO
-		// ) {
-		// ConnectableElement source = command.getSource();
-		// ConnectableElement target = command.getTarget();
-		// if (source instanceof Entity
-		// && target instanceof Entity) {
-		// AbstractEntityModel sourceEntity = (AbstractEntityModel) source;
-		// AbstractEntityModel targetEntity = (AbstractEntityModel) target;
-		// RelationshipEditDialog dialog = new RelationshipEditDialog(
-		// getGraphicalViewer().getControl()
-		// .getShell(), sourceEntity
-		// .getName(), targetEntity
-		// .getName());
-		// if (dialog.open() == Dialog.OK) {
-		// // Relationship relationship = (Relationship) command
-		// // .getConnection();
-		// // relationship.setSourceCardinality(dialog
-		// // .getSourceCardinality());
-		// // relationship.setTargetCardinality(dialog
-		// // .getTargetCardinality());
-		// command.setSourceCardinality(dialog.getSourceCardinality());
-		// command.setTargetCardinality(dialog.getTargetCardinality());
-		// command.setSourceNoInstance(dialog.isSourceNoInstance());
-		// command.setTargetNoInstance(dialog.isTargetNoInstance());
-		// }
-		// }
-		// }
-		// }
-		//
-		// });
 	}
 
 	private String createEntityName(String identifierName) {
-		String[] suffixes = {"コード", "ID","ＩＤ","id", "ｉｄ","番号", "No"};
+		String[] suffixes = { "コード", "ID", "ＩＤ", "id", "ｉｄ", "番号", "No" };
 		String[] reportSuffixes = { "伝票", "報告書", "書", "レポート" };
 		String entityName = identifierName;
 		for (String suffix : suffixes) {

@@ -115,7 +115,7 @@ public class EntityEditDialog extends Dialog {
 		group.setBounds(-1, -1, -1, -1);
 		Button r = new Button(group, SWT.RADIO);
 		r.setText("リソース");
-		r.setBounds(5, 10, 50, 20);
+		r.setBounds(5, 10, 55, 20);
 		r.addSelectionListener(new SelectionAdapter() {
 
 			/* (non-Javadoc)
@@ -131,7 +131,7 @@ public class EntityEditDialog extends Dialog {
 		});
 		Button e = new Button(group, SWT.RADIO);
 		e.setText("イベント");
-		e.setBounds(70, 10, 50, 20);
+		e.setBounds(80, 10, 55, 20);
 		e.addSelectionListener(new SelectionAdapter() {
 
 			/* (non-Javadoc)

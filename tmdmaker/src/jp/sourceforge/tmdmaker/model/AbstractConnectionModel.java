@@ -6,6 +6,9 @@ package jp.sourceforge.tmdmaker.model;
  * @param <T>
  */
 public abstract class AbstractConnectionModel<T extends ConnectableElement> extends ConnectableElement {
+	/**
+	 * 
+	 */
 	protected T source, target;
 	public static final String P_SOURCE_CARDINALITY = "p_source_cardinality";
 	public static final String P_TARGET_CARDINALITY = "p_target_cardinality";

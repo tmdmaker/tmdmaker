@@ -13,11 +13,13 @@ public class Diagram extends ModelElement {
 //	private String dialectName = "";
 	public static final String P_CHILDREN = "p_children";
 
-	public void addChild(ModelElement child) {
-		children.add(child);
-		firePropertyChange(P_CHILDREN, null, child);
+	public <T extends ModelElement>void addChild(T child) {
+		if (children.contains(child) == false) {
+			children.add(child);
+			firePropertyChange(P_CHILDREN, null, child);
+		}
 	}
-	public void removeChild(ModelElement child) {
+	public <T extends ModelElement>void removeChild(T child) {
 		children.remove(child);
 		firePropertyChange(P_CHILDREN, child, null);
 	}

@@ -87,7 +87,7 @@ public class RelationshipFigure extends PolylineConnection {
 		Ellipse figure = new Ellipse();
 		figure.setFill(false);
 		figure.setBounds(new Rectangle(-1, -1, 8, 8));
-		ConnectionEndpointLocator locator = new ConnectionEndpointLocator(this,false);
+		ConnectionEndpointLocator locator = new ConnectionEndpointLocator(this, false);
 		locator.setUDistance(20);
 		locator.setVDistance(0);
 		add(figure, locator);

@@ -4,13 +4,17 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
+import org.eclipse.draw2d.geometry.Rectangle;
+
 /**
  * 
  * @author nakaG
  */
 public abstract class ModelElement implements Serializable  {
 		public static final String PROPERTY_NAME = "_PROPERTY_NAME";
+		public static final String PROPERTY_CONSTRAINT = "p_constraint";
 		private String name;
+		private Rectangle constraint;
 		private transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 		
 		public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -38,6 +42,20 @@ public abstract class ModelElement implements Serializable  {
 		public void setName(String name) {
 			this.name = name;
 			firePropertyChange(PROPERTY_NAME, null, name);
+		}
+		/**
+		 * @return the constraint
+		 */
+		public Rectangle getConstraint() {
+			return constraint;
+		}
+
+		/**
+		 * @param constraint the constraint to set
+		 */
+		public void setConstraint(Rectangle constraint) {
+			this.constraint = constraint;
+			firePropertyChange(PROPERTY_CONSTRAINT, null, constraint);
 		}
 
 }

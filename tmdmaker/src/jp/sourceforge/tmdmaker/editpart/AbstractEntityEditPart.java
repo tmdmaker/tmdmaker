@@ -74,7 +74,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart impleme
 		if (evt.getPropertyName().equals(ModelElement.PROPERTY_NAME)) {
 			System.out.println("ModelElement.P_NAME");
 			refreshVisuals();
-		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_CONSTRAINT)) {
+		} else if (evt.getPropertyName().equals(ModelElement.PROPERTY_CONSTRAINT)) {
 			System.out.println("AbstractEntityModel.P_CONSTRAINT");
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE)) {

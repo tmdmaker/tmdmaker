@@ -13,15 +13,14 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 
 	/** 親モデル */
 	private Diagram diagram;
-	public static final String PROPERTY_CONSTRAINT = "p_constraint";
 	public static final String PROPERTY_ATTRIBUTE = "p_attribute";
 	public static final String PROPERTY_REUSEKEY = "p_reusekey";
 	public static final String P_ATTRIBUTES = "p_attributes";
-	protected Rectangle constraint;
 	protected Map<AbstractEntityModel, ReuseKey> reuseKeys = new LinkedHashMap<AbstractEntityModel, ReuseKey>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
 	protected EntityType entityType = EntityType.R;
-	
+	private Subset subset;
+
 	/**
 	 * @return the diagram
 	 */
@@ -34,21 +33,6 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public void setDiagram(Diagram diagram) {
 		this.diagram = diagram;
-	}
-
-	/**
-	 * @return the constraint
-	 */
-	public Rectangle getConstraint() {
-		return constraint;
-	}
-
-	/**
-	 * @param constraint the constraint to set
-	 */
-	public void setConstraint(Rectangle constraint) {
-		this.constraint = constraint;
-		firePropertyChange(PROPERTY_CONSTRAINT, null, constraint);
 	}
 
 	/**
@@ -127,5 +111,25 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public void setEntityType(EntityType entityType) {
 		this.entityType = entityType;
 	}
+
+	/**
+	 * @return the subset
+	 */
+	public Subset getSubset() {
+		return subset;
+	}
+
+	/**
+	 * @param subset the subset to set
+	 */
+	public void setSubset(Subset subset) {
+		this.subset = subset;
+	}
+
+//	public void addSubset(SubsetEntity subsetEntity) {
+//		if (this.subset == null) {
+//			this.subset = new Subset(this);
+//		}
+//	}
 }
 

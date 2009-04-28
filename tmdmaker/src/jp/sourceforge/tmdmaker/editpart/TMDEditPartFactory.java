@@ -9,6 +9,8 @@ import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Relationship;
+import jp.sourceforge.tmdmaker.model.Subset;
+import jp.sourceforge.tmdmaker.model.SubsetEntity;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -51,6 +53,10 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new RecursiveTableEditPart();
 		} else if (model instanceof Entity) {
 			part = new EntityEditPart();
+		} else if (model instanceof Subset) {
+			part = new SubsetEditPart();
+		} else if (model instanceof SubsetEntity) {
+			part = new SubsetEntityEditPart();
 		}
 		if (part != null) {
 			part.setModel(model);

@@ -52,7 +52,7 @@ public class RelationshipEditDialog extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("Relationship編集");
 		Composite composite = new Composite(parent, SWT.NULL);
-		composite.setLayout(new GridLayout(5,false));
+		composite.setLayout(new GridLayout(5, false));
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		Label label = new Label(composite, SWT.NULL);
 		label.setText(sourceName);
