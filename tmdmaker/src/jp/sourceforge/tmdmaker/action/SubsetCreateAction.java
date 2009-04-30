@@ -90,6 +90,7 @@ public class SubsetCreateAction extends SelectionAction {
 			List<SubsetEntity>deleteSubsets = dialog.getDeletedSubsetEntities();
 			for (SubsetEntity e : deleteSubsets) {
 				SubsetDeleteCommand command = new SubsetDeleteCommand(e, subset);
+				ccommand.add(command);
 			}
 			execute(ccommand);
 		}
@@ -204,11 +205,13 @@ public class SubsetCreateAction extends SelectionAction {
 		private SubsetEntity model;
 		private Subset subset;
 		private Diagram diagram;
+		private RelatedRelationship relationship;
 		
 		public SubsetDeleteCommand(SubsetEntity model, Subset subset) {
 			this.model = model;
 			this.diagram = model.getDiagram();
 			this.subset = subset;
+			this.relationship = (RelatedRelationship) model.getModelTargetConnections().get(0);
 		}
 
 		/**
@@ -217,6 +220,7 @@ public class SubsetCreateAction extends SelectionAction {
 		 */
 		@Override
 		public void execute() {
+			this.relationship.disConnect();
 			this.subset.getSubsetEntityList().remove(model);
 			this.diagram.removeChild(model);
 			this.model.setDiagram(null);
@@ -231,6 +235,7 @@ public class SubsetCreateAction extends SelectionAction {
 			this.subset.getSubsetEntityList().add(model);
 			this.diagram.addChild(model);
 			this.model.setDiagram(diagram);
+			this.relationship.connect();
 		}
 		
 		
