@@ -28,7 +28,7 @@ public class SubsetCreateAction extends SelectionAction {
 
 	public SubsetCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText("サブセット作成");
+		setText("サブセット編集");
 		setId(SUBSET);
 	}
 
@@ -117,13 +117,6 @@ public class SubsetCreateAction extends SelectionAction {
 			this.subset = subset;
 //			Rectangle constraint = model.getConstraint().getTranslated(0, 50);
 //			this.subset.setConstraint(constraint);
-			if (subset.getModelTargetConnections().size() == 0) {
-				this.model2subsetRelationship = new RelatedRelationship();
-				this.model2subsetRelationship.setSource(this.model);
-				this.model2subsetRelationship.setTarget(subset);				
-			} else {
-				this.model2subsetRelationship = (RelatedRelationship) subset.getModelTargetConnections().get(0);
-			}
 			this.diagram = model.getDiagram();
 			this.subsetEntity = subsetEntity;
 			subset2entityRelationship = new RelatedRelationship();
@@ -140,6 +133,13 @@ public class SubsetCreateAction extends SelectionAction {
 		 */
 		@Override
 		public void execute() {
+			if (subset.getModelTargetConnections().size() == 0) {
+				this.model2subsetRelationship = new RelatedRelationship();
+				this.model2subsetRelationship.setSource(this.model);
+				this.model2subsetRelationship.setTarget(this.subset);				
+			} else {
+				this.model2subsetRelationship = (RelatedRelationship) subset.getModelTargetConnections().get(0);
+			}
 			diagram.addChild(subset);
 			subset.setDiagram(diagram);
 			model2subsetRelationship.connect();
@@ -206,6 +206,7 @@ public class SubsetCreateAction extends SelectionAction {
 		private Subset subset;
 		private Diagram diagram;
 		private RelatedRelationship relationship;
+		private RelatedRelationship model2subsetRelationship;
 		
 		public SubsetDeleteCommand(SubsetEntity model, Subset subset) {
 			this.model = model;
@@ -224,6 +225,12 @@ public class SubsetCreateAction extends SelectionAction {
 			this.subset.getSubsetEntityList().remove(model);
 			this.diagram.removeChild(model);
 			this.model.setDiagram(null);
+			if (subset.getSubsetEntityList().size() == 0) {
+				this.model2subsetRelationship = (RelatedRelationship) subset.getModelTargetConnections().get(0);
+				this.model2subsetRelationship.disConnect();
+				this.diagram.removeChild(this.subset);
+				this.subset.setDiagram(null);
+			}
 		}
 
 		/**
@@ -236,6 +243,11 @@ public class SubsetCreateAction extends SelectionAction {
 			this.diagram.addChild(model);
 			this.model.setDiagram(diagram);
 			this.relationship.connect();
+			if (this.model2subsetRelationship != null) {
+				this.diagram.addChild(this.subset);
+				this.subset.setDiagram(this.diagram);
+				this.model2subsetRelationship.connect();
+			}
 		}
 		
 		
