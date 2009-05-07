@@ -1,8 +1,6 @@
 package jp.sourceforge.tmdmaker.model;
 
 public class SubsetEntity extends AbstractEntityModel {
-	public enum SubsetType {SAME, DIFFERENT};
-	public SubsetType subsettype = SubsetType.SAME;
 
 	private AbstractEntityModel original;
 

@@ -71,9 +71,10 @@ public class SubsetEditDialog extends Dialog {
 	 * Constructor
 	 * @param parentShell 親
 	 */
-	public SubsetEditDialog(Shell parentShell, List<Attribute> attributes, List<SubsetEntity> subsets) {
+	public SubsetEditDialog(Shell parentShell, boolean sameType, List<Attribute> attributes, List<SubsetEntity> subsets) {
 		super(parentShell);
 		this.attributes = attributes;
+		this.subsetSameType = sameType;
 		if (subsets != null) {
 			for (SubsetEntity e : subsets) {
 				EditSubsetEntity edit = new EditSubsetEntity();
@@ -150,6 +151,11 @@ public class SubsetEditDialog extends Dialog {
 			}
 			
 		});
+		if (subsetSameType) {
+			same.setSelection(true);
+		} else {
+			different.setSelection(true);
+		}
 		Composite tableArea = new Composite(composite, SWT.NULL);
 		GridLayout layout = new GridLayout(2, false);
 		layout.horizontalSpacing = 0;
@@ -277,6 +283,13 @@ public class SubsetEditDialog extends Dialog {
 		
 		return composite;
 	}
+	/**
+	 * @return the subsetSameType
+	 */
+	public boolean isSubsetSameType() {
+		return subsetSameType;
+	}
+
 	public List<SubsetEntity> getDeletedSubsetEntities() {
 		return this.deleteSubsets;
 	}

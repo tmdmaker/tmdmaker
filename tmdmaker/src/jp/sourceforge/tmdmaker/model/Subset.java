@@ -10,6 +10,8 @@ public class Subset extends ConnectableElement {
 	private Diagram diagram;
 	private AbstractEntityModel original;
 	private List<SubsetEntity> subsetEntityList = new ArrayList<SubsetEntity>();
+	public enum SubsetType {SAME, DIFFERENT};
+	public SubsetType subsettype = SubsetType.SAME;
 
 	public Subset(AbstractEntityModel model) {
 		this.diagram = model.getDiagram();
@@ -41,6 +43,19 @@ public class Subset extends ConnectableElement {
 	 */
 	public void setSubsetEntityList(List<SubsetEntity> subsetEntityList) {
 		this.subsetEntityList = subsetEntityList;
+	}
+	
+	/**
+	 * @return the subsettype
+	 */
+	public SubsetType getSubsettype() {
+		return subsettype;
+	}
+	/**
+	 * @param subsettype the subsettype to set
+	 */
+	public void setSubsettype(SubsetType subsettype) {
+		this.subsettype = subsettype;
 	}
 	public void dispose() {
 		// TODO 

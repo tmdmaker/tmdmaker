@@ -68,8 +68,9 @@ public class SubsetCreateAction extends SelectionAction {
 			Rectangle constraint = model.getConstraint().getTranslated(0, 50);
 			subset.setConstraint(constraint);
 		}
+		boolean sameType = subset.subsettype.equals(Subset.SubsetType.SAME);
 		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer()
-				.getControl().getShell(), model.getAttributes(), subset.getSubsetEntityList());
+				.getControl().getShell(),sameType , model.getAttributes(), subset.getSubsetEntityList());
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 			
