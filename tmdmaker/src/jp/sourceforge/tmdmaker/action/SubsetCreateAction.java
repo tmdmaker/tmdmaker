@@ -10,6 +10,7 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Subset;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
+import jp.sourceforge.tmdmaker.model.Subset.SubsetType;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -73,7 +74,14 @@ public class SubsetCreateAction extends SelectionAction {
 				.getControl().getShell(),sameType , model.getAttributes(), subset.getSubsetEntityList());
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
-			
+			Subset.SubsetType newSubsetType;
+			if (dialog.isSubsetSameType()) {
+				newSubsetType = Subset.SubsetType.SAME;
+			} else {
+				newSubsetType = Subset.SubsetType.DIFFERENT;				
+			}
+			SubsetTypeChangeCommand changeCmd = new SubsetTypeChangeCommand(subset, newSubsetType);
+			ccommand.add(changeCmd);
 			// 追加更新分
 			List<EditSubsetEntity>editSubsets = dialog.getSubsets();
 			for (EditSubsetEntity e : editSubsets) {
@@ -96,7 +104,35 @@ public class SubsetCreateAction extends SelectionAction {
 			execute(ccommand);
 		}
 	}
-
+	private static class SubsetTypeChangeCommand extends Command {
+		private Subset subset;
+		private Subset.SubsetType newSubsetType;
+		private Subset.SubsetType oldSubsetType;
+		
+		public SubsetTypeChangeCommand(Subset subset, SubsetType newSubsetType) {
+			this.subset = subset;
+			this.oldSubsetType = subset.getSubsettype();
+			this.newSubsetType = newSubsetType;
+		}
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			this.subset.setSubsettype(newSubsetType);
+		}
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			this.subset.setSubsettype(oldSubsetType);
+		}
+		
+		
+	}
 	/**
 	 * 
 	 */

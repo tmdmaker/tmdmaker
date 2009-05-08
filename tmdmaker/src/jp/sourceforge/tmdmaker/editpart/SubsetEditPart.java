@@ -1,5 +1,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
+import java.beans.PropertyChangeEvent;
+
 import jp.sourceforge.tmdmaker.figure.SubsetFigure;
 import jp.sourceforge.tmdmaker.model.Subset;
 
@@ -24,6 +26,9 @@ public class SubsetEditPart extends AbstractEntityEditPart {
 	}
 
 	private void updateFigure(Figure figure) {
+		SubsetFigure sf = (SubsetFigure)figure;
+		Subset model = (Subset) getModel();
+		sf.setBorder(new SubsetFigure.SubsetBorder(model.subsettype.equals(Subset.SubsetType.SAME)));
 	}
 
 	/**
@@ -34,12 +39,12 @@ public class SubsetEditPart extends AbstractEntityEditPart {
 	protected void refreshVisuals() {
 		System.out.println(getClass().toString() + "#refreshVisuals()");
 		super.refreshVisuals();
+		updateFigure((Figure) getFigure());
 		Object model = getModel();
 		Rectangle bounds = new Rectangle(((Subset) model)
 				.getConstraint());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), bounds);
-		updateFigure((Figure) getFigure());
 		refreshChildren();
 	}
 
@@ -54,22 +59,27 @@ public class SubsetEditPart extends AbstractEntityEditPart {
 
 	/**
 	 * {@inheritDoc}
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getConnectionAnchor()
 	 */
 	@Override
-	public ConnectionAnchor getSourceConnectionAnchor(
-			ConnectionEditPart connection) {
+	protected ConnectionAnchor getConnectionAnchor() {
 		return new CenterAnchor(getFigure());
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	@Override
-	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		return new CenterAnchor(getFigure());
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(Subset.PROPERTY_TYPE)) {
+			refreshVisuals();
+		}
+		super.propertyChange(evt);
 	}
+
+
+
 	private static class CenterAnchor extends ChopboxAnchor {
 		public CenterAnchor(IFigure owner) {
 			super(owner);

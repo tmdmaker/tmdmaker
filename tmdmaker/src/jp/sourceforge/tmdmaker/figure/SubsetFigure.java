@@ -17,12 +17,18 @@ public class SubsetFigure extends Figure {
 		setOpaque(false);
 	}
 
-	private static class SubsetBorder extends AbstractBorder {
+	public static class SubsetBorder extends AbstractBorder {
 		private int width = 1;
 		private boolean sameType;
 		
 		public SubsetBorder(boolean sameType) {
 			super();
+			this.sameType = sameType;
+		}
+		/**
+		 * @param sameType the sameType to set
+		 */
+		public void setSameType(boolean sameType) {
 			this.sameType = sameType;
 		}
 		/**
@@ -60,6 +66,7 @@ public class SubsetFigure extends Figure {
 		}
 		private void paintSubsetDifferenceType(IFigure figure, Graphics graphics, Insets insets) {
 			// 相違サブセット
+			tempRect.setBounds(getPaintRectangle(figure, insets));
 			graphics.drawLine(tempRect.getTopLeft(), tempRect.getBottomRight());
 			graphics.drawLine(tempRect.getBottomLeft(), tempRect.getTopRight());
 		}

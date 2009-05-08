@@ -12,7 +12,7 @@ public class Subset extends ConnectableElement {
 	private List<SubsetEntity> subsetEntityList = new ArrayList<SubsetEntity>();
 	public enum SubsetType {SAME, DIFFERENT};
 	public SubsetType subsettype = SubsetType.SAME;
-
+	public static final String PROPERTY_TYPE = "_property_type";
 	public Subset(AbstractEntityModel model) {
 		this.diagram = model.getDiagram();
 		this.original = model;
@@ -55,7 +55,9 @@ public class Subset extends ConnectableElement {
 	 * @param subsettype the subsettype to set
 	 */
 	public void setSubsettype(SubsetType subsettype) {
+		SubsetType oldValue = this.subsettype;
 		this.subsettype = subsettype;
+		firePropertyChange(PROPERTY_TYPE, oldValue, this.subsettype);
 	}
 	public void dispose() {
 		// TODO 
