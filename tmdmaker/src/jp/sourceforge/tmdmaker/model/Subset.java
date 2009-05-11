@@ -13,6 +13,8 @@ public class Subset extends ConnectableElement {
 	public enum SubsetType {SAME, DIFFERENT};
 	public SubsetType subsettype = SubsetType.SAME;
 	public static final String PROPERTY_TYPE = "_property_type";
+	private Attribute partitionAttribute;
+	
 	public Subset(AbstractEntityModel model) {
 		this.diagram = model.getDiagram();
 		this.original = model;
@@ -58,6 +60,19 @@ public class Subset extends ConnectableElement {
 		SubsetType oldValue = this.subsettype;
 		this.subsettype = subsettype;
 		firePropertyChange(PROPERTY_TYPE, oldValue, this.subsettype);
+	}
+	
+	/**
+	 * @return the partitionAttribute
+	 */
+	public Attribute getPartitionAttribute() {
+		return partitionAttribute;
+	}
+	/**
+	 * @param partitionAttribute the partitionAttribute to set
+	 */
+	public void setPartitionAttribute(Attribute partitionAttribute) {
+		this.partitionAttribute = partitionAttribute;
 	}
 	public void dispose() {
 		// TODO 

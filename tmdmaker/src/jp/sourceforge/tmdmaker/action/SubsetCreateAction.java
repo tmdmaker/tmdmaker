@@ -7,6 +7,7 @@ import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.Entity2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Subset;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
@@ -140,7 +141,7 @@ public class SubsetCreateAction extends SelectionAction {
 		private Diagram diagram;
 		private AbstractEntityModel model;
 		private Subset subset;
-		private RelatedRelationship model2subsetRelationship;
+		private Entity2SubsetRelationship model2subsetRelationship;
 		private SubsetEntity subsetEntity;
 		private RelatedRelationship subset2entityRelationship;
 
@@ -171,11 +172,11 @@ public class SubsetCreateAction extends SelectionAction {
 		@Override
 		public void execute() {
 			if (subset.getModelTargetConnections().size() == 0) {
-				this.model2subsetRelationship = new RelatedRelationship();
+				this.model2subsetRelationship = new Entity2SubsetRelationship();
 				this.model2subsetRelationship.setSource(this.model);
 				this.model2subsetRelationship.setTarget(this.subset);				
 			} else {
-				this.model2subsetRelationship = (RelatedRelationship) subset.getModelTargetConnections().get(0);
+				this.model2subsetRelationship = (Entity2SubsetRelationship) subset.getModelTargetConnections().get(0);
 			}
 			diagram.addChild(subset);
 			subset.setDiagram(diagram);

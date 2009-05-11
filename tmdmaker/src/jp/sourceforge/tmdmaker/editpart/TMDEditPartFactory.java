@@ -3,6 +3,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.Entity2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
@@ -41,6 +42,8 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new RelationshipEditPart();
 		} else if (model instanceof Relationship) {
 			part = new RelationshipEditPart();
+		} else if (model instanceof Entity2SubsetRelationship) {
+			part = new Entity2SubsetRelationshipEditPart();
 		} else if (model instanceof RelatedRelationship) {
 			part = new RelatedRelationshipEditPart();
 		} else if (model instanceof RecursiveMarkConnection) {
