@@ -62,18 +62,22 @@ public class Subset extends ConnectableElement {
 		firePropertyChange(PROPERTY_TYPE, oldValue, this.subsettype);
 	}
 	
-	/**
-	 * @return the partitionAttribute
-	 */
-	public Attribute getPartitionAttribute() {
-		return partitionAttribute;
-	}
-	/**
-	 * @param partitionAttribute the partitionAttribute to set
-	 */
-	public void setPartitionAttribute(Attribute partitionAttribute) {
-		this.partitionAttribute = partitionAttribute;
-	}
+//	/**
+//	 * @return the partitionAttribute
+//	 */
+//	public Attribute getPartitionAttribute() {
+//		return partitionAttribute;
+//	}
+//	/**
+//	 * @param partitionAttribute the partitionAttribute to set
+//	 */
+//	public void setPartitionAttribute(Attribute partitionAttribute) {
+//		Attribute oldValue = this.partitionAttribute;
+//		this.partitionAttribute = partitionAttribute;
+//		Entity2SubsetRelationship relationship = (Entity2SubsetRelationship) getModelTargetConnections().get(0);
+//		
+////		firePropertyChange(PROPERTY_PARTITION, oldValue, partitionAttribute);
+//	}
 	public void dispose() {
 		// TODO 
 	}

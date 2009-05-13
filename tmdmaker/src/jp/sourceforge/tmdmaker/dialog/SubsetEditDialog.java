@@ -37,7 +37,8 @@ public class SubsetEditDialog extends Dialog {
 	/**
 	 * 区分コード属性
 	 */
-	private Combo cmbAttributeType;
+	private Combo cmbAttributeNames;
+	private Attribute selectedPartitionAttribute;
 
 	/**
 	 * 属性リスト
@@ -108,10 +109,24 @@ public class SubsetEditDialog extends Dialog {
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		Label label = new Label(composite, SWT.NULL);
 		label.setText("区分コード属性");
-		cmbAttributeType = new Combo(composite, SWT.READ_ONLY);
+		cmbAttributeNames = new Combo(composite, SWT.READ_ONLY);
 		for (Attribute a : attributes) {
-			cmbAttributeType.add(a.getName());
+			cmbAttributeNames.add(a.getName());
 		}
+		cmbAttributeNames.addSelectionListener(new SelectionAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo = (Combo) e.widget;
+				selectedPartitionAttribute = attributes.get(combo.getSelectionIndex());
+				super.widgetSelected(e);
+			}
+			
+		});
 		Group group = new Group(composite, SWT.SHADOW_OUT);
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		group.setBounds(-1, -1, -1, -1);
@@ -299,6 +314,14 @@ public class SubsetEditDialog extends Dialog {
 	 */
 	public List<EditSubsetEntity> getSubsets() {
 		return subsets;
+	}
+
+
+	/**
+	 * @return the selectedPartitionAttribute
+	 */
+	public Attribute getSelectedPartitionAttribute() {
+		return selectedPartitionAttribute;
 	}
 
 

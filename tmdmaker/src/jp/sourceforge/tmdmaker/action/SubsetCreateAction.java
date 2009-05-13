@@ -6,6 +6,7 @@ import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
@@ -23,7 +24,7 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 public class SubsetCreateAction extends SelectionAction {
 	public static final String SUBSET = "_SUBSET";
@@ -65,39 +66,62 @@ public class SubsetCreateAction extends SelectionAction {
 				.get(0);
 		AbstractEntityModel model = (AbstractEntityModel) part.getModel();
 		Subset subset = model.getSubset();
+		boolean sameType;
+		List<SubsetEntity> subsetEntities;
 		if (subset == null) {
-			subset = new Subset(model);
-			Rectangle constraint = model.getConstraint().getTranslated(0, 50);
-			subset.setConstraint(constraint);
+			sameType = true;
+			subsetEntities = null;
+		} else {
+			sameType = subset.subsettype.equals(Subset.SubsetType.SAME);
+			subsetEntities = subset.getSubsetEntityList();
 		}
-		boolean sameType = subset.subsettype.equals(Subset.SubsetType.SAME);
+		
 		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer()
-				.getControl().getShell(),sameType , model.getAttributes(), subset.getSubsetEntityList());
+				.getControl().getShell(), sameType, model.getAttributes(),
+				subsetEntities);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 			Subset.SubsetType newSubsetType;
 			if (dialog.isSubsetSameType()) {
 				newSubsetType = Subset.SubsetType.SAME;
 			} else {
-				newSubsetType = Subset.SubsetType.DIFFERENT;				
+				newSubsetType = Subset.SubsetType.DIFFERENT;
 			}
-			SubsetTypeChangeCommand changeCmd = new SubsetTypeChangeCommand(subset, newSubsetType);
-			ccommand.add(changeCmd);
+			Attribute selectedPartitionAttribute = dialog
+					.getSelectedPartitionAttribute();
+			
+			if (subset == null) {
+				// entityとpartitionCodeModelの接続
+				subset = new Subset(model);
+				Rectangle constraint = model.getConstraint().getTranslated(0, 50);
+				subset.setConstraint(constraint);
+				
+				Entity2SubsetCreateCommand createCmd = new Entity2SubsetCreateCommand(model, subset, selectedPartitionAttribute);
+				ccommand.add(createCmd);
+			} else {
+
+				SubsetChangeCommand changeCmd = new SubsetChangeCommand(subset,
+						newSubsetType, selectedPartitionAttribute);
+				ccommand.add(changeCmd);
+			}
 			// 追加更新分
-			List<EditSubsetEntity>editSubsets = dialog.getSubsets();
+			List<EditSubsetEntity> editSubsets = dialog.getSubsets();
 			for (EditSubsetEntity e : editSubsets) {
 				if (e.isAdded()) {
 					SubsetEntity subsetEntity = new SubsetEntity();
 					subsetEntity.setName(e.getName());
-					Command command = new SubsetCreateCommand(model, subset, subsetEntity);
+					Command command = new SubsetCreateCommand(model, subset,
+							subsetEntity);
 					ccommand.add(command);
 				} else if (e.isNameChanged()) {
 					SubsetEntity subsetEntity = e.getSubsetEntity();
-					SubsetEditCommand command = new SubsetEditCommand(subsetEntity, e.getName());
+					SubsetEditCommand command = new SubsetEditCommand(
+							subsetEntity, e.getName());
 					ccommand.add(command);
 				}
 			}
-			List<SubsetEntity>deleteSubsets = dialog.getDeletedSubsetEntities();
+			List<SubsetEntity> deleteSubsets = dialog
+					.getDeletedSubsetEntities();
 			for (SubsetEntity e : deleteSubsets) {
 				SubsetDeleteCommand command = new SubsetDeleteCommand(e, subset);
 				ccommand.add(command);
@@ -105,33 +129,95 @@ public class SubsetCreateAction extends SelectionAction {
 			execute(ccommand);
 		}
 	}
-	private static class SubsetTypeChangeCommand extends Command {
+
+	private static class SubsetChangeCommand extends Command {
 		private Subset subset;
 		private Subset.SubsetType newSubsetType;
 		private Subset.SubsetType oldSubsetType;
-		
-		public SubsetTypeChangeCommand(Subset subset, SubsetType newSubsetType) {
+		private Attribute oldPartitionAttribute;
+		private Attribute newPartitionAttribute;
+		private Entity2SubsetRelationship relationship;
+
+		public SubsetChangeCommand(Subset subset, SubsetType newSubsetType,
+				Attribute selectedPartitionAttribute) {
 			this.subset = subset;
 			this.oldSubsetType = subset.getSubsettype();
 			this.newSubsetType = newSubsetType;
+			this.newPartitionAttribute = selectedPartitionAttribute;
 		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			this.subset.setSubsettype(newSubsetType);
+			if (this.subset.getModelTargetConnections() != null
+					&& this.subset.getModelTargetConnections().size() > 0) {
+				this.relationship = (Entity2SubsetRelationship) this.subset
+						.getModelTargetConnections().get(0);
+				this.oldPartitionAttribute = this.relationship
+						.getPartitionAttribute();
+				this.relationship.setPartitionAttribute(newPartitionAttribute);
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			this.subset.setSubsettype(oldSubsetType);
+			if (this.relationship != null) {
+				this.relationship.setPartitionAttribute(oldPartitionAttribute);
+			}
+		}
+
+	}
+
+	private static class Entity2SubsetCreateCommand extends Command {
+		private Diagram diagram;
+		private AbstractEntityModel model;
+		private Subset subset;
+		private Entity2SubsetRelationship model2subsetRelationship;
+//		private Attribute selectedPartitionAttribute;
+		
+		public Entity2SubsetCreateCommand(AbstractEntityModel model, Subset subset, Attribute partitionAttribute) {
+			this.diagram = model.getDiagram();
+			this.model = model;
+			this.subset = subset;
+			this.model2subsetRelationship = new Entity2SubsetRelationship();
+			this.model2subsetRelationship.setSource(this.model);
+			this.model2subsetRelationship.setTarget(this.subset);
+			this.model2subsetRelationship.setPartitionAttribute(partitionAttribute);
+//			this.selectedPartitionAttribute = selectedPartitionAttribute;
+		}
+
 		/**
 		 * {@inheritDoc}
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
 		public void execute() {
-			this.subset.setSubsettype(newSubsetType);
+			diagram.addChild(subset);
+			subset.setDiagram(diagram);
+			model2subsetRelationship.connect();			
 		}
+
 		/**
 		 * {@inheritDoc}
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override
 		public void undo() {
-			this.subset.setSubsettype(oldSubsetType);
+			model2subsetRelationship.disConnect();
+			subset.setDiagram(null);
+			diagram.removeChild(subset);
 		}
-		
 		
 	}
 	/**
@@ -149,12 +235,14 @@ public class SubsetCreateAction extends SelectionAction {
 		 * 
 		 * @param model
 		 */
-		public SubsetCreateCommand(AbstractEntityModel model, Subset subset, SubsetEntity subsetEntity) {
+		public SubsetCreateCommand(AbstractEntityModel model, Subset subset,
+				SubsetEntity subsetEntity) {
 			super();
 			this.model = model;
 			this.subset = subset;
-//			Rectangle constraint = model.getConstraint().getTranslated(0, 50);
-//			this.subset.setConstraint(constraint);
+			// Rectangle constraint = model.getConstraint().getTranslated(0,
+			// 50);
+			// this.subset.setConstraint(constraint);
 			this.diagram = model.getDiagram();
 			this.subsetEntity = subsetEntity;
 			subset2entityRelationship = new RelatedRelationship();
@@ -174,9 +262,10 @@ public class SubsetCreateAction extends SelectionAction {
 			if (subset.getModelTargetConnections().size() == 0) {
 				this.model2subsetRelationship = new Entity2SubsetRelationship();
 				this.model2subsetRelationship.setSource(this.model);
-				this.model2subsetRelationship.setTarget(this.subset);				
+				this.model2subsetRelationship.setTarget(this.subset);
 			} else {
-				this.model2subsetRelationship = (Entity2SubsetRelationship) subset.getModelTargetConnections().get(0);
+				this.model2subsetRelationship = (Entity2SubsetRelationship) subset
+						.getModelTargetConnections().get(0);
 			}
 			diagram.addChild(subset);
 			subset.setDiagram(diagram);
@@ -206,22 +295,26 @@ public class SubsetCreateAction extends SelectionAction {
 			subset.setDiagram(null);
 		}
 	}
+
 	/**
 	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
 	private static class SubsetEditCommand extends Command {
 		private SubsetEntity model;
 		private String oldName;
 		private String newName;
+
 		public SubsetEditCommand(SubsetEntity model, String name) {
 			this.model = model;
 			this.oldName = model.getName();
 			this.newName = name;
 		}
+
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
@@ -231,30 +324,34 @@ public class SubsetCreateAction extends SelectionAction {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override
 		public void undo() {
 			this.model.setName(oldName);
 		}
-		
+
 	}
+
 	private static class SubsetDeleteCommand extends Command {
 		private SubsetEntity model;
 		private Subset subset;
 		private Diagram diagram;
 		private RelatedRelationship relationship;
 		private RelatedRelationship model2subsetRelationship;
-		
+
 		public SubsetDeleteCommand(SubsetEntity model, Subset subset) {
 			this.model = model;
 			this.diagram = model.getDiagram();
 			this.subset = subset;
-			this.relationship = (RelatedRelationship) model.getModelTargetConnections().get(0);
+			this.relationship = (RelatedRelationship) model
+					.getModelTargetConnections().get(0);
 		}
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
@@ -264,7 +361,8 @@ public class SubsetCreateAction extends SelectionAction {
 			this.diagram.removeChild(model);
 			this.model.setDiagram(null);
 			if (subset.getSubsetEntityList().size() == 0) {
-				this.model2subsetRelationship = (RelatedRelationship) subset.getModelTargetConnections().get(0);
+				this.model2subsetRelationship = (RelatedRelationship) subset
+						.getModelTargetConnections().get(0);
 				this.model2subsetRelationship.disConnect();
 				this.diagram.removeChild(this.subset);
 				this.subset.setDiagram(null);
@@ -273,6 +371,7 @@ public class SubsetCreateAction extends SelectionAction {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override
@@ -287,9 +386,6 @@ public class SubsetCreateAction extends SelectionAction {
 				this.model2subsetRelationship.connect();
 			}
 		}
-		
-		
-		
-		
+
 	}
 }

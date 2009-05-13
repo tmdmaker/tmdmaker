@@ -74,8 +74,9 @@ public class SubsetEditPart extends AbstractEntityEditPart {
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Subset.PROPERTY_TYPE)) {
 			refreshVisuals();
+		} else {
+			super.propertyChange(evt);
 		}
-		super.propertyChange(evt);
 	}
 
 
