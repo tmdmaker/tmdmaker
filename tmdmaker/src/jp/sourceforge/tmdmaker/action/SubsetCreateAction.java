@@ -5,6 +5,7 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.SubsetEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -41,7 +42,7 @@ public class SubsetCreateAction extends SelectionAction {
 		System.out.println("count=" + getSelectedObjects().size());
 		if (getSelectedObjects().size() == 1) {
 			Object selection = getSelectedObjects().get(0);
-			if (selection instanceof AbstractEntityEditPart) {
+			if (selection instanceof AbstractEntityEditPart && (selection instanceof SubsetEditPart) == false) {
 				System.out
 						.println("selection instanceof AbstractEntityEditPart");
 				return true;
