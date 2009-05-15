@@ -67,15 +67,16 @@ public class SubsetEditDialog extends Dialog {
 	
 	private List<SubsetEntity> addSubsets = new ArrayList<SubsetEntity>();
 	private List<SubsetEntity> deleteSubsets = new ArrayList<SubsetEntity>();
-	
+		
 	/**
 	 * Constructor
 	 * @param parentShell 親
 	 */
-	public SubsetEditDialog(Shell parentShell, boolean sameType, List<Attribute> attributes, List<SubsetEntity> subsets) {
+	public SubsetEditDialog(Shell parentShell, boolean sameType, List<Attribute> attributes, List<SubsetEntity> subsets, Attribute selectedAttribute) {
 		super(parentShell);
 		this.attributes = attributes;
 		this.subsetSameType = sameType;
+		this.selectedPartitionAttribute = selectedAttribute;
 		if (subsets != null) {
 			for (SubsetEntity e : subsets) {
 				EditSubsetEntity edit = new EditSubsetEntity();
@@ -112,6 +113,9 @@ public class SubsetEditDialog extends Dialog {
 		cmbAttributeNames = new Combo(composite, SWT.READ_ONLY);
 		for (Attribute a : attributes) {
 			cmbAttributeNames.add(a.getName());
+		}
+		if (selectedPartitionAttribute != null) {
+			cmbAttributeNames.setText(selectedPartitionAttribute.getName());
 		}
 		cmbAttributeNames.addSelectionListener(new SelectionAdapter() {
 

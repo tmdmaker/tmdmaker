@@ -69,17 +69,20 @@ public class SubsetCreateAction extends SelectionAction {
 		Subset subset = model.getSubset();
 		boolean sameType;
 		List<SubsetEntity> subsetEntities;
+		Attribute selectedAttribute;
 		if (subset == null) {
 			sameType = true;
 			subsetEntities = null;
+			selectedAttribute = null;
 		} else {
 			sameType = subset.subsettype.equals(Subset.SubsetType.SAME);
 			subsetEntities = subset.getSubsetEntityList();
+			selectedAttribute = ((Entity2SubsetRelationship)subset.getModelTargetConnections().get(0)).getPartitionAttribute();
 		}
 		
 		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer()
 				.getControl().getShell(), sameType, model.getAttributes(),
-				subsetEntities);
+				subsetEntities, selectedAttribute);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 			Subset.SubsetType newSubsetType;
