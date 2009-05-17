@@ -19,7 +19,6 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	protected Map<AbstractEntityModel, ReuseKey> reuseKeys = new LinkedHashMap<AbstractEntityModel, ReuseKey>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
 	protected EntityType entityType = EntityType.R;
-	private Subset subset;
 
 	/**
 	 * @return the diagram
@@ -112,24 +111,13 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		this.entityType = entityType;
 	}
 
-	/**
-	 * @return the subset
-	 */
-	public Subset getSubset() {
-		return subset;
+	public Subset findSubset() {
+		for (AbstractConnectionModel connection : getModelSourceConnections()) {
+			if (connection instanceof Entity2SubsetRelationship) {
+				return (Subset)((Entity2SubsetRelationship)connection).getTarget();
+			}
+		}
+		return null;
 	}
-
-	/**
-	 * @param subset the subset to set
-	 */
-	public void setSubset(Subset subset) {
-		this.subset = subset;
-	}
-
-//	public void addSubset(SubsetEntity subsetEntity) {
-//		if (this.subset == null) {
-//			this.subset = new Subset(this);
-//		}
-//	}
 }
 
