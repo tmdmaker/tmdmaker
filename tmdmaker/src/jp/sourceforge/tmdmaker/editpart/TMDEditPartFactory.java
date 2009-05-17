@@ -3,14 +3,14 @@ package jp.sourceforge.tmdmaker.editpart;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.Entity2SubsetRelationship;
+import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Relationship;
-import jp.sourceforge.tmdmaker.model.Subset;
+import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 
 import org.eclipse.gef.EditPart;
@@ -42,8 +42,8 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new RelationshipEditPart();
 		} else if (model instanceof Relationship) {
 			part = new RelationshipEditPart();
-		} else if (model instanceof Entity2SubsetRelationship) {
-			part = new Entity2SubsetRelationshipEditPart();
+		} else if (model instanceof Entity2SubsetTypeRelationship) {
+			part = new Entity2SubsetTypeRelationshipEditPart();
 		} else if (model instanceof RelatedRelationship) {
 			part = new RelatedRelationshipEditPart();
 		} else if (model instanceof RecursiveMarkConnection) {
@@ -56,8 +56,8 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new RecursiveTableEditPart();
 		} else if (model instanceof Entity) {
 			part = new EntityEditPart();
-		} else if (model instanceof Subset) {
-			part = new SubsetEditPart();
+		} else if (model instanceof SubsetType) {
+			part = new SubsetTypeEditPart();
 		} else if (model instanceof SubsetEntity) {
 			part = new SubsetEntityEditPart();
 		}

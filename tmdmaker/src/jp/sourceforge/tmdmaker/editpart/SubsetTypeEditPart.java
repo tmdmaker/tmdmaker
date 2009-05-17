@@ -2,8 +2,8 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
 
-import jp.sourceforge.tmdmaker.figure.SubsetFigure;
-import jp.sourceforge.tmdmaker.model.Subset;
+import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
+import jp.sourceforge.tmdmaker.model.SubsetType;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -11,24 +11,22 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.Request;
 
-public class SubsetEditPart extends AbstractEntityEditPart {
+public class SubsetTypeEditPart extends AbstractEntityEditPart {
 
 	@Override
 	protected IFigure createFigure() {
 //		Figure figure = new Label("=");
-		Figure figure = new SubsetFigure(true);
+		Figure figure = new SubsetTypeFigure(true);
 		updateFigure(figure);
 		return figure;
 	}
 
 	private void updateFigure(Figure figure) {
-		SubsetFigure sf = (SubsetFigure)figure;
-		Subset model = (Subset) getModel();
-		sf.setBorder(new SubsetFigure.SubsetBorder(model.subsettype.equals(Subset.SubsetType.SAME)));
+		SubsetTypeFigure sf = (SubsetTypeFigure)figure;
+		SubsetType model = (SubsetType) getModel();
+		sf.setBorder(new SubsetTypeFigure.SubsetBorder(model.subsettype.equals(SubsetType.SubsetTypeValue.SAME)));
 	}
 
 	/**
@@ -41,7 +39,7 @@ public class SubsetEditPart extends AbstractEntityEditPart {
 		super.refreshVisuals();
 		updateFigure((Figure) getFigure());
 		Object model = getModel();
-		Rectangle bounds = new Rectangle(((Subset) model)
+		Rectangle bounds = new Rectangle(((SubsetType) model)
 				.getConstraint());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), bounds);
@@ -72,7 +70,7 @@ public class SubsetEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Subset.PROPERTY_TYPE)) {
+		if (evt.getPropertyName().equals(SubsetType.PROPERTY_TYPE)) {
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);

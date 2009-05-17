@@ -6,10 +6,10 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
 
-public class SubsetFigure extends Figure {
+public class SubsetTypeFigure extends Figure {
 	private boolean sameType;
 
-	public SubsetFigure(boolean sameType) {
+	public SubsetTypeFigure(boolean sameType) {
 		super();
 		this.sameType = sameType;
 		setBorder(new SubsetBorder(sameType));

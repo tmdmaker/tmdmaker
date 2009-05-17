@@ -4,12 +4,11 @@ import java.beans.PropertyChangeEvent;
 
 import jp.sourceforge.tmdmaker.figure.Entity2SubsetRelationshipFigure;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Entity2SubsetRelationship;
-import jp.sourceforge.tmdmaker.model.Subset;
+import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 
 import org.eclipse.draw2d.IFigure;
 
-public class Entity2SubsetRelationshipEditPart extends
+public class Entity2SubsetTypeRelationshipEditPart extends
 		AbstractRelationshipEditPart {
 
 	/**
@@ -24,7 +23,7 @@ public class Entity2SubsetRelationshipEditPart extends
 	}
 
 	private void updateFigure(Entity2SubsetRelationshipFigure figure) {
-		Entity2SubsetRelationship relationship = (Entity2SubsetRelationship) getModel();
+		Entity2SubsetTypeRelationship relationship = (Entity2SubsetTypeRelationship) getModel();
 		
 //		figure.createPartitionAttributeNameDecoration("test");
 		
@@ -57,7 +56,7 @@ public class Entity2SubsetRelationshipEditPart extends
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Entity2SubsetRelationship.PROPERTY_PARTITION)) {
+		if (evt.getPropertyName().equals(Entity2SubsetTypeRelationship.PROPERTY_PARTITION)) {
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);

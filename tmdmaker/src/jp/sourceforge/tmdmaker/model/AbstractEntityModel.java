@@ -6,8 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.draw2d.geometry.Rectangle;
-
 public abstract class AbstractEntityModel extends ConnectableElement {
 	public enum EntityType {R, E};
 
@@ -111,10 +109,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		this.entityType = entityType;
 	}
 
-	public Subset findSubset() {
+	public SubsetType findSubset() {
 		for (AbstractConnectionModel connection : getModelSourceConnections()) {
-			if (connection instanceof Entity2SubsetRelationship) {
-				return (Subset)((Entity2SubsetRelationship)connection).getTarget();
+			if (connection instanceof Entity2SubsetTypeRelationship) {
+				return (SubsetType)((Entity2SubsetTypeRelationship)connection).getTarget();
 			}
 		}
 		return null;

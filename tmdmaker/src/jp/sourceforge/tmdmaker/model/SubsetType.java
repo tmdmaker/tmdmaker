@@ -5,17 +5,17 @@ import java.util.List;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 
-public class Subset extends ConnectableElement {
+public class SubsetType extends ConnectableElement {
 	private Rectangle constraint;
 	private Diagram diagram;
 	private AbstractEntityModel original;
 	private List<SubsetEntity> subsetEntityList = new ArrayList<SubsetEntity>();
-	public enum SubsetType {SAME, DIFFERENT};
-	public SubsetType subsettype = SubsetType.SAME;
+	public enum SubsetTypeValue {SAME, DIFFERENT};
+	public SubsetTypeValue subsettype = SubsetTypeValue.SAME;
 	public static final String PROPERTY_TYPE = "_property_type";
 	private Attribute partitionAttribute;
 	
-	public Subset(AbstractEntityModel model) {
+	public SubsetType(AbstractEntityModel model) {
 		this.diagram = model.getDiagram();
 		this.original = model;
 	}
@@ -50,14 +50,14 @@ public class Subset extends ConnectableElement {
 	/**
 	 * @return the subsettype
 	 */
-	public SubsetType getSubsettype() {
+	public SubsetTypeValue getSubsettype() {
 		return subsettype;
 	}
 	/**
 	 * @param subsettype the subsettype to set
 	 */
-	public void setSubsettype(SubsetType subsettype) {
-		SubsetType oldValue = this.subsettype;
+	public void setSubsettype(SubsetTypeValue subsettype) {
+		SubsetTypeValue oldValue = this.subsettype;
 		this.subsettype = subsettype;
 		firePropertyChange(PROPERTY_TYPE, oldValue, this.subsettype);
 	}

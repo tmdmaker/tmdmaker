@@ -1,6 +1,6 @@
 package jp.sourceforge.tmdmaker.model;
 
-public class Entity2SubsetRelationship extends AbstractConnectionModel<ConnectableElement> {
+public class Entity2SubsetTypeRelationship extends AbstractConnectionModel<ConnectableElement> {
 	public static final String PROPERTY_PARTITION = "_property_partition";
 	private Attribute partitionAttribute;
 
