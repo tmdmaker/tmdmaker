@@ -10,8 +10,6 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.GraphicalEditPart;
 
 public class SubsetTypeEditPart extends AbstractEntityEditPart {
 
@@ -29,22 +27,29 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 		sf.setBorder(new SubsetTypeFigure.SubsetBorder(model.subsettype.equals(SubsetType.SubsetTypeValue.SAME)));
 	}
 
+
+	@Override
+	protected void updateFigure(IFigure figure) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
-	@Override
-	protected void refreshVisuals() {
-		System.out.println(getClass().toString() + "#refreshVisuals()");
-		super.refreshVisuals();
-		updateFigure((Figure) getFigure());
-		Object model = getModel();
-		Rectangle bounds = new Rectangle(((SubsetType) model)
-				.getConstraint());
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
-				getFigure(), bounds);
-		refreshChildren();
-	}
+//	@Override
+//	protected void refreshVisuals() {
+//		System.out.println(getClass().toString() + "#refreshVisuals()");
+//		super.refreshVisuals();
+//		updateFigure((Figure) getFigure());
+//		Object model = getModel();
+//		Rectangle bounds = new Rectangle(((SubsetType) model)
+//				.getConstraint());
+//		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
+//				getFigure(), bounds);
+//		refreshChildren();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()

@@ -14,13 +14,14 @@ import jp.sourceforge.tmdmaker.model.command.Resource2EventConnectionCreateComma
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
+import org.eclipse.gef.requests.ReconnectRequest;
 
 /**
  * 
  * @author nakaG
  *
  */
-public abstract class AbstractEntityGraphicalNodeEditPolicy extends
+public class AbstractEntityGraphicalNodeEditPolicy extends
 		GraphicalNodeEditPolicy {
 
 	protected Command getConnectionCompleteCommand(
@@ -193,5 +194,24 @@ public abstract class AbstractEntityGraphicalNodeEditPolicy extends
 				(AbstractEntityModel) getHost().getModel(),
 				new Resource2EventRelationship());
 		return newCommand;
+	}
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
+	 */
+	@Override
+	protected Command getReconnectSourceCommand(ReconnectRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
+	 */
+	@Override
+	protected Command getReconnectTargetCommand(ReconnectRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

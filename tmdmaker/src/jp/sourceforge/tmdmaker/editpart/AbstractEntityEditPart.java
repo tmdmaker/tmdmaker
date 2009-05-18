@@ -10,7 +10,10 @@ import jp.sourceforge.tmdmaker.model.ModelElement;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 
@@ -91,6 +94,24 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart impleme
 			refreshVisuals();
 		}
 	}
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+	 */
+	@Override
+	protected void refreshVisuals() {
+		System.out.println(getClass().toString() + "#refreshVisuals()");
+		super.refreshVisuals();
+		Object model = getModel();
+		Rectangle bounds = new Rectangle(((ModelElement) model)
+				.getConstraint());
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
+				getFigure(), bounds);
 
+		updateFigure(getFigure());
+		refreshChildren();
+	}
+
+	protected abstract void updateFigure(IFigure figure);
 }
 

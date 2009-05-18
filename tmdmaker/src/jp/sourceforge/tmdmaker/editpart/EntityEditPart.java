@@ -16,9 +16,7 @@ import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityEditCommand;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
@@ -34,39 +32,28 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 		return figure;
 	}
 
-	private void updateFigure(EntityFigure figure) {
+	@Override
+	protected void updateFigure(IFigure figure) {
+		EntityFigure entityFigure = (EntityFigure) figure;
 		Entity entity = (Entity) getModel();
 		
 //		List<Identifier> ids = entity.getReuseKeys().;
 		
 		List<Attribute> atts = entity.getAttributes();
-		figure.removeAllRelationship();
-		figure.removeAllAttributes();
+		entityFigure.removeAllRelationship();
+		entityFigure.removeAllAttributes();
 
-		figure.setEntityName(entity.getName());
-		figure.setEntityType(entity.getEntityType().toString());
-		figure.setIdentifier(entity.getIdentifier().getName());
+		entityFigure.setEntityName(entity.getName());
+		entityFigure.setEntityType(entity.getEntityType().toString());
+		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReuseKey> rk : entity.getReuseKeys().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
-				figure.addRelationship(i.getName());
+				entityFigure.addRelationship(i.getName());
 			}
 		}
 		for (Attribute a : atts) {
-			figure.addAttribute(a.getName());
+			entityFigure.addAttribute(a.getName());
 		}
-	}
-
-	@Override
-	protected void refreshVisuals() {
-		System.out.println(getClass().toString() + "#refreshVisuals()");
-		super.refreshVisuals();
-		Object model = getModel();
-		Rectangle bounds = new Rectangle(((AbstractEntityModel) model)
-				.getConstraint());
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
-				getFigure(), bounds);
-		updateFigure((EntityFigure) getFigure());
-		refreshChildren();
 	}
 
 	/**
@@ -77,67 +64,7 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new EntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new EntityGraphicalNodeEditPolicy());
-	}
-
-	private static class EntityGraphicalNodeEditPolicy extends AbstractEntityGraphicalNodeEditPolicy {
-
-//		@Override
-//		protected Command getConnectionCompleteCommand(
-//				CreateConnectionRequest request) {
-//			System.out.println(getClass().toString()
-//					+ "#getConnectionCompleteCommand()");
-//
-//			ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
-//					.getStartCommand();
-//			AbstractEntityModel source = (AbstractEntityModel) startCommand.getSource();
-//			AbstractEntityModel target = (AbstractEntityModel) getHost().getModel();
-//
-//			Command command = null;
-//			// 再帰
-//			if (source == target) {
-//				System.out.println("Recursive");
-//				command = createRecursiveTableCommand(request);
-//			} else if (isR2E(source, target)) {
-//				System.out.println("R:E");
-//				command = createR2ERelationshipCommand(startCommand);
-//				command.setLabel("R:E");
-//			} else if (isR2R(source, target)) {
-//				System.out.println("R:R");
-//				/* 対照表作成 */
-//				command = createCombinationTableCommand(request);
-//				command.setLabel("R:R");
-//			} else if (isE2E(source, target)) {
-//				System.out.println("E:E");
-//				/* 通常コネクション */
-//				command = createE2ERelationshipCommand(request);
-//				command.setLabel("E:E");
-//			}
-//			return command;
-//		}
-
-		/* 先エンティティとのコネクション作成 */
-//		private Command createRelationshipCommand(
-//				ConnectionCreateCommand command) {
-//			command.setTarget(getHost().getModel());
-//			return command;
-//		}
-		@Override
-		protected Command getReconnectSourceCommand(ReconnectRequest request) {
-			// TODO Auto-generated method stub
-			System.out.println(getClass().toString()
-					+ "#getReconnectSourceCommand()");
-			return null;
-		}
-
-		@Override
-		protected Command getReconnectTargetCommand(ReconnectRequest request) {
-			// TODO Auto-generated method stub
-			System.out.println(getClass().toString()
-					+ "#getReconnectTargetCommand()");
-			return null;
-		}
-
+				new AbstractEntityGraphicalNodeEditPolicy());
 	}
 
 	/*

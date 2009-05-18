@@ -17,9 +17,7 @@ import jp.sourceforge.tmdmaker.model.Relationship;
 import jp.sourceforge.tmdmaker.model.ReuseKey;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
@@ -35,22 +33,24 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		return figure;
 	}
 
-	private void updateFigure(EntityFigure figure) {
+	@Override
+	protected void updateFigure(IFigure figure) {
+		EntityFigure entityFigure = (EntityFigure) figure;
 		CombinationTable table = (CombinationTable) getModel();
 		// List<Identifier> ids = table.getReuseKeys();
 		List<Attribute> atts = table.getAttributes();
-		figure.removeAllRelationship();
-		figure.removeAllAttributes();
+		entityFigure.removeAllRelationship();
+		entityFigure.removeAllAttributes();
 
-		figure.setEntityName(table.getName());
+		entityFigure.setEntityName(table.getName());
 		for (Map.Entry<AbstractEntityModel, ReuseKey> rk : table.getReuseKeys()
 				.entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
-				figure.addRelationship(i.getName());
+				entityFigure.addRelationship(i.getName());
 			}
 		}
 		for (Attribute a : atts) {
-			figure.addAttribute(a.getName());
+			entityFigure.addAttribute(a.getName());
 		}
 	}
 
@@ -59,97 +59,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new CombinationTableComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new CombinationTableGraphicalNodeEditPolicy());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
-	 */
-	@Override
-	protected void refreshVisuals() {
-		System.out.println(getClass().toString() + "#refreshVisuals()");
-		super.refreshVisuals();
-		Object model = getModel();
-		Rectangle bounds = new Rectangle(((AbstractEntityModel) model)
-				.getConstraint());
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
-				getFigure(), bounds);
-
-		updateFigure((EntityFigure) getFigure());
-		refreshChildren();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refresh()
-	 */
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		System.out.println(getClass().toString() + "#refresh()");
-		super.refresh();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshSourceConnections
-	 * ()
-	 */
-	@Override
-	protected void refreshSourceConnections() {
-		// TODO Auto-generated method stub
-		System.out.println(getClass().toString()
-				+ "#refreshSourceConnections()");
-		super.refreshSourceConnections();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshTargetConnections
-	 * ()
-	 */
-	@Override
-	protected void refreshTargetConnections() {
-		// TODO Auto-generated method stub
-		System.out.println(getClass().toString()
-				+ "#refreshTargetConnections()");
-		super.refreshTargetConnections();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
-	 */
-	@Override
-	protected void refreshChildren() {
-		// TODO Auto-generated method stub
-		System.out.println(getClass().toString() + "#refreshChildren()");
-		super.refreshChildren();
-	}
-
-	private static class CombinationTableGraphicalNodeEditPolicy extends
-			AbstractEntityGraphicalNodeEditPolicy {
-
-		@Override
-		protected Command getReconnectSourceCommand(ReconnectRequest request) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		protected Command getReconnectTargetCommand(ReconnectRequest request) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
+				new AbstractEntityGraphicalNodeEditPolicy());
 	}
 
 	private static class CombinationTableComponentEditPolicy extends

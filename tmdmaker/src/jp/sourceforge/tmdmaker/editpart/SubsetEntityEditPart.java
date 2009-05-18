@@ -3,24 +3,36 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.editpart.EntityEditPart.EntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.ReuseKey;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
+import jp.sourceforge.tmdmaker.model.SubsetType;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.ReconnectRequest;
+import org.eclipse.gef.editpolicies.ComponentEditPolicy;
+import org.eclipse.gef.requests.GroupRequest;
 
+/**
+ * 
+ * @author nakaG
+ * 
+ */
 public class SubsetEntityEditPart extends AbstractEntityEditPart {
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
 	@Override
 	protected IFigure createFigure() {
 		EntityFigure figure = new EntityFigure();
@@ -28,71 +40,127 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		return figure;
 	}
 
-	private void updateFigure(EntityFigure figure) {
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 */
+	@Override
+	protected void updateFigure(IFigure figure) {
+		EntityFigure entityFigure = (EntityFigure) figure;
 		SubsetEntity entity = (SubsetEntity) getModel();
-		
-//		List<Identifier> ids = entity.getReuseKeys().;
-		
-		List<Attribute> atts = entity.getAttributes();
-		figure.removeAllRelationship();
-		figure.removeAllAttributes();
 
-		figure.setEntityName(entity.getName());
-		figure.setEntityType(entity.getEntityType().toString());
-//		figure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReuseKey> rk : entity.getReuseKeys().entrySet()) {
+		// List<Identifier> ids = entity.getReuseKeys().;
+
+		List<Attribute> atts = entity.getAttributes();
+		entityFigure.removeAllRelationship();
+		entityFigure.removeAllAttributes();
+
+		entityFigure.setEntityName(entity.getName());
+		// entityFigure.setEntityType(entity.getEntityType().toString());
+		// figure.setIdentifier(entity.getIdentifier().getName());
+		for (Map.Entry<AbstractEntityModel, ReuseKey> rk : entity
+				.getReuseKeys().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
-				figure.addRelationship(i.getName());
+				entityFigure.addRelationship(i.getName());
 			}
 		}
 		for (Attribute a : atts) {
-			figure.addAttribute(a.getName());
+			entityFigure.addAttribute(a.getName());
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
-	 */
-	@Override
-	protected void refreshVisuals() {
-		Object model = getModel();
-		Rectangle bounds = new Rectangle(((AbstractEntityModel) model)
-				.getConstraint());
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
-				getFigure(), bounds);
-		updateFigure((EntityFigure) getFigure());
-		refreshChildren();
 	}
 
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new EntityComponentEditPolicy());
+				new SubsetEntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new SubsetEntityGraphicalNodeEditPolicy());
+				new AbstractEntityGraphicalNodeEditPolicy());
 	}
-	private static class SubsetEntityGraphicalNodeEditPolicy extends AbstractEntityGraphicalNodeEditPolicy {
+
+	private static class SubsetEntityComponentEditPolicy extends
+			ComponentEditPolicy {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
+		 * 
+		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
 		 */
 		@Override
-		protected Command getReconnectSourceCommand(ReconnectRequest request) {
-			// TODO Auto-generated method stub
+		protected Command createDeleteCommand(GroupRequest deleteRequest) {
+			SubsetEntityDeleteCommand command = new SubsetEntityDeleteCommand(
+					(Diagram) getHost().getParent().getModel(),
+					(SubsetEntity) getHost().getModel());
+			return command;
+		}
+
+	}
+
+	private static class SubsetEntityDeleteCommand extends Command {
+		private Diagram diagram;
+		private SubsetEntity model;
+		private RelatedRelationship subsetType2SubsetEntityRelationship;
+		private SubsetType subsetType;
+
+		public SubsetEntityDeleteCommand(Diagram diagram, SubsetEntity model) {
+			super();
+			this.diagram = diagram;
+			this.model = model;
+			this.subsetType2SubsetEntityRelationship = findRelatedRelationship(this.model
+					.getModelTargetConnections());
+			this.subsetType = (SubsetType) subsetType2SubsetEntityRelationship
+					.getSource();
+		}
+
+		protected RelatedRelationship findRelatedRelationship(
+				List<AbstractConnectionModel> connections) {
+			for (AbstractConnectionModel<?> c : connections) {
+				if (c instanceof RelatedRelationship) {
+					return (RelatedRelationship) c;
+				}
+			}
 			return null;
 		}
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
+		 * 
+		 * @see org.eclipse.gef.commands.Command#canExecute()
 		 */
 		@Override
-		protected Command getReconnectTargetCommand(ReconnectRequest request) {
-			// TODO Auto-generated method stub
-			return null;
+		public boolean canExecute() {
+			System.out.println(model.getModelTargetConnections().size());
+			System.out.println(model.getModelSourceConnections().size());
+
+			return model.getModelTargetConnections().size() == 1
+					&& model.getModelSourceConnections().size() == 0;
 		}
-		
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			this.subsetType2SubsetEntityRelationship.disConnect();
+			this.model.setDiagram(null);
+			this.diagram.removeChild(this.model);
+
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			this.diagram.addChild(this.model);
+			this.model.setDiagram(this.diagram);
+			this.subsetType2SubsetEntityRelationship.connect();
+		}
+
 	}
 }
