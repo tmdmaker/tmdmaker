@@ -11,9 +11,10 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
+import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
+import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -66,18 +67,18 @@ public class SubsetCreateAction extends SelectionAction {
 		AbstractEntityEditPart part = (AbstractEntityEditPart) getSelectedObjects()
 				.get(0);
 		AbstractEntityModel model = (AbstractEntityModel) part.getModel();
-		SubsetType subset = model.findSubset();
+		SubsetType subsetType = model.findSubset();
 		boolean sameType;
 		List<SubsetEntity> subsetEntities;
 		Attribute selectedAttribute;
-		if (subset == null) {
+		if (subsetType == null) {
 			sameType = true;
 			subsetEntities = null;
 			selectedAttribute = null;
 		} else {
-			sameType = subset.subsettype.equals(SubsetType.SubsetTypeValue.SAME);
-			subsetEntities = subset.getSubsetEntityList();
-			selectedAttribute = ((Entity2SubsetTypeRelationship)subset.getModelTargetConnections().get(0)).getPartitionAttribute();
+			sameType = subsetType.subsettype.equals(SubsetType.SubsetTypeValue.SAME);
+			subsetEntities = subsetType.getSubsetEntityList();
+			selectedAttribute = ((Entity2SubsetTypeRelationship)subsetType.getModelTargetConnections().get(0)).getPartitionAttribute();
 		}
 		
 		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer()
@@ -94,17 +95,17 @@ public class SubsetCreateAction extends SelectionAction {
 			Attribute selectedPartitionAttribute = dialog
 					.getSelectedPartitionAttribute();
 			
-			if (subset == null) {
+			if (subsetType == null) {
 				// entityとpartitionCodeModelの接続
-				subset = new SubsetType(model);
+				subsetType = new SubsetType(model);
 				Rectangle constraint = model.getConstraint().getTranslated(0, 50);
-				subset.setConstraint(constraint);
+				subsetType.setConstraint(constraint);
 				
-				Entity2SubsetCreateCommand createCmd = new Entity2SubsetCreateCommand(model, subset, selectedPartitionAttribute);
+				Entity2SubsetCreateCommand createCmd = new Entity2SubsetCreateCommand(model, subsetType, selectedPartitionAttribute);
 				ccommand.add(createCmd);
 			} else {
 
-				SubsetChangeCommand changeCmd = new SubsetChangeCommand(subset,
+				SubsetChangeCommand changeCmd = new SubsetChangeCommand(subsetType,
 						newSubsetType, selectedPartitionAttribute);
 				ccommand.add(changeCmd);
 			}
@@ -114,7 +115,7 @@ public class SubsetCreateAction extends SelectionAction {
 				if (e.isAdded()) {
 					SubsetEntity subsetEntity = new SubsetEntity();
 					subsetEntity.setName(e.getName());
-					Command command = new SubsetCreateCommand(model, subset,
+					Command command = new SubsetCreateCommand(model, subsetType,
 							subsetEntity);
 					ccommand.add(command);
 				} else if (e.isNameChanged()) {
@@ -127,7 +128,11 @@ public class SubsetCreateAction extends SelectionAction {
 			List<SubsetEntity> deleteSubsets = dialog
 					.getDeletedSubsetEntities();
 			for (SubsetEntity e : deleteSubsets) {
-				SubsetDeleteCommand command = new SubsetDeleteCommand(e, subset);
+				SubsetDeleteCommand command = new SubsetDeleteCommand(e, subsetType);
+				ccommand.add(command);
+			}
+			if (deleteSubsets.size() > 0) {
+				SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(model.getDiagram(), subsetType);
 				ccommand.add(command);
 			}
 			execute(ccommand);
@@ -362,13 +367,13 @@ public class SubsetCreateAction extends SelectionAction {
 			this.subset.getSubsetEntityList().remove(model);
 			this.diagram.removeChild(model);
 			this.model.setDiagram(null);
-			if (subset.getSubsetEntityList().size() == 0) {
-				this.model2subsetRelationship = (RelatedRelationship) subset
-						.getModelTargetConnections().get(0);
-				this.model2subsetRelationship.disConnect();
-				this.diagram.removeChild(this.subset);
-				this.subset.setDiagram(null);
-			}
+//			if (subset.getSubsetEntityList().size() == 0) {
+//				this.model2subsetRelationship = (RelatedRelationship) subset
+//						.getModelTargetConnections().get(0);
+//				this.model2subsetRelationship.disConnect();
+//				this.diagram.removeChild(this.subset);
+//				this.subset.setDiagram(null);
+//			}
 		}
 
 		/**
@@ -382,11 +387,11 @@ public class SubsetCreateAction extends SelectionAction {
 			this.diagram.addChild(model);
 			this.model.setDiagram(diagram);
 			this.relationship.connect();
-			if (this.model2subsetRelationship != null) {
-				this.diagram.addChild(this.subset);
-				this.subset.setDiagram(this.diagram);
-				this.model2subsetRelationship.connect();
-			}
+//			if (this.model2subsetRelationship != null) {
+//				this.diagram.addChild(this.subset);
+//				this.subset.setDiagram(this.diagram);
+//				this.model2subsetRelationship.connect();
+//			}
 		}
 
 	}

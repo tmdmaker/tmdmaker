@@ -14,10 +14,12 @@ import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.ReuseKey;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
+import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
@@ -79,6 +81,16 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 				new AbstractEntityGraphicalNodeEditPolicy());
 	}
 
+	protected static RelatedRelationship findRelatedRelationship(
+			List<AbstractConnectionModel> connections) {
+		for (AbstractConnectionModel<?> c : connections) {
+			if (c instanceof RelatedRelationship) {
+				return (RelatedRelationship) c;
+			}
+		}
+		return null;
+	}
+
 	private static class SubsetEntityComponentEditPolicy extends
 			ComponentEditPolicy {
 
@@ -89,10 +101,17 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			SubsetEntityDeleteCommand command = new SubsetEntityDeleteCommand(
-					(Diagram) getHost().getParent().getModel(),
-					(SubsetEntity) getHost().getModel());
-			return command;
+			CompoundCommand ccommand = new CompoundCommand();
+			Diagram diagram = (Diagram) getHost().getParent().getModel();
+			SubsetEntity model = (SubsetEntity) getHost().getModel();
+			SubsetEntityDeleteCommand command1 = new SubsetEntityDeleteCommand(
+					diagram, model);
+			ccommand.add(command1);
+			RelatedRelationship relationship = findRelatedRelationship(model
+					.getModelTargetConnections());
+			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(diagram, (SubsetType)relationship.getSource());
+			ccommand.add(command2);
+			return ccommand;
 		}
 
 	}
@@ -111,16 +130,6 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 					.getModelTargetConnections());
 			this.subsetType = (SubsetType) subsetType2SubsetEntityRelationship
 					.getSource();
-		}
-
-		protected RelatedRelationship findRelatedRelationship(
-				List<AbstractConnectionModel> connections) {
-			for (AbstractConnectionModel<?> c : connections) {
-				if (c instanceof RelatedRelationship) {
-					return (RelatedRelationship) c;
-				}
-			}
-			return null;
 		}
 
 		/**
