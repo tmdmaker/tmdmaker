@@ -24,6 +24,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackEvent;
 import org.eclipse.gef.commands.CommandStackEventListener;
+import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -34,9 +35,6 @@ import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.gef.ui.actions.DeleteRetargetAction;
-import org.eclipse.gef.ui.actions.RedoRetargetAction;
-import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -182,6 +180,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		logger.debug("configureGraphicalViewer() called");
 		super.configureGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
+		viewer.setRootEditPart(new FreeformGraphicalRootEditPart());
 		viewer.setEditPartFactory(new TMDEditPartFactory());
 
 		ContextMenuProvider provider = new TMDContextMenuProvider(viewer,

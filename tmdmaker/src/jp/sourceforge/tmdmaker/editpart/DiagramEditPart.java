@@ -6,8 +6,8 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
+import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
@@ -21,6 +21,11 @@ import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class DiagramEditPart extends AbstractTMDEditPart {
 
 	@Override
