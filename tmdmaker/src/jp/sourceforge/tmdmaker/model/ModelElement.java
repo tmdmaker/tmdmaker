@@ -10,7 +10,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * 
  * @author nakaG
  */
-public abstract class ModelElement implements Serializable  {
+@SuppressWarnings("serial")
+public class ModelElement implements Serializable  {
 		public static final String PROPERTY_NAME = "_PROPERTY_NAME";
 		public static final String PROPERTY_CONSTRAINT = "p_constraint";
 		private String name;
@@ -54,8 +55,9 @@ public abstract class ModelElement implements Serializable  {
 		 * @param constraint the constraint to set
 		 */
 		public void setConstraint(Rectangle constraint) {
+			Rectangle oldValue = this.constraint;
 			this.constraint = constraint;
-			firePropertyChange(PROPERTY_CONSTRAINT, null, constraint);
+			firePropertyChange(PROPERTY_CONSTRAINT, oldValue, constraint);
 		}
 
 }

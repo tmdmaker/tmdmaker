@@ -20,6 +20,7 @@ public class SubsetTypeDeleteCommand extends Command {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
@@ -33,6 +34,7 @@ public class SubsetTypeDeleteCommand extends Command {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
@@ -44,6 +46,4 @@ public class SubsetTypeDeleteCommand extends Command {
 		}
 	}
 
-	
-	
 }

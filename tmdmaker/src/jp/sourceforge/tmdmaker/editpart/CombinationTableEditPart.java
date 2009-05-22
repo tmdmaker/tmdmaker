@@ -21,10 +21,20 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.gef.requests.ReconnectRequest;
 
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class CombinationTableEditPart extends AbstractEntityEditPart {
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
 	@Override
 	protected IFigure createFigure() {
 		EntityFigure figure = new EntityFigure();
@@ -33,6 +43,12 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		return figure;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
@@ -54,6 +70,12 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		}
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
@@ -62,9 +84,19 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 				new AbstractEntityGraphicalNodeEditPolicy());
 	}
 
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
 	private static class CombinationTableComponentEditPolicy extends
 			ComponentEditPolicy {
-
+		/**
+		 * 
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
 			CombinationTableDeleteCommand command = new CombinationTableDeleteCommand(
@@ -74,6 +106,11 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		}
 	}
 
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
 	private static class CombinationTableDeleteCommand extends Command {
 		private Diagram diagram;
 		private CombinationTable model;
@@ -82,6 +119,11 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		private List<AbstractConnectionModel> sourceConnections = new ArrayList<AbstractConnectionModel>();
 		private List<AbstractConnectionModel> targetConnections = new ArrayList<AbstractConnectionModel>();
 
+		/**
+		 * コンストラクタ
+		 * @param diagram
+		 * @param model
+		 */
 		public CombinationTableDeleteCommand(Diagram diagram,
 				CombinationTable model) {
 			this.diagram = diagram;
@@ -98,24 +140,24 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 
 		@Override
 		public void execute() {
-//			System.out.println(getClass().toString() + "#execute()");
-//			diagram.removeChild(model);
-//			model.setDiagram(null);
-//			detachConnections(sourceConnections);
-//			detachConnections(targetConnections);
-//			relationship.detachSource();
-//			relationship.detachTarget();
+			// System.out.println(getClass().toString() + "#execute()");
+			// diagram.removeChild(model);
+			// model.setDiagram(null);
+			// detachConnections(sourceConnections);
+			// detachConnections(targetConnections);
+			// relationship.detachSource();
+			// relationship.detachTarget();
 			relationship.disConnect();
 		}
 
 		@Override
 		public void undo() {
-//			diagram.addChild(model);
-//			model.setDiagram(diagram);
-//			attathConnections(sourceConnections);
-//			attathConnections(targetConnections);
-//			relationship.attachSource();
-//			relationship.attachTarget();
+			// diagram.addChild(model);
+			// model.setDiagram(diagram);
+			// attathConnections(sourceConnections);
+			// attathConnections(targetConnections);
+			// relationship.attachSource();
+			// relationship.attachTarget();
 			relationship.connect();
 		}
 

@@ -302,7 +302,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		return entityName;
 	}
 
-	private class EntityCreateDialog extends Dialog {
+	private static class EntityCreateDialog extends Dialog {
 		private String identifierName;
 		private Text identifierNameText;
 		private EntityType entityType = EntityType.R;

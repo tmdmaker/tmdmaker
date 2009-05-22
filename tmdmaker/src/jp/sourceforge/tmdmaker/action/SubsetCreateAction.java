@@ -77,7 +77,7 @@ public class SubsetCreateAction extends SelectionAction {
 			selectedAttribute = null;
 		} else {
 			sameType = subsetType.subsettype.equals(SubsetType.SubsetTypeValue.SAME);
-			subsetEntities = subsetType.getSubsetEntityList();
+			subsetEntities = subsetType.findSubsetEntityList();
 			selectedAttribute = ((Entity2SubsetTypeRelationship)subsetType.getModelTargetConnections().get(0)).getPartitionAttribute();
 		}
 		
@@ -115,6 +115,8 @@ public class SubsetCreateAction extends SelectionAction {
 				if (e.isAdded()) {
 					SubsetEntity subsetEntity = new SubsetEntity();
 					subsetEntity.setName(e.getName());
+					subsetEntity.setOriginalReuseKey(model.getMyReuseKey());
+//					subsetEntity.setOriginal(model);
 					Command command = new SubsetCreateCommand(model, subsetType,
 							subsetEntity);
 					ccommand.add(command);
@@ -233,7 +235,7 @@ public class SubsetCreateAction extends SelectionAction {
 	private static class SubsetCreateCommand extends Command {
 		private Diagram diagram;
 		private AbstractEntityModel model;
-		private SubsetType subset;
+		private SubsetType subsetType;
 		private Entity2SubsetTypeRelationship model2subsetRelationship;
 		private SubsetEntity subsetEntity;
 		private RelatedRelationship subset2entityRelationship;
@@ -241,21 +243,23 @@ public class SubsetCreateAction extends SelectionAction {
 		/**
 		 * 
 		 * @param model
+		 * @param subsetType
+		 * @param subsetEntity
 		 */
-		public SubsetCreateCommand(AbstractEntityModel model, SubsetType subset,
+		public SubsetCreateCommand(AbstractEntityModel model, SubsetType subsetType,
 				SubsetEntity subsetEntity) {
 			super();
 			this.model = model;
-			this.subset = subset;
+			this.subsetType = subsetType;
 			// Rectangle constraint = model.getConstraint().getTranslated(0,
 			// 50);
 			// this.subset.setConstraint(constraint);
 			this.diagram = model.getDiagram();
 			this.subsetEntity = subsetEntity;
 			subset2entityRelationship = new RelatedRelationship();
-			subset2entityRelationship.setSource(subset);
+			subset2entityRelationship.setSource(subsetType);
 			subset2entityRelationship.setTarget(this.subsetEntity);
-			Rectangle constraint = subset.getConstraint().getTranslated(0, 50);
+			Rectangle constraint = subsetType.getConstraint().getTranslated(0, 50);
 			subsetEntity.setConstraint(constraint);
 		}
 
@@ -266,12 +270,12 @@ public class SubsetCreateAction extends SelectionAction {
 		 */
 		@Override
 		public void execute() {
-			if (subset.getModelTargetConnections().size() == 0) {
+			if (subsetType.getModelTargetConnections().size() == 0) {
 				this.model2subsetRelationship = new Entity2SubsetTypeRelationship();
 				this.model2subsetRelationship.setSource(this.model);
-				this.model2subsetRelationship.setTarget(this.subset);
+				this.model2subsetRelationship.setTarget(this.subsetType);
 			} else {
-				this.model2subsetRelationship = (Entity2SubsetTypeRelationship) subset
+				this.model2subsetRelationship = (Entity2SubsetTypeRelationship) subsetType
 						.getModelTargetConnections().get(0);
 			}
 //			diagram.addChild(subset);
@@ -279,7 +283,7 @@ public class SubsetCreateAction extends SelectionAction {
 			model2subsetRelationship.connect();
 			// 変更後サブセットを追加
 			diagram.addChild(subsetEntity);
-			subset.getSubsetEntityList().add(subsetEntity);
+//			subsetType.getSubsetEntityList().add(subsetEntity);
 //			model.setSubset(subset);
 			subsetEntity.setDiagram(diagram);
 			subset2entityRelationship.connect();
@@ -295,7 +299,7 @@ public class SubsetCreateAction extends SelectionAction {
 			subset2entityRelationship.disConnect();
 			subsetEntity.setDiagram(null);
 //			model.setSubset(null);
-			subset.getSubsetEntityList().remove(subsetEntity);
+//			subsetType.getSubsetEntityList().remove(subsetEntity);
 			diagram.removeChild(subsetEntity);
 			model2subsetRelationship.disConnect();
 //			diagram.removeChild(subset);
@@ -364,7 +368,7 @@ public class SubsetCreateAction extends SelectionAction {
 		@Override
 		public void execute() {
 			this.relationship.disConnect();
-			this.subset.getSubsetEntityList().remove(model);
+//			this.subset.getSubsetEntityList().remove(model);
 			this.diagram.removeChild(model);
 			this.model.setDiagram(null);
 //			if (subset.getSubsetEntityList().size() == 0) {
@@ -383,7 +387,7 @@ public class SubsetCreateAction extends SelectionAction {
 		 */
 		@Override
 		public void undo() {
-			this.subset.getSubsetEntityList().add(model);
+//			this.subset.getSubsetEntityList().add(model);
 			this.diagram.addChild(model);
 			this.model.setDiagram(diagram);
 			this.relationship.connect();

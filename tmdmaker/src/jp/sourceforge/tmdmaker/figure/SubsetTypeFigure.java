@@ -52,7 +52,7 @@ public class SubsetTypeFigure extends Figure {
 		}
 		private void paintSubsetSameType(IFigure figure, Graphics graphics, Insets insets) {
 			tempRect.setBounds(getPaintRectangle(figure, insets));
-			if (getWidth() % 2 == 1) {
+			if (getWidth() % 2 != 0) {
 				tempRect.width--;
 				tempRect.height--;
 			}

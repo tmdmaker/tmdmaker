@@ -86,7 +86,7 @@ public class EntityFigure extends Figure {
 	public void removeAllAttributes() {
 		this.attributeCompartmentFigure.removeAll();
 	}
-	private class EntityTitleCompartmentFigure extends Figure {
+	private static class EntityTitleCompartmentFigure extends Figure {
 		public EntityTitleCompartmentFigure() {
 			setLayoutManager(new BorderLayout());
 		}
@@ -99,7 +99,7 @@ public class EntityFigure extends Figure {
 			getLayoutManager().setConstraint(type, BorderLayout.RIGHT);
 		}
 	}
-	private class EntityLayoutCompartmentFigure extends Figure {
+	private static class EntityLayoutCompartmentFigure extends Figure {
 		public EntityLayoutCompartmentFigure(){
 			ToolbarLayout layout = new ToolbarLayout(true);
 			layout.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
@@ -110,7 +110,7 @@ public class EntityFigure extends Figure {
 		}
 	}
 	
-	private class EntityLayoutCompartmentFigureBorder extends AbstractBorder {
+	private static class EntityLayoutCompartmentFigureBorder extends AbstractBorder {
 		public Insets getInsets(IFigure figure) {
 			return new Insets(1, 0, 0, 0);
 		}
@@ -118,7 +118,7 @@ public class EntityFigure extends Figure {
 			graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(), tempRect.getTopRight());
 		}
 	}
-	private class CompartmentFigure extends Figure {
+	private static class CompartmentFigure extends Figure {
 		
 		public CompartmentFigure() {
 			ToolbarLayout layout = new ToolbarLayout();
@@ -129,7 +129,7 @@ public class EntityFigure extends Figure {
 		}
 
 	}
-	private class IdentifierCompartmentFigureBorder extends AbstractBorder {
+	private static class IdentifierCompartmentFigureBorder extends AbstractBorder {
 		public Insets getInsets(IFigure figure) {
 			return new Insets(0, 1, 0, 1);
 		}
@@ -139,7 +139,7 @@ public class EntityFigure extends Figure {
 //			graphics.drawRectangle(getPaintRectangle(figure, insets));
 		}
 	}
-	private class AttributeCompartmentFigureBorder extends AbstractBorder {
+	private static class AttributeCompartmentFigureBorder extends AbstractBorder {
 
 		public Insets getInsets(IFigure figure) {
 			return new Insets(0, 1, 0, 1);

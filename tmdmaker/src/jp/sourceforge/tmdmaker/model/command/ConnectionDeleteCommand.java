@@ -29,9 +29,9 @@ public class ConnectionDeleteCommand extends Command {
 //		connection.detachTarget();
 		connection.disConnect();
 		if (connection instanceof Relationship) {
-			Relationship r = (Relationship) connection;
-			AbstractEntityModel source = (AbstractEntityModel) r.getSource();
-			AbstractEntityModel target = (AbstractEntityModel) r.getTarget();
+//			Relationship r = (Relationship) connection;
+//			AbstractEntityModel source = (AbstractEntityModel) r.getSource();
+//			AbstractEntityModel target = (AbstractEntityModel) r.getTarget();
 //			source.removeReuseKey(target);
 //			target.removeReuseKey(source);
 		}
@@ -54,9 +54,9 @@ public class ConnectionDeleteCommand extends Command {
 //		connection.attachSource();
 //		connection.attachTarget();
 		if (connection instanceof Relationship) {
-			Relationship r = (Relationship) connection;
-			AbstractEntityModel source = (AbstractEntityModel) r.getSource();
-			AbstractEntityModel target = (AbstractEntityModel) r.getTarget();
+//			Relationship r = (Relationship) connection;
+//			AbstractEntityModel source = (AbstractEntityModel) r.getSource();
+//			AbstractEntityModel target = (AbstractEntityModel) r.getTarget();
 //			target.addReuseKey(source);
 		}
 //		if (reuseKeys != null) {
