@@ -5,6 +5,7 @@ package jp.sourceforge.tmdmaker.model;
  * @author nakaG
  *
  */
+@SuppressWarnings("serial")
 public class Resource2EventRelationship extends Relationship {
 
 	/* (non-Javadoc)

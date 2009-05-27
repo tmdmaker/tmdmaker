@@ -3,6 +3,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -20,11 +21,22 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
-public class EntityEditPart extends AbstractEntityEditPart implements DoubleClickSupport {
+/**
+ * エンティティのコントローラ
+ * 
+ * @author nakaG
+ * 
+ */
+public class EntityEditPart extends AbstractEntityEditPart {
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
 	@Override
 	protected IFigure createFigure() {
 		EntityFigure figure = new EntityFigure();
@@ -32,13 +44,19 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 		return figure;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		Entity entity = (Entity) getModel();
-		
-//		List<Identifier> ids = entity.getReuseKeys().;
-		
+
+		// List<Identifier> ids = entity.getReuseKeys().;
+
 		List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
 		entityFigure.removeAllAttributes();
@@ -46,7 +64,8 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(entity.getEntityType().toString());
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReuseKey> rk : entity.getReuseKeys().entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReuseKey> rk : entity
+				.getReuseKeys().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}
@@ -58,6 +77,9 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 
 	/**
 	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
 	protected void createEditPolicies() {
@@ -67,9 +89,10 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 				new AbstractEntityGraphicalNodeEditPolicy());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
+	 * {@inheritDoc}
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refresh()
 	 */
 	@Override
@@ -82,7 +105,9 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshSourceConnections()
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshSourceConnections
+	 * ()
 	 */
 	@Override
 	protected void refreshSourceConnections() {
@@ -95,7 +120,9 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshTargetConnections()
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshTargetConnections
+	 * ()
 	 */
 	@Override
 	protected void refreshTargetConnections() {
@@ -117,14 +144,20 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 		super.refreshChildren();
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see tm.tmdiagram.tmdeditor.editpart.DoubleClickSupport#doubleClicked()
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
 	 */
 	@Override
-	public void doubleClicked() {
+	protected void onDoubleClicked() {
+		logger.debug(getClass() + "#onDoubleClicked()");
 		Entity entity = (Entity) getModel();
-		EntityEditDialog dialog = new EntityEditDialog(getViewer().getControl().getShell(), entity.getIdentifier().getName(), entity.getName(), entity.getEntityType(), entity.getReuseKeys(), entity.getAttributes());
+		EntityEditDialog dialog = new EntityEditDialog(getViewer().getControl()
+				.getShell(), entity.getIdentifier().getName(),
+				entity.getName(), entity.getEntityType(),
+				entity.getReuseKeys(), entity.getAttributes(), entity
+						.canEntityTypeEditable());
 		if (dialog.open() == Dialog.OK) {
 			EntityEditCommand command = new EntityEditCommand();
 			command.setAttributes(dialog.getAttributes());
@@ -137,50 +170,50 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 		}
 	}
 
-//	public static class CreateBendPointCommand extends Command {
-//		private RecursiveMarkConnection model;
-//		private Rectangle bounds;
-//		public void setModel(RecursiveMarkConnection model) {
-//			this.model = model;
-//		}
-//		public void setSourceBounds(Rectangle bounds) {
-//			this.bounds = bounds;
-//		}
-//		/* (non-Javadoc)
-//		 * @see org.eclipse.gef.commands.Command#execute()
-//		 */
-//		@Override
-//		public void execute() {
-//			int width = bounds.width / 2 + 20;
-//			int height = bounds.height / 2;
-//			ConnectionBendpoint bendpoint = new ConnectionBendpoint(
-//					new Dimension(0, 0), new Dimension(width, 0));
-//			model.addBendpoint(0, bendpoint);
-//			bendpoint = new ConnectionBendpoint(new Dimension(width, 0),
-//					new Dimension(width, height));
-//			model.addBendpoint(1, bendpoint);
-//			bendpoint = new ConnectionBendpoint(new Dimension(width, height),
-//					new Dimension(0, height));
-//			model.addBendpoint(2, bendpoint);
-//
-//		}
-//		
-//	}
+	// public static class CreateBendPointCommand extends Command {
+	// private RecursiveMarkConnection model;
+	// private Rectangle bounds;
+	// public void setModel(RecursiveMarkConnection model) {
+	// this.model = model;
+	// }
+	// public void setSourceBounds(Rectangle bounds) {
+	// this.bounds = bounds;
+	// }
+	// /* (non-Javadoc)
+	// * @see org.eclipse.gef.commands.Command#execute()
+	// */
+	// @Override
+	// public void execute() {
+	// int width = bounds.width / 2 + 20;
+	// int height = bounds.height / 2;
+	// ConnectionBendpoint bendpoint = new ConnectionBendpoint(
+	// new Dimension(0, 0), new Dimension(width, 0));
+	// model.addBendpoint(0, bendpoint);
+	// bendpoint = new ConnectionBendpoint(new Dimension(width, 0),
+	// new Dimension(width, height));
+	// model.addBendpoint(1, bendpoint);
+	// bendpoint = new ConnectionBendpoint(new Dimension(width, height),
+	// new Dimension(0, height));
+	// model.addBendpoint(2, bendpoint);
+	//
+	// }
+	//		
+	// }
 	public static class EntityComponentEditPolicy extends ComponentEditPolicy {
 
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			EntityDeleteCommand command = 
-				new EntityDeleteCommand(
-						(Diagram) getHost().getParent().getModel(),
-						(AbstractEntityModel) getHost().getModel());
+			EntityDeleteCommand command = new EntityDeleteCommand(
+					(Diagram) getHost().getParent().getModel(),
+					(AbstractEntityModel) getHost().getModel());
 			return command;
 		}
 	}
-	private static class EntityDeleteCommand extends ConnectableElementDeleteCommand {
+
+	private static class EntityDeleteCommand extends
+			ConnectableElementDeleteCommand {
 		private AbstractEntityModel model;
-		
-		
+
 		public EntityDeleteCommand(Diagram diagram, AbstractEntityModel model) {
 			super();
 			this.diagram = diagram;
@@ -188,13 +221,16 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 			this.sourceConnections.addAll(model.getModelSourceConnections());
 			this.targetConnections.addAll(model.getModelTargetConnections());
 		}
+
 		@Override
 		public boolean canExecute() {
 			if (model.getEntityType() == EntityType.E) {
-				return model.getModelSourceConnections().size() == 0 ;
+				return model.getModelSourceConnections().size() == 0;
 			}
-			return model.getModelSourceConnections().size() == 0 && model.getModelTargetConnections().size() == 0;
+			return model.getModelSourceConnections().size() == 0
+					&& model.getModelTargetConnections().size() == 0;
 		}
+
 		@Override
 		public void execute() {
 			System.out.println(getClass().toString() + "#execute()");
@@ -203,12 +239,14 @@ public class EntityEditPart extends AbstractEntityEditPart implements DoubleClic
 			detachConnections(sourceConnections);
 			detachConnections(targetConnections);
 		}
+
 		@Override
 		public void undo() {
 			diagram.addChild(model);
 			attathConnections(sourceConnections);
 			attathConnections(targetConnections);
 		}
+
 		public void setModel(Object model) {
 			this.model = (AbstractEntityModel) model;
 		}

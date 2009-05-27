@@ -1,14 +1,13 @@
 package jp.sourceforge.tmdmaker.model;
 
 /**
- * 
+ * サブセットモデル
  * @author nakaG
  * 
  */
+@SuppressWarnings("serial")
 public class SubsetEntity extends AbstractEntityModel {
-
-	private AbstractEntityModel original;
-
+	/** サブセットの親のRe-usedキー */
 	private ReuseKey originalReuseKey;
 	
 	/**
@@ -37,17 +36,13 @@ public class SubsetEntity extends AbstractEntityModel {
 	}
 
 	/**
-	 * @param original
-	 *            the original to set
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canEntityTypeEditable()
 	 */
-	public void setOriginal(AbstractEntityModel original) {
-		this.original = original;
+	@Override
+	public boolean canEntityTypeEditable() {
+		return false;
 	}
-
-	/**
-	 * @return the original
-	 */
-	public AbstractEntityModel getOriginal() {
-		return original;
-	}
+	
 }

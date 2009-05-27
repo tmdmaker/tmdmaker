@@ -3,7 +3,6 @@ package jp.sourceforge.tmdmaker;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
-import jp.sourceforge.tmdmaker.editpart.DoubleClickSupport;
 import jp.sourceforge.tmdmaker.editpart.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
@@ -38,10 +37,7 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -85,25 +81,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		Diagram diagram = new Diagram();
 		viewer.setContents(diagram);
 
-		viewer.getControl().addMouseListener(new MouseAdapter() {
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.swt.events.MouseAdapter#mouseDoubleClick(org.eclipse
-			 * .swt.events.MouseEvent)
-			 */
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				IStructuredSelection selection = (IStructuredSelection) getGraphicalViewer()
-						.getSelection();
-				Object obj = selection.getFirstElement();
-				if (obj instanceof DoubleClickSupport) {
-					((DoubleClickSupport) obj).doubleClicked();
-				}
-			}
-		});
 	}
 
 	/*

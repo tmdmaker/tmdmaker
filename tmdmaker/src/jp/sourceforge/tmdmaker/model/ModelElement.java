@@ -11,53 +11,85 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * @author nakaG
  */
 @SuppressWarnings("serial")
-public class ModelElement implements Serializable  {
-		public static final String PROPERTY_NAME = "_PROPERTY_NAME";
-		public static final String PROPERTY_CONSTRAINT = "p_constraint";
-		private String name;
-		private Rectangle constraint;
-		private transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-		
-		public void addPropertyChangeListener(PropertyChangeListener listener) {
-			listeners.addPropertyChangeListener(listener);
-		}
-		
-		public void firePropertyChange(String propName, Object oldValue, Object newValue) {
-			listeners.firePropertyChange(propName, oldValue, newValue);
-		}
+public class ModelElement implements Serializable {
+	/** 名称プロパティ定数 */
+	public static final String PROPERTY_NAME = "_property_name";
+	/** 領域プロパティ定数 */
+	public static final String PROPERTY_CONSTRAINT = "_property_constraint";
+	/** オブジェクトの名称 */
+	private String name;
+	/** オブジェクトの領域 */
+	private Rectangle constraint;
+	/** プロパティ変更通知用 */
+	private transient PropertyChangeSupport listeners = new PropertyChangeSupport(
+			this);
 
-		public void removePropertyChangeListener(PropertyChangeListener listener) {
-			listeners.removePropertyChangeListener(listener);
-		}
+	/**
+	 * プロパティ変更通知先追加
+	 * 
+	 * @param listener
+	 *            プロパティ変更通知先
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		listeners.addPropertyChangeListener(listener);
+	}
 
-		/**
-		 * @return the name
-		 */
-		public String getName() {
-			return name;
-		}
+	/**
+	 * プロパティ変更通知
+	 * 
+	 * @param propName
+	 *            変更したプロパティの名称
+	 * @param oldValue
+	 *            変更前の値
+	 * @param newValue
+	 *            変更後の値
+	 */
+	public void firePropertyChange(String propName, Object oldValue,
+			Object newValue) {
+		listeners.firePropertyChange(propName, oldValue, newValue);
+	}
 
-		/**
-		 * @param name the name to set
-		 */
-		public void setName(String name) {
-			this.name = name;
-			firePropertyChange(PROPERTY_NAME, null, name);
-		}
-		/**
-		 * @return the constraint
-		 */
-		public Rectangle getConstraint() {
-			return constraint;
-		}
+	/**
+	 * プロパティ変更通知先削除
+	 * 
+	 * @param listener
+	 *            プロパティ変更通知先
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		listeners.removePropertyChangeListener(listener);
+	}
 
-		/**
-		 * @param constraint the constraint to set
-		 */
-		public void setConstraint(Rectangle constraint) {
-			Rectangle oldValue = this.constraint;
-			this.constraint = constraint;
-			firePropertyChange(PROPERTY_CONSTRAINT, oldValue, constraint);
-		}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+		firePropertyChange(PROPERTY_NAME, null, name);
+	}
+
+	/**
+	 * @return the constraint
+	 */
+	public Rectangle getConstraint() {
+		return constraint;
+	}
+
+	/**
+	 * @param constraint
+	 *            the constraint to set
+	 */
+	public void setConstraint(Rectangle constraint) {
+		Rectangle oldValue = this.constraint;
+		this.constraint = constraint;
+		firePropertyChange(PROPERTY_CONSTRAINT, oldValue, constraint);
+	}
 
 }

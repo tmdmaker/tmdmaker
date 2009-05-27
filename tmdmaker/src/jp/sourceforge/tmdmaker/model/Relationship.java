@@ -5,6 +5,7 @@ package jp.sourceforge.tmdmaker.model;
  * @author nakaG
  *
  */
+@SuppressWarnings("serial")
 public class Relationship extends AbstractConnectionModel<AbstractEntityModel> {
 	private String sourceCardinality = "1";
 	private String targetCardinality = "1";

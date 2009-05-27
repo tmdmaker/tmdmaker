@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
@@ -15,17 +16,19 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Relationship;
 import jp.sourceforge.tmdmaker.model.ReuseKey;
+import jp.sourceforge.tmdmaker.model.command.CombinationTableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 public class CombinationTableEditPart extends AbstractEntityEditPart {
 
@@ -46,7 +49,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
@@ -73,7 +76,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
@@ -85,16 +88,37 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 */
+	@Override
+	protected void onDoubleClicked() {
+		logger.debug(getClass() + "#onDoubleClicked()");
+		CombinationTable table = (CombinationTable) getModel();
+		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
+				.getShell(), table.getName(), table.getReuseKeys(), table
+				.getAttributes());
+		if (dialog.open() == Dialog.OK) {
+			CombinationTableEditCommand command = new CombinationTableEditCommand(
+					table, dialog.getEntityName(), dialog.getReuseKeys(),
+					dialog.getAttributes());
+			getViewer().getEditDomain().getCommandStack().execute(command);
+		}
+
+	}
+
+	/**
 	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
 	private static class CombinationTableComponentEditPolicy extends
 			ComponentEditPolicy {
 		/**
 		 * 
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
 		 */
 		@Override
@@ -109,7 +133,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	/**
 	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
 	private static class CombinationTableDeleteCommand extends Command {
 		private Diagram diagram;
@@ -121,6 +145,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 
 		/**
 		 * コンストラクタ
+		 * 
 		 * @param diagram
 		 * @param model
 		 */

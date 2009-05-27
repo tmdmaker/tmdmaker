@@ -57,6 +57,19 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 				new MappingListComponentEditPolicy());
 	}
 
+	
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 */
+	@Override
+	protected void onDoubleClicked() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	private static class MappingListComponentEditPolicy extends
 			ComponentEditPolicy {
 

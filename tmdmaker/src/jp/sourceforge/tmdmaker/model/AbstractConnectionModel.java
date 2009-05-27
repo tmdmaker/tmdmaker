@@ -1,10 +1,12 @@
 package jp.sourceforge.tmdmaker.model;
+
 /**
  * 
  * @author nakaG
  *
  * @param <T>
  */
+@SuppressWarnings("serial")
 public abstract class AbstractConnectionModel<T extends ConnectableElement> extends ConnectableElement {
 	/**
 	 * 

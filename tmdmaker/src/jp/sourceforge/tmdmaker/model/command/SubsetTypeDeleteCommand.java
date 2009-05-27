@@ -27,7 +27,6 @@ public class SubsetTypeDeleteCommand extends Command {
 	public void execute() {
 		if (model.getModelSourceConnections().size() == 0) {
 			relationship.disConnect();
-			model.setDiagram(null);
 			diagram.removeChild(model);
 		}
 	}
@@ -41,7 +40,6 @@ public class SubsetTypeDeleteCommand extends Command {
 	public void undo() {
 		if (model.getModelSourceConnections().size() == 0) {
 			diagram.addChild(model);
-			model.setDiagram(diagram);
 			relationship.connect();
 		}
 	}

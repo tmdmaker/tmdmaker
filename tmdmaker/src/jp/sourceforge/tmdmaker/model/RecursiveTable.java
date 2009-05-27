@@ -7,8 +7,14 @@ import java.util.Map;
  * @author nakaG
  *
  */
+@SuppressWarnings("serial")
 public class RecursiveTable extends AbstractEntityModel {
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
+	 */
 	@Override
 	public ReuseKey getMyReuseKey() {
 		ReuseKey returnValue = new ReuseKey();
@@ -17,7 +23,12 @@ public class RecursiveTable extends AbstractEntityModel {
 		}
 		return returnValue;
 	}
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#addReuseKey(jp.sourceforge.tmdmaker.model.AbstractEntityModel)
+	 */
 	@Override
 	public void addReuseKey(AbstractEntityModel source) {
 		ReuseKey added = source.getMyReuseKey();
@@ -25,5 +36,13 @@ public class RecursiveTable extends AbstractEntityModel {
 		this.reuseKeys.put(source, added);
 		firePropertyChange(PROPERTY_REUSEKEY, null, added);
 	}
-	
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canEntityTypeEditable()
+	 */
+	@Override
+	public boolean canEntityTypeEditable() {
+		return false;
+	}
 }

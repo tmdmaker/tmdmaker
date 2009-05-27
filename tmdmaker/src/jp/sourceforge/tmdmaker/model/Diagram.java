@@ -6,23 +6,39 @@ import java.util.List;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
+@SuppressWarnings("serial")
 public class Diagram extends ModelElement {
+	/** 子モデル */
 	private List<ModelElement> children = new ArrayList<ModelElement>();
-//	private String dialectName = "";
-	public static final String P_CHILDREN = "p_children";
+	/** 子モデルプロパティ定数 */
+	public static final String PROPERTY_CHILDREN = "_property_children";
 
-	public <T extends ModelElement>void addChild(T child) {
+	/**
+	 * 子モデル追加
+	 * 
+	 * @param <T>
+	 *            モデル型を継承しているクラスの型
+	 * @param child
+	 *            子モデル
+	 */
+	public <T extends ModelElement> void addChild(T child) {
 		if (children.contains(child) == false) {
 			children.add(child);
-			firePropertyChange(P_CHILDREN, null, child);
+			firePropertyChange(PROPERTY_CHILDREN, null, child);
 		}
 	}
-	public <T extends ModelElement>void removeChild(T child) {
+	/**
+	 * 子モデル削除
+	 * @param <T> モデル型を継承しているクラスの型
+	 * @param child 子モデル
+	 */
+	public <T extends ModelElement> void removeChild(T child) {
 		children.remove(child);
-		firePropertyChange(P_CHILDREN, child, null);
+		firePropertyChange(PROPERTY_CHILDREN, child, null);
 	}
+
 	/**
 	 * @return the children
 	 */

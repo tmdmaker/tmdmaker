@@ -82,6 +82,17 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 */
+	@Override
+	protected void onDoubleClicked() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
 	 * 
 	 * @author nakaG
 	 * 

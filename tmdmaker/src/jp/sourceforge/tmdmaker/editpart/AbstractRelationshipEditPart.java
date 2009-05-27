@@ -18,6 +18,8 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -27,6 +29,9 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 public abstract class AbstractRelationshipEditPart extends
 		AbstractConnectionEditPart implements NodeEditPart,
 		PropertyChangeListener {
+	/** logging */
+	protected static Logger logger = LoggerFactory
+			.getLogger(AbstractEntityEditPart.class);
 
 	private ConnectionAnchor anchor;
 

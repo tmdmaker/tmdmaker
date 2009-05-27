@@ -36,6 +36,7 @@ public class EntityEditCommand extends Command {
 		entity.setEntityType(this.entityType);
 		entity.getIdentifier().setName(this.identifierName);
 		Map<AbstractEntityModel, ReuseKey> ids = entity.getReuseKeys();
+		// TODO identifierの更新伝播
 		for (int i = 0; i < ids.size(); i++) {
 //			ids.get(i).setName(reuseKeys.get(i).getName());
 		}

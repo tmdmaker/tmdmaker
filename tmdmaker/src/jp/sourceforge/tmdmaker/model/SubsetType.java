@@ -3,37 +3,35 @@ package jp.sourceforge.tmdmaker.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.draw2d.geometry.Rectangle;
-
+/**
+ * サブセット種類モデル
+ * 
+ * @author nakaG
+ * 
+ */
+@SuppressWarnings("serial")
 public class SubsetType extends ConnectableElement {
-//	/**  */
-//	private Rectangle constraint;
-	private Diagram diagram;
-//	private AbstractEntityModel original;
-//	private List<SubsetEntity> subsetEntityList = new ArrayList<SubsetEntity>();
-	public enum SubsetTypeValue {SAME, DIFFERENT};
+
+	/** サブセット種類（同一、相違） */
+	public enum SubsetTypeValue {
+		/** 同一 */
+		SAME,
+		/** 相違 */
+		DIFFERENT
+	};
+
+	/** サブセット種類 */
 	public SubsetTypeValue subsettype = SubsetTypeValue.SAME;
+	/** サブセットタイプ */
 	public static final String PROPERTY_TYPE = "_property_type";
+	/** 区分コードの属性 */
 	private Attribute partitionAttribute;
-	
-	public SubsetType(AbstractEntityModel model) {
-		this.diagram = model.getDiagram();
-//		this.original = model;
-	}
-//	public void setConstraint(Rectangle constraint) {
-//		Rectangle oldConstraint = this.constraint;
-//		this.constraint = constraint;
-//		firePropertyChange(PROPERTY_CONSTRAINT, oldConstraint, constraint);
-//	}
 
-	public void setDiagram(Diagram diagram) {
-		this.diagram = diagram;
-	}
-
-//	public Rectangle getConstraint() {
-//		return constraint;
-//	}
-
+	/**
+	 * サブセットエンティティ取得
+	 * 
+	 * @return サブセットエンティティのリスト
+	 */
 	public List<SubsetEntity> findSubsetEntityList() {
 		List<SubsetEntity> results = new ArrayList<SubsetEntity>();
 		for (AbstractConnectionModel<?> c : getModelSourceConnections()) {
@@ -43,53 +41,28 @@ public class SubsetType extends ConnectableElement {
 		}
 		return results;
 	}
-//	/**
-//	 * @return the subsetEntity
-//	 */
-//	public List<SubsetEntity> getSubsetEntityList() {
-//		getModelSourceConnections().
-//		return subsetEntityList;
-//	}
-	
-//	/**
-//	 * @param subsetEntityList the subsetEntityList to set
-//	 */
-//	public void setSubsetEntityList(List<SubsetEntity> subsetEntityList) {
-//		this.subsetEntityList = subsetEntityList;
-//	}
-	
+
 	/**
 	 * @return the subsettype
 	 */
 	public SubsetTypeValue getSubsettype() {
 		return subsettype;
 	}
+
 	/**
-	 * @param subsettype the subsettype to set
+	 * @param subsettype
+	 *            the subsettype to set
 	 */
 	public void setSubsettype(SubsetTypeValue subsettype) {
 		SubsetTypeValue oldValue = this.subsettype;
 		this.subsettype = subsettype;
 		firePropertyChange(PROPERTY_TYPE, oldValue, this.subsettype);
 	}
-	
-//	/**
-//	 * @return the partitionAttribute
-//	 */
-//	public Attribute getPartitionAttribute() {
-//		return partitionAttribute;
-//	}
-//	/**
-//	 * @param partitionAttribute the partitionAttribute to set
-//	 */
-//	public void setPartitionAttribute(Attribute partitionAttribute) {
-//		Attribute oldValue = this.partitionAttribute;
-//		this.partitionAttribute = partitionAttribute;
-//		Entity2SubsetRelationship relationship = (Entity2SubsetRelationship) getModelTargetConnections().get(0);
-//		
-////		firePropertyChange(PROPERTY_PARTITION, oldValue, partitionAttribute);
-//	}
+
+	/**
+	 * オブジェクト破棄
+	 */
 	public void dispose() {
-		// TODO 
+		// TODO
 	}
 }

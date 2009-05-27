@@ -91,6 +91,17 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 */
+	@Override
+	protected void onDoubleClicked() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private static class SubsetEntityComponentEditPolicy extends
 			ComponentEditPolicy {
 

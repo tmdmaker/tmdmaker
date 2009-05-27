@@ -1,4 +1,4 @@
-package jp.sourceforge.tmdmaker.editpart;
+package jp.sourceforge.tmdmaker.dialog;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -32,14 +32,27 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * エンティティ編集ダイアログ
+ * 
+ * @author nakaG
+ * 
+ */
 public class EntityEditDialog extends Dialog {
+	/** 個体指示子名称 */
 	private String identifierName;
+	/** エンティティ名称 */
 	private String entityName;
+	/** エンティティ種類 */
 	private EntityType entityType;
+	/** Re-usedキーリスト */
 	private List<Identifier> reuseKeys = new ArrayList<Identifier>();
+	/** 属性リスト */
 	private List<Attribute> attributes = new ArrayList<Attribute>();
-	
+
+	/** 個体指示子名称編集用 */
 	private Text identifierNameText;
+	/** エンティティ名称編集用 */
 	private Text entityNameText;
 	private Text attributeNameText;
 	private Table tblAttributes;
@@ -49,17 +62,19 @@ public class EntityEditDialog extends Dialog {
 	private Button attributeDeleteButton;
 	private Button attributeUpButton;
 	private Button attributeDownButton;
-
-	public EntityEditDialog(Shell parentShell) {
-		super(parentShell);
-		// TODO Auto-generated constructor stub
-	}
-	public EntityEditDialog(Shell parentShell, String identifierName, String entityName, EntityType entityType, Map<AbstractEntityModel, ReuseKey> reuseKeys, List<Attribute> attributes) {
+	private boolean canEditEntityType;
+	
+	public EntityEditDialog(Shell parentShell, String identifierName,
+			String entityName, EntityType entityType,
+			Map<AbstractEntityModel, ReuseKey> reuseKeys,
+			List<Attribute> attributes, boolean canEditEntityType) {
 		super(parentShell);
 		this.identifierName = identifierName;
 		this.entityName = entityName;
 		this.entityType = entityType;
-		for (Map.Entry<AbstractEntityModel, ReuseKey> entry : reuseKeys.entrySet()) {
+		this.canEditEntityType = canEditEntityType;
+		for (Map.Entry<AbstractEntityModel, ReuseKey> entry : reuseKeys
+				.entrySet()) {
 			for (Identifier i : entry.getValue().getIdentifires()) {
 				Identifier copy = new Identifier();
 				try {
@@ -72,11 +87,11 @@ public class EntityEditDialog extends Dialog {
 					e.printStackTrace();
 				}
 				this.reuseKeys.add(copy);
-				
+
 			}
 			attributeEditIndex++;
 		}
-		for (Attribute a: attributes) {
+		for (Attribute a : attributes) {
 			Attribute copy = new Attribute();
 			try {
 				BeanUtils.copyProperties(copy, a);
@@ -90,8 +105,13 @@ public class EntityEditDialog extends Dialog {
 			this.attributes.add(copy);
 		}
 	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -103,8 +123,8 @@ public class EntityEditDialog extends Dialog {
 		Label label = new Label(composite, SWT.NULL);
 		label.setText("認知番号");
 		identifierNameText = new Text(composite, SWT.BORDER);
-		identifierNameText.setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL));
+		identifierNameText
+				.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		identifierNameText.setText(this.identifierName);
 
 		label = new Label(composite, SWT.NULL);
@@ -118,8 +138,12 @@ public class EntityEditDialog extends Dialog {
 		r.setBounds(5, 10, 55, 20);
 		r.addSelectionListener(new SelectionAdapter() {
 
-			/* (non-Javadoc)
-			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
 			 */
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -134,8 +158,12 @@ public class EntityEditDialog extends Dialog {
 		e.setBounds(80, 10, 55, 20);
 		e.addSelectionListener(new SelectionAdapter() {
 
-			/* (non-Javadoc)
-			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
 			 */
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -144,17 +172,17 @@ public class EntityEditDialog extends Dialog {
 					entityType = EntityType.E;
 				}
 			}
-			
+
 		});
 
 		r.setSelection(this.entityType.equals(EntityType.R));
 		e.setSelection(this.entityType.equals(EntityType.E));
-		
+		r.setEnabled(canEditEntityType);
+		e.setEnabled(canEditEntityType);
 		label = new Label(composite, SWT.NULL);
 		label.setText("エンティティ名");
 		entityNameText = new Text(composite, SWT.BORDER);
-		entityNameText.setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL));
+		entityNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		entityNameText.setText(entityName);
 
 		Composite tableArea = new Composite(composite, SWT.NULL);
@@ -167,14 +195,15 @@ public class EntityEditDialog extends Dialog {
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
 		tableArea.setLayoutData(gd);
-		tblAttributes = new Table(tableArea, SWT.BORDER|SWT.SINGLE|SWT.FULL_SELECTION);
+		tblAttributes = new Table(tableArea, SWT.BORDER | SWT.SINGLE
+				| SWT.FULL_SELECTION);
 		tblAttributes.setLayoutData(new GridData(GridData.FILL_BOTH));
 		tblAttributes.setHeaderVisible(true);
-		
+
 		TableColumn column = new TableColumn(tblAttributes, SWT.NULL);
 		column.setText("アトリビュート名");
 		column.setWidth(100);
-		
+
 		column = new TableColumn(tblAttributes, SWT.NULL);
 		column.setText("物理名");
 		column.setWidth(100);
@@ -191,8 +220,12 @@ public class EntityEditDialog extends Dialog {
 		}
 		tblAttributes.addSelectionListener(new SelectionAdapter() {
 
-			/* (non-Javadoc)
-			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
 			 */
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -203,10 +236,10 @@ public class EntityEditDialog extends Dialog {
 					attributeNameText.setText(attribute.getName());
 				}
 			}
-			
+
 		});
 		Composite buttons = new Composite(tableArea, SWT.NULL);
-		
+
 		GridLayout buttonsLayout = new GridLayout(1, false);
 		buttonsLayout.horizontalSpacing = 0;
 		buttonsLayout.verticalSpacing = 0;
@@ -219,18 +252,23 @@ public class EntityEditDialog extends Dialog {
 		attributeAddButton.setText("追加");
 		attributeAddButton.addSelectionListener(new SelectionAdapter() {
 
-			/* (non-Javadoc)
-			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
 			 */
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Attribute newAttribute = new Attribute("属性_" + (attributes.size() + 1));
+				Attribute newAttribute = new Attribute("属性_"
+						+ (attributes.size() + 1));
 				attributes.add(newAttribute);
 				TableItem item = new TableItem(tblAttributes, SWT.NULL);
 				updateAttributeColumn(item, newAttribute);
 			}
 		});
-		
+
 		attributeDeleteButton = new Button(buttons, SWT.PUSH);
 		attributeDeleteButton.setText("削除");
 		attributeDeleteButton.addSelectionListener(new SelectionAdapter() {
@@ -240,7 +278,7 @@ public class EntityEditDialog extends Dialog {
 				attributes.remove(attributeEditIndex);
 				tblAttributes.remove(attributeEditIndex);
 			}
-			
+
 		});
 		attributeUpButton = new Button(buttons, SWT.PUSH);
 		attributeUpButton.setText("上へ");
@@ -258,7 +296,7 @@ public class EntityEditDialog extends Dialog {
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
 		columnEditArea.setLayoutData(gd);
-		
+
 		group = new Group(columnEditArea, SWT.NULL);
 		group.setText("属性編集");
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -269,8 +307,12 @@ public class EntityEditDialog extends Dialog {
 		attributeNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		attributeNameText.addFocusListener(new FocusAdapter() {
 
-			/* (non-Javadoc)
-			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt
+			 * .events.FocusEvent)
 			 */
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -279,57 +321,65 @@ public class EntityEditDialog extends Dialog {
 				TableItem item = tblAttributes.getItem(attributeEditIndex);
 				updateAttributeColumn(item, attribute);
 			}
-			
+
 		});
 		label = new Label(group, SWT.NULL);
 		label.setText("型");
 		cmbAttributeType = new Combo(group, SWT.READ_ONLY);
-		
+
 		new Label(group, SWT.NULL);
-		
+
 		return composite;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
 	protected void okPressed() {
 		this.entityName = this.entityNameText.getText();
 		this.identifierName = this.identifierNameText.getText();
-		
+
 		super.okPressed();
 	}
+
 	/**
 	 * @return the identifierName
 	 */
 	public String getIdentifierName() {
 		return identifierName;
 	}
+
 	/**
 	 * @return the entityName
 	 */
 	public String getEntityName() {
 		return entityName;
 	}
+
 	/**
 	 * @return the entityType
 	 */
 	public EntityType getEntityType() {
 		return entityType;
 	}
+
 	/**
 	 * @return the reuseKeys
 	 */
 	public List<Identifier> getReuseKeys() {
 		return reuseKeys;
 	}
+
 	/**
 	 * @return the attributes
 	 */
 	public List<Attribute> getAttributes() {
 		return attributes;
 	}
+
 	private void updateAttributeColumn(TableItem item, Attribute attribute) {
 		item.setText(0, attribute.getName());
 		item.setText(1, attribute.getPhysicalName());

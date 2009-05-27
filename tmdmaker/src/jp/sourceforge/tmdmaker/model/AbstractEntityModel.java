@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractEntityModel extends ConnectableElement {
-	public enum EntityType {R, E};
+	public enum EntityType {
+		R, E
+	};
 
 	/** 親モデル */
 	private Diagram diagram;
@@ -26,7 +28,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @param diagram the diagram to set
+	 * @param diagram
+	 *            the diagram to set
 	 */
 	public void setDiagram(Diagram diagram) {
 		this.diagram = diagram;
@@ -40,33 +43,35 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @param reuseKeys the reuseKeys to set
+	 * @param reuseKeys
+	 *            the reuseKeys to set
 	 */
 	public void setReuseKeys(Map<AbstractEntityModel, ReuseKey> reuseKeys) {
 		this.reuseKeys = reuseKeys;
 	}
 
-//	public void addReuseKey(Identifier reuseKey) {
-//		this.reuseKeys.add(new ReuseKey(reuseKey, this));
-//		firePropertyChange(P_ATTRIBUTE, null, reuseKey);
-//	}
+	// public void addReuseKey(Identifier reuseKey) {
+	// this.reuseKeys.add(new ReuseKey(reuseKey, this));
+	// firePropertyChange(P_ATTRIBUTE, null, reuseKey);
+	// }
 
-//	public void removeReuseKey(Identifier reuseKey) {
-////		if (this.reuseKeys.remove(reuseKey)) {
-////			firePropertyChange(P_CONSTRAINT, reuseKey, null);
-////		}
-//		for (ReuseKey rk : reuseKeys) {
-//			if (rk.hasSameIdentifier(reuseKey)) {
-//				rk.invalidate();
-//				reuseKeys.remove(rk);
-//				break;
-//			}
-//		}
-//	}
+	// public void removeReuseKey(Identifier reuseKey) {
+	// // if (this.reuseKeys.remove(reuseKey)) {
+	// // firePropertyChange(P_CONSTRAINT, reuseKey, null);
+	// // }
+	// for (ReuseKey rk : reuseKeys) {
+	// if (rk.hasSameIdentifier(reuseKey)) {
+	// rk.invalidate();
+	// reuseKeys.remove(rk);
+	// break;
+	// }
+	// }
+	// }
 	public void addReuseKey(AbstractEntityModel source) {
-		ReuseKey added= this.reuseKeys.put(source, source.getMyReuseKey());
+		ReuseKey added = this.reuseKeys.put(source, source.getMyReuseKey());
 		firePropertyChange(PROPERTY_REUSEKEY, null, added);
 	}
+
 	public void removeReuseKey(AbstractEntityModel source) {
 		ReuseKey removed = this.reuseKeys.remove(source);
 		if (removed != null) {
@@ -74,8 +79,9 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		}
 		firePropertyChange(PROPERTY_REUSEKEY, removed, null);
 	}
-//	public abstract void addReuseKey(AbstractEntityModel target);
-//	public abstract void removeReuseKey(AbstractEntityModel target);
+
+	// public abstract void addReuseKey(AbstractEntityModel target);
+	// public abstract void removeReuseKey(AbstractEntityModel target);
 	public abstract ReuseKey getMyReuseKey();
 
 	/**
@@ -86,11 +92,19 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @param attributes the attributes to set
+	 * @param attributes
+	 *            the attributes to set
 	 */
 	public void setAttributes(List<Attribute> attributes) {
+		List<Attribute> oldValue = this.attributes;
 		this.attributes = attributes;
+//		firePropertyChange(PROPERTY_ATTRIBUTE, oldValue, attributes);
 	}
+
+	/**
+	 * @param attribute
+	 *            the attribute to set
+	 */
 	public void addAttribute(Attribute attribute) {
 		this.attributes.add(attribute);
 	}
@@ -103,19 +117,32 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @param entityType the entityType to set
+	 * @param entityType
+	 *            the entityType to set
 	 */
 	public void setEntityType(EntityType entityType) {
 		this.entityType = entityType;
 	}
 
+	/**
+	 * サブセット種類を取得する
+	 * 
+	 * @return SubsetType。存在しない場合はnullを返す。
+	 */
 	public SubsetType findSubset() {
-		for (AbstractConnectionModel connection : getModelSourceConnections()) {
+		for (AbstractConnectionModel<?> connection : getModelSourceConnections()) {
 			if (connection instanceof Entity2SubsetTypeRelationship) {
-				return (SubsetType)((Entity2SubsetTypeRelationship)connection).getTarget();
+				return (SubsetType) ((Entity2SubsetTypeRelationship) connection)
+						.getTarget();
 			}
 		}
 		return null;
 	}
-}
 
+	/**
+	 * エンティティ種類が編集可能か判定する
+	 * 
+	 * @return 編集可能な場合にtrueを返す。
+	 */
+	public abstract boolean canEntityTypeEditable();
+}

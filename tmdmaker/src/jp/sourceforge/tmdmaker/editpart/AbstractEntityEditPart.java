@@ -16,36 +16,55 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class AbstractEntityEditPart extends AbstractTMDEditPart implements NodeEditPart {
+public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
+		implements NodeEditPart {
+	/** logging */
+	protected static Logger logger = LoggerFactory
+			.getLogger(AbstractEntityEditPart.class);
+
 	private ConnectionAnchor anchor;
+
 	public AbstractEntityEditPart() {
 		super();
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
 	 */
 	@Override
 	public void activate() {
+		logger.debug(getClass() + "#activate()");
 		super.activate();
 		((ModelElement) getModel()).addPropertyChangeListener(this);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
 	 */
 	@Override
 	public void deactivate() {
+		logger.debug(getClass() + "#deactivate()");
 		super.deactivate();
 		((ModelElement) getModel()).removePropertyChangeListener(this);
 	}
+
 	protected ConnectionAnchor getConnectionAnchor() {
 		if (anchor == null) {
-			anchor = new ChopboxAnchor(getFigure()); 
+			anchor = new ChopboxAnchor(getFigure());
 		}
 		return anchor;
 	}
-	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
+
+	public ConnectionAnchor getSourceConnectionAnchor(
+			ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
@@ -53,7 +72,8 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart impleme
 		return getConnectionAnchor();
 	}
 
-	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
+	public ConnectionAnchor getTargetConnectionAnchor(
+			ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
@@ -73,38 +93,44 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart impleme
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		
+
 		if (evt.getPropertyName().equals(ModelElement.PROPERTY_NAME)) {
-			System.out.println("ModelElement.P_NAME");
+			logger.debug(getClass() + "PROPERTY_NAME");
 			refreshVisuals();
-		} else if (evt.getPropertyName().equals(ModelElement.PROPERTY_CONSTRAINT)) {
-			System.out.println("AbstractEntityModel.P_CONSTRAINT");
+		} else if (evt.getPropertyName().equals(
+				ModelElement.PROPERTY_CONSTRAINT)) {
+			logger.debug(getClass() + "PROPERTY_CONSTRAINT");
 			refreshVisuals();
-		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE)) {
-			System.out.println("AbstractEntityModel.P_CONSTRAINT");
+		} else if (evt.getPropertyName().equals(
+				AbstractEntityModel.PROPERTY_ATTRIBUTE)) {
+			logger.debug(getClass() + "PROPERTY_ATTRIBUTE");
 			refreshVisuals();
-		} else if (evt.getPropertyName().equals(ConnectableElement.P_SOURCE_CONNECTION)) {
-			System.out.println("AbstractEntityModel.P_SOURCE_CONNECTION");
+		} else if (evt.getPropertyName().equals(
+				ConnectableElement.P_SOURCE_CONNECTION)) {
+			logger.debug(getClass() + "P_SOURCE_CONNECTION");
 			refreshSourceConnections();
-		} else if (evt.getPropertyName().equals(ConnectableElement.P_TARGET_CONNECTION)) {
-			System.out.println("AbstractEntityModel.P_TARGET_CONNECTION");
+		} else if (evt.getPropertyName().equals(
+				ConnectableElement.P_TARGET_CONNECTION)) {
+			logger.debug(getClass() + "P_TARGET_CONNECTION");
 			refreshTargetConnections();
-		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_REUSEKEY))  {
-			System.out.println("AbstractEntityModel.PROPERTY_REUSEKEY");
+		} else if (evt.getPropertyName().equals(
+				AbstractEntityModel.PROPERTY_REUSEKEY)) {
+			logger.debug(getClass() + "PROPERTY_REUSEKEY");
 			refreshVisuals();
 		}
 	}
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
 	@Override
 	protected void refreshVisuals() {
-		System.out.println(getClass().toString() + "#refreshVisuals()");
+		logger.debug(getClass().toString() + "#refreshVisuals()");
 		super.refreshVisuals();
 		Object model = getModel();
-		Rectangle bounds = new Rectangle(((ModelElement) model)
-				.getConstraint());
+		Rectangle bounds = new Rectangle(((ModelElement) model).getConstraint());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), bounds);
 
@@ -112,6 +138,31 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart impleme
 		refreshChildren();
 	}
 
-	protected abstract void updateFigure(IFigure figure);
-}
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
+	 */
+	@Override
+	public void performRequest(Request req) {
+		logger.debug(getClass().toString() + req.getType());
+		if (req.getType().equals(RequestConstants.REQ_OPEN)) {
+			onDoubleClicked();
+		} else {
+			super.performRequest(req);
+		}
+	}
 
+	/**
+	 * Figureを更新する
+	 * 
+	 * @param figure
+	 *            更新するFigure
+	 */
+	protected abstract void updateFigure(IFigure figure);
+
+	/**
+	 * ダブルクリック時の処理をサブクラスで実装する
+	 */
+	protected abstract void onDoubleClicked();
+}

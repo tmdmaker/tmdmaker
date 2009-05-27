@@ -42,7 +42,7 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Diagram.P_CHILDREN)) {
+		if (evt.getPropertyName().equals(Diagram.PROPERTY_CHILDREN)) {
 			refreshChildren();
 		}
 	}

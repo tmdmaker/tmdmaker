@@ -97,7 +97,7 @@ public class SubsetCreateAction extends SelectionAction {
 			
 			if (subsetType == null) {
 				// entityとpartitionCodeModelの接続
-				subsetType = new SubsetType(model);
+				subsetType = new SubsetType();
 				Rectangle constraint = model.getConstraint().getTranslated(0, 50);
 				subsetType.setConstraint(constraint);
 				
@@ -213,7 +213,6 @@ public class SubsetCreateAction extends SelectionAction {
 		@Override
 		public void execute() {
 			diagram.addChild(subset);
-			subset.setDiagram(diagram);
 			model2subsetRelationship.connect();			
 		}
 
@@ -224,7 +223,6 @@ public class SubsetCreateAction extends SelectionAction {
 		@Override
 		public void undo() {
 			model2subsetRelationship.disConnect();
-			subset.setDiagram(null);
 			diagram.removeChild(subset);
 		}		
 	}
@@ -347,15 +345,12 @@ public class SubsetCreateAction extends SelectionAction {
 
 	private static class SubsetDeleteCommand extends Command {
 		private SubsetEntity model;
-		private SubsetType subset;
 		private Diagram diagram;
 		private RelatedRelationship relationship;
-		private RelatedRelationship model2subsetRelationship;
 
 		public SubsetDeleteCommand(SubsetEntity model, SubsetType subset) {
 			this.model = model;
 			this.diagram = model.getDiagram();
-			this.subset = subset;
 			this.relationship = (RelatedRelationship) model
 					.getModelTargetConnections().get(0);
 		}

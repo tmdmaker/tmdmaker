@@ -1,29 +1,69 @@
 package jp.sourceforge.tmdmaker.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
+ * Re-usedキーモデル
  * 
  * @author nakaG
- *
+ * 
  */
-public class ReuseKey {
+@SuppressWarnings("serial")
+public class ReuseKey implements Serializable {
+	/** 参照元の個体指示子（またはRe-usedキー） */
 	private List<Identifier> identifieres = new ArrayList<Identifier>();
-	public ReuseKey() {}
+
+	/**
+	 * デフォルトコンストラクタ
+	 */
+	public ReuseKey() {
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param identifier
+	 *            参照元の固体指示子
+	 */
 	public ReuseKey(Identifier identifier) {
 		this.identifieres.add(identifier);
 	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param identifieres
+	 *            Re-usedキー
+	 */
 	public ReuseKey(List<Identifier> identifieres) {
 		identifieres.addAll(identifieres);
 	}
+
+	/**
+	 * 参照元の個体指示子（またはRe-usedキー）を返す
+	 * 
+	 * @return 参照元の個体指示子（またはRe-usedキー）
+	 */
 	public List<Identifier> getIdentifires() {
 		return Collections.unmodifiableList(identifieres);
 	}
-	public void addAll(List identifieres) {
+
+	/**
+	 * 参照元の個体指示子（またはRe-usedキー）を追加する
+	 * 
+	 * @param identifieres
+	 *            参照元の個体指示子（またはRe-usedキー）
+	 */
+	public void addAll(List<Identifier> identifieres) {
 		this.identifieres.addAll(identifieres);
 	}
+
+	/**
+	 * オブジェクトを破棄する
+	 */
 	public void dispose() {
 		identifieres.clear();
 	}
