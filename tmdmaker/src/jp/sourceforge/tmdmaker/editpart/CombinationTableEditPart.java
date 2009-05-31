@@ -16,7 +16,7 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Relationship;
 import jp.sourceforge.tmdmaker.model.ReuseKey;
-import jp.sourceforge.tmdmaker.model.command.CombinationTableEditCommand;
+import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -100,7 +100,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 				.getShell(), table.getName(), table.getReuseKeys(), table
 				.getAttributes());
 		if (dialog.open() == Dialog.OK) {
-			CombinationTableEditCommand command = new CombinationTableEditCommand(
+			TableEditCommand<CombinationTable> command = new TableEditCommand<CombinationTable>(
 					table, dialog.getEntityName(), dialog.getReuseKeys(),
 					dialog.getAttributes());
 			getViewer().getEditDomain().getCommandStack().execute(command);

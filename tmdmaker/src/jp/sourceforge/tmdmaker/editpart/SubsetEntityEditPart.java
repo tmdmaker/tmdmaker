@@ -3,6 +3,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
@@ -15,6 +16,7 @@ import jp.sourceforge.tmdmaker.model.ReuseKey;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
+import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -22,6 +24,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * 
@@ -73,6 +76,12 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		}
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
@@ -81,6 +90,11 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 				new AbstractEntityGraphicalNodeEditPolicy());
 	}
 
+	/**
+	 * サブセットタイプと接続しているリレーションシップモデルを取得する
+	 * @param connections サブセットが保持している全リレーションシップ
+	 * @return RelatedRelationship 
+	 */
 	protected static RelatedRelationship findRelatedRelationship(
 			List<AbstractConnectionModel> connections) {
 		for (AbstractConnectionModel<?> c : connections) {
@@ -93,15 +107,28 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		// TODO Auto-generated method stub
-		
+		logger.debug(getClass() + "#onDoubleClicked()");
+		SubsetEntity table = (SubsetEntity) getModel();
+		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
+				.getShell(), table.getName(), table.getReuseKeys(), table
+				.getAttributes());
+		if (dialog.open() == Dialog.OK) {
+			TableEditCommand<SubsetEntity> command = new TableEditCommand<SubsetEntity>(
+					table, dialog.getEntityName(), dialog.getReuseKeys(),
+					dialog.getAttributes());
+			getViewer().getEditDomain().getCommandStack().execute(command);
+		}
 	}
-
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
 	private static class SubsetEntityComponentEditPolicy extends
 			ComponentEditPolicy {
 
@@ -120,7 +147,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			ccommand.add(command1);
 			RelatedRelationship relationship = findRelatedRelationship(model
 					.getModelTargetConnections());
-			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(diagram, (SubsetType)relationship.getSource());
+			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(
+					diagram, (SubsetType) relationship.getSource());
 			ccommand.add(command2);
 			return ccommand;
 		}

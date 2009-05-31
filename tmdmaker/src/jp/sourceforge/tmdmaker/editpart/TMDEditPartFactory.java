@@ -46,8 +46,6 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new Entity2SubsetTypeRelationshipEditPart();
 		} else if (model instanceof RelatedRelationship) {
 			part = new RelatedRelationshipEditPart();
-		} else if (model instanceof RecursiveMarkConnection) {
-			part = new RecursiveConnectionEditPart();
 		} else if (model instanceof CombinationTable) {
 			part = new CombinationTableEditPart();
 		} else if (model instanceof MappingList) {

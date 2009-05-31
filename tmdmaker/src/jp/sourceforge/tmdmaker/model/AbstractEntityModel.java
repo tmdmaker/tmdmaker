@@ -2,6 +2,7 @@ package jp.sourceforge.tmdmaker.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +99,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public void setAttributes(List<Attribute> attributes) {
 		List<Attribute> oldValue = this.attributes;
 		this.attributes = attributes;
-//		firePropertyChange(PROPERTY_ATTRIBUTE, oldValue, attributes);
+		// firePropertyChange(PROPERTY_ATTRIBUTE, oldValue, attributes);
 	}
 
 	/**

@@ -3,11 +3,12 @@ package jp.sourceforge.tmdmaker.model;
 /**
  * 
  * @author nakaG
- *
+ * 
  * @param <T>
  */
 @SuppressWarnings("serial")
-public abstract class AbstractConnectionModel<T extends ConnectableElement> extends ConnectableElement {
+public abstract class AbstractConnectionModel<T extends ConnectableElement>
+		extends ConnectableElement {
 	/**
 	 * 
 	 */
@@ -19,33 +20,37 @@ public abstract class AbstractConnectionModel<T extends ConnectableElement> exte
 		attachSource();
 		attachTarget();
 	}
+
 	public void disConnect() {
 		detachSource();
 		detachTarget();
 	}
+
 	public void attachSource() {
-		if (!source.getModelSourceConnections().contains(this)){
-			System.out.println("attachSource():source=" + source.getClass().toString());
+		if (!source.getModelSourceConnections().contains(this)) {
+			System.out.println("attachSource():source="
+					+ source.getClass().toString());
 			source.addSourceConnection(this);
 		}
 	}
-	
+
 	public void attachTarget() {
-		if (!target.getModelTargetConnections().contains(this)){
-			System.out.println("attachTarget():target=" + target.getClass().toString());
+		if (!target.getModelTargetConnections().contains(this)) {
+			System.out.println("attachTarget():target="
+					+ target.getClass().toString());
 			target.addTargetConnection(this);
 		}
 	}
-	
+
 	public void detachSource() {
-		if(source!=null){
+		if (source != null) {
 			System.out.println("detachSource()");
 			source.removeSourceConnection(this);
 		}
 	}
-	
+
 	public void detachTarget() {
-		if(target!=null){
+		if (target != null) {
 			System.out.println("detachTarget()");
 			target.removeTargetConnection(this);
 		}

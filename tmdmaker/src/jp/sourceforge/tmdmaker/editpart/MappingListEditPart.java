@@ -3,6 +3,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -13,15 +14,22 @@ import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Relationship;
 import jp.sourceforge.tmdmaker.model.ReuseKey;
+import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.dialogs.Dialog;
 
 public class MappingListEditPart extends AbstractEntityEditPart {
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
 	@Override
 	protected IFigure createFigure() {
 		EntityFigure figure = new EntityFigure();
@@ -29,7 +37,12 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 
 		return figure;
 	}
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
@@ -50,7 +63,12 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 			entityFigure.addAttribute(a.getName());
 		}
 	}
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
@@ -65,8 +83,20 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		// TODO Auto-generated method stub
-		
+		logger.debug(getClass() + "#onDoubleClicked()");
+		MappingList table = (MappingList) getModel();
+		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
+				.getShell(), table.getName(), table.getReuseKeys(), table
+				.getAttributes());
+		if (dialog.open() == Dialog.OK) {
+			TableEditCommand<MappingList> command = new TableEditCommand<MappingList>(
+					table, dialog.getEntityName(), dialog.getReuseKeys(),
+					dialog.getAttributes());
+//			MappingListEditCommand command = new MappingListEditCommand(
+//					table, dialog.getEntityName(), dialog.getReuseKeys(),
+//					dialog.getAttributes());
+			getViewer().getEditDomain().getCommandStack().execute(command);
+		}
 	}
 
 
