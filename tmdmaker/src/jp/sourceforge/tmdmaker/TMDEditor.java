@@ -1,8 +1,10 @@
 package jp.sourceforge.tmdmaker;
 
 import java.io.UnsupportedEncodingException;
+import java.util.EventObject;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 import jp.sourceforge.tmdmaker.editpart.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
@@ -17,6 +19,7 @@ import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
@@ -53,6 +56,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -148,16 +152,55 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		return root;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @seeorg.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
-	 * IProgressMonitor)
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		logger.debug("doSave() called");
-		// TODO ファイルへオブジェクトを保存
+
+		Diagram diagram = (Diagram) getGraphicalViewer().getContents().getModel();
+		IFile file = ((IFileEditorInput)getEditorInput()).getFile();
+		try {
+			file.deleteMarkers(IMarker.PROBLEM, false, 0);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			file.setContents(XStreamSerializer.serializeStream(diagram, this.getClass().getClassLoader()), true, true, monitor);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		getCommandStack().markSaveLocation();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
+	 */
+	@Override
+	public boolean isSaveAsAllowed() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#commandStackChanged(java.util.EventObject)
+	 */
+	@Override
+	public void commandStackChanged(EventObject event) {
+		this.firePropertyChange(IEditorPart.PROP_DIRTY);
+		super.commandStackChanged(event);
 	}
 
 	/**
@@ -172,13 +215,19 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 		super.createActions();
 		ActionRegistry registry = getActionRegistry();
-		SubsetEditAction action = new SubsetEditAction(this);
-		registry.registerAction(action);
+		SubsetEditAction action1 = new SubsetEditAction(this);
+		registry.registerAction(action1);
+
+		MultivalueOrCreateAction action2 = new MultivalueOrCreateAction(this);
+		registry.registerAction(action2);
 
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
-		selectionActions.add(action.getId());
-		action.setSelectionProvider(getGraphicalViewer());
+		selectionActions.add(action1.getId());
+		action1.setSelectionProvider(getGraphicalViewer());
+
+		selectionActions.add(action2.getId());
+		action2.setSelectionProvider(getGraphicalViewer());
 	}
 
 	@Override

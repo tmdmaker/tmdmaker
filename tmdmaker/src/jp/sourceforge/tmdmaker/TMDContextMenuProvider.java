@@ -1,5 +1,6 @@
 package jp.sourceforge.tmdmaker;
 
+import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 
 import org.eclipse.gef.ContextMenuProvider;
@@ -13,7 +14,7 @@ import org.eclipse.jface.action.IMenuManager;
  * 
  */
 public class TMDContextMenuProvider extends ContextMenuProvider {
-	/** actionregistry */
+	/** actionRegistry */
 	private ActionRegistry actionRegistry;
 
 	/**
@@ -56,6 +57,7 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 
 		// GEFActionConstants.addStandardActionGroups(menu);
 		menu.add(getActionRegistry().getAction(SubsetEditAction.SUBSET));
+		menu.add(getActionRegistry().getAction(MultivalueOrCreateAction.MO));
 	}
 
 }

@@ -2,7 +2,9 @@ package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -55,8 +57,23 @@ public class MultivalueOrCreateAction extends SelectionAction {
 	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		super.run();
+		AbstractEntityEditPart part = getPart(); 
+		AbstractEntityModel model = getModel();
+		
+		MultivalueOrCreateCommand command = new MultivalueOrCreateCommand();
+		
+		execute(command);
 	}
 
+	protected AbstractEntityEditPart getPart() {
+		return (AbstractEntityEditPart) getSelectedObjects().get(0);
+	}
+	
+	protected AbstractEntityModel getModel() {
+		return (AbstractEntityModel) getPart().getModel();
+	}
+	
+	private static class MultivalueOrCreateCommand extends Command {
+		
+	}
 }
