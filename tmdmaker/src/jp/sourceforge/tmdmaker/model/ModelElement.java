@@ -21,8 +21,7 @@ public class ModelElement implements Serializable {
 	/** オブジェクトの領域 */
 	private Rectangle constraint;
 	/** プロパティ変更通知用 */
-	private transient PropertyChangeSupport listeners = new PropertyChangeSupport(
-			this);
+	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
 	/**
 	 * プロパティ変更通知先追加

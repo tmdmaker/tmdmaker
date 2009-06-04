@@ -13,7 +13,7 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Relationship;
-import jp.sourceforge.tmdmaker.model.ReuseKey;
+import jp.sourceforge.tmdmaker.model.ReUseKeys;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -53,7 +53,7 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReuseKey> rk : table.getReuseKeys()
+		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : table.getReuseKeys()
 				.entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());

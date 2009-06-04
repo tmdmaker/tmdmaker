@@ -19,9 +19,9 @@ public class CombinationTable extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReuseKey getMyReuseKey() {
-		ReuseKey returnValue = new ReuseKey();
-		for (Map.Entry<AbstractEntityModel, ReuseKey> rk : this.reuseKeys
+	public ReUseKeys getMyReuseKey() {
+		ReUseKeys returnValue = new ReUseKeys();
+		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : this.reuseKeys
 				.entrySet()) {
 			returnValue.addAll(rk.getValue().getIdentifires());
 		}

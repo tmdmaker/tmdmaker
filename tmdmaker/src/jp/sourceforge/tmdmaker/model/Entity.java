@@ -7,6 +7,8 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class Entity extends AbstractEntityModel {
+	/** 個体指示子プロパティ定数 */
+	public static final String PROPERTY_IDENTIFIER = "_property_identifier";
 	/** 物理名 */
 	private String physicalName = "";
 	/** 摘要 */
@@ -56,7 +58,9 @@ public class Entity extends AbstractEntityModel {
 	 *            the identifier to set
 	 */
 	public void setIdentifier(Identifier identifier) {
+		Identifier oldValue = this.identifier;
 		this.identifier = identifier;
+		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
 	}
 
 	/**
@@ -66,8 +70,8 @@ public class Entity extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReuseKey getMyReuseKey() {
-		return new ReuseKey(this.identifier);
+	public ReUseKeys getMyReuseKey() {
+		return new ReUseKeys(this.identifier);
 	}
 
 	/**

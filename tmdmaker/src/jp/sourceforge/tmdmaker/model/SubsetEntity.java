@@ -8,19 +8,19 @@ package jp.sourceforge.tmdmaker.model;
 @SuppressWarnings("serial")
 public class SubsetEntity extends AbstractEntityModel {
 	/** サブセットの親のRe-usedキー */
-	private ReuseKey originalReuseKey;
+	private ReUseKeys originalReuseKey;
 	
 	/**
 	 * @return the originalReuseKey
 	 */
-	public ReuseKey getOriginalReuseKey() {
+	public ReUseKeys getOriginalReuseKey() {
 		return originalReuseKey;
 	}
 
 	/**
 	 * @param originalReuseKey the originalReuseKey to set
 	 */
-	public void setOriginalReuseKey(ReuseKey originalReuseKey) {
+	public void setOriginalReuseKey(ReUseKeys originalReuseKey) {
 		this.originalReuseKey = originalReuseKey;
 	}
 
@@ -31,7 +31,7 @@ public class SubsetEntity extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReuseKey getMyReuseKey() {
+	public ReUseKeys getMyReuseKey() {
 		return originalReuseKey;
 	}
 

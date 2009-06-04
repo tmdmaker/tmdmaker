@@ -1,6 +1,6 @@
 package jp.sourceforge.tmdmaker;
 
-import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
+import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -55,7 +55,7 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		System.out.println("buildContextMenu()");
 
 		// GEFActionConstants.addStandardActionGroups(menu);
-		menu.add(getActionRegistry().getAction(SubsetCreateAction.SUBSET));
+		menu.add(getActionRegistry().getAction(SubsetEditAction.SUBSET));
 	}
 
 }

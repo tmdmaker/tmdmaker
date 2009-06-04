@@ -14,7 +14,7 @@ public class MappingList extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReuseKey getMyReuseKey() {
+	public ReUseKeys getMyReuseKey() {
 		// TODO Auto-generated method stub
 		return null;
 	}

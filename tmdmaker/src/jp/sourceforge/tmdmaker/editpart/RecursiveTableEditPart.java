@@ -11,7 +11,7 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
-import jp.sourceforge.tmdmaker.model.ReuseKey;
+import jp.sourceforge.tmdmaker.model.ReUseKeys;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
@@ -59,7 +59,7 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReuseKey> rk : table.getReuseKeys()
+		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : table.getReuseKeys()
 				.entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());

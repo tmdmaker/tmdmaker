@@ -1,8 +1,9 @@
 package jp.sourceforge.tmdmaker;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
+import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 import jp.sourceforge.tmdmaker.editpart.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
@@ -15,6 +16,8 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
@@ -49,6 +52,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IFileEditorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,10 +82,28 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	protected void initializeGraphicalViewer() {
 		logger.debug("initializeGraphicalViewer() called");
 		GraphicalViewer viewer = getGraphicalViewer();
-		// TODO ファイルからオブジェクトを取得
-		Diagram diagram = new Diagram();
+
+		IFile file = ((IFileEditorInput)getEditorInput()).getFile();
+		Diagram diagram = null;
+		try {
+			diagram = (Diagram) XStreamSerializer.deserialize(file.getContents(), this.getClass().getClassLoader());
+		} catch (Exception e) {
+			logger.warn("load error.", e);
+			diagram = new Diagram();
+		}
 		viewer.setContents(diagram);
 
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
+	 */
+	@Override
+	protected void setInput(IEditorInput input) {
+		super.setInput(input);
+		setPartName(input.getName());
 	}
 
 	/*
@@ -137,13 +160,19 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		// TODO ファイルへオブジェクトを保存
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
+	 */
 	@Override
 	protected void createActions() {
 		logger.debug("createAction() called");
 
 		super.createActions();
 		ActionRegistry registry = getActionRegistry();
-		SubsetCreateAction action = new SubsetCreateAction(this);
+		SubsetEditAction action = new SubsetEditAction(this);
 		registry.registerAction(action);
 
 		@SuppressWarnings("unchecked")

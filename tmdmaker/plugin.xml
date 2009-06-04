@@ -13,5 +13,18 @@
             name="TM Diagram Editor">
       </editor>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="tmdmaker.category"
+            name="TMD">
+      </category>
+      <wizard
+            category="tmdmaker.category"
+            class="jp.sourceforge.tmdmaker.wizard.NewDiagramWizard"
+            id="tmdmaker.wizard.newdiagramwizard"
+            name="new diagram">
+      </wizard>
+   </extension>
 
 </plugin>

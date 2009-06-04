@@ -28,28 +28,38 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author nakaG
  * 
  */
-public class SubsetCreateAction extends SelectionAction {
+public class SubsetEditAction extends SelectionAction {
+	/** サブセット編集アクションを表す定数 */
 	public static final String SUBSET = "_SUBSET";
 
-	public SubsetCreateAction(IWorkbenchPart part) {
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param part
+	 *            エディター
+	 */
+	public SubsetEditAction(IWorkbenchPart part) {
 		super(part);
 		setText("サブセット編集");
 		setId(SUBSET);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 */
 	@Override
 	protected boolean calculateEnabled() {
 		System.out.println("selection is :" + getSelection());
 		System.out.println("count=" + getSelectedObjects().size());
 		if (getSelectedObjects().size() == 1) {
 			Object selection = getSelectedObjects().get(0);
-			if (selection instanceof AbstractEntityEditPart && (selection instanceof SubsetTypeEditPart) == false) {
-				System.out
-						.println("selection instanceof AbstractEntityEditPart");
+			if (selection instanceof AbstractEntityEditPart
+					&& (selection instanceof SubsetTypeEditPart) == false) {
 				return true;
 			} else {
-				System.out
-						.println("! selection instanceof AbstractEntityEditPart");
 				return false;
 			}
 		} else {
@@ -57,8 +67,9 @@ public class SubsetCreateAction extends SelectionAction {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
@@ -76,11 +87,14 @@ public class SubsetCreateAction extends SelectionAction {
 			subsetEntities = null;
 			selectedAttribute = null;
 		} else {
-			sameType = subsetType.subsettype.equals(SubsetType.SubsetTypeValue.SAME);
+			sameType = subsetType.subsettype
+					.equals(SubsetType.SubsetTypeValue.SAME);
 			subsetEntities = subsetType.findSubsetEntityList();
-			selectedAttribute = ((Entity2SubsetTypeRelationship)subsetType.getModelTargetConnections().get(0)).getPartitionAttribute();
+			selectedAttribute = ((Entity2SubsetTypeRelationship) subsetType
+					.getModelTargetConnections().get(0))
+					.getPartitionAttribute();
 		}
-		
+
 		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer()
 				.getControl().getShell(), sameType, model.getAttributes(),
 				subsetEntities, selectedAttribute);
@@ -94,19 +108,21 @@ public class SubsetCreateAction extends SelectionAction {
 			}
 			Attribute selectedPartitionAttribute = dialog
 					.getSelectedPartitionAttribute();
-			
+
 			if (subsetType == null) {
 				// entityとpartitionCodeModelの接続
 				subsetType = new SubsetType();
-				Rectangle constraint = model.getConstraint().getTranslated(0, 50);
+				Rectangle constraint = model.getConstraint().getTranslated(0,
+						50);
 				subsetType.setConstraint(constraint);
-				
-				Entity2SubsetCreateCommand createCmd = new Entity2SubsetCreateCommand(model, subsetType, selectedPartitionAttribute);
+
+				Entity2SubsetCreateCommand createCmd = new Entity2SubsetCreateCommand(
+						model, subsetType, selectedPartitionAttribute);
 				ccommand.add(createCmd);
 			} else {
 
-				SubsetChangeCommand changeCmd = new SubsetChangeCommand(subsetType,
-						newSubsetType, selectedPartitionAttribute);
+				SubsetChangeCommand changeCmd = new SubsetChangeCommand(
+						subsetType, newSubsetType, selectedPartitionAttribute);
 				ccommand.add(changeCmd);
 			}
 			// 追加更新分
@@ -116,9 +132,9 @@ public class SubsetCreateAction extends SelectionAction {
 					SubsetEntity subsetEntity = new SubsetEntity();
 					subsetEntity.setName(e.getName());
 					subsetEntity.setOriginalReuseKey(model.getMyReuseKey());
-//					subsetEntity.setOriginal(model);
-					Command command = new SubsetCreateCommand(model, subsetType,
-							subsetEntity);
+					// subsetEntity.setOriginal(model);
+					Command command = new SubsetCreateCommand(model,
+							subsetType, subsetEntity);
 					ccommand.add(command);
 				} else if (e.isNameChanged()) {
 					SubsetEntity subsetEntity = e.getSubsetEntity();
@@ -130,17 +146,24 @@ public class SubsetCreateAction extends SelectionAction {
 			List<SubsetEntity> deleteSubsets = dialog
 					.getDeletedSubsetEntities();
 			for (SubsetEntity e : deleteSubsets) {
-				SubsetDeleteCommand command = new SubsetDeleteCommand(e, subsetType);
+				SubsetDeleteCommand command = new SubsetDeleteCommand(e,
+						subsetType);
 				ccommand.add(command);
 			}
 			if (deleteSubsets.size() > 0) {
-				SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(model.getDiagram(), subsetType);
+				SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(
+						model.getDiagram(), subsetType);
 				ccommand.add(command);
 			}
 			execute(ccommand);
 		}
 	}
 
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
 	private static class SubsetChangeCommand extends Command {
 		private SubsetType subset;
 		private SubsetType.SubsetTypeValue newSubsetType;
@@ -149,7 +172,8 @@ public class SubsetCreateAction extends SelectionAction {
 		private Attribute newPartitionAttribute;
 		private Entity2SubsetTypeRelationship relationship;
 
-		public SubsetChangeCommand(SubsetType subset, SubsetTypeValue newSubsetType,
+		public SubsetChangeCommand(SubsetType subset,
+				SubsetTypeValue newSubsetType,
 				Attribute selectedPartitionAttribute) {
 			this.subset = subset;
 			this.oldSubsetType = subset.getSubsettype();
@@ -195,38 +219,42 @@ public class SubsetCreateAction extends SelectionAction {
 		private AbstractEntityModel model;
 		private SubsetType subset;
 		private Entity2SubsetTypeRelationship model2subsetRelationship;
-		
-		public Entity2SubsetCreateCommand(AbstractEntityModel model, SubsetType subset, Attribute partitionAttribute) {
+
+		public Entity2SubsetCreateCommand(AbstractEntityModel model,
+				SubsetType subset, Attribute partitionAttribute) {
 			this.diagram = model.getDiagram();
 			this.model = model;
 			this.subset = subset;
 			this.model2subsetRelationship = new Entity2SubsetTypeRelationship();
 			this.model2subsetRelationship.setSource(this.model);
 			this.model2subsetRelationship.setTarget(this.subset);
-			this.model2subsetRelationship.setPartitionAttribute(partitionAttribute);
+			this.model2subsetRelationship
+					.setPartitionAttribute(partitionAttribute);
 		}
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
 		public void execute() {
 			diagram.addChild(subset);
-			model2subsetRelationship.connect();			
+			model2subsetRelationship.connect();
 		}
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override
 		public void undo() {
 			model2subsetRelationship.disConnect();
 			diagram.removeChild(subset);
-		}		
+		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -244,8 +272,8 @@ public class SubsetCreateAction extends SelectionAction {
 		 * @param subsetType
 		 * @param subsetEntity
 		 */
-		public SubsetCreateCommand(AbstractEntityModel model, SubsetType subsetType,
-				SubsetEntity subsetEntity) {
+		public SubsetCreateCommand(AbstractEntityModel model,
+				SubsetType subsetType, SubsetEntity subsetEntity) {
 			super();
 			this.model = model;
 			this.subsetType = subsetType;
@@ -257,7 +285,8 @@ public class SubsetCreateAction extends SelectionAction {
 			subset2entityRelationship = new RelatedRelationship();
 			subset2entityRelationship.setSource(subsetType);
 			subset2entityRelationship.setTarget(this.subsetEntity);
-			Rectangle constraint = subsetType.getConstraint().getTranslated(0, 50);
+			Rectangle constraint = subsetType.getConstraint().getTranslated(0,
+					50);
 			subsetEntity.setConstraint(constraint);
 		}
 
@@ -276,13 +305,13 @@ public class SubsetCreateAction extends SelectionAction {
 				this.model2subsetRelationship = (Entity2SubsetTypeRelationship) subsetType
 						.getModelTargetConnections().get(0);
 			}
-//			diagram.addChild(subset);
-//			subset.setDiagram(diagram);
+			// diagram.addChild(subset);
+			// subset.setDiagram(diagram);
 			model2subsetRelationship.connect();
 			// 変更後サブセットを追加
 			diagram.addChild(subsetEntity);
-//			subsetType.getSubsetEntityList().add(subsetEntity);
-//			model.setSubset(subset);
+			// subsetType.getSubsetEntityList().add(subsetEntity);
+			// model.setSubset(subset);
 			subsetEntity.setDiagram(diagram);
 			subset2entityRelationship.connect();
 		}
@@ -296,12 +325,12 @@ public class SubsetCreateAction extends SelectionAction {
 		public void undo() {
 			subset2entityRelationship.disConnect();
 			subsetEntity.setDiagram(null);
-//			model.setSubset(null);
-//			subsetType.getSubsetEntityList().remove(subsetEntity);
+			// model.setSubset(null);
+			// subsetType.getSubsetEntityList().remove(subsetEntity);
 			diagram.removeChild(subsetEntity);
 			model2subsetRelationship.disConnect();
-//			diagram.removeChild(subset);
-//			subset.setDiagram(null);
+			// diagram.removeChild(subset);
+			// subset.setDiagram(null);
 		}
 	}
 
@@ -363,16 +392,16 @@ public class SubsetCreateAction extends SelectionAction {
 		@Override
 		public void execute() {
 			this.relationship.disConnect();
-//			this.subset.getSubsetEntityList().remove(model);
+			// this.subset.getSubsetEntityList().remove(model);
 			this.diagram.removeChild(model);
 			this.model.setDiagram(null);
-//			if (subset.getSubsetEntityList().size() == 0) {
-//				this.model2subsetRelationship = (RelatedRelationship) subset
-//						.getModelTargetConnections().get(0);
-//				this.model2subsetRelationship.disConnect();
-//				this.diagram.removeChild(this.subset);
-//				this.subset.setDiagram(null);
-//			}
+			// if (subset.getSubsetEntityList().size() == 0) {
+			// this.model2subsetRelationship = (RelatedRelationship) subset
+			// .getModelTargetConnections().get(0);
+			// this.model2subsetRelationship.disConnect();
+			// this.diagram.removeChild(this.subset);
+			// this.subset.setDiagram(null);
+			// }
 		}
 
 		/**
@@ -382,15 +411,15 @@ public class SubsetCreateAction extends SelectionAction {
 		 */
 		@Override
 		public void undo() {
-//			this.subset.getSubsetEntityList().add(model);
+			// this.subset.getSubsetEntityList().add(model);
 			this.diagram.addChild(model);
 			this.model.setDiagram(diagram);
 			this.relationship.connect();
-//			if (this.model2subsetRelationship != null) {
-//				this.diagram.addChild(this.subset);
-//				this.subset.setDiagram(this.diagram);
-//				this.model2subsetRelationship.connect();
-//			}
+			// if (this.model2subsetRelationship != null) {
+			// this.diagram.addChild(this.subset);
+			// this.subset.setDiagram(this.diagram);
+			// this.model2subsetRelationship.connect();
+			// }
 		}
 
 	}
