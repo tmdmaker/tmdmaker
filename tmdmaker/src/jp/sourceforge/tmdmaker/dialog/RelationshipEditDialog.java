@@ -1,4 +1,4 @@
-package jp.sourceforge.tmdmaker.editpart;
+package jp.sourceforge.tmdmaker.dialog;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -35,15 +35,15 @@ public class RelationshipEditDialog extends Dialog {
 		this.targetNoInstance = targetNoInstance;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.window.Window#constrainShellSize()
-	 */
-	@Override
-	protected void constrainShellSize() {
-		Shell shell = getShell();
-		shell.pack();
-		shell.setSize(200, shell.getSize().y);
-	}
+//	/* (non-Javadoc)
+//	 * @see org.eclipse.jface.window.Window#constrainShellSize()
+//	 */
+//	@Override
+//	protected void constrainShellSize() {
+//		Shell shell = getShell();
+//		shell.pack();
+//		shell.setSize(200, shell.getSize().y);
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)

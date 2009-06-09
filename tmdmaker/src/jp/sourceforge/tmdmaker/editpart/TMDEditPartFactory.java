@@ -6,12 +6,13 @@ import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.MappingList;
+import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Relationship;
-import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
+import jp.sourceforge.tmdmaker.model.SubsetType;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -19,7 +20,7 @@ import org.eclipse.gef.EditPartFactory;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 public class TMDEditPartFactory implements EditPartFactory {
 
@@ -58,6 +59,8 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new SubsetTypeEditPart();
 		} else if (model instanceof SubsetEntity) {
 			part = new SubsetEntityEditPart();
+		} else if (model instanceof MultivalueOrEntity) {
+			part = new MultivalueOrEditPart();
 		}
 		if (part != null) {
 			part.setModel(model);

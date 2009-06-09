@@ -6,7 +6,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
-import jp.sourceforge.tmdmaker.editpart.RelationshipEditDialog;
+import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
@@ -173,11 +174,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		try {
 			file.setContents(XStreamSerializer.serializeStream(diagram, this.getClass().getClassLoader()), true, true, monitor);
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("IFile#setContents:", e);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("IFile#setContents:", e);
 		}
 		getCommandStack().markSaveLocation();
 	}
@@ -185,12 +184,22 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#doSaveAs()
 	 */
 	@Override
-	public boolean isSaveAsAllowed() {
-		return true;
+	public void doSaveAs() {
+		doSave(new NullProgressMonitor());
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
+	 */
+//	@Override
+//	public boolean isSaveAsAllowed() {
+//		return true;
+//	}
 
 	/**
 	 * {@inheritDoc}

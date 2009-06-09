@@ -2,6 +2,7 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
 
+import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.figure.RelationshipFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
