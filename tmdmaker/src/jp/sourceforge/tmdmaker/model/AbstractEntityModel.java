@@ -9,14 +9,14 @@ import java.util.Map;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 @SuppressWarnings("serial")
 public abstract class AbstractEntityModel extends ConnectableElement {
 	/** エンティティ種類定数 */
 	public enum EntityType {
 		/** リソース */
-		R, 
+		R,
 		/** イベント */
 		E
 	};
@@ -106,7 +106,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            the attributes to set
 	 */
 	public void setAttributes(List<Attribute> attributes) {
-//		List<Attribute> oldValue = this.attributes;
+		// List<Attribute> oldValue = this.attributes;
 		this.attributes = attributes;
 		// firePropertyChange(PROPERTY_ATTRIBUTE, oldValue, attributes);
 	}
@@ -140,15 +140,59 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @return SubsetType。存在しない場合はnullを返す。
 	 */
 	public SubsetType findSubset() {
-		for (AbstractConnectionModel<?> connection : getModelSourceConnections()) {
-			if (connection instanceof Entity2SubsetTypeRelationship) {
-				return (SubsetType) ((Entity2SubsetTypeRelationship) connection)
-						.getTarget();
-			}
+		// for (AbstractConnectionModel<?> connection :
+		// getModelSourceConnections()) {
+		// if (connection instanceof Entity2SubsetTypeRelationship) {
+		// return (SubsetType) ((Entity2SubsetTypeRelationship) connection)
+		// .getTarget();
+		// }
+		// }
+		// return null;
+		List<AbstractConnectionModel> results = findRelationship(
+				getModelSourceConnections(),
+				Entity2SubsetTypeRelationship.class);
+		if (results.size() != 0) {
+			return (SubsetType) ((Entity2SubsetTypeRelationship) results.get(0))
+					.getTarget();
 		}
 		return null;
 	}
 
+	/**
+	 * 指定したクラスのリレーションシップを取得する
+	 * 
+	 * @param connections
+	 *            検索対象の全リレーションシップ
+	 * @param clazz
+	 *            取得したいリレーションシップのクラス
+	 * @return clazzで指定したクラスのリレーションシップのリスト
+	 */
+	protected List<AbstractConnectionModel> findRelationship(
+			List<AbstractConnectionModel> connections, Class<?> clazz) {
+		List<AbstractConnectionModel> results = new ArrayList<AbstractConnectionModel>();
+		for (AbstractConnectionModel<?> connection : connections) {
+			if (clazz.equals(connection.getClass())) {
+				results.add(connection);
+			}
+		}
+		return results;
+	}
+	/**
+	 * ソースコネクションから指定したクラスのリレーションシップを取得する
+	 * @param clazz 取得したいリレーションシップのクラス
+	 * @return clazzで指定したクラスのリレーションシップのリスト
+	 */
+	public List<AbstractConnectionModel> findRelationshipFromSourceConnections(Class<?> clazz) {
+		return findRelationship(getModelSourceConnections(), clazz);
+	}
+	/**
+	 * ターゲットコネクションから指定したクラスのリレーションシップを取得する
+	 * @param clazz 取得したいリレーションシップのクラス
+	 * @return clazzで指定したクラスのリレーションシップのリスト
+	 */
+	public List<AbstractConnectionModel> findRelationshipFromTargetConnections(Class<?> clazz) {
+		return findRelationship(getModelTargetConnections(), clazz);
+	}
 	/**
 	 * エンティティ種類が編集可能か判定する
 	 * 

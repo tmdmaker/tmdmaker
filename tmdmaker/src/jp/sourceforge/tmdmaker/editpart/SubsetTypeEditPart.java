@@ -5,11 +5,9 @@ import java.beans.PropertyChangeEvent;
 import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 
-import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Point;
 
 /**
  * サブセット種類のEditPart
@@ -90,36 +88,5 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	/**
-	 * モデルの中心に接続するアンカー
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class CenterAnchor extends ChopboxAnchor {
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param owner
-		 *            親Figure
-		 */
-		public CenterAnchor(IFigure owner) {
-			super(owner);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.draw2d.ChopboxAnchor#getLocation(org.eclipse.draw2d.geometry.Point)
-		 */
-		@Override
-		public Point getLocation(Point reference) {
-			Point loc = getBox().getCenter();
-			getOwner().translateToAbsolute(loc);
-			return loc;
-		}
-
 	}
 }

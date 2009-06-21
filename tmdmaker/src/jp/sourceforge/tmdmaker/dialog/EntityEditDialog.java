@@ -121,7 +121,7 @@ public class EntityEditDialog extends Dialog {
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = new Label(composite, SWT.NULL);
-		label.setText("認知番号");
+		label.setText("個体指示子");
 		identifierNameText = new Text(composite, SWT.BORDER);
 		identifierNameText
 				.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

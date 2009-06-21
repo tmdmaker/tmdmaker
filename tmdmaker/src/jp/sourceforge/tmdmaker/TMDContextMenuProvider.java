@@ -1,5 +1,6 @@
 package jp.sourceforge.tmdmaker;
 
+import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 
@@ -33,23 +34,23 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 	}
 
 	/**
-	 * Constractor
+	 * コンストラクタ
 	 * 
 	 * @param viewer
+	 *            ビューア
 	 * @param registry
-	 * @param editor
+	 *            レジストリ
 	 */
 	public TMDContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
 		super(viewer);
 		setActionRegistry(registry);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface
-	 * .action.IMenuManager)
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
 	 */
 	@Override
 	public void buildContextMenu(IMenuManager menu) {
@@ -58,6 +59,7 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		// GEFActionConstants.addStandardActionGroups(menu);
 		menu.add(getActionRegistry().getAction(SubsetEditAction.SUBSET));
 		menu.add(getActionRegistry().getAction(MultivalueOrCreateAction.MO));
+		menu.add(getActionRegistry().getAction(MultivalueAndCreateAction.MA));
 	}
 
 }

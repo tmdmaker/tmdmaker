@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.EventObject;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
@@ -230,6 +231,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		MultivalueOrCreateAction action2 = new MultivalueOrCreateAction(this);
 		registry.registerAction(action2);
 
+		MultivalueAndCreateAction action3 = new MultivalueAndCreateAction(this);
+		registry.registerAction(action3);
+
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
 		selectionActions.add(action1.getId());
@@ -237,6 +241,10 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 		selectionActions.add(action2.getId());
 		action2.setSelectionProvider(getGraphicalViewer());
+
+		selectionActions.add(action3.getId());
+		action3.setSelectionProvider(getGraphicalViewer());
+
 	}
 
 	@Override
@@ -391,7 +399,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 			Label label = new Label(composite, SWT.NULL);
-			label.setText("認知番号");
+			label.setText("個体指示子");
 			identifierNameText = new Text(composite, SWT.BORDER);
 			identifierNameText.setLayoutData(new GridData(
 					GridData.FILL_HORIZONTAL));
@@ -404,7 +412,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			group.setBounds(-1, -1, -1, -1);
 			Button r = new Button(group, SWT.RADIO);
 			r.setText("リソース");
-			r.setBounds(5, 10, 50, 20);
+			r.setBounds(5, 10, 55, 20);
 			r.addSelectionListener(new SelectionAdapter() {
 
 				/*
@@ -426,7 +434,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			});
 			Button e = new Button(group, SWT.RADIO);
 			e.setText("イベント");
-			e.setBounds(70, 10, 50, 20);
+			e.setBounds(80, 10, 55, 20);
 			e.addSelectionListener(new SelectionAdapter() {
 
 				/*
