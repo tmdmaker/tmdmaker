@@ -17,6 +17,7 @@ import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.Superset;
 import jp.sourceforge.tmdmaker.model.Superset2AggregateRelationship;
+import jp.sourceforge.tmdmaker.model.VirtualEntity;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -73,6 +74,8 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new SupersetEditPart();
 		} else if (model instanceof Detail) {
 			part = new DetailEditPart();
+		} else if (model instanceof VirtualEntity) {
+			part = new VirtualEntityEditPart();
 		}
 		if (part != null) {
 			part.setModel(model);

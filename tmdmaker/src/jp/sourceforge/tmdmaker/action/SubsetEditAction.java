@@ -5,7 +5,6 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
-import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -19,7 +18,6 @@ import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -28,9 +26,9 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author nakaG
  * 
  */
-public class SubsetEditAction extends SelectionAction {
+public class SubsetEditAction extends AbstractEntitySelectionAction {
 	/** サブセット編集アクションを表す定数 */
-	public static final String SUBSET = "_SUBSET";
+	public static final String ID = "_SUBSET";
 
 	/**
 	 * コンストラクタ
@@ -41,30 +39,7 @@ public class SubsetEditAction extends SelectionAction {
 	public SubsetEditAction(IWorkbenchPart part) {
 		super(part);
 		setText("サブセット編集");
-		setId(SUBSET);
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
-	@Override
-	protected boolean calculateEnabled() {
-		System.out.println("selection is :" + getSelection());
-		System.out.println("count=" + getSelectedObjects().size());
-		if (getSelectedObjects().size() == 1) {
-			Object selection = getSelectedObjects().get(0);
-			if (selection instanceof AbstractEntityEditPart
-					&& (selection instanceof SubsetTypeEditPart) == false) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
+		setId(ID);
 	}
 
 	/**
@@ -75,9 +50,8 @@ public class SubsetEditAction extends SelectionAction {
 	 */
 	@Override
 	public void run() {
-		AbstractEntityEditPart part = (AbstractEntityEditPart) getSelectedObjects()
-				.get(0);
-		AbstractEntityModel model = (AbstractEntityModel) part.getModel();
+		AbstractEntityEditPart part = getPart();
+		AbstractEntityModel model = getModel();
 		SubsetType subsetType = model.findSubset();
 		boolean sameType;
 		List<SubsetEntity> subsetEntities;

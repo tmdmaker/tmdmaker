@@ -19,7 +19,11 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		implements NodeEditPart {
 	/** logging */

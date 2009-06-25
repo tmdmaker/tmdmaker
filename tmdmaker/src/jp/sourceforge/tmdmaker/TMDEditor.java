@@ -7,6 +7,9 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
+import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
+import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
+import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog1;
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
@@ -84,15 +87,22 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		// getActionRegistry().registerAction(new DeleteRetargetAction());
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#initializeGraphicalViewer()
+	 */
 	@Override
 	protected void initializeGraphicalViewer() {
 		logger.debug("initializeGraphicalViewer() called");
 		GraphicalViewer viewer = getGraphicalViewer();
 
-		IFile file = ((IFileEditorInput)getEditorInput()).getFile();
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		Diagram diagram = null;
 		try {
-			diagram = (Diagram) XStreamSerializer.deserialize(file.getContents(), this.getClass().getClassLoader());
+			diagram = (Diagram) XStreamSerializer.deserialize(file
+					.getContents(), this.getClass().getClassLoader());
 		} catch (Exception e) {
 			logger.warn("load error.", e);
 			diagram = new Diagram();
@@ -103,7 +113,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
 	@Override
@@ -112,8 +122,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		setPartName(input.getName());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithPalette#getPaletteRoot()
 	 */
@@ -157,15 +168,16 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		logger.debug("doSave() called");
 
-		Diagram diagram = (Diagram) getGraphicalViewer().getContents().getModel();
-		IFile file = ((IFileEditorInput)getEditorInput()).getFile();
+		Diagram diagram = (Diagram) getGraphicalViewer().getContents()
+				.getModel();
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		try {
 			file.deleteMarkers(IMarker.PROBLEM, false, 0);
 		} catch (CoreException e) {
@@ -173,7 +185,8 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			e.printStackTrace();
 		}
 		try {
-			file.setContents(XStreamSerializer.serializeStream(diagram, this.getClass().getClassLoader()), true, true, monitor);
+			file.setContents(XStreamSerializer.serializeStream(diagram, this
+					.getClass().getClassLoader()), true, true, monitor);
 		} catch (UnsupportedEncodingException e) {
 			logger.warn("IFile#setContents:", e);
 		} catch (CoreException e) {
@@ -184,7 +197,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#doSaveAs()
 	 */
 	@Override
@@ -194,17 +207,16 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
 	 */
-//	@Override
-//	public boolean isSaveAsAllowed() {
-//		return true;
-//	}
-
+	// @Override
+	// public boolean isSaveAsAllowed() {
+	// return true;
+	// }
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#commandStackChanged(java.util.EventObject)
 	 */
 	@Override
@@ -216,7 +228,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
 	 */
 	@Override
@@ -225,28 +237,42 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 		super.createActions();
 		ActionRegistry registry = getActionRegistry();
-		SubsetEditAction action1 = new SubsetEditAction(this);
-		registry.registerAction(action1);
-
-		MultivalueOrCreateAction action2 = new MultivalueOrCreateAction(this);
-		registry.registerAction(action2);
-
-		MultivalueAndCreateAction action3 = new MultivalueAndCreateAction(this);
-		registry.registerAction(action3);
 
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
+
+		SubsetEditAction action1 = new SubsetEditAction(this);
+		registry.registerAction(action1);
 		selectionActions.add(action1.getId());
 		action1.setSelectionProvider(getGraphicalViewer());
 
+		MultivalueOrCreateAction action2 = new MultivalueOrCreateAction(this);
+		registry.registerAction(action2);
 		selectionActions.add(action2.getId());
 		action2.setSelectionProvider(getGraphicalViewer());
 
+		MultivalueAndCreateAction action3 = new MultivalueAndCreateAction(this);
+		registry.registerAction(action3);
 		selectionActions.add(action3.getId());
 		action3.setSelectionProvider(getGraphicalViewer());
 
-	}
+		VirtualEntityCreateAction action4 = new VirtualEntityCreateAction(this);
+		registry.registerAction(action4);
+		selectionActions.add(action4.getId());
+		action4.setSelectionProvider(getGraphicalViewer());
 
+		VirtualSupersetCreateAction action5 = new VirtualSupersetCreateAction(
+				this);
+		registry.registerAction(action5);
+		selectionActions.add(action5.getId());
+		action5.setSelectionProvider(getGraphicalViewer());
+	}
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
+	 */
 	@Override
 	protected void configureGraphicalViewer() {
 		logger.debug("configureGraphicalViewer() called");
@@ -286,6 +312,10 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 						if (event.getDetail() == CommandStack.PRE_EXECUTE
 								|| event.getDetail() == CommandStack.PRE_REDO) {
 							if (command.getEntityName() == null) {
+//								EntityCreateDialog1 dialog = new EntityCreateDialog1(getGraphicalViewer().getControl().getShell());
+//								if (dialog.open() == Dialog.OK) {
+//									
+//								}
 								EntityCreateDialog dialog = new EntityCreateDialog(
 										getGraphicalViewer().getControl()
 												.getShell());
@@ -319,7 +349,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 					public void stackChanged(CommandStackEvent event) {
 						Command cmd = event.getCommand();
 						if (cmd instanceof ConnectionCreateCommand) {
-							ConnectionCreateCommand command = (ConnectionCreateCommand) cmd;
+							ConnectionCreateCommand<?> command = (ConnectionCreateCommand<?>) cmd;
 							AbstractConnectionModel<?> cnt = command
 									.getConnection();
 							if (cnt instanceof Event2EventRelationship) {

@@ -1,7 +1,6 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.dialog.MultivalueOrEntityCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
@@ -11,18 +10,18 @@ import jp.sourceforge.tmdmaker.model.MultivalueOrRelationship;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
+ * 多値のOR作成アクション
  * 
  * @author nakaG
  * 
  */
-public class MultivalueOrCreateAction extends SelectionAction {
+public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 	/** 多値のOR作成アクションを表す定数 */
-	public static final String MO = "_MO";
+	public static final String ID = "_MO";
 
 	/**
 	 * コンストラクタ
@@ -33,28 +32,7 @@ public class MultivalueOrCreateAction extends SelectionAction {
 	public MultivalueOrCreateAction(IWorkbenchPart part) {
 		super(part);
 		setText("多値のOR作成");
-		setId(MO);
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
-	@Override
-	protected boolean calculateEnabled() {
-		if (getSelectedObjects().size() == 1) {
-			Object selection = getSelectedObjects().get(0);
-			if (selection instanceof AbstractEntityEditPart
-					&& (selection instanceof SubsetTypeEditPart) == false) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
+		setId(ID);
 	}
 
 	/**
@@ -64,8 +42,9 @@ public class MultivalueOrCreateAction extends SelectionAction {
 	 */
 	@Override
 	public void run() {
-		AbstractEntityEditPart part = getPart();
-		MultivalueOrEntityCreateDialog dialog = new MultivalueOrEntityCreateDialog(getPart().getViewer().getControl().getShell());
+//		AbstractEntityEditPart part = getPart();
+		MultivalueOrEntityCreateDialog dialog = new MultivalueOrEntityCreateDialog(
+				getPart().getViewer().getControl().getShell());
 		if (dialog.open() == Dialog.OK) {
 			String typeName = dialog.getInputTypeName();
 			AbstractEntityModel model = getModel();
@@ -87,22 +66,6 @@ public class MultivalueOrCreateAction extends SelectionAction {
 
 	/**
 	 * 
-	 * @return コントローラ(EditPart)
-	 */
-	protected AbstractEntityEditPart getPart() {
-		return (AbstractEntityEditPart) getSelectedObjects().get(0);
-	}
-
-	/**
-	 * 
-	 * @return モデル
-	 */
-	protected AbstractEntityModel getModel() {
-		return (AbstractEntityModel) getPart().getModel();
-	}
-
-	/**
-	 * 
 	 * @author nakaG
 	 * 
 	 */
@@ -111,10 +74,9 @@ public class MultivalueOrCreateAction extends SelectionAction {
 		private AbstractEntityModel model;
 		private Diagram diagram;
 		private MultivalueOrRelationship relationship;
-		
+
 		public MultivalueOrCreateCommand(Diagram diagram,
-				AbstractEntityModel model,
-				MultivalueOrEntity mo) {
+				AbstractEntityModel model, MultivalueOrEntity mo) {
 			this.model = model;
 			this.mo = mo;
 			this.diagram = diagram;

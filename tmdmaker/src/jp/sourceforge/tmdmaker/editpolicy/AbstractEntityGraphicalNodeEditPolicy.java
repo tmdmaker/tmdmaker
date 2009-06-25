@@ -5,8 +5,8 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.Relationship;
-import jp.sourceforge.tmdmaker.model.Resource2EventRelationship;
 import jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship;
+import jp.sourceforge.tmdmaker.model.TransfarReuseKeys2TargetRelationship;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.Resource2EventConnectionCreateCommand;
@@ -192,7 +192,8 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 		Resource2EventConnectionCreateCommand newCommand = new Resource2EventConnectionCreateCommand(
 				(AbstractEntityModel) command.getSource(),
 				(AbstractEntityModel) getHost().getModel(),
-				new Resource2EventRelationship());
+				new TransfarReuseKeys2TargetRelationship());
+//				new Resource2EventRelationship());
 		return newCommand;
 	}
 	/**
