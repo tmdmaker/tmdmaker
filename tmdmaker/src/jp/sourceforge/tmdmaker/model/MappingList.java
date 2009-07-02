@@ -29,5 +29,16 @@ public class MappingList extends AbstractEntityModel {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

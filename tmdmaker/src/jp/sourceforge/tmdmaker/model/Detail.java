@@ -28,5 +28,14 @@ public class Detail extends AbstractEntityModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

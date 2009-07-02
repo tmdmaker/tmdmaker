@@ -12,7 +12,7 @@ import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.Relationship;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.Superset;
@@ -46,7 +46,7 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new RecursiveRelationshipEditPart();
 		} else if (model instanceof Event2EventRelationship) {
 			part = new RelationshipEditPart();
-		} else if (model instanceof Relationship) {
+		} else if (model instanceof AbstractRelationship) {
 			part = new RelationshipEditPart();
 		} else if (model instanceof Entity2SubsetTypeRelationship) {
 			part = new Entity2SubsetTypeRelationshipEditPart();

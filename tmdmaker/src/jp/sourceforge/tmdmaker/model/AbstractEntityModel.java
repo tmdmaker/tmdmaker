@@ -177,26 +177,42 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		}
 		return results;
 	}
+
 	/**
 	 * ソースコネクションから指定したクラスのリレーションシップを取得する
-	 * @param clazz 取得したいリレーションシップのクラス
+	 * 
+	 * @param clazz
+	 *            取得したいリレーションシップのクラス
 	 * @return clazzで指定したクラスのリレーションシップのリスト
 	 */
-	public List<AbstractConnectionModel> findRelationshipFromSourceConnections(Class<?> clazz) {
+	public List<AbstractConnectionModel> findRelationshipFromSourceConnections(
+			Class<?> clazz) {
 		return findRelationship(getModelSourceConnections(), clazz);
 	}
+
 	/**
 	 * ターゲットコネクションから指定したクラスのリレーションシップを取得する
-	 * @param clazz 取得したいリレーションシップのクラス
+	 * 
+	 * @param clazz
+	 *            取得したいリレーションシップのクラス
 	 * @return clazzで指定したクラスのリレーションシップのリスト
 	 */
-	public List<AbstractConnectionModel> findRelationshipFromTargetConnections(Class<?> clazz) {
+	public List<AbstractConnectionModel> findRelationshipFromTargetConnections(
+			Class<?> clazz) {
 		return findRelationship(getModelTargetConnections(), clazz);
 	}
+
 	/**
 	 * エンティティ種類が編集可能か判定する
 	 * 
 	 * @return 編集可能な場合にtrueを返す。
 	 */
 	public abstract boolean canEntityTypeEditable();
+
+	/**
+	 * エンティティが削除可能か判定する
+	 * 
+	 * @return 削除可能な場合にtrueを返す。
+	 */
+	public abstract boolean canDeletable();
 }

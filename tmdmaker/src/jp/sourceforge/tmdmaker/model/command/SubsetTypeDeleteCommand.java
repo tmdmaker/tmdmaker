@@ -26,7 +26,7 @@ public class SubsetTypeDeleteCommand extends Command {
 	@Override
 	public void execute() {
 		if (model.getModelSourceConnections().size() == 0) {
-			relationship.disConnect();
+			relationship.disconnect();
 			diagram.removeChild(model);
 		}
 	}

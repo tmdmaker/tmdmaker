@@ -14,19 +14,26 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class RelationshipFigure extends PolylineConnection {
 	private Figure sourceZeroCardinaliryFigure;
 	private Figure targetZeroCardinaliryFigure;
+	private Ellipse centerDecoration;
 	public RelationshipFigure() {
 		setConnectionRouter(new ManhattanConnectionRouter());
 	}
 	
 	public void createCenterDecoration() {
-		Ellipse centerDecoration = new Ellipse();
+		removeCenterDecoration();
+		centerDecoration = new Ellipse();
 		centerDecoration.setFill(false);
 		centerDecoration.setBounds(new Rectangle(-1, -1, 15, 15));
 
 		MidpointLocator locator = new MidpointLocator(this, 1);
 		add(centerDecoration, locator);
 	}
-
+	public void removeCenterDecoration() {
+		if (centerDecoration != null) {
+			remove(centerDecoration);
+			centerDecoration = null;
+		}
+	}
 	public void createSourceDecoration(boolean souceCardinarityMany) {
 		RotatableDecoration decoration = null;
 		if (souceCardinarityMany) {

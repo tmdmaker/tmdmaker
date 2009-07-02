@@ -12,7 +12,7 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.Relationship;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
@@ -123,13 +123,13 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 		private Diagram diagram;
 		private MappingList model;
 		private RelatedRelationship relatedRelationship;
-		private Relationship relationship;
+		private AbstractRelationship relationship;
 
 		public MappingListDeleteCommand(MappingList model) {
 			this.model = model;
 			this.diagram = model.getDiagram();
 			this.relatedRelationship = findRelatedRelationship(model);
-			this.relationship = (Relationship) relatedRelationship.getSource();
+			this.relationship = (AbstractRelationship) relatedRelationship.getSource();
 		}
 
 		/*
@@ -141,7 +141,7 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 		public void execute() {
 //			diagram.removeChild(model);
 //			model.setDiagram(null);
-			relationship.disConnect();
+			relationship.disconnect();
 		}
 
 		private RelatedRelationship findRelatedRelationship(MappingList model) {

@@ -14,7 +14,7 @@ import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.Relationship;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
@@ -139,7 +139,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		private Diagram diagram;
 		private CombinationTable model;
 		private RelatedRelationship relatedRelationship;
-		private Relationship relationship;
+		private AbstractRelationship relationship;
 		private List<AbstractConnectionModel> sourceConnections = new ArrayList<AbstractConnectionModel>();
 		private List<AbstractConnectionModel> targetConnections = new ArrayList<AbstractConnectionModel>();
 
@@ -155,12 +155,12 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 			setModel(model);
 			sourceConnections.addAll(model.getModelSourceConnections());
 			targetConnections.addAll(model.getModelTargetConnections());
-			relationship = (Relationship) relatedRelationship.getSource();
+			relationship = (AbstractRelationship) relatedRelationship.getSource();
 		}
 
 		@Override
 		public boolean canExecute() {
-			return model.getModelSourceConnections().size() == 0;
+			return model.canDeletable();
 		}
 
 		@Override
@@ -172,7 +172,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 			// detachConnections(targetConnections);
 			// relationship.detachSource();
 			// relationship.detachTarget();
-			relationship.disConnect();
+			relationship.disconnect();
 		}
 
 		@Override

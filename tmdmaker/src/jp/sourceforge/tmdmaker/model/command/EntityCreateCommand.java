@@ -34,7 +34,7 @@ public class EntityCreateCommand extends Command {
 			model.setEntityType(entityType);
 			Identifier identifier = new Identifier(identifierName);
 			model.setIdentifier(identifier);
-			model.setDiagram(diagram);
+//			model.setDiagram(diagram);
 			diagram.addChild(model);
 		}
 	}
@@ -47,7 +47,7 @@ public class EntityCreateCommand extends Command {
 	@Override
 	public void undo() {
 		diagram.removeChild(model);
-		model.setDiagram(null);
+//		model.setDiagram(null);
 	}
 
 	public void setDiagram(Object diagram) {

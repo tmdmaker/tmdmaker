@@ -17,7 +17,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
-import jp.sourceforge.tmdmaker.model.Relationship;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
@@ -156,7 +156,8 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 		ConnectionCreationToolEntry connxCCreationEntry = new ConnectionCreationToolEntry(
 				"リレーションシップ", "リレーションシップ",
-				new SimpleFactory(Relationship.class), descriptor, descriptor);
+				null, descriptor, descriptor);
+//		new SimpleFactory(AbstractRelationship.class), descriptor, descriptor);
 		drawer.add(connxCCreationEntry);
 
 		root.add(toolGroup);
@@ -267,10 +268,11 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		selectionActions.add(action5.getId());
 		action5.setSelectionProvider(getGraphicalViewer());
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
 	 */
 	@Override
@@ -307,21 +309,22 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 							return;
 						}
 
-						System.out.println(getClass().toString()
+						logger.debug(getClass().toString()
 								+ "#stackChanged():PreChangeEvent");
 						if (event.getDetail() == CommandStack.PRE_EXECUTE
 								|| event.getDetail() == CommandStack.PRE_REDO) {
 							if (command.getEntityName() == null) {
-//								EntityCreateDialog1 dialog = new EntityCreateDialog1(getGraphicalViewer().getControl().getShell());
-//								if (dialog.open() == Dialog.OK) {
-//									
-//								}
+								// EntityCreateDialog1 dialog = new
+								// EntityCreateDialog1(getGraphicalViewer().getControl().getShell());
+								// if (dialog.open() == Dialog.OK) {
+								//									
+								// }
 								EntityCreateDialog dialog = new EntityCreateDialog(
 										getGraphicalViewer().getControl()
 												.getShell());
 								if (dialog.open() == Dialog.OK) {
-									System.out
-											.println(getClass().toString()
+									logger
+											.debug(getClass().toString()
 													+ "#stackChanged():dialog.open() == Dialog.OK)");
 									command.setIdentifierName(dialog
 											.getIdentifierName());
@@ -349,7 +352,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 					public void stackChanged(CommandStackEvent event) {
 						Command cmd = event.getCommand();
 						if (cmd instanceof ConnectionCreateCommand) {
-							ConnectionCreateCommand<?> command = (ConnectionCreateCommand<?>) cmd;
+							ConnectionCreateCommand command = (ConnectionCreateCommand) cmd;
 							AbstractConnectionModel<?> cnt = command
 									.getConnection();
 							if (cnt instanceof Event2EventRelationship) {

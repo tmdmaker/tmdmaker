@@ -192,8 +192,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public void execute() {
-			this.subsetType2SubsetEntityRelationship.disConnect();
-			this.model.setDiagram(null);
+			this.subsetType2SubsetEntityRelationship.disconnect();
+//			this.model.setDiagram(null);
 			this.diagram.removeChild(this.model);
 
 		}
@@ -206,7 +206,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		@Override
 		public void undo() {
 			this.diagram.addChild(this.model);
-			this.model.setDiagram(this.diagram);
+//			this.model.setDiagram(this.diagram);
 			this.subsetType2SubsetEntityRelationship.connect();
 		}
 

@@ -6,7 +6,7 @@ import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.figure.RelationshipFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Relationship;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.command.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.RelationshipEditCommand;
 
@@ -78,39 +78,40 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	}
 
 	protected void updateFigure(RelationshipFigure connection) {
-		Relationship relationship = (Relationship) getModel();
+		AbstractRelationship model = (AbstractRelationship) getModel();
 
-		connection.createSourceDecoration(relationship.getSourceCardinality()
-				.equals("N"));
-		if (relationship.isSourceNoInstance()) {
+		connection.createSourceDecoration(model.getSourceCardinality().equals(
+				"N"));
+		if (model.isSourceNoInstance()) {
 			connection.createSourceZeroCardinalityDecoration();
 		} else {
 			connection.removeSourceZeroCardinalityDecoration();
 		}
 
-		connection.createTargetDecoration(relationship.getTargetCardinality()
-				.equals("N"));
-		if (relationship.isTargetNoInstance()) {
+		connection.createTargetDecoration(model.getTargetCardinality().equals(
+				"N"));
+		if (model.isTargetNoInstance()) {
 			connection.createTargetZeroCardinalityDecoration();
 		} else {
 			connection.removeTargetZeroCardinalityDecoration();
 		}
 
-		if (relationship.isCenterMard()) {
+		if (model.isCenterMark()) {
 			connection.createCenterDecoration();
+		} else {
+			connection.removeCenterDecoration();
 		}
 
-		if (relationship.getSource() == relationship.getTarget()) {
+		if (model.getSource() == model.getTarget()) {
 			connection.createRecursiveDecoration();
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * tm.tmdiagram.tmdeditor.editpart.AbstractRelationshipEditPart#refreshVisuals
-	 * ()
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractRelationshipEditPart#refreshVisuals()
 	 */
 	@Override
 	protected void refreshVisuals() {
@@ -118,6 +119,12 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 		updateFigure((RelationshipFigure) getFigure());
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
@@ -137,7 +144,7 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	 * ダブルクリック時の処理（リレーションシップ編集)
 	 */
 	protected void onDoubleClicked() {
-		Relationship model = (Relationship) getModel();
+		AbstractRelationship model = (AbstractRelationship) getModel();
 		AbstractEntityModel source = (AbstractEntityModel) model.getSource();
 		AbstractEntityModel target = (AbstractEntityModel) model.getTarget();
 		RelationshipEditDialog dialog = new RelationshipEditDialog(getViewer()
@@ -156,19 +163,22 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * tm.tmdiagram.tmdeditor.editpart.AbstractRelationshipEditPart#propertyChange
-	 * (java.beans.PropertyChangeEvent)
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractRelationshipEditPart#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Relationship.P_SOURCE_CARDINALITY)) {
+		if (evt.getPropertyName().equals(
+				AbstractRelationship.P_SOURCE_CARDINALITY)) {
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(
-				Relationship.P_TARGET_CARDINALITY)) {
+				AbstractRelationship.P_TARGET_CARDINALITY)) {
+			refreshVisuals();
+		} else if (evt.getPropertyName().equals(
+				AbstractRelationship.PROPERTY_CONNECTION)) {
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);

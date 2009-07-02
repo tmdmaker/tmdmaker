@@ -74,19 +74,19 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 				model.getDiagram(), aggregator);
 		ccommand.add(command11);
 
-		ConnectionCreateCommand<ConnectableElement> command22 = new ConnectionCreateCommand<ConnectableElement>();
+		ConnectionCreateCommand command22 = new ConnectionCreateCommand();
 		command22.setConnection(new RelatedRelationship());
 		command22.setSource(superset);
 		command22.setTarget(aggregator);
 		ccommand.add(command22);
 
-		ConnectionCreateCommand<AbstractEntityModel> command3 = new ConnectionCreateCommand<AbstractEntityModel>();
+		ConnectionCreateCommand command3 = new ConnectionCreateCommand();
 		command3.setConnection(new RelatedRelationship());
 		command3.setSource(model);
 		command3.setTarget(aggregator);
 		ccommand.add(command3);
 
-		ConnectionCreateCommand<AbstractEntityModel> command4 = new ConnectionCreateCommand<AbstractEntityModel>();
+		ConnectionCreateCommand command4 = new ConnectionCreateCommand();
 		command4.setConnection(new RelatedRelationship());
 		command4.setSource(detail);
 		command4.setTarget(aggregator);
@@ -180,7 +180,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		@Override
 		public void execute() {
 			diagram.addChild(model);
-			model.setDiagram(diagram);
+//			model.setDiagram(diagram);
 			relationship.connect();
 		}
 
@@ -191,8 +191,8 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void undo() {
-			relationship.disConnect();
-			model.setDiagram(null);
+			relationship.disconnect();
+//			model.setDiagram(null);
 			diagram.removeChild(model);
 		}
 

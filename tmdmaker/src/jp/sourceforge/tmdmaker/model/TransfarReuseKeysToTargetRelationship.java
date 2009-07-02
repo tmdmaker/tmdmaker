@@ -7,7 +7,7 @@ package jp.sourceforge.tmdmaker.model;
  * 
  */
 @SuppressWarnings("serial")
-public class TransfarReuseKeys2TargetRelationship extends Relationship {
+public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -34,4 +34,13 @@ public class TransfarReuseKeys2TargetRelationship extends Relationship {
 		super.detachTarget();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		return getTarget().canDeletable();
+	}
 }

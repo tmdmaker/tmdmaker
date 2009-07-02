@@ -1,28 +1,38 @@
 package jp.sourceforge.tmdmaker.model;
 
-import org.eclipse.draw2d.geometry.Rectangle;
-
-public class MultivalueOrRelationship extends Relationship {
+/**
+ * 
+ * @author nakaG
+ *
+ */
+@SuppressWarnings("serial")
+public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelationship {
+	/** MO */
 	private MultivalueOrEntity table;
 //	/** 接続しているか */
 //	private boolean connected = false;
 
+	/**
+	 * コンストラクタ
+	 * @param source MOの元エンティティ
+	 * @param target MO
+	 */
 	public MultivalueOrRelationship(AbstractEntityModel source, MultivalueOrEntity target) {
 		this.source = source;
 		this.table = target;
 		this.target = target;
 	}
 
-	@Override
-	public void attachTarget() {
-		super.attachTarget();
-		((AbstractEntityModel)getTarget()).addReuseKey((AbstractEntityModel)getSource());
-	}
-	@Override
-	public void detachTarget() {
-		((AbstractEntityModel)getTarget()).removeReuseKey((AbstractEntityModel)getSource());
-		super.detachTarget();
-	}
+//	@Override
+//	public void attachTarget() {
+//		super.attachTarget();
+//		((AbstractEntityModel)getTarget()).addReuseKey((AbstractEntityModel)getSource());
+//	}
+//	@Override
+//	public void detachTarget() {
+//		((AbstractEntityModel)getTarget()).removeReuseKey((AbstractEntityModel)getSource());
+//		super.detachTarget();
+//	}
 
 	
 	/**
@@ -34,7 +44,7 @@ public class MultivalueOrRelationship extends Relationship {
 	public void connect() {
 		Diagram diagram = source.getDiagram();
 		diagram.addChild(target);
-		target.setDiagram(diagram);
+//		target.setDiagram(diagram);
 		super.connect();
 	}
 //
@@ -54,13 +64,14 @@ public class MultivalueOrRelationship extends Relationship {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disConnect()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disconnect()
 	 */
 	@Override
-	public void disConnect() {
-		super.disConnect();
+	public void disconnect() {
+		super.disconnect();
 		source.getDiagram().removeChild(table);
-		target.setDiagram(null);
+//		target.setDiagram(null);
 	}
+
 	
 }

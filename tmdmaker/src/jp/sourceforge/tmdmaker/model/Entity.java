@@ -85,4 +85,16 @@ public class Entity extends AbstractEntityModel {
 		return getModelSourceConnections().size() == 0
 				&& getModelTargetConnections().size() == 0;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		return getModelSourceConnections().size() == 0
+		&& getModelTargetConnections().size() == 0;
+	}
+	
 }

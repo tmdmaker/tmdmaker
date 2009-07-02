@@ -3,20 +3,24 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
-import jp.sourceforge.tmdmaker.model.Relationship;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
+import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * 
@@ -33,8 +37,17 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		// TODO Auto-generated method stub
-
+		logger.debug(getClass() + "#onDoubleClicked()");
+		MultivalueOrEntity table = (MultivalueOrEntity) getModel();
+		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
+				.getShell(), table.getName(), table.getReuseKeys(), table
+				.getAttributes());
+		if (dialog.open() == Dialog.OK) {
+			TableEditCommand<MultivalueOrEntity> command = new TableEditCommand<MultivalueOrEntity>(
+					table, dialog.getEntityName(), dialog.getReuseKeys(),
+					dialog.getAttributes());
+			getViewer().getEditDomain().getCommandStack().execute(command);
+		}
 	}
 
 	/**
@@ -125,7 +138,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		/** 削除対象 */
 		private MultivalueOrEntity model;
 		/** 元エンティティと多値のORを接続するリレーションシップ */
-		private Relationship relationship;
+		private AbstractRelationship relationship;
 
 		/**
 		 * コンストラクタ
@@ -135,7 +148,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		 */
 		public MultivalueOrEntityDeleteCommand(MultivalueOrEntity model) {
 			this.model = model;
-			this.relationship = (Relationship) model
+			this.relationship = (AbstractRelationship) model
 					.getModelTargetConnections().get(0);
 		}
 
@@ -157,7 +170,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public void execute() {
-			relationship.disConnect();
+			relationship.disconnect();
 		}
 
 		/**

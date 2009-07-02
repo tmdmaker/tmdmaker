@@ -6,32 +6,13 @@ package jp.sourceforge.tmdmaker.model;
  *
  */
 @SuppressWarnings("serial")
-public class Header2DetailRelationship extends Relationship {
-
+public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelationship {
+	
 	/**
+	 * コンストラクタ
 	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#attachTarget()
 	 */
-	@Override
-	public void attachTarget() {
-		super.attachTarget();
-		((AbstractEntityModel) getTarget())
-				.addReuseKey((AbstractEntityModel) getSource());
+	public Header2DetailRelationship() {
+		
 	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#detachTarget()
-	 */
-	@Override
-	public void detachTarget() {
-		((AbstractEntityModel) getTarget())
-				.removeReuseKey((AbstractEntityModel) getSource());
-		super.detachTarget();
-	}
-
 }

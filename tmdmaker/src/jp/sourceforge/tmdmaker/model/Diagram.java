@@ -18,27 +18,47 @@ public class Diagram extends ModelElement {
 	/**
 	 * 子モデル追加
 	 * 
-	 * @param <T>
-	 *            モデル型を継承しているクラスの型
 	 * @param child
-	 *            子モデル
+	 *            エンティティまたは表
 	 */
-	public <T extends ModelElement> void addChild(T child) {
+	public void addChild(AbstractEntityModel child) {
 		if (children.contains(child) == false) {
 			children.add(child);
+			child.setDiagram(this);
 			firePropertyChange(PROPERTY_CHILDREN, null, child);
 		}
 	}
 	/**
-	 * 子モデル削除
-	 * @param <T> モデル型を継承しているクラスの型
-	 * @param child 子モデル
+	 * 子モデル追加
+	 * 
+	 * @param child
+	 *            エンティティや表以外の子モデル
 	 */
-	public <T extends ModelElement> void removeChild(T child) {
+	public void addChild(ConnectableElement child) {
+		if (children.contains(child) == false) {
+			children.add(child);
+			firePropertyChange(PROPERTY_CHILDREN, null, child);
+		}		
+	}
+	/**
+	 * 子モデル削除
+	 * @param child
+	 *            エンティティや表
+	 */
+	public void removeChild(AbstractEntityModel child) {
+		child.setDiagram(null);
 		children.remove(child);
 		firePropertyChange(PROPERTY_CHILDREN, child, null);
 	}
-
+	/**
+	 * 子モデル削除
+	 * @param child
+	 *            エンティティや表以外の子モデル
+	 */
+	public void removeChild(ConnectableElement child) {
+		children.remove(child);
+		firePropertyChange(PROPERTY_CHILDREN, child, null);		
+	}
 	/**
 	 * @return the children
 	 */

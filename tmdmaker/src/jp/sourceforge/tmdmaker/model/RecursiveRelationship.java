@@ -7,7 +7,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * @author nakaG
  *
  */
-public class RecursiveRelationship extends Relationship {
+@SuppressWarnings("serial")
+public class RecursiveRelationship extends AbstractRelationship {
 	/** 再帰表 */
 	private RecursiveTable table;
 	/** 親 */
@@ -56,7 +57,7 @@ public class RecursiveRelationship extends Relationship {
 	@Override
 	public void connect() {
 		diagram.addChild(table);
-		table.setDiagram(diagram);
+//		table.setDiagram(diagram);
 		if (!source.getModelSourceConnections().contains(this)) {
 			System.out.println("source=" + source.getClass().toString());
 			source.addSourceConnection(this);
@@ -71,13 +72,24 @@ public class RecursiveRelationship extends Relationship {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disConnect()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disconnect()
 	 */
 	@Override
-	public void disConnect() {
+	public void disconnect() {
 		source.removeSourceConnection(this);
 		table.removeTargetConnection(this);
-		table.setDiagram(null);
+//		table.setDiagram(null);
 		diagram.removeChild(table);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		return false;
+	}
+	
 }

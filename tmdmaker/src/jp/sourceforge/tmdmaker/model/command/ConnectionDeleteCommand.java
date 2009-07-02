@@ -2,7 +2,7 @@ package jp.sourceforge.tmdmaker.model.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Relationship;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 
 import org.eclipse.gef.commands.Command;
 
@@ -13,8 +13,8 @@ public class ConnectionDeleteCommand extends Command {
 	public ConnectionDeleteCommand(AbstractConnectionModel connection) {
 		super();
 		this.connection = connection;
-//		if (connection instanceof Relationship) {
-//			Relationship r = (Relationship) connection;
+//		if (connection instanceof AbstractRelationship) {
+//			AbstractRelationship r = (AbstractRelationship) connection;
 //			reuseKeys = r.getReuseKeys();
 //		}
 	}
@@ -27,16 +27,16 @@ public class ConnectionDeleteCommand extends Command {
 		System.out.println(getClass().toString() + "#execute()");
 //		connection.detachSource();
 //		connection.detachTarget();
-		connection.disConnect();
-		if (connection instanceof Relationship) {
-//			Relationship r = (Relationship) connection;
+		connection.disconnect();
+		if (connection instanceof AbstractRelationship) {
+//			AbstractRelationship r = (AbstractRelationship) connection;
 //			AbstractEntityModel source = (AbstractEntityModel) r.getSource();
 //			AbstractEntityModel target = (AbstractEntityModel) r.getTarget();
 //			source.removeReuseKey(target);
 //			target.removeReuseKey(source);
 		}
 //		if (reuseKeys != null) {
-//			Relationship r = (Relationship) connection;
+//			AbstractRelationship r = (AbstractRelationship) connection;
 //			AbstractEntityModel model = (AbstractEntityModel) r.getTarget();
 //			for (Identifier id : reuseKeys) {
 //				model.removeReuseKey(id);
@@ -53,14 +53,14 @@ public class ConnectionDeleteCommand extends Command {
 		connection.connect();
 //		connection.attachSource();
 //		connection.attachTarget();
-		if (connection instanceof Relationship) {
-//			Relationship r = (Relationship) connection;
+		if (connection instanceof AbstractRelationship) {
+//			AbstractRelationship r = (AbstractRelationship) connection;
 //			AbstractEntityModel source = (AbstractEntityModel) r.getSource();
 //			AbstractEntityModel target = (AbstractEntityModel) r.getTarget();
 //			target.addReuseKey(source);
 		}
 //		if (reuseKeys != null) {
-//			Relationship r = (Relationship) connection;
+//			AbstractRelationship r = (AbstractRelationship) connection;
 //			AbstractEntityModel model = (AbstractEntityModel) r.getTarget();
 //			for (Identifier id : reuseKeys) {
 //				model.addReuseKey(id);

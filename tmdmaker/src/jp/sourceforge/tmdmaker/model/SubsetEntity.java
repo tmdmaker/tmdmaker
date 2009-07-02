@@ -44,5 +44,16 @@ public class SubsetEntity extends AbstractEntityModel {
 	public boolean canEntityTypeEditable() {
 		return false;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

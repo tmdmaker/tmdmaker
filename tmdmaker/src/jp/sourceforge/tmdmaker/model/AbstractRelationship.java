@@ -6,12 +6,12 @@ package jp.sourceforge.tmdmaker.model;
  *
  */
 @SuppressWarnings("serial")
-public class Relationship extends AbstractConnectionModel<AbstractEntityModel> {
+public abstract class AbstractRelationship extends AbstractConnectionModel<AbstractEntityModel> {
 	private String sourceCardinality = "1";
 	private String targetCardinality = "1";
 	private boolean sourceNoInstance = false;
 	private boolean targetNoInstance = false;
-	private boolean centerMard = false;
+	private boolean centerMark = false;
 	
 	/**
 	 * @return the sourceCardinality
@@ -78,16 +78,20 @@ public class Relationship extends AbstractConnectionModel<AbstractEntityModel> {
 	}
 
 	/**
-	 * @return the centerMard
+	 * @return the centerMark
 	 */
-	public boolean isCenterMard() {
-		return centerMard;
+	public boolean isCenterMark() {
+		return centerMark;
 	}
 
 	/**
-	 * @param centerMard the centerMard to set
+	 * @param centerMark the centerMark to set
 	 */
-	public void setCenterMard(boolean centerMard) {
-		this.centerMard = centerMard;
+	public void setCenterMark(boolean centerMark) {
+		boolean oldValue = this.centerMark;
+		this.centerMark = centerMark;
+		firePropertyChange(PROPERTY_CONNECTION, oldValue, centerMark);
 	}
+	
+	public abstract boolean canDeletable();
 }

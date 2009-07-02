@@ -224,7 +224,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void undo() {
-			model2subsetRelationship.disConnect();
+			model2subsetRelationship.disconnect();
 			diagram.removeChild(subset);
 		}
 	}
@@ -286,7 +286,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			diagram.addChild(subsetEntity);
 			// subsetType.getSubsetEntityList().add(subsetEntity);
 			// model.setSubset(subset);
-			subsetEntity.setDiagram(diagram);
+//			subsetEntity.setDiagram(diagram);
 			subset2entityRelationship.connect();
 		}
 
@@ -297,12 +297,12 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void undo() {
-			subset2entityRelationship.disConnect();
-			subsetEntity.setDiagram(null);
+			subset2entityRelationship.disconnect();
+//			subsetEntity.setDiagram(null);
 			// model.setSubset(null);
 			// subsetType.getSubsetEntityList().remove(subsetEntity);
 			diagram.removeChild(subsetEntity);
-			model2subsetRelationship.disConnect();
+			model2subsetRelationship.disconnect();
 			// diagram.removeChild(subset);
 			// subset.setDiagram(null);
 		}
@@ -365,10 +365,10 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void execute() {
-			this.relationship.disConnect();
+			this.relationship.disconnect();
 			// this.subset.getSubsetEntityList().remove(model);
 			this.diagram.removeChild(model);
-			this.model.setDiagram(null);
+//			this.model.setDiagram(null);
 			// if (subset.getSubsetEntityList().size() == 0) {
 			// this.model2subsetRelationship = (RelatedRelationship) subset
 			// .getModelTargetConnections().get(0);
@@ -387,7 +387,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		public void undo() {
 			// this.subset.getSubsetEntityList().add(model);
 			this.diagram.addChild(model);
-			this.model.setDiagram(diagram);
+//			this.model.setDiagram(diagram);
 			this.relationship.connect();
 			// if (this.model2subsetRelationship != null) {
 			// this.diagram.addChild(this.subset);

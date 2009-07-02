@@ -36,8 +36,20 @@ public class CombinationTable extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean canEntityTypeEditable() {
-		return getModelTargetConnections().size() == 1
-				&& getModelSourceConnections().size() == 0;
+		// return getModelTargetConnections().size() == 1
+		// && getModelSourceConnections().size() == 0;
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		return getModelSourceConnections().size() == 0
+				&& getModelTargetConnections().size() == 1;
 	}
 
 }

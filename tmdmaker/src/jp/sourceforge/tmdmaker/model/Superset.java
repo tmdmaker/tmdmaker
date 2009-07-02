@@ -31,4 +31,15 @@ public class Superset extends AbstractEntityModel {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -101,7 +101,7 @@ public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void undo() {
-			relationship.disConnect();
+			relationship.disconnect();
 		}
 
 	}

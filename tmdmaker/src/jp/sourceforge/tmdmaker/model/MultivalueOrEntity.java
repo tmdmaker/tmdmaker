@@ -35,5 +35,15 @@ public class MultivalueOrEntity extends AbstractEntityModel {
 		}
 		return returnValue;
 	}
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

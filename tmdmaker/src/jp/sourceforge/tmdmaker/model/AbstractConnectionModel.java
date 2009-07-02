@@ -15,13 +15,14 @@ public abstract class AbstractConnectionModel<T extends ConnectableElement>
 	protected T source, target;
 	public static final String P_SOURCE_CARDINALITY = "p_source_cardinality";
 	public static final String P_TARGET_CARDINALITY = "p_target_cardinality";
+	public static final String PROPERTY_CONNECTION = "_property_connection";
 
 	public void connect() {
 		attachSource();
 		attachTarget();
 	}
 
-	public void disConnect() {
+	public void disconnect() {
 		detachSource();
 		detachTarget();
 	}

@@ -9,7 +9,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * @author nakaG
  *
  */
-public class Resource2ResourceRelationship extends Relationship {
+@SuppressWarnings("serial")
+public class Resource2ResourceRelationship extends AbstractRelationship {
 
 	/**
 	 * 対照表
@@ -21,6 +22,11 @@ public class Resource2ResourceRelationship extends Relationship {
 	 */
 	private RelatedRelationship combinationTableConnection;
 
+	/**
+	 * コンストラクタ
+	 * @param source ソース
+	 * @param target ターゲット
+	 */
 	public Resource2ResourceRelationship(AbstractEntityModel source,
 			AbstractEntityModel target) {
 		this.source = source;
@@ -39,13 +45,14 @@ public class Resource2ResourceRelationship extends Relationship {
 		this.combinationTableConnection = new RelatedRelationship();
 		this.combinationTableConnection.setSource(this);
 		this.combinationTableConnection.setTarget(this.table);
-		this.setCenterMard(true);
+		this.setCenterMark(true);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see tm.tmdiagram.tmdeditor.model.AbstractConnectionModel#connect()
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#connect()
 	 */
 	@Override
 	public void connect() {
@@ -56,18 +63,30 @@ public class Resource2ResourceRelationship extends Relationship {
 		this.table.addReuseKey((AbstractEntityModel) getTarget());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see tm.tmdiagram.tmdeditor.model.AbstractConnectionModel#disConnect()
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disconnect()
 	 */
 	@Override
-	public void disConnect() {
+	public void disconnect() {
 		this.table.removeReuseKey((AbstractEntityModel) getSource());
 		this.table.removeReuseKey((AbstractEntityModel) getTarget());
-		this.combinationTableConnection.disConnect();
+		this.combinationTableConnection.disconnect();
 		((AbstractEntityModel) getSource()).getDiagram()
 				.removeChild(this.table);
-		super.disConnect();
+		super.disconnect();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		return getSource().canDeletable() && getTarget().canDeletable() && table.canDeletable();
 	}
 }

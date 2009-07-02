@@ -1,11 +1,11 @@
 package jp.sourceforge.tmdmaker.model.command;
 
-import jp.sourceforge.tmdmaker.model.Relationship;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 
 import org.eclipse.gef.commands.Command;
 
 public class RelationshipEditCommand extends Command {
-	private Relationship model;
+	private AbstractRelationship model;
 	private String sourceCardinality = "1";
 	private String targetCardinality = "1";
 	private boolean sourceNoInstance = false;
@@ -39,7 +39,7 @@ public class RelationshipEditCommand extends Command {
 	/**
 	 * @param model the model to set
 	 */
-	public void setModel(Relationship model) {
+	public void setModel(AbstractRelationship model) {
 		this.model = model;
 		this.oldSourceCardinality = model.getSourceCardinality();
 		this.oldSourceNoInstance = model.isSourceNoInstance();

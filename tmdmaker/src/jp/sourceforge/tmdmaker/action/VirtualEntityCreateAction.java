@@ -3,7 +3,7 @@ package jp.sourceforge.tmdmaker.action;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.TransfarReuseKeys2TargetRelationship;
+import jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 
@@ -51,8 +51,8 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		VirtualEntityCreateCommand command1 = new VirtualEntityCreateCommand(diagram, entity);
 		ccommand.add(command1);
 		
-		ConnectionCreateCommand<ConnectableElement> command2 = new ConnectionCreateCommand<ConnectableElement>();
-		command2.setConnection(new TransfarReuseKeys2TargetRelationship());
+		ConnectionCreateCommand command2 = new ConnectionCreateCommand();
+		command2.setConnection(new TransfarReuseKeysToTargetRelationship());
 		command2.setSource(model);
 		command2.setTarget(entity);
 		ccommand.add(command2);
@@ -85,7 +85,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		@Override
 		public void execute() {
 			diagram.addChild(model);
-			model.setDiagram(diagram);
+//			model.setDiagram(diagram);
 		}
 		/**
 		 * {@inheritDoc}
@@ -94,7 +94,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void undo() {
-			model.setDiagram(null);
+//			model.setDiagram(null);
 			diagram.removeChild(model);
 		}
 		

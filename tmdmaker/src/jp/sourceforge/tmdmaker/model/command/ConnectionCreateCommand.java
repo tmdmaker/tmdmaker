@@ -2,34 +2,40 @@ package jp.sourceforge.tmdmaker.model.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.command.ConnectingModelSwitchStrategy.ModelPair;
 
 import org.eclipse.gef.commands.Command;
 
 /**
  * 
  * @author nakaG
- * @param <T> ノード
+ *            ノード
  */
-public class ConnectionCreateCommand<T extends ConnectableElement> extends
+public class ConnectionCreateCommand extends
 		Command {
 
 	/**
 	 * ソース
 	 */
-	private T source;
+	private ConnectableElement source;
 
 	/**
 	 * ターゲット
 	 */
-	private T target;
+	private ConnectableElement target;
 
 	/**
 	 * コネクション
 	 */
-	private AbstractConnectionModel<T> connection;
+	private AbstractConnectionModel connection;
 
-	/*
-	 * (non-Javadoc)
+	/** ソースとターゲットの入れ替え処理 */
+	private ConnectingModelSwitchStrategy strategy;
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	@Override
@@ -44,7 +50,15 @@ public class ConnectionCreateCommand<T extends ConnectableElement> extends
 	 */
 	@Override
 	public void execute() {
-		System.out.println(getClass().toString() + "#execute()");
+		if (connection.getSource() == null || connection.getTarget() == null) {
+			if (strategy != null) {
+				ModelPair pair = strategy.switchModel(source, target);
+				source = pair.source;
+				target = pair.target;
+			}
+			connection.setSource(source);
+			connection.setTarget(target);
+		}
 		connection.connect();
 	}
 
@@ -55,7 +69,7 @@ public class ConnectionCreateCommand<T extends ConnectableElement> extends
 	 */
 	@Override
 	public void undo() {
-		connection.disConnect();
+		connection.disconnect();
 	}
 
 	/**
@@ -66,24 +80,22 @@ public class ConnectionCreateCommand<T extends ConnectableElement> extends
 		this.connection = connection;
 	}
 
-	public void setSource(Object source) {
-		this.source = (T) source;
-		this.connection.setSource(this.source);
+	public void setSource(ConnectableElement source) {
+		this.source = source;
 	}
 
 	/**
 	 * 
 	 * @param target
 	 */
-	public void setTarget(Object target) {
-		this.target = (T) target;
-		this.connection.setTarget(this.target);
+	public void setTarget(ConnectableElement target) {
+		this.target = target;
 	}
 
 	/**
 	 * @return the connection
 	 */
-	public AbstractConnectionModel<T> getConnection() {
+	public AbstractConnectionModel<?> getConnection() {
 		return connection;
 	}
 
@@ -100,4 +112,12 @@ public class ConnectionCreateCommand<T extends ConnectableElement> extends
 	public ConnectableElement getTarget() {
 		return target;
 	}
+
+	/**
+	 * @param strategy the strategy to set
+	 */
+	public void setStrategy(ConnectingModelSwitchStrategy strategy) {
+		this.strategy = strategy;
+	}
+	
 }
