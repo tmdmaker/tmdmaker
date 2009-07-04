@@ -172,10 +172,10 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
-				AbstractRelationship.P_SOURCE_CARDINALITY)) {
+				AbstractRelationship.PROPERTY_SOURCE_CARDINALITY)) {
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(
-				AbstractRelationship.P_TARGET_CARDINALITY)) {
+				AbstractRelationship.PROPERTY_TARGET_CARDINALITY)) {
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(
 				AbstractRelationship.PROPERTY_CONNECTION)) {

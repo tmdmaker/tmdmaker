@@ -1,9 +1,7 @@
 package jp.sourceforge.tmdmaker.action;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
-import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.Cardinality;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
@@ -169,7 +167,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 			relationship = new Header2DetailRelationship();
 			relationship.setSource(header);
 			relationship.setTarget(model);
-			relationship.setTargetCardinality("N");
+			relationship.setTargetCardinality(Cardinality.MANY);
 		}
 
 		/**

@@ -1,5 +1,7 @@
 package jp.sourceforge.tmdmaker.dialog;
 
+import jp.sourceforge.tmdmaker.model.Cardinality;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -14,8 +16,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class RelationshipEditDialog extends Dialog {
-	private String sourceCardinality = "1";
-	private String targetCardinality = "1";
+	private Cardinality sourceCardinality = Cardinality.ONE;
+	private Cardinality targetCardinality = Cardinality.ONE;
 	private boolean sourceNoInstance, targetNoInstance;
 	private String sourceName, targetName;
 	private Combo sourceCardinalityCombo, targetCardinalityCombo;
@@ -27,7 +29,7 @@ public class RelationshipEditDialog extends Dialog {
 		this.targetName = targetName;
 	}
 
-	public RelationshipEditDialog(Shell parentShell, String sourceName, String targetName, String sourceCardinaliry, String targetCardinality, boolean sourceNoInstance, boolean targetNoInstance) {
+	public RelationshipEditDialog(Shell parentShell, String sourceName, String targetName, Cardinality sourceCardinaliry, Cardinality targetCardinality, boolean sourceNoInstance, boolean targetNoInstance) {
 		this(parentShell, sourceName, targetName);
 		this.sourceCardinality = sourceCardinaliry;
 		this.targetCardinality = targetCardinality;
@@ -57,15 +59,15 @@ public class RelationshipEditDialog extends Dialog {
 		Label label = new Label(composite, SWT.NULL);
 		label.setText(sourceName);
 		sourceCardinalityCombo = new Combo(composite, SWT.READ_ONLY);
-		sourceCardinalityCombo.add("1");
-		sourceCardinalityCombo.add("N");
-		sourceCardinalityCombo.select(sourceCardinalityCombo.indexOf(sourceCardinality));
+		sourceCardinalityCombo.add(Cardinality.ONE.getLabel());
+		sourceCardinalityCombo.add(Cardinality.MANY.getLabel());
+		sourceCardinalityCombo.select(sourceCardinalityCombo.indexOf(sourceCardinality.getLabel()));
 		label = new Label(composite, SWT.NULL);
 		label.setText(":");
 		targetCardinalityCombo = new Combo(composite, SWT.READ_ONLY);
-		targetCardinalityCombo.add("1");
-		targetCardinalityCombo.add("N");
-		targetCardinalityCombo.select(targetCardinalityCombo.indexOf(targetCardinality));
+		targetCardinalityCombo.add(Cardinality.ONE.getLabel());
+		targetCardinalityCombo.add(Cardinality.MANY.getLabel());
+		targetCardinalityCombo.select(targetCardinalityCombo.indexOf(targetCardinality.getLabel()));
 		label = new Label(composite, SWT.NULL);
 		label.setText(targetName);
 
@@ -119,15 +121,22 @@ public class RelationshipEditDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		this.sourceCardinality = sourceCardinalityCombo.getItem(sourceCardinalityCombo.getSelectionIndex());
-		this.targetCardinality = targetCardinalityCombo.getItem(targetCardinalityCombo.getSelectionIndex());
+		this.sourceCardinality = getSelectedCardinality(sourceCardinalityCombo);
+		this.targetCardinality = getSelectedCardinality(targetCardinalityCombo);;
 		super.okPressed();
 	}
-
-	public String getSourceCardinality() {
+	private Cardinality getSelectedCardinality(Combo combo) {
+		String selectedLabel = combo.getItem(combo.getSelectionIndex());
+		if (selectedLabel.equals(Cardinality.ONE.getLabel())) {
+			return Cardinality.ONE;
+		} else {
+			return Cardinality.MANY;
+		}
+	}
+	public Cardinality getSourceCardinality() {
 		return sourceCardinality;
 	}
-	public String getTargetCardinality() {
+	public Cardinality getTargetCardinality() {
 		return targetCardinality;
 	}
 

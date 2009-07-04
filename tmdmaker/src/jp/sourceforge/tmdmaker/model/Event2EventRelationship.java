@@ -46,10 +46,10 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#setSourceCardinality(java.lang.String)
 	 */
 	@Override
-	public void setSourceCardinality(String sourceCardinality) {
-		String oldValue = getSourceCardinality();
+	public void setSourceCardinality(Cardinality sourceCardinality) {
+		Cardinality oldValue = getSourceCardinality();
 		super.setSourceCardinality(sourceCardinality);
-		if (sourceCardinality.equals("N")) {
+		if (sourceCardinality.equals(Cardinality.MANY)) {
 			setCenterMark(true);
 		} else {
 			setCenterMark(false);
@@ -80,7 +80,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 * </ul>
 	 */
 	private void createRelationship() {
-		if (getSourceCardinality().equals("N")) {
+		if (getSourceCardinality().equals(Cardinality.MANY)) {
 			removeTargetRelationship();
 			createMappingList();
 		} else {
@@ -97,7 +97,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void disconnect() {
-		if (getSourceCardinality().equals("N")) {
+		if (getSourceCardinality().equals(Cardinality.MANY)) {
 			removeMappingList();
 		} else {
 			removeTargetRelationship();

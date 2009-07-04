@@ -7,9 +7,9 @@ import java.util.Map;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.jface.dialogs.Dialog;
@@ -149,7 +149,7 @@ public class EntityEditDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				Button bBut = (Button) e.widget;
 				if (bBut.getSelection()) {
-					entityType = EntityType.R;
+					entityType = EntityType.RESOURCE;
 				}
 			}
 		});
@@ -169,14 +169,14 @@ public class EntityEditDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				Button bBut = (Button) e.widget;
 				if (bBut.getSelection()) {
-					entityType = EntityType.E;
+					entityType = EntityType.EVENT;
 				}
 			}
 
 		});
 
-		r.setSelection(this.entityType.equals(EntityType.R));
-		e.setSelection(this.entityType.equals(EntityType.E));
+		r.setSelection(this.entityType.equals(EntityType.RESOURCE));
+		e.setSelection(this.entityType.equals(EntityType.EVENT));
 		r.setEnabled(canEditEntityType);
 		e.setEnabled(canEditEntityType);
 		label = new Label(composite, SWT.NULL);

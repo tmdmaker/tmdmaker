@@ -4,6 +4,7 @@ import jp.sourceforge.tmdmaker.dialog.MultivalueOrEntityCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.Cardinality;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.MultivalueOrRelationship;
@@ -81,7 +82,7 @@ public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 			this.mo = mo;
 			this.diagram = diagram;
 			this.relationship = new MultivalueOrRelationship(model, mo);
-			this.relationship.setTargetCardinality("N");
+			this.relationship.setTargetCardinality(Cardinality.MANY);
 		}
 
 		/**

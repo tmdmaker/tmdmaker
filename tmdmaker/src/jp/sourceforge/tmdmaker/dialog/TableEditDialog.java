@@ -141,7 +141,7 @@ public class TableEditDialog extends Dialog {
 //			public void widgetSelected(SelectionEvent e) {
 //				Button bBut = (Button) e.widget;
 //				if (bBut.getSelection()) {
-//					entityType = EntityType.R;
+//					entityType = EntityType.RESOURCE;
 //				}
 //			}
 //		});
@@ -161,14 +161,14 @@ public class TableEditDialog extends Dialog {
 //			public void widgetSelected(SelectionEvent e) {
 //				Button bBut = (Button) e.widget;
 //				if (bBut.getSelection()) {
-//					entityType = EntityType.E;
+//					entityType = EntityType.EVENT;
 //				}
 //			}
 //
 //		});
 //
-//		r.setSelection(this.entityType.equals(EntityType.R));
-//		e.setSelection(this.entityType.equals(EntityType.E));
+//		r.setSelection(this.entityType.equals(EntityType.RESOURCE));
+//		e.setSelection(this.entityType.equals(EntityType.EVENT));
 //		r.setEnabled(canEditEntityType);
 //		e.setEnabled(canEditEntityType);
 		Label label = new Label(composite, SWT.NULL);

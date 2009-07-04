@@ -13,13 +13,6 @@ import java.util.Map;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractEntityModel extends ConnectableElement {
-	/** エンティティ種類定数 */
-	public enum EntityType {
-		/** リソース */
-		R,
-		/** イベント */
-		E
-	};
 
 	/** 親モデル */
 	private Diagram diagram;
@@ -28,7 +21,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public static final String P_ATTRIBUTES = "p_attributes";
 	protected Map<AbstractEntityModel, ReUseKeys> reuseKeys = new LinkedHashMap<AbstractEntityModel, ReUseKeys>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
-	protected EntityType entityType = EntityType.R;
+	protected EntityType entityType = EntityType.RESOURCE;
 
 	/**
 	 * @return the diagram

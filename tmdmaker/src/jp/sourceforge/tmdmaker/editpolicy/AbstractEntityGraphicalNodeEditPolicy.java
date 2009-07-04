@@ -1,13 +1,12 @@
 package jp.sourceforge.tmdmaker.editpolicy;
 
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship;
 import jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.strategy.ResourceAndEventEntitiesSwitchStrategy;
 
@@ -64,19 +63,19 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 			System.out.println("Recursive");
 			command = createRecursiveTableCommand(request);
 		} else if (isR2E(source, target)) {
-			System.out.println("R:E");
+			System.out.println("RESOURCE:EVENT");
 			command = createR2ERelationshipCommand(startCommand);
-			command.setLabel("R:E");
+			command.setLabel("RESOURCE:EVENT");
 		} else if (isR2R(source, target)) {
-			System.out.println("R:R");
+			System.out.println("RESOURCE:RESOURCE");
 			/* 対照表作成 */
 			command = createCombinationTableCommand(request);
-			command.setLabel("R:R");
+			command.setLabel("RESOURCE:RESOURCE");
 		} else if (isE2E(source, target)) {
-			System.out.println("E:E");
+			System.out.println("EVENT:EVENT");
 			/* 通常コネクション */
 			command = createE2ERelationshipCommand(request);
-			command.setLabel("E:E");
+			command.setLabel("EVENT:EVENT");
 		} // else 対応表とのリレーションシップ
 		return command;
 	}
@@ -86,12 +85,12 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 	 * 
 	 * @param source
 	 * @param target
-	 * @return R:Rの場合にtrueを返す。
+	 * @return RESOURCE:Rの場合にtrueを返す。
 	 */
 	protected boolean isR2R(AbstractEntityModel source,
 			AbstractEntityModel target) {
-		return source.getEntityType().equals(EntityType.R)
-				&& target.getEntityType().equals(EntityType.R);
+		return source.getEntityType().equals(EntityType.RESOURCE)
+				&& target.getEntityType().equals(EntityType.RESOURCE);
 	}
 
 	/**
@@ -99,14 +98,14 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 	 * 
 	 * @param source
 	 * @param target
-	 * @return R:Eの場合にtrueを返す。
+	 * @return RESOURCE:Eの場合にtrueを返す。
 	 */
 	protected boolean isR2E(AbstractEntityModel source,
 			AbstractEntityModel target) {
-		return (source.getEntityType().equals(EntityType.E) && target
-				.getEntityType().equals(EntityType.R))
-				|| (source.getEntityType().equals(EntityType.R) && target
-						.getEntityType().equals(EntityType.E));
+		return (source.getEntityType().equals(EntityType.EVENT) && target
+				.getEntityType().equals(EntityType.RESOURCE))
+				|| (source.getEntityType().equals(EntityType.RESOURCE) && target
+						.getEntityType().equals(EntityType.EVENT));
 	}
 
 	/**
@@ -114,12 +113,12 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 	 * 
 	 * @param source
 	 * @param target
-	 * @return E:Eの場合にtrueを返す。
+	 * @return EVENT:Eの場合にtrueを返す。
 	 */
 	protected boolean isE2E(AbstractEntityModel source,
 			AbstractEntityModel target) {
-		return source.getEntityType().equals(EntityType.E)
-				&& target.getEntityType().equals(EntityType.E);
+		return source.getEntityType().equals(EntityType.EVENT)
+				&& target.getEntityType().equals(EntityType.EVENT);
 	}
 
 	/**

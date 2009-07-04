@@ -7,8 +7,10 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractRelationship extends AbstractConnectionModel<AbstractEntityModel> {
-	private String sourceCardinality = "1";
-	private String targetCardinality = "1";
+	/** 接続元とのカーディナリティ */
+	private Cardinality sourceCardinality = Cardinality.ONE;
+	/** 接続先とのカーディナリティ */
+	private Cardinality targetCardinality = Cardinality.ONE;
 	private boolean sourceNoInstance = false;
 	private boolean targetNoInstance = false;
 	private boolean centerMark = false;
@@ -16,33 +18,33 @@ public abstract class AbstractRelationship extends AbstractConnectionModel<Abstr
 	/**
 	 * @return the sourceCardinality
 	 */
-	public String getSourceCardinality() {
+	public Cardinality getSourceCardinality() {
 		return sourceCardinality;
 	}
 
 	/**
 	 * @param sourceCardinality the sourceCardinality to set
 	 */
-	public void setSourceCardinality(String sourceCardinality) {
-		String oldValue = this.sourceCardinality;
+	public void setSourceCardinality(Cardinality sourceCardinality) {
+		Cardinality oldValue = this.sourceCardinality;
 		this.sourceCardinality = sourceCardinality;
-		firePropertyChange(P_SOURCE_CARDINALITY, oldValue, sourceCardinality);
+		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue, sourceCardinality);
 	}
 
 	/**
 	 * @return the targetCardinality
 	 */
-	public String getTargetCardinality() {
+	public Cardinality getTargetCardinality() {
 		return targetCardinality;
 	}
 
 	/**
 	 * @param targetCardinality the targetCardinality to set
 	 */
-	public void setTargetCardinality(String targetCardinality) {
-		String oldValue = this.targetCardinality;
+	public void setTargetCardinality(Cardinality targetCardinality) {
+		Cardinality oldValue = this.targetCardinality;
 		this.targetCardinality = targetCardinality;
-		firePropertyChange(P_TARGET_CARDINALITY, oldValue, targetCardinality);
+		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue, targetCardinality);
 	}
 
 	/**
@@ -58,7 +60,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel<Abstr
 	public void setSourceNoInstance(boolean sourceNoInstance) {
 		boolean oldValue = this.sourceNoInstance;
 		this.sourceNoInstance = sourceNoInstance;
-		firePropertyChange(P_SOURCE_CARDINALITY, oldValue, sourceNoInstance);
+		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue, sourceNoInstance);
 	}
 
 	/**
@@ -74,7 +76,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel<Abstr
 	public void setTargetNoInstance(boolean targetNoInstance) {
 		boolean oldValue = this.targetNoInstance;
 		this.targetNoInstance = targetNoInstance;
-		firePropertyChange(P_TARGET_CARDINALITY, oldValue, targetNoInstance);
+		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue, targetNoInstance);
 	}
 
 	/**

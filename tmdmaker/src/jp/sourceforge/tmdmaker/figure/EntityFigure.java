@@ -59,9 +59,9 @@ public class EntityFigure extends Figure {
 //		setColor(entityType);
 	}
 	private void setColor(String entityType) {
-		if (entityType.equals("R")) {
+		if (entityType.equals("RESOURCE")) {
 			setBackgroundColor(ColorConstants.lightBlue);
-		} else if (entityType.equals("E")) {
+		} else if (entityType.equals("EVENT")) {
 			setBackgroundColor(ColorConstants.red);
 		}
 	}

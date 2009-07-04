@@ -10,9 +10,9 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityEditCommand;
 
@@ -62,7 +62,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
-		entityFigure.setEntityType(entity.getEntityType().toString());
+		entityFigure.setEntityType(entity.getEntityType().getLabel());
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : entity
 				.getReuseKeys().entrySet()) {
@@ -224,7 +224,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 		@Override
 		public boolean canExecute() {
-			if (model.getEntityType() == EntityType.E) {
+			if (model.getEntityType() == EntityType.EVENT) {
 				return model.getModelSourceConnections().size() == 0;
 			}
 			return model.getModelSourceConnections().size() == 0

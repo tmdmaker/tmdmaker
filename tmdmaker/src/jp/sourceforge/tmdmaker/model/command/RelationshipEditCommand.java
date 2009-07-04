@@ -1,18 +1,19 @@
 package jp.sourceforge.tmdmaker.model.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
+import jp.sourceforge.tmdmaker.model.Cardinality;
 
 import org.eclipse.gef.commands.Command;
 
 public class RelationshipEditCommand extends Command {
 	private AbstractRelationship model;
-	private String sourceCardinality = "1";
-	private String targetCardinality = "1";
+	private Cardinality sourceCardinality = Cardinality.ONE;
+	private Cardinality targetCardinality = Cardinality.ONE;
 	private boolean sourceNoInstance = false;
 	private boolean targetNoInstance = false;
 
-	private String oldSourceCardinality = null;
-	private String oldTargetCardinality = null;
+	private Cardinality oldSourceCardinality = null;
+	private Cardinality oldTargetCardinality = null;
 	private boolean oldSourceNoInstance = false;
 	private boolean oldTargetNoInstance = false;
 
@@ -49,13 +50,13 @@ public class RelationshipEditCommand extends Command {
 	/**
 	 * @param sourceCardinality the sourceCardinality to set
 	 */
-	public void setSourceCardinality(String sourceCardinality) {
+	public void setSourceCardinality(Cardinality sourceCardinality) {
 		this.sourceCardinality = sourceCardinality;
 	}
 	/**
 	 * @param targetCardinality the targetCardinality to set
 	 */
-	public void setTargetCardinality(String targetCardinality) {
+	public void setTargetCardinality(Cardinality targetCardinality) {
 		this.targetCardinality = targetCardinality;
 	}
 	/**

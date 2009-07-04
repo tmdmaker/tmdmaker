@@ -3,8 +3,8 @@ package jp.sourceforge.tmdmaker.model.command;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
 
 import org.eclipse.gef.commands.Command;
 

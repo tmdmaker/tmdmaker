@@ -9,19 +9,25 @@ package jp.sourceforge.tmdmaker.model;
 @SuppressWarnings("serial")
 public abstract class AbstractConnectionModel<T extends ConnectableElement>
 		extends ConnectableElement {
-	/**
-	 * 
-	 */
-	protected T source, target;
-	public static final String P_SOURCE_CARDINALITY = "p_source_cardinality";
-	public static final String P_TARGET_CARDINALITY = "p_target_cardinality";
+	/** 接続先モデル */
+	protected T source;
+	/** 接続先モデル */
+	protected T target;
+	/**  */
+	public static final String PROPERTY_SOURCE_CARDINALITY = "_property_source_cardinality";
+	public static final String PROPERTY_TARGET_CARDINALITY = "_property_target_cardinality";
 	public static final String PROPERTY_CONNECTION = "_property_connection";
 
+	/**
+	 * コネクション接続
+	 */
 	public void connect() {
 		attachSource();
 		attachTarget();
 	}
-
+	/**
+	 * コネクション切断
+	 */
 	public void disconnect() {
 		detachSource();
 		detachTarget();

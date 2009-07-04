@@ -2,7 +2,7 @@ package jp.sourceforge.tmdmaker.model.command.strategy;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.command.ConnectingModelSwitchStrategy;
 
 /**
@@ -27,7 +27,7 @@ public class ResourceAndEventEntitiesSwitchStrategy implements
 
 		ModelPair pair = new ModelPair();
 		AbstractEntityModel tempSourceEntityModel = (AbstractEntityModel) tempSource;
-		if (tempSourceEntityModel.getEntityType().equals(EntityType.R)) {
+		if (tempSourceEntityModel.getEntityType().equals(EntityType.RESOURCE)) {
 			pair.source = tempSource;
 			pair.target = tempTarget;
 		} else {
@@ -35,9 +35,9 @@ public class ResourceAndEventEntitiesSwitchStrategy implements
 			pair.target = tempSource;
 		}
 		assert ((AbstractEntityModel) pair.source).getEntityType().equals(
-				EntityType.R)
+				EntityType.RESOURCE)
 				&& ((AbstractEntityModel) pair.target).getEntityType().equals(
-						EntityType.E);
+						EntityType.EVENT);
 		return pair;
 	}
 }

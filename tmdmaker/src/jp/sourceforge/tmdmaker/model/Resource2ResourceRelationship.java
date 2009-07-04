@@ -1,7 +1,5 @@
 package jp.sourceforge.tmdmaker.model;
 
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
-
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
@@ -34,7 +32,7 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 		this.table = new CombinationTable();
 		Rectangle constraint = source.getConstraint().getTranslated(100, 100);
 		this.table.setConstraint(constraint);
-		this.table.setEntityType(EntityType.R);
+		this.table.setEntityType(EntityType.RESOURCE);
 		this.table.setConstraint(constraint);
 		this.table.setName(source.getName().replace(
 				CombinationTable.COMBINATION_TABLE_SUFFIX, "")

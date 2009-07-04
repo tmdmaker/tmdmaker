@@ -9,16 +9,14 @@ import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog1;
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel.EntityType;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
 
@@ -334,7 +332,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 									EntityType entityType = dialog
 											.getEntityType();
 									command.setEntityType(entityType);
-									if (entityType.equals(EntityType.E)) {
+									if (entityType.equals(EntityType.EVENT)) {
 										command.setTransactionDate(command
 												.getEntityName()
 												+ "日");
@@ -385,7 +383,11 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 					}
 				});
 	}
-
+	/**
+	 * 
+	 * @param identifierName
+	 * @return
+	 */
 	private String createEntityName(String identifierName) {
 		String[] suffixes = { "コード", "ID", "ＩＤ", "id", "ｉｄ", "番号", "No" };
 		String[] reportSuffixes = { "伝票", "報告書", "書", "レポート" };
@@ -406,11 +408,15 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		}
 		return entityName;
 	}
-
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
 	private static class EntityCreateDialog extends Dialog {
 		private String identifierName;
 		private Text identifierNameText;
-		private EntityType entityType = EntityType.R;
+		private EntityType entityType = EntityType.RESOURCE;
 
 		protected EntityCreateDialog(Shell parentShell) {
 			super(parentShell);
@@ -448,19 +454,16 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			r.setBounds(5, 10, 55, 20);
 			r.addSelectionListener(new SelectionAdapter() {
 
-				/*
-				 * (non-Javadoc)
+				/**
 				 * 
-				 * @see
-				 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org
-				 * .eclipse.swt.events.SelectionEvent)
+				 * @param e
 				 */
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					System.out.println("R widgetSelected");
+					System.out.println("RESOURCE widgetSelected");
 					Button bBut = (Button) e.widget;
 					if (bBut.getSelection()) {
-						entityType = EntityType.R;
+						entityType = EntityType.RESOURCE;
 					}
 				}
 
@@ -470,19 +473,15 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			e.setBounds(80, 10, 55, 20);
 			e.addSelectionListener(new SelectionAdapter() {
 
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see
-				 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org
-				 * .eclipse.swt.events.SelectionEvent)
+				/**
+				 * @param e
 				 */
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					System.out.println("E widgetSelected");
+					System.out.println("EVENT widgetSelected");
 					Button bBut = (Button) e.widget;
 					if (bBut.getSelection()) {
-						entityType = EntityType.E;
+						entityType = EntityType.EVENT;
 					}
 				}
 
@@ -492,9 +491,10 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			return composite;
 		}
 
-		/*
-		 * (non-Javadoc)
+		/**
 		 * 
+		 * {@inheritDoc}
+		 *
 		 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 		 */
 		@Override

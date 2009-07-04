@@ -8,13 +8,24 @@ import java.util.List;
  * @author nakaG
  *
  */
+@SuppressWarnings("serial")
 public abstract class ConnectableElement extends ModelElement {
 
+	/** 接続元プロパティ定数 */
 	public static final String P_SOURCE_CONNECTION = "p_source_connection";
+	/** 接続先プロパティ定数 */
 	public static final String P_TARGET_CONNECTION = "p_target_connection";
+	/**
+	 * 自分が接続元になっているコネクションリスト
+	 */
 	private List<AbstractConnectionModel> sourceConnections = new ArrayList<AbstractConnectionModel>();
+	/**
+	 * 自分が接続先になっているコネクションリスト
+	 */
 	private List<AbstractConnectionModel> targetConnections = new ArrayList<AbstractConnectionModel>();
-
+	/**
+	 * コンストラクタ
+	 */
 	public ConnectableElement() {
 		super();
 	}
