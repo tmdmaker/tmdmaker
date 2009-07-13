@@ -18,9 +18,9 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 	 * @param target MO
 	 */
 	public MultivalueOrRelationship(AbstractEntityModel source, MultivalueOrEntity target) {
-		this.source = source;
+		setSource(source);
+		setTarget(target);
 		this.table = target;
-		this.target = target;
 	}
 
 //	@Override
@@ -42,8 +42,8 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 	 */
 	@Override
 	public void connect() {
-		Diagram diagram = source.getDiagram();
-		diagram.addChild(target);
+		Diagram diagram = getSource().getDiagram();
+		diagram.addChild(getTarget());
 //		target.setDiagram(diagram);
 		super.connect();
 	}
@@ -69,7 +69,7 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 	@Override
 	public void disconnect() {
 		super.disconnect();
-		source.getDiagram().removeChild(table);
+		getSource().getDiagram().removeChild(table);
 //		target.setDiagram(null);
 	}
 

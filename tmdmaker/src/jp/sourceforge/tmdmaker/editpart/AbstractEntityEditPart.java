@@ -99,7 +99,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	public void propertyChange(PropertyChangeEvent evt) {
 
 		if (evt.getPropertyName().equals(ModelElement.PROPERTY_NAME)) {
-			logger.debug(getClass() + "PROPERTY_NAME");
+			logger.debug(getClass() + ".PROPERTY_NAME");
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(
 				ModelElement.PROPERTY_CONSTRAINT)) {
@@ -119,7 +119,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 			refreshTargetConnections();
 		} else if (evt.getPropertyName().equals(
 				AbstractEntityModel.PROPERTY_REUSEKEY)) {
-			logger.debug(getClass() + "PROPERTY_REUSEKEY");
+			logger.debug(getClass() + ".PROPERTY_REUSEKEY");
 			refreshVisuals();
 		}
 	}

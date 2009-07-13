@@ -43,4 +43,14 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	public boolean canDeletable() {
 		return getTarget().canDeletable();
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#awareReUseKeysChanged()
+	 */
+	@Override
+	public void awareReUseKeysChanged() {
+		getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+	}
 }

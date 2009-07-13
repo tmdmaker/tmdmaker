@@ -27,8 +27,8 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 */
 	public Resource2ResourceRelationship(AbstractEntityModel source,
 			AbstractEntityModel target) {
-		this.source = source;
-		this.target = target;
+		setSource(source);
+		setTarget(target);
 		this.table = new CombinationTable();
 		Rectangle constraint = source.getConstraint().getTranslated(100, 100);
 		this.table.setConstraint(constraint);
@@ -86,5 +86,15 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	@Override
 	public boolean canDeletable() {
 		return getSource().canDeletable() && getTarget().canDeletable() && table.canDeletable();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#awareReUseKeysChanged()
+	 */
+	@Override
+	public void awareReUseKeysChanged() {
+		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 	}
 }

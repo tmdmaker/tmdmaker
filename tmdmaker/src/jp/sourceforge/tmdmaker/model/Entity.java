@@ -62,7 +62,17 @@ public class Entity extends AbstractEntityModel {
 		this.identifier = identifier;
 		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
 	}
-
+	/**
+	 * 
+	 * @param identifierName 個体指示子名称
+	 */
+	public void setIdentifierName(String identifierName) {
+		String oldValue = this.identifier.getName();
+		this.identifier.setName(identifierName);
+		if (!oldValue.equals(identifierName)) {
+			firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
+		}
+	}
 	/**
 	 * 
 	 * {@inheritDoc}

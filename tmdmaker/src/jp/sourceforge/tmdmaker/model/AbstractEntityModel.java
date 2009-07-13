@@ -18,7 +18,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	private Diagram diagram;
 	public static final String PROPERTY_ATTRIBUTE = "p_attribute";
 	public static final String PROPERTY_REUSEKEY = "p_reusekey";
-	public static final String P_ATTRIBUTES = "p_attributes";
+	public static final String PROPERTY_ATTRIBUTES = "p_attributes";
 	protected Map<AbstractEntityModel, ReUseKeys> reuseKeys = new LinkedHashMap<AbstractEntityModel, ReUseKeys>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
 	protected EntityType entityType = EntityType.RESOURCE;

@@ -61,7 +61,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			subsetEntities = null;
 			selectedAttribute = null;
 		} else {
-			sameType = subsetType.subsettype
+			sameType = subsetType.getSubsetType()
 					.equals(SubsetType.SubsetTypeValue.SAME);
 			subsetEntities = subsetType.findSubsetEntityList();
 			selectedAttribute = ((Entity2SubsetTypeRelationship) subsetType
@@ -150,7 +150,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 				SubsetTypeValue newSubsetType,
 				Attribute selectedPartitionAttribute) {
 			this.subset = subset;
-			this.oldSubsetType = subset.getSubsettype();
+			this.oldSubsetType = subset.getSubsetType();
 			this.newSubsetType = newSubsetType;
 			this.newPartitionAttribute = selectedPartitionAttribute;
 		}
@@ -162,7 +162,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void execute() {
-			this.subset.setSubsettype(newSubsetType);
+			this.subset.setSubsetType(newSubsetType);
 			if (this.subset.getModelTargetConnections() != null
 					&& this.subset.getModelTargetConnections().size() > 0) {
 				this.relationship = (Entity2SubsetTypeRelationship) this.subset
@@ -180,7 +180,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void undo() {
-			this.subset.setSubsettype(oldSubsetType);
+			this.subset.setSubsetType(oldSubsetType);
 			if (this.relationship != null) {
 				this.relationship.setPartitionAttribute(oldPartitionAttribute);
 			}

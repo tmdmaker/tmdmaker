@@ -8,6 +8,11 @@ import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 
 import org.eclipse.draw2d.IFigure;
 
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class Entity2SubsetTypeRelationshipEditPart extends
 		AbstractRelationshipEditPart {
 
@@ -22,6 +27,10 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 		return figure;
 	}
 
+	/**
+	 * 
+	 * @param figure 再描画対象のFigure
+	 */
 	private void updateFigure(Entity2SubsetRelationshipFigure figure) {
 		Entity2SubsetTypeRelationship relationship = (Entity2SubsetTypeRelationship) getModel();
 		
@@ -32,6 +41,12 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 			figure.createPartitionAttributeNameDecoration(partitionAttribute.getName());
 		}	
 	}
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
 	@Override
 	protected void createEditPolicies() {
 		// TODO Auto-generated method stub
@@ -62,5 +77,4 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 			super.propertyChange(evt);
 		}
 	}
-	
 }

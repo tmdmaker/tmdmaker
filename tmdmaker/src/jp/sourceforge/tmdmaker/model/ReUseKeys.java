@@ -29,7 +29,8 @@ public class ReUseKeys implements Serializable {
 	 *            参照元の固体指示子
 	 */
 	public ReUseKeys(Identifier identifier) {
-		this.identifieres.add(identifier);
+		ReUseKey reUseKey = new ReUseKey(identifier);
+		this.identifieres.add(reUseKey);
 	}
 
 	/**
@@ -39,7 +40,10 @@ public class ReUseKeys implements Serializable {
 	 *            Re-usedキー
 	 */
 	public ReUseKeys(List<Identifier> identifieres) {
-		identifieres.addAll(identifieres);
+		for (Identifier i : identifieres) {
+			ReUseKey reUseKey = new ReUseKey(i);
+			identifieres.add(reUseKey);
+		}
 	}
 
 	/**

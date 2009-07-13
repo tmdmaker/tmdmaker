@@ -26,14 +26,16 @@ import org.slf4j.LoggerFactory;
  */
 public class NewDiagramWizard extends Wizard implements INewWizard {
 	/** logging */
-	protected static Logger logger = LoggerFactory
+	private static Logger logger = LoggerFactory
 			.getLogger(NewDiagramWizard.class);
 
 	private IWorkbench workbench;
 	private IStructuredSelection selection;
 	private NewDiagramCreationPage page;
 	
-	
+	/**
+	 * コンストラクタ
+	 */
 	public NewDiagramWizard() {
 		super();
 		setNeedsProgressMonitor(true);

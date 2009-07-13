@@ -1,12 +1,13 @@
 package jp.sourceforge.tmdmaker.model;
 
+
 /**
  * 
  * @author nakaG
  *
  */
 @SuppressWarnings("serial")
-public abstract class AbstractRelationship extends AbstractConnectionModel<AbstractEntityModel> {
+public abstract class AbstractRelationship extends AbstractConnectionModel<AbstractEntityModel> implements ReUseKeysChangeListener {
 	/** 接続元とのカーディナリティ */
 	private Cardinality sourceCardinality = Cardinality.ONE;
 	/** 接続先とのカーディナリティ */
@@ -94,6 +95,10 @@ public abstract class AbstractRelationship extends AbstractConnectionModel<Abstr
 		this.centerMark = centerMark;
 		firePropertyChange(PROPERTY_CONNECTION, oldValue, centerMark);
 	}
-	
+	/**
+	 * 削除可能か判定する
+	 * @return 削除可能な場合にtrueを返す
+	 */
 	public abstract boolean canDeletable();
+	
 }

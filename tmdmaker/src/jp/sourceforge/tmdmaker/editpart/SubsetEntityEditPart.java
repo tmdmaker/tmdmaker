@@ -1,5 +1,6 @@
 package jp.sourceforge.tmdmaker.editpart;
 
+import java.beans.PropertyChangeEvent;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,10 @@ import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.ReUseKeysChangeListener;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
@@ -46,6 +50,38 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_REUSEKEY)) {
+			logger.debug(getClass() + "#propertyChange().PROPERTY_REUSEKEY");
+			refreshVisuals();
+			SubsetEntity model = (SubsetEntity) getModel();
+			if (model.getEntityType().equals(EntityType.RESOURCE)) {
+				for (AbstractConnectionModel<?> con : model.getModelTargetConnections()) {
+					logger.debug("RESOURCE.source = " + con.getSource().getName());
+//						con.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+						if (con instanceof ReUseKeysChangeListener && !(con instanceof RelatedRelationship)) {
+						((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+					}
+				}
+			}
+			for (AbstractConnectionModel<?> con : model.getModelSourceConnections()) {
+				logger.debug("target = " + con.getTarget().getName());
+//				con.getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+				if (con instanceof ReUseKeysChangeListener) {
+					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+				}
+			}
+		} else {
+			super.propertyChange(evt);
+		}
+	}
+
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
@@ -53,6 +89,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
+		logger.debug(getClass() + "#updateFigure()");
+
 		EntityFigure entityFigure = (EntityFigure) figure;
 		SubsetEntity entity = (SubsetEntity) getModel();
 

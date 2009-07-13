@@ -54,6 +54,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
+		logger.debug(getClass() + "updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
 		CombinationTable table = (CombinationTable) getModel();
 		// List<Identifier> ids = table.getReuseKeys();

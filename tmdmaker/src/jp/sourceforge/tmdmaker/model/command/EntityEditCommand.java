@@ -34,7 +34,8 @@ public class EntityEditCommand extends Command {
 	@Override
 	public void execute() {
 		entity.setEntityType(this.entityType);
-		entity.getIdentifier().setName(this.identifierName);
+		entity.setIdentifierName(this.identifierName);
+
 		Map<AbstractEntityModel, ReUseKeys> ids = entity.getReuseKeys();
 		// TODO identifierの更新伝播
 		for (int i = 0; i < ids.size(); i++) {
@@ -51,7 +52,7 @@ public class EntityEditCommand extends Command {
 	@Override
 	public void undo() {
 		entity.setEntityType(this.oldEntityType);
-		entity.getIdentifier().setName(this.oldIdentifierName);
+		entity.setIdentifierName(this.oldIdentifierName);
 		Map<AbstractEntityModel, ReUseKeys> ids = entity.getReuseKeys();
 		for (int i = 0; i < ids.size(); i++) {
 //			ids.get(i).setName(oldReuseKeys.get(i).getName());

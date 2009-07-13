@@ -1,12 +1,21 @@
 package jp.sourceforge.tmdmaker.editpart;
 
+import jp.sourceforge.tmdmaker.figure.RelationshipFigure;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.PolylineConnection;
-
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 
-	/* (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#createFigure()
 	 */
 	@Override
@@ -25,9 +34,33 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 		return connection;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
 	@Override
 	protected void createEditPolicies() {
 		// TODO Auto-generated method stub
 
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractRelationshipEditPart#refreshVisuals()
+	 */
+	@Override
+	protected void refreshVisuals() {
+		IFigure figure = getFigure();
+		updateFigure(figure);
+		super.refreshVisuals();
+	}
+
+	private void updateFigure(IFigure figure) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

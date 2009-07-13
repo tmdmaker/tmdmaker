@@ -19,13 +19,13 @@ public class RecursiveRelationship extends AbstractRelationship {
 	 * @param source 再帰元エンティティ
 	 */
 	public RecursiveRelationship(AbstractEntityModel source) {
-		this.source = source;
+		setSource(source);
 		// this.connection = new RecursiveMarkConnection();
 		this.table = new RecursiveTable();
 		Rectangle constraint = source.getConstraint().getTranslated(100, 0);
 		this.table.setConstraint(constraint);
-		this.target = table;
-		this.diagram = this.source.getDiagram();
+		setTarget(table);
+		this.diagram = getSource().getDiagram();
 		// this.connection.setSource(this);
 		// this.connection.setTarget(source);
 		// 再帰表の類別は元エンティティを引き継ぐ
@@ -46,7 +46,7 @@ public class RecursiveRelationship extends AbstractRelationship {
 	@Override
 	public void setTarget(AbstractEntityModel target) {
 		// source == targetのため設定しない
-		// super.setTarget(target);
+		 super.setTarget(target);
 	}
 
 	/**
@@ -58,14 +58,15 @@ public class RecursiveRelationship extends AbstractRelationship {
 	public void connect() {
 		diagram.addChild(table);
 //		table.setDiagram(diagram);
-		if (!source.getModelSourceConnections().contains(this)) {
-			System.out.println("source=" + source.getClass().toString());
-			source.addSourceConnection(this);
+		AbstractEntityModel sourceEntity = getSource();
+		if (!sourceEntity.getModelSourceConnections().contains(this)) {
+			System.out.println("source=" + sourceEntity.getClass().toString());
+			sourceEntity.addSourceConnection(this);
 		}
 		table.addTargetConnection(this);
 		attachSource();
 		attachTarget();
-		table.addReuseKey((AbstractEntityModel) source);
+		table.addReuseKey((AbstractEntityModel) sourceEntity);
 
 	}
 
@@ -76,7 +77,7 @@ public class RecursiveRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void disconnect() {
-		source.removeSourceConnection(this);
+		getSource().removeSourceConnection(this);
 		table.removeTargetConnection(this);
 //		table.setDiagram(null);
 		diagram.removeChild(table);
@@ -90,6 +91,16 @@ public class RecursiveRelationship extends AbstractRelationship {
 	@Override
 	public boolean canDeletable() {
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#awareReUseKeysChanged()
+	 */
+	@Override
+	public void awareReUseKeysChanged() {
+		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 	}
 	
 }

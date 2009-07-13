@@ -1,18 +1,22 @@
 package jp.sourceforge.tmdmaker.editpart;
 
+import java.beans.PropertyChangeEvent;
 import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.ReUseKeysChangeListener;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityEditCommand;
 
@@ -30,6 +34,36 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class EntityEditPart extends AbstractEntityEditPart {
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(Entity.PROPERTY_IDENTIFIER)) {
+			logger.debug(getClass() + "#propertyChange().IDENTIFIER");
+			refreshVisuals();
+			Entity model = (Entity) getModel();
+			for (AbstractConnectionModel<?> con : model
+					.getModelTargetConnections()) {
+				logger.debug("RESOURCE.source = " + con.getSource().getName());
+				if (con instanceof ReUseKeysChangeListener) {
+					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+				}
+			}
+			for (AbstractConnectionModel<?> con : model
+					.getModelSourceConnections()) {
+				logger.debug("target = " + con.getTarget().getName());
+				if (con instanceof ReUseKeysChangeListener) {
+					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+				}
+			}
+		} else {
+			super.propertyChange(evt);
+		}
+	}
 
 	/**
 	 * 
@@ -92,7 +126,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refresh()
 	 */
 	@Override
@@ -102,12 +136,11 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		super.refresh();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshSourceConnections
-	 * ()
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshSourceConnections()
 	 */
 	@Override
 	protected void refreshSourceConnections() {
@@ -117,12 +150,11 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		super.refreshSourceConnections();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshTargetConnections
-	 * ()
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshTargetConnections()
 	 */
 	@Override
 	protected void refreshTargetConnections() {
@@ -132,8 +164,9 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		super.refreshTargetConnections();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */

@@ -21,11 +21,11 @@ public class SubsetType extends ConnectableElement {
 	};
 
 	/** サブセット種類 */
-	public SubsetTypeValue subsettype = SubsetTypeValue.SAME;
+	private SubsetTypeValue subsetType = SubsetTypeValue.SAME;
 	/** サブセットタイプ */
 	public static final String PROPERTY_TYPE = "_property_type";
 	/** 区分コードの属性 */
-	private Attribute partitionAttribute;
+//	private Attribute partitionAttribute;
 
 	/**
 	 * サブセットエンティティ取得
@@ -43,20 +43,20 @@ public class SubsetType extends ConnectableElement {
 	}
 
 	/**
-	 * @return the subsettype
+	 * @return the subsetType
 	 */
-	public SubsetTypeValue getSubsettype() {
-		return subsettype;
+	public SubsetTypeValue getSubsetType() {
+		return subsetType;
 	}
 
 	/**
-	 * @param subsettype
-	 *            the subsettype to set
+	 * @param subsetType
+	 *            the subsetType to set
 	 */
-	public void setSubsettype(SubsetTypeValue subsettype) {
-		SubsetTypeValue oldValue = this.subsettype;
-		this.subsettype = subsettype;
-		firePropertyChange(PROPERTY_TYPE, oldValue, this.subsettype);
+	public void setSubsetType(SubsetTypeValue subsetType) {
+		SubsetTypeValue oldValue = this.subsetType;
+		this.subsetType = subsetType;
+		firePropertyChange(PROPERTY_TYPE, oldValue, this.subsetType);
 	}
 
 	/**
@@ -65,4 +65,5 @@ public class SubsetType extends ConnectableElement {
 	public void dispose() {
 		// TODO
 	}
+	
 }

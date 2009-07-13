@@ -10,12 +10,14 @@ package jp.sourceforge.tmdmaker.model;
 public abstract class AbstractConnectionModel<T extends ConnectableElement>
 		extends ConnectableElement {
 	/** 接続先モデル */
-	protected T source;
+	private T source;
 	/** 接続先モデル */
-	protected T target;
-	/**  */
+	private T target;
+	/** 接続元多重度プロパティ定数 */
 	public static final String PROPERTY_SOURCE_CARDINALITY = "_property_source_cardinality";
+	/** 接続先多重度プロパティ定数 */
 	public static final String PROPERTY_TARGET_CARDINALITY = "_property_target_cardinality";
+	/** 接続プロパティ定数 */
 	public static final String PROPERTY_CONNECTION = "_property_connection";
 
 	/**
@@ -32,7 +34,9 @@ public abstract class AbstractConnectionModel<T extends ConnectableElement>
 		detachSource();
 		detachTarget();
 	}
-
+	/**
+	 * 接続元モデルと接続する
+	 */
 	public void attachSource() {
 		if (!source.getModelSourceConnections().contains(this)) {
 			System.out.println("attachSource():source="
@@ -40,7 +44,9 @@ public abstract class AbstractConnectionModel<T extends ConnectableElement>
 			source.addSourceConnection(this);
 		}
 	}
-
+	/**
+	 * 接続先モデルと接続する
+	 */
 	public void attachTarget() {
 		if (!target.getModelTargetConnections().contains(this)) {
 			System.out.println("attachTarget():target="
@@ -48,33 +54,46 @@ public abstract class AbstractConnectionModel<T extends ConnectableElement>
 			target.addTargetConnection(this);
 		}
 	}
-
+	/**
+	 * 接続元モデルと切断する
+	 */
 	public void detachSource() {
 		if (source != null) {
 			System.out.println("detachSource()");
 			source.removeSourceConnection(this);
 		}
 	}
-
+	/**
+	 * 接続先モデル切断する
+	 */
 	public void detachTarget() {
 		if (target != null) {
 			System.out.println("detachTarget()");
 			target.removeTargetConnection(this);
 		}
 	}
-
+	
+	/**
+	 * @return the source
+	 */
 	public T getSource() {
 		return source;
 	}
-
+	/**
+	 * @param source the source to set
+	 */
 	public void setSource(T source) {
 		this.source = source;
 	}
-
+	/**
+	 * @return the target
+	 */
 	public T getTarget() {
 		return target;
 	}
-
+	/**
+	 * @param target the target to set
+	 */
 	public void setTarget(T target) {
 		this.target = target;
 	}

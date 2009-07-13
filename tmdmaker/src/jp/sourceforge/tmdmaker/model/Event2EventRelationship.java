@@ -34,8 +34,8 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	public Event2EventRelationship(AbstractEntityModel source,
 			AbstractEntityModel target) {
-		this.source = source;
-		this.target = target;
+		setSource(source);
+		setTarget(target);
 		this.setCenterMark(true);
 	}
 
@@ -110,13 +110,13 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	private void createTargetRelationship() {
 		setCenterMark(false);
-		target.addReuseKey(source);
+		getTarget().addReuseKey(getSource());
 	}
 	/**
 	 * ターゲットからキーを削除する
 	 */
 	private void removeTargetRelationship() {
-		target.removeReuseKey(source);
+		getTarget().removeReuseKey(getSource());
 	}
 	/**
 	 * 対応表を作成する
@@ -127,16 +127,17 @@ public class Event2EventRelationship extends AbstractRelationship {
 		}
 		setCenterMark(true);
 		
-		AbstractEntityModel sourceEntity = this.source;
+		AbstractEntityModel sourceEntity = getSource();
+		AbstractEntityModel targetEntity = getTarget();
 		Rectangle constraint = sourceEntity.getConstraint().getTranslated(100,
 				100);
 		table.setConstraint(constraint);
 		Diagram diagram = sourceEntity.getDiagram();
 		diagram.addChild(table);
 		// table.setDiagram(diagram);
-		table.setName(source.getName() + "." + target.getName() + "." + "対応表");
-		table.addReuseKey(source);
-		table.addReuseKey(target);
+		table.setName(sourceEntity.getName() + "." + targetEntity.getName() + "." + "対応表");
+		table.addReuseKey(sourceEntity);
+		table.addReuseKey(targetEntity);
 
 		mappingListConnection = new RelatedRelationship();
 		mappingListConnection.setSource(this);
@@ -152,9 +153,9 @@ public class Event2EventRelationship extends AbstractRelationship {
 			mappingListConnection.disconnect();
 		}
 		if (table != null) {
-			table.removeReuseKey(source);
-			table.removeReuseKey(target);
-			AbstractEntityModel sourceEntity = this.source;
+			AbstractEntityModel sourceEntity = getSource();
+			table.removeReuseKey(sourceEntity);
+			table.removeReuseKey(getTarget());
 			sourceEntity.getDiagram().removeChild(table);
 		}
 	}
@@ -167,5 +168,20 @@ public class Event2EventRelationship extends AbstractRelationship {
 	@Override
 	public boolean canDeletable() {
 		return true;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ReUseKeysChangeListener#awareReUseKeysChanged()
+	 */
+	@Override
+	public void awareReUseKeysChanged() {
+		if (getSourceCardinality().equals(Cardinality.MANY)) {
+			table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+		} else {
+			getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+		}
 	}
 }
