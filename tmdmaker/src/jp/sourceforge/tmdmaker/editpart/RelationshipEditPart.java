@@ -7,6 +7,7 @@ import jp.sourceforge.tmdmaker.figure.RelationshipFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
+import jp.sourceforge.tmdmaker.model.Cardinality;
 import jp.sourceforge.tmdmaker.model.command.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.RelationshipEditCommand;
 
@@ -81,7 +82,7 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 		AbstractRelationship model = (AbstractRelationship) getModel();
 
 		connection.createSourceDecoration(model.getSourceCardinality().equals(
-				"N"));
+				Cardinality.MANY));
 		if (model.isSourceNoInstance()) {
 			connection.createSourceZeroCardinalityDecoration();
 		} else {
@@ -89,7 +90,7 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 		}
 
 		connection.createTargetDecoration(model.getTargetCardinality().equals(
-				"N"));
+				Cardinality.MANY));
 		if (model.isTargetNoInstance()) {
 			connection.createTargetZeroCardinalityDecoration();
 		} else {
