@@ -24,13 +24,13 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 	@Override
 	public void awareReUseKeysChanged() {
 		super.awareReUseKeysChanged();
-		AbstractConnectionModel m =getTarget().getModelSourceConnections().get(0);
+		AbstractConnectionModel<?> m = getTarget().getModelSourceConnections().get(0);
 		System.out.println("Source = " + m.getSource().getClass());
 		System.out.println("Source = " + m.getSource().getName());
 		System.out.println("Target = " + m.getTarget().getClass());
 		System.out.println("Target = " + m.getTarget().getName());
 		MultivalueAndAggregator aggregator = (MultivalueAndAggregator) m.getTarget();
-		AbstractConnectionModel t =aggregator.getModelTargetConnections().get(0);
+		AbstractConnectionModel<?> t = aggregator.getModelTargetConnections().get(0);
 		System.out.println("Source = " + t.getSource().getClass());
 		System.out.println("Source = " + t.getSource().getName());
 		System.out.println("Target = " + t.getTarget().getClass());
