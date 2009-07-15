@@ -45,21 +45,21 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		if (evt.getPropertyName().equals(Entity.PROPERTY_IDENTIFIER)) {
 			logger.debug(getClass() + "#propertyChange().IDENTIFIER");
 			refreshVisuals();
-			Entity model = (Entity) getModel();
-			for (AbstractConnectionModel<?> con : model
-					.getModelTargetConnections()) {
-				logger.debug("RESOURCE.source = " + con.getSource().getName());
-				if (con instanceof ReUseKeysChangeListener) {
-					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-				}
-			}
-			for (AbstractConnectionModel<?> con : model
-					.getModelSourceConnections()) {
-				logger.debug("target = " + con.getTarget().getName());
-				if (con instanceof ReUseKeysChangeListener) {
-					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-				}
-			}
+//			Entity model = (Entity) getModel();
+//			for (AbstractConnectionModel<?> con : model
+//					.getModelTargetConnections()) {
+//				logger.debug("RESOURCE.source = " + con.getSource().getName());
+//				if (con instanceof ReUseKeysChangeListener) {
+//					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+//				}
+//			}
+//			for (AbstractConnectionModel<?> con : model
+//					.getModelSourceConnections()) {
+//				logger.debug("target = " + con.getTarget().getName());
+//				if (con instanceof ReUseKeysChangeListener) {
+//					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+//				}
+//			}
 		} else {
 			super.propertyChange(evt);
 		}

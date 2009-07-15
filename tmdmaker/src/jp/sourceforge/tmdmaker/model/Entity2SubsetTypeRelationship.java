@@ -39,5 +39,5 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel<Conne
 				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
 			}
 		}
-	}	
+	}
 }

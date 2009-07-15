@@ -179,9 +179,11 @@ public class Event2EventRelationship extends AbstractRelationship {
 	@Override
 	public void awareReUseKeysChanged() {
 		if (getSourceCardinality().equals(Cardinality.MANY)) {
-			table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+			table.notifyReUseKeyChange(this);
+//			table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 		} else {
-			getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+			getTarget().notifyReUseKeyChange(this);
+//			getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 		}
 	}
 }

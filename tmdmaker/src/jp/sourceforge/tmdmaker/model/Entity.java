@@ -71,6 +71,7 @@ public class Entity extends AbstractEntityModel {
 		this.identifier.setName(identifierName);
 		if (!oldValue.equals(identifierName)) {
 			firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
+			notifyReUseKeyChange(null);
 		}
 	}
 	/**

@@ -95,6 +95,7 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void awareReUseKeysChanged() {
-		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+//		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+		table.notifyReUseKeyChange(this);
 	}
 }

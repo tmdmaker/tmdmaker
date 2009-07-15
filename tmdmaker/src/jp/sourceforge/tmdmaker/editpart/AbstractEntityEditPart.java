@@ -30,16 +30,21 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	protected static Logger logger = LoggerFactory
 			.getLogger(AbstractEntityEditPart.class);
 
+	/** このコントローラで利用するアンカー */
 	private ConnectionAnchor anchor;
 
+	/**
+	 * コンストラクタ
+	 */
 	public AbstractEntityEditPart() {
 		super();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#activate()
 	 */
 	@Override
 	public void activate() {
@@ -48,10 +53,11 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		((ModelElement) getModel()).addPropertyChangeListener(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#deactivate()
 	 */
 	@Override
 	public void deactivate() {
@@ -95,35 +101,79 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		return ((ConnectableElement) getModel()).getModelTargetConnections();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		logger.debug(getClass() + "." + evt.getPropertyName());
 
 		if (evt.getPropertyName().equals(ModelElement.PROPERTY_NAME)) {
-			logger.debug(getClass() + ".PROPERTY_NAME");
-			refreshVisuals();
+			handleNameChange(evt);
 		} else if (evt.getPropertyName().equals(
 				ModelElement.PROPERTY_CONSTRAINT)) {
-			logger.debug(getClass() + "PROPERTY_CONSTRAINT");
-			refreshVisuals();
+			handleConstraintChange(evt);
 		} else if (evt.getPropertyName().equals(
 				AbstractEntityModel.PROPERTY_ATTRIBUTE)) {
-			logger.debug(getClass() + "PROPERTY_ATTRIBUTE");
-			refreshVisuals();
+			handleAttributeChange(evt);
 		} else if (evt.getPropertyName().equals(
 				ConnectableElement.P_SOURCE_CONNECTION)) {
-			logger.debug(getClass() + "P_SOURCE_CONNECTION");
-			refreshSourceConnections();
+			handleSourceConnectionChange(evt);
 		} else if (evt.getPropertyName().equals(
 				ConnectableElement.P_TARGET_CONNECTION)) {
-			logger.debug(getClass() + "P_TARGET_CONNECTION");
-			refreshTargetConnections();
+			handleTargetConnectionChange(evt);
 		} else if (evt.getPropertyName().equals(
 				AbstractEntityModel.PROPERTY_REUSEKEY)) {
-			logger.debug(getClass() + ".PROPERTY_REUSEKEY");
-			refreshVisuals();
+			handleReUseKeyChange(evt);
+		} else {
+			logger.warn("Not Handle Event Occured.");
 		}
 	}
-
+	/**
+	 * 名称変更イベント処理
+	 * @param evt 発生したイベント情報
+	 */
+	protected void handleNameChange(PropertyChangeEvent evt) {
+		refreshVisuals();
+	}
+	/**
+	 * 制約変更イベント処理
+	 * @param evt 発生したイベント情報
+	 */
+	protected void handleConstraintChange(PropertyChangeEvent evt) {
+		refreshVisuals();
+	}
+	/**
+	 * 属性変更イベント処理
+	 * @param evt 発生したイベント情報
+	 */
+	protected void handleAttributeChange(PropertyChangeEvent evt) {
+		refreshVisuals();
+	}
+	/**
+	 * 接続元コネクション変更イベント処理
+	 * @param evt 発生したイベント情報
+	 */
+	protected void handleSourceConnectionChange(PropertyChangeEvent evt) {
+		refreshSourceConnections();
+	}
+	/**
+	 * 接続先コネクション変更イベント処理
+	 * @param evt 発生したイベント情報
+	 */
+	protected void handleTargetConnectionChange(PropertyChangeEvent evt) {
+		refreshTargetConnections();		
+	}
+	/**
+	 * ReUseKey変更イベント処理
+	 * @param evt 発生したイベント情報
+	 */
+	protected void handleReUseKeyChange(PropertyChangeEvent evt) {
+		refreshVisuals();		
+	}
 	/**
 	 * {@inheritDoc}
 	 * 

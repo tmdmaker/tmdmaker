@@ -1,5 +1,7 @@
 package jp.sourceforge.tmdmaker.model;
 
+import java.util.Map;
+
 /**
  * 
  * @author nakaG
@@ -15,8 +17,12 @@ public class MappingList extends AbstractEntityModel {
 	 */
 	@Override
 	public ReUseKeys getMyReuseKey() {
-		// TODO Auto-generated method stub
-		return null;
+		ReUseKeys returnValue = new ReUseKeys();
+		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : this.reuseKeys
+				.entrySet()) {
+			returnValue.addAll(rk.getValue().getIdentifires());
+		}
+		return returnValue;
 	}
 
 	/**

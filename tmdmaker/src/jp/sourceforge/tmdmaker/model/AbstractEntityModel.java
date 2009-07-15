@@ -194,6 +194,24 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			Class<?> clazz) {
 		return findRelationship(getModelTargetConnections(), clazz);
 	}
+	/**
+	 * 
+	 */
+	public void notifyReUseKeyChange(AbstractConnectionModel<?> callConnection) {
+		firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+		for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
+
+			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
+				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+			}
+		}
+		for (AbstractConnectionModel<?> con : getModelSourceConnections()) {
+			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
+				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+			}
+		}
+
+	}
 
 	/**
 	 * エンティティ種類が編集可能か判定する

@@ -12,6 +12,7 @@ import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
+import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
 
@@ -238,7 +239,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		private SubsetType subsetType;
 		private Entity2SubsetTypeRelationship model2subsetRelationship;
 		private SubsetEntity subsetEntity;
-		private RelatedRelationship subset2entityRelationship;
+		private SubsetType2SubsetRelationship subset2entityRelationship;
 
 		/**
 		 * 
@@ -256,7 +257,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			// this.subset.setConstraint(constraint);
 			this.diagram = model.getDiagram();
 			this.subsetEntity = subsetEntity;
-			subset2entityRelationship = new RelatedRelationship();
+			subset2entityRelationship = new SubsetType2SubsetRelationship();
 			subset2entityRelationship.setSource(subsetType);
 			subset2entityRelationship.setTarget(this.subsetEntity);
 			Rectangle constraint = subsetType.getConstraint().getTranslated(0,

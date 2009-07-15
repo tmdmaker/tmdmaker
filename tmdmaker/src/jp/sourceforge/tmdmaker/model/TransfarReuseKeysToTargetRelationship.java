@@ -51,6 +51,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	 */
 	@Override
 	public void awareReUseKeysChanged() {
-		getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+//		getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+		getTarget().notifyReUseKeyChange(this);
 	}
 }
