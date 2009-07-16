@@ -22,4 +22,15 @@ public class Superset2AggregateRelationship extends AbstractConnectionModel<Conn
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 }

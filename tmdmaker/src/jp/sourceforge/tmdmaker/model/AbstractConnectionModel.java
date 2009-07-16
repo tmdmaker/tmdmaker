@@ -97,5 +97,10 @@ public abstract class AbstractConnectionModel<T extends ConnectableElement>
 	public void setTarget(T target) {
 		this.target = target;
 	}
+	/**
+	 * 削除可能か判定する
+	 * @return 削除可能な場合にtrueを返す
+	 */
+	public abstract boolean canDeletable();
 
 }

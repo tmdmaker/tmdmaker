@@ -199,20 +199,32 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public void notifyReUseKeyChange(AbstractConnectionModel<?> callConnection) {
 		firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
-		for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
-
-			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
-				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-			}
-		}
-		for (AbstractConnectionModel<?> con : getModelSourceConnections()) {
-			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
-				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-			}
+		if (getEntityType().equals(EntityType.RESOURCE)) {
+			fireReUseKeyChange(getModelSourceConnections(), callConnection);
+			fireReUseKeyChange(getModelTargetConnections(), callConnection);
+//			for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
+//	
+//				if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
+//					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+//				}
+//			}
+		} else {
+			fireReUseKeyChange(getModelSourceConnections(), callConnection);
+			for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
+				if (con instanceof ReUseKeysChangeListener && con instanceof Event2EventRelationship && con != callConnection ) {
+					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+				}
+			}			
 		}
 
 	}
-
+	private void fireReUseKeyChange(List<AbstractConnectionModel> connections, AbstractConnectionModel<?> callConnection) {
+		for (AbstractConnectionModel<?> con : connections) {
+			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
+				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+			}			
+		}
+	}
 	/**
 	 * エンティティ種類が編集可能か判定する
 	 * 

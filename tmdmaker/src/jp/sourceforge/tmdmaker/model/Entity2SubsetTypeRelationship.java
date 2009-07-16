@@ -40,4 +40,16 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel<Conne
 			}
 		}
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 }

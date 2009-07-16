@@ -95,10 +95,5 @@ public abstract class AbstractRelationship extends AbstractConnectionModel<Abstr
 		this.centerMark = centerMark;
 		firePropertyChange(PROPERTY_CONNECTION, oldValue, centerMark);
 	}
-	/**
-	 * 削除可能か判定する
-	 * @return 削除可能な場合にtrueを返す
-	 */
-	public abstract boolean canDeletable();
 	
 }

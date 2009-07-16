@@ -3,20 +3,36 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.jface.dialogs.Dialog;
 
 public class DetailEditPart extends AbstractEntityEditPart {
 
 	@Override
 	protected void onDoubleClicked() {
-		// TODO Auto-generated method stub
+		logger.debug(getClass() + "#onDoubleClicked()");
+		Detail table = (Detail) getModel();
+		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
+				.getShell(), table.getName(), table.getReuseKeys(), table
+				.getAttributes());
+		if (dialog.open() == Dialog.OK) {
+			TableEditCommand<Detail> command = new TableEditCommand<Detail>(
+					table, dialog.getEntityName(), dialog.getReuseKeys(),
+					dialog.getAttributes());
+			getViewer().getEditDomain().getCommandStack().execute(command);
+		}
 
 	}
 
@@ -52,8 +68,8 @@ public class DetailEditPart extends AbstractEntityEditPart {
 
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
-
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
+				new AbstractEntityGraphicalNodeEditPolicy());
 	}
 
 }

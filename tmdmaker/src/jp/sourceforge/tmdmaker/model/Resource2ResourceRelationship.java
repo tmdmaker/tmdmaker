@@ -85,7 +85,7 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public boolean canDeletable() {
-		return getSource().canDeletable() && getTarget().canDeletable() && table.canDeletable();
+		return table.canDeletable();
 	}
 
 	/**

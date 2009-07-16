@@ -257,11 +257,12 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 		@Override
 		public boolean canExecute() {
-			if (model.getEntityType() == EntityType.EVENT) {
-				return model.getModelSourceConnections().size() == 0;
-			}
-			return model.getModelSourceConnections().size() == 0
-					&& model.getModelTargetConnections().size() == 0;
+//			if (model.getEntityType() == EntityType.EVENT) {
+//				return model.getModelSourceConnections().size() == 0;
+//			}
+//			return model.getModelSourceConnections().size() == 0
+//					&& model.getModelTargetConnections().size() == 0;
+			return model.canDeletable();
 		}
 
 		@Override

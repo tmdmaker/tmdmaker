@@ -153,7 +153,8 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		public CombinationTableDeleteCommand(Diagram diagram,
 				CombinationTable model) {
 			this.diagram = diagram;
-			setModel(model);
+			this.model = model;
+			this.relatedRelationship = model.findCreationRelationship();
 			sourceConnections.addAll(model.getModelSourceConnections());
 			targetConnections.addAll(model.getModelTargetConnections());
 			relationship = (AbstractRelationship) relatedRelationship.getSource();
@@ -187,16 +188,16 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 			relationship.connect();
 		}
 
-		private void setModel(Object model) {
-			this.model = (CombinationTable) model;
-			for (AbstractConnectionModel c : this.model
-					.getModelTargetConnections()) {
-				if (c instanceof RelatedRelationship) {
-					this.relatedRelationship = (RelatedRelationship) c;
-					break;
-				}
-			}
-		}
+//		private void setModel(Object model) {
+//			this.model = (CombinationTable) model;
+//			for (AbstractConnectionModel c : this.model
+//					.getModelTargetConnections()) {
+//				if (c instanceof RelatedRelationship) {
+//					this.relatedRelationship = (RelatedRelationship) c;
+//					break;
+//				}
+//			}
+//		}
 
 		private void detachConnections(List<AbstractConnectionModel> connections) {
 			for (AbstractConnectionModel model : connections) {

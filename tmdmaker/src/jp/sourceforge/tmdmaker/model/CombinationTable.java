@@ -52,21 +52,31 @@ public class CombinationTable extends AbstractEntityModel {
 				&& getModelTargetConnections().size() == 1;
 	}
 	/**
+	 * 対象表作成時のリレーションシップを取得する
+	 * @return 対象表作成時のリレーションシップ（リレーションシップへのリレーションシップ）
+	 */
+	public RelatedRelationship findCreationRelationship() {
+		AbstractConnectionModel<?> r = getModelTargetConnections().get(0);
+		assert r instanceof RelatedRelationship;
+		return (RelatedRelationship) r;
+	}
+
+	/**
 	 * 
 	 */
-	public void notifyReUseKeyChange(AbstractConnectionModel<?> callConnection) {
-		firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
-		for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
-
-			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
-				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-			}
-		}
-		for (AbstractConnectionModel<?> con : getModelSourceConnections()) {
-			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
-				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-			}
-		}
-
-	}
+//	public void notifyReUseKeyChange(AbstractConnectionModel<?> callConnection) {
+//		firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+//		for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
+//
+//			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
+//				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+//			}
+//		}
+//		for (AbstractConnectionModel<?> con : getModelSourceConnections()) {
+//			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
+//				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+//			}
+//		}
+//
+//	}
 }

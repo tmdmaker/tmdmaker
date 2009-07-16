@@ -125,16 +125,33 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 		private RelatedRelationship relatedRelationship;
 		private AbstractRelationship relationship;
 
+		/**
+		 * コンストラクタ
+		 * @param model 削除対象モデル
+		 */
 		public MappingListDeleteCommand(MappingList model) {
 			this.model = model;
 			this.diagram = model.getDiagram();
-			this.relatedRelationship = findRelatedRelationship(model);
+			this.relatedRelationship = model.findCreationRelationship();
 			this.relationship = (AbstractRelationship) relatedRelationship.getSource();
 		}
 
-		/*
-		 * (non-Javadoc)
+		
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.commands.Command#canExecute()
+		 */
+		@Override
+		public boolean canExecute() {
+			return model.canDeletable();
+		}
+
+
+		/**
 		 * 
+		 * {@inheritDoc}
+		 *
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
@@ -143,21 +160,26 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 //			model.setDiagram(null);
 			relationship.disconnect();
 		}
+//		/**
+//		 * 
+//		 * @param model
+//		 * @return
+//		 */
+//		private RelatedRelationship findRelatedRelationship(MappingList model) {
+//			this.model = model;
+//			for (AbstractConnectionModel c : this.model
+//					.getModelTargetConnections()) {
+//				if (c instanceof RelatedRelationship) {
+//					return (RelatedRelationship) c;
+//				}
+//			}
+//			return null;
+//		}
 
-		private RelatedRelationship findRelatedRelationship(MappingList model) {
-			this.model = model;
-			for (AbstractConnectionModel c : this.model
-					.getModelTargetConnections()) {
-				if (c instanceof RelatedRelationship) {
-					return (RelatedRelationship) c;
-				}
-			}
-			return null;
-		}
-
-		/*
-		 * (non-Javadoc)
+		/**
 		 * 
+		 * {@inheritDoc}
+		 *
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override

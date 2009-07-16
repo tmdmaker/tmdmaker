@@ -28,15 +28,17 @@ public abstract class ConnectableElementDeleteCommand extends Command {
 
 	protected void detachConnections(List<AbstractConnectionModel> connections) {
 		for (AbstractConnectionModel model : connections) {
-			model.detachSource();
-			model.detachTarget();
+			model.disconnect();
+//			model.detachSource();
+//			model.detachTarget();
 		}
 	}
 
 	protected void attathConnections(List<AbstractConnectionModel> connections) {
 		for (AbstractConnectionModel model : connections) {
-			model.attachSource();
-			model.attachTarget();
+			model.connect();
+//			model.attachSource();
+//			model.attachTarget();
 		}
 	}
 

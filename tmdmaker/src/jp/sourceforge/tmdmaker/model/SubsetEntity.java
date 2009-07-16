@@ -32,6 +32,8 @@ public class SubsetEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReUseKeys getMyReuseKey() {
+		System.out.println(getClass() + "#getMyReuseKey()");
+		System.out.println("value = [" + originalReuseKey + "]");
 		return originalReuseKey;
 	}
 

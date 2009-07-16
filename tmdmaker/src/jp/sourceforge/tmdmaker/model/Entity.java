@@ -62,9 +62,11 @@ public class Entity extends AbstractEntityModel {
 		this.identifier = identifier;
 		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
 	}
+
 	/**
 	 * 
-	 * @param identifierName 個体指示子名称
+	 * @param identifierName
+	 *            個体指示子名称
 	 */
 	public void setIdentifierName(String identifierName) {
 		String oldValue = this.identifier.getName();
@@ -74,6 +76,7 @@ public class Entity extends AbstractEntityModel {
 			notifyReUseKeyChange(null);
 		}
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -99,13 +102,17 @@ public class Entity extends AbstractEntityModel {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
 	 */
 	@Override
 	public boolean canDeletable() {
+		if (getEntityType() == EntityType.EVENT) {
+			return getModelSourceConnections().size() == 0;
+		}
 		return getModelSourceConnections().size() == 0
-		&& getModelTargetConnections().size() == 0;
+				&& getModelTargetConnections().size() == 0;
+
 	}
 	
 }

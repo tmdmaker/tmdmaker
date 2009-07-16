@@ -1,15 +1,21 @@
 package jp.sourceforge.tmdmaker.model.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 
 import org.eclipse.gef.commands.Command;
-
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class ConnectionDeleteCommand extends Command {
-	private AbstractConnectionModel connection;
-//	private List<Identifier> reuseKeys = null;
-	
+	/** 削除対象モデル */
+	private AbstractConnectionModel<?> connection;
+
+	/**
+	 * コンストラクタ
+	 */
 	public ConnectionDeleteCommand(AbstractConnectionModel connection) {
 		super();
 		this.connection = connection;
@@ -18,8 +24,21 @@ public class ConnectionDeleteCommand extends Command {
 //			reuseKeys = r.getReuseKeys();
 //		}
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.commands.Command#canExecute()
+	 */
+	@Override
+	public boolean canExecute() {
+		return connection.canDeletable();
+	}
 
-	/* (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
@@ -28,13 +47,13 @@ public class ConnectionDeleteCommand extends Command {
 //		connection.detachSource();
 //		connection.detachTarget();
 		connection.disconnect();
-		if (connection instanceof AbstractRelationship) {
+//		if (connection instanceof AbstractRelationship) {
 //			AbstractRelationship r = (AbstractRelationship) connection;
 //			AbstractEntityModel source = (AbstractEntityModel) r.getSource();
 //			AbstractEntityModel target = (AbstractEntityModel) r.getTarget();
 //			source.removeReuseKey(target);
 //			target.removeReuseKey(source);
-		}
+//		}
 //		if (reuseKeys != null) {
 //			AbstractRelationship r = (AbstractRelationship) connection;
 //			AbstractEntityModel model = (AbstractEntityModel) r.getTarget();
@@ -44,7 +63,10 @@ public class ConnectionDeleteCommand extends Command {
 //		}
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
@@ -53,12 +75,12 @@ public class ConnectionDeleteCommand extends Command {
 		connection.connect();
 //		connection.attachSource();
 //		connection.attachTarget();
-		if (connection instanceof AbstractRelationship) {
+//		if (connection instanceof AbstractRelationship) {
 //			AbstractRelationship r = (AbstractRelationship) connection;
 //			AbstractEntityModel source = (AbstractEntityModel) r.getSource();
 //			AbstractEntityModel target = (AbstractEntityModel) r.getTarget();
 //			target.addReuseKey(source);
-		}
+//		}
 //		if (reuseKeys != null) {
 //			AbstractRelationship r = (AbstractRelationship) connection;
 //			AbstractEntityModel model = (AbstractEntityModel) r.getTarget();
