@@ -69,6 +69,6 @@ public class ReUseKeys implements Serializable {
 	 * オブジェクトを破棄する
 	 */
 	public void dispose() {
-//		identifieres.clear();
+		identifieres.clear();
 	}
 }

@@ -2,6 +2,7 @@ package jp.sourceforge.tmdmaker.model;
 
 /**
  * サブセットモデル
+ * 
  * @author nakaG
  * 
  */
@@ -9,7 +10,7 @@ package jp.sourceforge.tmdmaker.model;
 public class SubsetEntity extends AbstractEntityModel {
 	/** サブセットの親のRe-usedキー */
 	private ReUseKeys originalReuseKey;
-	
+
 	/**
 	 * @return the originalReuseKey
 	 */
@@ -18,7 +19,8 @@ public class SubsetEntity extends AbstractEntityModel {
 	}
 
 	/**
-	 * @param originalReuseKey the originalReuseKey to set
+	 * @param originalReuseKey
+	 *            the originalReuseKey to set
 	 */
 	public void setOriginalReuseKey(ReUseKeys originalReuseKey) {
 		this.originalReuseKey = originalReuseKey;
@@ -34,12 +36,16 @@ public class SubsetEntity extends AbstractEntityModel {
 	public ReUseKeys getMyReuseKey() {
 		System.out.println(getClass() + "#getMyReuseKey()");
 		System.out.println("value = [" + originalReuseKey + "]");
-		return originalReuseKey;
+
+		ReUseKeys returnValue = new ReUseKeys();
+		returnValue.addAll(this.originalReuseKey.getIdentifires());
+
+		return returnValue;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canEntityTypeEditable()
 	 */
 	@Override
@@ -49,7 +55,7 @@ public class SubsetEntity extends AbstractEntityModel {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
 	 */
 	@Override
@@ -57,5 +63,5 @@ public class SubsetEntity extends AbstractEntityModel {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 }
