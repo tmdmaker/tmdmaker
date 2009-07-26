@@ -10,7 +10,9 @@ public enum EntityType {
 	/** リソース */
 	RESOURCE("R"),
 	/** イベント */
-	EVENT("E");
+	EVENT("E"),
+	/** 多値のOR */
+	MO("MO");
 	
 	/** 表示用 */
 	private String label;

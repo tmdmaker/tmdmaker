@@ -9,6 +9,7 @@ import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
+import jp.sourceforge.tmdmaker.dialog.EntityNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
@@ -47,17 +48,9 @@ import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -312,11 +305,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 						if (event.getDetail() == CommandStack.PRE_EXECUTE
 								|| event.getDetail() == CommandStack.PRE_REDO) {
 							if (command.getEntityName() == null) {
-								// EntityCreateDialog1 dialog = new
-								// EntityCreateDialog1(getGraphicalViewer().getControl().getShell());
-								// if (dialog.open() == Dialog.OK) {
-								//									
-								// }
 								EntityCreateDialog dialog = new EntityCreateDialog(
 										getGraphicalViewer().getControl()
 												.getShell());
@@ -325,12 +313,11 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 											.debug(getClass().toString()
 													+ "#stackChanged():dialog.open() == Dialog.OK)");
 									command.setIdentifierName(dialog
-											.getIdentifierName());
+											.getInputIdentifierName());
 									command
-											.setEntityName(createEntityName(dialog
-													.getIdentifierName()));
+											.setEntityName(dialog.getInputEntityName());
 									EntityType entityType = dialog
-											.getEntityType();
+											.getInputEntityType();
 									command.setEntityType(entityType);
 									if (entityType.equals(EntityType.EVENT)) {
 										command.setTransactionDate(command
@@ -383,110 +370,43 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 					}
 				});
 	}
+
 	/**
-	 * 
-	 * @param identifierName
-	 * @return
-	 */
-	private String createEntityName(String identifierName) {
-		String[] suffixes = { "コード", "ID", "ＩＤ", "id", "ｉｄ", "番号", "No" };
-		String[] reportSuffixes = { "伝票", "報告書", "書", "レポート" };
-		String entityName = identifierName;
-		for (String suffix : suffixes) {
-			if (identifierName.endsWith(suffix)) {
-				entityName = identifierName.substring(0, identifierName
-						.lastIndexOf(suffix));
-				break;
-			}
-		}
-		for (String reportSuffix : reportSuffixes) {
-			if (entityName.endsWith(reportSuffix)) {
-				entityName = entityName.substring(0, entityName
-						.lastIndexOf(reportSuffix));
-				break;
-			}
-		}
-		return entityName;
-	}
-	/**
-	 * 
+	 * エンティティ新規作成ダイアログ
 	 * @author nakaG
 	 *
 	 */
 	private static class EntityCreateDialog extends Dialog {
-		private String identifierName;
-		private Text identifierNameText;
-		private EntityType entityType = EntityType.RESOURCE;
+		/** 個体指示子名称 */
+		private String inputIdentifierName;
+		/** エンティティ名称 */
+		private String inputEntityName;
+		/** 類別 */
+		private EntityType inputEntityType = EntityType.RESOURCE;
+		/** エンティティ名称・種類設定用パネル */
+		private EntityNameAndTypeSettingPanel panel;
 
+		/**
+		 * コンストラクタ
+		 * @param parentShell 親
+		 */
 		protected EntityCreateDialog(Shell parentShell) {
 			super(parentShell);
-			// TODO Auto-generated constructor stub
 		}
 
-		/*
-		 * (non-Javadoc)
+		/**
 		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt
-		 * .widgets.Composite)
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
 		protected Control createDialogArea(Composite parent) {
 			getShell().setText("エンティティ新規作成");
+
 			Composite composite = new Composite(parent, SWT.NULL);
-			composite.setLayout(new GridLayout(2, false));
-			composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-			Label label = new Label(composite, SWT.NULL);
-			label.setText("個体指示子");
-			identifierNameText = new Text(composite, SWT.BORDER);
-			identifierNameText.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
-
-			label = new Label(composite, SWT.NULL);
-			label.setText("類別");
-
-			Group group = new Group(composite, SWT.SHADOW_OUT);
-			group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			group.setBounds(-1, -1, -1, -1);
-			Button r = new Button(group, SWT.RADIO);
-			r.setText("リソース");
-			r.setBounds(5, 10, 55, 20);
-			r.addSelectionListener(new SelectionAdapter() {
-
-				/**
-				 * 
-				 * @param e
-				 */
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					System.out.println("RESOURCE widgetSelected");
-					Button bBut = (Button) e.widget;
-					if (bBut.getSelection()) {
-						entityType = EntityType.RESOURCE;
-					}
-				}
-
-			});
-			Button e = new Button(group, SWT.RADIO);
-			e.setText("イベント");
-			e.setBounds(80, 10, 55, 20);
-			e.addSelectionListener(new SelectionAdapter() {
-
-				/**
-				 * @param e
-				 */
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					System.out.println("EVENT widgetSelected");
-					Button bBut = (Button) e.widget;
-					if (bBut.getSelection()) {
-						entityType = EntityType.EVENT;
-					}
-				}
-
-			});
-			r.setSelection(true);
+			panel = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
 
 			return composite;
 		}
@@ -499,23 +419,43 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		 */
 		@Override
 		protected void okPressed() {
-			this.identifierName = this.identifierNameText.getText();
-			super.okPressed();
+			this.inputIdentifierName = this.panel.getIdentifierName();
+			this.inputEntityType = this.panel.getSelectedType();
+			this.inputEntityName = this.panel.getEntityName();
+			if (validate()) {
+				super.okPressed();
+			} else {
+				
+				return;
+			}
+		}
+		/**
+		 * ダイアログ検証
+		 * @return 必須事項が全て入力されている場合にtrueを返す
+		 */
+		private boolean validate() {
+			return this.inputIdentifierName != null && this.inputIdentifierName.length() > 0 && this.inputEntityName != null && this.inputEntityName.length() > 0;
+		}
+		/**
+		 * @return the inputIdentifierName
+		 */
+		public String getInputIdentifierName() {
+			return inputIdentifierName;
 		}
 
 		/**
-		 * @return the identifierName
+		 * @return the inputEntityType
 		 */
-		public String getIdentifierName() {
-			return identifierName;
+		public EntityType getInputEntityType() {
+			return inputEntityType;
 		}
 
 		/**
-		 * @return the entityType
+		 * @return the inputEntityName
 		 */
-		public EntityType getEntityType() {
-			return entityType;
+		public String getInputEntityName() {
+			return inputEntityName;
 		}
-
+		
 	}
 }

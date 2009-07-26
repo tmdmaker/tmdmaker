@@ -9,6 +9,7 @@ import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
@@ -66,6 +67,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
+		entityFigure.setEntityType(EntityType.MO.getLabel());
 		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : entity
 				.getReuseKeys().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {

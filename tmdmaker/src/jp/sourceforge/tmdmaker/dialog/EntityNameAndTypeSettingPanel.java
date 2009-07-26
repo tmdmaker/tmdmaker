@@ -1,28 +1,32 @@
 package jp.sourceforge.tmdmaker.dialog;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Label;
+import jp.sourceforge.tmdmaker.model.EntityType;
+
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 public class EntityNameAndTypeSettingPanel extends Composite {
 
 	private Label identifierLabel = null;
-	private Text inputIdentifierText = null;
+	private Text identifierText = null;
 	private Label typeLabel = null;
-	private Group typeGroup = null;
-	private Button resourceRadioButton = null;
-	private Button eventRadioButton = null;
-
+	private Combo typeCombo = null;
+	private Button nameAutoCreateCheckBox = null;
+	private Label nameLabel = null;
+	private Text nameText = null;
 	public EntityNameAndTypeSettingPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
-		// TODO Auto-generated constructor stub
+		this.nameAutoCreateCheckBox.setSelection(true);
+		this.nameText.setEnabled(false);
+		this.typeCombo.select(0);
 	}
 
 	/**
@@ -30,6 +34,10 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	 * 
 	 */
 	private void initialize() {
+        GridData gridData1 = new GridData();
+        gridData1.grabExcessHorizontalSpace = false;
+        gridData1.verticalAlignment = GridData.CENTER;
+        gridData1.horizontalAlignment = GridData.FILL;
         GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
@@ -37,52 +45,104 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         gridData.verticalAlignment = GridData.CENTER;
         identifierLabel = new Label(this, SWT.NONE);
         identifierLabel.setText("個体指示子");
-        inputIdentifierText = new Text(this, SWT.BORDER);
-        inputIdentifierText.setLayoutData(gridData);
+        identifierText = new Text(this, SWT.BORDER);
+        identifierText.setLayoutData(gridData);
+        identifierText
+        		.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
+        			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
+        				System.out.println("modifyText()"); // TODO Auto-generated Event stub modifyText()
+        				if (nameAutoCreateCheckBox.getSelection()) {
+	        				Text t = (Text) e.widget;
+	        				nameText.setText(createEntityName(t.getText()));
+        				}
+        			}
+        		});
+        Label filler1 = new Label(this, SWT.NONE);
+        nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
+        nameAutoCreateCheckBox.setText("個体指示子からエンティティ名を自動生成");
+        nameAutoCreateCheckBox
+        		.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+        			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+        				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
+        				Button b = (Button) e.widget;
+        				if (b.getSelection()) {
+        					nameText.setEnabled(false);
+        				} else {
+        					nameText.setEnabled(true);
+        				}
+        			}
+        		});
+        nameLabel = new Label(this, SWT.NONE);
+        nameLabel.setText("エンティティ名");
+        nameText = new Text(this, SWT.BORDER);
+        nameText.setLayoutData(gridData1);
         typeLabel = new Label(this, SWT.NONE);
         typeLabel.setText("類別");
         GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
         this.setLayout(gridLayout);
-        createTypeGroup();
-        this.setSize(new Point(209, 74));
+        createTypeCombo();
+        this.setSize(new Point(314, 99));
 			
 	}
 
 	/**
-	 * This method initializes typeGroup	
+	 * This method initializes typeCombo	
 	 *
 	 */
-	private void createTypeGroup() {
-		GridData gridData3 = new GridData();
-		gridData3.grabExcessHorizontalSpace = true;
-		GridData gridData2 = new GridData();
-		gridData2.horizontalAlignment = GridData.FILL;
-		gridData2.grabExcessHorizontalSpace = false;
-		gridData2.verticalAlignment = GridData.CENTER;
-		GridLayout gridLayout1 = new GridLayout();
-		gridLayout1.numColumns = 2;
-		gridLayout1.verticalSpacing = 15;
-		GridData gridData1 = new GridData();
-		gridData1.horizontalAlignment = GridData.FILL;
-		gridData1.grabExcessHorizontalSpace = true;
-		gridData1.grabExcessVerticalSpace = false;
-		gridData1.verticalAlignment = GridData.CENTER;
-		typeGroup = new Group(this, SWT.NONE);
-		typeGroup.setLayoutData(gridData1);
-		typeGroup.setLayout(gridLayout1);
-		resourceRadioButton = new Button(typeGroup, SWT.RADIO);
-		resourceRadioButton.setText("リソース");
-		resourceRadioButton.setLayoutData(gridData3);
-		resourceRadioButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-					}
-				});
-		eventRadioButton = new Button(typeGroup, SWT.RADIO);
-		eventRadioButton.setText("イベント");
-		eventRadioButton.setLayoutData(gridData2);
+	private void createTypeCombo() {
+		typeCombo = new Combo(this, SWT.NONE);
+		typeCombo.add("リソース");
+		typeCombo.add("イベント");
+	}
+	/**
+	 * 
+	 * @param identifierName
+	 * @return
+	 */
+	private String createEntityName(String identifierName) {
+		String[] suffixes = { "コード", "ID", "ＩＤ", "id", "ｉｄ", "番号", "No" };
+		String[] reportSuffixes = { "伝票", "報告書", "書", "レポート" };
+		String entityName = identifierName;
+		for (String suffix : suffixes) {
+			if (identifierName.endsWith(suffix)) {
+				entityName = identifierName.substring(0, identifierName
+						.lastIndexOf(suffix));
+				break;
+			}
+		}
+		for (String reportSuffix : reportSuffixes) {
+			if (entityName.endsWith(reportSuffix)) {
+				entityName = entityName.substring(0, entityName
+						.lastIndexOf(reportSuffix));
+				break;
+			}
+		}
+		return entityName;
+	}
+	/**
+	 * @return the entityName
+	 */
+	public String getEntityName() {
+		return this.nameText.getText();
+	}
+	/**
+	 * 
+	 * @return the identifierName
+	 */
+	public String getIdentifierName() {
+		return this.identifierText.getText();
+	}
+	/**
+	 * 
+	 * @return the entityType
+	 */
+	public EntityType getSelectedType() {
+		if (typeCombo.getSelectionIndex() == 0) {
+			return EntityType.RESOURCE;
+		} else {
+			return EntityType.EVENT;
+		}
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
