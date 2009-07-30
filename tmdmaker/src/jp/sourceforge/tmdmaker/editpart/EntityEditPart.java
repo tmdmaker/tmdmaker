@@ -1,28 +1,28 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
+import jp.sourceforge.tmdmaker.dialog.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.EntityEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
-import jp.sourceforge.tmdmaker.model.ReUseKeysChangeListener;
+import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.EntityEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
@@ -45,21 +45,21 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		if (evt.getPropertyName().equals(Entity.PROPERTY_IDENTIFIER)) {
 			logger.debug(getClass() + "#propertyChange().IDENTIFIER");
 			refreshVisuals();
-//			Entity model = (Entity) getModel();
-//			for (AbstractConnectionModel<?> con : model
-//					.getModelTargetConnections()) {
-//				logger.debug("RESOURCE.source = " + con.getSource().getName());
-//				if (con instanceof ReUseKeysChangeListener) {
-//					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-//				}
-//			}
-//			for (AbstractConnectionModel<?> con : model
-//					.getModelSourceConnections()) {
-//				logger.debug("target = " + con.getTarget().getName());
-//				if (con instanceof ReUseKeysChangeListener) {
-//					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-//				}
-//			}
+			// Entity model = (Entity) getModel();
+			// for (AbstractConnectionModel<?> con : model
+			// .getModelTargetConnections()) {
+			// logger.debug("RESOURCE.source = " + con.getSource().getName());
+			// if (con instanceof ReUseKeysChangeListener) {
+			// ((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+			// }
+			// }
+			// for (AbstractConnectionModel<?> con : model
+			// .getModelSourceConnections()) {
+			// logger.debug("target = " + con.getTarget().getName());
+			// if (con instanceof ReUseKeysChangeListener) {
+			// ((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+			// }
+			// }
 		} else {
 			super.propertyChange(evt);
 		}
@@ -86,6 +86,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
+		logger.debug(getClass() +"#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
 		Entity entity = (Entity) getModel();
 
@@ -186,21 +187,56 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		Entity entity = (Entity) getModel();
-		EntityEditDialog dialog = new EntityEditDialog(getViewer().getControl()
-				.getShell(), entity.getIdentifier().getName(),
-				entity.getName(), entity.getEntityType(),
-				entity.getReuseKeys(), entity.getAttributes(), entity
-						.canEntityTypeEditable());
+		EntityEditDialog2 dialog = new EntityEditDialog2(getViewer()
+				.getControl().getShell(), entity.getIdentifier().getName(),
+				entity.getName(), entity.getEntityType(), entity
+						.canEntityTypeEditable(), entity.getAttributes());
 		if (dialog.open() == Dialog.OK) {
-			EntityEditCommand command = new EntityEditCommand();
-			command.setAttributes(dialog.getAttributes());
-			command.setEntityName(dialog.getEntityName());
-			command.setEntityType(dialog.getEntityType());
-			command.setIdentifierName(dialog.getIdentifierName());
-			command.setReuseKeys(dialog.getReuseKeys());
-			command.setEntity(entity);
-			getViewer().getEditDomain().getCommandStack().execute(command);
+			System.out.println("Entity Edited.");
+			CompoundCommand ccommand = new CompoundCommand();
+			
+			List<Attribute> newAttributes = new ArrayList<Attribute>();
+			for (EditAttribute ea : dialog.getEditAttributeList()) {
+				Attribute original = ea.getOriginalAttribute();
+				if (original == null) {
+					original = new Attribute(ea.getName());
+				} else {
+					if (original.getName().equals(ea.getName()) == false) {
+						AttributeEditCommand editCommand = new AttributeEditCommand(original, ea.getName());
+						ccommand.add(editCommand);
+					}
+				}
+				newAttributes.add(original);
+
+			}
+			EditCommand command = new EditCommand(dialog
+					.getEditEntityName(), dialog.getEditEntityType(), dialog
+					.getEditIdentifierName(), newAttributes,
+					entity);
+			ccommand.add(command);
+			for (EditAttribute ea : dialog.getDeletedAttributeList()) {
+				
+			}
+			System.out.println("execute");
+			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}
+		// Entity entity = (Entity) getModel();
+		// EntityEditDialog dialog = new
+		// EntityEditDialog(getViewer().getControl()
+		// .getShell(), entity.getIdentifier().getName(),
+		// entity.getName(), entity.getEntityType(),
+		// entity.getReuseKeys(), entity.getAttributes(), entity
+		// .canEntityTypeEditable());
+		// if (dialog.open() == Dialog.OK) {
+		// EntityEditCommand command = new EntityEditCommand();
+		// command.setAttributes(dialog.getAttributes());
+		// command.setEntityName(dialog.getEntityName());
+		// command.setEntityType(dialog.getEntityType());
+		// command.setIdentifierName(dialog.getIdentifierName());
+		// command.setReuseKeys(dialog.getReuseKeys());
+		// command.setEntity(entity);
+		// getViewer().getEditDomain().getCommandStack().execute(command);
+		// }
 	}
 
 	// public static class CreateBendPointCommand extends Command {
@@ -257,11 +293,11 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 		@Override
 		public boolean canExecute() {
-//			if (model.getEntityType() == EntityType.EVENT) {
-//				return model.getModelSourceConnections().size() == 0;
-//			}
-//			return model.getModelSourceConnections().size() == 0
-//					&& model.getModelTargetConnections().size() == 0;
+			// if (model.getEntityType() == EntityType.EVENT) {
+			// return model.getModelSourceConnections().size() == 0;
+			// }
+			// return model.getModelSourceConnections().size() == 0
+			// && model.getModelTargetConnections().size() == 0;
 			return model.canDeletable();
 		}
 
@@ -284,5 +320,63 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		public void setModel(Object model) {
 			this.model = (AbstractEntityModel) model;
 		}
+	}
+
+	private static class EditCommand extends Command {
+		private String newEntityName;
+		private EntityType newEntityType;
+		private String newIdentifierName;
+		private Entity editEntity;
+		private List<EditAttribute> newAttributeList;
+		private String oldEntityName;
+		private EntityType oldEntityType;
+		private String oldIdentifierName;
+		private List<Attribute> newAttributes;
+		private List<Attribute> oldAttributes;
+
+		public EditCommand(String newEntityName,
+				EntityType newEntityType, String newIdentifierName,
+				List<Attribute> newAttributes, Entity editEntity) {
+			this.newEntityName = newEntityName;
+			this.newEntityType = newEntityType;
+			this.newIdentifierName = newIdentifierName;
+			this.newAttributes = newAttributes;
+			this.editEntity = editEntity;
+			this.oldEntityName = editEntity.getName();
+			this.oldEntityType = editEntity.getEntityType();
+			this.oldIdentifierName = editEntity.getIdentifier().getName();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			System.out.println(newEntityType);
+			System.out.println(newIdentifierName);
+			System.out.println(newEntityName);
+			editEntity.setEntityType(newEntityType);
+			editEntity.setIdentifierName(newIdentifierName);
+			editEntity.setAttributes(newAttributes);
+			editEntity.setName(newEntityName);
+//			List<Attribute> newAttributes = new ArrayList<Attribute>();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			editEntity.setAttributes(oldAttributes);
+			editEntity.setEntityType(oldEntityType);
+			editEntity.setIdentifierName(oldIdentifierName);
+			editEntity.setName(oldEntityName);
+		}
+		
+		
 	}
 }

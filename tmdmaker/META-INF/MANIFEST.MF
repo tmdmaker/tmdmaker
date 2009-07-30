@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tmdmaker Plug-in
+Bundle-Name: TMD-Maker Plug-in
 Bundle-SymbolicName: tmdmaker;singleton:=true
 Bundle-Version: 0.0.0
 Bundle-Activator: jp.sourceforge.tmdmaker.TMDPlugin

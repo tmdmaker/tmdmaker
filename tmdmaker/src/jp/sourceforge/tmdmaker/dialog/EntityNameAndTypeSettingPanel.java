@@ -28,7 +28,23 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 		this.nameText.setEnabled(false);
 		this.typeCombo.select(0);
 	}
-
+	public void initializeValue(String identifierName, String entityName, EntityType type) {
+		this.identifierText.setText(identifierName);
+		this.nameText.setText(entityName);
+		if (EntityType.RESOURCE.equals(type)) {
+			this.typeCombo.select(0);
+		} else {
+			this.typeCombo.select(1);			
+		}
+		String autoCreateEntityName = createEntityName(identifierName);
+		if (autoCreateEntityName.equals(entityName)) {
+			this.nameAutoCreateCheckBox.setSelection(true);
+			this.nameText.setEnabled(false);
+		} else {
+			this.nameAutoCreateCheckBox.setSelection(false);
+			this.nameText.setEnabled(true);
+		}
+	}
 	/**
 	 * This method initializes this
 	 * 
@@ -82,7 +98,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         gridLayout.numColumns = 2;
         this.setLayout(gridLayout);
         createTypeCombo();
-        this.setSize(new Point(314, 99));
+        this.setSize(new Point(315, 100));
 			
 	}
 

@@ -200,15 +200,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
-	 */
-	// @Override
-	// public boolean isSaveAsAllowed() {
-	// return true;
-	// }
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#commandStackChanged(java.util.EventObject)
 	 */
 	@Override
