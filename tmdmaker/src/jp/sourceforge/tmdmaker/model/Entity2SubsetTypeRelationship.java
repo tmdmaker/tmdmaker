@@ -10,6 +10,8 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel<Conne
 	public static final String PROPERTY_PARTITION = "_property_partition";
 	/** 区分コードの属性 */
 	private Attribute partitionAttribute;
+	/** NULLを排除（形式的サブセット）するか？ */
+	private boolean exceptNull;
 
 	/**
 	 * @return the partitionAttributeName
@@ -50,6 +52,20 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel<Conne
 	public boolean canDeletable() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	/**
+	 * @return the exceptNull
+	 */
+	public boolean isExceptNull() {
+		return exceptNull;
+	}
+
+	/**
+	 * @param exceptNull the exceptNull to set
+	 */
+	public void setExceptNull(boolean exceptNull) {
+		this.exceptNull = exceptNull;
 	}
 
 }

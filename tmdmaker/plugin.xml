@@ -10,21 +10,21 @@
             extensions="tmd"
             icon="icons/entity.ico"
             id="tmdmaker.tmdeditor"
-            name="TM Diagram Editor">
+            name="%editor.name.0">
       </editor>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
       <category
             id="tmdmaker.category"
-            name="TMD">
+            name="%category.name.0">
       </category>
       <wizard
             category="tmdmaker.category"
             class="jp.sourceforge.tmdmaker.wizard.NewDiagramWizard"
             icon="icons/entity.ico"
             id="tmdmaker.wizard.newdiagramwizard"
-            name="new diagram">
+            name="%wizard.name.0">
       </wizard>
    </extension>
 
