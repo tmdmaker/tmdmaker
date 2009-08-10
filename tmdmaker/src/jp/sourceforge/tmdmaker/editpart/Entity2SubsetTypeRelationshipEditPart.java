@@ -38,7 +38,13 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 		
 		Attribute partitionAttribute = relationship.getPartitionAttribute();
 		if (partitionAttribute != null) {
-			figure.createPartitionAttributeNameDecoration(partitionAttribute.getName());
+			String name = null;
+			if (relationship.isExceptNull()) {
+				name = "NULL(" + partitionAttribute.getName() + ")";
+			} else {
+				name = partitionAttribute.getName();
+			}
+			figure.createPartitionAttributeNameDecoration(name);
 		}	
 	}
 	/**
@@ -65,16 +71,16 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 		super.refreshVisuals();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractRelationshipEditPart#propertyChange(java.beans.PropertyChangeEvent)
-	 */
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Entity2SubsetTypeRelationship.PROPERTY_PARTITION)) {
-			refreshVisuals();
-		} else {
-			super.propertyChange(evt);
-		}
-	}
+//	/**
+//	 * {@inheritDoc}
+//	 * @see jp.sourceforge.tmdmaker.editpart.AbstractRelationshipEditPart#propertyChange(java.beans.PropertyChangeEvent)
+//	 */
+//	@Override
+//	public void propertyChange(PropertyChangeEvent evt) {
+//		if (evt.getPropertyName().equals(Entity2SubsetTypeRelationship.PROPERTY_PARTITION)) {
+//			refreshVisuals();
+//		} else {
+//			super.propertyChange(evt);
+//		}
+//	}
 }

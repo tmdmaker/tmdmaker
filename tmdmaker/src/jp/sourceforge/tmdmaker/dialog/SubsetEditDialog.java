@@ -77,9 +77,7 @@ public class SubsetEditDialog extends Dialog {
 		this.selectedPartitionAttribute = selectedAttribute;
 		if (subsets != null) {
 			for (SubsetEntity e : subsets) {
-				EditSubsetEntity edit = new EditSubsetEntity();
-				edit.name = e.getName();
-				edit.subsetEntity = e;
+				EditSubsetEntity edit = new EditSubsetEntity(e);
 				this.subsets.add(edit);
 //				SubsetEntity copy = new SubsetEntity();
 //				try {
@@ -194,7 +192,7 @@ public class SubsetEditDialog extends Dialog {
 
 		for (EditSubsetEntity e : subsets) {
 			TableItem item = new TableItem(tblAttributes, SWT.NULL);
-			item.setText(e.name);
+			item.setText(e.getName());
 		}
 		
 		tblAttributes.addSelectionListener(new SelectionAdapter() {
@@ -209,7 +207,7 @@ public class SubsetEditDialog extends Dialog {
 				if (index >= 0) {
 					EditSubsetEntity subset = subsets.get(index);
 					attributeEditIndex = index;
-					attributeNameText.setText(subset.name);
+					attributeNameText.setText(subset.getName());
 				}
 			}
 			
@@ -235,11 +233,11 @@ public class SubsetEditDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				EditSubsetEntity subset = new EditSubsetEntity();
-				subset.name = "サブセット_" + (subsets.size() + 1);
+				subset.setName("サブセット_" + (subsets.size() + 1));
 				subsets.add(subset);
 
 				TableItem item = new TableItem(tblAttributes, SWT.NULL);
-				item.setText(subset.name);
+				item.setText(subset.getName());
 			}
 		});
 		
@@ -251,7 +249,7 @@ public class SubsetEditDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				EditSubsetEntity deleted = subsets.remove(attributeEditIndex);
 				tblAttributes.remove(attributeEditIndex);
-				deleteSubsets.add(deleted.subsetEntity);
+				deleteSubsets.add(deleted.getOriginal());
 			}
 			
 		});
@@ -286,7 +284,7 @@ public class SubsetEditDialog extends Dialog {
 			@Override
 			public void focusLost(FocusEvent e) {
 				EditSubsetEntity subset = subsets.get(attributeEditIndex);
-				subset.name = attributeNameText.getText();
+				subset.setName(attributeNameText.getText());
 				TableItem item = tblAttributes.getItem(attributeEditIndex);
 				item.setText(0, attributeNameText.getText());
 			}
@@ -327,28 +325,5 @@ public class SubsetEditDialog extends Dialog {
 	}
 
 
-	public static class EditSubsetEntity {
-		SubsetEntity subsetEntity;
-		String name;
-		
-		public boolean isAdded() {
-			return subsetEntity == null;
-		}
-		public boolean isNameChanged() {
-			return subsetEntity != null && !subsetEntity.getName().equals(name);
-		}
-		/**
-		 * @return the subsetEntity
-		 */
-		public SubsetEntity getSubsetEntity() {
-			return subsetEntity;
-		}
-		/**
-		 * @return the name
-		 */
-		public String getName() {
-			return name;
-		}
-		
-	}
+
 }

@@ -12,7 +12,7 @@ public class SubsetTypeFigure extends Figure {
 	public SubsetTypeFigure(boolean sameType) {
 		super();
 		this.sameType = sameType;
-		setBorder(new SubsetBorder(sameType));
+		setBorder(new SubsetBorder(this.sameType));
 		setSize(30, 10);
 		setOpaque(false);
 	}
