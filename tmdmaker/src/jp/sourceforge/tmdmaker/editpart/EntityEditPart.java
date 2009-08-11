@@ -345,6 +345,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			this.oldEntityName = editEntity.getName();
 			this.oldEntityType = editEntity.getEntityType();
 			this.oldIdentifierName = editEntity.getIdentifier().getName();
+			this.oldAttributes = editEntity.getAttributes();
 		}
 
 		/**

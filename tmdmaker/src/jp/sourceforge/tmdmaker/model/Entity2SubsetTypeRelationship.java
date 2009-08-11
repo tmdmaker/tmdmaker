@@ -6,8 +6,8 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class Entity2SubsetTypeRelationship extends AbstractConnectionModel<ConnectableElement> implements ReUseKeysChangeListener {
-//	/** 区分コードプロパティ定数 */
-//	public static final String PROPERTY_PARTITION = "_property_partition";
+	/** 区分コードプロパティ定数 */
+	public static final String PROPERTY_PARTITION = "_property_partition";
 //	/** 区分コードの属性 */
 //	private Attribute partitionAttribute;
 //	/** NULLを排除（形式的サブセット）するか？ */
@@ -67,5 +67,7 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel<Conne
 //	public void setExceptNull(boolean exceptNull) {
 //		this.exceptNull = exceptNull;
 //	}
-
+	public void firePartitionChanged() {
+		firePropertyChange(PROPERTY_PARTITION, null, null);
+	}
 }

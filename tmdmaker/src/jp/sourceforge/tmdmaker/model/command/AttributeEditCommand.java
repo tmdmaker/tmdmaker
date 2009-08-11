@@ -11,6 +11,8 @@ public class AttributeEditCommand extends Command {
 
 	public AttributeEditCommand(Attribute attribute, String newAttributeName) {
 		this.attribute = attribute;
+		this.oldAttributeName = attribute.getName();
+		this.newAttributeName = newAttributeName;
 	}
 
 	/**

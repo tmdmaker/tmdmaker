@@ -71,16 +71,16 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 		super.refreshVisuals();
 	}
 
-//	/**
-//	 * {@inheritDoc}
-//	 * @see jp.sourceforge.tmdmaker.editpart.AbstractRelationshipEditPart#propertyChange(java.beans.PropertyChangeEvent)
-//	 */
-//	@Override
-//	public void propertyChange(PropertyChangeEvent evt) {
-//		if (evt.getPropertyName().equals(Entity2SubsetTypeRelationship.PROPERTY_PARTITION)) {
-//			refreshVisuals();
-//		} else {
-//			super.propertyChange(evt);
-//		}
-//	}
+	/**
+	 * {@inheritDoc}
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractRelationshipEditPart#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(Entity2SubsetTypeRelationship.PROPERTY_PARTITION)) {
+			refreshVisuals();
+		} else {
+			super.propertyChange(evt);
+		}
+	}
 }
