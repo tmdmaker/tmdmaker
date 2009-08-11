@@ -321,13 +321,16 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			this.model = (AbstractEntityModel) model;
 		}
 	}
-
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
 	private static class EditCommand extends Command {
 		private String newEntityName;
 		private EntityType newEntityType;
 		private String newIdentifierName;
 		private Entity editEntity;
-		private List<EditAttribute> newAttributeList;
 		private String oldEntityName;
 		private EntityType oldEntityType;
 		private String oldIdentifierName;

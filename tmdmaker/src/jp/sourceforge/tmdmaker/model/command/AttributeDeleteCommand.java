@@ -10,6 +10,7 @@ public class AttributeDeleteCommand extends Command {
 	private Attribute attribute;
 	
 	public AttributeDeleteCommand(AbstractEntityModel entity, Attribute attribute) {
-		
+		this.entity = entity;
+		this.attribute = attribute;
 	}
 }
