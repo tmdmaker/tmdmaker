@@ -12,6 +12,11 @@ import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Insets;
 
+/**
+ * エンティティ（表）Figure
+ * @author nakaG
+ *
+ */
 public class EntityFigure extends Figure {
 	private Label name;
 	private Label type;
@@ -19,10 +24,20 @@ public class EntityFigure extends Figure {
 	private EntityLayoutCompartmentFigure compartmentFigure;
 	private CompartmentFigure identifierCompartmentFigure;
 	private CompartmentFigure attributeCompartmentFigure;
-	
+
+	/**
+	 * デフォルトコンストラクタ
+	 */
 	public EntityFigure() {
+		this(false);
+	}
+	/**
+	 * コンストラクタ
+	 * @param notImplement 実装するか？
+	 */
+	public EntityFigure(boolean notImplement) {
 		this.name = new Label();
-		this.name.setBorder(new MarginBorder(2, 2, 0, 2));
+		this.name.setBorder(new MarginBorder(2, 2, 2, 2));
 		this.type = new Label();
 		this.titleCompartmentFigure = new EntityTitleCompartmentFigure();
 		this.compartmentFigure = new EntityLayoutCompartmentFigure();
@@ -31,7 +46,8 @@ public class EntityFigure extends Figure {
 
 		ToolbarLayout layout = new ToolbarLayout();
 		setLayoutManager(layout);
-		setBorder(new LineBorder(ColorConstants.black, 1));
+//		setBorder(new LineBorder(ColorConstants.black, 1));
+		setBorder(new EntityFigureBorder(notImplement));
 		setOpaque(true);
 		
 		this.titleCompartmentFigure.setEntityName(name);
@@ -67,7 +83,7 @@ public class EntityFigure extends Figure {
 	}
 	private Label createAttributeLabel(String name) {
 		Label tmp = new Label(name);
-		tmp.setBorder(new MarginBorder(2, 2, 0, 2));
+		tmp.setBorder(new MarginBorder(2, 2, 2, 2));
 		return tmp;
 	}
 	public void setIdentifier(String identifier) {
@@ -86,6 +102,14 @@ public class EntityFigure extends Figure {
 	public void removeAllAttributes() {
 		this.attributeCompartmentFigure.removeAll();
 	}
+
+	/**
+	 * @param notImplement the notImplement to set
+	 */
+	public void setNotImplement(boolean notImplement) {
+		this.setBorder(new EntityFigureBorder(notImplement));
+	}
+
 	private static class EntityTitleCompartmentFigure extends Figure {
 		public EntityTitleCompartmentFigure() {
 			setLayoutManager(new BorderLayout());
@@ -98,6 +122,35 @@ public class EntityFigure extends Figure {
 			add(type);
 			getLayoutManager().setConstraint(type, BorderLayout.RIGHT);
 		}
+	}
+	private static class EntityFigureBorder extends LineBorder {
+		private boolean notImplement;
+		public EntityFigureBorder(boolean notImplement) {
+			super();
+			this.notImplement = notImplement;
+		}
+		
+		/**
+		 * @param notImplement the notImplement to set
+		 */
+		public void setNotImplement(boolean notImplement) {
+			this.notImplement = notImplement;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.draw2d.Border#paint(org.eclipse.draw2d.IFigure, org.eclipse.draw2d.Graphics, org.eclipse.draw2d.geometry.Insets)
+		 */
+		@Override
+		public void paint(IFigure figure, Graphics graphics, Insets insets) {
+			super.paint(figure, graphics, insets);
+			if (notImplement) {
+				graphics.drawLine(tempRect.getTopLeft(), tempRect.getBottomRight());
+				graphics.drawLine(tempRect.getBottomLeft(), tempRect.getTopRight());
+			}
+		}
+		
 	}
 	private static class EntityLayoutCompartmentFigure extends Figure {
 		public EntityLayoutCompartmentFigure(){
@@ -112,7 +165,7 @@ public class EntityFigure extends Figure {
 	
 	private static class EntityLayoutCompartmentFigureBorder extends AbstractBorder {
 		public Insets getInsets(IFigure figure) {
-			return new Insets(1, 0, 0, 0);
+			return new Insets(0, 1, 0, 1);
 		}
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
 			graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(), tempRect.getTopRight());

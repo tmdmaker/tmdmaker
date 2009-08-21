@@ -12,6 +12,8 @@ public class EditAttribute {
 	private Attribute originalAttribute;
 	/** 編集用名称 */
 	private String name;
+	/** 編集有無 */
+	private boolean edited = false;
 
 	/**
 	 * コンストラクタ
@@ -42,6 +44,7 @@ public class EditAttribute {
 	 */
 	public void setName(String name) {
 		this.name = name;
+		setEdited(true);
 	}
 
 	/**
@@ -50,5 +53,19 @@ public class EditAttribute {
 	public Attribute getOriginalAttribute() {
 		return originalAttribute;
 	}
-	
+	/**
+	 * @return the edited
+	 */
+	public boolean isEdited() {
+		return edited;
+	}
+	/**
+	 * @param edited the edited to set
+	 */
+	public void setEdited(boolean edited) {
+		this.edited = edited;
+	}
+	public boolean isAdded() {
+		return originalAttribute == null;
+	}
 }

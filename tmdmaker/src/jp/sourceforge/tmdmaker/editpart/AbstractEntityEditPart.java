@@ -128,6 +128,8 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		} else if (evt.getPropertyName().equals(
 				AbstractEntityModel.PROPERTY_REUSEKEY)) {
 			handleReUseKeyChange(evt);
+		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE_REORDER)) {
+			
 		} else {
 			logger.warn("Not Handle Event Occured.");
 		}
@@ -166,6 +168,13 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	 */
 	protected void handleTargetConnectionChange(PropertyChangeEvent evt) {
 		refreshTargetConnections();		
+	}
+	/**
+	 * 属性順序変更イベント処理
+	 * @param evt 発生したイベント情報
+	 */
+	protected void handleAttributeReorder(PropertyChangeEvent evt) {
+		refreshVisuals();
 	}
 	/**
 	 * ReUseKey変更イベント処理

@@ -29,13 +29,33 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 		this.typeCombo.select(0);
 	}
 	public void initializeValue(String identifierName, String entityName, EntityType type) {
-		this.identifierText.setText(identifierName);
-		this.nameText.setText(entityName);
-		if (EntityType.RESOURCE.equals(type)) {
-			this.typeCombo.select(0);
-		} else {
-			this.typeCombo.select(1);			
-		}
+		setIdentifierNameText(identifierName);
+//		this.identifierText.setText(identifierName);
+		setEntityNameText(entityName);
+//		this.nameText.setText(entityName);
+		selectEntityTypeCombo(type);
+//		if (EntityType.RESOURCE.equals(type)) {
+//			this.typeCombo.select(0);
+//		} else {
+//			this.typeCombo.select(1);			
+//		}
+		selectAutoCreateCheckBox(identifierName, entityName);
+//		String autoCreateEntityName = createEntityName(identifierName);
+//		if (autoCreateEntityName.equals(entityName)) {
+//			this.nameAutoCreateCheckBox.setSelection(true);
+//			this.nameText.setEnabled(false);
+//		} else {
+//			this.nameAutoCreateCheckBox.setSelection(false);
+//			this.nameText.setEnabled(true);
+//		}
+	}
+	public void setEntityNameText(String entityName) {
+		this.nameText.setText(entityName);		
+	}
+	public void setIdentifierNameText(String identifierName) {
+		this.identifierText.setText(identifierName);		
+	}
+	public void selectAutoCreateCheckBox(String identifierName, String entityName) {
 		String autoCreateEntityName = createEntityName(identifierName);
 		if (autoCreateEntityName.equals(entityName)) {
 			this.nameAutoCreateCheckBox.setSelection(true);
@@ -43,6 +63,13 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 		} else {
 			this.nameAutoCreateCheckBox.setSelection(false);
 			this.nameText.setEnabled(true);
+		}		
+	}
+	public void selectEntityTypeCombo(EntityType type) {
+		if (EntityType.RESOURCE.equals(type)) {
+			this.typeCombo.select(0);
+		} else {
+			this.typeCombo.select(1);			
 		}
 	}
 	/**
@@ -160,5 +187,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 			return EntityType.EVENT;
 		}
 	}
-
+	public void setEntityTypeComboEnabled(boolean enabled) {
+		this.typeCombo.setEnabled(enabled);
+	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"

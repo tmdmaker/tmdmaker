@@ -16,12 +16,16 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 
 	/** 親モデル */
 	private Diagram diagram;
+	public static final String PROPERTY_ATTRIBUTE_REORDER = "p_attribute_reorder";
 	public static final String PROPERTY_ATTRIBUTE = "p_attribute";
 	public static final String PROPERTY_REUSEKEY = "p_reusekey";
 	public static final String PROPERTY_ATTRIBUTES = "p_attributes";
+	public static final String PROPERTY_NOT_IMPLEMENT = "p_notImplement";
 	protected Map<AbstractEntityModel, ReUseKeys> reuseKeys = new LinkedHashMap<AbstractEntityModel, ReUseKeys>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
 	protected EntityType entityType = EntityType.RESOURCE;
+	/** 物理実装しない */
+	protected boolean notImplement = false;
 
 	/**
 	 * @return the diagram
@@ -99,9 +103,9 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            the attributes to set
 	 */
 	public void setAttributes(List<Attribute> attributes) {
-		// List<Attribute> oldValue = this.attributes;
+		List<Attribute> oldValue = this.attributes;
 		this.attributes = attributes;
-		// firePropertyChange(PROPERTY_ATTRIBUTE, oldValue, attributes);
+		 firePropertyChange(PROPERTY_ATTRIBUTE_REORDER, oldValue, attributes);
 	}
 
 	/**
@@ -225,6 +229,21 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			}			
 		}
 	}
+	
+	/**
+	 * @return the notImplement
+	 */
+	public boolean isNotImplement() {
+		return notImplement;
+	}
+
+	/**
+	 * @param notImplement the notImplement to set
+	 */
+	public void setNotImplement(boolean notImplement) {
+		this.notImplement = notImplement;
+	}
+
 	/**
 	 * エンティティ種類が編集可能か判定する
 	 * 

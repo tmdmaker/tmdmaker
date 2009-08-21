@@ -1,35 +1,60 @@
 package jp.sourceforge.tmdmaker.figure;
 
+import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
+
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
 
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class SubsetTypeFigure extends Figure {
-	private boolean sameType;
-
-	public SubsetTypeFigure(boolean sameType) {
+	/**
+	 * デフォルトコンストラクタ
+	 */
+	public SubsetTypeFigure() {
+		this(SubsetTypeValue.SAME);
+	}
+	/**
+	 * コンストラクタ
+	 * @param subsetTypeValue サブセットタイプ
+	 */
+	public SubsetTypeFigure(SubsetTypeValue subsetTypeValue) {
 		super();
-		this.sameType = sameType;
-		setBorder(new SubsetBorder(this.sameType));
+		setBorder(new SubsetBorder(subsetTypeValue));
 		setSize(30, 10);
 		setOpaque(false);
 	}
 
-	public static class SubsetBorder extends AbstractBorder {
+	/**
+	 * サブセットのタイプを設定する
+	 * @param subsetTypeValue サブセットタイプ値
+	 */
+	public void setSameType(SubsetTypeValue subsetTypeValue) {
+		setBorder(new SubsetBorder(subsetTypeValue));		
+	}
+	/**
+	 * サブセットタイプのBorder
+	 * @author nakaG
+	 *
+	 */
+	private static class SubsetBorder extends AbstractBorder {
+		/** Figureの長さ */
 		private int width = 1;
-		private boolean sameType;
-		
-		public SubsetBorder(boolean sameType) {
-			super();
-			this.sameType = sameType;
-		}
+		/** サブセットタイプ値 */
+		private SubsetTypeValue subsetTypeValue;
 		/**
-		 * @param sameType the sameType to set
+		 * コンストラクタ
+		 * @param subsetTypeValue サブセットタイプ値
 		 */
-		public void setSameType(boolean sameType) {
-			this.sameType = sameType;
+		public SubsetBorder(SubsetTypeValue subsetTypeValue) {
+			super();
+			this.subsetTypeValue = subsetTypeValue;
 		}
 		/**
 		 * @return the width
@@ -37,19 +62,37 @@ public class SubsetTypeFigure extends Figure {
 		public int getWidth() {
 			return width;
 		}
+		/**
+		 * 
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.draw2d.Border#getInsets(org.eclipse.draw2d.IFigure)
+		 */
 		@Override
 		public Insets getInsets(IFigure figure) {
 			return new Insets(getWidth());
 		}
 
+		/**
+		 * 
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.draw2d.Border#paint(org.eclipse.draw2d.IFigure, org.eclipse.draw2d.Graphics, org.eclipse.draw2d.geometry.Insets)
+		 */
 		@Override
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
-			if (sameType) {
+			if (subsetTypeValue.equals(SubsetTypeValue.SAME)) {
 				paintSubsetSameType(figure, graphics, insets);
 			} else {
 				paintSubsetDifferenceType(figure, graphics, insets);
 			}
 		}
+		/**
+		 * 同一サブセットを描画する
+		 * @param figure The figure this border belongs to
+		 * @param graphics The graphics object used for painting
+		 * @param insets The insets
+		 */
 		private void paintSubsetSameType(IFigure figure, Graphics graphics, Insets insets) {
 			tempRect.setBounds(getPaintRectangle(figure, insets));
 			if (getWidth() % 2 != 0) {
@@ -64,6 +107,12 @@ public class SubsetTypeFigure extends Figure {
 			graphics.drawLine(tempRect.getLeft(), tempRect.getRight());
 			graphics.drawLine(getPaintRectangle(figure, insets).getTop(), tempRect.getCenter());			
 		}
+		/**
+		 * 相違サブセットを描画する
+		 * @param figure The figure this border belongs to
+		 * @param graphics The graphics object used for painting
+		 * @param insets The insets
+		 */
 		private void paintSubsetDifferenceType(IFigure figure, Graphics graphics, Insets insets) {
 			// 相違サブセット
 			tempRect.setBounds(getPaintRectangle(figure, insets));

@@ -4,21 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class EntityEditDialog2 extends Dialog {
 	/** エンティティ名、個体指示子、エンティティ種類設定用 */
 	private EntityNameAndTypeSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
-
+	private Button notImplementCheck;
 	private String oldIdentifierName;
 	private String oldEntityName;
 	private EntityType oldEntityType;
@@ -27,22 +36,41 @@ public class EntityEditDialog2 extends Dialog {
 	private String editEntityName;
 	private EntityType editEntityType;
 	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
+	private Entity original;
+	private Entity editedValueEntity;
+	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
+	private List<Attribute> addAttributes = new ArrayList<Attribute>();
+	private List<Attribute> editAttributes = new ArrayList<Attribute>();
+	private List<Attribute> deleteAttributes = new ArrayList<Attribute>();
+
 	/**
 	 * コンストラクタ
 	 * 
 	 * @param parentShell 親
 	 */
-	public EntityEditDialog2(Shell parentShell, String oldIdentifierName, String oldEntityName, EntityType oldEntityType, boolean canEditEntityType, final List<Attribute> attributeList) {
+//	public EntityEditDialog2(Shell parentShell, String oldIdentifierName, String oldEntityName, EntityType oldEntityType, boolean canEditEntityType, final List<Attribute> attributeList) {
+//		super(parentShell);
+//		this.oldIdentifierName = oldIdentifierName;
+//		this.oldEntityName = oldEntityName;
+//		this.oldEntityType = oldEntityType;
+//		
+//		for (Attribute a : attributeList) {
+//			editAttributeList.add(new EditAttribute(a));
+//		}
+//	}
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param parentShell 親
+	 * @param original 編集対象エンティティ
+	 */
+	public EntityEditDialog2(Shell parentShell, final Entity original) {
 		super(parentShell);
-		this.oldIdentifierName = oldIdentifierName;
-		this.oldEntityName = oldEntityName;
-		this.oldEntityType = oldEntityType;
-		
-		for (Attribute a : attributeList) {
+		this.original = original;
+		for (Attribute a : this.original.getAttributes()) {
 			editAttributeList.add(new EditAttribute(a));
 		}
 	}
-
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -52,14 +80,38 @@ public class EntityEditDialog2 extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("エンティティ編集");
 		Composite composite = new Composite(parent, SWT.NULL);
-		composite.setLayout(new FillLayout(SWT.VERTICAL));
+//		composite.setLayout(new FillLayout(SWT.VERTICAL));
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 1;
+        composite.setLayout(gridLayout);
+        
 		panel1 = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
-		panel1.initializeValue(oldIdentifierName, oldEntityName, oldEntityType);
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		panel1.setLayoutData(gridData);
+		initializePanel1();
+
+        gridData = new GridData(GridData.FILL_HORIZONTAL);
+        gridData.horizontalIndent = 5;
+		notImplementCheck = new Button(composite, SWT.CHECK);
+		notImplementCheck.setText("実装しない");
+		notImplementCheck.setLayoutData(gridData);
+		notImplementCheck.setSelection(original.isNotImplement());
 		
+        gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel2 = new AttributeSettingPanel(composite, SWT.NULL);
-		panel2.initializeTableValue(editAttributeList);
+		panel2.setLayoutData(gridData);
+		panel2.setAttributeTableRow(editAttributeList);
+		
 		composite.pack();
 		return composite;
+	}
+	private void initializePanel1() {
+//		panel1.initializeValue(oldIdentifierName, oldEntityName, oldEntityType);
+		panel1.setIdentifierNameText(original.getIdentifier().getName());
+		panel1.setEntityNameText(original.getName());
+		panel1.selectEntityTypeCombo(original.getEntityType());
+		panel1.selectAutoCreateCheckBox(original.getIdentifier().getName(), original.getName());
+		panel1.setEntityTypeComboEnabled(original.canEntityTypeEditable());
 	}
 
 	/**
@@ -69,10 +121,15 @@ public class EntityEditDialog2 extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		this.editIdentifierName = panel1.getIdentifierName();
-		this.editEntityName = panel1.getEntityName();
-		this.editEntityType = panel1.getSelectedType();
-
+//		this.editIdentifierName = panel1.getIdentifierName();
+//		this.editEntityName = panel1.getEntityName();
+//		this.editEntityType = panel1.getSelectedType();
+		this.editedValueEntity = new Entity();
+		this.editedValueEntity.setIdentifier(new Identifier(panel1.getIdentifierName()));
+		this.editedValueEntity.setName(panel1.getEntityName());
+		this.editedValueEntity.setEntityType(panel1.getSelectedType());
+		this.editedValueEntity.setNotImplement(notImplementCheck.getSelection());
+		createEditAttributeResult();
 		super.okPressed();
 	}
 
@@ -103,7 +160,51 @@ public class EntityEditDialog2 extends Dialog {
 	public List<EditAttribute> getEditAttributeList() {
 		return editAttributeList;
 	}
-	public List<EditAttribute> getDeletedAttributeList() {
-		return panel2.getDeletedAttributeList();
+
+	/**
+	 * @return the editedValueEntity
+	 */
+	public Entity getEditedValueEntity() {
+		return editedValueEntity;
+	}
+	/**
+	 * @return the addAttributes
+	 */
+	public List<Attribute> getAddAttributes() {
+		return addAttributes;
+	}
+	/**
+	 * @return the editAttributes
+	 */
+	public List<Attribute> getEditAttributes() {
+		return editAttributes;
+	}
+	/**
+	 * @return the deleteAttributes
+	 */
+	public List<Attribute> getDeleteAttributes() {
+		return deleteAttributes;
+	}
+	private void createEditAttributeResult() {
+//		List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
+//		List<Attribute> addAttributes = new ArrayList<Attribute>();
+//		List<Attribute> editAttributes = new ArrayList<Attribute>();
+
+		for (EditAttribute ea : editAttributeList) {
+			Attribute originalAttribute = ea.getOriginalAttribute();
+			if (originalAttribute == null) {
+				originalAttribute = new Attribute(ea.getName());
+				addAttributes.add(originalAttribute);
+			} else {
+				if (originalAttribute.getName().equals(ea.getName()) == false) {
+//					AttributeEditCommand editCommand = new AttributeEditCommand(original, ea.getName());
+//					ccommand.add(editCommand);
+					editAttributes.add(originalAttribute);
+				}
+			}
+			newAttributeOrder.add(originalAttribute);
+		}
+		deleteAttributes = panel2.getDeletedAttributeList();
+		editedValueEntity.setAttributes(newAttributeOrder);
 	}
 }

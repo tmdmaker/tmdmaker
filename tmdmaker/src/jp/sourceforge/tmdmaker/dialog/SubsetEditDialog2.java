@@ -13,6 +13,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class SubsetEditDialog2 extends Dialog {
 	private SubsetSettingPanel panel;
 	private SubsetType.SubsetTypeValue subsetType;
@@ -48,6 +53,7 @@ public class SubsetEditDialog2 extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		getShell().setText("サブセット編集");
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new SubsetSettingPanel(composite, SWT.NULL);
 		panel.initializeValue(this.subsetType.equals(SubsetType.SubsetTypeValue.SAME), this.exceptNull, this.attributes, this.subsetEntities, this.selectedAttribute);

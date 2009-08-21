@@ -1,6 +1,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import jp.sourceforge.tmdmaker.model.ReUseKeys;
 import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -89,6 +91,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		logger.debug(getClass() +"#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
 		Entity entity = (Entity) getModel();
+		entityFigure.setNotImplement(entity.isNotImplement());
 
 		// List<Identifier> ids = entity.getReuseKeys().;
 
@@ -187,36 +190,47 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		Entity entity = (Entity) getModel();
-		EntityEditDialog2 dialog = new EntityEditDialog2(getViewer()
-				.getControl().getShell(), entity.getIdentifier().getName(),
-				entity.getName(), entity.getEntityType(), entity
-						.canEntityTypeEditable(), entity.getAttributes());
+//		EntityEditDialog2 dialog = new EntityEditDialog2(getViewer()
+//				.getControl().getShell(), entity.getIdentifier().getName(),
+//				entity.getName(), entity.getEntityType(), entity
+//						.canEntityTypeEditable(), entity.getAttributes());
+		EntityEditDialog2 dialog = new EntityEditDialog2(getViewer().getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
 			System.out.println("Entity Edited.");
 			CompoundCommand ccommand = new CompoundCommand();
-			
-			List<Attribute> newAttributes = new ArrayList<Attribute>();
+
 			for (EditAttribute ea : dialog.getEditAttributeList()) {
 				Attribute original = ea.getOriginalAttribute();
-				if (original == null) {
-					original = new Attribute(ea.getName());
-				} else {
-					if (original.getName().equals(ea.getName()) == false) {
-						AttributeEditCommand editCommand = new AttributeEditCommand(original, ea.getName());
-						ccommand.add(editCommand);
-					}
+				if (ea.isEdited() && ea.isAdded() == false) {
+					Attribute editedValueAttribute = new Attribute(ea.getName());
+//					AttributeEditCommand editCommand = new AttributeEditCommand(original, ea.getName());
+					AttributeEditCommand editCommand = new AttributeEditCommand(original, editedValueAttribute, entity);
+					ccommand.add(editCommand);
 				}
-				newAttributes.add(original);
-
 			}
-			EditCommand command = new EditCommand(dialog
-					.getEditEntityName(), dialog.getEditEntityType(), dialog
-					.getEditIdentifierName(), newAttributes,
-					entity);
+//			List<Attribute> newAttributes = new ArrayList<Attribute>();
+//			for (EditAttribute ea : dialog.getEditAttributeList()) {
+//				Attribute original = ea.getOriginalAttribute();
+//				if (original == null) {
+//					original = new Attribute(ea.getName());
+//				} else {
+//					if (original.getName().equals(ea.getName()) == false) {
+//						AttributeEditCommand editCommand = new AttributeEditCommand(original, ea.getName());
+//						ccommand.add(editCommand);
+//					}
+//				}
+//				newAttributes.add(original);
+//
+//			}
+//			EditCommand command = new EditCommand(dialog
+//					.getEditEntityName(), dialog.getEditEntityType(), dialog
+//					.getEditIdentifierName(), newAttributes,
+//					entity);
+			EditCommand command = new EditCommand(entity, dialog.getEditedValueEntity());
 			ccommand.add(command);
-			for (EditAttribute ea : dialog.getDeletedAttributeList()) {
-				
-			}
+//			for (EditAttribute ea : dialog.getDeletedAttributeList()) {
+//				
+//			}
 			System.out.println("execute");
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}
@@ -330,27 +344,43 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		private String newEntityName;
 		private EntityType newEntityType;
 		private String newIdentifierName;
-		private Entity editEntity;
+		private boolean newNotImplement;
+		private Entity toBeEditedEntity;
+		private Entity newValueEntity;
 		private String oldEntityName;
 		private EntityType oldEntityType;
 		private String oldIdentifierName;
+		private boolean oldNotImplement;
 		private List<Attribute> newAttributes;
 		private List<Attribute> oldAttributes;
 
-		public EditCommand(String newEntityName,
-				EntityType newEntityType, String newIdentifierName,
-				List<Attribute> newAttributes, Entity editEntity) {
-			this.newEntityName = newEntityName;
-			this.newEntityType = newEntityType;
-			this.newIdentifierName = newIdentifierName;
-			this.newAttributes = newAttributes;
-			this.editEntity = editEntity;
-			this.oldEntityName = editEntity.getName();
-			this.oldEntityType = editEntity.getEntityType();
-			this.oldIdentifierName = editEntity.getIdentifier().getName();
-			this.oldAttributes = editEntity.getAttributes();
+//		public EditCommand(String newEntityName,
+//				EntityType newEntityType, String newIdentifierName,
+//				List<Attribute> newAttributes, Entity toBeEditedEntity) {
+//			this.newEntityName = newEntityName;
+//			this.newEntityType = newEntityType;
+//			this.newIdentifierName = newIdentifierName;
+//			this.newAttributes = newAttributes;
+//			this.toBeEditedEntity = toBeEditedEntity;
+//			this.oldEntityName = toBeEditedEntity.getName();
+//			this.oldEntityType = toBeEditedEntity.getEntityType();
+//			this.oldIdentifierName = toBeEditedEntity.getIdentifier().getName();
+//			this.oldAttributes = toBeEditedEntity.getAttributes();
+//		}
+		public EditCommand(Entity toBeEditedEntity, Entity newValueEntity) {
+			this.toBeEditedEntity = toBeEditedEntity;
+			this.newValueEntity = newValueEntity;
+			this.newEntityName = newValueEntity.getName();
+			this.newEntityType = newValueEntity.getEntityType();
+			this.newIdentifierName = newValueEntity.getIdentifier().getName();
+			this.newAttributes = newValueEntity.getAttributes();
+			this.newNotImplement = newValueEntity.isNotImplement();
+			this.oldEntityName = toBeEditedEntity.getName();
+			this.oldEntityType = toBeEditedEntity.getEntityType();
+			this.oldIdentifierName = toBeEditedEntity.getIdentifier().getName();
+			this.oldAttributes = toBeEditedEntity.getAttributes();
+			this.oldNotImplement = toBeEditedEntity.isNotImplement();
 		}
-
 		/**
 		 * {@inheritDoc}
 		 *
@@ -361,10 +391,15 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			System.out.println(newEntityType);
 			System.out.println(newIdentifierName);
 			System.out.println(newEntityName);
-			editEntity.setEntityType(newEntityType);
-			editEntity.setIdentifierName(newIdentifierName);
-			editEntity.setAttributes(newAttributes);
-			editEntity.setName(newEntityName);
+			toBeEditedEntity.setEntityType(newEntityType);
+			toBeEditedEntity.setIdentifierName(newIdentifierName);
+			toBeEditedEntity.setAttributes(newAttributes);
+			toBeEditedEntity.setNotImplement(newNotImplement);
+			toBeEditedEntity.setName(newEntityName);
+//			toBeEditedEntity.setEntityType(newValueEntity.getEntityType());
+//			toBeEditedEntity.setIdentifierName(newValueEntity.getIdentifier().getName());
+//			toBeEditedEntity.setAttributes(newValueEntity.getAttributes());
+//			toBeEditedEntity.setName(newValueEntity.getName());
 //			List<Attribute> newAttributes = new ArrayList<Attribute>();
 		}
 
@@ -375,12 +410,31 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public void undo() {
-			editEntity.setAttributes(oldAttributes);
-			editEntity.setEntityType(oldEntityType);
-			editEntity.setIdentifierName(oldIdentifierName);
-			editEntity.setName(oldEntityName);
+			toBeEditedEntity.setAttributes(oldAttributes);
+			toBeEditedEntity.setEntityType(oldEntityType);
+			toBeEditedEntity.setIdentifierName(oldIdentifierName);
+			toBeEditedEntity.setNotImplement(oldNotImplement);
+			toBeEditedEntity.setName(oldEntityName);
 		}
 		
 		
 	}
+//	private static class EditService {
+//		private final Entity original;
+//		private Entity edited;
+//		
+//		public EditService(Entity original) {
+//			this.original = original;
+//			this.edited = new Entity();
+//			try {
+//				BeanUtils.copyProperties(edited, original);
+//			} catch (IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (InvocationTargetException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 }

@@ -3,6 +3,8 @@ package jp.sourceforge.tmdmaker.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.model.Attribute;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.FocusAdapter;
@@ -24,7 +26,7 @@ public class AttributeSettingPanel extends Composite {
 
 	private List<EditAttribute> attributeList = null;  //  @jve:decl-index=0:
 	private static final int EDIT_COLUMN = 0;
-	private List<EditAttribute> deletedAttributes = new ArrayList<EditAttribute>();  //  @jve:decl-index=0:
+	private List<Attribute> deletedAttributes = new ArrayList<Attribute>();  //  @jve:decl-index=0:
 	private int selectedIndex = -1;
 	private TableEditor tableEditor = null;
 	private Table attributeTable = null;
@@ -188,7 +190,7 @@ public class AttributeSettingPanel extends Composite {
 					return;
 				}
 				EditAttribute deleted = attributeList.remove(selectedIndex);
-				deletedAttributes.add(deleted);
+				deletedAttributes.add(deleted.getOriginalAttribute());
 				if (attributeList.size() <= selectedIndex) {
 					selectedIndex--;
 				}
@@ -197,7 +199,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 	}
-	public void initializeTableValue(List<EditAttribute> attributeList) {
+	public void setAttributeTableRow(List<EditAttribute> attributeList) {
 		this.attributeList = attributeList;
 		updateAttributeTable();
 	}
@@ -222,7 +224,7 @@ public class AttributeSettingPanel extends Composite {
 	/**
 	 * @return the deletedAttributes
 	 */
-	public List<EditAttribute> getDeletedAttributeList() {
+	public List<Attribute> getDeletedAttributeList() {
 		return deletedAttributes;
 	}
 	
