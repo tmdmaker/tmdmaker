@@ -3,31 +3,37 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.dialog.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MappingList;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
+/**
+ * 対応表のコントローラ
+ * 
+ * @author nakaG
+ * 
+ */
 public class MappingListEditPart extends AbstractEntityEditPart {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
 	@Override
@@ -37,24 +43,26 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 
 		return figure;
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		MappingList table = (MappingList) getModel();
+		entityFigure.setNotImplement(table.isNotImplement());
 		// List<Identifier> ids = table.getReuseKeys();
 		List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : table.getReuseKeys()
-				.entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : table
+				.getReuseKeys().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}
@@ -63,10 +71,11 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 			entityFigure.addAttribute(a.getName());
 		}
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
@@ -75,40 +84,54 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 				new MappingListComponentEditPolicy());
 	}
 
-	
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		MappingList table = (MappingList) getModel();
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-				.getShell(), table.getName(), table.getReuseKeys(), table
-				.getAttributes());
+		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
+		// .getShell(), table.getName(), table.getReuseKeys(), table
+		// .getAttributes());
+		TableEditDialog2 dialog = new TableEditDialog2(getViewer().getControl()
+				.getShell(), "対応表編集", table);
 		if (dialog.open() == Dialog.OK) {
+			CompoundCommand ccommand = new CompoundCommand();
+
+			List<EditAttribute> editAttributeList = dialog
+					.getEditAttributeList();
+			addAttributeEditCommands(ccommand, table, editAttributeList);
+
 			TableEditCommand<MappingList> command = new TableEditCommand<MappingList>(
-					table, dialog.getEntityName(), dialog.getReuseKeys(),
-					dialog.getAttributes());
-//			MappingListEditCommand command = new MappingListEditCommand(
-//					table, dialog.getEntityName(), dialog.getReuseKeys(),
-//					dialog.getAttributes());
-			getViewer().getEditDomain().getCommandStack().execute(command);
+					table, (MappingList) dialog.getEditedValue());
+			ccommand.add(command);
+			getViewer().getEditDomain().getCommandStack().execute(ccommand);
+			// TableEditCommand<MappingList> command = new
+			// TableEditCommand<MappingList>(
+			// table, dialog.getEntityName(), dialog.getReuseKeys(),
+			// dialog.getAttributes());
+			// // MappingListEditCommand command = new MappingListEditCommand(
+			// // table, dialog.getEntityName(), dialog.getReuseKeys(),
+			// // dialog.getAttributes());
+			// getViewer().getEditDomain().getCommandStack().execute(command);
 		}
 	}
 
-
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
 	private static class MappingListComponentEditPolicy extends
 			ComponentEditPolicy {
-
-		/*
-		 * (non-Javadoc)
+		/**
 		 * 
-		 * @see
-		 * org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand
-		 * (org.eclipse.gef.requests.GroupRequest)
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
@@ -116,30 +139,39 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 					(MappingList) getHost().getModel());
 			return command;
 		}
-
+		
 	}
-
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
 	private static class MappingListDeleteCommand extends Command {
-		private Diagram diagram;
+//		private Diagram diagram;
+		/** 削除対象の対応表 */
 		private MappingList model;
+		/** 対応表とリレーションシップ間のコネクション */
 		private RelatedRelationship relatedRelationship;
+		/** 対応表を作成する契機となったリレーションシップ */
 		private AbstractRelationship relationship;
 
 		/**
 		 * コンストラクタ
-		 * @param model 削除対象モデル
+		 * 
+		 * @param model
+		 *            削除対象モデル
 		 */
 		public MappingListDeleteCommand(MappingList model) {
 			this.model = model;
-			this.diagram = model.getDiagram();
+//			this.diagram = model.getDiagram();
 			this.relatedRelationship = model.findCreationRelationship();
-			this.relationship = (AbstractRelationship) relatedRelationship.getSource();
+			this.relationship = (AbstractRelationship) relatedRelationship
+					.getSource();
 		}
 
-		
 		/**
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#canExecute()
 		 */
 		@Override
@@ -147,45 +179,46 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 			return model.canDeletable();
 		}
 
-
 		/**
 		 * 
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
 		public void execute() {
-//			diagram.removeChild(model);
-//			model.setDiagram(null);
+			// diagram.removeChild(model);
+			// model.setDiagram(null);
 			relationship.disconnect();
 		}
-//		/**
-//		 * 
-//		 * @param model
-//		 * @return
-//		 */
-//		private RelatedRelationship findRelatedRelationship(MappingList model) {
-//			this.model = model;
-//			for (AbstractConnectionModel c : this.model
-//					.getModelTargetConnections()) {
-//				if (c instanceof RelatedRelationship) {
-//					return (RelatedRelationship) c;
-//				}
-//			}
-//			return null;
-//		}
+
+		// /**
+		// *
+		// * @param model
+		// * @return
+		// */
+		// private RelatedRelationship findRelatedRelationship(MappingList
+		// model) {
+		// this.model = model;
+		// for (AbstractConnectionModel c : this.model
+		// .getModelTargetConnections()) {
+		// if (c instanceof RelatedRelationship) {
+		// return (RelatedRelationship) c;
+		// }
+		// }
+		// return null;
+		// }
 
 		/**
 		 * 
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override
 		public void undo() {
-//			diagram.addChild(model);
-//			model.setDiagram(diagram);
+			// diagram.addChild(model);
+			// model.setDiagram(diagram);
 			relationship.connect();
 		}
 	}

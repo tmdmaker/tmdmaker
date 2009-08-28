@@ -3,10 +3,13 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -17,6 +20,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
@@ -228,4 +232,22 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	 * ダブルクリック時の処理をサブクラスで実装する
 	 */
 	protected abstract void onDoubleClicked();
+
+	/**
+	 * アトリビュート編集コマンドを作成する
+	 * @param ccommand コマンド
+	 * @param entity モデル
+	 * @param editAttributeList 編集したアトリビュートリスト
+	 */
+	protected void addAttributeEditCommands(CompoundCommand ccommand, AbstractEntityModel entity,
+			List<EditAttribute> editAttributeList) {
+				for (EditAttribute ea : editAttributeList) {
+					Attribute original = ea.getOriginalAttribute();
+					if (ea.isEdited() && ea.isAdded() == false) {
+						Attribute editedValueAttribute = new Attribute(ea.getName());
+						AttributeEditCommand editCommand = new AttributeEditCommand(original, editedValueAttribute, entity);
+						ccommand.add(editCommand);
+					}
+				}
+			}
 }

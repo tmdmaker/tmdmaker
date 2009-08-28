@@ -22,62 +22,29 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class RelationshipEditPart extends AbstractRelationshipEditPart {
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#createFigure()
+	 */
 	@Override
 	protected IFigure createFigure() {
 		RelationshipFigure connection = new RelationshipFigure();
-		// PolylineConnection connection = new PolylineConnection();
-		// ManhattanConnectionRouter router = new ManhattanConnectionRouter();
-		// connection.setConnectionRouter(router);
 		updateFigure(connection);
-		// PolylineDecoration sourceDecoration = new PolylineDecoration();
-		// // 1のカーディナリティ
-		// // PointList onePointList = new PointList();
-		// // onePointList.addPoint(-2, 2);
-		// // onePointList.addPoint(-2, -2);
-		// // sourceDecoration.setTemplate(onePointList);
-		// // connection.setSourceDecoration(sourceDecoration);
-		//			
-		// // 0のカーディナリティ
-		// Ellipse figure = new Ellipse();
-		// figure.setFill(false);
-		// figure.setBounds(new Rectangle(-1, -1, 8, 8));
-		// ConnectionEndpointLocator locator = new
-		// ConnectionEndpointLocator(connection,false);
-		// locator.setUDistance(14);
-		// locator.setVDistance(0);
-		// connection.add(figure, locator);
-		//
-		// // Nのカーディナリティ
-		// PointList manyPointList = new PointList();
-		// manyPointList.addPoint(0, 2);
-		// manyPointList.addPoint(-2, 0);
-		// manyPointList.addPoint(0, -2);
-		// sourceDecoration.setTemplate(manyPointList);
-		// connection.setSourceDecoration(sourceDecoration);
-
-		// connection.setTargetDecoration(new PolygonDecoration());
-		// PolylineDecoration sourceDecoration = new PolylineDecoration();
-		// PolylineDecoration targetDecoration = new PolylineDecoration();
-		// PointList pointList = new PointList();
-		// pointList.addPoint(-2, 2);
-		// pointList.addPoint(-2, -2);
-		// pointList.addPoint(0, 0);
-		// sourceDecoration.setTemplate(pointList);
-		// targetDecoration.setTemplate(pointList);
-		// connection.setSourceDecoration(sourceDecoration);
-		// connection.setTargetDecoration(targetDecoration);
-
-		// 対照表・対応表の中央デコレーション
-		// MidpointLocator locator = new MidpointLocator(connection, 1);
-		// Ellipse figure = new Ellipse();
-		// figure.setFill(false);
-		// figure.setBounds(new Rectangle(-1, -1, 15, 15));
-		// connection.add(figure, locator);
 
 		return connection;
 	}
-
+	/**
+	 * 
+	 * @param connection figure
+	 */
 	protected void updateFigure(RelationshipFigure connection) {
 		AbstractRelationship model = (AbstractRelationship) getModel();
 
@@ -135,7 +102,7 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 				new ConnectionEditPolicy() {
 					protected Command getDeleteCommand(GroupRequest request) {
 						ConnectionDeleteCommand cmd = new ConnectionDeleteCommand(
-								(AbstractConnectionModel) getModel());
+								(AbstractConnectionModel<?>) getModel());
 						return cmd;
 					}
 				});

@@ -1,9 +1,8 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship;
+import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 
@@ -52,7 +51,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		ccommand.add(command1);
 		
 		ConnectionCreateCommand command2 = new ConnectionCreateCommand();
-		command2.setConnection(new TransfarReuseKeysToTargetRelationship());
+		command2.setConnection(new Entity2VirtualEntityRelationship());
 		command2.setSource(model);
 		command2.setTarget(entity);
 		ccommand.add(command2);

@@ -60,8 +60,8 @@ public class SubsetEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean canDeletable() {
-		// TODO Auto-generated method stub
-		return false;
+		return getModelTargetConnections().size() == 1
+				&& getModelSourceConnections().size() == 0;
 	}
 
 }

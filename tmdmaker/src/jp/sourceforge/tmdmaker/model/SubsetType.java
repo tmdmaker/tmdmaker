@@ -106,7 +106,7 @@ public class SubsetType extends ConnectableElement {
 	 * オブジェクト破棄
 	 */
 	public void dispose() {
-		// TODO
+		// TODO 必要な処理を記述
 	}
 	
 }

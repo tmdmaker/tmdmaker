@@ -224,7 +224,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 	private void fireReUseKeyChange(List<AbstractConnectionModel> connections, AbstractConnectionModel<?> callConnection) {
 		for (AbstractConnectionModel<?> con : connections) {
-			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
+			if (con instanceof ReUseKeysChangeListener && con != callConnection) {
 				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
 			}			
 		}

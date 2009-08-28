@@ -1,29 +1,29 @@
 package jp.sourceforge.tmdmaker.model;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class MultivalueOrEntity extends AbstractEntityModel {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canEntityTypeEditable()
 	 */
 	@Override
 	public boolean canEntityTypeEditable() {
 		return false;
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
@@ -35,15 +35,16 @@ public class MultivalueOrEntity extends AbstractEntityModel {
 		}
 		return returnValue;
 	}
+
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
 	 */
 	@Override
 	public boolean canDeletable() {
-		// TODO Auto-generated method stub
-		return false;
+		return getModelSourceConnections().size() == 0
+				&& getModelTargetConnections().size() == 1;
 	}
 
 }

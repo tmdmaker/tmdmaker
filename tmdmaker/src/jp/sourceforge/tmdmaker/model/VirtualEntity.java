@@ -35,8 +35,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean canDeletable() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

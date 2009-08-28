@@ -24,14 +24,23 @@ import org.eclipse.swt.widgets.Shell;
 public class TableEditDialog2 extends Dialog {
 	/** 編集対象モデル */
 	private AbstractEntityModel original;
+	/** 編集結果格納用 */
+	private AbstractEntityModel editedValue;
 	/** 編集用アトリビュートリスト */
 	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
+	/** 実装可否設定用 */
+	private Button notImplementCheck;
 	/** ダイアログタイトル */
 	private String title;
 	/** 表名設定用 */
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
+
+	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
+	private List<Attribute> addAttributes = new ArrayList<Attribute>();
+	private List<Attribute> editAttributes = new ArrayList<Attribute>();
+	private List<Attribute> deleteAttributes = new ArrayList<Attribute>();
 
 	/**
 	 * コンストラクタ
@@ -43,7 +52,7 @@ public class TableEditDialog2 extends Dialog {
 	 * @param original
 	 *            編集対象モデル
 	 */
-	protected TableEditDialog2(Shell parentShell, String title,
+	public TableEditDialog2(Shell parentShell, String title,
 			AbstractEntityModel original) {
 		super(parentShell);
 		this.title = title;
@@ -73,18 +82,87 @@ public class TableEditDialog2 extends Dialog {
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalIndent = 5;
-		Button notImplementCheck = new Button(composite, SWT.CHECK);
+		notImplementCheck = new Button(composite, SWT.CHECK);
 		notImplementCheck.setText("実装しない");
 		notImplementCheck.setLayoutData(gridData);
-		notImplementCheck.setSelection(original.isNotImplement());
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel2 = new AttributeSettingPanel(composite, SWT.NULL);
 		panel2.setLayoutData(gridData);
-		panel2.setAttributeTableRow(editAttributeList);
 
 		composite.pack();
+
+		initializeValue();
+
 		return composite;
+	}
+	/**
+	 * ダイアログへ初期値を設定する
+	 */
+	private void initializeValue() {
+		panel1.setTableName(original.getName());
+
+		notImplementCheck.setSelection(original.isNotImplement());
+
+		panel2.setAttributeTableRow(editAttributeList);
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
+	 */
+	@Override
+	protected void okPressed() {
+		try {
+			editedValue = original.getClass().newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		editedValue.setName(panel1.getTableName());
+		editedValue.setNotImplement(notImplementCheck.getSelection());
+		createEditAttributeResult();
+		
+		super.okPressed();
+	}
+	private void createEditAttributeResult() {
+
+		for (EditAttribute ea : editAttributeList) {
+			Attribute originalAttribute = ea.getOriginalAttribute();
+			if (originalAttribute == null) {
+				originalAttribute = new Attribute(ea.getName());
+				addAttributes.add(originalAttribute);
+			} else {
+				if (originalAttribute.getName().equals(ea.getName()) == false) {
+					// AttributeEditCommand editCommand = new
+					// AttributeEditCommand(original, ea.getName());
+					// ccommand.add(editCommand);
+					editAttributes.add(originalAttribute);
+				}
+			}
+			newAttributeOrder.add(originalAttribute);
+		}
+		deleteAttributes = panel2.getDeletedAttributeList();
+		editedValue.setAttributes(newAttributeOrder);
+	}
+
+	/**
+	 * @return the editAttributeList
+	 */
+	public List<EditAttribute> getEditAttributeList() {
+		return editAttributeList;
+	}
+
+	/**
+	 * @return the editedValue
+	 */
+	public AbstractEntityModel getEditedValue() {
+		return editedValue;
 	}
 
 }

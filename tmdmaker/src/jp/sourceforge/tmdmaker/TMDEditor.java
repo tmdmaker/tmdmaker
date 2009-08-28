@@ -63,6 +63,11 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class TMDEditor extends GraphicalEditorWithPalette {
+	// TODO 対照表で重複するRe-Useを重複して表示しないようにまとめる
+	// TODO みなしエンティティ自体に削除処理を追加
+	// TODO HDR-DTLのみなしスーパーセットとDTLの個体指示子に(R)をつけないようにする
+	// TODO 物理実装用のダイアログ（タブ）を作成する
+	// TODO ソースの精査
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 

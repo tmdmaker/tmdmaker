@@ -3,22 +3,23 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.dialog.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
@@ -40,14 +41,27 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		MultivalueOrEntity table = (MultivalueOrEntity) getModel();
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-				.getShell(), table.getName(), table.getReuseKeys(), table
-				.getAttributes());
+		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
+		// .getShell(), table.getName(), table.getReuseKeys(), table
+		// .getAttributes());
+		TableEditDialog2 dialog = new TableEditDialog2(getViewer().getControl()
+				.getShell(), "多値のOR表編集", table);
 		if (dialog.open() == Dialog.OK) {
+			CompoundCommand ccommand = new CompoundCommand();
+
+			List<EditAttribute> editAttributeList = dialog
+					.getEditAttributeList();
+			addAttributeEditCommands(ccommand, table, editAttributeList);
+
 			TableEditCommand<MultivalueOrEntity> command = new TableEditCommand<MultivalueOrEntity>(
-					table, dialog.getEntityName(), dialog.getReuseKeys(),
-					dialog.getAttributes());
-			getViewer().getEditDomain().getCommandStack().execute(command);
+					table, (MultivalueOrEntity) dialog.getEditedValue());
+			ccommand.add(command);
+			getViewer().getEditDomain().getCommandStack().execute(ccommand);
+			// TableEditCommand<MultivalueOrEntity> command = new
+			// TableEditCommand<MultivalueOrEntity>(
+			// table, dialog.getEntityName(), dialog.getReuseKeys(),
+			// dialog.getAttributes());
+			// getViewer().getEditDomain().getCommandStack().execute(command);
 		}
 	}
 
@@ -61,6 +75,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		MultivalueOrEntity entity = (MultivalueOrEntity) getModel();
+		entityFigure.setNotImplement(entity.isNotImplement());
 
 		List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
@@ -161,8 +176,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public boolean canExecute() {
-			return model.getModelSourceConnections().size() == 0
-					&& model.getModelTargetConnections().size() == 1;
+			return model.canDeletable();
 		}
 
 		/**

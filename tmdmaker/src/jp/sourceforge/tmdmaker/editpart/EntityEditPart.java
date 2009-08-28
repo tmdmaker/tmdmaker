@@ -1,8 +1,6 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +15,8 @@ import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
-import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -47,21 +43,6 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		if (evt.getPropertyName().equals(Entity.PROPERTY_IDENTIFIER)) {
 			logger.debug(getClass() + "#propertyChange().IDENTIFIER");
 			refreshVisuals();
-			// Entity model = (Entity) getModel();
-			// for (AbstractConnectionModel<?> con : model
-			// .getModelTargetConnections()) {
-			// logger.debug("RESOURCE.source = " + con.getSource().getName());
-			// if (con instanceof ReUseKeysChangeListener) {
-			// ((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-			// }
-			// }
-			// for (AbstractConnectionModel<?> con : model
-			// .getModelSourceConnections()) {
-			// logger.debug("target = " + con.getTarget().getName());
-			// if (con instanceof ReUseKeysChangeListener) {
-			// ((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-			// }
-			// }
 		} else {
 			super.propertyChange(evt);
 		}
@@ -199,15 +180,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			System.out.println("Entity Edited.");
 			CompoundCommand ccommand = new CompoundCommand();
 
-			for (EditAttribute ea : dialog.getEditAttributeList()) {
-				Attribute original = ea.getOriginalAttribute();
-				if (ea.isEdited() && ea.isAdded() == false) {
-					Attribute editedValueAttribute = new Attribute(ea.getName());
-//					AttributeEditCommand editCommand = new AttributeEditCommand(original, ea.getName());
-					AttributeEditCommand editCommand = new AttributeEditCommand(original, editedValueAttribute, entity);
-					ccommand.add(editCommand);
-				}
-			}
+			List<EditAttribute> editAttributeList = dialog.getEditAttributeList();
+			addAttributeEditCommands(ccommand, entity, editAttributeList);
 //			List<Attribute> newAttributes = new ArrayList<Attribute>();
 //			for (EditAttribute ea : dialog.getEditAttributeList()) {
 //				Attribute original = ea.getOriginalAttribute();
@@ -253,37 +227,13 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		// }
 	}
 
-	// public static class CreateBendPointCommand extends Command {
-	// private RecursiveMarkConnection model;
-	// private Rectangle bounds;
-	// public void setModel(RecursiveMarkConnection model) {
-	// this.model = model;
-	// }
-	// public void setSourceBounds(Rectangle bounds) {
-	// this.bounds = bounds;
-	// }
-	// /* (non-Javadoc)
-	// * @see org.eclipse.gef.commands.Command#execute()
-	// */
-	// @Override
-	// public void execute() {
-	// int width = bounds.width / 2 + 20;
-	// int height = bounds.height / 2;
-	// ConnectionBendpoint bendpoint = new ConnectionBendpoint(
-	// new Dimension(0, 0), new Dimension(width, 0));
-	// model.addBendpoint(0, bendpoint);
-	// bendpoint = new ConnectionBendpoint(new Dimension(width, 0),
-	// new Dimension(width, height));
-	// model.addBendpoint(1, bendpoint);
-	// bendpoint = new ConnectionBendpoint(new Dimension(width, height),
-	// new Dimension(0, height));
-	// model.addBendpoint(2, bendpoint);
-	//
-	// }
-	//		
-	// }
 	public static class EntityComponentEditPolicy extends ComponentEditPolicy {
-
+		/**
+		 * 
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
 			EntityDeleteCommand command = new EntityDeleteCommand(
@@ -345,7 +295,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		private EntityType newEntityType;
 		private String newIdentifierName;
 		private boolean newNotImplement;
-		private Entity toBeEditedEntity;
+		private Entity toBeEditEntity;
 		private Entity newValueEntity;
 		private String oldEntityName;
 		private EntityType oldEntityType;
@@ -356,30 +306,30 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 //		public EditCommand(String newEntityName,
 //				EntityType newEntityType, String newIdentifierName,
-//				List<Attribute> newAttributes, Entity toBeEditedEntity) {
+//				List<Attribute> newAttributes, Entity toBeEditEntity) {
 //			this.newEntityName = newEntityName;
 //			this.newEntityType = newEntityType;
 //			this.newIdentifierName = newIdentifierName;
 //			this.newAttributes = newAttributes;
-//			this.toBeEditedEntity = toBeEditedEntity;
-//			this.oldEntityName = toBeEditedEntity.getName();
-//			this.oldEntityType = toBeEditedEntity.getEntityType();
-//			this.oldIdentifierName = toBeEditedEntity.getIdentifier().getName();
-//			this.oldAttributes = toBeEditedEntity.getAttributes();
+//			this.toBeEditedEntity = toBeEditEntity;
+//			this.oldEntityName = toBeEditEntity.getName();
+//			this.oldEntityType = toBeEditEntity.getEntityType();
+//			this.oldIdentifierName = toBeEditEntity.getIdentifier().getName();
+//			this.oldAttributes = toBeEditEntity.getAttributes();
 //		}
-		public EditCommand(Entity toBeEditedEntity, Entity newValueEntity) {
-			this.toBeEditedEntity = toBeEditedEntity;
+		public EditCommand(Entity toBeEditEntity, Entity newValueEntity) {
+			this.toBeEditEntity = toBeEditEntity;
 			this.newValueEntity = newValueEntity;
 			this.newEntityName = newValueEntity.getName();
 			this.newEntityType = newValueEntity.getEntityType();
 			this.newIdentifierName = newValueEntity.getIdentifier().getName();
 			this.newAttributes = newValueEntity.getAttributes();
 			this.newNotImplement = newValueEntity.isNotImplement();
-			this.oldEntityName = toBeEditedEntity.getName();
-			this.oldEntityType = toBeEditedEntity.getEntityType();
-			this.oldIdentifierName = toBeEditedEntity.getIdentifier().getName();
-			this.oldAttributes = toBeEditedEntity.getAttributes();
-			this.oldNotImplement = toBeEditedEntity.isNotImplement();
+			this.oldEntityName = toBeEditEntity.getName();
+			this.oldEntityType = toBeEditEntity.getEntityType();
+			this.oldIdentifierName = toBeEditEntity.getIdentifier().getName();
+			this.oldAttributes = toBeEditEntity.getAttributes();
+			this.oldNotImplement = toBeEditEntity.isNotImplement();
 		}
 		/**
 		 * {@inheritDoc}
@@ -391,15 +341,15 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			System.out.println(newEntityType);
 			System.out.println(newIdentifierName);
 			System.out.println(newEntityName);
-			toBeEditedEntity.setEntityType(newEntityType);
-			toBeEditedEntity.setIdentifierName(newIdentifierName);
-			toBeEditedEntity.setAttributes(newAttributes);
-			toBeEditedEntity.setNotImplement(newNotImplement);
-			toBeEditedEntity.setName(newEntityName);
-//			toBeEditedEntity.setEntityType(newValueEntity.getEntityType());
-//			toBeEditedEntity.setIdentifierName(newValueEntity.getIdentifier().getName());
-//			toBeEditedEntity.setAttributes(newValueEntity.getAttributes());
-//			toBeEditedEntity.setName(newValueEntity.getName());
+			toBeEditEntity.setEntityType(newEntityType);
+			toBeEditEntity.setIdentifierName(newIdentifierName);
+			toBeEditEntity.setAttributes(newAttributes);
+			toBeEditEntity.setNotImplement(newNotImplement);
+			toBeEditEntity.setName(newEntityName);
+//			toBeEditEntity.setEntityType(newValueEntity.getEntityType());
+//			toBeEditEntity.setIdentifierName(newValueEntity.getIdentifier().getName());
+//			toBeEditEntity.setAttributes(newValueEntity.getAttributes());
+//			toBeEditEntity.setName(newValueEntity.getName());
 //			List<Attribute> newAttributes = new ArrayList<Attribute>();
 		}
 
@@ -410,11 +360,11 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public void undo() {
-			toBeEditedEntity.setAttributes(oldAttributes);
-			toBeEditedEntity.setEntityType(oldEntityType);
-			toBeEditedEntity.setIdentifierName(oldIdentifierName);
-			toBeEditedEntity.setNotImplement(oldNotImplement);
-			toBeEditedEntity.setName(oldEntityName);
+			toBeEditEntity.setAttributes(oldAttributes);
+			toBeEditEntity.setEntityType(oldEntityType);
+			toBeEditEntity.setIdentifierName(oldIdentifierName);
+			toBeEditEntity.setNotImplement(oldNotImplement);
+			toBeEditEntity.setName(oldEntityName);
 		}
 		
 		

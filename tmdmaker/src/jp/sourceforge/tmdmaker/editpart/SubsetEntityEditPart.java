@@ -1,22 +1,18 @@
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.beans.PropertyChangeEvent;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.dialog.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReUseKeysChangeListener;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
@@ -31,6 +27,7 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
+ * サブセットのコントローラ
  * 
  * @author nakaG
  * 
@@ -51,36 +48,43 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-//	@Override
-//	public void propertyChange(PropertyChangeEvent evt) {
-//		if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_REUSEKEY)) {
-//			logger.debug(getClass() + "#propertyChange().PROPERTY_REUSEKEY");
-//			refreshVisuals();
-//			SubsetEntity model = (SubsetEntity) getModel();
-//			if (model.getEntityType().equals(EntityType.RESOURCE)) {
-//				for (AbstractConnectionModel<?> con : model.getModelTargetConnections()) {
-//					logger.debug("RESOURCE.source = " + con.getSource().getName());
-////						con.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
-//						if (con instanceof ReUseKeysChangeListener && !(con instanceof RelatedRelationship)) {
-//						((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-//					}
-//				}
-//			}
-//			for (AbstractConnectionModel<?> con : model.getModelSourceConnections()) {
-//				logger.debug("target = " + con.getTarget().getName());
-////				con.getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
-//				if (con instanceof ReUseKeysChangeListener) {
-//					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
-//				}
-//			}
-//		} else {
-//			super.propertyChange(evt);
-//		}
-//	}
-
+	// @Override
+	// public void propertyChange(PropertyChangeEvent evt) {
+	// if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_REUSEKEY))
+	// {
+	// logger.debug(getClass() + "#propertyChange().PROPERTY_REUSEKEY");
+	// refreshVisuals();
+	// SubsetEntity model = (SubsetEntity) getModel();
+	// if (model.getEntityType().equals(EntityType.RESOURCE)) {
+	// for (AbstractConnectionModel<?> con : model.getModelTargetConnections())
+	// {
+	// logger.debug("RESOURCE.source = " + con.getSource().getName());
+	// //
+	// con.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
+	// null, null);
+	// if (con instanceof ReUseKeysChangeListener && !(con instanceof
+	// RelatedRelationship)) {
+	// ((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+	// }
+	// }
+	// }
+	// for (AbstractConnectionModel<?> con : model.getModelSourceConnections())
+	// {
+	// logger.debug("target = " + con.getTarget().getName());
+	// //
+	// con.getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
+	// null, null);
+	// if (con instanceof ReUseKeysChangeListener) {
+	// ((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+	// }
+	// }
+	// } else {
+	// super.propertyChange(evt);
+	// }
+	// }
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -93,6 +97,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 
 		EntityFigure entityFigure = (EntityFigure) figure;
 		SubsetEntity entity = (SubsetEntity) getModel();
+		entityFigure.setNotImplement(entity.isNotImplement());
 
 		// List<Identifier> ids = entity.getReuseKeys().;
 
@@ -117,7 +122,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
@@ -130,19 +135,20 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 
 	/**
 	 * サブセットタイプと接続しているリレーションシップモデルを取得する
-	 * @param connections サブセットが保持している全リレーションシップ
-	 * @return RelatedRelationship 
+	 * 
+	 * @param connections
+	 *            サブセットが保持している全リレーションシップ
+	 * @return RelatedRelationship
 	 */
-	protected static RelatedRelationship findRelatedRelationship(
-			List<AbstractConnectionModel> connections) {
-		for (AbstractConnectionModel<?> c : connections) {
-			if (c instanceof RelatedRelationship) {
-				return (RelatedRelationship) c;
-			}
-		}
-		return null;
-	}
-
+	// protected static RelatedRelationship findRelatedRelationship(
+	// List<AbstractConnectionModel> connections) {
+	// for (AbstractConnectionModel<?> c : connections) {
+	// if (c instanceof RelatedRelationship) {
+	// return (RelatedRelationship) c;
+	// }
+	// }
+	// return null;
+	// }
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -152,20 +158,34 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		SubsetEntity table = (SubsetEntity) getModel();
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-				.getShell(), table.getName(), table.getReuseKeys(), table
-				.getAttributes());
+		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
+		// .getShell(), table.getName(), table.getReuseKeys(), table
+		// .getAttributes());
+		TableEditDialog2 dialog = new TableEditDialog2(getViewer().getControl()
+				.getShell(), "サブセット表編集", table);
 		if (dialog.open() == Dialog.OK) {
+			CompoundCommand ccommand = new CompoundCommand();
+
+			List<EditAttribute> editAttributeList = dialog
+					.getEditAttributeList();
+			addAttributeEditCommands(ccommand, table, editAttributeList);
+
 			TableEditCommand<SubsetEntity> command = new TableEditCommand<SubsetEntity>(
-					table, dialog.getEntityName(), dialog.getReuseKeys(),
-					dialog.getAttributes());
-			getViewer().getEditDomain().getCommandStack().execute(command);
+					table, (SubsetEntity) dialog.getEditedValue());
+			ccommand.add(command);
+			getViewer().getEditDomain().getCommandStack().execute(ccommand);
+			// TableEditCommand<SubsetEntity> command = new
+			// TableEditCommand<SubsetEntity>(
+			// table, dialog.getEntityName(), dialog.getReuseKeys(),
+			// dialog.getAttributes());
+			// getViewer().getEditDomain().getCommandStack().execute(command);
 		}
 	}
+
 	/**
 	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
 	private static class SubsetEntityComponentEditPolicy extends
 			ComponentEditPolicy {
@@ -183,8 +203,10 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			SubsetEntityDeleteCommand command1 = new SubsetEntityDeleteCommand(
 					diagram, model);
 			ccommand.add(command1);
-			RelatedRelationship relationship = findRelatedRelationship(model
-					.getModelTargetConnections());
+			// RelatedRelationship relationship = findRelatedRelationship(model
+			// .getModelTargetConnections());
+			RelatedRelationship relationship = (RelatedRelationship) model
+					.findRelationshipFromTargetConnections(RelatedRelationship.class);
 			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(
 					diagram, (SubsetType) relationship.getSource());
 			ccommand.add(command2);
@@ -193,20 +215,39 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 
 	}
 
+	/**
+	 * 
+	 * @author nakaG
+	 * 
+	 */
 	private static class SubsetEntityDeleteCommand extends Command {
+		/** 親 */
 		private Diagram diagram;
+		/** 削除対象 */
 		private SubsetEntity model;
+		/** サブセットタイプとのコネクション */
 		private RelatedRelationship subsetType2SubsetEntityRelationship;
-		private SubsetType subsetType;
 
+		// private SubsetType subsetType;
+
+		/**
+		 * コンストラクタ
+		 * 
+		 * @param diagram
+		 *            親
+		 * @param model
+		 *            削除対象
+		 */
 		public SubsetEntityDeleteCommand(Diagram diagram, SubsetEntity model) {
 			super();
 			this.diagram = diagram;
 			this.model = model;
-			this.subsetType2SubsetEntityRelationship = findRelatedRelationship(this.model
-					.getModelTargetConnections());
-			this.subsetType = (SubsetType) subsetType2SubsetEntityRelationship
-					.getSource();
+			this.subsetType2SubsetEntityRelationship = (RelatedRelationship) this.model
+					.findRelationshipFromTargetConnections(RelatedRelationship.class);
+			// findRelatedRelationship(this.model.getModelTargetConnections());
+			// this.subsetType = (SubsetType)
+			// subsetType2SubsetEntityRelationship
+			// .getSource();
 		}
 
 		/**
@@ -216,11 +257,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public boolean canExecute() {
-			System.out.println(model.getModelTargetConnections().size());
-			System.out.println(model.getModelSourceConnections().size());
-
-			return model.getModelTargetConnections().size() == 1
-					&& model.getModelSourceConnections().size() == 0;
+			return model.canDeletable();
 		}
 
 		/**
@@ -231,7 +268,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		@Override
 		public void execute() {
 			this.subsetType2SubsetEntityRelationship.disconnect();
-//			this.model.setDiagram(null);
+			// this.model.setDiagram(null);
 			this.diagram.removeChild(this.model);
 
 		}
@@ -244,7 +281,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		@Override
 		public void undo() {
 			this.diagram.addChild(this.model);
-//			this.model.setDiagram(this.diagram);
+			// this.model.setDiagram(this.diagram);
 			this.subsetType2SubsetEntityRelationship.connect();
 		}
 
