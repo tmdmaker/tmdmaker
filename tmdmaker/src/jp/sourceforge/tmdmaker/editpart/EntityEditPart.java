@@ -262,7 +262,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			// }
 			// return model.getModelSourceConnections().size() == 0
 			// && model.getModelTargetConnections().size() == 0;
-			return model.canDeletable();
+			return model.isDeletable();
 		}
 
 		@Override

@@ -64,7 +64,6 @@ import org.slf4j.LoggerFactory;
  */
 public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO 対照表で重複するRe-Useを重複して表示しないようにまとめる
-	// TODO みなしエンティティ自体に削除処理を追加
 	// TODO HDR-DTLのみなしスーパーセットとDTLの個体指示子に(R)をつけないようにする
 	// TODO 物理実装用のダイアログ（タブ）を作成する
 	// TODO ソースの精査
@@ -151,9 +150,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		descriptor = TMDPlugin.getImageDescriptor("icons/newConnection.gif");
 
 		ConnectionCreationToolEntry connxCCreationEntry = new ConnectionCreationToolEntry(
-				"リレーションシップ", "リレーションシップ",
-				null, descriptor, descriptor);
-//		new SimpleFactory(AbstractRelationship.class), descriptor, descriptor);
+				"リレーションシップ", "リレーションシップ", null, descriptor, descriptor);
+		// new SimpleFactory(AbstractRelationship.class), descriptor,
+		// descriptor);
 		drawer.add(connxCCreationEntry);
 
 		root.add(toolGroup);
@@ -284,7 +283,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 					/*
 					 * (non-Javadoc)
 					 * 
-					 * @seeorg.eclipse.gef.commands.CommandStackEventListener#
+					 * @see org.eclipse.gef.commands.CommandStackEventListener#
 					 * stackChanged(org.eclipse.gef.commands.CommandStackEvent)
 					 */
 					@Override
@@ -310,8 +309,8 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 													+ "#stackChanged():dialog.open() == Dialog.OK)");
 									command.setIdentifierName(dialog
 											.getInputIdentifierName());
-									command
-											.setEntityName(dialog.getInputEntityName());
+									command.setEntityName(dialog
+											.getInputEntityName());
 									EntityType entityType = dialog
 											.getInputEntityType();
 									command.setEntityType(entityType);
@@ -369,8 +368,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 	/**
 	 * エンティティ新規作成ダイアログ
+	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
 	private static class EntityCreateDialog extends Dialog {
 		/** 個体指示子名称 */
@@ -384,7 +384,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 		/**
 		 * コンストラクタ
-		 * @param parentShell 親
+		 * 
+		 * @param parentShell
+		 *            親
 		 */
 		protected EntityCreateDialog(Shell parentShell) {
 			super(parentShell);
@@ -393,7 +395,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		/**
 		 * 
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -410,7 +412,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		/**
 		 * 
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 		 */
 		@Override
@@ -421,17 +423,23 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			if (validate()) {
 				super.okPressed();
 			} else {
-				
+
 				return;
 			}
 		}
+
 		/**
 		 * ダイアログ検証
+		 * 
 		 * @return 必須事項が全て入力されている場合にtrueを返す
 		 */
 		private boolean validate() {
-			return this.inputIdentifierName != null && this.inputIdentifierName.length() > 0 && this.inputEntityName != null && this.inputEntityName.length() > 0;
+			return this.inputIdentifierName != null
+					&& this.inputIdentifierName.length() > 0
+					&& this.inputEntityName != null
+					&& this.inputEntityName.length() > 0;
 		}
+
 		/**
 		 * @return the inputIdentifierName
 		 */
@@ -452,6 +460,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		public String getInputEntityName() {
 			return inputEntityName;
 		}
-		
+
 	}
 }

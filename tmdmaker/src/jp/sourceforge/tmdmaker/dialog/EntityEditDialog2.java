@@ -121,7 +121,7 @@ public class EntityEditDialog2 extends Dialog {
 		panel1.selectEntityTypeCombo(original.getEntityType());
 		panel1.selectAutoCreateCheckBox(original.getIdentifier().getName(),
 				original.getName());
-		panel1.setEntityTypeComboEnabled(original.canEntityTypeEditable());
+		panel1.setEntityTypeComboEnabled(original.isEntityTypeEditable());
 
 		notImplementCheck.setSelection(original.isNotImplement());
 

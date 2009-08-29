@@ -151,7 +151,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public boolean canExecute() {
-			return ve.canDeletable();
+			return ve.isDeletable();
 		}
 		/**
 		 * {@inheritDoc}

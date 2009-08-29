@@ -11,10 +11,10 @@ public class Superset extends AbstractEntityModel {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canEntityTypeEditable()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#isEntityTypeEditable()
 	 */
 	@Override
-	public boolean canEntityTypeEditable() {
+	public boolean isEntityTypeEditable() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -34,10 +34,10 @@ public class Superset extends AbstractEntityModel {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#isDeletable()
 	 */
 	@Override
-	public boolean canDeletable() {
+	public boolean isDeletable() {
 		// TODO Auto-generated method stub
 		return false;
 	}

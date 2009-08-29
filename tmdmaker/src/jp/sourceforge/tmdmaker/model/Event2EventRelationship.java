@@ -168,7 +168,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	@Override
 	public boolean canDeletable() {
 		if (getSourceCardinality().equals(Cardinality.MANY)) {
-			return table.canDeletable();
+			return table.isDeletable();
 		} else {
 			return true;
 		}

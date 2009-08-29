@@ -41,7 +41,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	 */
 	@Override
 	public boolean canDeletable() {
-		return getTarget().canDeletable();
+		return getTarget().isDeletable();
 	}
 
 	/**

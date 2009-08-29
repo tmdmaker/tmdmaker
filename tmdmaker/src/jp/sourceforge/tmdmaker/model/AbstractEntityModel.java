@@ -23,6 +23,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public static final String PROPERTY_NOT_IMPLEMENT = "p_notImplement";
 	protected Map<AbstractEntityModel, ReUseKeys> reuseKeys = new LinkedHashMap<AbstractEntityModel, ReUseKeys>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
+	/** エンティティ種類 */
 	protected EntityType entityType = EntityType.RESOURCE;
 	/** 物理実装しない */
 	protected boolean notImplement = false;
@@ -249,12 +250,12 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * 
 	 * @return 編集可能な場合にtrueを返す。
 	 */
-	public abstract boolean canEntityTypeEditable();
+	public abstract boolean isEntityTypeEditable();
 
 	/**
 	 * エンティティが削除可能か判定する
 	 * 
 	 * @return 削除可能な場合にtrueを返す。
 	 */
-	public abstract boolean canDeletable();
+	public abstract boolean isDeletable();
 }

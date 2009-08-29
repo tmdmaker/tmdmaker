@@ -183,7 +183,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public boolean canExecute() {
-			return model.canDeletable();
+			return model.isDeletable();
 		}
 
 		/**

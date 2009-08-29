@@ -46,20 +46,20 @@ public class SubsetEntity extends AbstractEntityModel {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canEntityTypeEditable()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#isEntityTypeEditable()
 	 */
 	@Override
-	public boolean canEntityTypeEditable() {
+	public boolean isEntityTypeEditable() {
 		return false;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canDeletable()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#isDeletable()
 	 */
 	@Override
-	public boolean canDeletable() {
+	public boolean isDeletable() {
 		return getModelTargetConnections().size() == 1
 				&& getModelSourceConnections().size() == 0;
 	}
