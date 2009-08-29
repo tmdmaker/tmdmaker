@@ -51,7 +51,7 @@ public class MappingList extends AbstractEntityModel {
 	 * @return 対応表作成時のリレーションシップ（リレーションシップへのリレーションシップ）
 	 */
 	public RelatedRelationship findCreationRelationship() {
-		AbstractConnectionModel<?> r = getModelTargetConnections().get(0);
+		AbstractConnectionModel r = getModelTargetConnections().get(0);
 		assert r instanceof RelatedRelationship;
 		return (RelatedRelationship) r;
 	}

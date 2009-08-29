@@ -102,7 +102,7 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 				new ConnectionEditPolicy() {
 					protected Command getDeleteCommand(GroupRequest request) {
 						ConnectionDeleteCommand cmd = new ConnectionDeleteCommand(
-								(AbstractConnectionModel<?>) getModel());
+								(AbstractConnectionModel) getModel());
 						return cmd;
 					}
 				});

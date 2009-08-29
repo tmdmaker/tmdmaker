@@ -168,7 +168,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	protected List<AbstractConnectionModel> findRelationship(
 			List<AbstractConnectionModel> connections, Class<?> clazz) {
 		List<AbstractConnectionModel> results = new ArrayList<AbstractConnectionModel>();
-		for (AbstractConnectionModel<?> connection : connections) {
+		for (AbstractConnectionModel connection : connections) {
 			if (clazz.equals(connection.getClass())) {
 				results.add(connection);
 			}
@@ -202,7 +202,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	/**
 	 * 
 	 */
-	public void notifyReUseKeyChange(AbstractConnectionModel<?> callConnection) {
+	public void notifyReUseKeyChange(AbstractConnectionModel callConnection) {
 		firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 		if (getEntityType().equals(EntityType.RESOURCE)) {
 			fireReUseKeyChange(getModelSourceConnections(), callConnection);
@@ -215,7 +215,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 //			}
 		} else {
 			fireReUseKeyChange(getModelSourceConnections(), callConnection);
-			for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
+			for (AbstractConnectionModel con : getModelTargetConnections()) {
 				if (con instanceof ReUseKeysChangeListener && con instanceof Event2EventRelationship && con != callConnection ) {
 					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
 				}
@@ -223,8 +223,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		}
 
 	}
-	private void fireReUseKeyChange(List<AbstractConnectionModel> connections, AbstractConnectionModel<?> callConnection) {
-		for (AbstractConnectionModel<?> con : connections) {
+	private void fireReUseKeyChange(List<AbstractConnectionModel> connections, AbstractConnectionModel callConnection) {
+		for (AbstractConnectionModel con : connections) {
 			if (con instanceof ReUseKeysChangeListener && con != callConnection) {
 				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
 			}			

@@ -386,7 +386,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 						Command cmd = event.getCommand();
 						if (cmd instanceof ConnectionCreateCommand) {
 							ConnectionCreateCommand command = (ConnectionCreateCommand) cmd;
-							AbstractConnectionModel<?> cnt = command
+							AbstractConnectionModel cnt = command
 									.getConnection();
 							if (cnt instanceof Event2EventRelationship) {
 								Event2EventRelationship relationship = (Event2EventRelationship) cnt;

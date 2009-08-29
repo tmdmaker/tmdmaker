@@ -7,12 +7,12 @@ package jp.sourceforge.tmdmaker.model;
  * @param <T>
  */
 @SuppressWarnings("serial")
-public abstract class AbstractConnectionModel<T extends ConnectableElement>
+public abstract class AbstractConnectionModel
 		extends ConnectableElement {
 	/** 接続先モデル */
-	private T source;
+	private ConnectableElement source;
 	/** 接続先モデル */
-	private T target;
+	private ConnectableElement target;
 	/** 接続元多重度プロパティ定数 */
 	public static final String PROPERTY_SOURCE_CARDINALITY = "_property_source_cardinality";
 	/** 接続先多重度プロパティ定数 */
@@ -76,25 +76,25 @@ public abstract class AbstractConnectionModel<T extends ConnectableElement>
 	/**
 	 * @return the source
 	 */
-	public T getSource() {
+	public ConnectableElement getSource() {
 		return source;
 	}
 	/**
 	 * @param source the source to set
 	 */
-	public void setSource(T source) {
+	public void setSource(ConnectableElement source) {
 		this.source = source;
 	}
 	/**
 	 * @return the target
 	 */
-	public T getTarget() {
+	public ConnectableElement getTarget() {
 		return target;
 	}
 	/**
 	 * @param target the target to set
 	 */
-	public void setTarget(T target) {
+	public void setTarget(ConnectableElement target) {
 		this.target = target;
 	}
 	/**

@@ -38,7 +38,7 @@ public class SubsetType extends ConnectableElement {
 	 */
 	public List<SubsetEntity> findSubsetEntityList() {
 		List<SubsetEntity> results = new ArrayList<SubsetEntity>();
-		for (AbstractConnectionModel<?> c : getModelSourceConnections()) {
+		for (AbstractConnectionModel c : getModelSourceConnections()) {
 			if (c instanceof RelatedRelationship) {
 				results.add((SubsetEntity) c.getTarget());
 			}

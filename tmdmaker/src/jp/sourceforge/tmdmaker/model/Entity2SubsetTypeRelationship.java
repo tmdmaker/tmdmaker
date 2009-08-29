@@ -5,7 +5,7 @@ package jp.sourceforge.tmdmaker.model;
  *
  */
 @SuppressWarnings("serial")
-public class Entity2SubsetTypeRelationship extends AbstractConnectionModel<ConnectableElement> implements ReUseKeysChangeListener {
+public class Entity2SubsetTypeRelationship extends AbstractConnectionModel implements ReUseKeysChangeListener {
 	/** 区分コードプロパティ定数 */
 	public static final String PROPERTY_PARTITION = "_property_partition";
 //	/** 区分コードの属性 */
@@ -36,7 +36,7 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel<Conne
 	 */
 	@Override
 	public void awareReUseKeysChanged() {
-		for (AbstractConnectionModel<?> con : getTarget().getModelSourceConnections()) {
+		for (AbstractConnectionModel con : getTarget().getModelSourceConnections()) {
 			if (con instanceof ReUseKeysChangeListener) {
 				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
 			}

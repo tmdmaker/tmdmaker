@@ -95,7 +95,7 @@ public class ConnectionCreateCommand extends
 	/**
 	 * @return the connection
 	 */
-	public AbstractConnectionModel<?> getConnection() {
+	public AbstractConnectionModel getConnection() {
 		return connection;
 	}
 

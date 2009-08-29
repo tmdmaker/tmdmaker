@@ -4,7 +4,11 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 
 import org.eclipse.gef.commands.Command;
-
+/**
+ * 
+ * @author nakaG
+ *
+ */
 public class AttributeAddCommand extends Command {
 	private AbstractEntityModel entity;
 	private Attribute attribute;

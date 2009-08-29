@@ -11,7 +11,7 @@ import org.eclipse.gef.commands.Command;
  */
 public class ConnectionDeleteCommand extends Command {
 	/** 削除対象モデル */
-	private AbstractConnectionModel<?> connection;
+	private AbstractConnectionModel connection;
 
 	/**
 	 * コンストラクタ

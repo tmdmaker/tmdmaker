@@ -7,7 +7,7 @@ package jp.sourceforge.tmdmaker.model;
  *
  */
 @SuppressWarnings("serial")
-public abstract class AbstractRelationship extends AbstractConnectionModel<AbstractEntityModel> implements ReUseKeysChangeListener {
+public abstract class AbstractRelationship extends AbstractConnectionModel implements ReUseKeysChangeListener {
 	/** 接続元とのカーディナリティ */
 	private Cardinality sourceCardinality = Cardinality.ONE;
 	/** 接続先とのカーディナリティ */
@@ -95,5 +95,39 @@ public abstract class AbstractRelationship extends AbstractConnectionModel<Abstr
 		this.centerMark = centerMark;
 		firePropertyChange(PROPERTY_CONNECTION, oldValue, centerMark);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ReUseKeysChangeListener#awareReUseKeysChanged()
+	 */
+	@Override
+	public void awareReUseKeysChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
+	public AbstractEntityModel getSource() {
+		return (AbstractEntityModel) super.getSource();
+	}
+	public AbstractEntityModel getTarget() {
+		return (AbstractEntityModel) super.getTarget();
+	}
+	public void setSource(AbstractEntityModel source) {
+		super.setSource(source);
+	}
+	public void setTarget(AbstractEntityModel target) {
+		super.setTarget(target);
+	}
 }
