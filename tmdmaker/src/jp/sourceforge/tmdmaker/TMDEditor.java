@@ -1,6 +1,7 @@
 package jp.sourceforge.tmdmaker;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.EventObject;
 import java.util.List;
 
@@ -23,9 +24,10 @@ import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
@@ -46,6 +48,7 @@ import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -54,6 +57,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.part.FileEditorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,9 +83,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		super();
 		logger.debug("{} is instanciate.", TMDEditor.class);
 		setEditDomain(new DefaultEditDomain(this));
-		// getActionRegistry().registerAction(new UndoRetargetAction());
-		// getActionRegistry().registerAction(new RedoRetargetAction());
-		// getActionRegistry().registerAction(new DeleteRetargetAction());
 	}
 
 	/**
@@ -90,7 +93,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	 */
 	@Override
 	protected void initializeGraphicalViewer() {
-		logger.debug("initializeGraphicalViewer() called");
+		logger.debug(getClass() + "#initializeGraphicalViewer()");
 		GraphicalViewer viewer = getGraphicalViewer();
 
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
@@ -177,18 +180,27 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		try {
 			file.deleteMarkers(IMarker.PROBLEM, false, 0);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("IFile#deleteMarkers()." + e);
 		}
 		try {
 			file.setContents(XStreamSerializer.serializeStream(diagram, this
 					.getClass().getClassLoader()), true, true, monitor);
 		} catch (UnsupportedEncodingException e) {
-			logger.warn("IFile#setContents:", e);
+			logger.warn("IFile#setContents().", e);
 		} catch (CoreException e) {
-			logger.warn("IFile#setContents:", e);
+			logger.warn("IFile#setContents().", e);
 		}
 		getCommandStack().markSaveLocation();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
+	 */
+	@Override
+	public boolean isSaveAsAllowed() {
+		return true;
 	}
 
 	/**
@@ -198,7 +210,48 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	 */
 	@Override
 	public void doSaveAs() {
-		doSave(new NullProgressMonitor());
+		Shell shell = getSite().getWorkbenchWindow().getShell();
+		SaveAsDialog dialog = new SaveAsDialog(shell);
+		dialog.setOriginalFile(((IFileEditorInput) getEditorInput()).getFile());
+		dialog.open();
+
+		IPath path = dialog.getResult();
+		if (path == null) {
+			return;
+		}
+		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
+				path);
+		try {
+			new ProgressMonitorDialog(shell).run(false, // don't fork
+					false, // not cancelable
+					new WorkspaceModifyOperation() { // run this operation
+
+						@Override
+						public void execute(IProgressMonitor monitor) {
+							Diagram diagram = (Diagram) getGraphicalViewer()
+									.getContents().getModel();
+							try {
+								file.create(XStreamSerializer.serializeStream(
+										diagram, this.getClass()
+												.getClassLoader()), true,
+										monitor);
+							} catch (UnsupportedEncodingException e) {
+								logger.warn("IFile#setContents().", e);
+							} catch (CoreException e) {
+								logger.warn("IFile#setContents().", e);
+							}
+							getCommandStack().markSaveLocation();
+
+						}
+					});
+
+			setInput(new FileEditorInput(file));
+		} catch (InterruptedException e) {
+			logger.warn("ProgressMonitorDialog#run().", e);
+		} catch (InvocationTargetException e) {
+			logger.warn("ProgressMonitorDialog#run().", e);
+		}
+
 	}
 
 	/**

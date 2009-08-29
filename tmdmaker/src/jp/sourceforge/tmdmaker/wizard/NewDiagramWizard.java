@@ -7,7 +7,6 @@ import jp.sourceforge.tmdmaker.XStreamSerializer;
 import jp.sourceforge.tmdmaker.model.Diagram;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
@@ -22,7 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 public class NewDiagramWizard extends Wizard implements INewWizard {
 	/** logging */
@@ -32,14 +31,14 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 	private IWorkbench workbench;
 	private IStructuredSelection selection;
 	private NewDiagramCreationPage page;
-	
+
 	/**
 	 * コンストラクタ
 	 */
 	public NewDiagramWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		setWindowTitle("新規作成");		
+		setWindowTitle("新規作成");
 	}
 
 	@Override
@@ -48,7 +47,8 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 		if (file == null) {
 			return false;
 		}
-		IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
+		IWorkbenchPage page = workbench.getActiveWorkbenchWindow()
+				.getActivePage();
 		try {
 			IDE.openEditor(page, file, true);
 		} catch (PartInitException e) {
@@ -58,6 +58,13 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 		return true;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
+	 *      org.eclipse.jface.viewers.IStructuredSelection)
+	 */
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.workbench = workbench;
@@ -66,7 +73,7 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
 	@Override
@@ -74,9 +81,11 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 		page = new NewDiagramCreationPage("new TMD", selection);
 		addPage(page);
 		super.addPages();
-		
+
 	}
-	private static class NewDiagramCreationPage extends WizardNewFileCreationPage {
+
+	private static class NewDiagramCreationPage extends
+			WizardNewFileCreationPage {
 
 		public NewDiagramCreationPage(String string,
 				IStructuredSelection selection) {
@@ -87,14 +96,15 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 
 		/**
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
 		 */
 		@Override
 		protected InputStream getInitialContents() {
 			Diagram diagram = new Diagram();
 			try {
-				return XStreamSerializer.serializeStream(diagram, this.getClass().getClassLoader());
+				return XStreamSerializer.serializeStream(diagram, this
+						.getClass().getClassLoader());
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -102,15 +112,16 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 			}
 		}
 
-//		/**
-//		 * {@inheritDoc}
-//		 *
-//		 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#createLinkTarget()
-//		 */
-//		@Override
-//		protected void createLinkTarget() {
-//			// TODO Auto-generated method stub
-//		}
-//		
+		// /**
+		// * {@inheritDoc}
+		// *
+		// * @see
+		// org.eclipse.ui.dialogs.WizardNewFileCreationPage#createLinkTarget()
+		// */
+		// @Override
+		// protected void createLinkTarget() {
+		// // TODO Auto-generated method stub
+		// }
+		//		
 	}
 }
