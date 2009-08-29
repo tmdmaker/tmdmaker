@@ -1,13 +1,9 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
-import jp.sourceforge.tmdmaker.model.VirtualEntity;
-import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -34,68 +30,57 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
 	@Override
 	public void run() {
-		CompoundCommand ccommand = new CompoundCommand();
-
 		AbstractEntityModel model = getModel();
-		Diagram diagram = model.getDiagram();
-		VirtualEntity entity = new VirtualEntity();
-		entity.setName(model.getName() + ".VE" + model.getModelSourceConnections().size());
-		entity.setConstraint(model.getConstraint().getTranslated(100, 0));
-		
-		VirtualEntityCreateCommand command1 = new VirtualEntityCreateCommand(diagram, entity);
-		ccommand.add(command1);
-		
-		ConnectionCreateCommand command2 = new ConnectionCreateCommand();
-		command2.setConnection(new Entity2VirtualEntityRelationship());
-		command2.setSource(model);
-		command2.setTarget(entity);
-		ccommand.add(command2);
-		
-		execute(ccommand);
+
+		VirtualEntityCreateCommand command1 = new VirtualEntityCreateCommand(
+				model);
+		execute(command1);
 	}
 
 	/**
 	 * みなしエンティティ作成
+	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
 	private static class VirtualEntityCreateCommand extends Command {
-		private Diagram diagram;
-		private VirtualEntity model;
+		/** みなしエンティティへのリレーションシップ */
+		private Entity2VirtualEntityRelationship relationship;
+
 		/**
 		 * コンストラクタ
-		 * @param diagram ダイアグラム
-		 * @param model みなしエンティティ
+		 * 
+		 * @param model
+		 *            みなしエンティティ作成対象
 		 */
-		public VirtualEntityCreateCommand(Diagram diagram, VirtualEntity model) {
-			this.diagram = diagram;
-			this.model = model;
+		public VirtualEntityCreateCommand(AbstractEntityModel model) {
+			this.relationship = new Entity2VirtualEntityRelationship(model);
 		}
+
 		/**
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
 		public void execute() {
-			diagram.addChild(model);
-//			model.setDiagram(diagram);
+			relationship.connect();
 		}
+
 		/**
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override
 		public void undo() {
-//			model.setDiagram(null);
-			diagram.removeChild(model);
+			relationship.disconnect();
 		}
-		
+
 	}
 }

@@ -7,15 +7,19 @@ import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
+import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
@@ -103,7 +107,71 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new VirtualEntityComponentEditPolicy());
 	}
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
 	private static class VirtualEntityComponentEditPolicy extends ComponentEditPolicy {
+
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+		 */
+		@Override
+		protected Command createDeleteCommand(GroupRequest deleteRequest) {
+			VirtualEntityDeleteCommand command = new VirtualEntityDeleteCommand((VirtualEntity) getHost().getModel());
+			return command;
+		}
+		
+	}
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
+	private static class VirtualEntityDeleteCommand extends Command {
+		/** 削除対象 */
+		private VirtualEntity ve;
+		/** みなしエンティテ作成時のリレーションシップ */
+		private AbstractRelationship relationship;
+		/**
+		 * コンストラクタ
+		 * @param ve 削除対象
+		 */
+		public VirtualEntityDeleteCommand(VirtualEntity ve) {
+			this.ve = ve;
+			this.relationship = (AbstractRelationship) ve.getModelTargetConnections().get(0);
+		}
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.commands.Command#canExecute()
+		 */
+		@Override
+		public boolean canExecute() {
+			return ve.canDeletable();
+		}
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			relationship.disconnect();
+		}
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			relationship.connect();
+		}
+		
 		
 	}
 }
