@@ -21,7 +21,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public static final String PROPERTY_REUSEKEY = "p_reusekey";
 	public static final String PROPERTY_ATTRIBUTES = "p_attributes";
 	public static final String PROPERTY_NOT_IMPLEMENT = "p_notImplement";
-	protected Map<AbstractEntityModel, ReUseKeys> reuseKeys = new LinkedHashMap<AbstractEntityModel, ReUseKeys>();
+	protected Map<AbstractEntityModel, ReUseKey> reuseKey = new LinkedHashMap<AbstractEntityModel, ReUseKey>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
 	/** エンティティ種類 */
 	protected EntityType entityType = EntityType.RESOURCE;
@@ -44,18 +44,18 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @return the reuseKeys
+	 * @return the reuseKey
 	 */
-	public Map<AbstractEntityModel, ReUseKeys> getReuseKeys() {
-		return Collections.unmodifiableMap(reuseKeys);
+	public Map<AbstractEntityModel, ReUseKey> getReuseKey() {
+		return Collections.unmodifiableMap(reuseKey);
 	}
 
 	/**
-	 * @param reuseKeys
-	 *            the reuseKeys to set
+	 * @param reuseKey
+	 *            the reuseKey to set
 	 */
-	public void setReuseKeys(Map<AbstractEntityModel, ReUseKeys> reuseKeys) {
-		this.reuseKeys = reuseKeys;
+	public void setReuseKey(Map<AbstractEntityModel, ReUseKey> reuseKeys) {
+		this.reuseKey = reuseKeys;
 	}
 
 	// public void addReuseKey(Identifier reuseKey) {
@@ -67,21 +67,21 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	// // if (this.reuseKeys.remove(reuseKey)) {
 	// // firePropertyChange(P_CONSTRAINT, reuseKey, null);
 	// // }
-	// for (ReuseKey rk : reuseKeys) {
+	// for (ReuseKey rk : reuseKey) {
 	// if (rk.hasSameIdentifier(reuseKey)) {
 	// rk.invalidate();
-	// reuseKeys.remove(rk);
+	// reuseKey.remove(rk);
 	// break;
 	// }
 	// }
 	// }
 	public void addReuseKey(AbstractEntityModel source) {
-		ReUseKeys added = this.reuseKeys.put(source, source.getMyReuseKey());
+		ReUseKey added = this.reuseKey.put(source, source.getMyReuseKey());
 		firePropertyChange(PROPERTY_REUSEKEY, null, added);
 	}
 
 	public void removeReuseKey(AbstractEntityModel source) {
-		ReUseKeys removed = this.reuseKeys.remove(source);
+		ReUseKey removed = this.reuseKey.remove(source);
 		if (removed != null) {
 			removed.dispose();
 		}
@@ -90,7 +90,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 
 	// public abstract void addReuseKey(AbstractEntityModel target);
 	// public abstract void removeReuseKey(AbstractEntityModel target);
-	public abstract ReUseKeys getMyReuseKey();
+	public abstract ReUseKey getMyReuseKey();
 
 	/**
 	 * @return the attributes

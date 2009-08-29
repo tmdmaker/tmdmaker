@@ -14,7 +14,7 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.ReUseKey;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -83,8 +83,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(entity.getEntityType().getLabel());
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : entity
-				.getReuseKeys().entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReUseKey> rk : entity
+				.getReuseKey().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}

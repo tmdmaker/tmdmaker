@@ -9,7 +9,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.ReUseKey;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.jface.dialogs.Dialog;
@@ -66,14 +66,14 @@ public class EntityEditDialog extends Dialog {
 	
 	public EntityEditDialog(Shell parentShell, String identifierName,
 			String entityName, EntityType entityType,
-			Map<AbstractEntityModel, ReUseKeys> reuseKeys,
+			Map<AbstractEntityModel, ReUseKey> reuseKeys,
 			List<Attribute> attributes, boolean canEditEntityType) {
 		super(parentShell);
 		this.identifierName = identifierName;
 		this.entityName = entityName;
 		this.entityType = entityType;
 		this.canEditEntityType = canEditEntityType;
-		for (Map.Entry<AbstractEntityModel, ReUseKeys> entry : reuseKeys
+		for (Map.Entry<AbstractEntityModel, ReUseKey> entry : reuseKeys
 				.entrySet()) {
 			for (Identifier i : entry.getValue().getIdentifires()) {
 				Identifier copy = new Identifier();
@@ -367,7 +367,7 @@ public class EntityEditDialog extends Dialog {
 	}
 
 	/**
-	 * @return the reuseKeys
+	 * @return the reuseKey
 	 */
 	public List<Identifier> getReuseKeys() {
 		return reuseKeys;

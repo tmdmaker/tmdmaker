@@ -27,9 +27,9 @@ public class MultivalueOrEntity extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReUseKeys getMyReuseKey() {
-		ReUseKeys returnValue = new ReUseKeys();
-		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : this.reuseKeys
+	public ReUseKey getMyReuseKey() {
+		ReUseKey returnValue = new ReUseKey();
+		for (Map.Entry<AbstractEntityModel, ReUseKey> rk : this.reuseKey
 				.entrySet()) {
 			returnValue.addAll(rk.getValue().getIdentifires());
 		}

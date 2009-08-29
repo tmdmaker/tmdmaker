@@ -8,7 +8,7 @@ import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.ReUseKey;
 import jp.sourceforge.tmdmaker.model.Superset;
 
 import org.eclipse.draw2d.IFigure;
@@ -61,8 +61,8 @@ public class SupersetEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityName(entity.getName());
 		// entityFigure.setEntityType(entity.getEntityType().toString());
 		// figure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : entity
-				.getReuseKeys().entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReUseKey> rk : entity
+				.getReuseKey().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}

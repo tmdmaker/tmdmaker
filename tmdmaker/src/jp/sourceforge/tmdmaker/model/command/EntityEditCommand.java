@@ -9,7 +9,7 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.ReUseKey;
 
 import org.eclipse.gef.commands.Command;
 
@@ -17,7 +17,7 @@ public class EntityEditCommand extends Command {
 	private String identifierName;
 	private String entityName;
 	private EntityType entityType;
-	private List<Identifier> reuseKeys;
+	private List<Identifier> reuseKey;
 	private List<Attribute> attributes;
 
 	private Entity entity;
@@ -36,10 +36,10 @@ public class EntityEditCommand extends Command {
 		entity.setEntityType(this.entityType);
 		entity.setIdentifierName(this.identifierName);
 
-		Map<AbstractEntityModel, ReUseKeys> ids = entity.getReuseKeys();
+		Map<AbstractEntityModel, ReUseKey> ids = entity.getReuseKey();
 		// TODO identifierの更新伝播
 		for (int i = 0; i < ids.size(); i++) {
-//			ids.get(i).setName(reuseKeys.get(i).getName());
+//			ids.get(i).setName(reuseKey.get(i).getName());
 		}
 		entity.setAttributes(this.attributes);
 		// firePropertyChange
@@ -53,7 +53,7 @@ public class EntityEditCommand extends Command {
 	public void undo() {
 		entity.setEntityType(this.oldEntityType);
 		entity.setIdentifierName(this.oldIdentifierName);
-		Map<AbstractEntityModel, ReUseKeys> ids = entity.getReuseKeys();
+		Map<AbstractEntityModel, ReUseKey> ids = entity.getReuseKey();
 		for (int i = 0; i < ids.size(); i++) {
 //			ids.get(i).setName(oldReuseKeys.get(i).getName());
 		}
@@ -78,10 +78,10 @@ public class EntityEditCommand extends Command {
 		this.entityType = entityType;
 	}
 	/**
-	 * @param reuseKeys the reuseKeys to set
+	 * @param reuseKey the reuseKey to set
 	 */
-	public void setReuseKeys(List<Identifier> reuseKeys) {
-		this.reuseKeys = reuseKeys;
+	public void setReuseKey(List<Identifier> reuseKeys) {
+		this.reuseKey = reuseKeys;
 	}
 	/**
 	 * @param attributes the attributes to set
@@ -97,8 +97,8 @@ public class EntityEditCommand extends Command {
 		this.oldEntityName = entity.getName();
 		this.oldEntityType = entity.getEntityType();
 		this.oldIdentifierName = entity.getIdentifier().getName();
-		Map<AbstractEntityModel, ReUseKeys> rk = entity.getReuseKeys();
-		for (Map.Entry<AbstractEntityModel, ReUseKeys> k : rk.entrySet()) {
+		Map<AbstractEntityModel, ReUseKey> rk = entity.getReuseKey();
+		for (Map.Entry<AbstractEntityModel, ReUseKey> k : rk.entrySet()) {
 			
 //			this.oldReuseKeys.add(new Identifier(id.getName()));
 		}

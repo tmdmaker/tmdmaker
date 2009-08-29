@@ -16,6 +16,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	public boolean isEntityTypeEditable() {
 		return false;
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -23,7 +24,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReUseKeys getMyReuseKey() {
+	public ReUseKey getMyReuseKey() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -84,8 +84,8 @@ public class Entity extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReUseKeys getMyReuseKey() {
-		return new ReUseKeys(this.identifier);
+	public ReUseKey getMyReuseKey() {
+		return new ReUseKey(this.identifier);
 	}
 
 	/**

@@ -17,7 +17,7 @@ import org.eclipse.gef.commands.Command;
  */
 public class TableEditCommand<T extends AbstractEntityModel> extends Command {
 	private String newName;
-	private List<Identifier> reuseKeys;
+	private List<Identifier> reuseKey;
 	private List<Attribute> newAttributes;
 	private boolean newNotImplement;
 	
@@ -33,12 +33,12 @@ public class TableEditCommand<T extends AbstractEntityModel> extends Command {
 	 * 
 	 * @param model
 	 * @param name
-	 * @param reuseKeys
+	 * @param reuseKey
 	 * @param newAttributes
 	 */
-	public TableEditCommand(T model, String name, List<Identifier> reuseKeys, List<Attribute> attributes) {
+	public TableEditCommand(T model, String name, List<Identifier> reuseKey, List<Attribute> attributes) {
 		this.newName = name;
-		this.reuseKeys = reuseKeys;
+		this.reuseKey = reuseKey;
 		this.newAttributes = attributes;
 		this.oldName = model.getName();
 //		this.oldReuseKeys = model.getReuseKeys();

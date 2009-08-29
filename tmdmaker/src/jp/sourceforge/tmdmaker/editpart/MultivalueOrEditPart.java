@@ -13,7 +13,7 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
-import jp.sourceforge.tmdmaker.model.ReUseKeys;
+import jp.sourceforge.tmdmaker.model.ReUseKey;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -83,8 +83,8 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.MO.getLabel());
-		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : entity
-				.getReuseKeys().entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReUseKey> rk : entity
+				.getReuseKey().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}

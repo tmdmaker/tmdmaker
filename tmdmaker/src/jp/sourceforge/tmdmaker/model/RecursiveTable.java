@@ -16,9 +16,9 @@ public class RecursiveTable extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReUseKeys getMyReuseKey() {
-		ReUseKeys returnValue = new ReUseKeys();
-		for (Map.Entry<AbstractEntityModel, ReUseKeys> rk : this.reuseKeys.entrySet()) {
+	public ReUseKey getMyReuseKey() {
+		ReUseKey returnValue = new ReUseKey();
+		for (Map.Entry<AbstractEntityModel, ReUseKey> rk : this.reuseKey.entrySet()) {
 			returnValue.addAll(rk.getValue().getIdentifires());
 		}
 		return returnValue;
@@ -31,9 +31,9 @@ public class RecursiveTable extends AbstractEntityModel {
 	 */
 	@Override
 	public void addReuseKey(AbstractEntityModel source) {
-		ReUseKeys added = source.getMyReuseKey();
+		ReUseKey added = source.getMyReuseKey();
 		added.addAll(added.getIdentifires());
-		this.reuseKeys.put(source, added);
+		this.reuseKey.put(source, added);
 		firePropertyChange(PROPERTY_REUSEKEY, null, added);
 	}
 	/**
