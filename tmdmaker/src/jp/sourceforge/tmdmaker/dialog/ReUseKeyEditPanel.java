@@ -1,19 +1,17 @@
 package jp.sourceforge.tmdmaker.dialog;
 
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.FillLayout;
 
-public class ReUseKeysEditPanel extends Composite {
+public class ReUseKeyEditPanel extends Composite {
 
 	private Table reUseKeyTable = null;
 
-	public ReUseKeysEditPanel(Composite parent, int style) {
+	public ReUseKeyEditPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
 	}

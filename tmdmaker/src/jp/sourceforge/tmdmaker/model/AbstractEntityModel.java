@@ -209,15 +209,15 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			fireReUseKeyChange(getModelTargetConnections(), callConnection);
 //			for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
 //	
-//				if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
-//					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+//				if (con instanceof ReUseKeyChangeListener && con != callConnection ) {
+//					((ReUseKeyChangeListener) con).awareReUseKeysChanged();
 //				}
 //			}
 		} else {
 			fireReUseKeyChange(getModelSourceConnections(), callConnection);
 			for (AbstractConnectionModel con : getModelTargetConnections()) {
-				if (con instanceof ReUseKeysChangeListener && con instanceof Event2EventRelationship && con != callConnection ) {
-					((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+				if (con instanceof ReUseKeyChangeListener && con instanceof Event2EventRelationship && con != callConnection ) {
+					((ReUseKeyChangeListener) con).notifyReUseKeyChanged();
 				}
 			}			
 		}
@@ -225,8 +225,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 	private void fireReUseKeyChange(List<AbstractConnectionModel> connections, AbstractConnectionModel callConnection) {
 		for (AbstractConnectionModel con : connections) {
-			if (con instanceof ReUseKeysChangeListener && con != callConnection) {
-				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+			if (con instanceof ReUseKeyChangeListener && con != callConnection) {
+				((ReUseKeyChangeListener) con).notifyReUseKeyChanged();
 			}			
 		}
 	}

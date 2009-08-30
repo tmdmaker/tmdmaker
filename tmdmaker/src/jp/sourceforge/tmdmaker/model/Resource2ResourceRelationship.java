@@ -91,10 +91,10 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#awareReUseKeysChanged()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#notifyReUseKeyChanged()
 	 */
 	@Override
-	public void awareReUseKeysChanged() {
+	public void notifyReUseKeyChanged() {
 //		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 		table.notifyReUseKeyChange(this);
 	}

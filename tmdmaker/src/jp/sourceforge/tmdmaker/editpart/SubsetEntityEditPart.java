@@ -65,9 +65,9 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	// //
 	// con.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
 	// null, null);
-	// if (con instanceof ReUseKeysChangeListener && !(con instanceof
+	// if (con instanceof ReUseKeyChangeListener && !(con instanceof
 	// RelatedRelationship)) {
-	// ((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+	// ((ReUseKeyChangeListener) con).awareReUseKeysChanged();
 	// }
 	// }
 	// }
@@ -77,8 +77,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	// //
 	// con.getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
 	// null, null);
-	// if (con instanceof ReUseKeysChangeListener) {
-	// ((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+	// if (con instanceof ReUseKeyChangeListener) {
+	// ((ReUseKeyChangeListener) con).awareReUseKeysChanged();
 	// }
 	// }
 	// } else {

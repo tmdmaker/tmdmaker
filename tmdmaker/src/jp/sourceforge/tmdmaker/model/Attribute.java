@@ -5,6 +5,7 @@ package jp.sourceforge.tmdmaker.model;
  * @author nakaG
  *
  */
+@SuppressWarnings("serial")
 public class Attribute extends ModelElement {
 	private String physicalName = "";
 	private String description = "";

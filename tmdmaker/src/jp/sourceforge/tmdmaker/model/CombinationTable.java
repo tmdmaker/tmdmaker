@@ -68,13 +68,13 @@ public class CombinationTable extends AbstractEntityModel {
 //		firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 //		for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
 //
-//			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
-//				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+//			if (con instanceof ReUseKeyChangeListener && con != callConnection ) {
+//				((ReUseKeyChangeListener) con).awareReUseKeysChanged();
 //			}
 //		}
 //		for (AbstractConnectionModel<?> con : getModelSourceConnections()) {
-//			if (con instanceof ReUseKeysChangeListener && con != callConnection ) {
-//				((ReUseKeysChangeListener) con).awareReUseKeysChanged();
+//			if (con instanceof ReUseKeyChangeListener && con != callConnection ) {
+//				((ReUseKeyChangeListener) con).awareReUseKeysChanged();
 //			}
 //		}
 //

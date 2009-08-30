@@ -1,7 +1,5 @@
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.figure.RelationshipFigure;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.PolylineConnection;
@@ -57,7 +55,10 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 		updateFigure(figure);
 		super.refreshVisuals();
 	}
-
+	/**
+	 * 
+	 * @param figure
+	 */
 	private void updateFigure(IFigure figure) {
 		// TODO Auto-generated method stub
 		

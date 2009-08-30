@@ -7,7 +7,7 @@ package jp.sourceforge.tmdmaker.model;
  *
  */
 @SuppressWarnings("serial")
-public abstract class AbstractRelationship extends AbstractConnectionModel implements ReUseKeysChangeListener {
+public abstract class AbstractRelationship extends AbstractConnectionModel implements ReUseKeyChangeListener {
 	/** 接続元とのカーディナリティ */
 	private Cardinality sourceCardinality = Cardinality.ONE;
 	/** 接続先とのカーディナリティ */
@@ -99,10 +99,10 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.ReUseKeysChangeListener#awareReUseKeysChanged()
+	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#notifyReUseKeyChanged()
 	 */
 	@Override
-	public void awareReUseKeysChanged() {
+	public void notifyReUseKeyChanged() {
 		// TODO Auto-generated method stub
 		
 	}

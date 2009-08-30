@@ -50,6 +50,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		// Detail作成
 		Detail detail = new Detail();
 		detail.setName(model.getName());
+		detail.setEntityType(model.getEntityType());
 		detail.setConstraint(model.getConstraint().getTranslated(100, 0));
 
 		// Detailを追加してHeaderと接続
@@ -58,6 +59,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 
 		// Supersetを追加してHeader-Detailと接続
 		Superset superset = new Superset();
+		superset.setEntityType(model.getEntityType());
 		superset.setConstraint(model.getConstraint().getTranslated(64, -80));
 		superset.setName(model.getName());
 		superset.addReuseKey(model);
@@ -101,7 +103,6 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 	private static class SupersetCreateCommand extends Command {
 		private Diagram diagram;
 		private Superset superset;
-		private AbstractEntityModel header;
 
 		// private MultivalueAndAggregator aggregator;
 		// private Superset2AggregateRelationship relationship;
@@ -109,7 +110,6 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		public SupersetCreateCommand(Superset superset,
 				AbstractEntityModel header) {
 			this.diagram = header.getDiagram();
-			this.header = header;
 			this.superset = superset;
 			// Rectangle constraint = header.getConstraint().getTranslated(50,
 			// -50);
@@ -156,11 +156,9 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		private Diagram diagram;
 		private Detail model;
 		private Header2DetailRelationship relationship;
-		private AbstractEntityModel header;
 
 		public DetailAddCommand(AbstractEntityModel header, Detail model) {
 			this.diagram = header.getDiagram();
-			this.header = header;
 			this.model = model;
 			// this.model.setConstraint(header.getConstraint().getTranslated(50,0));
 			// this.model.setName(header.getName());
@@ -178,7 +176,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		@Override
 		public void execute() {
 			diagram.addChild(model);
-//			model.setDiagram(diagram);
+			// model.setDiagram(diagram);
 			relationship.connect();
 		}
 
@@ -190,7 +188,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		@Override
 		public void undo() {
 			relationship.disconnect();
-//			model.setDiagram(null);
+			// model.setDiagram(null);
 			diagram.removeChild(model);
 		}
 

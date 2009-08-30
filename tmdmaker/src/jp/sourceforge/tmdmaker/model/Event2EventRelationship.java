@@ -1,9 +1,5 @@
 package jp.sourceforge.tmdmaker.model;
 
-import jp.sourceforge.tmdmaker.editpart.CenterAnchor;
-
-import org.eclipse.draw2d.geometry.Rectangle;
-
 /**
  * 
  * @author nakaG
@@ -42,7 +38,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#setSourceCardinality(java.lang.String)
 	 */
 	@Override
@@ -62,7 +58,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#connect()
 	 */
 	@Override
@@ -92,7 +88,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disconnect()
 	 */
 	@Override
@@ -105,6 +101,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 		super.disconnect();
 		connected = false;
 	}
+
 	/**
 	 * ターゲットにキーを移送する
 	 */
@@ -112,12 +109,14 @@ public class Event2EventRelationship extends AbstractRelationship {
 		setCenterMark(false);
 		getTarget().addReuseKey(getSource());
 	}
+
 	/**
 	 * ターゲットからキーを削除する
 	 */
 	private void removeTargetRelationship() {
 		getTarget().removeReuseKey(getSource());
 	}
+
 	/**
 	 * 対応表を作成する
 	 */
@@ -126,16 +125,16 @@ public class Event2EventRelationship extends AbstractRelationship {
 			table = new MappingList();
 		}
 		setCenterMark(true);
-		
+
 		AbstractEntityModel sourceEntity = getSource();
 		AbstractEntityModel targetEntity = getTarget();
-		Rectangle constraint = sourceEntity.getConstraint().getTranslated(100,
-				100);
-		table.setConstraint(constraint);
+		table.setConstraint(sourceEntity.getConstraint()
+				.getTranslated(100, 100));
 		Diagram diagram = sourceEntity.getDiagram();
 		diagram.addChild(table);
 		// table.setDiagram(diagram);
-		table.setName(sourceEntity.getName() + "." + targetEntity.getName() + "." + "対応表");
+		table.setName(sourceEntity.getName() + "." + targetEntity.getName()
+				+ "." + "対応表");
 		table.addReuseKey(sourceEntity);
 		table.addReuseKey(targetEntity);
 
@@ -144,6 +143,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 		mappingListConnection.setTarget(table);
 		mappingListConnection.connect();
 	}
+
 	/**
 	 * 対応表を削除する。undo()を考慮して実際はコネクションを切ってキーを削除するだけで表は残している
 	 */
@@ -162,7 +162,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#canDeletable()
 	 */
 	@Override
@@ -177,17 +177,19 @@ public class Event2EventRelationship extends AbstractRelationship {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
-	 * @see jp.sourceforge.tmdmaker.model.ReUseKeysChangeListener#awareReUseKeysChanged()
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#notifyReUseKeyChanged()
 	 */
 	@Override
-	public void awareReUseKeysChanged() {
+	public void notifyReUseKeyChanged() {
 		if (getSourceCardinality().equals(Cardinality.MANY)) {
 			table.notifyReUseKeyChange(this);
-//			table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+			// table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
+			// null, null);
 		} else {
 			getTarget().notifyReUseKeyChange(this);
-//			getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+			// getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
+			// null, null);
 		}
 	}
 }

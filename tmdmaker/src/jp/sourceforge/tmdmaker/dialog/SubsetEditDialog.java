@@ -63,7 +63,7 @@ public class SubsetEditDialog extends Dialog {
 
 	private List<EditSubsetEntity> subsets = new ArrayList<EditSubsetEntity>();
 	
-	private List<SubsetEntity> addSubsets = new ArrayList<SubsetEntity>();
+//	private List<SubsetEntity> addSubsets = new ArrayList<SubsetEntity>();
 	private List<SubsetEntity> deleteSubsets = new ArrayList<SubsetEntity>();
 		
 	/**

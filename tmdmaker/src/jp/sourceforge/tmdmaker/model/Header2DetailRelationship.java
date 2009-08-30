@@ -19,11 +19,11 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship#awareReUseKeysChanged()
+	 * @see jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship#notifyReUseKeyChanged()
 	 */
 	@Override
-	public void awareReUseKeysChanged() {
-		super.awareReUseKeysChanged();
+	public void notifyReUseKeyChanged() {
+		super.notifyReUseKeyChanged();
 		AbstractConnectionModel m = getTarget().getModelSourceConnections().get(0);
 		System.out.println("Source = " + m.getSource().getClass());
 		System.out.println("Source = " + m.getSource().getName());

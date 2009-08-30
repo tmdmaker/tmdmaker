@@ -17,8 +17,19 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 	 * @param source MOの元エンティティ
 	 * @param target MO
 	 */
-	public MultivalueOrRelationship(AbstractEntityModel source, MultivalueOrEntity target) {
+	public MultivalueOrRelationship(AbstractEntityModel source, String typeName) {
 		setSource(source);
+
+		MultivalueOrEntity target = new MultivalueOrEntity();
+		target.setConstraint(source.getConstraint().getTranslated(50, 0));
+		target.setName(source.getName() + "." + typeName);
+		Attribute attribute = new Attribute();
+		attribute.setName(typeName + "コード");
+		target.addAttribute(attribute);
+		target.setEntityType(source.getEntityType());
+		
+		setTargetCardinality(Cardinality.MANY);
+		
 		setTarget(target);
 		this.table = target;
 	}

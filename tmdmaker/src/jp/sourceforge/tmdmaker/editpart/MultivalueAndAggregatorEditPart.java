@@ -1,25 +1,38 @@
 package jp.sourceforge.tmdmaker.editpart;
 
-import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 
 public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart {
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 */
 	@Override
 	protected void onDoubleClicked() {
 		// TODO Auto-generated method stub
 
 	}
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		// TODO Auto-generated method stub
 
 	}
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
 	@Override
 	protected IFigure createFigure() {
 		Figure figure = new Figure();
@@ -28,6 +41,12 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart {
 		return figure;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
 	@Override
 	protected void createEditPolicies() {
 		// TODO Auto-generated method stub

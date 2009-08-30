@@ -1,6 +1,5 @@
 package jp.sourceforge.tmdmaker.model.command;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,17 +16,11 @@ public class EntityEditCommand extends Command {
 	private String identifierName;
 	private String entityName;
 	private EntityType entityType;
-	private List<Identifier> reuseKey;
 	private List<Attribute> attributes;
 
 	private Entity entity;
 	private String oldIdentifierName;
-	private String oldEntityName;
 	private EntityType oldEntityType;
-	private List<Identifier> oldReuseKeys = new ArrayList<Identifier>();
-	private List<Attribute> oldAttributes;
-
-	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
@@ -81,7 +74,6 @@ public class EntityEditCommand extends Command {
 	 * @param reuseKey the reuseKey to set
 	 */
 	public void setReuseKey(List<Identifier> reuseKeys) {
-		this.reuseKey = reuseKeys;
 	}
 	/**
 	 * @param attributes the attributes to set
@@ -94,15 +86,15 @@ public class EntityEditCommand extends Command {
 	 */
 	public void setEntity(Entity entity) {
 		this.entity = entity;
-		this.oldEntityName = entity.getName();
+		entity.getName();
 		this.oldEntityType = entity.getEntityType();
 		this.oldIdentifierName = entity.getIdentifier().getName();
-		Map<AbstractEntityModel, ReUseKey> rk = entity.getReuseKey();
-		for (Map.Entry<AbstractEntityModel, ReUseKey> k : rk.entrySet()) {
-			
-//			this.oldReuseKeys.add(new Identifier(id.getName()));
-		}
-		this.oldAttributes = entity.getAttributes();
+//		Map<AbstractEntityModel, ReUseKey> rk = entity.getReuseKey();
+//		for (Map.Entry<AbstractEntityModel, ReUseKey> k : rk.entrySet()) {
+//			
+////			this.oldReuseKeys.add(new Identifier(id.getName()));
+//		}
+		entity.getAttributes();
 	}
 }
 

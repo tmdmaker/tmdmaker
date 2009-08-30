@@ -35,11 +35,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		AbstractEntityModel model = getModel();
-
-		VirtualEntityCreateCommand command1 = new VirtualEntityCreateCommand(
-				model);
-		execute(command1);
+		execute(new VirtualEntityCreateCommand(getModel()));
 	}
 
 	/**

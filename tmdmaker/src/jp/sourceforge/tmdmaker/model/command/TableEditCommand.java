@@ -1,6 +1,5 @@
 package jp.sourceforge.tmdmaker.model.command;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -17,7 +16,7 @@ import org.eclipse.gef.commands.Command;
  */
 public class TableEditCommand<T extends AbstractEntityModel> extends Command {
 	private String newName;
-	private List<Identifier> reuseKey;
+//	private List<Identifier> reuseKey;
 	private List<Attribute> newAttributes;
 	private boolean newNotImplement;
 	
@@ -25,7 +24,7 @@ public class TableEditCommand<T extends AbstractEntityModel> extends Command {
 	private T newValue;
 	
 	private String oldName;
-	private List<Identifier> oldReuseKeys = new ArrayList<Identifier>();
+//	private List<Identifier> oldReuseKeys = new ArrayList<Identifier>();
 	private List<Attribute> oldAttributes;
 	private boolean oldNotImplement;
 	
@@ -38,7 +37,7 @@ public class TableEditCommand<T extends AbstractEntityModel> extends Command {
 	 */
 	public TableEditCommand(T model, String name, List<Identifier> reuseKey, List<Attribute> attributes) {
 		this.newName = name;
-		this.reuseKey = reuseKey;
+//		this.reuseKey = reuseKey;
 		this.newAttributes = attributes;
 		this.oldName = model.getName();
 //		this.oldReuseKeys = model.getReuseKeys();
@@ -51,9 +50,9 @@ public class TableEditCommand<T extends AbstractEntityModel> extends Command {
 		this.oldName = toBeEdit.getName();
 		this.oldAttributes = toBeEdit.getAttributes();
 		this.oldNotImplement = toBeEdit.isNotImplement();
-		this.newName = newValue.getName();
-		this.newAttributes = newValue.getAttributes();
-		this.newNotImplement = newValue.isNotImplement();
+		this.newName = this.newValue.getName();
+		this.newAttributes = this.newValue.getAttributes();
+		this.newNotImplement = this.newValue.isNotImplement();
 	}
 	/**
 	 * {@inheritDoc}

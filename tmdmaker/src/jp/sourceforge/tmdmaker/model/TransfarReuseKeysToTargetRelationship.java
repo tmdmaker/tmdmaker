@@ -47,10 +47,10 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#awareReUseKeysChanged()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#notifyReUseKeyChanged()
 	 */
 	@Override
-	public void awareReUseKeysChanged() {
+	public void notifyReUseKeyChanged() {
 //		getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 		getTarget().notifyReUseKeyChange(this);
 	}
