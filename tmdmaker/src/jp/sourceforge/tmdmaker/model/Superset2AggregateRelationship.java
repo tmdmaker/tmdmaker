@@ -11,13 +11,13 @@ public class Superset2AggregateRelationship extends AbstractConnectionModel impl
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#notifyReUseKeyChanged()
+	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#reUseKeyChanged()
 	 */
 	@Override
-	public void notifyReUseKeyChanged() {
+	public void reUseKeyChanged() {
 		for (AbstractConnectionModel con : getTarget().getModelTargetConnections()) {
 			if (con instanceof ReUseKeyChangeListener) {
-				((ReUseKeyChangeListener) con).notifyReUseKeyChanged();
+				((ReUseKeyChangeListener) con).reUseKeyChanged();
 			}
 		}
 	}

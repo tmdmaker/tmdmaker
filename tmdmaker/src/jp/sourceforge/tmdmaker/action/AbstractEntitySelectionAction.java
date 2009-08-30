@@ -28,20 +28,16 @@ public abstract class AbstractEntitySelectionAction extends SelectionAction {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
 	@Override
 	protected boolean calculateEnabled() {
 		if (getSelectedObjects().size() == 1) {
 			Object selection = getSelectedObjects().get(0);
-			if (selection instanceof AbstractEntityEditPart
-					&& (selection instanceof SubsetTypeEditPart) == false
-					&& (selection instanceof MultivalueAndAggregatorEditPart == false)) {
-				return true;
-			} else {
-				return false;
-			}
+			return selection instanceof AbstractEntityEditPart
+					&& !(selection instanceof SubsetTypeEditPart)
+					&& !(selection instanceof MultivalueAndAggregatorEditPart);
 		} else {
 			return false;
 		}

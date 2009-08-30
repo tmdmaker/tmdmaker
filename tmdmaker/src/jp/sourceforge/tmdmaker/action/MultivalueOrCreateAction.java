@@ -54,9 +54,13 @@ public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 	 * 
 	 */
 	private static class MultivalueOrCreateCommand extends Command {
-
+		/** 多値のORとのリレーションシップ */
 		private MultivalueOrRelationship relationship;
-
+		/**
+		 * コンストラクタ
+		 * @param model 多値のOR作成対象
+		 * @param typeName 多値のORの名称
+		 */
 		public MultivalueOrCreateCommand(AbstractEntityModel model,
 				String typeName) {
 			this.relationship = new MultivalueOrRelationship(model, typeName);

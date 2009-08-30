@@ -15,7 +15,7 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 	/**
 	 * コンストラクタ
 	 * @param source MOの元エンティティ
-	 * @param target MO
+	 * @param typeName MO名
 	 */
 	public MultivalueOrRelationship(AbstractEntityModel source, String typeName) {
 		setSource(source);

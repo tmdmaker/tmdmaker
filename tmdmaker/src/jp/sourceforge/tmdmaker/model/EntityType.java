@@ -19,6 +19,7 @@ public enum EntityType {
 	
 	/**
 	 * コンストラクタ
+	 * @param label エンティティ種類の表示名
 	 */
 	private EntityType(String label) {
 		this.label = label;

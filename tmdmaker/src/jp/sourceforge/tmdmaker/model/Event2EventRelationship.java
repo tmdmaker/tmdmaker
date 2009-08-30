@@ -178,16 +178,16 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#notifyReUseKeyChanged()
+	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#reUseKeyChanged()
 	 */
 	@Override
-	public void notifyReUseKeyChanged() {
+	public void reUseKeyChanged() {
 		if (getSourceCardinality().equals(Cardinality.MANY)) {
-			table.notifyReUseKeyChange(this);
+			table.fireReUseKeyChange(this);
 			// table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
 			// null, null);
 		} else {
-			getTarget().notifyReUseKeyChange(this);
+			getTarget().fireReUseKeyChange(this);
 			// getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
 			// null, null);
 		}

@@ -99,10 +99,10 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#notifyReUseKeyChanged()
+	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#reUseKeyChanged()
 	 */
 	@Override
-	public void notifyReUseKeyChanged() {
+	public void reUseKeyChanged() {
 		// TODO Auto-generated method stub
 		
 	}

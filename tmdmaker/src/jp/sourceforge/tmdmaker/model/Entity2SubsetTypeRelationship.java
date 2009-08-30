@@ -32,13 +32,13 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel imple
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#notifyReUseKeyChanged()
+	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#reUseKeyChanged()
 	 */
 	@Override
-	public void notifyReUseKeyChanged() {
+	public void reUseKeyChanged() {
 		for (AbstractConnectionModel con : getTarget().getModelSourceConnections()) {
 			if (con instanceof ReUseKeyChangeListener) {
-				((ReUseKeyChangeListener) con).notifyReUseKeyChanged();
+				((ReUseKeyChangeListener) con).reUseKeyChanged();
 			}
 		}
 	}
@@ -67,6 +67,9 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel imple
 //	public void setExceptNull(boolean exceptNull) {
 //		this.exceptNull = exceptNull;
 //	}
+	/**
+	 * 区分コード変更時処理
+	 */
 	public void firePartitionChanged() {
 		firePropertyChange(PROPERTY_PARTITION, null, null);
 	}

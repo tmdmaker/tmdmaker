@@ -96,12 +96,12 @@ public class RecursiveRelationship extends AbstractRelationship {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#notifyReUseKeyChanged()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#reUseKeyChanged()
 	 */
 	@Override
-	public void notifyReUseKeyChanged() {
+	public void reUseKeyChanged() {
 //		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
-		table.notifyReUseKeyChange(this);
+		table.fireReUseKeyChange(this);
 	}
 	
 }

@@ -77,7 +77,7 @@ public class SubsetType extends ConnectableElement {
 		Attribute oldValue = this.partitionAttribute;
 		this.partitionAttribute = partitionAttribute;
 		firePropertyChange(PROPERTY_PARTITION, oldValue, partitionAttribute);
-		awarePartitionChanged();
+		firePartitionChanged();
 	}
 
 	/**
@@ -94,10 +94,12 @@ public class SubsetType extends ConnectableElement {
 		boolean oldValue = this.exceptNull;
 		this.exceptNull = exceptNull;
 		firePropertyChange(PROPERTY_PARTITION, oldValue, partitionAttribute);
-		awarePartitionChanged();
+		firePartitionChanged();
 	}
-
-	public void awarePartitionChanged() {
+	/**
+	 * 区分コード変更時処理
+	 */
+	public void firePartitionChanged() {
 		if (getModelTargetConnections().size() > 0) {
 			((Entity2SubsetTypeRelationship) getModelTargetConnections().get(0)).firePartitionChanged();
 		}

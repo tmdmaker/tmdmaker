@@ -199,14 +199,16 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			Class<?> clazz) {
 		return findRelationship(getModelTargetConnections(), clazz);
 	}
+	
 	/**
 	 * 
+	 * @param callConnection
 	 */
-	public void notifyReUseKeyChange(AbstractConnectionModel callConnection) {
+	public void fireReUseKeyChange(AbstractConnectionModel callConnection) {
 		firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 		if (getEntityType().equals(EntityType.RESOURCE)) {
-			fireReUseKeyChange(getModelSourceConnections(), callConnection);
-			fireReUseKeyChange(getModelTargetConnections(), callConnection);
+			notifyReUseKeyChangeToConnections(getModelSourceConnections(), callConnection);
+			notifyReUseKeyChangeToConnections(getModelTargetConnections(), callConnection);
 //			for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
 //	
 //				if (con instanceof ReUseKeyChangeListener && con != callConnection ) {
@@ -214,19 +216,19 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 //				}
 //			}
 		} else {
-			fireReUseKeyChange(getModelSourceConnections(), callConnection);
+			notifyReUseKeyChangeToConnections(getModelSourceConnections(), callConnection);
 			for (AbstractConnectionModel con : getModelTargetConnections()) {
-				if (con instanceof ReUseKeyChangeListener && con instanceof Event2EventRelationship && con != callConnection ) {
-					((ReUseKeyChangeListener) con).notifyReUseKeyChanged();
+				if (con instanceof ReUseKeyChangeListener && con instanceof Event2EventRelationship && con != callConnection) {
+					((ReUseKeyChangeListener) con).reUseKeyChanged();
 				}
 			}			
 		}
 
 	}
-	private void fireReUseKeyChange(List<AbstractConnectionModel> connections, AbstractConnectionModel callConnection) {
+	private void notifyReUseKeyChangeToConnections(List<AbstractConnectionModel> connections, AbstractConnectionModel callConnection) {
 		for (AbstractConnectionModel con : connections) {
 			if (con instanceof ReUseKeyChangeListener && con != callConnection) {
-				((ReUseKeyChangeListener) con).notifyReUseKeyChanged();
+				((ReUseKeyChangeListener) con).reUseKeyChanged();
 			}			
 		}
 	}

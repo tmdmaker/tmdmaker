@@ -4,11 +4,9 @@ package jp.sourceforge.tmdmaker.model;
  * 
  * @author nakaG
  * 
- * @param <T>
  */
 @SuppressWarnings("serial")
-public abstract class AbstractConnectionModel
-		extends ConnectableElement {
+public abstract class AbstractConnectionModel extends ConnectableElement {
 	/** 接続先モデル */
 	private ConnectableElement source;
 	/** 接続先モデル */
@@ -27,6 +25,7 @@ public abstract class AbstractConnectionModel
 		attachSource();
 		attachTarget();
 	}
+
 	/**
 	 * コネクション切断
 	 */
@@ -34,6 +33,7 @@ public abstract class AbstractConnectionModel
 		detachSource();
 		detachTarget();
 	}
+
 	/**
 	 * 接続元モデルと接続する
 	 */
@@ -44,6 +44,7 @@ public abstract class AbstractConnectionModel
 			source.addSourceConnection(this);
 		}
 	}
+
 	/**
 	 * 接続先モデルと接続する
 	 */
@@ -54,6 +55,7 @@ public abstract class AbstractConnectionModel
 			target.addTargetConnection(this);
 		}
 	}
+
 	/**
 	 * 接続元モデルと切断する
 	 */
@@ -63,6 +65,7 @@ public abstract class AbstractConnectionModel
 			source.removeSourceConnection(this);
 		}
 	}
+
 	/**
 	 * 接続先モデル切断する
 	 */
@@ -72,33 +75,40 @@ public abstract class AbstractConnectionModel
 			target.removeTargetConnection(this);
 		}
 	}
-	
+
 	/**
 	 * @return the source
 	 */
 	public ConnectableElement getSource() {
 		return source;
 	}
+
 	/**
-	 * @param source the source to set
+	 * @param source
+	 *            the source to set
 	 */
 	public void setSource(ConnectableElement source) {
 		this.source = source;
 	}
+
 	/**
 	 * @return the target
 	 */
 	public ConnectableElement getTarget() {
 		return target;
 	}
+
 	/**
-	 * @param target the target to set
+	 * @param target
+	 *            the target to set
 	 */
 	public void setTarget(ConnectableElement target) {
 		this.target = target;
 	}
+
 	/**
 	 * 削除可能か判定する
+	 * 
 	 * @return 削除可能な場合にtrueを返す
 	 */
 	public abstract boolean canDeletable();
