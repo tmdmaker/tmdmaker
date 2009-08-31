@@ -9,21 +9,21 @@ package jp.sourceforge.tmdmaker.model;
 @SuppressWarnings("serial")
 public class SubsetEntity extends AbstractEntityModel {
 	/** サブセットの親のRe-usedキー */
-	private ReusedIdentifier originalReuseKey;
+	private ReusedIdentifier originalReusedIdentifier;
 
 	/**
-	 * @return the originalReuseKey
+	 * @return the originalReusedIdentifier
 	 */
-	public ReusedIdentifier getOriginalReuseKey() {
-		return originalReuseKey;
+	public ReusedIdentifier getOriginalReusedIdentifier() {
+		return originalReusedIdentifier;
 	}
 
 	/**
-	 * @param originalReuseKey
-	 *            the originalReuseKey to set
+	 * @param originalReusedIdentifier
+	 *            the originalReusedIdentifier to set
 	 */
-	public void setOriginalReuseKey(ReusedIdentifier originalReuseKey) {
-		this.originalReuseKey = originalReuseKey;
+	public void setOriginalReusedIdentifier(ReusedIdentifier originalReuseKey) {
+		this.originalReusedIdentifier = originalReuseKey;
 	}
 
 	/**
@@ -35,10 +35,10 @@ public class SubsetEntity extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		System.out.println(getClass() + "#getMyReuseKey()");
-		System.out.println("value = [" + originalReuseKey + "]");
+		System.out.println("value = [" + originalReusedIdentifier + "]");
 
 		ReusedIdentifier returnValue = new ReusedIdentifier();
-		returnValue.addAll(this.originalReuseKey.getIdentifires());
+		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
 
 		return returnValue;
 	}

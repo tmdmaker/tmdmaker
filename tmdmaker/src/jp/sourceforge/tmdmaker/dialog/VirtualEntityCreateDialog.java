@@ -15,10 +15,10 @@ import org.eclipse.swt.widgets.Text;
  * @author nakaG
  * 
  */
-public class MultivalueOrEntityCreateDialog extends Dialog {
-	/** 種別名入力欄 */
-	private Text typeName;
-	private String inputTypeName;
+public class VirtualEntityCreateDialog extends Dialog {
+	/** VE名入力欄 */
+	private Text virtualEntityName;
+	private String inputVirtualEntityName;
 
 	/**
 	 * コンストラクタ
@@ -26,7 +26,7 @@ public class MultivalueOrEntityCreateDialog extends Dialog {
 	 * @param parentShell
 	 *            親
 	 */
-	public MultivalueOrEntityCreateDialog(Shell parentShell) {
+	public VirtualEntityCreateDialog(Shell parentShell) {
 		super(parentShell);
 	}
 
@@ -37,18 +37,18 @@ public class MultivalueOrEntityCreateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("MO作成");
+		getShell().setText("VE作成");
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(2, false));
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gridData);
 		Label label = new Label(composite, SWT.NULL);
-		label.setText("種別名");
-		typeName = new Text(composite, SWT.BORDER);
+		label.setText("VE名");
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.widthHint = 100;
-		typeName.setLayoutData(gridData);
+		virtualEntityName = new Text(composite, SWT.BORDER);
+		virtualEntityName.setLayoutData(gridData);
 		return composite;
 	}
 
@@ -59,11 +59,11 @@ public class MultivalueOrEntityCreateDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		inputTypeName = typeName.getText();
+		inputVirtualEntityName = virtualEntityName.getText();
 		super.okPressed();
 	}
 
-	public String getInputTypeName() {
-		return inputTypeName;
+	public String getInputVirtualEntityName() {
+		return inputVirtualEntityName;
 	}
 }

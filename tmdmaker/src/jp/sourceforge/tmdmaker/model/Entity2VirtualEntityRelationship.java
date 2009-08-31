@@ -14,12 +14,12 @@ public class Entity2VirtualEntityRelationship extends
 	 * コンストラクタ
 	 * @param source みなしエンティティ作成対象
 	 */
-	public Entity2VirtualEntityRelationship(AbstractEntityModel source) {
+	public Entity2VirtualEntityRelationship(AbstractEntityModel source, String virtualEntityName) {
 		setSource(source);
 		ve = new VirtualEntity();
-		ve.setName(source.getName() + ".VE" + source.getModelSourceConnections().size());
+		ve.setName(virtualEntityName);
 		ve.setConstraint(source.getConstraint().getTranslated(100, 0));
-
+		ve.setOriginalReusedIdentifier(source.createReusedIdentifier());
 		setTarget(ve);
 		
 	}

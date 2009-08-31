@@ -75,7 +75,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO １HDR内に複数DTLを作れるようにする。
 	// TODO HDR-DTLをエンティティ（R:E）のみに適用？
 	// TODO HDR-DTLの概念的スーパーセットはアトリビュートを記述しない
-
+	
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 

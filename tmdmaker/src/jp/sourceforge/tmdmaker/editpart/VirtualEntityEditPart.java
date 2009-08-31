@@ -9,6 +9,7 @@ import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
@@ -71,7 +72,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
-		// entityFigure.setEntityType(entity.getEntityType().toString());
+		 entityFigure.setEntityType(EntityType.VE.getLabel());
 		// figure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {

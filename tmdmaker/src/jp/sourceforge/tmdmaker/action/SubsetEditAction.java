@@ -180,7 +180,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			if (e.isAdded()) {
 				SubsetEntity subsetEntity = new SubsetEntity();
 				subsetEntity.setName(e.getName());
-				subsetEntity.setOriginalReuseKey(model.createReusedIdentifier());
+				subsetEntity.setOriginalReusedIdentifier(model.createReusedIdentifier());
 				subsetEntity.setEntityType(model.getEntityType());
 				// subsetEntity.setOriginal(model);
 				Command command = new SubsetCreateCommand(model,

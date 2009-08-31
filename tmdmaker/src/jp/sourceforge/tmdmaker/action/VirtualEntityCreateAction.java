@@ -1,9 +1,11 @@
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.dialog.VirtualEntityCreateDialog;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -35,7 +37,10 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		execute(new VirtualEntityCreateCommand(getModel()));
+		VirtualEntityCreateDialog dialog = new VirtualEntityCreateDialog(getPart().getViewer().getControl().getShell());
+		if (dialog.open() == Dialog.OK) {
+			execute(new VirtualEntityCreateCommand(getModel(), dialog.getInputVirtualEntityName()));
+		}
 	}
 
 	/**
@@ -54,8 +59,8 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		 * @param model
 		 *            みなしエンティティ作成対象
 		 */
-		public VirtualEntityCreateCommand(AbstractEntityModel model) {
-			this.relationship = new Entity2VirtualEntityRelationship(model);
+		public VirtualEntityCreateCommand(AbstractEntityModel model, String virtualEntityName) {
+			this.relationship = new Entity2VirtualEntityRelationship(model, virtualEntityName);
 		}
 
 		/**

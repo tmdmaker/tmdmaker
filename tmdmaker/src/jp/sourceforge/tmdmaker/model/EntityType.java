@@ -12,7 +12,9 @@ public enum EntityType {
 	/** イベント */
 	EVENT("E"),
 	/** 多値のOR */
-	MO("MO");
+	MO("MO"),
+	/** みなしエンティティ */
+	VE("VE");
 	
 	/** 表示用 */
 	private String label;

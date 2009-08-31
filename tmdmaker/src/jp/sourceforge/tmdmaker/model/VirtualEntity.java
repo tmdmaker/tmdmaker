@@ -6,6 +6,24 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class VirtualEntity extends AbstractEntityModel {
+	/** VEの元モデルRe-used */
+	private ReusedIdentifier originalReusedIdentifier;
+	
+	/**
+	 * @return the originalReusedIdentifier
+	 */
+	public ReusedIdentifier getOriginalReusedIdentifier() {
+		return originalReusedIdentifier;
+	}
+
+	/**
+	 * @param originalReusedIdentifier the originalReusedIdentifier to set
+	 */
+	public void setOriginalReusedIdentifier(
+			ReusedIdentifier originalReusedIdentifier) {
+		this.originalReusedIdentifier = originalReusedIdentifier;
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -25,8 +43,10 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		// TODO Auto-generated method stub
-		return null;
+		ReusedIdentifier returnValue = new ReusedIdentifier();
+		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
+
+		return returnValue;
 	}
 
 	/**
@@ -36,7 +56,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return true;
+		return getModelSourceConnections().size() == 0;
 	}
 
 }
