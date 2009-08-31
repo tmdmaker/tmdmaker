@@ -1,5 +1,6 @@
 package jp.sourceforge.tmdmaker.editpart;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +13,9 @@ import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -54,21 +56,28 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
-		logger.debug(getClass() + "updateFigure()");
+		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
 		CombinationTable table = (CombinationTable) getModel();
-		// List<Identifier> ids = table.getReuseKeys();
+
 		entityFigure.setNotImplement(table.isNotImplement());
 		List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
+		List<String> reusedIdentifierNames = new ArrayList<String>();
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table
 				.getReusedIdentifieres().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
-				entityFigure.addRelationship(i.getName());
+				if (!reusedIdentifierNames.contains(i.getName())
+						|| rk.getKey() instanceof RecursiveTable) {
+					reusedIdentifierNames.add(i.getName());
+				}
 			}
+		}
+		for (String name : reusedIdentifierNames) {
+			entityFigure.addRelationship(name);
 		}
 		for (Attribute a : atts) {
 			entityFigure.addAttribute(a.getName());
@@ -150,27 +159,31 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	 * 
 	 */
 	private static class CombinationTableDeleteCommand extends Command {
-//		private Diagram diagram;
+
 		/** 削除対象の対照表 */
 		private CombinationTable model;
 		/** 対照表とリレーションシップ間のコネクション */
 		private RelatedRelationship relatedRelationship;
 		/** 対照表を作成する契機となったリレーションシップ */
 		private AbstractRelationship relationship;
-//		private List<AbstractConnectionModel> sourceConnections = new ArrayList<AbstractConnectionModel>();
-//		private List<AbstractConnectionModel> targetConnections = new ArrayList<AbstractConnectionModel>();
+
+		// private List<AbstractConnectionModel> sourceConnections = new
+		// ArrayList<AbstractConnectionModel>();
+		// private List<AbstractConnectionModel> targetConnections = new
+		// ArrayList<AbstractConnectionModel>();
 
 		/**
 		 * コンストラクタ
 		 * 
-		 * @param model 削除対象モデル
+		 * @param model
+		 *            削除対象モデル
 		 */
 		public CombinationTableDeleteCommand(CombinationTable model) {
-//			this.diagram = diagram;
+			// this.diagram = diagram;
 			this.model = model;
 			this.relatedRelationship = model.findCreationRelationship();
-//			sourceConnections.addAll(model.getModelSourceConnections());
-//			targetConnections.addAll(model.getModelTargetConnections());
+			// sourceConnections.addAll(model.getModelSourceConnections());
+			// targetConnections.addAll(model.getModelTargetConnections());
 			relationship = (AbstractRelationship) relatedRelationship
 					.getSource();
 		}
@@ -178,7 +191,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		/**
 		 * 
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#canExecute()
 		 */
 		@Override
@@ -189,60 +202,39 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		/**
 		 * 
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
 		public void execute() {
-			// System.out.println(getClass().toString() + "#execute()");
-			// diagram.removeChild(model);
-			// model.setDiagram(null);
-			// detachConnections(sourceConnections);
-			// detachConnections(targetConnections);
-			// relationship.detachSource();
-			// relationship.detachTarget();
 			relationship.disconnect();
 		}
+
 		/**
 		 * 
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override
 		public void undo() {
-			// diagram.addChild(model);
-			// model.setDiagram(diagram);
-			// attathConnections(sourceConnections);
-			// attathConnections(targetConnections);
-			// relationship.attachSource();
-			// relationship.attachTarget();
 			relationship.connect();
 		}
 
-		// private void setModel(Object model) {
-		// this.model = (CombinationTable) model;
-		// for (AbstractConnectionModel c : this.model
-		// .getModelTargetConnections()) {
-		// if (c instanceof RelatedRelationship) {
-		// this.relatedRelationship = (RelatedRelationship) c;
-		// break;
+		// private void detachConnections(List<AbstractConnectionModel>
+		// connections) {
+		// for (AbstractConnectionModel model : connections) {
+		// model.detachSource();
+		// model.detachTarget();
 		// }
 		// }
+		//
+		// private void attathConnections(List<AbstractConnectionModel>
+		// connections) {
+		// for (AbstractConnectionModel model : connections) {
+		// model.attachSource();
+		// model.attachTarget();
 		// }
-
-//		private void detachConnections(List<AbstractConnectionModel> connections) {
-//			for (AbstractConnectionModel model : connections) {
-//				model.detachSource();
-//				model.detachTarget();
-//			}
-//		}
-//
-//		private void attathConnections(List<AbstractConnectionModel> connections) {
-//			for (AbstractConnectionModel model : connections) {
-//				model.attachSource();
-//				model.attachTarget();
-//			}
-//		}
+		// }
 	}
 }
