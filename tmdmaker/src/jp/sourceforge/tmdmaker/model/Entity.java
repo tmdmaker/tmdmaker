@@ -81,10 +81,10 @@ public class Entity extends AbstractEntityModel {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#createReusedIdentifier()
 	 */
 	@Override
-	public ReusedIdentifier getMyReuseKey() {
+	public ReusedIdentifier createReusedIdentifier() {
 		return new ReusedIdentifier(this.identifier);
 	}
 

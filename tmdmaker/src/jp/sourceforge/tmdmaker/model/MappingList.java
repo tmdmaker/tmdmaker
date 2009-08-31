@@ -13,12 +13,12 @@ public class MappingList extends AbstractEntityModel {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#createReusedIdentifier()
 	 */
 	@Override
-	public ReusedIdentifier getMyReuseKey() {
+	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier();
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reuseKey
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifieres
 				.entrySet()) {
 			returnValue.addAll(rk.getValue().getIdentifires());
 		}

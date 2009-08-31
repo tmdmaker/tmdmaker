@@ -74,7 +74,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 		// entityFigure.setEntityType(entity.getEntityType().toString());
 		// figure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReuseKey().entrySet()) {
+				.getReusedIdentifieres().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}

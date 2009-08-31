@@ -84,7 +84,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.MO.getLabel());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReuseKey().entrySet()) {
+				.getReusedIdentifieres().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}

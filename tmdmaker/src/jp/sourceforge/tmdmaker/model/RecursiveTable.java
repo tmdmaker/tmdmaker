@@ -13,12 +13,12 @@ public class RecursiveTable extends AbstractEntityModel {
 	 * 
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#createReusedIdentifier()
 	 */
 	@Override
-	public ReusedIdentifier getMyReuseKey() {
+	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier();
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reuseKey.entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifieres.entrySet()) {
 			returnValue.addAll(rk.getValue().getIdentifires());
 		}
 		return returnValue;
@@ -27,14 +27,14 @@ public class RecursiveTable extends AbstractEntityModel {
 	 * 
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#addReuseKey(jp.sourceforge.tmdmaker.model.AbstractEntityModel)
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#addReusedIdentifier(jp.sourceforge.tmdmaker.model.AbstractEntityModel)
 	 */
 	@Override
-	public void addReuseKey(AbstractEntityModel source) {
-		ReusedIdentifier added = source.getMyReuseKey();
+	public void addReusedIdentifier(AbstractEntityModel source) {
+		ReusedIdentifier added = source.createReusedIdentifier();
 		added.addAll(added.getIdentifires());
-		this.reuseKey.put(source, added);
-		firePropertyChange(PROPERTY_REUSEKEY, null, added);
+		this.reusedIdentifieres.put(source, added);
+		firePropertyChange(PROPERTY_REUSED, null, added);
 	}
 	/**
 	 * {@inheritDoc}

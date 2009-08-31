@@ -21,10 +21,10 @@ public class Detail extends AbstractEntityModel {
 	 * 
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#createReusedIdentifier()
 	 */
 	@Override
-	public ReusedIdentifier getMyReuseKey() {
+	public ReusedIdentifier createReusedIdentifier() {
 		// TODO Auto-generated method stub
 		return null;
 	}

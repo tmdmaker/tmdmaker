@@ -107,14 +107,14 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	private void createTargetRelationship() {
 		setCenterMark(false);
-		getTarget().addReuseKey(getSource());
+		getTarget().addReusedIdentifier(getSource());
 	}
 
 	/**
 	 * ターゲットからキーを削除する
 	 */
 	private void removeTargetRelationship() {
-		getTarget().removeReuseKey(getSource());
+		getTarget().removeReusedIdentifier(getSource());
 	}
 
 	/**
@@ -135,8 +135,8 @@ public class Event2EventRelationship extends AbstractRelationship {
 		// table.setDiagram(diagram);
 		table.setName(sourceEntity.getName() + "." + targetEntity.getName()
 				+ "." + "対応表");
-		table.addReuseKey(sourceEntity);
-		table.addReuseKey(targetEntity);
+		table.addReusedIdentifier(sourceEntity);
+		table.addReusedIdentifier(targetEntity);
 
 		mappingListConnection = new RelatedRelationship();
 		mappingListConnection.setSource(this);
@@ -154,8 +154,8 @@ public class Event2EventRelationship extends AbstractRelationship {
 		}
 		if (table != null) {
 			AbstractEntityModel sourceEntity = getSource();
-			table.removeReuseKey(sourceEntity);
-			table.removeReuseKey(getTarget());
+			table.removeReusedIdentifier(sourceEntity);
+			table.removeReusedIdentifier(getTarget());
 			sourceEntity.getDiagram().removeChild(table);
 		}
 	}
@@ -184,11 +184,11 @@ public class Event2EventRelationship extends AbstractRelationship {
 	public void identifierChanged() {
 		if (getSourceCardinality().equals(Cardinality.MANY)) {
 			table.fireIdentifierChanged(this);
-			// table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
+			// table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
 			// null, null);
 		} else {
 			getTarget().fireIdentifierChanged(this);
-			// getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
+			// getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
 			// null, null);
 		}
 	}

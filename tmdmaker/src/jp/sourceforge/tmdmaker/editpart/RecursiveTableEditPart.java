@@ -61,7 +61,7 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReuseKey()
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres()
 				.entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());

@@ -62,7 +62,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		superset.setEntityType(model.getEntityType());
 		superset.setConstraint(model.getConstraint().getTranslated(64, -80));
 		superset.setName(model.getName());
-		superset.addReuseKey(model);
+		superset.addReusedIdentifier(model);
 		SupersetCreateCommand command2 = new SupersetCreateCommand(superset,
 				model);
 		ccommand.add(command2);

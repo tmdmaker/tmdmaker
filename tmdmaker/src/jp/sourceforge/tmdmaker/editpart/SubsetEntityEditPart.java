@@ -53,7 +53,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	 */
 	// @Override
 	// public void propertyChange(PropertyChangeEvent evt) {
-	// if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_REUSEKEY))
+	// if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_REUSED))
 	// {
 	// logger.debug(getClass() + "#propertyChange().PROPERTY_REUSEKEY");
 	// refreshVisuals();
@@ -63,7 +63,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	// {
 	// logger.debug("RESOURCE.source = " + con.getSource().getName());
 	// //
-	// con.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
+	// con.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
 	// null, null);
 	// if (con instanceof IdentifierChangeListener && !(con instanceof
 	// RelatedRelationship)) {
@@ -75,7 +75,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	// {
 	// logger.debug("target = " + con.getTarget().getName());
 	// //
-	// con.getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
+	// con.getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
 	// null, null);
 	// if (con instanceof IdentifierChangeListener) {
 	// ((IdentifierChangeListener) con).awareReUseKeysChanged();
@@ -109,7 +109,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		// entityFigure.setEntityType(entity.getEntityType().toString());
 		// figure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReuseKey().entrySet()) {
+				.getReusedIdentifieres().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}

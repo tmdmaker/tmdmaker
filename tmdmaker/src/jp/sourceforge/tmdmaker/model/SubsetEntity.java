@@ -30,10 +30,10 @@ public class SubsetEntity extends AbstractEntityModel {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#createReusedIdentifier()
 	 */
 	@Override
-	public ReusedIdentifier getMyReuseKey() {
+	public ReusedIdentifier createReusedIdentifier() {
 		System.out.println(getClass() + "#getMyReuseKey()");
 		System.out.println("value = [" + originalReuseKey + "]");
 

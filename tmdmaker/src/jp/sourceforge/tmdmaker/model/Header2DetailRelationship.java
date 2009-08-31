@@ -35,7 +35,7 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 		System.out.println("Source = " + t.getSource().getName());
 		System.out.println("Target = " + t.getTarget().getClass());
 		System.out.println("Target = " + t.getTarget().getName());
-		t.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+		t.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
 	
 	}
 	

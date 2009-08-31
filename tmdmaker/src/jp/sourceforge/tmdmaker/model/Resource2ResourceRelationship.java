@@ -57,8 +57,8 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 		super.connect();
 		((AbstractEntityModel) getSource()).getDiagram().addChild(this.table);
 		this.combinationTableConnection.connect();
-		this.table.addReuseKey((AbstractEntityModel) getSource());
-		this.table.addReuseKey((AbstractEntityModel) getTarget());
+		this.table.addReusedIdentifier((AbstractEntityModel) getSource());
+		this.table.addReusedIdentifier((AbstractEntityModel) getTarget());
 	}
 
 	/**
@@ -69,8 +69,8 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void disconnect() {
-		this.table.removeReuseKey((AbstractEntityModel) getSource());
-		this.table.removeReuseKey((AbstractEntityModel) getTarget());
+		this.table.removeReusedIdentifier((AbstractEntityModel) getSource());
+		this.table.removeReusedIdentifier((AbstractEntityModel) getTarget());
 		this.combinationTableConnection.disconnect();
 		((AbstractEntityModel) getSource()).getDiagram()
 				.removeChild(this.table);
@@ -95,7 +95,7 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void identifierChanged() {
-//		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+//		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
 		table.fireIdentifierChanged(this);
 	}
 }

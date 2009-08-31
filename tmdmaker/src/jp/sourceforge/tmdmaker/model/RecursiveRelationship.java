@@ -66,7 +66,7 @@ public class RecursiveRelationship extends AbstractRelationship {
 		table.addTargetConnection(this);
 		attachSource();
 		attachTarget();
-		table.addReuseKey((AbstractEntityModel) sourceEntity);
+		table.addReusedIdentifier((AbstractEntityModel) sourceEntity);
 
 	}
 
@@ -100,7 +100,7 @@ public class RecursiveRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void identifierChanged() {
-//		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+//		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
 		table.fireIdentifierChanged(this);
 	}
 	

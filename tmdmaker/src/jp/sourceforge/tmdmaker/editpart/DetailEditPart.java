@@ -35,7 +35,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		Detail table = (Detail) getModel();
 		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-				.getShell(), table.getName(), table.getReuseKey(), table
+				.getShell(), table.getName(), table.getReusedIdentifieres(), table
 				.getAttributes());
 		if (dialog.open() == Dialog.OK) {
 			TableEditCommand<Detail> command = new TableEditCommand<Detail>(
@@ -64,7 +64,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityName(entity.getName());
 		// entityFigure.setEntityType(entity.getEntityType().toString());
 		// figure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity.getReuseKey()
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity.getReusedIdentifieres()
 				.entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());

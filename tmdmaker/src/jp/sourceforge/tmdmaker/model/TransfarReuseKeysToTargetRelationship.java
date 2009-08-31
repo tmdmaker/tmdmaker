@@ -18,7 +18,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	public void attachTarget() {
 		super.attachTarget();
 		((AbstractEntityModel) getTarget())
-				.addReuseKey((AbstractEntityModel) getSource());
+				.addReusedIdentifier((AbstractEntityModel) getSource());
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	@Override
 	public void detachTarget() {
 		((AbstractEntityModel) getTarget())
-				.removeReuseKey((AbstractEntityModel) getSource());
+				.removeReusedIdentifier((AbstractEntityModel) getSource());
 		super.detachTarget();
 	}
 
@@ -51,7 +51,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	 */
 	@Override
 	public void identifierChanged() {
-//		getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+//		getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
 		getTarget().fireIdentifierChanged(this);
 	}
 }

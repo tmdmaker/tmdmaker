@@ -84,7 +84,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityType(entity.getEntityType().getLabel());
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReuseKey().entrySet()) {
+				.getReusedIdentifieres().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}

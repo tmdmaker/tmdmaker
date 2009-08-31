@@ -18,10 +18,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	private Diagram diagram;
 	public static final String PROPERTY_ATTRIBUTE_REORDER = "p_attribute_reorder";
 	public static final String PROPERTY_ATTRIBUTE = "p_attribute";
-	public static final String PROPERTY_REUSEKEY = "p_reusekey";
+	public static final String PROPERTY_REUSED = "p_reused";
 	public static final String PROPERTY_ATTRIBUTES = "p_attributes";
 	public static final String PROPERTY_NOT_IMPLEMENT = "p_notImplement";
-	protected Map<AbstractEntityModel, ReusedIdentifier> reuseKey = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
+	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
 	/** エンティティ種類 */
 	protected EntityType entityType = EntityType.RESOURCE;
@@ -44,53 +44,53 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @return the reuseKey
+	 * @return the reusedIdentifieres
 	 */
-	public Map<AbstractEntityModel, ReusedIdentifier> getReuseKey() {
-		return Collections.unmodifiableMap(reuseKey);
+	public Map<AbstractEntityModel, ReusedIdentifier> getReusedIdentifieres() {
+		return Collections.unmodifiableMap(reusedIdentifieres);
 	}
 
 	/**
-	 * @param reuseKey
-	 *            the reuseKey to set
+	 * @param reusedIdentifieres
+	 *            the reusedIdentifieres to set
 	 */
-	public void setReuseKey(Map<AbstractEntityModel, ReusedIdentifier> reuseKeys) {
-		this.reuseKey = reuseKeys;
+	public void setReusedIdentifieres(
+			Map<AbstractEntityModel, ReusedIdentifier> reuseKeys) {
+		this.reusedIdentifieres = reuseKeys;
 	}
 
-	// public void addReuseKey(Identifier reuseKey) {
-	// this.reuseKeys.add(new ReuseKey(reuseKey, this));
-	// firePropertyChange(P_ATTRIBUTE, null, reuseKey);
-	// }
-
-	// public void removeReuseKey(Identifier reuseKey) {
-	// // if (this.reuseKeys.remove(reuseKey)) {
-	// // firePropertyChange(P_CONSTRAINT, reuseKey, null);
-	// // }
-	// for (ReuseKey rk : reuseKey) {
-	// if (rk.hasSameIdentifier(reuseKey)) {
-	// rk.invalidate();
-	// reuseKey.remove(rk);
-	// break;
-	// }
-	// }
-	// }
-	public void addReuseKey(AbstractEntityModel source) {
-		ReusedIdentifier added = this.reuseKey.put(source, source.getMyReuseKey());
-		firePropertyChange(PROPERTY_REUSEKEY, null, added);
+	/**
+	 * 取得元モデルからReused個体指示子を追加する
+	 * 
+	 * @param source
+	 *            個体指示子取得元
+	 */
+	public void addReusedIdentifier(AbstractEntityModel source) {
+		ReusedIdentifier added = this.reusedIdentifieres.put(source, source
+				.createReusedIdentifier());
+		firePropertyChange(PROPERTY_REUSED, null, added);
 	}
 
-	public void removeReuseKey(AbstractEntityModel source) {
-		ReusedIdentifier removed = this.reuseKey.remove(source);
+	/**
+	 * 取得元モデルから得たReused個体指示子を削除する
+	 * 
+	 * @param source
+	 *            個体指示子取得元
+	 */
+	public void removeReusedIdentifier(AbstractEntityModel source) {
+		ReusedIdentifier removed = this.reusedIdentifieres.remove(source);
 		if (removed != null) {
 			removed.dispose();
 		}
-		firePropertyChange(PROPERTY_REUSEKEY, removed, null);
+		firePropertyChange(PROPERTY_REUSED, removed, null);
 	}
 
-	// public abstract void addReuseKey(AbstractEntityModel target);
-	// public abstract void removeReuseKey(AbstractEntityModel target);
-	public abstract ReusedIdentifier getMyReuseKey();
+	/**
+	 * Reused個体指示子を作成する
+	 * 
+	 * @return 作成したReused個体指示子
+	 */
+	public abstract ReusedIdentifier createReusedIdentifier();
 
 	/**
 	 * @return the attributes
@@ -106,7 +106,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public void setAttributes(List<Attribute> attributes) {
 		List<Attribute> oldValue = this.attributes;
 		this.attributes = attributes;
-		 firePropertyChange(PROPERTY_ATTRIBUTE_REORDER, oldValue, attributes);
+		firePropertyChange(PROPERTY_ATTRIBUTE_REORDER, oldValue, attributes);
 	}
 
 	/**
@@ -199,40 +199,59 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			Class<?> clazz) {
 		return findRelationship(getModelTargetConnections(), clazz);
 	}
-	
+
 	/**
 	 * 
 	 * @param callConnection
 	 */
 	public void fireIdentifierChanged(AbstractConnectionModel callConnection) {
-		firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
+		firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
 		if (getEntityType().equals(EntityType.RESOURCE)) {
-			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
-			notifyIdentifierChangedToConnections(getModelTargetConnections(), callConnection);
-//			for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
-//	
-//				if (con instanceof IdentifierChangeListener && con != callConnection ) {
-//					((IdentifierChangeListener) con).awareReUseKeysChanged();
-//				}
-//			}
+			notifyIdentifierChangedToConnections(getModelSourceConnections(),
+					callConnection);
+			notifyIdentifierChangedToConnections(getModelTargetConnections(),
+					callConnection);
+			// for (AbstractConnectionModel<?> con :
+			// getModelTargetConnections()) {
+			//	
+			// if (con instanceof IdentifierChangeListener && con !=
+			// callConnection ) {
+			// ((IdentifierChangeListener) con).awareReUseKeysChanged();
+			// }
+			// }
 		} else {
-			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
+			notifyIdentifierChangedToConnections(getModelSourceConnections(),
+					callConnection);
 			for (AbstractConnectionModel con : getModelTargetConnections()) {
-				if (con instanceof IdentifierChangeListener && con instanceof Event2EventRelationship && con != callConnection) {
+				if (con instanceof IdentifierChangeListener
+						&& con instanceof Event2EventRelationship
+						&& con != callConnection) {
 					((IdentifierChangeListener) con).identifierChanged();
 				}
-			}			
+			}
 		}
 
 	}
-	private void notifyIdentifierChangedToConnections(List<AbstractConnectionModel> connections, AbstractConnectionModel callConnection) {
+
+	/**
+	 * 個体指示子が変更されたことをコネクションへ通知する
+	 * 
+	 * @param connections
+	 *            通知対象コネクション
+	 * @param callConnection
+	 *            通知元コネクション。通知元がコネクションで無い場合はnullが設定される。
+	 */
+	private void notifyIdentifierChangedToConnections(
+			List<AbstractConnectionModel> connections,
+			AbstractConnectionModel callConnection) {
 		for (AbstractConnectionModel con : connections) {
-			if (con instanceof IdentifierChangeListener && con != callConnection) {
+			if (con instanceof IdentifierChangeListener
+					&& con != callConnection) {
 				((IdentifierChangeListener) con).identifierChanged();
-			}			
+			}
 		}
 	}
-	
+
 	/**
 	 * @return the notImplement
 	 */
@@ -241,7 +260,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @param notImplement the notImplement to set
+	 * @param notImplement
+	 *            the notImplement to set
 	 */
 	public void setNotImplement(boolean notImplement) {
 		this.notImplement = notImplement;

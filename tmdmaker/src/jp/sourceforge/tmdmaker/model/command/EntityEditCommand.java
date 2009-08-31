@@ -29,10 +29,10 @@ public class EntityEditCommand extends Command {
 		entity.setEntityType(this.entityType);
 		entity.setIdentifierName(this.identifierName);
 
-		Map<AbstractEntityModel, ReusedIdentifier> ids = entity.getReuseKey();
+		Map<AbstractEntityModel, ReusedIdentifier> ids = entity.getReusedIdentifieres();
 		// TODO identifierの更新伝播
 		for (int i = 0; i < ids.size(); i++) {
-//			ids.get(i).setName(reuseKey.get(i).getName());
+//			ids.get(i).setName(reusedIdentifieres.get(i).getName());
 		}
 		entity.setAttributes(this.attributes);
 		// firePropertyChange
@@ -46,7 +46,7 @@ public class EntityEditCommand extends Command {
 	public void undo() {
 		entity.setEntityType(this.oldEntityType);
 		entity.setIdentifierName(this.oldIdentifierName);
-		Map<AbstractEntityModel, ReusedIdentifier> ids = entity.getReuseKey();
+		Map<AbstractEntityModel, ReusedIdentifier> ids = entity.getReusedIdentifieres();
 		for (int i = 0; i < ids.size(); i++) {
 //			ids.get(i).setName(oldReuseKeys.get(i).getName());
 		}
@@ -71,7 +71,7 @@ public class EntityEditCommand extends Command {
 		this.entityType = entityType;
 	}
 	/**
-	 * @param reuseKey the reuseKey to set
+	 * @param reusedIdentifieres the reusedIdentifieres to set
 	 */
 	public void setReuseKey(List<Identifier> reuseKeys) {
 	}

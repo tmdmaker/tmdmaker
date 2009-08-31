@@ -367,7 +367,7 @@ public class EntityEditDialog extends Dialog {
 	}
 
 	/**
-	 * @return the reuseKey
+	 * @return the reusedIdentifieres
 	 */
 	public List<Identifier> getReuseKeys() {
 		return reuseKeys;

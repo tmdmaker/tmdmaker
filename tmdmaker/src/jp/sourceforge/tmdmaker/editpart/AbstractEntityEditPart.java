@@ -130,7 +130,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 				ConnectableElement.P_TARGET_CONNECTION)) {
 			handleTargetConnectionChange(evt);
 		} else if (evt.getPropertyName().equals(
-				AbstractEntityModel.PROPERTY_REUSEKEY)) {
+				AbstractEntityModel.PROPERTY_REUSED)) {
 			handleReUseKeyChange(evt);
 		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE_REORDER)) {
 			

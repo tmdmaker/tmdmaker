@@ -21,7 +21,7 @@ public class ConnectionDeleteCommand extends Command {
 		this.connection = connection;
 		// if (connection instanceof AbstractRelationship) {
 		// AbstractRelationship r = (AbstractRelationship) connection;
-		// reuseKey = r.getReuseKeys();
+		// reusedIdentifieres = r.getReuseKeys();
 		// }
 	}
 
@@ -54,10 +54,10 @@ public class ConnectionDeleteCommand extends Command {
 		// source.removeReuseKey(target);
 		// target.removeReuseKey(source);
 		// }
-		// if (reuseKey != null) {
+		// if (reusedIdentifieres != null) {
 		// AbstractRelationship r = (AbstractRelationship) connection;
 		// AbstractEntityModel model = (AbstractEntityModel) r.getTarget();
-		// for (Identifier id : reuseKey) {
+		// for (Identifier id : reusedIdentifieres) {
 		// model.removeReuseKey(id);
 		// }
 		// }
@@ -81,10 +81,10 @@ public class ConnectionDeleteCommand extends Command {
 		// AbstractEntityModel target = (AbstractEntityModel) r.getTarget();
 		// target.addReuseKey(source);
 		// }
-		// if (reuseKey != null) {
+		// if (reusedIdentifieres != null) {
 		// AbstractRelationship r = (AbstractRelationship) connection;
 		// AbstractEntityModel model = (AbstractEntityModel) r.getTarget();
-		// for (Identifier id : reuseKey) {
+		// for (Identifier id : reusedIdentifieres) {
 		// model.addReuseKey(id);
 		// }
 		// }
