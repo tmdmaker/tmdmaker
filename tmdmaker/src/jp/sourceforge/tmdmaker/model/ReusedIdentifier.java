@@ -12,14 +12,14 @@ import java.util.List;
  * 
  */
 @SuppressWarnings("serial")
-public class ReUseKey implements Serializable {
+public class ReusedIdentifier implements Serializable {
 	/** 参照元の個体指示子（またはRe-usedキー） */
 	private List<Identifier> identifieres = new ArrayList<Identifier>();
 
 	/**
 	 * デフォルトコンストラクタ
 	 */
-	public ReUseKey() {
+	public ReusedIdentifier() {
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class ReUseKey implements Serializable {
 	 * @param identifier
 	 *            参照元の個体指示子
 	 */
-	public ReUseKey(Identifier identifier) {
+	public ReusedIdentifier(Identifier identifier) {
 		IdentifierRef identifierRef = new IdentifierRef(identifier);
 		this.identifieres.add(identifierRef);
 	}
@@ -39,7 +39,7 @@ public class ReUseKey implements Serializable {
 	 * @param identifieres
 	 *            Re-usedキー
 	 */
-	public ReUseKey(List<Identifier> identifieres) {
+	public ReusedIdentifier(List<Identifier> identifieres) {
 		for (Identifier i : identifieres) {
 			IdentifierRef identifierRef = new IdentifierRef(i);
 			identifieres.add(identifierRef);

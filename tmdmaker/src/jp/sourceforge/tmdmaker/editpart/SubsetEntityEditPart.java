@@ -11,7 +11,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReUseKey;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
@@ -65,9 +65,9 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	// //
 	// con.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
 	// null, null);
-	// if (con instanceof ReUseKeyChangeListener && !(con instanceof
+	// if (con instanceof IdentifierChangeListener && !(con instanceof
 	// RelatedRelationship)) {
-	// ((ReUseKeyChangeListener) con).awareReUseKeysChanged();
+	// ((IdentifierChangeListener) con).awareReUseKeysChanged();
 	// }
 	// }
 	// }
@@ -77,8 +77,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	// //
 	// con.getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY,
 	// null, null);
-	// if (con instanceof ReUseKeyChangeListener) {
-	// ((ReUseKeyChangeListener) con).awareReUseKeysChanged();
+	// if (con instanceof IdentifierChangeListener) {
+	// ((IdentifierChangeListener) con).awareReUseKeysChanged();
 	// }
 	// }
 	// } else {
@@ -108,7 +108,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityName(entity.getName());
 		// entityFigure.setEntityType(entity.getEntityType().toString());
 		// figure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReUseKey> rk : entity
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReuseKey().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());

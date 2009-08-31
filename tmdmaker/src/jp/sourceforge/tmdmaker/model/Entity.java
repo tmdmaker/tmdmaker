@@ -73,7 +73,7 @@ public class Entity extends AbstractEntityModel {
 		this.identifier.setName(identifierName);
 		if (!oldValue.equals(identifierName)) {
 			firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
-			fireReUseKeyChange(null);
+			fireIdentifierChanged(null);
 		}
 	}
 
@@ -84,8 +84,8 @@ public class Entity extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReUseKey getMyReuseKey() {
-		return new ReUseKey(this.identifier);
+	public ReusedIdentifier getMyReuseKey() {
+		return new ReusedIdentifier(this.identifier);
 	}
 
 	/**

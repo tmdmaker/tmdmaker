@@ -12,7 +12,7 @@ import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReUseKey;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
@@ -64,7 +64,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReUseKey> rk : table
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table
 				.getReuseKey().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());

@@ -8,7 +8,7 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReUseKey;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 
 import org.eclipse.gef.commands.Command;
 
@@ -29,7 +29,7 @@ public class EntityEditCommand extends Command {
 		entity.setEntityType(this.entityType);
 		entity.setIdentifierName(this.identifierName);
 
-		Map<AbstractEntityModel, ReUseKey> ids = entity.getReuseKey();
+		Map<AbstractEntityModel, ReusedIdentifier> ids = entity.getReuseKey();
 		// TODO identifierの更新伝播
 		for (int i = 0; i < ids.size(); i++) {
 //			ids.get(i).setName(reuseKey.get(i).getName());
@@ -46,7 +46,7 @@ public class EntityEditCommand extends Command {
 	public void undo() {
 		entity.setEntityType(this.oldEntityType);
 		entity.setIdentifierName(this.oldIdentifierName);
-		Map<AbstractEntityModel, ReUseKey> ids = entity.getReuseKey();
+		Map<AbstractEntityModel, ReusedIdentifier> ids = entity.getReuseKey();
 		for (int i = 0; i < ids.size(); i++) {
 //			ids.get(i).setName(oldReuseKeys.get(i).getName());
 		}
@@ -89,8 +89,8 @@ public class EntityEditCommand extends Command {
 		entity.getName();
 		this.oldEntityType = entity.getEntityType();
 		this.oldIdentifierName = entity.getIdentifier().getName();
-//		Map<AbstractEntityModel, ReUseKey> rk = entity.getReuseKey();
-//		for (Map.Entry<AbstractEntityModel, ReUseKey> k : rk.entrySet()) {
+//		Map<AbstractEntityModel, ReusedIdentifier> rk = entity.getReuseKey();
+//		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> k : rk.entrySet()) {
 //			
 ////			this.oldReuseKeys.add(new Identifier(id.getName()));
 //		}

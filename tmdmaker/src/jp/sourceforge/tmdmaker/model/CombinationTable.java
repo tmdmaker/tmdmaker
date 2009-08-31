@@ -19,9 +19,9 @@ public class CombinationTable extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReUseKey getMyReuseKey() {
-		ReUseKey returnValue = new ReUseKey();
-		for (Map.Entry<AbstractEntityModel, ReUseKey> rk : this.reuseKey
+	public ReusedIdentifier getMyReuseKey() {
+		ReusedIdentifier returnValue = new ReusedIdentifier();
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reuseKey
 				.entrySet()) {
 			returnValue.addAll(rk.getValue().getIdentifires());
 		}
@@ -68,13 +68,13 @@ public class CombinationTable extends AbstractEntityModel {
 //		firePropertyChange(AbstractEntityModel.PROPERTY_REUSEKEY, null, null);
 //		for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
 //
-//			if (con instanceof ReUseKeyChangeListener && con != callConnection ) {
-//				((ReUseKeyChangeListener) con).awareReUseKeysChanged();
+//			if (con instanceof IdentifierChangeListener && con != callConnection ) {
+//				((IdentifierChangeListener) con).awareReUseKeysChanged();
 //			}
 //		}
 //		for (AbstractConnectionModel<?> con : getModelSourceConnections()) {
-//			if (con instanceof ReUseKeyChangeListener && con != callConnection ) {
-//				((ReUseKeyChangeListener) con).awareReUseKeysChanged();
+//			if (con instanceof IdentifierChangeListener && con != callConnection ) {
+//				((IdentifierChangeListener) con).awareReUseKeysChanged();
 //			}
 //		}
 //

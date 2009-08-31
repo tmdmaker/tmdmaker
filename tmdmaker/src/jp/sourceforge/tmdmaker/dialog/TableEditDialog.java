@@ -8,7 +8,7 @@ import java.util.Map;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReUseKey;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.jface.dialogs.Dialog;
@@ -58,14 +58,14 @@ public class TableEditDialog extends Dialog {
 	
 	public TableEditDialog(Shell parentShell,
 			String entityName, 
-			Map<AbstractEntityModel, ReUseKey> reuseKeys,
+			Map<AbstractEntityModel, ReusedIdentifier> reuseKeys,
 			List<Attribute> attributes) {
 		super(parentShell);
 //		this.identifierName = identifierName;
 		this.tableName = entityName;
 //		this.entityType = entityType;
 //		this.canEditEntityType = canEditEntityType;
-		for (Map.Entry<AbstractEntityModel, ReUseKey> entry : reuseKeys
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> entry : reuseKeys
 				.entrySet()) {
 			for (Identifier i : entry.getValue().getIdentifires()) {
 				Identifier copy = new Identifier();

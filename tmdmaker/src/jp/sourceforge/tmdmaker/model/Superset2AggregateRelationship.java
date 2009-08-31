@@ -6,18 +6,18 @@ package jp.sourceforge.tmdmaker.model;
  *
  */
 @SuppressWarnings("serial")
-public class Superset2AggregateRelationship extends AbstractConnectionModel implements ReUseKeyChangeListener {
+public class Superset2AggregateRelationship extends AbstractConnectionModel implements IdentifierChangeListener {
 
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#reUseKeyChanged()
+	 * @see jp.sourceforge.tmdmaker.model.IdentifierChangeListener#identifierChanged()
 	 */
 	@Override
-	public void reUseKeyChanged() {
+	public void identifierChanged() {
 		for (AbstractConnectionModel con : getTarget().getModelTargetConnections()) {
-			if (con instanceof ReUseKeyChangeListener) {
-				((ReUseKeyChangeListener) con).reUseKeyChanged();
+			if (con instanceof IdentifierChangeListener) {
+				((IdentifierChangeListener) con).identifierChanged();
 			}
 		}
 	}

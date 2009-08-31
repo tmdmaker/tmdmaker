@@ -6,15 +6,15 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class SubsetType2SubsetRelationship extends RelatedRelationship
-		implements ReUseKeyChangeListener {
+		implements IdentifierChangeListener {
 	/**
 	 * 
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.ReUseKeyChangeListener#reUseKeyChanged()
+	 * @see jp.sourceforge.tmdmaker.model.IdentifierChangeListener#identifierChanged()
 	 */
 	@Override
-	public void reUseKeyChanged() {
-		((AbstractEntityModel) getTarget()).fireReUseKeyChange(this);
+	public void identifierChanged() {
+		((AbstractEntityModel) getTarget()).fireIdentifierChanged(this);
 	}
 }

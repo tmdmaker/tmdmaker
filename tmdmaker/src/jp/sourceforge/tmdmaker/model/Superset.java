@@ -26,7 +26,7 @@ public class Superset extends AbstractEntityModel {
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getMyReuseKey()
 	 */
 	@Override
-	public ReUseKey getMyReuseKey() {
+	public ReusedIdentifier getMyReuseKey() {
 		// TODO Auto-generated method stub
 		return null;
 	}
