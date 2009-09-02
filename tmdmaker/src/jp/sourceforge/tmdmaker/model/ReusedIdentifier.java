@@ -14,7 +14,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ReusedIdentifier implements Serializable {
 	/** 参照元の個体指示子（またはRe-usedキー） */
-	private List<Identifier> identifieres = new ArrayList<Identifier>();
+	private List<IdentifierRef> identifieres = new ArrayList<IdentifierRef>();
 
 	/**
 	 * デフォルトコンストラクタ
@@ -29,8 +29,7 @@ public class ReusedIdentifier implements Serializable {
 	 *            参照元の個体指示子
 	 */
 	public ReusedIdentifier(Identifier identifier) {
-		IdentifierRef identifierRef = new IdentifierRef(identifier);
-		this.identifieres.add(identifierRef);
+		addIdentifier(identifier);
 	}
 
 	/**
@@ -51,7 +50,7 @@ public class ReusedIdentifier implements Serializable {
 	 * 
 	 * @return 参照元の個体指示子（またはRe-usedキー）
 	 */
-	public List<Identifier> getIdentifires() {
+	public List<IdentifierRef> getIdentifires() {
 		return Collections.unmodifiableList(identifieres);
 	}
 
@@ -61,10 +60,15 @@ public class ReusedIdentifier implements Serializable {
 	 * @param identifieres
 	 *            参照元の個体指示子（またはRe-usedキー）
 	 */
-	public void addAll(List<Identifier> identifieres) {
-		this.identifieres.addAll(identifieres);
+	public void addAll(List<IdentifierRef> identifieres) {
+		for (IdentifierRef i : identifieres) {
+			this.identifieres.add(i);
+		}
 	}
-
+	private void addIdentifier(Identifier identifier) {
+		IdentifierRef identifierRef = new IdentifierRef(identifier);
+		this.identifieres.add(identifierRef);
+	}
 	/**
 	 * オブジェクトを破棄する
 	 */

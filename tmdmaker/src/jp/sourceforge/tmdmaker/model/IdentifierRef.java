@@ -48,5 +48,7 @@ public class IdentifierRef extends Identifier {
 		}
 		return returnName;
 	}
-	
+	public boolean isSame(IdentifierRef identifierRef) {
+		return this.original.equals(identifierRef.getOriginal());
+	}
 }

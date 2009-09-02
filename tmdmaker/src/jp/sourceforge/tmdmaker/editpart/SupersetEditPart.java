@@ -1,14 +1,11 @@
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.beans.PropertyChangeEvent;
 import java.util.List;
-import java.util.Map;
 
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.Superset;
 
 import org.eclipse.draw2d.IFigure;
@@ -32,17 +29,6 @@ public class SupersetEditPart extends AbstractEntityEditPart {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#propertyChange(java.beans.PropertyChangeEvent)
-	 */
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
-		super.propertyChange(evt);
-	}
-
-	/**
 	 * 
 	 * {@inheritDoc}
 	 *
@@ -59,14 +45,16 @@ public class SupersetEditPart extends AbstractEntityEditPart {
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
-		// entityFigure.setEntityType(entity.getEntityType().toString());
+		entityFigure.setEntityType(EntityType.MA.getLabel());
 		// figure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getIdentifires()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
+		IdentifierRef identifierRef = entity.getReusedIdentifieres().entrySet().iterator().next().getValue().getIdentifires().get(0);
+		entityFigure.setIdentifier(identifierRef.getName());
+//		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
+//				.getReusedIdentifieres().entrySet()) {
+//			for (Identifier i : rk.getValue().getIdentifires()) {
+//				entityFigure.addRelationship(i.getName());
+//			}
+//		}
 		for (Attribute a : atts) {
 			entityFigure.addAttribute(a.getName());
 		}

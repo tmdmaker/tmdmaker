@@ -1,5 +1,6 @@
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.editpart.EntityEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Cardinality;
 import jp.sourceforge.tmdmaker.model.Detail;
@@ -38,6 +39,21 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.action.AbstractEntitySelectionAction#calculateEnabled()
+	 */
+	@Override
+	protected boolean calculateEnabled() {
+		if (getSelectedObjects().size() == 1) {
+			Object selection = getSelectedObjects().get(0);
+			return selection instanceof EntityEditPart;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
@@ -49,10 +65,11 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 
 		// Detail作成
 		Detail detail = new Detail();
-		detail.setName(model.getName());
+		detail.setName(model.getName() + "DTL");
 		detail.setEntityType(model.getEntityType());
 		detail.setConstraint(model.getConstraint().getTranslated(100, 0));
-
+		detail.setOriginalReusedIdentifier(model.createReusedIdentifier());
+		
 		// Detailを追加してHeaderと接続
 		DetailAddCommand command1 = new DetailAddCommand(model, detail);
 		ccommand.add(command1);

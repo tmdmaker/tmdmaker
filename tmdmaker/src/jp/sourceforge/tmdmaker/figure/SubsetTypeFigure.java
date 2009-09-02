@@ -26,8 +26,9 @@ public class SubsetTypeFigure extends Figure {
 	 */
 	public SubsetTypeFigure(SubsetTypeValue subsetTypeValue) {
 		super();
+//		setSize(30, 10);
+		setSubsetTypeValue(subsetTypeValue);
 		setBorder(new SubsetBorder(subsetTypeValue));
-		setSize(30, 10);
 		setOpaque(false);
 	}
 
@@ -35,7 +36,12 @@ public class SubsetTypeFigure extends Figure {
 	 * サブセットのタイプを設定する
 	 * @param subsetTypeValue サブセットタイプ値
 	 */
-	public void setSameType(SubsetTypeValue subsetTypeValue) {
+	public void setSubsetTypeValue(SubsetTypeValue subsetTypeValue) {
+		if (subsetTypeValue.equals(SubsetTypeValue.SAME)) {
+			setSize(30, 5);
+		} else {
+			setSize(30, 10);			
+		}
 		setBorder(new SubsetBorder(subsetTypeValue));		
 	}
 	/**
@@ -104,7 +110,7 @@ public class SubsetTypeFigure extends Figure {
 
 			// 同一サブセット
 			graphics.drawLine(tempRect.getTopLeft(), tempRect.getTopRight());
-			graphics.drawLine(tempRect.getLeft(), tempRect.getRight());
+			graphics.drawLine(tempRect.getBottomLeft(), tempRect.getBottomRight());
 			graphics.drawLine(getPaintRectangle(figure, insets).getTop(), tempRect.getCenter());			
 		}
 		/**

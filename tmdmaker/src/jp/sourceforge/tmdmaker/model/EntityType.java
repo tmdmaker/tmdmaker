@@ -13,6 +13,8 @@ public enum EntityType {
 	EVENT("E"),
 	/** 多値のOR */
 	MO("MO"),
+	/** 多値のAND */
+	MA("MA"),
 	/** みなしエンティティ */
 	VE("VE");
 	

@@ -39,7 +39,7 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	protected void updateFigure(IFigure figure) {
 		SubsetTypeFigure sf = (SubsetTypeFigure) figure;
 		SubsetType model = (SubsetType) getModel();
-		sf.setSameType(model.getSubsetType());
+		sf.setSubsetTypeValue(model.getSubsetType());
 	}
 
 	/**

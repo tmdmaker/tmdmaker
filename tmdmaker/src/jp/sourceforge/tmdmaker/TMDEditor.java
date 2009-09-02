@@ -71,10 +71,9 @@ import org.slf4j.LoggerFactory;
 public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO ソースの精査
 	// TODO 物理実装用のダイアログ（タブ）を作成する
-	// TODO HDR-DTLのみなしスーパーセットとDTLの個体指示子に(R)をつけないようにする
 	// TODO １HDR内に複数DTLを作れるようにする。
 	// TODO HDR-DTLをエンティティ（R:E）のみに適用？
-	// TODO HDR-DTLの概念的スーパーセットはアトリビュートを記述しない
+	// TODO HDR-DTLを削除できるようにする。
 	
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
