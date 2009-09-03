@@ -9,11 +9,10 @@ import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
-import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -136,66 +135,69 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			RecursiveTableDeleteCommand command = new RecursiveTableDeleteCommand(
-					(Diagram) getHost().getParent().getModel(),
-					(RecursiveTable) getHost().getModel());
-			return command;
+//			RecursiveTableDeleteCommand command = new RecursiveTableDeleteCommand(
+//					(Diagram) getHost().getParent().getModel(),
+//					(RecursiveTable) getHost().getModel());
+//			return command;
+			RecursiveTable model = (RecursiveTable) getHost().getModel();
+			return new TableDeleteCommand(model, model.getModelTargetConnections().get(0));
 		}
 
 	}
 
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class RecursiveTableDeleteCommand extends
-			ConnectableElementDeleteCommand {
-		/** 再帰表 */
-		private RecursiveTable model;
-
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param diagram
-		 *            親
-		 * @param model
-		 *            再帰表
-		 */
-		public RecursiveTableDeleteCommand(Diagram diagram, RecursiveTable model) {
-			super();
-			this.diagram = diagram;
-			this.model = model;
-			this.sourceConnections.addAll(model.getModelSourceConnections());
-			this.targetConnections.addAll(model.getModelTargetConnections());
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-
-			diagram.removeChild(model);
-
-			detachConnections(sourceConnections);
-			detachConnections(targetConnections);
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			diagram.addChild(model);
-			attathConnections(sourceConnections);
-			attathConnections(targetConnections);
-		}
-	}
+	// /**
+	// *
+	// * @author nakaG
+	// *
+	// */
+	// private static class RecursiveTableDeleteCommand extends
+	// ConnectableElementDeleteCommand {
+	// /** 再帰表 */
+	// private RecursiveTable model;
+	//
+	// /**
+	// * コンストラクタ
+	// *
+	// * @param diagram
+	// * 親
+	// * @param model
+	// * 再帰表
+	// */
+	// public RecursiveTableDeleteCommand(Diagram diagram, RecursiveTable model)
+	// {
+	// super();
+	// this.diagram = diagram;
+	// this.model = model;
+	// this.sourceConnections.addAll(model.getModelSourceConnections());
+	// this.targetConnections.addAll(model.getModelTargetConnections());
+	// }
+	//
+	// /**
+	// *
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#execute()
+	// */
+	// @Override
+	// public void execute() {
+	//
+	// diagram.removeChild(model);
+	//
+	// detachConnections(sourceConnections);
+	// detachConnections(targetConnections);
+	// }
+	//
+	// /**
+	// *
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#undo()
+	// */
+	// @Override
+	// public void undo() {
+	// diagram.addChild(model);
+	// attathConnections(sourceConnections);
+	// attathConnections(targetConnections);
+	// }
+	// }
 }

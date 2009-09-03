@@ -7,12 +7,12 @@ import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -72,7 +72,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
-		 entityFigure.setEntityType(EntityType.VE.getLabel());
+		entityFigure.setEntityType(EntityType.VE.getLabel());
 		// figure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {
@@ -106,73 +106,87 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new VirtualEntityComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE,
+				new VirtualEntityComponentEditPolicy());
 	}
+
 	/**
 	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
-	private static class VirtualEntityComponentEditPolicy extends ComponentEditPolicy {
+	private static class VirtualEntityComponentEditPolicy extends
+			ComponentEditPolicy {
 
 		/**
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			VirtualEntityDeleteCommand command = new VirtualEntityDeleteCommand((VirtualEntity) getHost().getModel());
-			return command;
+			// VirtualEntityDeleteCommand command = new
+			// VirtualEntityDeleteCommand((VirtualEntity) getHost().getModel());
+			// return command;
+			VirtualEntity model = (VirtualEntity) getHost().getModel();
+			return new TableDeleteCommand(model, model
+					.getModelTargetConnections().get(0));
 		}
-		
+
 	}
-	/**
-	 * 
-	 * @author nakaG
-	 *
-	 */
-	private static class VirtualEntityDeleteCommand extends Command {
-		/** 削除対象 */
-		private VirtualEntity ve;
-		/** みなしエンティテ作成時のリレーションシップ */
-		private AbstractRelationship relationship;
-		/**
-		 * コンストラクタ
-		 * @param ve 削除対象
-		 */
-		public VirtualEntityDeleteCommand(VirtualEntity ve) {
-			this.ve = ve;
-			this.relationship = (AbstractRelationship) ve.getModelTargetConnections().get(0);
-		}
-		/**
-		 * {@inheritDoc}
-		 *
-		 * @see org.eclipse.gef.commands.Command#canExecute()
-		 */
-		@Override
-		public boolean canExecute() {
-			return ve.isDeletable();
-		}
-		/**
-		 * {@inheritDoc}
-		 *
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			relationship.disconnect();
-		}
-		/**
-		 * {@inheritDoc}
-		 *
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			relationship.connect();
-		}
-		
-		
-	}
+
+//	/**
+//	 * 
+//	 * @author nakaG
+//	 * 
+//	 */
+//	private static class VirtualEntityDeleteCommand extends Command {
+//		/** 削除対象 */
+//		private VirtualEntity ve;
+//		/** みなしエンティテ作成時のリレーションシップ */
+//		private AbstractRelationship relationship;
+//
+//		/**
+//		 * コンストラクタ
+//		 * 
+//		 * @param ve
+//		 *            削除対象
+//		 */
+//		public VirtualEntityDeleteCommand(VirtualEntity ve) {
+//			this.ve = ve;
+//			this.relationship = (AbstractRelationship) ve
+//					.getModelTargetConnections().get(0);
+//		}
+//
+//		/**
+//		 * {@inheritDoc}
+//		 * 
+//		 * @see org.eclipse.gef.commands.Command#canExecute()
+//		 */
+//		@Override
+//		public boolean canExecute() {
+//			return ve.isDeletable();
+//		}
+//
+//		/**
+//		 * {@inheritDoc}
+//		 * 
+//		 * @see org.eclipse.gef.commands.Command#execute()
+//		 */
+//		@Override
+//		public void execute() {
+//			relationship.disconnect();
+//		}
+//
+//		/**
+//		 * {@inheritDoc}
+//		 * 
+//		 * @see org.eclipse.gef.commands.Command#undo()
+//		 */
+//		@Override
+//		public void undo() {
+//			relationship.connect();
+//		}
+//
+//	}
 }

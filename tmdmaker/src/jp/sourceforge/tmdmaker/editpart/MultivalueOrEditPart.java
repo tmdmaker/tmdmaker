@@ -8,12 +8,12 @@ import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -139,65 +139,68 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
 			MultivalueOrEntity model = (MultivalueOrEntity) getHost()
 					.getModel();
-			MultivalueOrEntityDeleteCommand command = new MultivalueOrEntityDeleteCommand(
-					model);
-			return command;
+			// MultivalueOrEntityDeleteCommand command = new
+			// MultivalueOrEntityDeleteCommand(
+			// model);
+			// return command;
+			return new TableDeleteCommand(model, model
+					.getModelTargetConnections().get(0));
 		}
 
 	}
 
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class MultivalueOrEntityDeleteCommand extends Command {
-		/** 削除対象 */
-		private MultivalueOrEntity model;
-		/** 元エンティティと多値のORを接続するリレーションシップ */
-		private AbstractRelationship relationship;
-
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param model
-		 *            削除対象
-		 */
-		public MultivalueOrEntityDeleteCommand(MultivalueOrEntity model) {
-			this.model = model;
-			this.relationship = (AbstractRelationship) model
-					.getModelTargetConnections().get(0);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#canExecute()
-		 */
-		@Override
-		public boolean canExecute() {
-			return model.isDeletable();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			relationship.disconnect();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			relationship.connect();
-		}
-
-	}
+	// /**
+	// *
+	// * @author nakaG
+	// *
+	// */
+	// private static class MultivalueOrEntityDeleteCommand extends Command {
+	// /** 削除対象 */
+	// private MultivalueOrEntity model;
+	// /** 元エンティティと多値のORを接続するリレーションシップ */
+	// private AbstractRelationship relationship;
+	//
+	// /**
+	// * コンストラクタ
+	// *
+	// * @param model
+	// * 削除対象
+	// */
+	// public MultivalueOrEntityDeleteCommand(MultivalueOrEntity model) {
+	// this.model = model;
+	// this.relationship = (AbstractRelationship) model
+	// .getModelTargetConnections().get(0);
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#canExecute()
+	// */
+	// @Override
+	// public boolean canExecute() {
+	// return model.isDeletable();
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#execute()
+	// */
+	// @Override
+	// public void execute() {
+	// relationship.disconnect();
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#undo()
+	// */
+	// @Override
+	// public void undo() {
+	// relationship.connect();
+	// }
+	//
+	// }
 }

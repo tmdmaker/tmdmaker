@@ -3,13 +3,10 @@ package jp.sourceforge.tmdmaker.action;
 import jp.sourceforge.tmdmaker.editpart.EntityEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Cardinality;
-import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
 import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.Superset;
-import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;

@@ -90,7 +90,7 @@ public class RecursiveRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public boolean canDeletable() {
-		return false;
+		return table.isDeletable();
 	}
 
 	/**

@@ -81,10 +81,10 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			Attribute selectedPartitionAttribute = dialog
 			.getEditedPartitionAttribute();
 			boolean newExceptNull = dialog.isEditedExceptNull();
-			ccommand.add(createPreferSubsetTypeCommand(model, subsetType, newSubsetType, selectedPartitionAttribute, newExceptNull));
+			ccommand.add(createSuitableSubsetTypeCommand(model, subsetType, newSubsetType, selectedPartitionAttribute, newExceptNull));
 			
 			List<EditSubsetEntity> editSubsets = dialog.getEditedSubsetEntities();
-			addPreferSubsetEntityCommand(model, subsetType, ccommand,
+			addSuitableSubsetEntityCommand(model, subsetType, ccommand,
 					editSubsets);
 			
 			List<EditSubsetEntity> deleteSubsets = dialog
@@ -173,7 +173,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		}
 	}
 
-	private void addPreferSubsetEntityCommand(AbstractEntityModel model,
+	private void addSuitableSubsetEntityCommand(AbstractEntityModel model,
 			SubsetType subsetType, CompoundCommand ccommand,
 			List<EditSubsetEntity> editSubsets) {
 		for (EditSubsetEntity e : editSubsets) {
@@ -195,7 +195,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		}
 	}
 
-	private Command createPreferSubsetTypeCommand(AbstractEntityModel model,
+	private Command createSuitableSubsetTypeCommand(AbstractEntityModel model,
 			SubsetType subsetType, SubsetTypeValue newSubsetType,
 			Attribute selectedPartitionAttribute, boolean newExceptNull) {
 			if (subsetType.getConstraint() == null) {

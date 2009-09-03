@@ -6,13 +6,13 @@ import java.util.Map;
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
+import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -123,103 +123,91 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 	/**
 	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
 	private static class MappingListComponentEditPolicy extends
 			ComponentEditPolicy {
 		/**
 		 * 
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			MappingListDeleteCommand command = new MappingListDeleteCommand(
-					(MappingList) getHost().getModel());
-			return command;
+			// MappingListDeleteCommand command = new MappingListDeleteCommand(
+			// (MappingList) getHost().getModel());
+			// return command;
+			MappingList model = (MappingList) getHost().getModel();
+			AbstractConnectionModel creationRelationship = (AbstractConnectionModel) model
+					.findCreationRelationship().getSource();
+			return new TableDeleteCommand(model, creationRelationship);
 		}
-		
+
 	}
-	/**
-	 * 
-	 * @author nakaG
-	 *
-	 */
-	private static class MappingListDeleteCommand extends Command {
-//		private Diagram diagram;
-		/** 削除対象の対応表 */
-		private MappingList model;
-		/** 対応表とリレーションシップ間のコネクション */
-		private RelatedRelationship relatedRelationship;
-		/** 対応表を作成する契機となったリレーションシップ */
-		private AbstractRelationship relationship;
-
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param model
-		 *            削除対象モデル
-		 */
-		public MappingListDeleteCommand(MappingList model) {
-			this.model = model;
-//			this.diagram = model.getDiagram();
-			this.relatedRelationship = model.findCreationRelationship();
-			this.relationship = (AbstractRelationship) relatedRelationship
-					.getSource();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#canExecute()
-		 */
-		@Override
-		public boolean canExecute() {
-			return model.isDeletable();
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			// diagram.removeChild(model);
-			// model.setDiagram(null);
-			relationship.disconnect();
-		}
-
-		// /**
-		// *
-		// * @param model
-		// * @return
-		// */
-		// private RelatedRelationship findRelatedRelationship(MappingList
-		// model) {
-		// this.model = model;
-		// for (AbstractConnectionModel c : this.model
-		// .getModelTargetConnections()) {
-		// if (c instanceof RelatedRelationship) {
-		// return (RelatedRelationship) c;
-		// }
-		// }
-		// return null;
-		// }
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			// diagram.addChild(model);
-			// model.setDiagram(diagram);
-			relationship.connect();
-		}
-	}
+	// /**
+	// *
+	// * @author nakaG
+	// *
+	// */
+	// private static class MappingListDeleteCommand extends Command {
+	// // private Diagram diagram;
+	// /** 削除対象の対応表 */
+	// private MappingList model;
+	// /** 対応表とリレーションシップ間のコネクション */
+	// private RelatedRelationship relatedRelationship;
+	// /** 対応表を作成する契機となったリレーションシップ */
+	// private AbstractRelationship relationship;
+	//
+	// /**
+	// * コンストラクタ
+	// *
+	// * @param model
+	// * 削除対象モデル
+	// */
+	// public MappingListDeleteCommand(MappingList model) {
+	// this.model = model;
+	// // this.diagram = model.getDiagram();
+	// this.relatedRelationship = model.findCreationRelationship();
+	// this.relationship = (AbstractRelationship) relatedRelationship
+	// .getSource();
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#canExecute()
+	// */
+	// @Override
+	// public boolean canExecute() {
+	// return model.isDeletable();
+	// }
+	//
+	// /**
+	// *
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#execute()
+	// */
+	// @Override
+	// public void execute() {
+	// // diagram.removeChild(model);
+	// // model.setDiagram(null);
+	// relationship.disconnect();
+	// }
+	//
+	//
+	// /**
+	// *
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#undo()
+	// */
+	// @Override
+	// public void undo() {
+	// // diagram.addChild(model);
+	// // model.setDiagram(diagram);
+	// relationship.connect();
+	// }
+	// }
 }

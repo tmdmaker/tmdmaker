@@ -31,8 +31,11 @@ public class RecursiveTable extends AbstractEntityModel {
 	 */
 	@Override
 	public void addReusedIdentifier(AbstractEntityModel source) {
-		ReusedIdentifier added = source.createReusedIdentifier();
-		added.addAll(added.getIdentifires());
+//		ReusedIdentifier added = source.createReusedIdentifier();
+//		added.addAll(added.getIdentifires());
+		ReusedIdentifier added = new ReusedIdentifier();
+		added.addAll(source.createReusedIdentifier().getIdentifires());
+		added.addAll(source.createReusedIdentifier().getIdentifires());
 		this.reusedIdentifieres.put(source, added);
 		firePropertyChange(PROPERTY_REUSED, null, added);
 	}
@@ -52,8 +55,7 @@ public class RecursiveTable extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		// TODO Auto-generated method stub
-		return false;
+		return getModelTargetConnections().size() == 1 && getModelSourceConnections().size() == 0;
 	}
 
 }
