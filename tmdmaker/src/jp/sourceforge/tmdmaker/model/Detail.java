@@ -58,7 +58,6 @@ public class Detail extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		// TODO Auto-generated method stub
-		return false;
+		return getModelSourceConnections().size() == 1 && getModelTargetConnections().size() == 1;
 	}
 }

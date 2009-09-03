@@ -64,50 +64,40 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		CompoundCommand ccommand = new CompoundCommand();
 
 		// Detail作成
-		Detail detail = new Detail();
-		detail.setName(model.getName() + "DTL");
-		detail.setEntityType(model.getEntityType());
-		detail.setConstraint(model.getConstraint().getTranslated(100, 0));
-		detail.setOriginalReusedIdentifier(model.createReusedIdentifier());
 		
 		// Detailを追加してHeaderと接続
-		DetailAddCommand command1 = new DetailAddCommand(model, detail);
+		DetailAddCommand command1 = new DetailAddCommand(model);
 		ccommand.add(command1);
 
-		// Supersetを追加してHeader-Detailと接続
-		Superset superset = new Superset();
-		superset.setEntityType(model.getEntityType());
-		superset.setConstraint(model.getConstraint().getTranslated(64, -80));
-		superset.setName(model.getName());
-		superset.addReusedIdentifier(model);
-		SupersetCreateCommand command2 = new SupersetCreateCommand(superset,
-				model);
-		ccommand.add(command2);
-
-		MultivalueAndAggregator aggregator = new MultivalueAndAggregator();
-		aggregator.setConstraint(model.getConstraint().getTranslated(75, -30));
-
-		MultivalurAndAggregatorCreateCommand command11 = new MultivalurAndAggregatorCreateCommand(
-				model.getDiagram(), aggregator);
-		ccommand.add(command11);
-
-		ConnectionCreateCommand command22 = new ConnectionCreateCommand();
-		command22.setConnection(new RelatedRelationship());
-		command22.setSource(superset);
-		command22.setTarget(aggregator);
-		ccommand.add(command22);
-
-		ConnectionCreateCommand command3 = new ConnectionCreateCommand();
-		command3.setConnection(new RelatedRelationship());
-		command3.setSource(model);
-		command3.setTarget(aggregator);
-		ccommand.add(command3);
-
-		ConnectionCreateCommand command4 = new ConnectionCreateCommand();
-		command4.setConnection(new RelatedRelationship());
-		command4.setSource(detail);
-		command4.setTarget(aggregator);
-		ccommand.add(command4);
+//		// Supersetを追加してHeader-Detailと接続
+//		SupersetCreateCommand command2 = new SupersetCreateCommand(superset,
+//				model);
+//		ccommand.add(command2);
+//
+//		MultivalueAndAggregator aggregator = new MultivalueAndAggregator();
+//		aggregator.setConstraint(model.getConstraint().getTranslated(75, -30));
+//
+//		MultivalurAndAggregatorCreateCommand command11 = new MultivalurAndAggregatorCreateCommand(
+//				model.getDiagram(), aggregator);
+//		ccommand.add(command11);
+//
+//		ConnectionCreateCommand command22 = new ConnectionCreateCommand();
+//		command22.setConnection(new RelatedRelationship());
+//		command22.setSource(superset);
+//		command22.setTarget(aggregator);
+//		ccommand.add(command22);
+//
+//		ConnectionCreateCommand command3 = new ConnectionCreateCommand();
+//		command3.setConnection(new RelatedRelationship());
+//		command3.setSource(model);
+//		command3.setTarget(aggregator);
+//		ccommand.add(command3);
+//
+//		ConnectionCreateCommand command4 = new ConnectionCreateCommand();
+//		command4.setConnection(new RelatedRelationship());
+//		command4.setSource(detail);
+//		command4.setTarget(aggregator);
+//		ccommand.add(command4);
 
 		execute(ccommand);
 	}
@@ -170,18 +160,18 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 	}
 
 	private static class DetailAddCommand extends Command {
-		private Diagram diagram;
-		private Detail model;
+//		private Diagram diagram;
+//		private Detail model;
 		private Header2DetailRelationship relationship;
 
-		public DetailAddCommand(AbstractEntityModel header, Detail model) {
-			this.diagram = header.getDiagram();
-			this.model = model;
+		public DetailAddCommand(AbstractEntityModel header) {
+//			this.diagram = header.getDiagram();
+//			this.model = model;
 			// this.model.setConstraint(header.getConstraint().getTranslated(50,0));
 			// this.model.setName(header.getName());
-			relationship = new Header2DetailRelationship();
-			relationship.setSource(header);
-			relationship.setTarget(model);
+			relationship = new Header2DetailRelationship(header);
+//			relationship.setSource(header);
+//			relationship.setTarget(model);
 			relationship.setTargetCardinality(Cardinality.MANY);
 		}
 
@@ -192,7 +182,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void execute() {
-			diagram.addChild(model);
+//			diagram.addChild(model);
 			// model.setDiagram(diagram);
 			relationship.connect();
 		}
@@ -206,7 +196,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		public void undo() {
 			relationship.disconnect();
 			// model.setDiagram(null);
-			diagram.removeChild(model);
+//			diagram.removeChild(model);
 		}
 
 	}

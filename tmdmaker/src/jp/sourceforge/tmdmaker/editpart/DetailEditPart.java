@@ -12,11 +12,15 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.editpolicies.ComponentEditPolicy;
+import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
@@ -80,7 +84,8 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityName(entity.getName());
 		// entityFigure.setEntityType(entity.getEntityType().toString());
 		// figure.setIdentifier(entity.getIdentifier().getName());
-		IdentifierRef original = entity.getOriginalReusedIdentifier().getIdentifires().get(0);
+		IdentifierRef original = entity.getOriginalReusedIdentifier()
+				.getIdentifires().get(0);
 		entityFigure.setIdentifier(original.getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {
@@ -120,8 +125,30 @@ public class DetailEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE,
+				new DetailComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new AbstractEntityGraphicalNodeEditPolicy());
 	}
 
+	/**
+	 * 
+	 * @author nakaG
+	 * 
+	 */
+	private static class DetailComponentEditPolicy extends ComponentEditPolicy {
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+		 */
+		@Override
+		protected Command createDeleteCommand(GroupRequest deleteRequest) {
+			Detail model = (Detail) getHost().getModel();
+			return new TableDeleteCommand(model, model
+					.getModelTargetConnections().get(0));
+
+		}
+	}
 }
