@@ -7,6 +7,9 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class Superset extends AbstractEntityModel {
+	/** DTL */
+	private Detail detail;
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -38,8 +41,21 @@ public class Superset extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		// TODO Auto-generated method stub
-		return false;
+		return detail.isDeletable();
+	}
+
+	/**
+	 * @return the detail
+	 */
+	public Detail getDetail() {
+		return detail;
+	}
+
+	/**
+	 * @param detail the detail to set
+	 */
+	public void setDetail(Detail detail) {
+		this.detail = detail;
 	}
 
 }

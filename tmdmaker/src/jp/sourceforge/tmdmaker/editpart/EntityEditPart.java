@@ -7,6 +7,7 @@ import java.util.Map;
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.EntityEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityContainderEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
@@ -106,6 +107,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 				new EntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new AbstractEntityGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new EntityContainderEditPolicy());
 	}
 
 	/**
@@ -160,6 +162,18 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		// TODO Auto-generated method stub
 		System.out.println(getClass().toString() + "#refreshChildren()");
 		super.refreshChildren();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
+	 */
+	@Override
+	public IFigure getContentPane() {
+		// TODO Auto-generated method stub
+		// TODO アトリビュート追加エリアを返す
+		return super.getContentPane();
 	}
 
 	/**

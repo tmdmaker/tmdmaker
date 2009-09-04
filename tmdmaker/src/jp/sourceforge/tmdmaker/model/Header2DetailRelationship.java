@@ -41,6 +41,7 @@ public class Header2DetailRelationship extends
 		superset.setConstraint(header.getConstraint().getTranslated(64, -80));
 		superset.setName(header.getName());
 		superset.addReusedIdentifier(header);
+		superset.setDetail(detail);
 
 		aggregator = new MultivalueAndAggregator();
 		aggregator.setConstraint(header.getConstraint().getTranslated(75, -30));

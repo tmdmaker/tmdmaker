@@ -73,7 +73,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO 物理実装用のダイアログ（タブ）を作成する
 	// TODO １HDR内に複数DTLを作れるようにする？
 	// TODO HDR-DTLをエンティティ（R:E）のみに適用？
-	// TODO HDR-DTLを概念的スーパーセットから削除できるようにする。
+	// TODO DTLのidentifierに明細番号？を表示・編集できるようにする。
 	
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
