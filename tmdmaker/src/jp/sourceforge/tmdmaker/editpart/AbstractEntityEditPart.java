@@ -21,8 +21,6 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 /**
  * 
  * @author nakaG
@@ -30,9 +28,6 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		implements NodeEditPart {
-	/** logging */
-	protected static Logger logger = LoggerFactory
-			.getLogger(AbstractEntityEditPart.class);
 
 	/** このコントローラで利用するアンカー */
 	private ConnectionAnchor anchor;
@@ -133,7 +128,8 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 				AbstractEntityModel.PROPERTY_REUSED)) {
 			handleReUseKeyChange(evt);
 		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE_REORDER)) {
-			
+			logger.warn("Handle Reorder Occured.");
+			refreshChildren();
 		} else {
 			logger.warn("Not Handle Event Occured.");
 		}
@@ -158,7 +154,9 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	 */
 	protected void handleAttributeChange(PropertyChangeEvent evt) {
 		refreshVisuals();
+		refreshChildren();
 	}
+	
 	/**
 	 * 接続元コネクション変更イベント処理
 	 * @param evt 発生したイベント情報

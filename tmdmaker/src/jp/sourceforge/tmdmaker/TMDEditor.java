@@ -71,10 +71,10 @@ import org.slf4j.LoggerFactory;
 public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO ソースの精査
 	// TODO 物理実装用のダイアログ（タブ）を作成する
-	// TODO １HDR内に複数DTLを作れるようにする？
-	// TODO HDR-DTLをエンティティ（R:E）のみに適用？
 	// TODO DTLのidentifierに明細番号？を表示・編集できるようにする。
-	
+	// TODO アトリビュートをモデル間で移動できるようにする。
+	// TODO HDR-DTLをエンティティ（R:E）のみに適用？
+	// TODO 実装有無は対照表とサブセットとVEだけ？
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 

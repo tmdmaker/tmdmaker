@@ -5,14 +5,24 @@ import java.beans.PropertyChangeListener;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
  * @author nakaG
- *
+ * 
  */
-public abstract class AbstractTMDEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
-	/* (non-Javadoc)
+public abstract class AbstractTMDEditPart extends AbstractGraphicalEditPart
+		implements PropertyChangeListener {
+	/** logging */
+	protected static Logger logger = LoggerFactory
+			.getLogger(AbstractEntityEditPart.class);
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
 	 */
 	@Override
@@ -21,7 +31,10 @@ public abstract class AbstractTMDEditPart extends AbstractGraphicalEditPart impl
 		((ModelElement) getModel()).addPropertyChangeListener(this);
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
 	 */
 	@Override

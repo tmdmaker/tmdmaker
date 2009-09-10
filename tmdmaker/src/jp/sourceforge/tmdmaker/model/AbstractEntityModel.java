@@ -118,6 +118,24 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
+	 * @param index
+	 *            the index to add attribute
+	 * @param attribute
+	 *            the attribute to add
+	 */
+	public void addAttribute(int index, Attribute attribute) {
+		this.attributes.add(index, attribute);
+		firePropertyChange(PROPERTY_ATTRIBUTE, null, attribute);
+	}
+	/**
+	 * 
+	 * @param attribute the attribute to remove
+	 */
+	public void removeAttribute(Attribute attribute) {
+		this.attributes.remove(attribute);
+		firePropertyChange(PROPERTY_ATTRIBUTE, attribute, null);
+	}
+	/**
 	 * @return the entityType
 	 */
 	public EntityType getEntityType() {

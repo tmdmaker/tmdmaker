@@ -7,7 +7,7 @@ import java.util.Map;
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.EntityEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.EntityContainderEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
@@ -79,7 +79,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 		List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		entityFigure.removeAllAttributes();
+//		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(entity.getEntityType().getLabel());
@@ -90,9 +90,9 @@ public class EntityEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-		for (Attribute a : atts) {
-			entityFigure.addAttribute(a.getName());
-		}
+//		for (Attribute a : atts) {
+//			entityFigure.addAttribute(a.getName());
+//		}
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 				new EntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new AbstractEntityGraphicalNodeEditPolicy());
-		installEditPolicy(EditPolicy.CONTAINER_ROLE, new EntityContainderEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
 	/**
@@ -171,9 +171,19 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	public IFigure getContentPane() {
-		// TODO Auto-generated method stub
-		// TODO アトリビュート追加エリアを返す
-		return super.getContentPane();
+		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	protected List getModelChildren() {
+		return 
+		((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**

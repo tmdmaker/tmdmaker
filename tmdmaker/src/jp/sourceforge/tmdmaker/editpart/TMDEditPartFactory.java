@@ -1,5 +1,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
+import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -12,7 +14,6 @@ import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.Superset;
@@ -76,6 +77,8 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new DetailEditPart();
 		} else if (model instanceof VirtualEntity) {
 			part = new VirtualEntityEditPart();
+		} else if (model instanceof Attribute) {
+			part = new AttributeEditPart();
 		}
 		if (part != null) {
 			part.setModel(model);

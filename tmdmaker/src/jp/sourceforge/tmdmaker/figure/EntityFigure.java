@@ -5,6 +5,7 @@ import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LineBorder;
@@ -56,6 +57,9 @@ public class EntityFigure extends Figure {
 		add(this.compartmentFigure);
 		this.identifierCompartmentFigure.setBorder(new IdentifierCompartmentFigureBorder());
 		this.attributeCompartmentFigure.setBorder(new AttributeCompartmentFigureBorder());
+		// TODO
+		this.attributeCompartmentFigure.setLayoutManager(new GridLayout());
+		
 		this.compartmentFigure.add(identifierCompartmentFigure);
 		this.compartmentFigure.add(attributeCompartmentFigure);
 //		Label tmp = new Label("日本語");
@@ -66,6 +70,12 @@ public class EntityFigure extends Figure {
 //		attributeCompartmentFigure.add(tmp);
 	}
 	
+	/**
+	 * @return the attributeCompartmentFigure
+	 */
+	public CompartmentFigure getAttributeCompartmentFigure() {
+		return attributeCompartmentFigure;
+	}
 	public void setEntityName(String entityName) {
 		this.name.setText(entityName);
 	}
@@ -84,6 +94,7 @@ public class EntityFigure extends Figure {
 	private Label createAttributeLabel(String name) {
 		Label tmp = new Label(name);
 		tmp.setBorder(new MarginBorder(2, 2, 2, 2));
+		
 		return tmp;
 	}
 	public void setIdentifier(String identifier) {
@@ -181,6 +192,17 @@ public class EntityFigure extends Figure {
 			setLayoutManager(layout);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.draw2d.Figure#add(org.eclipse.draw2d.IFigure, java.lang.Object, int)
+		 */
+		@Override
+		public void add(IFigure figure, Object constraint, int index) {
+			System.out.println("added " + figure);
+			super.add(figure, constraint, index);
+		}
+		
 	}
 	private static class IdentifierCompartmentFigureBorder extends AbstractBorder {
 		public Insets getInsets(IFigure figure) {
