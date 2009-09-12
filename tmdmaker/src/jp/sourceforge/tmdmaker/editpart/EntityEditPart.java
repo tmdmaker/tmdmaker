@@ -77,7 +77,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 		// List<Identifier> ids = entity.getReuseKeys().;
 
-		List<Attribute> atts = entity.getAttributes();
+//		List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
 //		entityFigure.removeAllAttributes();
 

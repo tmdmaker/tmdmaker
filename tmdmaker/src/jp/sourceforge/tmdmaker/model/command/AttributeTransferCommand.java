@@ -23,13 +23,13 @@ public class AttributeTransferCommand extends Command {
 	 */
 	public AttributeTransferCommand(Attribute attributeToMove,
 			AbstractEntityModel entityFrom, int indexFrom,
-			AbstractEntityModel entityTo, 
-			int indexTo) {
+			AbstractEntityModel entityTo, int indexTo) {
 		this.entityFrom = entityFrom;
 		this.attributeToMove = attributeToMove;
 		this.indexFrom = indexFrom;
 		this.entityTo = entityTo;
 		this.indexTo = indexTo;
+
 	}
 
 	/**

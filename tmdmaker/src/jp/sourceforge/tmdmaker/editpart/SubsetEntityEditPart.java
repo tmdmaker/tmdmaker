@@ -6,13 +6,13 @@ import java.util.Map;
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
@@ -47,45 +47,6 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#propertyChange(java.beans.PropertyChangeEvent)
-	 */
-	// @Override
-	// public void propertyChange(PropertyChangeEvent evt) {
-	// if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_REUSED))
-	// {
-	// logger.debug(getClass() + "#propertyChange().PROPERTY_REUSEKEY");
-	// refreshVisuals();
-	// SubsetEntity model = (SubsetEntity) getModel();
-	// if (model.getEntityType().equals(EntityType.RESOURCE)) {
-	// for (AbstractConnectionModel<?> con : model.getModelTargetConnections())
-	// {
-	// logger.debug("RESOURCE.source = " + con.getSource().getName());
-	// //
-	// con.getSource().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
-	// null, null);
-	// if (con instanceof IdentifierChangeListener && !(con instanceof
-	// RelatedRelationship)) {
-	// ((IdentifierChangeListener) con).awareReUseKeysChanged();
-	// }
-	// }
-	// }
-	// for (AbstractConnectionModel<?> con : model.getModelSourceConnections())
-	// {
-	// logger.debug("target = " + con.getTarget().getName());
-	// //
-	// con.getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
-	// null, null);
-	// if (con instanceof IdentifierChangeListener) {
-	// ((IdentifierChangeListener) con).awareReUseKeysChanged();
-	// }
-	// }
-	// } else {
-	// super.propertyChange(evt);
-	// }
-	// }
-	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
@@ -101,9 +62,9 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 
 		// List<Identifier> ids = entity.getReuseKeys().;
 
-		List<Attribute> atts = entity.getAttributes();
+		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		entityFigure.removeAllAttributes();
+		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
 		// entityFigure.setEntityType(entity.getEntityType().toString());
@@ -114,9 +75,9 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-		for (Attribute a : atts) {
-			entityFigure.addAttribute(a.getName());
-		}
+		// for (Attribute a : atts) {
+		// entityFigure.addAttribute(a.getName());
+		// }
 	}
 
 	/**
@@ -131,24 +92,30 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 				new SubsetEntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new AbstractEntityGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
 	/**
-	 * サブセットタイプと接続しているリレーションシップモデルを取得する
+	 * {@inheritDoc}
 	 * 
-	 * @param connections
-	 *            サブセットが保持している全リレーションシップ
-	 * @return RelatedRelationship
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
 	 */
-	// protected static RelatedRelationship findRelatedRelationship(
-	// List<AbstractConnectionModel> connections) {
-	// for (AbstractConnectionModel<?> c : connections) {
-	// if (c instanceof RelatedRelationship) {
-	// return (RelatedRelationship) c;
-	// }
-	// }
-	// return null;
-	// }
+	@Override
+	public IFigure getContentPane() {
+		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	protected List getModelChildren() {
+		return ((AbstractEntityModel) getModel()).getAttributes();
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * 

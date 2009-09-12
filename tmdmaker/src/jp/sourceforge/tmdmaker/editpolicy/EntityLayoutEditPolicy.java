@@ -27,24 +27,33 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	@Override
 	protected Command createAddCommand(EditPart child, EditPart after) {
 		System.out.println(getClass() + "#createAddCommand()");
-		if (!(child instanceof AttributeEditPart))
+		if (!(child instanceof AttributeEditPart)) {
+			System.out.println("child is not AttributeEditPart." + child);
 			return null;
-		if (!(after instanceof AttributeEditPart))
-			return null;
-
+		}
 		Attribute toMove = (Attribute) child.getModel();
 
 		AbstractEntityEditPart originalEntityEditPart = (AbstractEntityEditPart) child
 				.getParent();
 		AbstractEntityModel originalEntity = (AbstractEntityModel) originalEntityEditPart
 				.getModel();
-		AbstractEntityEditPart newEntityEditPart = (AbstractEntityEditPart) after
-				.getParent();
+		int oldIndex = originalEntityEditPart.getChildren().indexOf(child);
+
+		AbstractEntityEditPart newEntityEditPart = null;
+		int newIndex = 0;
+		// アトリビュートが0件か最終行を指定した場合はnull
+		if (after == null) {
+			newEntityEditPart = (AbstractEntityEditPart) getHost();
+			newIndex = newEntityEditPart.getChildren().size();
+		} else if (after instanceof AttributeEditPart) {
+			newEntityEditPart = (AbstractEntityEditPart) getHost();
+			newIndex = newEntityEditPart.getChildren().indexOf(after);
+		} else {
+			System.out.println("after is null or not AttributeEditPart." + after);
+			return null;
+		}
 		AbstractEntityModel newEntity = (AbstractEntityModel) newEntityEditPart
 				.getModel();
-
-		int oldIndex = originalEntityEditPart.getChildren().indexOf(child);
-		int newIndex = newEntityEditPart.getChildren().indexOf(after);
 
 		AttributeTransferCommand command = new AttributeTransferCommand(toMove,
 				originalEntity, oldIndex, newEntity, newIndex);
@@ -62,17 +71,18 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
 		System.out.println(getClass() + "#createMoveChildCommand()");
+		AbstractEntityEditPart parent = (AbstractEntityEditPart) getHost();
+		AbstractEntityModel model = (AbstractEntityModel) parent.getModel();
+		Attribute attribute = (Attribute) child.getModel();
+		int oldIndex = parent.getChildren().indexOf(child);
+		int newIndex = 0;
 		if (after != null) {
-			AbstractEntityEditPart parent = (AbstractEntityEditPart) getHost();
-			AbstractEntityModel model = (AbstractEntityModel) parent.getModel();
-			Attribute attribute = (Attribute) child.getModel();
-			int oldIndex = parent.getChildren().indexOf(child);
-			int newIndex = parent.getChildren().indexOf(after);
-
-			return new AttributeMoveCommand(attribute, model, oldIndex,
-					newIndex);
+			newIndex = parent.getChildren().indexOf(after);
+		} else {
+			newIndex = parent.getChildren().size();
 		}
-		return null;
+		return new AttributeMoveCommand(attribute, model, oldIndex,
+				newIndex);
 	}
 
 	/**

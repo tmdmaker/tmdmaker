@@ -6,9 +6,9 @@ import java.util.Map;
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
@@ -77,9 +77,9 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		MultivalueOrEntity entity = (MultivalueOrEntity) getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
-		List<Attribute> atts = entity.getAttributes();
+//		List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		entityFigure.removeAllAttributes();
+//		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.MO.getLabel());
@@ -89,9 +89,9 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-		for (Attribute a : atts) {
-			entityFigure.addAttribute(a.getName());
-		}
+//		for (Attribute a : atts) {
+//			entityFigure.addAttribute(a.getName());
+//		}
 
 	}
 
@@ -120,6 +120,28 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 				new MultivalueOrEntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new AbstractEntityGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
+	}
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
+	 */
+	@Override
+	public IFigure getContentPane() {
+		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	protected List getModelChildren() {
+		return 
+		((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**

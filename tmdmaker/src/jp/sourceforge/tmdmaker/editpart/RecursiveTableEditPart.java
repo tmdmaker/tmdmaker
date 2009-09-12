@@ -6,9 +6,9 @@ import java.util.Map;
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
@@ -55,9 +55,9 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 		RecursiveTable table = (RecursiveTable) getModel();
 		entityFigure.setNotImplement(table.isNotImplement());
 		// List<Identifier> ids = table.getReuseKeys();
-		List<Attribute> atts = table.getAttributes();
+//		List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
-		entityFigure.removeAllAttributes();
+//		entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres()
@@ -66,9 +66,9 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-		for (Attribute a : atts) {
-			entityFigure.addAttribute(a.getName());
-		}
+//		for (Attribute a : atts) {
+//			entityFigure.addAttribute(a.getName());
+//		}
 	}
 
 	/**
@@ -83,6 +83,28 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 				new RecursiveTableComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new AbstractEntityGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
+	}
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
+	 */
+	@Override
+	public IFigure getContentPane() {
+		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	protected List getModelChildren() {
+		return 
+		((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**

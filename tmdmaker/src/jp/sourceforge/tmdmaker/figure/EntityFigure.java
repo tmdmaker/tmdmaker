@@ -2,7 +2,6 @@ package jp.sourceforge.tmdmaker.figure;
 
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.BorderLayout;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridLayout;
@@ -84,22 +83,22 @@ public class EntityFigure extends Figure {
 		this.type.setText(entityType);
 //		setColor(entityType);
 	}
-	private void setColor(String entityType) {
-		if (entityType.equals("RESOURCE")) {
-			setBackgroundColor(ColorConstants.lightBlue);
-		} else if (entityType.equals("EVENT")) {
-			setBackgroundColor(ColorConstants.red);
-		}
-	}
+//	private void setColor(String entityType) {
+//		if (entityType.equals("RESOURCE")) {
+//			setBackgroundColor(ColorConstants.lightBlue);
+//		} else if (entityType.equals("EVENT")) {
+//			setBackgroundColor(ColorConstants.red);
+//		}
+//	}
 	private Label createAttributeLabel(String name) {
 		Label tmp = new Label(name);
-		tmp.setBorder(new MarginBorder(2, 2, 2, 2));
+		tmp.setBorder(new MarginBorder( 2, 2, 2, 2));
 		
 		return tmp;
 	}
 	public void setIdentifier(String identifier) {
 
-		this.identifierCompartmentFigure.add(createAttributeLabel(identifier), 0);
+		this.identifierCompartmentFigure.add(createAttributeLabel(identifier));
 	}
 	public void addRelationship(String relationship) {
 		this.identifierCompartmentFigure.add(createAttributeLabel(relationship + "(R)"));
@@ -168,7 +167,7 @@ public class EntityFigure extends Figure {
 			ToolbarLayout layout = new ToolbarLayout(true);
 			layout.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
 			layout.setStretchMinorAxis(true);
-			layout.setSpacing(2);
+			layout.setSpacing(0);
 			setLayoutManager(layout);
 			setBorder(new EntityLayoutCompartmentFigureBorder());
 		}
@@ -188,7 +187,7 @@ public class EntityFigure extends Figure {
 			ToolbarLayout layout = new ToolbarLayout();
 			layout.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
 			layout.setStretchMinorAxis(false);
-			layout.setSpacing(2);
+			layout.setSpacing(0);
 			setLayoutManager(layout);
 		}
 
