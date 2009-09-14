@@ -1,6 +1,5 @@
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.beans.PropertyChangeEvent;
 import java.util.List;
 import java.util.Map;
 
@@ -33,21 +32,6 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class EntityEditPart extends AbstractEntityEditPart {
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#propertyChange(java.beans.PropertyChangeEvent)
-	 */
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Entity.PROPERTY_IDENTIFIER)) {
-			logger.debug(getClass() + "#propertyChange().IDENTIFIER");
-			refreshVisuals();
-		} else {
-			super.propertyChange(evt);
-		}
-	}
 
 	/**
 	 * 
@@ -320,7 +304,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		private String newIdentifierName;
 		private boolean newNotImplement;
 		private Entity toBeEditEntity;
-		private Entity newValueEntity;
+		private AbstractEntityModel newValueEntity;
 		private String oldEntityName;
 		private EntityType oldEntityType;
 		private String oldIdentifierName;

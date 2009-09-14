@@ -65,7 +65,7 @@ public class ReusedIdentifier implements Serializable {
 			this.identifieres.add(i);
 		}
 	}
-	private void addIdentifier(Identifier identifier) {
+	public void addIdentifier(Identifier identifier) {
 		IdentifierRef identifierRef = new IdentifierRef(identifier);
 		this.identifieres.add(identifierRef);
 	}

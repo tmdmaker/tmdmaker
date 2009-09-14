@@ -3,12 +3,12 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.DetailEditDialog;
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
@@ -43,8 +43,8 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 		// .getShell(), table.getName(), table.getReusedIdentifieres(), table
 		// .getAttributes());
-		TableEditDialog2 dialog = new TableEditDialog2(getViewer().getControl()
-				.getShell(), "DTL表編集", table);
+		DetailEditDialog dialog = new DetailEditDialog(getViewer().getControl()
+				.getShell(), table);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 
@@ -52,8 +52,8 @@ public class DetailEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			TableEditCommand<Detail> command = new TableEditCommand<Detail>(
-					table, (Detail) dialog.getEditedValue());
+			DetailEditCommand command = new DetailEditCommand(table,
+					(Detail) dialog.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 			// TableEditCommand<Detail> command = new TableEditCommand<Detail>(
@@ -77,9 +77,9 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		Detail entity = (Detail) getModel();
 
 		entityFigure.setNotImplement(entity.isNotImplement());
-		List<Attribute> atts = entity.getAttributes();
+		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		entityFigure.removeAllAttributes();
+		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
 		// entityFigure.setEntityType(entity.getEntityType().toString());
@@ -87,6 +87,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		IdentifierRef original = entity.getOriginalReusedIdentifier()
 				.getIdentifires().get(0);
 		entityFigure.setIdentifier(original.getName());
+		entityFigure.setIdentifier(entity.getDetailIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {
 			System.out.println(rk.getKey().getName());
@@ -99,9 +100,9 @@ public class DetailEditPart extends AbstractEntityEditPart {
 				}
 			}
 		}
-		for (Attribute a : atts) {
-			entityFigure.addAttribute(a.getName());
-		}
+		// for (Attribute a : atts) {
+		// entityFigure.addAttribute(a.getName());
+		// }
 	}
 
 	/**
@@ -129,6 +130,28 @@ public class DetailEditPart extends AbstractEntityEditPart {
 				new DetailComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new AbstractEntityGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
+	 */
+	@Override
+	public IFigure getContentPane() {
+		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	protected List getModelChildren() {
+		return ((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**
@@ -150,5 +173,43 @@ public class DetailEditPart extends AbstractEntityEditPart {
 					.getModelTargetConnections().get(0));
 
 		}
+	}
+
+	private static class DetailEditCommand extends TableEditCommand<Detail> {
+		private String oldDetailIdentifierName;
+
+		/**
+		 * 
+		 * @param toBeEdit
+		 * @param newValue
+		 */
+		public DetailEditCommand(Detail toBeEdit, Detail newValue) {
+			super(toBeEdit, newValue);
+			oldDetailIdentifierName = toBeEdit.getDetailIdentifier().getName();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.command.TableEditCommand#execute()
+		 */
+		@Override
+		public void execute() {
+			super.execute();
+			model.setDetailIdeitifierName(newValue.getDetailIdentifier()
+					.getName());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.command.TableEditCommand#undo()
+		 */
+		@Override
+		public void undo() {
+			super.undo();
+			model.setDetailIdeitifierName(oldDetailIdentifierName);
+		}
+
 	}
 }

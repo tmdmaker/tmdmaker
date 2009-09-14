@@ -21,6 +21,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public static final String PROPERTY_REUSED = "p_reused";
 	public static final String PROPERTY_ATTRIBUTES = "p_attributes";
 	public static final String PROPERTY_NOT_IMPLEMENT = "p_notImplement";
+	/** 個体指示子プロパティ定数 */
+	public static final String PROPERTY_IDENTIFIER = "_property_identifier";
 	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
 	/** エンティティ種類 */

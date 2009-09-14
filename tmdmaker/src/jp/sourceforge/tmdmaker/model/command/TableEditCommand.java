@@ -20,8 +20,8 @@ public class TableEditCommand<T extends AbstractEntityModel> extends Command {
 	private List<Attribute> newAttributes;
 	private boolean newNotImplement;
 	
-	private T model;
-	private T newValue;
+	protected T model;
+	protected T newValue;
 	
 	private String oldName;
 //	private List<Identifier> oldReuseKeys = new ArrayList<Identifier>();

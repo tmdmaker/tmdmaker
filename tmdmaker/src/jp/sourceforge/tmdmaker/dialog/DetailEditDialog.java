@@ -3,8 +3,8 @@ package jp.sourceforge.tmdmaker.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.Detail;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -16,31 +16,30 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * 表編集ダイアログ
+ * DTL表編集ダイアログ
  * 
  * @author nakaG
  * 
  */
-public class TableEditDialog2 extends Dialog {
+public class DetailEditDialog extends Dialog {
 	/** 編集対象モデル */
-	private AbstractEntityModel original;
+	private Detail original;
 	/** 編集結果格納用 */
-	private AbstractEntityModel editedValue;
+	private Detail editedValue;
 	/** 編集用アトリビュートリスト */
 	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
 	/** 実装可否設定用 */
 	private Button notImplementCheck;
-	/** ダイアログタイトル */
-	private String title;
 	/** 表名設定用 */
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
+	/** Detail個体指示子設定用 */
+	private DetailIdentifierSettingPanel panel3;
 
 	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
 	private List<Attribute> addAttributes = new ArrayList<Attribute>();
 	private List<Attribute> editAttributes = new ArrayList<Attribute>();
-//	private List<Attribute> deleteAttributes = new ArrayList<Attribute>();
 
 	/**
 	 * コンストラクタ
@@ -52,10 +51,8 @@ public class TableEditDialog2 extends Dialog {
 	 * @param original
 	 *            編集対象モデル
 	 */
-	public TableEditDialog2(Shell parentShell, String title,
-			AbstractEntityModel original) {
+	public DetailEditDialog(Shell parentShell, Detail original) {
 		super(parentShell);
-		this.title = title;
 		this.original = original;
 		for (Attribute a : this.original.getAttributes()) {
 			editAttributeList.add(new EditAttribute(a));
@@ -69,7 +66,7 @@ public class TableEditDialog2 extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(title);
+		getShell().setText("DTL表編集");
 		Composite composite = new Composite(parent, SWT.NULL);
 
 		GridLayout gridLayout = new GridLayout();
@@ -80,6 +77,10 @@ public class TableEditDialog2 extends Dialog {
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		panel3 = new DetailIdentifierSettingPanel(composite, SWT.NULL);
+		panel3.setLayoutData(gridData);
+		
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalIndent = 5;
 		notImplementCheck = new Button(composite, SWT.CHECK);
@@ -106,6 +107,7 @@ public class TableEditDialog2 extends Dialog {
 
 		panel2.setAttributeTableRow(editAttributeList);
 
+		panel3.setIdentifierName(original.getDetailIdentifier().getName());
 	}
 
 	/**
@@ -125,6 +127,7 @@ public class TableEditDialog2 extends Dialog {
 			e.printStackTrace();
 		}
 		editedValue.setName(panel1.getTableName());
+		editedValue.setDetailIdeitifierName(panel3.getIdentifierName());
 		editedValue.setNotImplement(notImplementCheck.getSelection());
 		createEditAttributeResult();
 		
@@ -161,7 +164,7 @@ public class TableEditDialog2 extends Dialog {
 	/**
 	 * @return the editedValue
 	 */
-	public AbstractEntityModel getEditedValue() {
+	public Detail getEditedValue() {
 		return editedValue;
 	}
 

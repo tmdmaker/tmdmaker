@@ -3,10 +3,7 @@ package jp.sourceforge.tmdmaker.action;
 import jp.sourceforge.tmdmaker.editpart.EntityEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Cardinality;
-import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
-import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
-import jp.sourceforge.tmdmaker.model.Superset;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -99,62 +96,62 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		execute(ccommand);
 	}
 
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class SupersetCreateCommand extends Command {
-		private Diagram diagram;
-		private Superset superset;
-
-		// private MultivalueAndAggregator aggregator;
-		// private Superset2AggregateRelationship relationship;
-		// private RelatedRelationship relationship;
-		public SupersetCreateCommand(Superset superset,
-				AbstractEntityModel header) {
-			this.diagram = header.getDiagram();
-			this.superset = superset;
-			// Rectangle constraint = header.getConstraint().getTranslated(50,
-			// -50);
-			// this.superset.setConstraint(constraint);
-			// this.superset.setName(header.getName());
-			// this.superset.addReuseKey(header);
-			// this.aggregator = new MultivalueAndAggregator();
-			// this.aggregator.setConstraint(model.getConstraint().getTranslated(0,
-			// 20));
-			// this.relationship = new Superset2AggregateRelationship();
-			// this.relationship = new RelatedRelationship();
-			// this.relationship.setSource(this.header);
-			// this.relationship.setTarget(this.superset);
-			// this.relationship.setTarget(this.aggregator);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			diagram.addChild(superset);
-			// diagram.addChild(aggregator);
-			// relationship.connect();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			// relationship.disConnect();
-			// diagram.removeChild(aggregator);
-			diagram.removeChild(superset);
-		}
-
-	}
+//	/**
+//	 * 
+//	 * @author nakaG
+//	 * 
+//	 */
+//	private static class SupersetCreateCommand extends Command {
+//		private Diagram diagram;
+//		private Superset superset;
+//
+//		// private MultivalueAndAggregator aggregator;
+//		// private Superset2AggregateRelationship relationship;
+//		// private RelatedRelationship relationship;
+//		public SupersetCreateCommand(Superset superset,
+//				AbstractEntityModel header) {
+//			this.diagram = header.getDiagram();
+//			this.superset = superset;
+//			// Rectangle constraint = header.getConstraint().getTranslated(50,
+//			// -50);
+//			// this.superset.setConstraint(constraint);
+//			// this.superset.setName(header.getName());
+//			// this.superset.addReuseKey(header);
+//			// this.aggregator = new MultivalueAndAggregator();
+//			// this.aggregator.setConstraint(model.getConstraint().getTranslated(0,
+//			// 20));
+//			// this.relationship = new Superset2AggregateRelationship();
+//			// this.relationship = new RelatedRelationship();
+//			// this.relationship.setSource(this.header);
+//			// this.relationship.setTarget(this.superset);
+//			// this.relationship.setTarget(this.aggregator);
+//		}
+//
+//		/**
+//		 * {@inheritDoc}
+//		 * 
+//		 * @see org.eclipse.gef.commands.Command#execute()
+//		 */
+//		@Override
+//		public void execute() {
+//			diagram.addChild(superset);
+//			// diagram.addChild(aggregator);
+//			// relationship.connect();
+//		}
+//
+//		/**
+//		 * {@inheritDoc}
+//		 * 
+//		 * @see org.eclipse.gef.commands.Command#undo()
+//		 */
+//		@Override
+//		public void undo() {
+//			// relationship.disConnect();
+//			// diagram.removeChild(aggregator);
+//			diagram.removeChild(superset);
+//		}
+//
+//	}
 
 	private static class DetailAddCommand extends Command {
 //		private Diagram diagram;
@@ -198,36 +195,37 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 
 	}
 
-	private static class MultivalurAndAggregatorCreateCommand extends Command {
-		private Diagram diagram;
-		private MultivalueAndAggregator model;
-
-		public MultivalurAndAggregatorCreateCommand(Diagram diagram,
-				MultivalueAndAggregator model) {
-			super();
-			this.diagram = diagram;
-			this.model = model;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			diagram.addChild(model);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			diagram.removeChild(model);
-		}
-
-	}
+	// private static class MultivalurAndAggregatorCreateCommand extends Command
+	// {
+	// private Diagram diagram;
+	// private MultivalueAndAggregator model;
+	//
+	// public MultivalurAndAggregatorCreateCommand(Diagram diagram,
+	// MultivalueAndAggregator model) {
+	// super();
+	// this.diagram = diagram;
+	// this.model = model;
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#execute()
+	// */
+	// @Override
+	// public void execute() {
+	// diagram.addChild(model);
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.gef.commands.Command#undo()
+	// */
+	// @Override
+	// public void undo() {
+	// diagram.removeChild(model);
+	// }
+	//
+	// }
 }

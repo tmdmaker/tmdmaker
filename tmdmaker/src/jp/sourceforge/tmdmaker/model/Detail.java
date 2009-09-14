@@ -10,6 +10,25 @@ public class Detail extends AbstractEntityModel {
 	/** HDRモデルのRe-used */
 	private ReusedIdentifier originalReusedIdentifier;
 
+	/** DTLの個体指示子 */
+	private Identifier detailIdentifier = new Identifier();
+	/**
+	 * DTLの個体指示子名を設定する
+	 * @param name
+	 */
+	public void setDetailIdeitifierName(String name) {
+		String oldValue = detailIdentifier.getName();
+		detailIdentifier.setName(name);
+		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, name);
+	}
+	
+	/**
+	 * @return the detailIdentifier
+	 */
+	public Identifier getDetailIdentifier() {
+		return detailIdentifier;
+	}
+
 	/**
 	 * @return the originalReusedIdentifier
 	 */
@@ -47,7 +66,7 @@ public class Detail extends AbstractEntityModel {
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier();
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
-
+		returnValue.addIdentifier(detailIdentifier);
 		return returnValue;
 	}
 

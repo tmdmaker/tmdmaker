@@ -7,8 +7,6 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class Entity extends AbstractEntityModel {
-	/** 個体指示子プロパティ定数 */
-	public static final String PROPERTY_IDENTIFIER = "_property_identifier";
 	/** 物理名 */
 	private String physicalName = "";
 	/** 摘要 */

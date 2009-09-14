@@ -127,6 +127,8 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		} else if (evt.getPropertyName().equals(
 				AbstractEntityModel.PROPERTY_REUSED)) {
 			handleReUseKeyChange(evt);
+		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_IDENTIFIER)) {
+			handleIdentifierChange(evt);
 		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE_REORDER)) {
 			logger.warn("Handle Reorder Occured.");
 			refreshChildren();
@@ -155,6 +157,13 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	protected void handleAttributeChange(PropertyChangeEvent evt) {
 		refreshVisuals();
 		refreshChildren();
+	}
+	/**
+	 * 個体指示子変更イベント処理
+	 * @param evt 発生したイベント情報
+	 */
+	protected void handleIdentifierChange(PropertyChangeEvent evt) {
+		refreshVisuals();
 	}
 	
 	/**
