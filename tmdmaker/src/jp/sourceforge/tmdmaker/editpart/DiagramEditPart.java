@@ -3,8 +3,8 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
@@ -22,12 +22,18 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
+ * Diagramのコントローラ
  * 
  * @author nakaG
- *
+ * 
  */
 public class DiagramEditPart extends AbstractTMDEditPart {
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
 	@Override
 	protected IFigure createFigure() {
 		Figure figure = new FreeformLayer();
@@ -35,19 +41,34 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 		return figure;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramEditPolicy());
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Diagram.PROPERTY_CHILDREN)) {
 			refreshChildren();
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
 	@Override
@@ -55,45 +76,68 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 		return ((Diagram) getModel()).getChildren();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#onDoubleClicked()
+	 */
+	@Override
+	protected void onDoubleClicked() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * 
+	 * @author nakaG
+	 * 
+	 */
 	private class DiagramEditPolicy extends XYLayoutEditPolicy {
 
-		/* (non-Javadoc)
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChildEditPolicy(org.eclipse.gef.EditPart)
 		 */
 		@Override
 		protected EditPolicy createChildEditPolicy(EditPart child) {
-			System.out.println(getClass().toString() + "#createChildEditPolicy()");
+			logger.debug(getClass() + "#createChildEditPolicy()");
 			return new NonResizableEditPolicy();
 		}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart,
+		 *      java.lang.Object)
 		 */
 		@Override
 		protected Command createChangeConstraintCommand(EditPart child,
 				Object constraint) {
-			System.out.println(getClass().toString() + "#createChangeConstraintCommand()");
-			ModelConstraintChangeCommand command = new ModelConstraintChangeCommand();
-			command.setModel((ModelElement)child.getModel());
-			command.setConstraint((Rectangle) constraint);
+			logger.debug(getClass() + "#createChangeConstraintCommand()");
+			ModelConstraintChangeCommand command = new ModelConstraintChangeCommand(
+					(ModelElement) child.getModel(), (Rectangle) constraint);
 			return command;
 		}
 
-		/* (non-Javadoc)
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
 		 */
 		@Override
 		protected Command getCreateCommand(CreateRequest request) {
-			System.out.println(getClass().toString() + "#getCreateCommand()");
-			EntityCreateCommand command = new EntityCreateCommand();
+			logger.debug(getClass() + "#getCreateCommand()");
 			Rectangle constraint = (Rectangle) getConstraintFor(request);
 			constraint.width = -1;
 			constraint.height = -1;
-			AbstractEntityModel entity = (AbstractEntityModel)request.getNewObject();
+			Entity entity = (Entity) request
+					.getNewObject();
 			entity.setConstraint(constraint);
-			command.setDiagram((Diagram) getModel());
-			command.setModel(entity);
-			return command;
+			return new EntityCreateCommand((Diagram) getModel(), entity);
 		}
 	}
 }

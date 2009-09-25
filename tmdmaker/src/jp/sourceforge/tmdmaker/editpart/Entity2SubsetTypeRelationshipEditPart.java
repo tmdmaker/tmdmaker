@@ -65,7 +65,6 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 	 */
 	@Override
 	protected void refreshVisuals() {
-		System.out.println(getClass() + "refreshVisuals()");
 		Entity2SubsetRelationshipFigure figure = (Entity2SubsetRelationshipFigure)getFigure();
 		updateFigure(figure);
 		super.refreshVisuals();

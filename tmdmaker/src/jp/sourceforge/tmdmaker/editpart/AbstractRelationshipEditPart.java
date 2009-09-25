@@ -22,9 +22,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * リレーションシップのコントローラの基底クラス
  * 
  * @author nakaG
- *
+ * 
  */
 public abstract class AbstractRelationshipEditPart extends
 		AbstractConnectionEditPart implements NodeEditPart,
@@ -32,13 +33,21 @@ public abstract class AbstractRelationshipEditPart extends
 	/** logging */
 	protected static Logger logger = LoggerFactory
 			.getLogger(AbstractEntityEditPart.class);
-
+	/** リレーションシップのアンカー */
 	private ConnectionAnchor anchor;
 
+	/**
+	 * コンストラクタ
+	 */
 	public AbstractRelationshipEditPart() {
 		super();
 	}
 
+	/**
+	 * コネクションアンカーを取得する
+	 * 
+	 * @return anchor
+	 */
 	private ConnectionAnchor getConnectionAnchor() {
 		if (anchor == null) {
 
@@ -49,123 +58,137 @@ public abstract class AbstractRelationshipEditPart extends
 		return anchor;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+	 */
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+	 */
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
 				AbstractEntityModel.PROPERTY_CONSTRAINT)) {
-			System.out.println("Connection AbstractEntityModel.P_CONSTRAINT");
-			// getFigure().repaint();
+			logger.debug("Connection AbstractEntityModel.P_CONSTRAINT");
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(
 				ConnectableElement.P_SOURCE_CONNECTION)) {
-			System.out
-					.println("Connection AbstractEntityModel.P_SOURCE_CONNECTION");
+			logger.debug("Connection AbstractEntityModel.P_SOURCE_CONNECTION");
 			refreshSourceConnections();
 		} else if (evt.getPropertyName().equals(
 				ConnectableElement.P_TARGET_CONNECTION)) {
-			System.out
-					.println("Connection AbstractEntityModel.P_TARGET_CONNECTION");
+			logger.debug("Connection AbstractEntityModel.P_TARGET_CONNECTION");
 			refreshTargetConnections();
 		}
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
+	 */
 	@Override
 	public void activate() {
 		super.activate();
 		((ModelElement) getModel()).addPropertyChangeListener(this);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
+	 */
 	@Override
 	public void deactivate() {
 		super.deactivate();
 		((ModelElement) getModel()).removePropertyChangeListener(this);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+	 */
 	@Override
 	protected List<AbstractConnectionModel> getModelSourceConnections() {
 		return ((ConnectableElement) getModel()).getModelSourceConnections();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+	 */
 	@Override
 	protected List<AbstractConnectionModel> getModelTargetConnections() {
 		return ((ConnectableElement) getModel()).getModelTargetConnections();
 	}
 
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		System.out.println("refresh()");
-		super.refresh();
-	}
-
-	@Override
-	protected void refreshSourceAnchor() {
-		// TODO Auto-generated method stub
-		System.out.println("refreshSourceAnchor()");
-		super.refreshSourceAnchor();
-	}
-
-	@Override
-	protected void refreshTargetAnchor() {
-		// TODO Auto-generated method stub
-		System.out.println("refreshTargetAnchor()");
-		super.refreshTargetAnchor();
-	}
-
-	@Override
-	protected void refreshSourceConnections() {
-		// TODO Auto-generated method stub
-		System.out.println("refreshSourceConnections()");
-		super.refreshSourceConnections();
-	}
-
-	@Override
-	protected void refreshTargetConnections() {
-		// TODO Auto-generated method stub
-		System.out.println("refreshTargetConnections()");
-		super.refreshTargetConnections();
-	}
-
-	@Override
-	protected void refreshChildren() {
-		// TODO Auto-generated method stub
-		System.out.println("refreshChildren()");
-		super.refreshChildren();
-	}
-
-	@Override
-	protected void refreshVisuals() {
-		// TODO Auto-generated method stub
-		System.out.println("refreshVisuals()");
-		super.refreshVisuals();
-	}
-
-	static class PolylineConnectionAnchor extends AbstractConnectionAnchor {
-
+	/**
+	 * 
+	 * @author nakaG
+	 * 
+	 */
+	protected static class PolylineConnectionAnchor extends
+			AbstractConnectionAnchor {
+		/** コネクション */
 		private PolylineConnection owner;
 
+		/**
+		 * コンストラクタ
+		 * 
+		 * @param owner
+		 *            コネクション
+		 */
 		public PolylineConnectionAnchor(PolylineConnection owner) {
 			this.owner = owner;
 		}
@@ -179,20 +202,24 @@ public abstract class AbstractRelationshipEditPart extends
 			return midpoint;
 		}
 
-		/*
-		 * (non-Javadoc)
+		/**
 		 * 
-		 * @see org.eclipse.draw2d.ConnectionAnchor#getOwner()
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.draw2d.AbstractConnectionAnchor#getOwner()
 		 */
+		@Override
 		public IFigure getOwner() {
 			return owner;
 		}
 
-		/*
-		 * (non-Javadoc)
+		/**
 		 * 
-		 * @see org.eclipse.draw2d.ConnectionAnchor#getReferencePoint()
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.draw2d.AbstractConnectionAnchor#getReferencePoint()
 		 */
+		@Override
 		public Point getReferencePoint() {
 			if (owner == null) {
 				return null;

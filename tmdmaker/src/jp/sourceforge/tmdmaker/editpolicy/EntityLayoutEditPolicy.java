@@ -10,6 +10,8 @@ import jp.sourceforge.tmdmaker.model.command.AttributeTransferCommand;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -17,6 +19,10 @@ import org.eclipse.gef.requests.CreateRequest;
  * 
  */
 public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
+	/** logging */
+	private static Logger logger = LoggerFactory
+			.getLogger(EntityLayoutEditPolicy.class);
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -26,9 +32,9 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	 */
 	@Override
 	protected Command createAddCommand(EditPart child, EditPart after) {
-		System.out.println(getClass() + "#createAddCommand()");
+		logger.debug(getClass() + "#createAddCommand()");
 		if (!(child instanceof AttributeEditPart)) {
-			System.out.println("child is not AttributeEditPart." + child);
+			logger.debug("child is not AttributeEditPart." + child);
 			return null;
 		}
 		Attribute toMove = (Attribute) child.getModel();
@@ -49,7 +55,7 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 			newEntityEditPart = (AbstractEntityEditPart) getHost();
 			newIndex = newEntityEditPart.getChildren().indexOf(after);
 		} else {
-			System.out.println("after is null or not AttributeEditPart." + after);
+			logger.debug("after is null or not AttributeEditPart." + after);
 			return null;
 		}
 		AbstractEntityModel newEntity = (AbstractEntityModel) newEntityEditPart
@@ -70,7 +76,7 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	 */
 	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		System.out.println(getClass() + "#createMoveChildCommand()");
+		logger.debug(getClass() + "#createMoveChildCommand()");
 		AbstractEntityEditPart parent = (AbstractEntityEditPart) getHost();
 		AbstractEntityModel model = (AbstractEntityModel) parent.getModel();
 		Attribute attribute = (Attribute) child.getModel();
@@ -81,8 +87,7 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 		} else {
 			newIndex = parent.getChildren().size();
 		}
-		return new AttributeMoveCommand(attribute, model, oldIndex,
-				newIndex);
+		return new AttributeMoveCommand(attribute, model, oldIndex, newIndex);
 	}
 
 	/**

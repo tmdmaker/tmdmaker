@@ -57,10 +57,8 @@ public class RecursiveRelationship extends AbstractRelationship {
 	@Override
 	public void connect() {
 		diagram.addChild(table);
-//		table.setDiagram(diagram);
 		AbstractEntityModel sourceEntity = getSource();
 		if (!sourceEntity.getModelSourceConnections().contains(this)) {
-			System.out.println("source=" + sourceEntity.getClass().toString());
 			sourceEntity.addSourceConnection(this);
 		}
 		table.addTargetConnection(this);

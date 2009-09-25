@@ -8,61 +8,85 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.gef.commands.Command;
 
+/**
+ * エンティティ作成コマンド
+ * 
+ * @author nakaG
+ * 
+ */
 public class EntityCreateCommand extends Command {
+	/** 親 */
 	private Diagram diagram;
+	/** 作成対象 */
 	private Entity model;
+	/** エンティティ名 */
 	private String entityName;
+	/** 個体指示子名称 */
 	private String identifierName;
+	/** エンティティ種類 */
 	private EntityType entityType;
+	/** 取引日 */
 	private String transactionDate;
 
-		/*
-	 * (non-Javadoc)
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param diagram
+	 *            親
+	 * @param entityName
+	 *            エンティティ名
+	 * @param identifierName
+	 *            個体指示子名称
+	 * @param entityType
+	 *            エンティティ種類
+	 */
+	public EntityCreateCommand(Diagram diagram, Entity model) {
+		this.diagram = diagram;
+		this.model = model;
+//		this.entityName = entityName;
+//		this.identifierName = identifierName;
+//		this.entityType = entityType;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
 	public void execute() {
-		System.out.println(getClass().toString() + "#execute()");
 		if (transactionDate != null) {
 			model.addAttribute(new Attribute(transactionDate));
 		}
 		if (entityName != null && entityName.length() > 0) {
-			System.out.println(getClass().toString() + "#execute():entityName not null");
 			model.setName(entityName);
 			model.setPhysicalName(model.getName());
 			model.setEntityType(entityType);
 			Identifier identifier = new Identifier(identifierName);
 			model.setIdentifier(identifier);
-//			model.setDiagram(diagram);
+			// model.setDiagram(diagram);
 			diagram.addChild(model);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
 	public void undo() {
 		diagram.removeChild(model);
-//		model.setDiagram(null);
-	}
-
-	public void setDiagram(Object diagram) {
-		this.diagram = (Diagram) diagram;
-	}
-
-	public void setModel(Object model) {
-		this.model = (Entity) model;
 	}
 
 	/**
-	 * @return the entityName
+	 * @param transactionDate
+	 *            the transactionDate to set
 	 */
-	public String getEntityName() {
-		return entityName;
+	public void setTransactionDate(String transactionDate) {
+		this.transactionDate = transactionDate;
 	}
 
 	/**
@@ -87,10 +111,10 @@ public class EntityCreateCommand extends Command {
 	}
 
 	/**
-	 * @param transactionDate the transactionDate to set
+	 * @return the entityName
 	 */
-	public void setTransactionDate(String transactionDate) {
-		this.transactionDate = transactionDate;
+	public String getEntityName() {
+		return entityName;
 	}
-	
+
 }

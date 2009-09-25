@@ -10,7 +10,7 @@ public class Attribute extends ModelElement {
 	private String physicalName = "";
 	private String description = "";
 	private String type = "";
-	private String size;
+	private int size;
 	private int scale;
 
 	public Attribute() {
@@ -45,13 +45,13 @@ public class Attribute extends ModelElement {
 	/**
 	 * @return the size
 	 */
-	public String getSize() {
+	public int getSize() {
 		return size;
 	}
 	/**
 	 * @param size the size to set
 	 */
-	public void setSize(String size) {
+	public void setSize(int size) {
 		this.size = size;
 	}
 	/**

@@ -21,6 +21,7 @@ import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
+import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -64,15 +65,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * TMDエディター
  * 
  * @author nakaG
  * 
  */
 public class TMDEditor extends GraphicalEditorWithPalette {
-	// TODO ソースの精査
+	// TODO ソースの精査（常に！）
+	// TODO アトリビュートリストを作成する
+	// TODO アトリビュートにデリベーションの(D)を表示する？
+	// TODO R:E関係間のN:Nリレーションシップの(R)に対してMOを作成する
+	// TODO みなしスーパーセットを作成する
 	// TODO 物理実装用のダイアログ（タブ）を作成する
-	// TODO HDR-DTLをエンティティ（R:E）のみに適用？
-	// TODO 実装有無は対照表とサブセットとVEだけ？
+	// TODO HDR-DTLをエンティティ（R or E）のみに適用？
+	// TODO 実装階層をコネクションに表示する（サブセットとVEだけ？）
+	// TODO キーの定義書を作成する
+	// TODO リレーションシップの検証表を表示する
+	// TODO アルゴリズムの指示書を作成する？
+
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 
@@ -134,6 +144,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		PaletteGroup toolGroup = new PaletteGroup("ツール");
 
 		ToolEntry tool = new SelectionToolEntry();
+		// テンキーでモデルを移動できるようにSelectionToolを拡張
+		tool.setToolClass(MovableSelectionTool.class);
+
 		toolGroup.add(tool);
 		root.setDefaultEntry(tool);
 
@@ -195,7 +208,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
 	 */
 	@Override
@@ -333,11 +346,8 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		getCommandStack().addCommandStackEventListener(
 				new CommandStackEventListener() {
 
-					/*
-					 * (non-Javadoc)
-					 * 
-					 * @see org.eclipse.gef.commands.CommandStackEventListener#
-					 * stackChanged(org.eclipse.gef.commands.CommandStackEvent)
+					/**
+					 * {@inheritDoc}
 					 */
 					@Override
 					public void stackChanged(CommandStackEvent event) {
@@ -358,7 +368,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 												.getShell());
 								if (dialog.open() == Dialog.OK) {
 									logger
-											.debug(getClass().toString()
+											.debug(getClass()
 													+ "#stackChanged():dialog.open() == Dialog.OK)");
 									command.setIdentifierName(dialog
 											.getInputIdentifierName());
@@ -381,6 +391,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 				});
 		getCommandStack().addCommandStackEventListener(
 				new CommandStackEventListener() {
+					/**
+					 * {@inheritDoc}
+					 */
 					@Override
 					public void stackChanged(CommandStackEvent event) {
 						Command cmd = event.getCommand();

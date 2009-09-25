@@ -39,8 +39,6 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	 */
 	public void attachSource() {
 		if (!source.getModelSourceConnections().contains(this)) {
-			System.out.println("attachSource():source="
-					+ source.getClass().toString());
 			source.addSourceConnection(this);
 		}
 	}
@@ -50,8 +48,6 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	 */
 	public void attachTarget() {
 		if (!target.getModelTargetConnections().contains(this)) {
-			System.out.println("attachTarget():target="
-					+ target.getClass().toString());
 			target.addTargetConnection(this);
 		}
 	}
@@ -61,7 +57,6 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	 */
 	public void detachSource() {
 		if (source != null) {
-			System.out.println("detachSource()");
 			source.removeSourceConnection(this);
 		}
 	}
@@ -71,7 +66,6 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	 */
 	public void detachTarget() {
 		if (target != null) {
-			System.out.println("detachTarget()");
 			target.removeTargetConnection(this);
 		}
 	}

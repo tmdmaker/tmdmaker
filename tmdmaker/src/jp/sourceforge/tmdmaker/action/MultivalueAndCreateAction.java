@@ -6,7 +6,6 @@ import jp.sourceforge.tmdmaker.model.Cardinality;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -53,15 +52,12 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		System.out.println("Create Header Detail");
 		AbstractEntityModel model = getModel();
-		CompoundCommand ccommand = new CompoundCommand();
 
 		// Detail作成
 		
 		// Detailを追加してHeaderと接続
-		DetailAddCommand command1 = new DetailAddCommand(model);
-		ccommand.add(command1);
+		HeaderDetailCreateCommand command = new HeaderDetailCreateCommand(model);
 
 //		// Supersetを追加してHeader-Detailと接続
 //		SupersetCreateCommand command2 = new SupersetCreateCommand(superset,
@@ -93,7 +89,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 //		command4.setTarget(aggregator);
 //		ccommand.add(command4);
 
-		execute(ccommand);
+		execute(command);
 	}
 
 //	/**
@@ -152,13 +148,15 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 //		}
 //
 //	}
-
-	private static class DetailAddCommand extends Command {
+	/**
+	 * HDR-DTLを作成するコマンド
+	 */
+	private static class HeaderDetailCreateCommand extends Command {
 //		private Diagram diagram;
 //		private Detail model;
 		private Header2DetailRelationship relationship;
 
-		public DetailAddCommand(AbstractEntityModel header) {
+		public HeaderDetailCreateCommand(AbstractEntityModel header) {
 //			this.diagram = header.getDiagram();
 //			this.model = model;
 			// this.model.setConstraint(header.getConstraint().getTranslated(50,0));

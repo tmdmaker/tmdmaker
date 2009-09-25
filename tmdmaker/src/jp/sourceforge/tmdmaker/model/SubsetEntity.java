@@ -34,9 +34,6 @@ public class SubsetEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		System.out.println(getClass() + "#getMyReuseKey()");
-		System.out.println("value = [" + originalReusedIdentifier + "]");
-
 		ReusedIdentifier returnValue = new ReusedIdentifier();
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
 

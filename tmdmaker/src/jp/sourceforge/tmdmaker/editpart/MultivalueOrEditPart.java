@@ -5,7 +5,7 @@ import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
-import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -119,7 +119,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new MultivalueOrEntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new AbstractEntityGraphicalNodeEditPolicy());
+				new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 	/**

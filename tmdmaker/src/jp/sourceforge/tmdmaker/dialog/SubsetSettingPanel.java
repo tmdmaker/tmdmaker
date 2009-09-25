@@ -94,7 +94,6 @@ public class SubsetSettingPanel extends Composite {
 		sameRadioButton
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 						sameType = true;
 						exceptNull = false;
 						nullCheckBox.setSelection(false);
@@ -106,7 +105,6 @@ public class SubsetSettingPanel extends Composite {
 		differenceRadioButton
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 						sameType = false;
 						nullCheckBox.setEnabled(true);
 					}
@@ -116,10 +114,7 @@ public class SubsetSettingPanel extends Composite {
 		nullCheckBox
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("nullCheckBox.widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-						System.out.println(exceptNull); // TODO Auto-generated Event stub widgetSelected()
 						exceptNull = !exceptNull;
-						System.out.println(exceptNull); // TODO Auto-generated Event stub widgetSelected()
 					}
 				});
 	}
@@ -152,7 +147,6 @@ public class SubsetSettingPanel extends Composite {
 		});
 		subsetTable.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 				selectedIndex = subsetTable.getSelectionIndex();
 				if (selectedIndex == -1) {
 					return;
@@ -235,7 +229,6 @@ public class SubsetSettingPanel extends Composite {
 		newButton.setText("新規");
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 				EditSubsetEntity ese = new EditSubsetEntity();
 				ese.setName("サブセット" + String.valueOf(subsetEntityList.size() + 1));
 				subsetEntityList.add(ese);
@@ -249,7 +242,6 @@ public class SubsetSettingPanel extends Composite {
 		deleteButton
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 						if (selectedIndex == -1) {
 							return;
 						}

@@ -56,7 +56,6 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 	 */
 	@Override
 	public void buildContextMenu(IMenuManager menu) {
-		System.out.println("buildContextMenu()");
 
 		// GEFActionConstants.addStandardActionGroups(menu);
 		menu.add(getActionRegistry().getAction(SubsetEditAction.ID));

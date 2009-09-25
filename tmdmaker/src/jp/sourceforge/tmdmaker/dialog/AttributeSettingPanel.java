@@ -57,16 +57,13 @@ public class AttributeSettingPanel extends Composite {
 		attributeTable
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 						selectedIndex = attributeTable.getSelectionIndex();
 						if (selectedIndex == -1) {
-							System.out.println("no selected");
 							return;
 						}
 //						attributeTable.setSelection(new int[0]);
 						Control oldEditor = tableEditor.getEditor();
 						if (oldEditor != null) {
-							System.out.println("oldEditor exists");
 							oldEditor.dispose();
 						}
 
@@ -103,7 +100,6 @@ public class AttributeSettingPanel extends Composite {
 							 */
 							@Override
 							public void modifyText(ModifyEvent e) {
-								System.out.println("modifyText()");
 								TableItem item = tableEditor.getItem();
 								String editValue = text.getText();
 								if (editValue == null) {
@@ -123,10 +119,10 @@ public class AttributeSettingPanel extends Composite {
 				});
 		TableColumn tableColumn = new TableColumn(attributeTable, SWT.NONE);
 		tableColumn.setWidth(200);
-		tableColumn.setText("アトリビュート名");
+		tableColumn.setText("性質");
 		this.setLayout(gridLayout);
 		createControlComposite();
-		this.setSize(new Point(315, 131));
+		this.setSize(new Point(301, 123));
 	}
 
 	/**
@@ -134,13 +130,21 @@ public class AttributeSettingPanel extends Composite {
 	 *
 	 */
 	private void createControlComposite() {
+		GridData gridData4 = new GridData();
+		gridData4.widthHint = 60;
+		GridData gridData3 = new GridData();
+		gridData3.widthHint = 60;
+		GridData gridData2 = new GridData();
+		gridData2.widthHint = 60;
+		GridData gridData1 = new GridData();
+		gridData1.widthHint = 60;
 		controlComposite = new Composite(this, SWT.NONE);
 		controlComposite.setLayout(new GridLayout());
 		newButton = new Button(controlComposite, SWT.NONE);
 		newButton.setText("新規");
+		newButton.setLayoutData(gridData1);
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 				EditAttribute ea = new EditAttribute();
 				ea.setName("アトリビュート" + String.valueOf(attributeList.size() + 1));
 				attributeList.add(ea);
@@ -152,9 +156,9 @@ public class AttributeSettingPanel extends Composite {
 		});
 		upButton = new Button(controlComposite, SWT.NONE);
 		upButton.setText("上へ");
+		upButton.setLayoutData(gridData2);
 		upButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 				if (selectedIndex == -1 || selectedIndex == 0) {
 					return;
 				}
@@ -167,9 +171,9 @@ public class AttributeSettingPanel extends Composite {
 		});
 		downButton = new Button(controlComposite, SWT.NONE);
 		downButton.setText("下へ");
+		downButton.setLayoutData(gridData3);
 		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 				if (selectedIndex == -1 || selectedIndex == attributeList.size() -1) {
 					return;
 				}
@@ -182,10 +186,10 @@ public class AttributeSettingPanel extends Composite {
 		});
 		deleteButton = new Button(controlComposite, SWT.NONE);
 		deleteButton.setText("削除");
+		deleteButton.setLayoutData(gridData4);
 		deleteButton
 		.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 				if (selectedIndex == -1) {
 					return;
 				}

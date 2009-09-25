@@ -118,10 +118,19 @@ public class EntityEditDialog2 extends Dialog {
 		// ２つめのタブを作成
 		TabItem item2 = new TabItem(tabFolder,SWT.NULL);
 		item2.setText("物理設計");
+//		gridData = new GridData(GridData.FILL_HORIZONTAL);
+//		panel2 = new AttributeSettingPanel(tabFolder, SWT.NULL);
+//		item2.setControl(panel2);
+//		panel2.setLayoutData(gridData);
 		// TODO 物理設計用画面作成
-		Label label2 = new Label(tabFolder,SWT.BORDER);
-		label2.setText("TBD");
-		item2.setControl(label2);
+//		Label label2 = new Label(tabFolder,SWT.BORDER);
+//		label2.setText("TBD");
+		PhysicalDesignEditPanel panel3 = new PhysicalDesignEditPanel(tabFolder, SWT.NULL);
+		item2.setControl(panel3);
+
+		// 3つめのタブを作成
+		TabItem item3 = new TabItem(tabFolder,SWT.NULL);
+		item3.setText("インデックス設計");
 
 		composite.pack();
 		initializeValue();

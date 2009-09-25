@@ -49,14 +49,12 @@ public class EntityAttributeSettingPanel extends Composite {
 		attributeTable
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 						selectedIndex = attributeTable.getSelectionIndex();
-						System.out.println("selectedIndex = " + selectedIndex);
 					}
 				});
 		TableColumn tableColumn = new TableColumn(attributeTable, SWT.NONE);
 		tableColumn.setWidth(60);
-		tableColumn.setText("属性名");
+		tableColumn.setText("性質名");
 		TableColumn tableColumn1 = new TableColumn(attributeTable, SWT.NONE);
 		tableColumn1.setWidth(60);
 		tableColumn1.setText("型");

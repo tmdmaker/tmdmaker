@@ -190,17 +190,6 @@ public class EntityFigure extends Figure {
 			layout.setSpacing(0);
 			setLayoutManager(layout);
 		}
-
-		/**
-		 * {@inheritDoc}
-		 *
-		 * @see org.eclipse.draw2d.Figure#add(org.eclipse.draw2d.IFigure, java.lang.Object, int)
-		 */
-		@Override
-		public void add(IFigure figure, Object constraint, int index) {
-			System.out.println("added " + figure);
-			super.add(figure, constraint, index);
-		}
 		
 	}
 	private static class IdentifierCompartmentFigureBorder extends AbstractBorder {

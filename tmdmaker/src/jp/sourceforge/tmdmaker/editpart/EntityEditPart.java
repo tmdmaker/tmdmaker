@@ -5,7 +5,7 @@ import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.EntityEditDialog2;
-import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -90,63 +90,10 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new EntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new AbstractEntityGraphicalNodeEditPolicy());
+				new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refresh()
-	 */
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		System.out.println(getClass().toString() + "#refresh()");
-		super.refresh();
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshSourceConnections()
-	 */
-	@Override
-	protected void refreshSourceConnections() {
-		// TODO Auto-generated method stub
-		System.out.println(getClass().toString()
-				+ "#refreshSourceConnections()");
-		super.refreshSourceConnections();
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshTargetConnections()
-	 */
-	@Override
-	protected void refreshTargetConnections() {
-		// TODO Auto-generated method stub
-		System.out.println(getClass().toString()
-				+ "#refreshTargetConnections()");
-		super.refreshTargetConnections();
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
-	 */
-	@Override
-	protected void refreshChildren() {
-		// TODO Auto-generated method stub
-		System.out.println(getClass().toString() + "#refreshChildren()");
-		super.refreshChildren();
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -185,7 +132,6 @@ public class EntityEditPart extends AbstractEntityEditPart {
 //						.canEntityTypeEditable(), entity.getAttributes());
 		EntityEditDialog2 dialog = new EntityEditDialog2(getViewer().getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
-			System.out.println("Entity Edited.");
 			CompoundCommand ccommand = new CompoundCommand();
 
 			List<EditAttribute> editAttributeList = dialog.getEditAttributeList();
@@ -213,7 +159,6 @@ public class EntityEditPart extends AbstractEntityEditPart {
 //			for (EditAttribute ea : dialog.getDeletedAttributeList()) {
 //				
 //			}
-			System.out.println("execute");
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}
 		// Entity entity = (Entity) getModel();
@@ -275,7 +220,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 		@Override
 		public void execute() {
-			System.out.println(getClass().toString() + "#execute()");
+			logger.debug(getClass().toString() + "#execute()");
 			diagram.removeChild(model);
 
 			detachConnections(sourceConnections);
@@ -346,9 +291,6 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public void execute() {
-			System.out.println(newEntityType);
-			System.out.println(newIdentifierName);
-			System.out.println(newEntityName);
 			toBeEditEntity.setEntityType(newEntityType);
 			toBeEditEntity.setIdentifierName(newIdentifierName);
 			toBeEditEntity.setAttributes(newAttributes);

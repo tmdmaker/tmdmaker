@@ -19,7 +19,6 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
 /**
  * 
@@ -213,32 +212,12 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
-	 */
-	@Override
-	public void performRequest(Request req) {
-		logger.debug(getClass().toString() + req.getType());
-		if (req.getType().equals(RequestConstants.REQ_OPEN)) {
-			onDoubleClicked();
-		} else {
-			super.performRequest(req);
-		}
-	}
-
-	/**
 	 * Figureを更新する
 	 * 
 	 * @param figure
 	 *            更新するFigure
 	 */
 	protected abstract void updateFigure(IFigure figure);
-
-	/**
-	 * ダブルクリック時の処理をサブクラスで実装する
-	 */
-	protected abstract void onDoubleClicked();
 
 	/**
 	 * アトリビュート編集コマンドを作成する

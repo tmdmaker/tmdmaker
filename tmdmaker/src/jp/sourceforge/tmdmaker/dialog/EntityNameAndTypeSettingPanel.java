@@ -93,7 +93,6 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         identifierText
         		.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
         			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
-        				System.out.println("modifyText()"); // TODO Auto-generated Event stub modifyText()
         				if (nameAutoCreateCheckBox.getSelection()) {
 	        				Text t = (Text) e.widget;
 	        				nameText.setText(createEntityName(t.getText()));
@@ -106,7 +105,6 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         nameAutoCreateCheckBox
         		.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
         			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-        				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
         				Button b = (Button) e.widget;
         				if (b.getSelection()) {
         					nameText.setEnabled(false);
@@ -134,7 +132,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	 *
 	 */
 	private void createTypeCombo() {
-		typeCombo = new Combo(this, SWT.NONE);
+		typeCombo = new Combo(this, SWT.READ_ONLY);
 		typeCombo.add("リソース");
 		typeCombo.add("イベント");
 	}

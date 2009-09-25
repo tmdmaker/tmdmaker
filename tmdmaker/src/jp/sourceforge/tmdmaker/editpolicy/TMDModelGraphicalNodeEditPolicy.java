@@ -14,42 +14,46 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
  * @author nakaG
- *
+ * 
  */
-public class AbstractEntityGraphicalNodeEditPolicy extends
+public class TMDModelGraphicalNodeEditPolicy extends
 		GraphicalNodeEditPolicy {
+	/** logging */
+	private static Logger logger = LoggerFactory
+			.getLogger(TMDModelGraphicalNodeEditPolicy.class);
 
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	@Override
 	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-		System.out.println(getClass().toString()
-				+ "#getConnectionCreateCommand()");
+		logger.debug(getClass() + "#getConnectionCreateCommand()");
 		ConnectionCreateCommand command = new ConnectionCreateCommand();
-//		command.setConnection((AbstractConnectionModel) request.getNewObject());
+		// command.setConnection((AbstractConnectionModel)
+		// request.getNewObject());
 		command.setSource(getAbstractEntityModel());
 		request.setStartCommand(command);
 		return command;
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	protected Command getConnectionCompleteCommand(
 			CreateConnectionRequest request) {
-		System.out.println(getClass().toString()
-				+ "#getConnectionCompleteCommand()");
+		logger.debug(getClass() + "#getConnectionCompleteCommand()");
 
 		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
 				.getStartCommand();
@@ -60,19 +64,20 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 		Command command = null;
 		// 再帰
 		if (source == target) {
-			System.out.println("Recursive");
+			logger.debug("Recursive");
 			command = createRecursiveTableCommand(request);
+			command.setLabel("Recursive");
 		} else if (isR2E(source, target)) {
-			System.out.println("RESOURCE:EVENT");
+			logger.debug("RESOURCE:EVENT");
 			command = createR2ERelationshipCommand(startCommand);
 			command.setLabel("RESOURCE:EVENT");
 		} else if (isR2R(source, target)) {
-			System.out.println("RESOURCE:RESOURCE");
+			logger.debug("RESOURCE:RESOURCE");
 			/* 対照表作成 */
 			command = createCombinationTableCommand(request);
 			command.setLabel("RESOURCE:RESOURCE");
 		} else if (isE2E(source, target)) {
-			System.out.println("EVENT:EVENT");
+			logger.debug("EVENT:EVENT");
 			/* 通常コネクション */
 			command = createE2ERelationshipCommand(request);
 			command.setLabel("EVENT:EVENT");
@@ -87,8 +92,7 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 	 * @param target
 	 * @return RESOURCE:Rの場合にtrueを返す。
 	 */
-	protected boolean isR2R(AbstractEntityModel source,
-			AbstractEntityModel target) {
+	private boolean isR2R(AbstractEntityModel source, AbstractEntityModel target) {
 		return source.getEntityType().equals(EntityType.RESOURCE)
 				&& target.getEntityType().equals(EntityType.RESOURCE);
 	}
@@ -100,8 +104,7 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 	 * @param target
 	 * @return RESOURCE:Eの場合にtrueを返す。
 	 */
-	protected boolean isR2E(AbstractEntityModel source,
-			AbstractEntityModel target) {
+	private boolean isR2E(AbstractEntityModel source, AbstractEntityModel target) {
 		return (source.getEntityType().equals(EntityType.EVENT) && target
 				.getEntityType().equals(EntityType.RESOURCE))
 				|| (source.getEntityType().equals(EntityType.RESOURCE) && target
@@ -115,8 +118,7 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 	 * @param target
 	 * @return EVENT:Eの場合にtrueを返す。
 	 */
-	protected boolean isE2E(AbstractEntityModel source,
-			AbstractEntityModel target) {
+	private boolean isE2E(AbstractEntityModel source, AbstractEntityModel target) {
 		return source.getEntityType().equals(EntityType.EVENT)
 				&& target.getEntityType().equals(EntityType.EVENT);
 	}
@@ -127,7 +129,7 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 	 * @param request
 	 * @return
 	 */
-	protected Command createCombinationTableCommand(
+	private Command createCombinationTableCommand(
 			CreateConnectionRequest request) {
 
 		// 元エンティティと先エンティティを接続
@@ -135,7 +137,8 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 				.getStartCommand();
 
 		startCommand.setTarget(getAbstractEntityModel());
-		((AbstractRelationship) startCommand.getConnection()).setCenterMark(true);
+		((AbstractRelationship) startCommand.getConnection())
+				.setCenterMark(true);
 
 		AbstractEntityModel source = (AbstractEntityModel) startCommand
 				.getSource();
@@ -154,9 +157,8 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 	 * @param request
 	 * @return
 	 */
-	protected Command createRecursiveTableCommand(
-			CreateConnectionRequest request) {
-		System.out.println(getClass() + "#createRecursiveTableCommand() start");
+	private Command createRecursiveTableCommand(CreateConnectionRequest request) {
+		logger.debug(getClass() + "#createRecursiveTableCommand() start");
 
 		// 元エンティティと先エンティティを接続
 		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
@@ -170,7 +172,7 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 		startCommand.setTarget(getAbstractEntityModel());
 		startCommand.setStrategy(null);
 
-		System.out.println(getClass() + "#createRecursiveTableCommand() end");
+		logger.debug(getClass() + "#createRecursiveTableCommand() end");
 		return startCommand;
 
 	}
@@ -181,8 +183,7 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 	 * @param request
 	 * @return
 	 */
-	protected Command createE2ERelationshipCommand(
-			CreateConnectionRequest request) {
+	private Command createE2ERelationshipCommand(CreateConnectionRequest request) {
 		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
 				.getStartCommand();
 		Event2EventRelationship relationship = new Event2EventRelationship(
@@ -207,15 +208,18 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 		command.setTarget(getAbstractEntityModel());
 		command.setStrategy(new ResourceAndEventEntitiesSwitchStrategy());
 		return command;
-//		Resource2EventConnectionCreateCommand newCommand = new Resource2EventConnectionCreateCommand(
-//				(AbstractEntityModel) command.getSource(),
-//				(AbstractEntityModel) getHost().getModel(),
-//				new TransfarReuseKeysToTargetRelationship());
-////				new Resource2EventRelationship());
-//		return newCommand;
+		// Resource2EventConnectionCreateCommand newCommand = new
+		// Resource2EventConnectionCreateCommand(
+		// (AbstractEntityModel) command.getSource(),
+		// (AbstractEntityModel) getHost().getModel(),
+		// new TransfarReuseKeysToTargetRelationship());
+		// // new Resource2EventRelationship());
+		// return newCommand;
 	}
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
 	 */
 	@Override
@@ -226,6 +230,7 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
 	 */
 	@Override
@@ -233,8 +238,10 @@ public class AbstractEntityGraphicalNodeEditPolicy extends
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	/**
 	 * エンティティモデルを取得する。
+	 * 
 	 * @return モデル
 	 */
 	protected AbstractEntityModel getAbstractEntityModel() {

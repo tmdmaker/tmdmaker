@@ -5,7 +5,7 @@ import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.DetailEditDialog;
 import jp.sourceforge.tmdmaker.dialog.EditAttribute;
-import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -72,7 +72,6 @@ public class DetailEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
-		System.out.println("Detail updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
 		Detail entity = (Detail) getModel();
 
@@ -90,7 +89,6 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		entityFigure.setIdentifier(entity.getDetailIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {
-			System.out.println(rk.getKey().getName());
 
 			for (IdentifierRef i : rk.getValue().getIdentifires()) {
 				if (i.isSame(original)) {
@@ -129,7 +127,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new DetailComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new AbstractEntityGraphicalNodeEditPolicy());
+				new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
