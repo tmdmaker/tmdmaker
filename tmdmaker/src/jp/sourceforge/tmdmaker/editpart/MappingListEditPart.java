@@ -3,7 +3,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
@@ -97,7 +97,7 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 		// .getShell(), table.getName(), table.getReuseKeys(), table
 		// .getAttributes());
-		TableEditDialog2 dialog = new TableEditDialog2(getViewer().getControl()
+		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 				.getShell(), "対応表編集", table);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();

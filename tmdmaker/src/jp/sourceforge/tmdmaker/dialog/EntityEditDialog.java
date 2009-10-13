@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.TabItem;
  * @author nakaG
  * 
  */
-public class EntityEditDialog2 extends Dialog {
+public class EntityEditDialog extends Dialog {
 	/** エンティティ名、個体指示子、エンティティ種類設定用 */
 	private EntityNameAndTypeSettingPanel panel1;
 	/** アトリビュート設定用 */
@@ -58,7 +58,7 @@ public class EntityEditDialog2 extends Dialog {
 	 * @param parentShell
 	 *            親
 	 */
-	// public EntityEditDialog2(Shell parentShell, String oldIdentifierName,
+	// public EntityEditDialog(Shell parentShell, String oldIdentifierName,
 	// String oldEntityName, EntityType oldEntityType, boolean
 	// canEditEntityType, final List<Attribute> attributeList) {
 	// super(parentShell);
@@ -78,7 +78,7 @@ public class EntityEditDialog2 extends Dialog {
 	 * @param original
 	 *            編集対象エンティティ
 	 */
-	public EntityEditDialog2(Shell parentShell, final Entity original) {
+	public EntityEditDialog(Shell parentShell, final Entity original) {
 		super(parentShell);
 		this.original = original;
 		for (Attribute a : this.original.getAttributes()) {

@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class TableEditDialog2 extends Dialog {
+public class TableEditDialog extends Dialog {
 	/** 編集対象モデル */
 	private AbstractEntityModel original;
 	/** 編集結果格納用 */
@@ -55,7 +55,7 @@ public class TableEditDialog2 extends Dialog {
 	 * @param original
 	 *            編集対象モデル
 	 */
-	public TableEditDialog2(Shell parentShell, String title,
+	public TableEditDialog(Shell parentShell, String title,
 			AbstractEntityModel original) {
 		super(parentShell);
 		this.title = title;

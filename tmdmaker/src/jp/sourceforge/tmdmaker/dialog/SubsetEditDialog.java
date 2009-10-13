@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  *
  */
-public class SubsetEditDialog2 extends Dialog {
+public class SubsetEditDialog extends Dialog {
 	private SubsetSettingPanel panel;
 	private SubsetType.SubsetTypeValue subsetType;
 	private boolean exceptNull;
@@ -37,7 +37,7 @@ public class SubsetEditDialog2 extends Dialog {
 	 * 
 	 * @param parentShell 親
 	 */
-	public SubsetEditDialog2(Shell parentShell, SubsetType.SubsetTypeValue subsetType, boolean exceptNull, List<Attribute> attributes, List<SubsetEntity> subsetEntities, Attribute selectedAttribute) {
+	public SubsetEditDialog(Shell parentShell, SubsetType.SubsetTypeValue subsetType, boolean exceptNull, List<Attribute> attributes, List<SubsetEntity> subsetEntities, Attribute selectedAttribute) {
 		super(parentShell);
 		this.subsetType = subsetType;
 		this.exceptNull = exceptNull;

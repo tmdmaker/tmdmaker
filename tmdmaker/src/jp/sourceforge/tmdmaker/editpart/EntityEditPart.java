@@ -3,7 +3,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.EntityEditDialog2;
+import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -126,11 +126,11 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		Entity entity = (Entity) getModel();
-//		EntityEditDialog2 dialog = new EntityEditDialog2(getViewer()
+//		EntityEditDialog dialog = new EntityEditDialog(getViewer()
 //				.getControl().getShell(), entity.getIdentifier().getName(),
 //				entity.getName(), entity.getEntityType(), entity
 //						.canEntityTypeEditable(), entity.getAttributes());
-		EntityEditDialog2 dialog = new EntityEditDialog2(getViewer().getControl().getShell(), entity);
+		EntityEditDialog dialog = new EntityEditDialog(getViewer().getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 

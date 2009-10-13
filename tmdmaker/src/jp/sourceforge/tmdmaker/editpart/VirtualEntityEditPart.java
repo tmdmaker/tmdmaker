@@ -3,7 +3,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog2;
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -39,7 +39,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		AbstractEntityModel entity = (AbstractEntityModel) getModel();
-		TableEditDialog2 dialog = new TableEditDialog2(getViewer().getControl()
+		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 				.getShell(), "みなしエンティティ編集", entity);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();

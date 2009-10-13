@@ -3,7 +3,7 @@ package jp.sourceforge.tmdmaker.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog2;
+import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
@@ -73,7 +73,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 					.getModelTargetConnections().get(0))
 					.getPartitionAttribute();
 		}
-		SubsetEditDialog2 dialog = new SubsetEditDialog2(part.getViewer().getControl().getShell(), subsetTypeValue, exceptNull, model.getAttributes(), subsetEntities, selectedAttribute);
+		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer().getControl().getShell(), subsetTypeValue, exceptNull, model.getAttributes(), subsetEntities, selectedAttribute);
 //		dialog.initializeValue(true, false, null);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
