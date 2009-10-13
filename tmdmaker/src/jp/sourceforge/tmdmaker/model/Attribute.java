@@ -3,80 +3,170 @@ package jp.sourceforge.tmdmaker.model;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class Attribute extends ModelElement {
 	private String physicalName = "";
+	/** 摘要 */
 	private String description = "";
-	private String type = "";
+	/** データ属性 */
+	private String dataType = "";
+	/** 長さ */
 	private int size;
+	/** 精度 */
 	private int scale;
+	/** 前提 */
+	private String validationRule;
+	/** 機密性 */
+	private String lock;
+	/** 計算式 */
+	private String derivationRule;
 
+	/**
+	 * デフォルトコンストラクタ
+	 */
 	public Attribute() {
 	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param name
+	 *            性質の名称
+	 */
 	public Attribute(String name) {
 		setName(name);
 	}
+
 	/**
 	 * @return the physicalName
 	 */
 	public String getPhysicalName() {
 		return physicalName;
 	}
+
 	/**
-	 * @param physicalName the physicalName to set
+	 * @param physicalName
+	 *            the physicalName to set
 	 */
 	public void setPhysicalName(String physicalName) {
 		this.physicalName = physicalName;
 	}
+
 	/**
 	 * @return the description
 	 */
 	public String getDescription() {
 		return description;
 	}
+
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	/**
 	 * @return the size
 	 */
 	public int getSize() {
 		return size;
 	}
+
 	/**
-	 * @param size the size to set
+	 * @param size
+	 *            the size to set
 	 */
 	public void setSize(int size) {
 		this.size = size;
 	}
+
 	/**
 	 * @return the scale
 	 */
 	public int getScale() {
 		return scale;
 	}
+
 	/**
-	 * @param scale the scale to set
+	 * @param scale
+	 *            the scale to set
 	 */
 	public void setScale(int scale) {
 		this.scale = scale;
 	}
+
 	/**
-	 * @return the type
+	 * @return the dataType
 	 */
-	public String getType() {
-		return type;
-	}
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
+	public String getDataType() {
+		return dataType;
 	}
 
+	/**
+	 * @param dataType
+	 *            the dataType to set
+	 */
+	public void setDataType(String type) {
+		this.dataType = type;
+	}
+
+	/**
+	 * @return the validationRule
+	 */
+	public String getValidationRule() {
+		return validationRule;
+	}
+
+	/**
+	 * @param validationRule the validationRule to set
+	 */
+	public void setValidationRule(String validationRule) {
+		this.validationRule = validationRule;
+	}
+
+	/**
+	 * @return the lock
+	 */
+	public String getLock() {
+		return lock;
+	}
+
+	/**
+	 * @param lock the lock to set
+	 */
+	public void setLock(String lock) {
+		this.lock = lock;
+	}
+
+	/**
+	 * @return the derivationRule
+	 */
+	public String getDerivationRule() {
+		return derivationRule;
+	}
+
+	/**
+	 * @param derivationRule the derivationRule to set
+	 */
+	public void setDerivationRule(String derivationRule) {
+		this.derivationRule = derivationRule;
+	}
+	/**
+	 * toへ自身のフィールド値をコピー（sharrow copy)する。
+	 * @param to
+	 */
+	public void copyTo(Attribute to) {
+		to.setDataType(dataType);
+		to.setDerivationRule(derivationRule);
+		to.setDescription(description);
+		to.setLock(lock);
+		to.setScale(scale);
+		to.setSize(size);
+		to.setValidationRule(validationRule);
+		to.setName(getName());
+	}
 }

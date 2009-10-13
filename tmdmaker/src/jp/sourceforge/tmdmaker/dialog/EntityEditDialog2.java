@@ -14,7 +14,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -31,14 +30,16 @@ public class EntityEditDialog2 extends Dialog {
 	private AttributeSettingPanel panel2;
 	/** 実装可否設定用 */
 	private Button notImplementCheck;
-//	private String oldIdentifierName;
-//	private String oldEntityName;
-//	private EntityType oldEntityType;
+	// private String oldIdentifierName;
+	// private String oldEntityName;
+	// private EntityType oldEntityType;
 
-//	private String editIdentifierName;
-//	private String editEntityName;
-//	private EntityType editEntityType;
+	// private String editIdentifierName;
+	// private String editEntityName;
+	// private EntityType editEntityType;
+	/** 編集用アトリビュート */
 	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
+	/** 編集元エンティティ */
 	private Entity original;
 	/** 編集結果格納用 */
 	private Entity editedValueEntity;
@@ -89,11 +90,11 @@ public class EntityEditDialog2 extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("エンティティ編集");
-		TabFolder tabFolder = new TabFolder(parent,SWT.NULL);
+		TabFolder tabFolder = new TabFolder(parent, SWT.NULL);
 		// １つめのタブを作成
-		TabItem item1 = new TabItem(tabFolder,SWT.NULL);
+		TabItem item1 = new TabItem(tabFolder, SWT.NULL);
 		item1.setText("論理設計");
-		
+
 		Composite composite = new Composite(tabFolder, SWT.NULL);
 		item1.setControl(composite);
 		// composite.setLayout(new FillLayout(SWT.VERTICAL));
@@ -116,31 +117,33 @@ public class EntityEditDialog2 extends Dialog {
 		panel2.setLayoutData(gridData);
 
 		// ２つめのタブを作成
-		TabItem item2 = new TabItem(tabFolder,SWT.NULL);
+		TabItem item2 = new TabItem(tabFolder, SWT.NULL);
 		item2.setText("物理設計");
-//		gridData = new GridData(GridData.FILL_HORIZONTAL);
-//		panel2 = new AttributeSettingPanel(tabFolder, SWT.NULL);
-//		item2.setControl(panel2);
-//		panel2.setLayoutData(gridData);
+		// gridData = new GridData(GridData.FILL_HORIZONTAL);
+		// panel2 = new AttributeSettingPanel(tabFolder, SWT.NULL);
+		// item2.setControl(panel2);
+		// panel2.setLayoutData(gridData);
 		// TODO 物理設計用画面作成
-//		Label label2 = new Label(tabFolder,SWT.BORDER);
-//		label2.setText("TBD");
-		PhysicalDesignEditPanel panel3 = new PhysicalDesignEditPanel(tabFolder, SWT.NULL);
+		// Label label2 = new Label(tabFolder,SWT.BORDER);
+		// label2.setText("TBD");
+		PhysicalDesignEditPanel panel3 = new PhysicalDesignEditPanel(tabFolder,
+				SWT.NULL);
 		item2.setControl(panel3);
-
+		panel3.initializeData(original.getAttributes());
 		// 3つめのタブを作成
-		TabItem item3 = new TabItem(tabFolder,SWT.NULL);
+		TabItem item3 = new TabItem(tabFolder, SWT.NULL);
 		item3.setText("インデックス設計");
 
 		composite.pack();
 		initializeValue();
-
+		panel1.setInitialFocus();
 		return composite;
 	}
 
 	private void initializeValue() {
 		// panel1.initializeValue(oldIdentifierName, oldEntityName,
 		// oldEntityType);
+		panel1.setEditIdentifier(new EditAttribute(original.getIdentifier()));
 		panel1.setIdentifierNameText(original.getIdentifier().getName());
 		panel1.setEntityNameText(original.getName());
 		panel1.selectEntityTypeCombo(original.getEntityType());
@@ -164,8 +167,10 @@ public class EntityEditDialog2 extends Dialog {
 		// this.editEntityName = panel1.getEntityName();
 		// this.editEntityType = panel1.getSelectedType();
 		this.editedValueEntity = new Entity();
-		this.editedValueEntity.setIdentifier(new Identifier(panel1
-				.getIdentifierName()));
+		Identifier newIdentifier = new Identifier(panel1.getIdentifierName());
+		EditAttribute editIdentifier = panel1.getEditIdentifier();
+		editIdentifier.copyTo(newIdentifier);
+		this.editedValueEntity.setIdentifier(newIdentifier);
 		this.editedValueEntity.setName(panel1.getEntityName());
 		this.editedValueEntity.setEntityType(panel1.getSelectedType());
 		this.editedValueEntity
@@ -174,26 +179,26 @@ public class EntityEditDialog2 extends Dialog {
 		super.okPressed();
 	}
 
-//	/**
-//	 * @return the editIdentifierName
-//	 */
-//	public String getEditIdentifierName() {
-//		return editIdentifierName;
-//	}
-//
-//	/**
-//	 * @return the editEntityName
-//	 */
-//	public String getEditEntityName() {
-//		return editEntityName;
-//	}
-//
-//	/**
-//	 * @return the editEntityType
-//	 */
-//	public EntityType getEditEntityType() {
-//		return editEntityType;
-//	}
+	// /**
+	// * @return the editIdentifierName
+	// */
+	// public String getEditIdentifierName() {
+	// return editIdentifierName;
+	// }
+	//
+	// /**
+	// * @return the editEntityName
+	// */
+	// public String getEditEntityName() {
+	// return editEntityName;
+	// }
+	//
+	// /**
+	// * @return the editEntityType
+	// */
+	// public EntityType getEditEntityType() {
+	// return editEntityType;
+	// }
 
 	/**
 	 * @return the editAttributeList

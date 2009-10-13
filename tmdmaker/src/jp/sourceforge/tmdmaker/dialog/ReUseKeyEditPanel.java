@@ -22,7 +22,7 @@ public class ReUseKeyEditPanel extends Composite {
 		reUseKeyTable.setLinesVisible(true);
 		TableColumn tableColumn = new TableColumn(reUseKeyTable, SWT.NONE);
 		tableColumn.setWidth(100);
-		tableColumn.setText("Re-Used属性名");
+		tableColumn.setText("Re-used名称");
 		TableColumn tableColumn1 = new TableColumn(reUseKeyTable, SWT.NONE);
 		tableColumn1.setWidth(150);
 		tableColumn1.setText("移送元");

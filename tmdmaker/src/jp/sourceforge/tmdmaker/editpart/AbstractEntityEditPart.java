@@ -20,10 +20,11 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CompoundCommand;
+
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		implements NodeEditPart {
@@ -41,7 +42,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#activate()
 	 */
 	@Override
@@ -54,7 +55,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#deactivate()
 	 */
 	@Override
@@ -64,6 +65,11 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		((ModelElement) getModel()).removePropertyChangeListener(this);
 	}
 
+	/**
+	 * ConnectionAnchor を取得する。
+	 * 
+	 * @return ConnectionAnchor
+	 */
 	protected ConnectionAnchor getConnectionAnchor() {
 		if (anchor == null) {
 			anchor = new ChopboxAnchor(getFigure());
@@ -71,29 +77,69 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		return anchor;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
+	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+	 */
+	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
+	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+	 */
+	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+	 */
 	@Override
 	protected List<AbstractConnectionModel> getModelSourceConnections() {
 		return ((ConnectableElement) getModel()).getModelSourceConnections();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+	 */
 	@Override
 	protected List<AbstractConnectionModel> getModelTargetConnections() {
 		return ((ConnectableElement) getModel()).getModelTargetConnections();
@@ -102,7 +148,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	@Override
@@ -126,73 +172,99 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		} else if (evt.getPropertyName().equals(
 				AbstractEntityModel.PROPERTY_REUSED)) {
 			handleReUseKeyChange(evt);
-		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_IDENTIFIER)) {
+		} else if (evt.getPropertyName().equals(
+				AbstractEntityModel.PROPERTY_IDENTIFIER)) {
 			handleIdentifierChange(evt);
-		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE_REORDER)) {
+		} else if (evt.getPropertyName().equals(
+				AbstractEntityModel.PROPERTY_ATTRIBUTE_REORDER)) {
 			logger.warn("Handle Reorder Occured.");
 			refreshChildren();
 		} else {
 			logger.warn("Not Handle Event Occured.");
 		}
 	}
+
 	/**
 	 * 名称変更イベント処理
-	 * @param evt 発生したイベント情報
+	 * 
+	 * @param evt
+	 *            発生したイベント情報
 	 */
 	protected void handleNameChange(PropertyChangeEvent evt) {
 		refreshVisuals();
 	}
+
 	/**
 	 * 制約変更イベント処理
-	 * @param evt 発生したイベント情報
+	 * 
+	 * @param evt
+	 *            発生したイベント情報
 	 */
 	protected void handleConstraintChange(PropertyChangeEvent evt) {
 		refreshVisuals();
 	}
+
 	/**
 	 * 属性変更イベント処理
-	 * @param evt 発生したイベント情報
+	 * 
+	 * @param evt
+	 *            発生したイベント情報
 	 */
 	protected void handleAttributeChange(PropertyChangeEvent evt) {
 		refreshVisuals();
 		refreshChildren();
 	}
+
 	/**
 	 * 個体指示子変更イベント処理
-	 * @param evt 発生したイベント情報
+	 * 
+	 * @param evt
+	 *            発生したイベント情報
 	 */
 	protected void handleIdentifierChange(PropertyChangeEvent evt) {
 		refreshVisuals();
 	}
-	
+
 	/**
 	 * 接続元コネクション変更イベント処理
-	 * @param evt 発生したイベント情報
+	 * 
+	 * @param evt
+	 *            発生したイベント情報
 	 */
 	protected void handleSourceConnectionChange(PropertyChangeEvent evt) {
 		refreshSourceConnections();
 	}
+
 	/**
 	 * 接続先コネクション変更イベント処理
-	 * @param evt 発生したイベント情報
+	 * 
+	 * @param evt
+	 *            発生したイベント情報
 	 */
 	protected void handleTargetConnectionChange(PropertyChangeEvent evt) {
-		refreshTargetConnections();		
+		refreshTargetConnections();
 	}
+
 	/**
 	 * 属性順序変更イベント処理
-	 * @param evt 発生したイベント情報
+	 * 
+	 * @param evt
+	 *            発生したイベント情報
 	 */
 	protected void handleAttributeReorder(PropertyChangeEvent evt) {
 		refreshVisuals();
 	}
+
 	/**
 	 * ReUseKey変更イベント処理
-	 * @param evt 発生したイベント情報
+	 * 
+	 * @param evt
+	 *            発生したイベント情報
 	 */
 	protected void handleReUseKeyChange(PropertyChangeEvent evt) {
-		refreshVisuals();		
+		refreshVisuals();
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -221,19 +293,25 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 
 	/**
 	 * アトリビュート編集コマンドを作成する
-	 * @param ccommand コマンド
-	 * @param entity モデル
-	 * @param editAttributeList 編集したアトリビュートリスト
+	 * 
+	 * @param ccommand
+	 *            コマンド
+	 * @param entity
+	 *            モデル
+	 * @param editAttributeList
+	 *            編集したアトリビュートリスト
 	 */
-	protected void addAttributeEditCommands(CompoundCommand ccommand, AbstractEntityModel entity,
-			List<EditAttribute> editAttributeList) {
-				for (EditAttribute ea : editAttributeList) {
-					Attribute original = ea.getOriginalAttribute();
-					if (ea.isEdited() && ea.isAdded() == false) {
-						Attribute editedValueAttribute = new Attribute(ea.getName());
-						AttributeEditCommand editCommand = new AttributeEditCommand(original, editedValueAttribute, entity);
-						ccommand.add(editCommand);
-					}
-				}
+	protected void addAttributeEditCommands(CompoundCommand ccommand,
+			AbstractEntityModel entity, List<EditAttribute> editAttributeList) {
+		for (EditAttribute ea : editAttributeList) {
+			Attribute original = ea.getOriginalAttribute();
+			if (ea.isEdited() && !ea.isAdded()) {
+				Attribute editedValueAttribute = new Attribute();
+				ea.copyTo(editedValueAttribute);
+				AttributeEditCommand editCommand = new AttributeEditCommand(
+						original, editedValueAttribute, entity);
+				ccommand.add(editCommand);
 			}
+		}
+	}
 }

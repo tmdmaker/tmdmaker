@@ -4,50 +4,80 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 
 import org.eclipse.gef.commands.Command;
+
 /**
+ * 性質編集コマンド
  * 
  * @author nakaG
- *
+ * 
  */
 public class AttributeEditCommand extends Command {
+	/** 編集対象モデル */
 	private Attribute attribute;
+	/** 編集後値 */
 	private Attribute editedValueAttribute;
-	private String newAttributeName;
-	private String oldAttributeName;
+	/** 編集前値 */
+	private Attribute oldValueAttribute;
+	/** 親モデル */
 	private AbstractEntityModel entity;
 
-//	public AttributeEditCommand(Attribute attribute, String newAttributeName) {
-//		this.attribute = attribute;
-//		this.oldAttributeName = attribute.getName();
-//		this.newAttributeName = newAttributeName;
-//	}
-	public AttributeEditCommand(Attribute attribute, Attribute editedValueAttribute, AbstractEntityModel entity) {
+	/**
+	 * コンストラクタ
+	 * @param attribute 編集対象モデル
+	 * @param editedValueAttribute 編集後値
+	 * @param entity 親モデル
+	 */
+	public AttributeEditCommand(Attribute attribute,
+			Attribute editedValueAttribute, AbstractEntityModel entity) {
 		this.attribute = attribute;
-		this.oldAttributeName = attribute.getName();
-		this.newAttributeName = editedValueAttribute.getName();
 		this.editedValueAttribute = editedValueAttribute;
+		this.oldValueAttribute = new Attribute();
+		oldValueAttribute.setName(attribute.getName());
+		oldValueAttribute.setDataType(attribute.getDataType());
+		oldValueAttribute.setDerivationRule(attribute.getDerivationRule());
+		oldValueAttribute.setDescription(attribute.getDescription());
+		oldValueAttribute.setLock(attribute.getLock());
+		oldValueAttribute.setScale(attribute.getScale());
+		oldValueAttribute.setSize(attribute.getSize());
+		oldValueAttribute.setValidationRule(attribute.getValidationRule());
 		this.entity = entity;
 	}
+
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
 	public void execute() {
-		this.attribute.setName(newAttributeName);
-		this.entity.setName(this.entity.getName());
+		attribute.setName(editedValueAttribute.getName());
+		attribute.setDataType(editedValueAttribute.getDataType());
+		attribute.setDerivationRule(editedValueAttribute.getDerivationRule());
+		attribute.setDescription(editedValueAttribute.getDescription());
+		attribute.setLock(editedValueAttribute.getLock());
+		attribute.setScale(editedValueAttribute.getScale());
+		attribute.setSize(editedValueAttribute.getSize());
+		attribute.setValidationRule(editedValueAttribute.getValidationRule());
+
+		entity.setName(this.entity.getName());
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
 	public void undo() {
-		this.attribute.setName(oldAttributeName);
+		attribute.setName(oldValueAttribute.getName());
+		attribute.setDataType(oldValueAttribute.getDataType());
+		attribute.setDerivationRule(oldValueAttribute.getDerivationRule());
+		attribute.setDescription(oldValueAttribute.getDescription());
+		attribute.setLock(oldValueAttribute.getLock());
+		attribute.setScale(oldValueAttribute.getScale());
+		attribute.setSize(oldValueAttribute.getSize());
+		attribute.setValidationRule(oldValueAttribute.getValidationRule());
 		this.entity.setName(this.entity.getName());
 	}
-	
+
 }

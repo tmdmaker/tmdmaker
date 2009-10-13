@@ -5,6 +5,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.Attribute;
 
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.FocusAdapter;
@@ -35,6 +36,7 @@ public class AttributeSettingPanel extends Composite {
 	private Button deleteButton = null;
 	private Button upButton = null;
 	private Button downButton = null;
+	private Button descButton = null;
 	public AttributeSettingPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
@@ -57,10 +59,12 @@ public class AttributeSettingPanel extends Composite {
 		attributeTable
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+						System.out.println("select");
 						selectedIndex = attributeTable.getSelectionIndex();
 						if (selectedIndex == -1) {
 							return;
 						}
+						System.out.println(selectedIndex);
 //						attributeTable.setSelection(new int[0]);
 						Control oldEditor = tableEditor.getEditor();
 						if (oldEditor != null) {
@@ -122,7 +126,7 @@ public class AttributeSettingPanel extends Composite {
 		tableColumn.setText("性質");
 		this.setLayout(gridLayout);
 		createControlComposite();
-		this.setSize(new Point(301, 123));
+		this.setSize(new Point(301, 150));
 	}
 
 	/**
@@ -130,6 +134,9 @@ public class AttributeSettingPanel extends Composite {
 	 *
 	 */
 	private void createControlComposite() {
+		GridData gridData5 = new GridData();
+		gridData5.horizontalAlignment = GridData.FILL;
+		gridData5.verticalAlignment = GridData.CENTER;
 		GridData gridData4 = new GridData();
 		gridData4.widthHint = 60;
 		GridData gridData3 = new GridData();
@@ -172,6 +179,30 @@ public class AttributeSettingPanel extends Composite {
 		downButton = new Button(controlComposite, SWT.NONE);
 		downButton.setText("下へ");
 		downButton.setLayoutData(gridData3);
+		descButton = new Button(controlComposite, SWT.NONE);
+		descButton.setText("詳細");
+		descButton.setLayoutData(gridData5);
+		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				if (selectedIndex == -1) {
+					System.out.println("not shousai selected");
+					return;
+				}
+				EditAttribute edit = attributeList.get(selectedIndex);
+
+				// TODO アトリビュートリスト作成
+				AttributeDialog dialog = new AttributeDialog(getShell(), edit);
+				System.out.println("open");
+				if (dialog.open() == Dialog.OK) {
+//					EditAttribute edited = dialog.getEditedValue();
+//					attributeList.remove(selectedIndex);
+//					attributeList.add(selectedIndex, edited);
+					updateAttributeTable();
+					updateSelection();
+				}
+
+			}
+		});
 		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1 || selectedIndex == attributeList.size() -1) {

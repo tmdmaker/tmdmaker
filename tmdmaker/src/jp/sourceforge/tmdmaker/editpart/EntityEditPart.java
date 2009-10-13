@@ -246,16 +246,18 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	private static class EditCommand extends Command {
 		private String newEntityName;
 		private EntityType newEntityType;
-		private String newIdentifierName;
+//		private String newIdentifierName;
 		private boolean newNotImplement;
 		private Entity toBeEditEntity;
 		private AbstractEntityModel newValueEntity;
 		private String oldEntityName;
 		private EntityType oldEntityType;
-		private String oldIdentifierName;
+//		private String oldIdentifierName;
 		private boolean oldNotImplement;
 		private List<Attribute> newAttributes;
 		private List<Attribute> oldAttributes;
+		private Identifier oldIdentifier;
+		private Identifier newIdentifier;
 
 //		public EditCommand(String newEntityName,
 //				EntityType newEntityType, String newIdentifierName,
@@ -275,14 +277,16 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			this.newValueEntity = newValueEntity;
 			this.newEntityName = newValueEntity.getName();
 			this.newEntityType = newValueEntity.getEntityType();
-			this.newIdentifierName = newValueEntity.getIdentifier().getName();
+//			this.newIdentifierName = newValueEntity.getIdentifier().getName();
 			this.newAttributes = newValueEntity.getAttributes();
 			this.newNotImplement = newValueEntity.isNotImplement();
+			this.newIdentifier = newValueEntity.getIdentifier();
 			this.oldEntityName = toBeEditEntity.getName();
 			this.oldEntityType = toBeEditEntity.getEntityType();
-			this.oldIdentifierName = toBeEditEntity.getIdentifier().getName();
+//			this.oldIdentifierName = toBeEditEntity.getIdentifier().getName();
 			this.oldAttributes = toBeEditEntity.getAttributes();
 			this.oldNotImplement = toBeEditEntity.isNotImplement();
+			this.oldIdentifier = toBeEditEntity.getIdentifier();
 		}
 		/**
 		 * {@inheritDoc}
@@ -292,7 +296,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		@Override
 		public void execute() {
 			toBeEditEntity.setEntityType(newEntityType);
-			toBeEditEntity.setIdentifierName(newIdentifierName);
+//			toBeEditEntity.setIdentifierName(newIdentifierName);
+			toBeEditEntity.setIdentifier(newIdentifier);
 			toBeEditEntity.setAttributes(newAttributes);
 			toBeEditEntity.setNotImplement(newNotImplement);
 			toBeEditEntity.setName(newEntityName);
@@ -312,7 +317,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		public void undo() {
 			toBeEditEntity.setAttributes(oldAttributes);
 			toBeEditEntity.setEntityType(oldEntityType);
-			toBeEditEntity.setIdentifierName(oldIdentifierName);
+//			toBeEditEntity.setIdentifierName(oldIdentifierName);
+			toBeEditEntity.setIdentifier(oldIdentifier);
 			toBeEditEntity.setNotImplement(oldNotImplement);
 			toBeEditEntity.setName(oldEntityName);
 		}

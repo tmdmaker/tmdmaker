@@ -216,7 +216,7 @@ public class EntityEditDialog extends Dialog {
 			TableItem item = new TableItem(tblAttributes, SWT.NULL);
 			item.setText(0, a.getName());
 			item.setText(1, a.getPhysicalName());
-			item.setText(2, a.getType());
+			item.setText(2, a.getDataType());
 		}
 		tblAttributes.addSelectionListener(new SelectionAdapter() {
 
@@ -383,7 +383,7 @@ public class EntityEditDialog extends Dialog {
 	private void updateAttributeColumn(TableItem item, Attribute attribute) {
 		item.setText(0, attribute.getName());
 		item.setText(1, attribute.getPhysicalName());
-		item.setText(2, attribute.getType());
+		item.setText(2, attribute.getDataType());
 	}
 
 }

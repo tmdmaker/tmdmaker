@@ -10,6 +10,7 @@ import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
+import jp.sourceforge.tmdmaker.dialog.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.EntityNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
@@ -76,13 +77,14 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO アトリビュートにデリベーションの(D)を表示する？
 	// TODO R:E関係間のN:Nリレーションシップの(R)に対してMOを作成する
 	// TODO みなしスーパーセットを作成する
-	// TODO 物理実装用のダイアログ（タブ）を作成する
+	// TODO 物理実装用のダイアログ（タブ？）を作成する
 	// TODO HDR-DTLをエンティティ（R or E）のみに適用？
 	// TODO 実装階層をコネクションに表示する（サブセットとVEだけ？）
 	// TODO キーの定義書を作成する
 	// TODO リレーションシップの検証表を表示する
 	// TODO アルゴリズムの指示書を作成する？
-
+	// TODO サムネイル作成
+	
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 
@@ -471,7 +473,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			Composite composite = new Composite(parent, SWT.NULL);
 
 			panel = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
-
+			panel.setEditIdentifier(new EditAttribute());
+			panel.setInitialFocus();
+			
 			return composite;
 		}
 

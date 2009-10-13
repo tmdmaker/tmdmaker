@@ -11,10 +11,9 @@ import org.eclipse.swt.layout.GridData;
 
 public class AttributePanel extends Composite {
 
-	private Label descLabel = null;
-	private Text descText = null;
-	private Label accessLabel = null;
-	private Text accessText = null;
+	private Label nameLabel = null;
+	private Text nameText = null;
+	private Label descriptionLabel = null;
 	private Text validationRuleTextArea = null;
 	private Label validationRuleLabel = null;
 	private Label lockLabel = null;
@@ -23,44 +22,45 @@ public class AttributePanel extends Composite {
 	private Combo dataCombo = null;
 	private Label derivationRuleLabel = null;
 	private Text derivationRuleTextArea = null;
+	private Text descriptionTextArea = null;
 	public AttributePanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
 	}
 
 	private void initialize() {
-		GridData gridData9 = new GridData();
-		gridData9.widthHint = -1;
-		gridData9.verticalAlignment = GridData.CENTER;
-		gridData9.horizontalAlignment = GridData.FILL;
+		GridData gridData11 = new GridData();
+		gridData11.horizontalAlignment = GridData.FILL;
+		gridData11.heightHint = 60;
+		gridData11.verticalAlignment = GridData.CENTER;
 		GridData gridData8 = new GridData();
 		gridData8.widthHint = -1;
 		gridData8.verticalAlignment = GridData.CENTER;
 		gridData8.horizontalAlignment = GridData.FILL;
 		GridData gridData7 = new GridData();
-		gridData7.heightHint = 30;
+		gridData7.heightHint = 60;
 		gridData7.verticalAlignment = GridData.FILL;
 		gridData7.horizontalAlignment = GridData.FILL;
 		GridData gridData5 = new GridData();
 		gridData5.horizontalAlignment = GridData.FILL;
-		gridData5.heightHint = 30;
+		gridData5.heightHint = 60;
 		gridData5.verticalAlignment = GridData.FILL;
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = false;
-		gridData.heightHint = 30;
+		gridData.heightHint = 60;
 		gridData.widthHint = 200;
 		gridData.verticalAlignment = GridData.FILL;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
-		descLabel = new Label(this, SWT.NONE);
-		descLabel.setText("論理名");
-		descText = new Text(this, SWT.BORDER);
-		descText.setLayoutData(gridData8);
-		accessLabel = new Label(this, SWT.NONE);
-		accessLabel.setText("物理名");
-		accessText = new Text(this, SWT.BORDER);
-		accessText.setLayoutData(gridData9);
+		nameLabel = new Label(this, SWT.NONE);
+		nameLabel.setText("論理名");
+		nameText = new Text(this, SWT.BORDER);
+		nameText.setLayoutData(gridData8);
+		descriptionLabel = new Label(this, SWT.NONE);
+		descriptionLabel.setText("摘要");
+		descriptionTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+		descriptionTextArea.setLayoutData(gridData11);
 		dataLabel = new Label(this, SWT.NONE);
 		dataLabel.setText("データ属性");
 		createDataCombo();
@@ -77,7 +77,7 @@ public class AttributePanel extends Composite {
 		derivationRuleTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		derivationRuleTextArea.setLayoutData(gridData7);
 		this.setLayout(gridLayout);
-		this.setSize(new Point(289, 199));
+		this.setSize(new Point(289, 337));
 	}
 
 	/**
@@ -92,5 +92,32 @@ public class AttributePanel extends Composite {
 		dataCombo = new Combo(this, SWT.NONE);
 		dataCombo.setLayoutData(gridData1);
 	}
-
+	public void initializeValue(EditAttribute ea) {
+		System.out.println("name = " + ea.getName());
+		nameText.setText(ea.getName());
+//		readOnlyNameText.setEnabled(false);
+		descriptionTextArea.setText(ea.getDescription());
+//		dataCombo
+		validationRuleTextArea.setText(ea.getValidationRule());
+		lockTextArea.setText(ea.getLock());
+		derivationRuleTextArea.setText(ea.getDerivationRule());
+	}
+	public String getDescription() {
+		return descriptionTextArea.getText();
+	}
+	public String getDataType() {
+		return dataCombo.getItem(dataCombo.getSelectionIndex());
+	}
+	public String getValidationRule() {
+		return validationRuleTextArea.getText();
+	}
+	public String getLock() {
+		return lockTextArea.getText();
+	}
+	public String getDerivationRule() {
+		return derivationRuleTextArea.getText();
+	}
+	public String getName() {
+		return nameText.getText();
+	}
 }  //  @jve:decl-index=0:visual-constraint="0,0"
