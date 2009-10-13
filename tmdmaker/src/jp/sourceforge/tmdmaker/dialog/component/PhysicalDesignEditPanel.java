@@ -1,4 +1,4 @@
-package jp.sourceforge.tmdmaker.dialog;
+package jp.sourceforge.tmdmaker.dialog.component;
 
 import java.util.List;
 

@@ -3,7 +3,11 @@ package jp.sourceforge.tmdmaker.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndTypeSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.component.PhysicalDesignEditPanel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
 

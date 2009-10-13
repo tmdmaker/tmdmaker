@@ -1,4 +1,4 @@
-package jp.sourceforge.tmdmaker.dialog;
+package jp.sourceforge.tmdmaker.dialog.component;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.graphics.Point;

@@ -10,8 +10,7 @@ import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.dialog.EditAttribute;
-import jp.sourceforge.tmdmaker.dialog.EntityNameAndTypeSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog;
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
@@ -52,9 +51,6 @@ import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -73,17 +69,16 @@ import org.slf4j.LoggerFactory;
  */
 public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO ソースの精査（常に！）
-	// TODO アトリビュートリストを作成する
+	// TODO みなしスーパーセットを作成する
+	// TODO サムネイル作成
 	// TODO アトリビュートにデリベーションの(D)を表示する？
 	// TODO R:E関係間のN:Nリレーションシップの(R)に対してMOを作成する
-	// TODO みなしスーパーセットを作成する
 	// TODO 物理実装用のダイアログ（タブ？）を作成する
 	// TODO HDR-DTLをエンティティ（R or E）のみに適用？
 	// TODO 実装階層をコネクションに表示する（サブセットとVEだけ？）
 	// TODO キーの定義書を作成する
 	// TODO リレーションシップの検証表を表示する
 	// TODO アルゴリズムの指示書を作成する？
-	// TODO サムネイル作成
 	
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
@@ -432,104 +427,5 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 						}
 					}
 				});
-	}
-
-	/**
-	 * エンティティ新規作成ダイアログ
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class EntityCreateDialog extends Dialog {
-		/** 個体指示子名称 */
-		private String inputIdentifierName;
-		/** エンティティ名称 */
-		private String inputEntityName;
-		/** 類別 */
-		private EntityType inputEntityType = EntityType.RESOURCE;
-		/** エンティティ名称・種類設定用パネル */
-		private EntityNameAndTypeSettingPanel panel;
-
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param parentShell
-		 *            親
-		 */
-		protected EntityCreateDialog(Shell parentShell) {
-			super(parentShell);
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
-		 */
-		@Override
-		protected Control createDialogArea(Composite parent) {
-			getShell().setText("エンティティ新規作成");
-
-			Composite composite = new Composite(parent, SWT.NULL);
-
-			panel = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
-			panel.setEditIdentifier(new EditAttribute());
-			panel.setInitialFocus();
-			
-			return composite;
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
-		 */
-		@Override
-		protected void okPressed() {
-			this.inputIdentifierName = this.panel.getIdentifierName();
-			this.inputEntityType = this.panel.getSelectedType();
-			this.inputEntityName = this.panel.getEntityName();
-			if (validate()) {
-				super.okPressed();
-			} else {
-
-				return;
-			}
-		}
-
-		/**
-		 * ダイアログ検証
-		 * 
-		 * @return 必須事項が全て入力されている場合にtrueを返す
-		 */
-		private boolean validate() {
-			return this.inputIdentifierName != null
-					&& this.inputIdentifierName.length() > 0
-					&& this.inputEntityName != null
-					&& this.inputEntityName.length() > 0;
-		}
-
-		/**
-		 * @return the inputIdentifierName
-		 */
-		public String getInputIdentifierName() {
-			return inputIdentifierName;
-		}
-
-		/**
-		 * @return the inputEntityType
-		 */
-		public EntityType getInputEntityType() {
-			return inputEntityType;
-		}
-
-		/**
-		 * @return the inputEntityName
-		 */
-		public String getInputEntityName() {
-			return inputEntityName;
-		}
-
 	}
 }

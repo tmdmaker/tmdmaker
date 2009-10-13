@@ -1,5 +1,7 @@
-package jp.sourceforge.tmdmaker.dialog;
+package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
+import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 
 import org.eclipse.jface.dialogs.Dialog;

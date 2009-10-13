@@ -1,6 +1,5 @@
-package jp.sourceforge.tmdmaker.dialog;
+package jp.sourceforge.tmdmaker.model;
 
-import jp.sourceforge.tmdmaker.model.SubsetEntity;
 
 public class EditSubsetEntity {
 	private SubsetEntity original;

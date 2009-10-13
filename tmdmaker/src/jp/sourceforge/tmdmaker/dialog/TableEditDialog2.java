@@ -3,8 +3,11 @@ package jp.sourceforge.tmdmaker.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.EditAttribute;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;

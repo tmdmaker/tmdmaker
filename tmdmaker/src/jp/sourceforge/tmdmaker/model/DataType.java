@@ -1,4 +1,4 @@
-package jp.sourceforge.tmdmaker.dialog;
+package jp.sourceforge.tmdmaker.model;
 
 public class DataType {
 	String[] dataTypes = new String[] { "TINYINT", "SMALLINT", "INTEGER",
