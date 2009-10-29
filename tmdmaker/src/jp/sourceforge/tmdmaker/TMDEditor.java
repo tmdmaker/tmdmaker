@@ -29,14 +29,19 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.draw2d.LightweightSystem;
+import org.eclipse.draw2d.Viewport;
+import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackEvent;
 import org.eclipse.gef.commands.CommandStackEventListener;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
+import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -47,10 +52,19 @@ import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
+import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -58,6 +72,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +84,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO ソースの精査（常に！）
-	// TODO サムネイル作成
+	// TODO 対照表にL-真,F-真を設定できるようにする
 	// TODO イメージファイルとしてエクスポート
 	// TODO アトリビュートにデリベーションの(D)を表示する？
 	// TODO R:E関係間のN:Nリレーションシップの(R)に対してMOを作成する
@@ -79,7 +94,79 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO キーの定義書を作成する
 	// TODO リレーションシップの検証表を表示する
 	// TODO アルゴリズムの指示書を作成する？
-	
+
+	private class TMDContentOutlinePage extends ContentOutlinePage {
+		private SashForm sash;
+		private ScrollableThumbnail thumbnail;
+		private DisposeListener disposeListener;
+
+		public TMDContentOutlinePage() {
+			super(new TreeViewer());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
+		 */
+		@Override
+		public void createControl(Composite parent) {
+			sash = new SashForm(parent, SWT.VERTICAL);
+
+			Canvas canvas = new Canvas(parent, SWT.BORDER);
+			LightweightSystem lws = new LightweightSystem(canvas);
+			thumbnail = new ScrollableThumbnail(
+					(Viewport) ((FreeformGraphicalRootEditPart) getGraphicalViewer()
+							.getRootEditPart()).getFigure());
+			thumbnail.setSource(((FreeformGraphicalRootEditPart) getGraphicalViewer()
+					.getRootEditPart())
+					.getLayer(LayerConstants.PRINTABLE_LAYERS));
+
+			lws.setContents(thumbnail);
+
+			disposeListener = new DisposeListener() {
+
+				@Override
+				public void widgetDisposed(DisposeEvent e) {
+					if (thumbnail != null) {
+						thumbnail.deactivate();
+						thumbnail = null;
+					}
+				}
+			};
+			getGraphicalViewer().getControl().addDisposeListener(
+					disposeListener);
+
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getControl()
+		 */
+		@Override
+		public Control getControl() {
+			return sash;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.ui.part.Page#dispose()
+		 */
+		@Override
+		public void dispose() {
+			// getSelectionSynchronizer().removeViewer(getViewer());
+			if (getGraphicalViewer().getControl() != null
+					&& !getGraphicalViewer().getControl().isDisposed()) {
+				getGraphicalViewer().getControl().removeDisposeListener(
+						disposeListener);
+			}
+			super.dispose();
+		}
+
+	}
+
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 
@@ -335,7 +422,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		ContextMenuProvider provider = new TMDContextMenuProvider(viewer,
 				getActionRegistry());
 		viewer.setContextMenu(provider);
-		
+
 		// ContextMenuにRun as等を表示しないようにするためIWorkbenchPartSiteに登録しない
 		// getSite().registerContextMenu("tmd.contextmenu", provider, viewer);
 
@@ -428,6 +515,19 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 						}
 					}
 				});
-		
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#getAdapter(java.lang.Class)
+	 */
+	@Override
+	public Object getAdapter(Class type) {
+		if (type == IContentOutlinePage.class) {
+			return new TMDContentOutlinePage();
+		}
+		return super.getAdapter(type);
 	}
 }
