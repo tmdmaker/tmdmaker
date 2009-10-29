@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
+import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
@@ -172,8 +172,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			ccommand.add(command1);
 			// RelatedRelationship relationship = findRelatedRelationship(model
 			// .getModelTargetConnections());
-			RelatedRelationship relationship = (RelatedRelationship) model
-					.findRelationshipFromTargetConnections(RelatedRelationship.class);
+			SubsetType2SubsetRelationship relationship = (SubsetType2SubsetRelationship) model
+					.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class).get(0);
 			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(
 					diagram, (SubsetType) relationship.getSource());
 			ccommand.add(command2);
@@ -193,7 +193,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		/** 削除対象 */
 		private SubsetEntity model;
 		/** サブセットタイプとのコネクション */
-		private RelatedRelationship subsetType2SubsetEntityRelationship;
+		private SubsetType2SubsetRelationship subsetType2SubsetEntityRelationship;
 
 		// private SubsetType subsetType;
 
@@ -209,8 +209,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			super();
 			this.diagram = diagram;
 			this.model = model;
-			this.subsetType2SubsetEntityRelationship = (RelatedRelationship) this.model
-					.findRelationshipFromTargetConnections(RelatedRelationship.class);
+			this.subsetType2SubsetEntityRelationship = (SubsetType2SubsetRelationship) this.model
+					.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class).get(0);
 			// findRelatedRelationship(this.model.getModelTargetConnections());
 			// this.subsetType = (SubsetType)
 			// subsetType2SubsetEntityRelationship

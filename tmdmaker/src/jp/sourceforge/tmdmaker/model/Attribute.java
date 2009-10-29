@@ -156,6 +156,20 @@ public class Attribute extends ModelElement {
 		this.derivationRule = derivationRule;
 	}
 	/**
+	 * fromから自身のフィールド値へコピー（sharrow copy)する。
+	 * @param from
+	 */
+	public void copyFrom(Attribute from) {
+		this.setDataType(from.getDataType());
+		this.setDerivationRule(from.getDerivationRule());
+		this.setDescription(from.getDescription());
+		this.setLock(from.getLock());
+		this.setScale(from.getScale());
+		this.setSize(from.getSize());
+		this.setValidationRule(from.getValidationRule());
+		this.setName(from.getName());
+	}
+	/**
 	 * toへ自身のフィールド値をコピー（sharrow copy)する。
 	 * @param to
 	 */

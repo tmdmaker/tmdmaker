@@ -9,6 +9,7 @@ import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
+import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -106,11 +107,11 @@ public class DetailEditDialog extends Dialog {
 	 */
 	private void initializeValue() {
 		panel1.setTableName(original.getName());
-
 		notImplementCheck.setSelection(original.isNotImplement());
 
 		panel2.setAttributeTableRow(editAttributeList);
 
+		panel3.setEditIdentifier(new EditAttribute(original.getDetailIdentifier()));
 		panel3.setIdentifierName(original.getDetailIdentifier().getName());
 	}
 
@@ -121,17 +122,13 @@ public class DetailEditDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		try {
-			editedValue = original.getClass().newInstance();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		editedValue = new Detail();
 		editedValue.setName(panel1.getTableName());
-		editedValue.setDetailIdeitifierName(panel3.getIdentifierName());
+//		editedValue.setDetailIdeitifierName(panel3.getIdentifierName());
+		Identifier newIdentifier = new Identifier(panel3.getIdentifierName());
+		EditAttribute editIdentifier = panel3.getEditIdentifier();
+		editIdentifier.copyTo(newIdentifier);
+		editedValue.setDetailIdentifier(newIdentifier);
 		editedValue.setNotImplement(notImplementCheck.getSelection());
 		createEditAttributeResult();
 		

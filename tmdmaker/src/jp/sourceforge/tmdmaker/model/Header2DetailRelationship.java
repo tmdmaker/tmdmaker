@@ -34,7 +34,7 @@ public class Header2DetailRelationship extends
 		detail.setEntityType(header.getEntityType());
 		detail.setConstraint(header.getConstraint().getTranslated(100, 0));
 		detail.setOriginalReusedIdentifier(header.createReusedIdentifier());
-		detail.setDetailIdeitifierName(header.getName() + "明細番号");
+		detail.setDetailIdentifierName(header.getName() + "明細番号");
 		setTarget(detail);
 
 		superset = new Superset();

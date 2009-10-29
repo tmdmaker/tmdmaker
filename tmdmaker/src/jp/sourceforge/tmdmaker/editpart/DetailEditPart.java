@@ -194,8 +194,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		@Override
 		public void execute() {
 			super.execute();
-			model.setDetailIdeitifierName(newValue.getDetailIdentifier()
-					.getName());
+			model.setDetailIdentifierName(newValue.getDetailIdentifier().getName());
 		}
 
 		/**
@@ -206,7 +205,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		@Override
 		public void undo() {
 			super.undo();
-			model.setDetailIdeitifierName(oldDetailIdentifierName);
+			model.setDetailIdentifierName(oldDetailIdentifierName);
 		}
 
 	}

@@ -33,6 +33,16 @@ public class ConnectionCreateCommand extends
 	private ConnectingModelSwitchStrategy strategy;
 
 	/**
+	 * デフォルトコンストラクタ
+	 */
+	public ConnectionCreateCommand() {}
+	
+	public ConnectionCreateCommand(AbstractConnectionModel connection, ConnectableElement source, ConnectableElement target) {
+		setConnection(connection);
+		setSource(source);
+		setTarget(target);
+	}
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 

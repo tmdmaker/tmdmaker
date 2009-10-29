@@ -5,6 +5,9 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
+import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
+import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -45,6 +48,24 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.action.AbstractEntitySelectionAction#calculateEnabled()
+	 */
+	@Override
+	protected boolean calculateEnabled() {
+		if (getSelectedObjects().size() == 1) {
+			Object selection = getSelectedObjects().get(0);
+			return selection instanceof AbstractEntityEditPart
+					&& !(selection instanceof SubsetTypeEditPart)
+					&& !(selection instanceof MultivalueAndAggregatorEditPart)
+					&& !(selection instanceof VirtualSupersetEditPart);
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
@@ -60,7 +81,8 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		List<SubsetEntity> subsetEntities;
 		Attribute selectedAttribute;
 		if (subsetType == null) {
-			subsetType = new SubsetType();;
+			subsetType = new SubsetType();
+			;
 			subsetTypeValue = SubsetType.SubsetTypeValue.SAME;
 			exceptNull = false;
 			subsetEntities = new ArrayList<SubsetEntity>();
@@ -73,102 +95,108 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 					.getModelTargetConnections().get(0))
 					.getPartitionAttribute();
 		}
-		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer().getControl().getShell(), subsetTypeValue, exceptNull, model.getAttributes(), subsetEntities, selectedAttribute);
-//		dialog.initializeValue(true, false, null);
+		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer()
+				.getControl().getShell(), subsetTypeValue, exceptNull, model
+				.getAttributes(), subsetEntities, selectedAttribute);
+		// dialog.initializeValue(true, false, null);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
-			SubsetType.SubsetTypeValue newSubsetType = dialog.getEditedSubsetType();
+			SubsetType.SubsetTypeValue newSubsetType = dialog
+					.getEditedSubsetType();
 			Attribute selectedPartitionAttribute = dialog
-			.getEditedPartitionAttribute();
+					.getEditedPartitionAttribute();
 			boolean newExceptNull = dialog.isEditedExceptNull();
-			ccommand.add(createSuitableSubsetTypeCommand(model, subsetType, newSubsetType, selectedPartitionAttribute, newExceptNull));
-			
-			List<EditSubsetEntity> editSubsets = dialog.getEditedSubsetEntities();
+			ccommand.add(createSuitableSubsetTypeCommand(model, subsetType,
+					newSubsetType, selectedPartitionAttribute, newExceptNull));
+
+			List<EditSubsetEntity> editSubsets = dialog
+					.getEditedSubsetEntities();
 			addSuitableSubsetEntityCommand(model, subsetType, ccommand,
 					editSubsets);
-			
+
 			List<EditSubsetEntity> deleteSubsets = dialog
-			.getDeletedSubsetEntities();
+					.getDeletedSubsetEntities();
 			addDeleteSubsetEntityCommand(model, subsetType, ccommand,
 					deleteSubsets);
 			execute(ccommand);
 		}
-//		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer()
-//				.getControl().getShell(), sameType, model.getAttributes(),
-//				subsetEntities, selectedAttribute);
-//		if (dialog.open() == Dialog.OK) {
-//			CompoundCommand ccommand = new CompoundCommand();
-//			SubsetType.SubsetTypeValue newSubsetType;
-//			if (dialog.isSubsetSameType()) {
-//				newSubsetType = SubsetType.SubsetTypeValue.SAME;
-//			} else {
-//				newSubsetType = SubsetType.SubsetTypeValue.DIFFERENT;
-//			}
-//			Attribute selectedPartitionAttribute = dialog
-//					.getSelectedPartitionAttribute();
-//
-//			if (subsetType == null) {
-//				// entityとpartitionCodeModelの接続
-//				subsetType = new SubsetType();
-//				Rectangle constraint = model.getConstraint().getTranslated(0,
-//						50);
-//				subsetType.setConstraint(constraint);
-//
-//				Entity2SubsetCreateCommand createCmd = new Entity2SubsetCreateCommand(
-//						model, subsetType, selectedPartitionAttribute);
-//				ccommand.add(createCmd);
-//			} else {
-//
-//				SubsetChangeCommand changeCmd = new SubsetChangeCommand(
-//						subsetType, newSubsetType, selectedPartitionAttribute);
-//				ccommand.add(changeCmd);
-//			}
-//			// 追加更新分
-//			List<EditSubsetEntity> editSubsets = dialog.getSubsets();
-//			for (EditSubsetEntity e : editSubsets) {
-//				if (e.isAdded()) {
-//					SubsetEntity subsetEntity = new SubsetEntity();
-//					subsetEntity.setName(e.getName());
-//					subsetEntity.setOriginalReuseKey(model.getMyReuseKey());
-//					subsetEntity.setEntityType(model.getEntityType());
-//					// subsetEntity.setOriginal(model);
-//					Command command = new SubsetCreateCommand(model,
-//							subsetType, subsetEntity);
-//					ccommand.add(command);
-//				} else if (e.isNameChanged()) {
-//					SubsetEntity subsetEntity = e.getSubsetEntity();
-//					SubsetEditCommand command = new SubsetEditCommand(
-//							subsetEntity, e.getName());
-//					ccommand.add(command);
-//				}
-//			}
-//			List<SubsetEntity> deleteSubsets = dialog
-//					.getDeletedSubsetEntities();
-//			for (SubsetEntity e : deleteSubsets) {
-//				SubsetDeleteCommand command = new SubsetDeleteCommand(e,
-//						subsetType);
-//				ccommand.add(command);
-//			}
-//			if (deleteSubsets.size() > 0) {
-//				SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(
-//						model.getDiagram(), subsetType);
-//				ccommand.add(command);
-//			}
-//			execute(ccommand);
-//		}
+		// SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer()
+		// .getControl().getShell(), sameType, model.getAttributes(),
+		// subsetEntities, selectedAttribute);
+		// if (dialog.open() == Dialog.OK) {
+		// CompoundCommand ccommand = new CompoundCommand();
+		// SubsetType.SubsetTypeValue newSubsetType;
+		// if (dialog.isSubsetSameType()) {
+		// newSubsetType = SubsetType.SubsetTypeValue.SAME;
+		// } else {
+		// newSubsetType = SubsetType.SubsetTypeValue.DIFFERENT;
+		// }
+		// Attribute selectedPartitionAttribute = dialog
+		// .getSelectedPartitionAttribute();
+		//
+		// if (subsetType == null) {
+		// // entityとpartitionCodeModelの接続
+		// subsetType = new SubsetType();
+		// Rectangle constraint = model.getConstraint().getTranslated(0,
+		// 50);
+		// subsetType.setConstraint(constraint);
+		//
+		// Entity2SubsetCreateCommand createCmd = new
+		// Entity2SubsetCreateCommand(
+		// model, subsetType, selectedPartitionAttribute);
+		// ccommand.add(createCmd);
+		// } else {
+		//
+		// SubsetChangeCommand changeCmd = new SubsetChangeCommand(
+		// subsetType, newSubsetType, selectedPartitionAttribute);
+		// ccommand.add(changeCmd);
+		// }
+		// // 追加更新分
+		// List<EditSubsetEntity> editSubsets = dialog.getSubsets();
+		// for (EditSubsetEntity e : editSubsets) {
+		// if (e.isAdded()) {
+		// SubsetEntity subsetEntity = new SubsetEntity();
+		// subsetEntity.setName(e.getName());
+		// subsetEntity.setOriginalReuseKey(model.getMyReuseKey());
+		// subsetEntity.setEntityType(model.getEntityType());
+		// // subsetEntity.setOriginal(model);
+		// Command command = new SubsetCreateCommand(model,
+		// subsetType, subsetEntity);
+		// ccommand.add(command);
+		// } else if (e.isNameChanged()) {
+		// SubsetEntity subsetEntity = e.getSubsetEntity();
+		// SubsetEditCommand command = new SubsetEditCommand(
+		// subsetEntity, e.getName());
+		// ccommand.add(command);
+		// }
+		// }
+		// List<SubsetEntity> deleteSubsets = dialog
+		// .getDeletedSubsetEntities();
+		// for (SubsetEntity e : deleteSubsets) {
+		// SubsetDeleteCommand command = new SubsetDeleteCommand(e,
+		// subsetType);
+		// ccommand.add(command);
+		// }
+		// if (deleteSubsets.size() > 0) {
+		// SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(
+		// model.getDiagram(), subsetType);
+		// ccommand.add(command);
+		// }
+		// execute(ccommand);
+		// }
 	}
 
 	private void addDeleteSubsetEntityCommand(AbstractEntityModel model,
 			SubsetType subsetType, CompoundCommand ccommand,
 			List<EditSubsetEntity> deleteSubsets) {
 		for (EditSubsetEntity e : deleteSubsets) {
-			SubsetDeleteCommand command = new SubsetDeleteCommand(e.getOriginal(),
-					subsetType);
+			SubsetDeleteCommand command = new SubsetDeleteCommand(e
+					.getOriginal(), subsetType);
 			ccommand.add(command);
 		}
 		if (deleteSubsets.size() > 0) {
-			SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(
-					model.getDiagram(), subsetType);
+			SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(model
+					.getDiagram(), subsetType);
 			ccommand.add(command);
 		}
 	}
@@ -180,16 +208,17 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			if (e.isAdded()) {
 				SubsetEntity subsetEntity = new SubsetEntity();
 				subsetEntity.setName(e.getName());
-				subsetEntity.setOriginalReusedIdentifier(model.createReusedIdentifier());
+				subsetEntity.setOriginalReusedIdentifier(model
+						.createReusedIdentifier());
 				subsetEntity.setEntityType(model.getEntityType());
 				// subsetEntity.setOriginal(model);
-				Command command = new SubsetCreateCommand(model,
-						subsetType, subsetEntity);
+				Command command = new SubsetCreateCommand(model, subsetType,
+						subsetEntity);
 				ccommand.add(command);
 			} else if (e.isNameChanged()) {
 				SubsetEntity subsetEntity = e.getOriginal();
-				SubsetEditCommand command = new SubsetEditCommand(
-						subsetEntity, e.getName());
+				SubsetEditCommand command = new SubsetEditCommand(subsetEntity,
+						e.getName());
 				ccommand.add(command);
 			}
 		}
@@ -198,10 +227,9 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 	private Command createSuitableSubsetTypeCommand(AbstractEntityModel model,
 			SubsetType subsetType, SubsetTypeValue newSubsetType,
 			Attribute selectedPartitionAttribute, boolean newExceptNull) {
-			if (subsetType.getConstraint() == null) {
+		if (subsetType.getConstraint() == null) {
 			// entityとpartitionCodeModelの接続
-			Rectangle constraint = model.getConstraint().getTranslated(0,
-					50);
+			Rectangle constraint = model.getConstraint().getTranslated(0, 50);
 			subsetType.setConstraint(constraint);
 			subsetType.setExceptNull(newExceptNull);
 			subsetType.setSubsetType(newSubsetType);
@@ -209,9 +237,9 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 					model, subsetType, selectedPartitionAttribute);
 			return createCmd;
 		} else {
-	
-			SubsetChangeCommand changeCmd = new SubsetChangeCommand(
-					subsetType, newSubsetType, selectedPartitionAttribute, newExceptNull);
+
+			SubsetChangeCommand changeCmd = new SubsetChangeCommand(subsetType,
+					newSubsetType, selectedPartitionAttribute, newExceptNull);
 			return changeCmd;
 		}
 	}
@@ -219,7 +247,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 	/**
 	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
 	private static class SubsetChangeCommand extends Command {
 		private SubsetType subset;
@@ -259,7 +287,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 				this.subset.setExceptNull(newExceptNull);
 				this.subset.setPartitionAttribute(newPartitionAttribute);
 
-//				this.relationship.setPartitionAttribute(newPartitionAttribute);
+				// this.relationship.setPartitionAttribute(newPartitionAttribute);
 			}
 		}
 
@@ -274,7 +302,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			if (this.relationship != null) {
 				this.subset.setExceptNull(oldExceptNull);
 				this.subset.setPartitionAttribute(oldPartitionAttribute);
-//				this.relationship.setPartitionAttribute(oldPartitionAttribute);
+				// this.relationship.setPartitionAttribute(oldPartitionAttribute);
 			}
 		}
 
@@ -295,8 +323,8 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			this.model2subsetRelationship.setSource(this.model);
 			this.model2subsetRelationship.setTarget(this.subset);
 			this.subset.setPartitionAttribute(partitionAttribute);
-//			this.model2subsetRelationship
-//					.setPartitionAttribute(partitionAttribute);
+			// this.model2subsetRelationship
+			// .setPartitionAttribute(partitionAttribute);
 		}
 
 		/**
@@ -379,7 +407,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			diagram.addChild(subsetEntity);
 			// subsetType.getSubsetEntityList().add(subsetEntity);
 			// model.setSubset(subset);
-//			subsetEntity.setDiagram(diagram);
+			// subsetEntity.setDiagram(diagram);
 			subset2entityRelationship.connect();
 		}
 
@@ -391,7 +419,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		@Override
 		public void undo() {
 			subset2entityRelationship.disconnect();
-//			subsetEntity.setDiagram(null);
+			// subsetEntity.setDiagram(null);
 			// model.setSubset(null);
 			// subsetType.getSubsetEntityList().remove(subsetEntity);
 			diagram.removeChild(subsetEntity);
@@ -461,7 +489,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 			this.relationship.disconnect();
 			// this.subset.getSubsetEntityList().remove(model);
 			this.diagram.removeChild(model);
-//			this.model.setDiagram(null);
+			// this.model.setDiagram(null);
 			// if (subset.getSubsetEntityList().size() == 0) {
 			// this.model2subsetRelationship = (RelatedRelationship) subset
 			// .getModelTargetConnections().get(0);
@@ -480,7 +508,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 		public void undo() {
 			// this.subset.getSubsetEntityList().add(model);
 			this.diagram.addChild(model);
-//			this.model.setDiagram(diagram);
+			// this.model.setDiagram(diagram);
 			this.relationship.connect();
 			// if (this.model2subsetRelationship != null) {
 			// this.diagram.addChild(this.subset);

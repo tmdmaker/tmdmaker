@@ -6,6 +6,6 @@ package jp.sourceforge.tmdmaker.model;
  * 
  */
 @SuppressWarnings("serial")
-public class MultivalueAndAggregator extends ConnectableElement {
+public class VirtualSupersetAggregator extends ConnectableElement {
 
 }

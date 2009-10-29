@@ -125,7 +125,6 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
         	public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
         		System.out.println("widgetSelected()");
-				// TODO アトリビュートリスト作成
 				AttributeDialog dialog = new AttributeDialog(getShell(), editIdentifier);
 				if (dialog.open() == Dialog.OK) {
 					EditAttribute edited = dialog.getEditedValue();

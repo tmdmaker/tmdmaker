@@ -13,8 +13,8 @@ import org.eclipse.swt.layout.GridData;
 
 public class AttributePanel extends Composite {
 
-	private Label nameLabel = null;
-	private Text nameText = null;
+	private Label inputNameLabel = null;
+	private Text inputNameText = null;
 	private Label descriptionLabel = null;
 	private Text validationRuleTextArea = null;
 	private Label validationRuleLabel = null;
@@ -55,10 +55,10 @@ public class AttributePanel extends Composite {
 		gridData.verticalAlignment = GridData.FILL;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
-		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("論理名");
-		nameText = new Text(this, SWT.BORDER);
-		nameText.setLayoutData(gridData8);
+		inputNameLabel = new Label(this, SWT.NONE);
+		inputNameLabel.setText("論理名");
+		inputNameText = new Text(this, SWT.BORDER);
+		inputNameText.setLayoutData(gridData8);
 		descriptionLabel = new Label(this, SWT.NONE);
 		descriptionLabel.setText("摘要");
 		descriptionTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
@@ -96,7 +96,7 @@ public class AttributePanel extends Composite {
 	}
 	public void initializeValue(EditAttribute ea) {
 		System.out.println("name = " + ea.getName());
-		nameText.setText(ea.getName());
+		inputNameText.setText(ea.getName());
 //		readOnlyNameText.setEnabled(false);
 		descriptionTextArea.setText(ea.getDescription());
 //		dataCombo
@@ -119,7 +119,7 @@ public class AttributePanel extends Composite {
 	public String getDerivationRule() {
 		return derivationRuleTextArea.getText();
 	}
-	public String getName() {
-		return nameText.getText();
+	public String getInputName() {
+		return inputNameText.getText();
 	}
 }  //  @jve:decl-index=0:visual-constraint="0,0"

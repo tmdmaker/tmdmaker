@@ -54,7 +54,7 @@ public class AttributeDialog extends Dialog {
 		original.setDerivationRule(panel.getDerivationRule());
 		original.setDescription(panel.getDescription());
 		original.setLock(panel.getLock());
-		original.setName(panel.getName());
+		original.setName(panel.getInputName());
 		original.setValidationRule(panel.getValidationRule());
 
 		super.okPressed();

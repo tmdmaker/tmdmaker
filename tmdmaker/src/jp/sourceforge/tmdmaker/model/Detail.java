@@ -16,10 +16,13 @@ public class Detail extends AbstractEntityModel {
 	 * DTLの個体指示子名を設定する
 	 * @param name
 	 */
-	public void setDetailIdeitifierName(String name) {
+	public void setDetailIdentifierName(String name) {
 		String oldValue = detailIdentifier.getName();
 		detailIdentifier.setName(name);
-		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, name);
+		if (oldValue == null || !oldValue.equals(name)) {
+			firePropertyChange(PROPERTY_IDENTIFIER, oldValue, name);
+			fireIdentifierChanged(null);
+		}		
 	}
 	
 	/**
@@ -27,6 +30,15 @@ public class Detail extends AbstractEntityModel {
 	 */
 	public Identifier getDetailIdentifier() {
 		return detailIdentifier;
+	}
+	
+	/**
+	 * @param detailIdentifier the detailIdentifier to set
+	 */
+	public void setDetailIdentifier(Identifier detailIdentifier) {
+		Identifier oldValue = this.detailIdentifier;
+		this.detailIdentifier = detailIdentifier;
+		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, detailIdentifier);
 	}
 
 	/**

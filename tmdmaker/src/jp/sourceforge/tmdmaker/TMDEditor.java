@@ -69,8 +69,8 @@ import org.slf4j.LoggerFactory;
  */
 public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO ソースの精査（常に！）
-	// TODO みなしスーパーセットを作成する
 	// TODO サムネイル作成
+	// TODO イメージファイルとしてエクスポート
 	// TODO アトリビュートにデリベーションの(D)を表示する？
 	// TODO R:E関係間のN:Nリレーションシップの(R)に対してMOを作成する
 	// TODO 物理実装用のダイアログ（タブ？）を作成する
@@ -153,14 +153,14 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		PaletteDrawer drawer = new PaletteDrawer("作成");
 
 		ImageDescriptor descriptor = TMDPlugin
-				.getImageDescriptor("icons/newModel.gif");
+				.getImageDescriptor("icons/new_entity.gif");
 
 		CreationToolEntry creationEntry = new CreationToolEntry("エンティティ",
 				"エンティティ", new SimpleFactory(Entity.class), descriptor,
 				descriptor);
 		drawer.add(creationEntry);
 
-		descriptor = TMDPlugin.getImageDescriptor("icons/newConnection.gif");
+		descriptor = TMDPlugin.getImageDescriptor("icons/new_relationship.gif");
 
 		ConnectionCreationToolEntry connxCCreationEntry = new ConnectionCreationToolEntry(
 				"リレーションシップ", "リレーションシップ", null, descriptor, descriptor);
@@ -335,6 +335,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		ContextMenuProvider provider = new TMDContextMenuProvider(viewer,
 				getActionRegistry());
 		viewer.setContextMenu(provider);
+		
 		// ContextMenuにRun as等を表示しないようにするためIWorkbenchPartSiteに登録しない
 		// getSite().registerContextMenu("tmd.contextmenu", provider, viewer);
 
@@ -427,5 +428,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 						}
 					}
 				});
+		
 	}
 }

@@ -126,10 +126,6 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		Entity entity = (Entity) getModel();
-//		EntityEditDialog dialog = new EntityEditDialog(getViewer()
-//				.getControl().getShell(), entity.getIdentifier().getName(),
-//				entity.getName(), entity.getEntityType(), entity
-//						.canEntityTypeEditable(), entity.getAttributes());
 		EntityEditDialog dialog = new EntityEditDialog(getViewer().getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
@@ -156,28 +152,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 //					entity);
 			EditCommand command = new EditCommand(entity, dialog.getEditedValueEntity());
 			ccommand.add(command);
-//			for (EditAttribute ea : dialog.getDeletedAttributeList()) {
-//				
-//			}
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}
-		// Entity entity = (Entity) getModel();
-		// EntityEditDialog dialog = new
-		// EntityEditDialog(getViewer().getControl()
-		// .getShell(), entity.getIdentifier().getName(),
-		// entity.getName(), entity.getEntityType(),
-		// entity.getReuseKeys(), entity.getAttributes(), entity
-		// .canEntityTypeEditable());
-		// if (dialog.open() == Dialog.OK) {
-		// EntityEditCommand command = new EntityEditCommand();
-		// command.setAttributes(dialog.getAttributes());
-		// command.setEntityName(dialog.getEntityName());
-		// command.setEntityType(dialog.getEntityType());
-		// command.setIdentifierName(dialog.getIdentifierName());
-		// command.setReuseKeys(dialog.getReuseKeys());
-		// command.setEntity(entity);
-		// getViewer().getEditDomain().getCommandStack().execute(command);
-		// }
 	}
 
 	public static class EntityComponentEditPolicy extends ComponentEditPolicy {
@@ -210,11 +186,6 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 		@Override
 		public boolean canExecute() {
-			// if (model.getEntityType() == EntityType.EVENT) {
-			// return model.getModelSourceConnections().size() == 0;
-			// }
-			// return model.getModelSourceConnections().size() == 0
-			// && model.getModelTargetConnections().size() == 0;
 			return model.isDeletable();
 		}
 
@@ -286,7 +257,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 //			this.oldIdentifierName = toBeEditEntity.getIdentifier().getName();
 			this.oldAttributes = toBeEditEntity.getAttributes();
 			this.oldNotImplement = toBeEditEntity.isNotImplement();
-			this.oldIdentifier = toBeEditEntity.getIdentifier();
+			this.oldIdentifier = new Identifier();
+			toBeEditEntity.getIdentifier().copyTo(oldIdentifier);
 		}
 		/**
 		 * {@inheritDoc}
@@ -297,7 +269,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		public void execute() {
 			toBeEditEntity.setEntityType(newEntityType);
 //			toBeEditEntity.setIdentifierName(newIdentifierName);
-			toBeEditEntity.setIdentifier(newIdentifier);
+			toBeEditEntity.setIdentifierName(newIdentifier.getName());// ID変更伝播
+			toBeEditEntity.getIdentifier().copyFrom(newIdentifier);
 			toBeEditEntity.setAttributes(newAttributes);
 			toBeEditEntity.setNotImplement(newNotImplement);
 			toBeEditEntity.setName(newEntityName);
@@ -318,7 +291,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			toBeEditEntity.setAttributes(oldAttributes);
 			toBeEditEntity.setEntityType(oldEntityType);
 //			toBeEditEntity.setIdentifierName(oldIdentifierName);
-			toBeEditEntity.setIdentifier(oldIdentifier);
+			toBeEditEntity.setIdentifierName(oldIdentifier.getName());
+			toBeEditEntity.getIdentifier().copyFrom(oldIdentifier);
 			toBeEditEntity.setNotImplement(oldNotImplement);
 			toBeEditEntity.setName(oldEntityName);
 		}

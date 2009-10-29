@@ -8,7 +8,7 @@
             contributorClass="jp.sourceforge.tmdmaker.TMDEditorContributor"
             default="false"
             extensions="tmd"
-            icon="icons/entity.ico"
+            icon="icons/entity.gif"
             id="tmdmaker.tmdeditor"
             name="%editor.name.0">
       </editor>
@@ -22,7 +22,7 @@
       <wizard
             category="tmdmaker.category"
             class="jp.sourceforge.tmdmaker.wizard.NewDiagramWizard"
-            icon="icons/entity.ico"
+            icon="icons/entity.gif"
             id="tmdmaker.wizard.newdiagramwizard"
             name="%wizard.name.0">
       </wizard>

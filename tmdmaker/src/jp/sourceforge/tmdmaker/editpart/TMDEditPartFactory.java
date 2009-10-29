@@ -19,6 +19,8 @@ import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.Superset;
 import jp.sourceforge.tmdmaker.model.Superset2AggregateRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.model.VirtualSuperset;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -77,6 +79,10 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new DetailEditPart();
 		} else if (model instanceof VirtualEntity) {
 			part = new VirtualEntityEditPart();
+		} else if (model instanceof VirtualSuperset) {
+			part = new VirtualSupersetEditPart();
+		} else if (model instanceof VirtualSupersetAggregator) {
+			part = new VirtualSupersetAggregatorEditPart();
 		} else if (model instanceof Attribute) {
 			part = new AttributeEditPart();
 		}

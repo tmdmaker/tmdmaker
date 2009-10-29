@@ -37,14 +37,14 @@ public class VirtualEntityCreateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("VE作成");
+		getShell().setText("みなしエンティティ作成");
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(2, false));
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gridData);
 		Label label = new Label(composite, SWT.NULL);
-		label.setText("VE名");
+		label.setText("みなしエンティティ名");
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.widthHint = 100;
 		virtualEntityName = new Text(composite, SWT.BORDER);
