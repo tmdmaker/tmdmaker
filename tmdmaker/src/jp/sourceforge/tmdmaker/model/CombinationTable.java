@@ -11,7 +11,8 @@ import java.util.Map;
 public class CombinationTable extends AbstractEntityModel {
 	/** 対照表名のサフィックス */
 	public static final String COMBINATION_TABLE_SUFFIX = ".対照表";
-
+	/** 対照表種類 */
+	private CombinationTableType combinationTableType = CombinationTableType.L_TRUTH;
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -62,8 +63,20 @@ public class CombinationTable extends AbstractEntityModel {
 	}
 
 	/**
-	 * 
+	 * @return the combinationTableType
 	 */
+	public CombinationTableType getCombinationTableType() {
+		return combinationTableType;
+	}
+
+	/**
+	 * @param combinationTableType the combinationTableType to set
+	 */
+	public void setCombinationTableType(CombinationTableType combinationTableType) {
+		this.combinationTableType = combinationTableType;
+	}
+
+	
 //	public void notifyReUseKeyChange(AbstractConnectionModel<?> callConnection) {
 //		firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
 //		for (AbstractConnectionModel<?> con : getModelTargetConnections()) {

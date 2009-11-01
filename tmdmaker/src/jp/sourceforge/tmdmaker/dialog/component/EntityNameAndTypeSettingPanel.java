@@ -119,6 +119,12 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 				}
 			}
 		});
+        identifierText.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
+        	public void focusLost(org.eclipse.swt.events.FocusEvent e) {
+        		System.out.println("focusLost()"); // TODO Auto-generated Event stub focusLost()
+        		typeCombo.setFocus();
+        	}
+        });
         descButton = new Button(this, SWT.NONE);
         descButton.setText("詳細");
         descButton.setLayoutData(gridData11);

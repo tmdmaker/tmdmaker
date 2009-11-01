@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.dialog.CombinationTableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
+import jp.sourceforge.tmdmaker.model.CombinationTableType;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -60,6 +61,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		CombinationTable table = (CombinationTable) getModel();
 
+		entityFigure.setEntityType(table.getCombinationTableType().getLabel());
 		entityFigure.setNotImplement(table.isNotImplement());
 //		List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
@@ -111,7 +113,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 		// .getShell(), table.getName(), table.getReuseKeys(), table
 		// .getAttributes());
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
+		CombinationTableEditDialog dialog = new CombinationTableEditDialog(getViewer().getControl()
 				.getShell(), "対照表編集", table);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
@@ -120,10 +122,10 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			TableEditCommand<CombinationTable> command = new TableEditCommand<CombinationTable>(
+			CombinationTableEditCommand command = new CombinationTableEditCommand (
 					table, (CombinationTable) dialog.getEditedValue());
 			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
+			getViewer().getEditDomain().getCommandStack().execute(ccommand.unwrap());
 			// TableEditCommand<CombinationTable> command = new
 			// TableEditCommand<CombinationTable>(
 			// table, dialog.getEntityName(), dialog.getReuseKeys(),
@@ -180,72 +182,63 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 			return new TableDeleteCommand(model, creationRelationship);
 		}
 	}
+	/**
+	 * 
+	 * @author nakaG
+	 *
+	 */
+	private static class CombinationTableEditCommand extends Command {
+		private String newName;
+//		private List<Identifier> reusedIdentifieres;
+		private List<Attribute> newAttributes;
+		private boolean newNotImplement;
+		private CombinationTableType newType;
+		protected CombinationTable model;
+		protected CombinationTable newValue;
+		
+		private String oldName;
+//		private List<Identifier> oldReuseKeys = new ArrayList<Identifier>();
+		private List<Attribute> oldAttributes;
+		private boolean oldNotImplement;
+		private CombinationTableType oldType;
+		
+		public CombinationTableEditCommand(CombinationTable toBeEdit, CombinationTable newValue) {
+			this.model = toBeEdit;
+			this.newValue = newValue;
+			this.oldName = toBeEdit.getName();
+			this.oldAttributes = toBeEdit.getAttributes();
+			this.oldNotImplement = toBeEdit.isNotImplement();
+			this.oldType = toBeEdit.getCombinationTableType();
+			this.newName = this.newValue.getName();
+			this.newAttributes = this.newValue.getAttributes();
+			this.newNotImplement = this.newValue.isNotImplement();
+			this.newType = this.newValue.getCombinationTableType();
+		}
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			model.setAttributes(newAttributes);
+			model.setNotImplement(newNotImplement);
+			model.setCombinationTableType(newType);
+			model.setName(newName);
+		}
 
-	// /**
-	// *
-	// * @author nakaG
-	// *
-	// */
-	// private static class CombinationTableDeleteCommand extends Command {
-	//
-	// /** 削除対象の対照表 */
-	// private CombinationTable model;
-	// /** 対照表とリレーションシップ間のコネクション */
-	// private RelatedRelationship relatedRelationship;
-	// /** 対照表を作成する契機となったリレーションシップ */
-	// private AbstractRelationship relationship;
-	//
-	// // private List<AbstractConnectionModel> sourceConnections = new
-	// // ArrayList<AbstractConnectionModel>();
-	// // private List<AbstractConnectionModel> targetConnections = new
-	// // ArrayList<AbstractConnectionModel>();
-	//
-	// /**
-	// * コンストラクタ
-	// *
-	// * @param model
-	// * 削除対象モデル
-	// */
-	// public CombinationTableDeleteCommand(CombinationTable model) {
-	// // this.diagram = diagram;
-	// this.model = model;
-	// this.relatedRelationship = model.findCreationRelationship();
-	// relationship = (AbstractRelationship) relatedRelationship
-	// .getSource();
-	// }
-	//
-	// /**
-	// *
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#canExecute()
-	// */
-	// @Override
-	// public boolean canExecute() {
-	// return model.isDeletable();
-	// }
-	//
-	// /**
-	// *
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#execute()
-	// */
-	// @Override
-	// public void execute() {
-	// relationship.disconnect();
-	// }
-	//
-	// /**
-	// *
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#undo()
-	// */
-	// @Override
-	// public void undo() {
-	// relationship.connect();
-	// }
-	//
-	// }
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			model.setAttributes(oldAttributes);
+			model.setNotImplement(oldNotImplement);
+			model.setCombinationTableType(oldType);
+			model.setName(oldName);
+		}
+	}
+
 }

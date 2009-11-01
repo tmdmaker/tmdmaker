@@ -41,7 +41,6 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackEvent;
 import org.eclipse.gef.commands.CommandStackEventListener;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
-import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -83,9 +82,14 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class TMDEditor extends GraphicalEditorWithPalette {
+	// いつもやる
 	// TODO ソースの精査（常に！）
-	// TODO 対照表にL-真,F-真を設定できるようにする
+
+	// 次回リリースに含める
+	// TODO 整列アクション追加
 	// TODO イメージファイルとしてエクスポート
+
+	// 次回以降リリース
 	// TODO アトリビュートにデリベーションの(D)を表示する？
 	// TODO R:E関係間のN:Nリレーションシップの(R)に対してMOを作成する
 	// TODO 物理実装用のダイアログ（タブ？）を作成する
@@ -118,9 +122,10 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			thumbnail = new ScrollableThumbnail(
 					(Viewport) ((FreeformGraphicalRootEditPart) getGraphicalViewer()
 							.getRootEditPart()).getFigure());
-			thumbnail.setSource(((FreeformGraphicalRootEditPart) getGraphicalViewer()
-					.getRootEditPart())
-					.getLayer(LayerConstants.PRINTABLE_LAYERS));
+			thumbnail
+					.setSource(((FreeformGraphicalRootEditPart) getGraphicalViewer()
+							.getRootEditPart())
+							.getLayer(LayerConstants.PRINTABLE_LAYERS));
 
 			lws.setContents(thumbnail);
 
