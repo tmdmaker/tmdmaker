@@ -31,6 +31,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.LightweightSystem;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.gef.ContextMenuProvider;
@@ -52,9 +53,11 @@ import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -69,6 +72,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
@@ -87,7 +91,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO ソースの精査（常に！）
 
 	// 次回リリースに含める
-	// TODO 整列アクション追加
+	// TODO ヘッダーディテールのみなしスーパーセットの名称変更機能
 
 	// 次回以降リリース
 	// TODO アトリビュートにデリベーションの(D)を表示する？
@@ -407,11 +411,41 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 				this);
 		registry.registerAction(action5);
 		selectionActions.add(action5.getId());
-		action5.setSelectionProvider(getGraphicalViewer());		
+		action5.setSelectionProvider(getGraphicalViewer());
 
-//		DiagramImageSaveAction action6 = new DiagramImageSaveAction(this);
-//		getActionRegistry().registerAction(action6);
-//		action6.setSelectionProvider(getGraphicalViewer());
+		IAction action = null;
+		// 水平方向の整列アクション
+		action = new AlignmentAction((IWorkbenchPart) this,
+				PositionConstants.LEFT);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
+		action = new AlignmentAction((IWorkbenchPart) this,
+				PositionConstants.CENTER);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
+		action = new AlignmentAction((IWorkbenchPart) this,
+				PositionConstants.RIGHT);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
+		// 垂直方向の整列アクション
+		action = new AlignmentAction((IWorkbenchPart) this,
+				PositionConstants.TOP);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
+		action = new AlignmentAction((IWorkbenchPart) this,
+				PositionConstants.MIDDLE);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
+		action = new AlignmentAction((IWorkbenchPart) this,
+				PositionConstants.BOTTOM);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
 	}
 
 	/**
@@ -437,7 +471,8 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 		// when entity create, show dialog and set properties.
 
-		DiagramImageSaveAction action6 = new DiagramImageSaveAction(getGraphicalViewer());
+		DiagramImageSaveAction action6 = new DiagramImageSaveAction(
+				getGraphicalViewer());
 		getActionRegistry().registerAction(action6);
 
 		getCommandStack().addCommandStackEventListener(
