@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.EventObject;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
@@ -87,7 +88,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 	// 次回リリースに含める
 	// TODO 整列アクション追加
-	// TODO イメージファイルとしてエクスポート
 
 	// 次回以降リリース
 	// TODO アトリビュートにデリベーションの(D)を表示する？
@@ -117,7 +117,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		public void createControl(Composite parent) {
 			sash = new SashForm(parent, SWT.VERTICAL);
 
-			Canvas canvas = new Canvas(parent, SWT.BORDER);
+			Canvas canvas = new Canvas(sash, SWT.BORDER);
 			LightweightSystem lws = new LightweightSystem(canvas);
 			thumbnail = new ScrollableThumbnail(
 					(Viewport) ((FreeformGraphicalRootEditPart) getGraphicalViewer()
@@ -407,7 +407,11 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 				this);
 		registry.registerAction(action5);
 		selectionActions.add(action5.getId());
-		action5.setSelectionProvider(getGraphicalViewer());
+		action5.setSelectionProvider(getGraphicalViewer());		
+
+//		DiagramImageSaveAction action6 = new DiagramImageSaveAction(this);
+//		getActionRegistry().registerAction(action6);
+//		action6.setSelectionProvider(getGraphicalViewer());
 	}
 
 	/**
@@ -432,6 +436,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		// getSite().registerContextMenu("tmd.contextmenu", provider, viewer);
 
 		// when entity create, show dialog and set properties.
+
+		DiagramImageSaveAction action6 = new DiagramImageSaveAction(getGraphicalViewer());
+		getActionRegistry().registerAction(action6);
 
 		getCommandStack().addCommandStackEventListener(
 				new CommandStackEventListener() {
@@ -528,6 +535,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#getAdapter(java.lang.Class)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {

@@ -1,5 +1,6 @@
 package jp.sourceforge.tmdmaker;
 
+import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetEditAction;
@@ -10,6 +11,8 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 
 /**
  * 
@@ -59,10 +62,19 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 
 		// GEFActionConstants.addStandardActionGroups(menu);
 		menu.add(getActionRegistry().getAction(SubsetEditAction.ID));
-		menu.add(getActionRegistry().getAction(MultivalueOrCreateAction.ID));
-		menu.add(getActionRegistry().getAction(MultivalueAndCreateAction.ID));
-		menu.add(getActionRegistry().getAction(VirtualEntityCreateAction.ID));
-		menu.add(getActionRegistry().getAction(VirtualSupersetCreateAction.ID));
+		
+		MenuManager multivalueMenu = new MenuManager("データ の多値");
+		multivalueMenu.add(getActionRegistry().getAction(MultivalueOrCreateAction.ID));
+		multivalueMenu.add(getActionRegistry().getAction(MultivalueAndCreateAction.ID));
+		menu.add(multivalueMenu);
+		
+		MenuManager tmdashMenu = new MenuManager("TM'");
+		tmdashMenu.add(getActionRegistry().getAction(VirtualEntityCreateAction.ID));
+		tmdashMenu.add(getActionRegistry().getAction(VirtualSupersetCreateAction.ID));
+		menu.add(tmdashMenu);
+		
+		menu.add(new Separator("print"));
+		menu.add(getActionRegistry().getAction(DiagramImageSaveAction.ID));
 	}
 
 }
