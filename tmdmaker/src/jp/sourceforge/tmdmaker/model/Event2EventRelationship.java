@@ -163,10 +163,10 @@ public class Event2EventRelationship extends AbstractRelationship {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#canDeletable()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#isDeletable()
 	 */
 	@Override
-	public boolean canDeletable() {
+	public boolean isDeletable() {
 		if (getSourceCardinality().equals(Cardinality.MANY)) {
 			return table.isDeletable();
 		} else {

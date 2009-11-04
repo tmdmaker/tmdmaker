@@ -105,6 +105,6 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	 * 
 	 * @return 削除可能な場合にtrueを返す
 	 */
-	public abstract boolean canDeletable();
+	public abstract boolean isDeletable();
 
 }

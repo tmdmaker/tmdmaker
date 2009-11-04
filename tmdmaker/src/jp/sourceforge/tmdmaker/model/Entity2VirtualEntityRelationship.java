@@ -47,10 +47,10 @@ public class Entity2VirtualEntityRelationship extends
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship#canDeletable()
+	 * @see jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship#isDeletable()
 	 */
 	@Override
-	public boolean canDeletable() {
+	public boolean isDeletable() {
 		return getTarget().isDeletable();
 	}
 

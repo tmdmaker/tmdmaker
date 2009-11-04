@@ -46,10 +46,10 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel imple
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#canDeletable()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#isDeletable()
 	 */
 	@Override
-	public boolean canDeletable() {
+	public boolean isDeletable() {
 		// TODO Auto-generated method stub
 		return true;
 	}

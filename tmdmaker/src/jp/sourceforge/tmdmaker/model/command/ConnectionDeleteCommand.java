@@ -28,7 +28,7 @@ public class ConnectionDeleteCommand extends Command {
 	 */
 	@Override
 	public boolean canExecute() {
-		return connection.canDeletable();
+		return connection.isDeletable();
 	}
 
 	/**

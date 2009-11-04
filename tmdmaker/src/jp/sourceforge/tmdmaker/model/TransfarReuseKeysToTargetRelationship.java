@@ -37,10 +37,10 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#canDeletable()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#isDeletable()
 	 */
 	@Override
-	public boolean canDeletable() {
+	public boolean isDeletable() {
 //		return getTarget().isDeletable();
 		return true;
 	}

@@ -81,10 +81,10 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 * 
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#canDeletable()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#isDeletable()
 	 */
 	@Override
-	public boolean canDeletable() {
+	public boolean isDeletable() {
 		return table.isDeletable();
 	}
 
