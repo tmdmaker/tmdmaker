@@ -84,5 +84,15 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 //		target.setDiagram(null);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		return getTarget().isDeletable();
+	}
+
 	
 }

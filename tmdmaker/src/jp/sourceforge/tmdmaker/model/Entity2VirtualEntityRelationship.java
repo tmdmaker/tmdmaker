@@ -44,6 +44,15 @@ public class Entity2VirtualEntityRelationship extends
 		super.detachTarget();
 		ve.getDiagram().removeChild(ve);
 	}
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship#canDeletable()
+	 */
+	@Override
+	public boolean canDeletable() {
+		return getTarget().isDeletable();
+	}
 
 	
 }
