@@ -2,18 +2,22 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.MultivalueAndSupersetEditDialog;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.Superset;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.model.command.VirtualSupersetEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * 
@@ -29,8 +33,11 @@ public class SupersetEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		// TODO Auto-generated method stub
-
+		AbstractEntityModel entity = (AbstractEntityModel) getModel();
+		MultivalueAndSupersetEditDialog dialog = new MultivalueAndSupersetEditDialog(getViewer().getControl().getShell(), entity.getName());
+		if (dialog.open() == Dialog.OK) {
+			getViewer().getEditDomain().getCommandStack().execute(new VirtualSupersetEditCommand(entity, dialog.getInputName()));
+		}
 	}
 
 	/**

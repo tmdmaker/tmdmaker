@@ -91,7 +91,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	// TODO ソースの精査（常に！）
 
 	// 次回リリースに含める
-	// TODO (ヘッダーディテールの)みなしスーパーセットの名称変更機能
 	
 	// 次回以降リリース
 	// TODO アトリビュートにデリベーションの(D)を表示する？

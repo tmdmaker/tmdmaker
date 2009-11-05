@@ -2,13 +2,16 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.MultivalueAndSupersetEditDialog;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.command.VirtualSupersetEditCommand;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * 
@@ -48,8 +51,11 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		// TODO Auto-generated method stub
-
+		AbstractEntityModel entity = (AbstractEntityModel) getModel();
+		MultivalueAndSupersetEditDialog dialog = new MultivalueAndSupersetEditDialog(getViewer().getControl().getShell(), entity.getName());
+		if (dialog.open() == Dialog.OK) {
+			getViewer().getEditDomain().getCommandStack().execute(new VirtualSupersetEditCommand(entity, dialog.getInputName()));
+		}
 	}
 
 	/**
@@ -76,5 +82,6 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }
