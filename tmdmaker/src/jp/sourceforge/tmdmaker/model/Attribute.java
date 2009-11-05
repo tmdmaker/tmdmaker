@@ -33,7 +33,7 @@ public class Attribute extends ModelElement {
 	 * コンストラクタ
 	 * 
 	 * @param name
-	 *            性質の名称
+	 *            アトリビュートの名称
 	 */
 	public Attribute(String name) {
 		setName(name);

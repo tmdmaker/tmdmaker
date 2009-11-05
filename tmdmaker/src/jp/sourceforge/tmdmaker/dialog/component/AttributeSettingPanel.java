@@ -125,7 +125,7 @@ public class AttributeSettingPanel extends Composite {
 				});
 		TableColumn tableColumn = new TableColumn(attributeTable, SWT.NONE);
 		tableColumn.setWidth(200);
-		tableColumn.setText("性質");
+		tableColumn.setText("アトリビュート");
 		this.setLayout(gridLayout);
 		createControlComposite();
 		this.setSize(new Point(301, 150));

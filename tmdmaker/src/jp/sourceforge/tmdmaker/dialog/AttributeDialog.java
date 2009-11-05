@@ -28,7 +28,7 @@ public class AttributeDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("性質編集");
+		getShell().setText("アトリビュート編集");
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new AttributePanel(composite, SWT.NULL);
 		panel.initializeValue(original);

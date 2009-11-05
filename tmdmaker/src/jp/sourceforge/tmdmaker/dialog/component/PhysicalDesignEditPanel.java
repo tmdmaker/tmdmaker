@@ -109,7 +109,7 @@ public class PhysicalDesignEditPanel extends Composite {
 		});
 		TableColumn tableColumn = new TableColumn(columnTable, SWT.NONE);
 		tableColumn.setWidth(150);
-		tableColumn.setText("性質");
+		tableColumn.setText("アトリビュート名");
 		TableColumn tableColumn1 = new TableColumn(columnTable, SWT.NONE);
 		tableColumn1.setWidth(150);
 		tableColumn1.setText("物理名");

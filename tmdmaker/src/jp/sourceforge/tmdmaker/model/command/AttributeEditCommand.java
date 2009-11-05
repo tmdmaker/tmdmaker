@@ -6,7 +6,7 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 import org.eclipse.gef.commands.Command;
 
 /**
- * 性質編集コマンド
+ * アトリビュート編集コマンド
  * 
  * @author nakaG
  * 
