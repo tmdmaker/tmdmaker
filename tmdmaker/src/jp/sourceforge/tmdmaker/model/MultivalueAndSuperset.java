@@ -6,7 +6,7 @@ package jp.sourceforge.tmdmaker.model;
  * 
  */
 @SuppressWarnings("serial")
-public class Superset extends AbstractEntityModel {
+public class MultivalueAndSuperset extends AbstractEntityModel {
 	/** DTL */
 	private Detail detail;
 

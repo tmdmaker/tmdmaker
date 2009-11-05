@@ -62,17 +62,21 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 
 		// GEFActionConstants.addStandardActionGroups(menu);
 		menu.add(getActionRegistry().getAction(SubsetEditAction.ID));
-		
+
 		MenuManager multivalueMenu = new MenuManager("データ の多値");
-		multivalueMenu.add(getActionRegistry().getAction(MultivalueOrCreateAction.ID));
-		multivalueMenu.add(getActionRegistry().getAction(MultivalueAndCreateAction.ID));
+		multivalueMenu.add(getActionRegistry().getAction(
+				MultivalueOrCreateAction.ID));
+		multivalueMenu.add(getActionRegistry().getAction(
+				MultivalueAndCreateAction.ID));
 		menu.add(multivalueMenu);
-		
-		MenuManager tmdashMenu = new MenuManager("TM'");
-		tmdashMenu.add(getActionRegistry().getAction(VirtualEntityCreateAction.ID));
-		tmdashMenu.add(getActionRegistry().getAction(VirtualSupersetCreateAction.ID));
+
+		MenuManager tmdashMenu = new MenuManager("みなし概念(TM')");
+		tmdashMenu.add(getActionRegistry().getAction(
+				VirtualEntityCreateAction.ID));
+		tmdashMenu.add(getActionRegistry().getAction(
+				VirtualSupersetCreateAction.ID));
 		menu.add(tmdashMenu);
-		
+
 		menu.add(new Separator("print"));
 		menu.add(getActionRegistry().getAction(DiagramImageSaveAction.ID));
 	}

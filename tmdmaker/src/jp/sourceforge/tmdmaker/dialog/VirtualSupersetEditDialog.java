@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 public class VirtualSupersetEditDialog extends Dialog {
 	private VirtualSupersetSettingPanel panel1;
@@ -27,36 +27,39 @@ public class VirtualSupersetEditDialog extends Dialog {
 	private VirtualSuperset editedValue;
 	private List<AbstractEntityModel> notSelection;
 	private List<AbstractEntityModel> selection = new ArrayList<AbstractEntityModel>();
-	
+
 	/**
 	 * コンストラクタ
+	 * 
 	 * @param parentShell
 	 * @param diagram
 	 * @param superset
 	 */
-	public VirtualSupersetEditDialog(Shell parentShell, Diagram diagram, VirtualSuperset superset) {
+	public VirtualSupersetEditDialog(Shell parentShell, Diagram diagram,
+			VirtualSuperset superset) {
 		super(parentShell);
 		this.diagram = diagram;
 		this.superset = superset;
 		if (this.superset != null) {
-			selection.addAll(this.superset.getVirtualSubsetList()) ;
+			selection.addAll(this.superset.getVirtualSubsetList());
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("みなしスーパーセット編集");
+		getShell().setText("スーパーセット編集");
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel1 = new VirtualSupersetSettingPanel(composite, SWT.NULL);
 		notSelection = new ArrayList<AbstractEntityModel>();
 		for (ModelElement m : diagram.getChildren()) {
-			if (m instanceof AbstractEntityModel && !m.equals(superset) && !selection.contains(m)) {
-				notSelection.add((AbstractEntityModel)m);
+			if (m instanceof AbstractEntityModel && !m.equals(superset)
+					&& !selection.contains(m)) {
+				notSelection.add((AbstractEntityModel) m);
 			}
 		}
 		panel1.initializeValue(notSelection, selection, superset);
@@ -65,7 +68,7 @@ public class VirtualSupersetEditDialog extends Dialog {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
@@ -80,7 +83,7 @@ public class VirtualSupersetEditDialog extends Dialog {
 		}
 		super.okPressed();
 	}
-	
+
 	/**
 	 * @return the editedValue
 	 */

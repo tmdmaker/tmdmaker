@@ -8,7 +8,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
-import jp.sourceforge.tmdmaker.model.Superset;
+import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.VirtualSupersetEditCommand;
 
@@ -50,7 +50,7 @@ public class SupersetEditPart extends AbstractEntityEditPart {
 	protected void updateFigure(IFigure figure) {
 		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
-		Superset entity = (Superset) getModel();
+		MultivalueAndSuperset entity = (MultivalueAndSuperset) getModel();
 
 		List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
@@ -114,7 +114,7 @@ public class SupersetEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			Superset model = (Superset) getHost().getModel();
+			MultivalueAndSuperset model = (MultivalueAndSuperset) getHost().getModel();
 			return new TableDeleteCommand(model, model.getDetail()
 					.getModelTargetConnections().get(0));
 		}

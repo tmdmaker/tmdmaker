@@ -10,14 +10,13 @@ import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
+import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
-import jp.sourceforge.tmdmaker.model.Superset;
-import jp.sourceforge.tmdmaker.model.Superset2AggregateRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
@@ -53,8 +52,6 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new RelationshipEditPart();
 		} else if (model instanceof Entity2SubsetTypeRelationship) {
 			part = new Entity2SubsetTypeRelationshipEditPart();
-		} else if (model instanceof Superset2AggregateRelationship) {
-			part = new RelatedRelationshipEditPart();			
 		} else if (model instanceof RelatedRelationship) {
 			part = new RelatedRelationshipEditPart();
 		} else if (model instanceof CombinationTable) {
@@ -73,7 +70,7 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new MultivalueOrEditPart();
 		} else if (model instanceof MultivalueAndAggregator) {
 			part = new MultivalueAndAggregatorEditPart();
-		} else if (model instanceof Superset) {
+		} else if (model instanceof MultivalueAndSuperset) {
 			part = new SupersetEditPart();
 		} else if (model instanceof Detail) {
 			part = new DetailEditPart();

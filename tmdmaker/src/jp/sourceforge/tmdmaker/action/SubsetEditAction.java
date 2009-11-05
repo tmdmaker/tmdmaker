@@ -43,7 +43,7 @@ public class SubsetEditAction extends AbstractEntitySelectionAction {
 	 */
 	public SubsetEditAction(IWorkbenchPart part) {
 		super(part);
-		setText("サブセット編集");
+		setText("サブセット");
 		setId(ID);
 	}
 

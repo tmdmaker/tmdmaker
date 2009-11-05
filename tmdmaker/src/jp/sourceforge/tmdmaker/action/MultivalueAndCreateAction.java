@@ -32,7 +32,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.action.AbstractEntitySelectionAction#calculateEnabled()
 	 */
 	@Override
@@ -54,116 +54,27 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 	public void run() {
 		AbstractEntityModel model = getModel();
 
-		// Detail作成
-		
-		// Detailを追加してHeaderと接続
+		// Detailとスーパーセットを追加してHeaderと接続
 		HeaderDetailCreateCommand command = new HeaderDetailCreateCommand(model);
-
-//		// Supersetを追加してHeader-Detailと接続
-//		SupersetCreateCommand command2 = new SupersetCreateCommand(superset,
-//				model);
-//		ccommand.add(command2);
-//
-//		MultivalueAndAggregator aggregator = new MultivalueAndAggregator();
-//		aggregator.setConstraint(model.getConstraint().getTranslated(75, -30));
-//
-//		MultivalurAndAggregatorCreateCommand command11 = new MultivalurAndAggregatorCreateCommand(
-//				model.getDiagram(), aggregator);
-//		ccommand.add(command11);
-//
-//		ConnectionCreateCommand command22 = new ConnectionCreateCommand();
-//		command22.setConnection(new RelatedRelationship());
-//		command22.setSource(superset);
-//		command22.setTarget(aggregator);
-//		ccommand.add(command22);
-//
-//		ConnectionCreateCommand command3 = new ConnectionCreateCommand();
-//		command3.setConnection(new RelatedRelationship());
-//		command3.setSource(model);
-//		command3.setTarget(aggregator);
-//		ccommand.add(command3);
-//
-//		ConnectionCreateCommand command4 = new ConnectionCreateCommand();
-//		command4.setConnection(new RelatedRelationship());
-//		command4.setSource(detail);
-//		command4.setTarget(aggregator);
-//		ccommand.add(command4);
 
 		execute(command);
 	}
 
-//	/**
-//	 * 
-//	 * @author nakaG
-//	 * 
-//	 */
-//	private static class SupersetCreateCommand extends Command {
-//		private Diagram diagram;
-//		private Superset superset;
-//
-//		// private MultivalueAndAggregator aggregator;
-//		// private Superset2AggregateRelationship relationship;
-//		// private RelatedRelationship relationship;
-//		public SupersetCreateCommand(Superset superset,
-//				AbstractEntityModel header) {
-//			this.diagram = header.getDiagram();
-//			this.superset = superset;
-//			// Rectangle constraint = header.getConstraint().getTranslated(50,
-//			// -50);
-//			// this.superset.setConstraint(constraint);
-//			// this.superset.setName(header.getName());
-//			// this.superset.addReuseKey(header);
-//			// this.aggregator = new MultivalueAndAggregator();
-//			// this.aggregator.setConstraint(model.getConstraint().getTranslated(0,
-//			// 20));
-//			// this.relationship = new Superset2AggregateRelationship();
-//			// this.relationship = new RelatedRelationship();
-//			// this.relationship.setSource(this.header);
-//			// this.relationship.setTarget(this.superset);
-//			// this.relationship.setTarget(this.aggregator);
-//		}
-//
-//		/**
-//		 * {@inheritDoc}
-//		 * 
-//		 * @see org.eclipse.gef.commands.Command#execute()
-//		 */
-//		@Override
-//		public void execute() {
-//			diagram.addChild(superset);
-//			// diagram.addChild(aggregator);
-//			// relationship.connect();
-//		}
-//
-//		/**
-//		 * {@inheritDoc}
-//		 * 
-//		 * @see org.eclipse.gef.commands.Command#undo()
-//		 */
-//		@Override
-//		public void undo() {
-//			// relationship.disConnect();
-//			// diagram.removeChild(aggregator);
-//			diagram.removeChild(superset);
-//		}
-//
-//	}
 	/**
 	 * HDR-DTLを作成するコマンド
 	 */
 	private static class HeaderDetailCreateCommand extends Command {
-//		private Diagram diagram;
-//		private Detail model;
+		/** リレーションシップ */
 		private Header2DetailRelationship relationship;
 
+		/**
+		 * コンストラクタ
+		 * 
+		 * @param header
+		 *            ヘッダーとなるモデル
+		 */
 		public HeaderDetailCreateCommand(AbstractEntityModel header) {
-//			this.diagram = header.getDiagram();
-//			this.model = model;
-			// this.model.setConstraint(header.getConstraint().getTranslated(50,0));
-			// this.model.setName(header.getName());
 			relationship = new Header2DetailRelationship(header);
-//			relationship.setSource(header);
-//			relationship.setTarget(model);
 			relationship.setTargetCardinality(Cardinality.MANY);
 		}
 
@@ -174,8 +85,6 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		 */
 		@Override
 		public void execute() {
-//			diagram.addChild(model);
-			// model.setDiagram(diagram);
 			relationship.connect();
 		}
 
@@ -187,43 +96,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		@Override
 		public void undo() {
 			relationship.disconnect();
-			// model.setDiagram(null);
-//			diagram.removeChild(model);
 		}
 
 	}
-
-	// private static class MultivalurAndAggregatorCreateCommand extends Command
-	// {
-	// private Diagram diagram;
-	// private MultivalueAndAggregator model;
-	//
-	// public MultivalurAndAggregatorCreateCommand(Diagram diagram,
-	// MultivalueAndAggregator model) {
-	// super();
-	// this.diagram = diagram;
-	// this.model = model;
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#execute()
-	// */
-	// @Override
-	// public void execute() {
-	// diagram.addChild(model);
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#undo()
-	// */
-	// @Override
-	// public void undo() {
-	// diagram.removeChild(model);
-	// }
-	//
-	// }
 }

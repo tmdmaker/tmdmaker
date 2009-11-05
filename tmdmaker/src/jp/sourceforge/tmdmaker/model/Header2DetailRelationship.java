@@ -9,7 +9,7 @@ package jp.sourceforge.tmdmaker.model;
 public class Header2DetailRelationship extends
 		TransfarReuseKeysToTargetRelationship {
 	/** 概念的 スーパーセット */
-	private Superset superset;
+	private MultivalueAndSuperset superset;
 
 	/** DTL */
 	private Detail detail;
@@ -37,7 +37,7 @@ public class Header2DetailRelationship extends
 		detail.setDetailIdentifierName(header.getName() + "明細番号");
 		setTarget(detail);
 
-		superset = new Superset();
+		superset = new MultivalueAndSuperset();
 		superset.setEntityType(header.getEntityType());
 		superset.setConstraint(header.getConstraint().getTranslated(64, -80));
 		superset.setName(header.getName());
