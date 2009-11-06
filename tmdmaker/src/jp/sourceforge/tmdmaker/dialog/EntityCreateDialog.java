@@ -50,7 +50,7 @@ public class EntityCreateDialog extends Dialog {
 
 		panel = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
 		panel.setEditIdentifier(new EditAttribute());
-		panel.setInitialFocus();
+//		panel.setInitialFocus();
 		
 		return composite;
 	}

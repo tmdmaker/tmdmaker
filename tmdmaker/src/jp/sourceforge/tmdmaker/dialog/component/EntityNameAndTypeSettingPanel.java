@@ -83,16 +83,16 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         gridData.grabExcessHorizontalSpace = true;
         gridData.widthHint = -1;
         gridData.verticalAlignment = GridData.CENTER;
+        nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
+        nameAutoCreateCheckBox.setText("個体指示子からエンティティ名を自動生成");
+        nameAutoCreateCheckBox.setLayoutData(gridData9);
+        typeLabel = new Label(this, SWT.NONE);
+        typeLabel.setText("類別");
+        typeLabel.setLayoutData(gridData10);
         nameLabel = new Label(this, SWT.NONE);
         nameLabel.setText("エンティティ名");
         nameText = new Text(this, SWT.BORDER);
         nameText.setLayoutData(gridData1);
-        typeLabel = new Label(this, SWT.NONE);
-        typeLabel.setText("類別");
-        typeLabel.setLayoutData(gridData10);
-        nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
-        nameAutoCreateCheckBox.setText("個体指示子からエンティティ名を自動生成");
-        nameAutoCreateCheckBox.setLayoutData(gridData9);
         createTypeCombo();
         nameAutoCreateCheckBox
         		.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
@@ -122,7 +122,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         identifierText.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
         	public void focusLost(org.eclipse.swt.events.FocusEvent e) {
         		System.out.println("focusLost()"); // TODO Auto-generated Event stub focusLost()
-        		typeCombo.setFocus();
+//        		typeCombo.setFocus();
         	}
         });
         descButton = new Button(this, SWT.NONE);
@@ -144,7 +144,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         gridLayout.numColumns = 3;
         gridLayout.horizontalSpacing = 5;
         this.setLayout(gridLayout);
-        this.setSize(new Point(324, 80));
+        this.setSize(new Point(324, 90));
 	}
 
 	/**
@@ -208,9 +208,9 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	public void setEntityTypeComboEnabled(boolean enabled) {
 		this.typeCombo.setEnabled(enabled);
 	}
-	public void setInitialFocus() {
-		this.identifierText.setFocus();
-	}
+//	public void setInitialFocus() {
+//		this.identifierText.setFocus();
+//	}
 	/**
 	 * @return the editIdentifier
 	 */

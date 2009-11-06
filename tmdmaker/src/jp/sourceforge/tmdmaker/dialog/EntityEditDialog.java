@@ -140,7 +140,7 @@ public class EntityEditDialog extends Dialog {
 
 		composite.pack();
 		initializeValue();
-		panel1.setInitialFocus();
+//		panel1.setInitialFocus();
 		return composite;
 	}
 
