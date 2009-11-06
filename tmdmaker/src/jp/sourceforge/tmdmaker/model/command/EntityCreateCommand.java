@@ -25,8 +25,8 @@ public class EntityCreateCommand extends Command {
 	private String identifierName;
 	/** エンティティ種類 */
 	private EntityType entityType;
-	/** 取引日 */
-	private String transactionDate;
+	/** デフォルトで追加するアトリビュート名 */
+	private String defaultAttributeName;
 
 	/**
 	 * コンストラクタ
@@ -56,8 +56,8 @@ public class EntityCreateCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		if (transactionDate != null) {
-			model.addAttribute(new Attribute(transactionDate));
+		if (defaultAttributeName != null && model.getAttributes().size() == 0) {
+			model.addAttribute(new Attribute(defaultAttributeName));
 		}
 		if (entityName != null && entityName.length() > 0) {
 			model.setName(entityName);
@@ -82,11 +82,11 @@ public class EntityCreateCommand extends Command {
 	}
 
 	/**
-	 * @param transactionDate
-	 *            the transactionDate to set
+	 * @param defaultAttributeName
+	 *            the defaultAttributeName to set
 	 */
-	public void setTransactionDate(String transactionDate) {
-		this.transactionDate = transactionDate;
+	public void setDefaultAttributeName(String transactionDate) {
+		this.defaultAttributeName = transactionDate;
 	}
 
 	/**

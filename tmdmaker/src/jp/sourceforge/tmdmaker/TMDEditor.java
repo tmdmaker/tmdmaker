@@ -509,11 +509,11 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 											.getInputEntityType();
 									command.setEntityType(entityType);
 									if (entityType.equals(EntityType.EVENT)) {
-										command.setTransactionDate(command
+										command.setDefaultAttributeName(command
 												.getEntityName()
 												+ "日");
 									} else {
-										command.setTransactionDate("名称"); // ダミー。後で消す。
+										command.setDefaultAttributeName("名称"); // ダミー。後で消す。
 									}
 								}
 							}
