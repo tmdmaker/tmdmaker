@@ -216,7 +216,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	}
 
 	/**
-	 * 個体指示子変更イベント処理
+	 * 個体指定子変更イベント処理
 	 * 
 	 * @param evt
 	 *            発生したイベント情報

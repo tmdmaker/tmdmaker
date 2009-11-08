@@ -39,7 +39,7 @@ public class DetailEditDialog extends Dialog {
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
-	/** Detail個体指示子設定用 */
+	/** Detail個体指定子設定用 */
 	private DetailIdentifierSettingPanel panel3;
 
 	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();

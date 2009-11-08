@@ -10,10 +10,10 @@ public class Detail extends AbstractEntityModel {
 	/** HDRモデルのRe-used */
 	private ReusedIdentifier originalReusedIdentifier;
 
-	/** DTLの個体指示子 */
+	/** DTLの個体指定子 */
 	private Identifier detailIdentifier = new Identifier();
 	/**
-	 * DTLの個体指示子名を設定する
+	 * DTLの個体指定子名を設定する
 	 * @param name
 	 */
 	public void setDetailIdentifierName(String name) {

@@ -21,7 +21,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public static final String PROPERTY_REUSED = "p_reused";
 	public static final String PROPERTY_ATTRIBUTES = "p_attributes";
 	public static final String PROPERTY_NOT_IMPLEMENT = "p_notImplement";
-	/** 個体指示子プロパティ定数 */
+	/** 個体指定子プロパティ定数 */
 	public static final String PROPERTY_IDENTIFIER = "_property_identifier";
 	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
@@ -62,10 +62,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * 取得元モデルからReused個体指示子を追加する
+	 * 取得元モデルからReused個体指定子を追加する
 	 * 
 	 * @param source
-	 *            個体指示子取得元
+	 *            個体指定子取得元
 	 */
 	public void addReusedIdentifier(AbstractEntityModel source) {
 		ReusedIdentifier added = this.reusedIdentifieres.put(source, source
@@ -74,10 +74,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * 取得元モデルから得たReused個体指示子を削除する
+	 * 取得元モデルから得たReused個体指定子を削除する
 	 * 
 	 * @param source
-	 *            個体指示子取得元
+	 *            個体指定子取得元
 	 */
 	public void removeReusedIdentifier(AbstractEntityModel source) {
 		ReusedIdentifier removed = this.reusedIdentifieres.remove(source);
@@ -88,9 +88,9 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * Reused個体指示子を作成する
+	 * Reused個体指定子を作成する
 	 * 
-	 * @return 作成したReused個体指示子
+	 * @return 作成したReused個体指定子
 	 */
 	public abstract ReusedIdentifier createReusedIdentifier();
 
@@ -254,7 +254,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * 個体指示子が変更されたことをコネクションへ通知する
+	 * 個体指定子が変更されたことをコネクションへ通知する
 	 * 
 	 * @param connections
 	 *            通知対象コネクション

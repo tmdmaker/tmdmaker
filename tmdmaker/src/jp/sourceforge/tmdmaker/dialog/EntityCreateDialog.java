@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 public class EntityCreateDialog extends Dialog {
-	/** 個体指示子名称 */
+	/** 個体指定子名称 */
 	private String inputIdentifierName;
 	/** エンティティ名称 */
 	private String inputEntityName;

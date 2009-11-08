@@ -7,14 +7,14 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class IdentifierRef extends Identifier {
-	/** 元の個体指示子 */
+	/** 元の個体指定子 */
 	private Identifier original;
 
 	/**
 	 * コンストラクタ
 	 * 
 	 * @param identifier
-	 *            移送元の個体指示子
+	 *            移送元の個体指定子
 	 */
 	public IdentifierRef(Identifier identifier) {
 		this.original = identifier;

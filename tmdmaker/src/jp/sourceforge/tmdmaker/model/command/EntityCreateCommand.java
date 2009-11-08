@@ -21,7 +21,7 @@ public class EntityCreateCommand extends Command {
 	private Entity model;
 	/** エンティティ名 */
 	private String entityName;
-	/** 個体指示子名称 */
+	/** 個体指定子名称 */
 	private String identifierName;
 	/** エンティティ種類 */
 	private EntityType entityType;
@@ -36,7 +36,7 @@ public class EntityCreateCommand extends Command {
 	 * @param entityName
 	 *            エンティティ名
 	 * @param identifierName
-	 *            個体指示子名称
+	 *            個体指定子名称
 	 * @param entityType
 	 *            エンティティ種類
 	 */

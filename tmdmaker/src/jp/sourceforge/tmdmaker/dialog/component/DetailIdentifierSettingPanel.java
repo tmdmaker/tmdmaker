@@ -38,7 +38,7 @@ public class DetailIdentifierSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		identifierLabel = new Label(this, SWT.NONE);
-		identifierLabel.setText("個体指示子");
+		identifierLabel.setText("個体指定子");
 		identifierText = new Text(this, SWT.BORDER);
 		identifierText.setLayoutData(gridData);
 		identifierText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {

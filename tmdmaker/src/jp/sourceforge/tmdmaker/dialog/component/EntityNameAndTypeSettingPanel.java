@@ -84,7 +84,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         gridData.widthHint = -1;
         gridData.verticalAlignment = GridData.CENTER;
         nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
-        nameAutoCreateCheckBox.setText("個体指示子からエンティティ名を自動生成");
+        nameAutoCreateCheckBox.setText("個体指定子からエンティティ名を自動生成");
         nameAutoCreateCheckBox.setLayoutData(gridData9);
         typeLabel = new Label(this, SWT.NONE);
         typeLabel.setText("類別");
@@ -106,7 +106,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         			}
         		});
         identifierLabel = new Label(this, SWT.NONE);
-        identifierLabel.setText("個体指示子");
+        identifierLabel.setText("個体指定子");
         identifierText = new Text(this, SWT.BORDER);
         identifierText.setLayoutData(gridData);
         identifierText

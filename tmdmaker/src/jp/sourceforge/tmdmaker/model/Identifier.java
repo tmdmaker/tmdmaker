@@ -1,7 +1,7 @@
 package jp.sourceforge.tmdmaker.model;
 
 /**
- * 個体指示子モデル
+ * 個体指定子モデル
  * 
  * @author nakaG
  * 
@@ -12,7 +12,7 @@ public class Identifier extends Attribute {
 	 * コンストラクタ
 	 * 
 	 * @param name
-	 *            個体指示子の名称
+	 *            個体指定子の名称
 	 */
 	public Identifier(String name) {
 		super(name);

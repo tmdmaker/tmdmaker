@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.TabItem;
  * 
  */
 public class EntityEditDialog extends Dialog {
-	/** エンティティ名、個体指示子、エンティティ種類設定用 */
+	/** エンティティ名、個体指定子、エンティティ種類設定用 */
 	private EntityNameAndTypeSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;

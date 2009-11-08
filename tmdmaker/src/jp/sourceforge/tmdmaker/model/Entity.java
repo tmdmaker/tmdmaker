@@ -11,7 +11,7 @@ public class Entity extends AbstractEntityModel {
 	private String physicalName = "";
 	/** 摘要 */
 	private String description = "";
-	/** 個体指示子 */
+	/** 個体指定子 */
 	private Identifier identifier = null;
 
 	/**
@@ -64,7 +64,7 @@ public class Entity extends AbstractEntityModel {
 	/**
 	 * 
 	 * @param identifierName
-	 *            個体指示子名称
+	 *            個体指定子名称
 	 */
 	public void setIdentifierName(String identifierName) {
 		String oldValue = this.identifier.getName();
