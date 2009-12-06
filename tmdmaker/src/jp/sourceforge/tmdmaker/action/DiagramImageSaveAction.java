@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.action;
 
 import org.eclipse.draw2d.IFigure;
@@ -19,56 +34,69 @@ import org.eclipse.ui.PlatformUI;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 public class DiagramImageSaveAction extends Action {
 	private GraphicalViewer viewer;
 	public static final String ID = "DiagramImageSaveAction";
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param viewer
+	 *            ビューワ
+	 */
 	public DiagramImageSaveAction(GraphicalViewer viewer) {
 		this.viewer = viewer;
 		setText("画像として保存");
 		setId(ID);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
 	@Override
 	public void run() {
-		FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) getViewer().getRootEditPart();
+		FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) getViewer()
+				.getRootEditPart();
 
-		FileDialog dialog = new FileDialog(viewer.getControl().getShell(), SWT.SAVE);
-		dialog.setFileName(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getTitle() + ".jpg");
+		FileDialog dialog = new FileDialog(viewer.getControl().getShell(),
+				SWT.SAVE);
+		dialog.setFileName(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+				.getActivePage().getActiveEditor().getTitle()
+				+ ".jpg");
 		String file = dialog.open();
 		if (file != null) {
-			IFigure figure = rootEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS);
+			IFigure figure = rootEditPart
+					.getLayer(LayerConstants.PRINTABLE_LAYERS);
 			Rectangle rectangle = figure.getBounds();
-			
-			Image image = new Image(Display.getDefault(), rectangle.width + 50, rectangle.height + 50);
+
+			Image image = new Image(Display.getDefault(), rectangle.width + 50,
+					rectangle.height + 50);
 			GC gc = new GC(image);
 			SWTGraphics graphics = new SWTGraphics(gc);
 			figure.paint(graphics);
-			
+
 			ImageLoader loader = new ImageLoader();
-			loader.data = new ImageData[]{image.getImageData()};
-			
-			if(file.endsWith(".bmp")){
+			loader.data = new ImageData[] { image.getImageData() };
+
+			if (file.endsWith(".bmp")) {
 				loader.save(file, SWT.IMAGE_BMP);
-			} else if(file.endsWith(".gif")){
+			} else if (file.endsWith(".gif")) {
 				loader.save(file, SWT.IMAGE_GIF);
-			} else if(file.endsWith(".jpg") || file.endsWith(".jpeg")){
+			} else if (file.endsWith(".jpg") || file.endsWith(".jpeg")) {
 				loader.save(file, SWT.IMAGE_JPEG);
-			} else if(file.endsWith(".png")){
+			} else if (file.endsWith(".png")) {
 				loader.save(file, SWT.IMAGE_PNG);
-			} else if(file.endsWith(".tiff")){
+			} else if (file.endsWith(".tiff")) {
 				loader.save(file, SWT.IMAGE_TIFF);
 			} else {
 				file = file + ".bmp";
 				loader.save(file, SWT.IMAGE_BMP);
 			}
-			
+
 			image.dispose();
 			gc.dispose();
 
@@ -81,5 +109,5 @@ public class DiagramImageSaveAction extends Action {
 	protected GraphicalViewer getViewer() {
 		return viewer;
 	}
-	
+
 }

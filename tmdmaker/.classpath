@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/velocity-1.6.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/simple-log-slf4j.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/simple-log.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jcl-over-slf4j-1.5.8.jar"/>

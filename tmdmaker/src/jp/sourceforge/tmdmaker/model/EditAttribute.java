@@ -249,7 +249,7 @@ public class EditAttribute {
 			to.setDescription(description);
 		}
 		if (lock.length() != 0) {
-			System.out.println("edited");
+			to.setLock(lock);
 		}
 		if (scale.length() != 0) {
 			to.setScale(toInteger(scale));

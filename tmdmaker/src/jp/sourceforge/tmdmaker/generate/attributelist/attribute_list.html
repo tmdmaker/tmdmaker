@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Attributes</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  </head>
+  <body>
+  <strong><a href="summary.html" target="attribute_frame">対象エンティティ一覧</a></strong><br>
+  #foreach($attr in $attributes)
+    &nbsp;
+    <a href="attributes/${attr.name}.html" target="attribute_frame">$esc.html($attr.name)</a><br>
+  #end
+  </body>
+</html>

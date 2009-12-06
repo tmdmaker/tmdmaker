@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker;
 
 import java.io.UnsupportedEncodingException;
@@ -5,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.EventObject;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
@@ -20,6 +36,7 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
+import jp.sourceforge.tmdmaker.model.Version;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
 import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
@@ -77,6 +94,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,21 +105,13 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class TMDEditor extends GraphicalEditorWithPalette {
-	// いつもやる
-	// TODO ソースの精査（常に！）
 
-	// 次回リリースに含める
-	
-	// 次回以降リリース
-	// TODO アトリビュートにデリベーションの(D)を表示する？
-	// TODO R:E関係間のN:Nリレーションシップの(R)に対してMOを作成する
-	// TODO 物理実装用のダイアログ（タブ？）を作成する
-	// TODO HDR-DTLをエンティティ（R or E）のみに適用？
-	// TODO 実装階層をコネクションに表示する（サブセットとVEだけ？）
-	// TODO キーの定義書を作成する
-	// TODO リレーションシップの検証表を表示する
-	// TODO アルゴリズムの指示書を作成する？
-
+	/**
+	 * アウトラインページ
+	 * 
+	 * @author nakaG
+	 * 
+	 */
 	private class TMDContentOutlinePage extends ContentOutlinePage {
 		private SashForm sash;
 		private ScrollableThumbnail thumbnail;
@@ -207,8 +217,14 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			logger.warn("load error.", e);
 			diagram = new Diagram();
 		}
+		Version version = getPluginVersion();
+		diagram.setVersion(version.getValue());
 		viewer.setContents(diagram);
+	}
 
+	private Version getPluginVersion() {
+		Bundle bundle = TMDPlugin.getDefault().getBundle();
+		return new Version((String) bundle.getHeaders().get("Bundle-Version"));
 	}
 
 	/**
@@ -236,7 +252,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		PaletteGroup toolGroup = new PaletteGroup("ツール");
 
 		ToolEntry tool = new SelectionToolEntry();
-		// テンキーでモデルを移動できるようにSelectionToolを拡張
+		// カーソルキーでモデルを移動できるようにSelectionToolを拡張
 		tool.setToolClass(MovableSelectionTool.class);
 
 		toolGroup.add(tool);
@@ -468,12 +484,15 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		// ContextMenuにRun as等を表示しないようにするためIWorkbenchPartSiteに登録しない
 		// getSite().registerContextMenu("tmd.contextmenu", provider, viewer);
 
-		// when entity create, show dialog and set properties.
-
+		// viewerを取得するためcreateActionsメソッドではなくここでアクションを登録
 		DiagramImageSaveAction action6 = new DiagramImageSaveAction(
 				getGraphicalViewer());
 		getActionRegistry().registerAction(action6);
 
+		AttributeListSaveAction action7 = new AttributeListSaveAction(getGraphicalViewer());
+		getActionRegistry().registerAction(action7);
+		
+		// when entity create, show dialog and set properties.
 		getCommandStack().addCommandStackEventListener(
 				new CommandStackEventListener() {
 
@@ -513,7 +532,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 												.getEntityName()
 												+ "日");
 									} else {
-										command.setDefaultAttributeName("名称"); // ダミー。後で消す。
+										command.setDefaultAttributeName(command
+												.getEntityName()
+												+ "名称");
 									}
 								}
 							}

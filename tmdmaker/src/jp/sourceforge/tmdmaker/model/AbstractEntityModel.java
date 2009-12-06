@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.model;
 
 import java.util.ArrayList;
@@ -24,6 +39,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	/** 個体指定子プロパティ定数 */
 	public static final String PROPERTY_IDENTIFIER = "_property_identifier";
 	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
+	/** アトリビュート */
 	protected List<Attribute> attributes = new ArrayList<Attribute>();
 	/** エンティティ種類 */
 	protected EntityType entityType = EntityType.RESOURCE;
@@ -107,7 +123,13 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public void setAttributes(List<Attribute> attributes) {
 		List<Attribute> oldValue = this.attributes;
+//		for (Attribute attribute : oldValue) {
+//			attribute.setParent(null);
+//		}
 		this.attributes = attributes;
+//		for (Attribute attribute : attributes) {
+//			attribute.setParent(this);
+//		}
 		firePropertyChange(PROPERTY_ATTRIBUTE_REORDER, oldValue, attributes);
 	}
 
@@ -117,6 +139,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public void addAttribute(Attribute attribute) {
 		this.attributes.add(attribute);
+//		attribute.setParent(this);
 	}
 
 	/**
@@ -127,6 +150,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public void addAttribute(int index, Attribute attribute) {
 		this.attributes.add(index, attribute);
+//		attribute.setParent(this);
 		firePropertyChange(PROPERTY_ATTRIBUTE, null, attribute);
 	}
 	/**
@@ -134,8 +158,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param attribute the attribute to remove
 	 */
 	public void removeAttribute(Attribute attribute) {
-		this.attributes.remove(attribute);
-		firePropertyChange(PROPERTY_ATTRIBUTE, attribute, null);
+		if (this.attributes.remove(attribute)) {
+//			attribute.setParent(null);
+			firePropertyChange(PROPERTY_ATTRIBUTE, attribute, null);
+		}
 	}
 	/**
 	 * @return the entityType

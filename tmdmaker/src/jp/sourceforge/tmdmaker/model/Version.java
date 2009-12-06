@@ -16,49 +16,30 @@
 package jp.sourceforge.tmdmaker.model;
 
 /**
- * エンティティ種類定数
+ * ダイアグラムを作成したエディタのバージョンを表すクラス
  * 
  * @author nakaG
  * 
  */
-public enum EntityType {
-	/** リソース */
-	RESOURCE("リソース","R"),
-	/** イベント */
-	EVENT("イベント", "E"),
-	/** 多値のOR */
-	MO("多値のOR", "MO"),
-	/** 多値のAND */
-	MA("多値のAND", "MA"),
-	/** みなしエンティティ */
-	VE("みなしエンティティ", "VE");
-	
-	/** ダイアグラム表示用 */
-	private String label;
-	
-	/** 種類名 */
-	private String typeName;
+public class Version {
+	/** バージョン番号(x.y.z) */
+	private String value;
+
 	/**
 	 * コンストラクタ
-	 * @param label エンティティ種類の表示名
+	 * 
+	 * @param value
+	 *            バージョン番号
 	 */
-	private EntityType(String typeName,String label) {
-		this.typeName = typeName;
-		this.label = label;
+	public Version(String value) {
+		this.value = value;
 	}
 
 	/**
-	 * @return the label
+	 * @return the value
 	 */
-	public String getLabel() {
-		return label;
+	public String getValue() {
+		return value;
 	}
 
-	/**
-	 * @return the typeName
-	 */
-	public String getTypeName() {
-		return typeName;
-	}
-	
 }
