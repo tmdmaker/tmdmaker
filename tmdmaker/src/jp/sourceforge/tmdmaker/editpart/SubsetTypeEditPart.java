@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
@@ -10,16 +25,17 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 
 /**
- * サブセット種類のEditPart
+ * サブセット種類のコントローラ
+ * 
  * @author nakaG
- *
+ * 
  */
 public class SubsetTypeEditPart extends AbstractEntityEditPart {
 
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
 	@Override
@@ -29,10 +45,11 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 		updateFigure(figure);
 		return figure;
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
@@ -45,7 +62,7 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
@@ -74,7 +91,7 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 		if (evt.getPropertyName().equals(SubsetType.PROPERTY_TYPE)) {
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(SubsetType.PROPERTY_PARTITION)) {
-			refreshVisuals();			
+			refreshVisuals();
 		} else {
 			super.propertyChange(evt);
 		}
@@ -82,12 +99,12 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

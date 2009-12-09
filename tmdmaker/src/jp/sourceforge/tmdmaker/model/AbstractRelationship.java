@@ -1,13 +1,29 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.model;
 
-
 /**
+ * リレーションシップの基底クラス
  * 
  * @author nakaG
- *
+ * 
  */
 @SuppressWarnings("serial")
-public abstract class AbstractRelationship extends AbstractConnectionModel implements IdentifierChangeListener {
+public abstract class AbstractRelationship extends AbstractConnectionModel
+		implements IdentifierChangeListener {
 	/** 接続元とのカーディナリティ */
 	private Cardinality sourceCardinality = Cardinality.ONE;
 	/** 接続先とのカーディナリティ */
@@ -15,7 +31,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 	private boolean sourceNoInstance = false;
 	private boolean targetNoInstance = false;
 	private boolean centerMark = false;
-	
+
 	/**
 	 * @return the sourceCardinality
 	 */
@@ -24,12 +40,14 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 	}
 
 	/**
-	 * @param sourceCardinality the sourceCardinality to set
+	 * @param sourceCardinality
+	 *            the sourceCardinality to set
 	 */
 	public void setSourceCardinality(Cardinality sourceCardinality) {
 		Cardinality oldValue = this.sourceCardinality;
 		this.sourceCardinality = sourceCardinality;
-		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue, sourceCardinality);
+		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue,
+				sourceCardinality);
 	}
 
 	/**
@@ -40,12 +58,14 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 	}
 
 	/**
-	 * @param targetCardinality the targetCardinality to set
+	 * @param targetCardinality
+	 *            the targetCardinality to set
 	 */
 	public void setTargetCardinality(Cardinality targetCardinality) {
 		Cardinality oldValue = this.targetCardinality;
 		this.targetCardinality = targetCardinality;
-		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue, targetCardinality);
+		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue,
+				targetCardinality);
 	}
 
 	/**
@@ -56,12 +76,14 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 	}
 
 	/**
-	 * @param sourceNoInstance the sourceNoInstance to set
+	 * @param sourceNoInstance
+	 *            the sourceNoInstance to set
 	 */
 	public void setSourceNoInstance(boolean sourceNoInstance) {
 		boolean oldValue = this.sourceNoInstance;
 		this.sourceNoInstance = sourceNoInstance;
-		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue, sourceNoInstance);
+		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue,
+				sourceNoInstance);
 	}
 
 	/**
@@ -72,12 +94,14 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 	}
 
 	/**
-	 * @param targetNoInstance the targetNoInstance to set
+	 * @param targetNoInstance
+	 *            the targetNoInstance to set
 	 */
 	public void setTargetNoInstance(boolean targetNoInstance) {
 		boolean oldValue = this.targetNoInstance;
 		this.targetNoInstance = targetNoInstance;
-		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue, targetNoInstance);
+		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue,
+				targetNoInstance);
 	}
 
 	/**
@@ -88,7 +112,8 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 	}
 
 	/**
-	 * @param centerMark the centerMark to set
+	 * @param centerMark
+	 *            the centerMark to set
 	 */
 	public void setCenterMark(boolean centerMark) {
 		boolean oldValue = this.centerMark;
@@ -98,18 +123,18 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.IdentifierChangeListener#identifierChanged()
 	 */
 	@Override
 	public void identifierChanged() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#isDeletable()
 	 */
 	@Override
@@ -117,16 +142,19 @@ public abstract class AbstractRelationship extends AbstractConnectionModel imple
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	public AbstractEntityModel getSource() {
 		return (AbstractEntityModel) super.getSource();
 	}
+
 	public AbstractEntityModel getTarget() {
 		return (AbstractEntityModel) super.getTarget();
 	}
+
 	public void setSource(AbstractEntityModel source) {
 		super.setSource(source);
 	}
+
 	public void setTarget(AbstractEntityModel target) {
 		super.setTarget(target);
 	}

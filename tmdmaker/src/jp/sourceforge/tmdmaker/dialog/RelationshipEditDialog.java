@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.dialog;
 
 import jp.sourceforge.tmdmaker.model.Cardinality;
@@ -15,6 +30,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * リレーションシップ編集ダイアログ
+ * 
+ * @author nakaG
+ * 
+ */
 public class RelationshipEditDialog extends Dialog {
 	private Cardinality sourceCardinality = Cardinality.ONE;
 	private Cardinality targetCardinality = Cardinality.ONE;
@@ -23,13 +44,45 @@ public class RelationshipEditDialog extends Dialog {
 	private Combo sourceCardinalityCombo, targetCardinalityCombo;
 	private Button sourceCardinalityCheck, targetCardinalityCheck;
 
-	public RelationshipEditDialog(Shell parentShell, String sourceName, String targetName) {
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param parentShell
+	 *            親
+	 * @param sourceName
+	 *            Fromのエンティティ名
+	 * @param targetName
+	 *            Toのエンティティ名
+	 */
+	public RelationshipEditDialog(Shell parentShell, String sourceName,
+			String targetName) {
 		super(parentShell);
 		this.sourceName = sourceName;
 		this.targetName = targetName;
 	}
 
-	public RelationshipEditDialog(Shell parentShell, String sourceName, String targetName, Cardinality sourceCardinaliry, Cardinality targetCardinality, boolean sourceNoInstance, boolean targetNoInstance) {
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param parentShell
+	 *            親
+	 * @param sourceName
+	 *            Fromのエンティティ名
+	 * @param targetName
+	 *            Toのエンティティ名
+	 * @param sourceCardinaliry
+	 *            Fromのカーディナリティ
+	 * @param targetCardinality
+	 *            Toのカーディナリティ
+	 * @param sourceNoInstance
+	 *            Fromの0のカーディナリティ有無
+	 * @param targetNoInstance
+	 *            Toの0のカーディナリティ有無
+	 */
+	public RelationshipEditDialog(Shell parentShell, String sourceName,
+			String targetName, Cardinality sourceCardinaliry,
+			Cardinality targetCardinality, boolean sourceNoInstance,
+			boolean targetNoInstance) {
 		this(parentShell, sourceName, targetName);
 		this.sourceCardinality = sourceCardinaliry;
 		this.targetCardinality = targetCardinality;
@@ -37,17 +90,19 @@ public class RelationshipEditDialog extends Dialog {
 		this.targetNoInstance = targetNoInstance;
 	}
 
-//	/* (non-Javadoc)
-//	 * @see org.eclipse.jface.window.Window#constrainShellSize()
-//	 */
-//	@Override
-//	protected void constrainShellSize() {
-//		Shell shell = getShell();
-//		shell.pack();
-//		shell.setSize(200, shell.getSize().y);
-//	}
+	// /* (non-Javadoc)
+	// * @see org.eclipse.jface.window.Window#constrainShellSize()
+	// */
+	// @Override
+	// protected void constrainShellSize() {
+	// Shell shell = getShell();
+	// shell.pack();
+	// shell.setSize(200, shell.getSize().y);
+	// }
 
-	/* (non-Javadoc)
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -61,13 +116,15 @@ public class RelationshipEditDialog extends Dialog {
 		sourceCardinalityCombo = new Combo(composite, SWT.READ_ONLY);
 		sourceCardinalityCombo.add(Cardinality.ONE.getLabel());
 		sourceCardinalityCombo.add(Cardinality.MANY.getLabel());
-		sourceCardinalityCombo.select(sourceCardinalityCombo.indexOf(sourceCardinality.getLabel()));
+		sourceCardinalityCombo.select(sourceCardinalityCombo
+				.indexOf(sourceCardinality.getLabel()));
 		label = new Label(composite, SWT.NULL);
 		label.setText(":");
 		targetCardinalityCombo = new Combo(composite, SWT.READ_ONLY);
 		targetCardinalityCombo.add(Cardinality.ONE.getLabel());
 		targetCardinalityCombo.add(Cardinality.MANY.getLabel());
-		targetCardinalityCombo.select(targetCardinalityCombo.indexOf(targetCardinality.getLabel()));
+		targetCardinalityCombo.select(targetCardinalityCombo
+				.indexOf(targetCardinality.getLabel()));
 		label = new Label(composite, SWT.NULL);
 		label.setText(targetName);
 
@@ -76,8 +133,10 @@ public class RelationshipEditDialog extends Dialog {
 		sourceCardinalityCheck = new Button(composite, SWT.CHECK);
 		sourceCardinalityCheck.setSelection(this.sourceNoInstance);
 		sourceCardinalityCheck.addSelectionListener(new SelectionAdapter() {
-
-			/* (non-Javadoc)
+			/**
+			 * 
+			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			@Override
@@ -89,7 +148,7 @@ public class RelationshipEditDialog extends Dialog {
 					sourceNoInstance = false;
 				}
 			}
-			
+
 		});
 		label = new Label(composite, SWT.NULL);
 		label.setText("");
@@ -98,8 +157,11 @@ public class RelationshipEditDialog extends Dialog {
 		targetCardinalityCheck = new Button(composite, SWT.CHECK);
 		targetCardinalityCheck.setSelection(this.targetNoInstance);
 		targetCardinalityCheck.addSelectionListener(new SelectionAdapter() {
-
-			/* (non-Javadoc)
+			
+			/**
+			 * 
+			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			@Override
@@ -111,20 +173,25 @@ public class RelationshipEditDialog extends Dialog {
 					targetNoInstance = false;
 				}
 			}
-			
+
 		});
 		return composite;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
 	protected void okPressed() {
 		this.sourceCardinality = getSelectedCardinality(sourceCardinalityCombo);
-		this.targetCardinality = getSelectedCardinality(targetCardinalityCombo);;
+		this.targetCardinality = getSelectedCardinality(targetCardinalityCombo);
+		;
 		super.okPressed();
 	}
+
 	private Cardinality getSelectedCardinality(Combo combo) {
 		String selectedLabel = combo.getItem(combo.getSelectionIndex());
 		if (selectedLabel.equals(Cardinality.ONE.getLabel())) {
@@ -133,9 +200,11 @@ public class RelationshipEditDialog extends Dialog {
 			return Cardinality.MANY;
 		}
 	}
+
 	public Cardinality getSourceCardinality() {
 		return sourceCardinality;
 	}
+
 	public Cardinality getTargetCardinality() {
 		return targetCardinality;
 	}
@@ -153,5 +222,5 @@ public class RelationshipEditDialog extends Dialog {
 	public boolean isTargetNoInstance() {
 		return targetNoInstance;
 	}
-	
+
 }

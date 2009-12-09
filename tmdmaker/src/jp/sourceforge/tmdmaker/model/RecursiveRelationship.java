@@ -1,11 +1,27 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.model;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
+ * エンティティ系モデルと再帰表とのリレーションシップ
  * 
  * @author nakaG
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class RecursiveRelationship extends AbstractRelationship {
@@ -16,7 +32,9 @@ public class RecursiveRelationship extends AbstractRelationship {
 
 	/**
 	 * コンストラクタ
-	 * @param source 再帰元エンティティ
+	 * 
+	 * @param source
+	 *            再帰元エンティティ
 	 */
 	public RecursiveRelationship(AbstractEntityModel source) {
 		setSource(source);
@@ -39,19 +57,18 @@ public class RecursiveRelationship extends AbstractRelationship {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see
-	 * tm.tmdiagram.tmdeditor.model.AbstractConnectionModel#setTarget(tm.tmdiagram
-	 * .tmdeditor.model.ConnectableElement)
+	 * @see tm.tmdiagram.tmdeditor.model.AbstractConnectionModel#setTarget(tm.tmdiagram
+	 *      .tmdeditor.model.ConnectableElement)
 	 */
 	@Override
 	public void setTarget(AbstractEntityModel target) {
 		// source == targetのため設定しない
-		 super.setTarget(target);
+		super.setTarget(target);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *  
+	 * 
 	 * @see tm.tmdiagram.tmdeditor.model.AbstractConnectionModel#connect()
 	 */
 	@Override
@@ -77,13 +94,13 @@ public class RecursiveRelationship extends AbstractRelationship {
 	public void disconnect() {
 		getSource().removeSourceConnection(this);
 		table.removeTargetConnection(this);
-//		table.setDiagram(null);
+		// table.setDiagram(null);
 		diagram.removeChild(table);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#isDeletable()
 	 */
 	@Override
@@ -93,13 +110,14 @@ public class RecursiveRelationship extends AbstractRelationship {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#identifierChanged()
 	 */
 	@Override
 	public void identifierChanged() {
-//		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
+		// table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null,
+		// null);
 		table.fireIdentifierChanged(this);
 	}
-	
+
 }

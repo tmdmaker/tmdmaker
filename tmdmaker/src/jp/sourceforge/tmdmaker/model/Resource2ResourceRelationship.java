@@ -1,11 +1,27 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.model;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
+ * リソース系エンティティとリソース系エンティティとのリレーションシップ
  * 
  * @author nakaG
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class Resource2ResourceRelationship extends AbstractRelationship {
@@ -22,8 +38,11 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 
 	/**
 	 * コンストラクタ
-	 * @param source ソース
-	 * @param target ターゲット
+	 * 
+	 * @param source
+	 *            ソース
+	 * @param target
+	 *            ターゲット
 	 */
 	public Resource2ResourceRelationship(AbstractEntityModel source,
 			AbstractEntityModel target) {
@@ -49,7 +68,7 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#connect()
 	 */
 	@Override
@@ -64,7 +83,7 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disconnect()
 	 */
 	@Override
@@ -80,7 +99,7 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#isDeletable()
 	 */
 	@Override
@@ -90,12 +109,13 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#identifierChanged()
 	 */
 	@Override
 	public void identifierChanged() {
-//		table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
+		// table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null,
+		// null);
 		table.fireIdentifierChanged(this);
 	}
 }

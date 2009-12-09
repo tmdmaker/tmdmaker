@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.model;
 
 /**
+ * エンティティ
  * 
  * @author nakaG
  * 
@@ -72,9 +73,9 @@ public class Entity extends AbstractEntityModel {
 	 */
 	public void setIdentifier(Identifier identifier) {
 		Identifier oldValue = this.identifier;
-//		oldValue.setParent(null);
+		// oldValue.setParent(null);
 		this.identifier = identifier;
-//		this.identifier.setParent(this);
+		// this.identifier.setParent(this);
 		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
 	}
 
@@ -129,5 +130,5 @@ public class Entity extends AbstractEntityModel {
 				&& getModelTargetConnections().size() == 0;
 
 	}
-	
+
 }

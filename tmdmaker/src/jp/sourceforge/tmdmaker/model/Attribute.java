@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.model;
 
 /**
+ * アトリビュート
  * 
  * @author nakaG
  * 
@@ -37,11 +38,12 @@ public class Attribute extends ModelElement {
 	private String lock;
 	/** 計算式 */
 	private String derivationRule;
-//	/** 親エンティティ */
-//	private AbstractEntityModel parent;
+
+	// /** 親エンティティ */
+	// private AbstractEntityModel parent;
 
 	/**
-	 * デフォルトコンストラクタ
+	 * コンストラクタ
 	 */
 	public Attribute() {
 	}
@@ -139,7 +141,8 @@ public class Attribute extends ModelElement {
 	}
 
 	/**
-	 * @param validationRule the validationRule to set
+	 * @param validationRule
+	 *            the validationRule to set
 	 */
 	public void setValidationRule(String validationRule) {
 		this.validationRule = validationRule;
@@ -153,7 +156,8 @@ public class Attribute extends ModelElement {
 	}
 
 	/**
-	 * @param lock the lock to set
+	 * @param lock
+	 *            the lock to set
 	 */
 	public void setLock(String lock) {
 		this.lock = lock;
@@ -167,13 +171,16 @@ public class Attribute extends ModelElement {
 	}
 
 	/**
-	 * @param derivationRule the derivationRule to set
+	 * @param derivationRule
+	 *            the derivationRule to set
 	 */
 	public void setDerivationRule(String derivationRule) {
 		this.derivationRule = derivationRule;
 	}
+
 	/**
 	 * fromから自身のフィールド値へコピー（sharrow copy)する。
+	 * 
 	 * @param from
 	 */
 	public void copyFrom(Attribute from) {
@@ -186,8 +193,10 @@ public class Attribute extends ModelElement {
 		this.setValidationRule(from.getValidationRule());
 		this.setName(from.getName());
 	}
+
 	/**
 	 * toへ自身のフィールド値をコピー（sharrow copy)する。
+	 * 
 	 * @param to
 	 */
 	public void copyTo(Attribute to) {
@@ -201,18 +210,18 @@ public class Attribute extends ModelElement {
 		to.setName(getName());
 	}
 
-//	/**
-//	 * @return the parent
-//	 */
-//	public AbstractEntityModel getParent() {
-//		return parent;
-//	}
-//
-//	/**
-//	 * @param parent the parent to set
-//	 */
-//	public void setParent(AbstractEntityModel parent) {
-//		this.parent = parent;
-//	}
-	
+	// /**
+	// * @return the parent
+	// */
+	// public AbstractEntityModel getParent() {
+	// return parent;
+	// }
+	//
+	// /**
+	// * @param parent the parent to set
+	// */
+	// public void setParent(AbstractEntityModel parent) {
+	// this.parent = parent;
+	// }
+
 }

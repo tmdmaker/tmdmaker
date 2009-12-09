@@ -1,8 +1,24 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.model;
 
 import java.util.Map;
 
 /**
+ * 対照表
  * 
  * @author nakaG
  * 
@@ -13,6 +29,7 @@ public class CombinationTable extends AbstractEntityModel {
 	public static final String COMBINATION_TABLE_SUFFIX = ".対照表";
 	/** 対照表種類 */
 	private CombinationTableType combinationTableType = CombinationTableType.L_TRUTH;
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -52,8 +69,10 @@ public class CombinationTable extends AbstractEntityModel {
 		return getModelSourceConnections().size() == 0
 				&& getModelTargetConnections().size() == 1;
 	}
+
 	/**
 	 * 対象表作成時のリレーションシップを取得する
+	 * 
 	 * @return 対象表作成時のリレーションシップ（リレーションシップへのリレーションシップ）
 	 */
 	public RelatedRelationship findCreationRelationship() {
@@ -70,26 +89,28 @@ public class CombinationTable extends AbstractEntityModel {
 	}
 
 	/**
-	 * @param combinationTableType the combinationTableType to set
+	 * @param combinationTableType
+	 *            the combinationTableType to set
 	 */
-	public void setCombinationTableType(CombinationTableType combinationTableType) {
+	public void setCombinationTableType(
+			CombinationTableType combinationTableType) {
 		this.combinationTableType = combinationTableType;
 	}
 
-	
-//	public void notifyReUseKeyChange(AbstractConnectionModel<?> callConnection) {
-//		firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
-//		for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
-//
-//			if (con instanceof IdentifierChangeListener && con != callConnection ) {
-//				((IdentifierChangeListener) con).awareReUseKeysChanged();
-//			}
-//		}
-//		for (AbstractConnectionModel<?> con : getModelSourceConnections()) {
-//			if (con instanceof IdentifierChangeListener && con != callConnection ) {
-//				((IdentifierChangeListener) con).awareReUseKeysChanged();
-//			}
-//		}
-//
-//	}
+	// public void notifyReUseKeyChange(AbstractConnectionModel<?>
+	// callConnection) {
+	// firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
+	// for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
+	//
+	// if (con instanceof IdentifierChangeListener && con != callConnection ) {
+	// ((IdentifierChangeListener) con).awareReUseKeysChanged();
+	// }
+	// }
+	// for (AbstractConnectionModel<?> con : getModelSourceConnections()) {
+	// if (con instanceof IdentifierChangeListener && con != callConnection ) {
+	// ((IdentifierChangeListener) con).awareReUseKeysChanged();
+	// }
+	// }
+	//
+	// }
 }

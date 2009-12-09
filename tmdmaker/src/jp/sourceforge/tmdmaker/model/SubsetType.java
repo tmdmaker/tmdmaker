@@ -1,10 +1,25 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * サブセット種類モデル
+ * サブセット種類
  * 
  * @author nakaG
  * 
@@ -71,7 +86,8 @@ public class SubsetType extends ConnectableElement {
 	}
 
 	/**
-	 * @param partitionAttribute the partitionAttribute to set
+	 * @param partitionAttribute
+	 *            the partitionAttribute to set
 	 */
 	public void setPartitionAttribute(Attribute partitionAttribute) {
 		Attribute oldValue = this.partitionAttribute;
@@ -88,7 +104,8 @@ public class SubsetType extends ConnectableElement {
 	}
 
 	/**
-	 * @param exceptNull the exceptNull to set
+	 * @param exceptNull
+	 *            the exceptNull to set
 	 */
 	public void setExceptNull(boolean exceptNull) {
 		boolean oldValue = this.exceptNull;
@@ -96,19 +113,22 @@ public class SubsetType extends ConnectableElement {
 		firePropertyChange(PROPERTY_PARTITION, oldValue, partitionAttribute);
 		firePartitionChanged();
 	}
+
 	/**
 	 * 区分コード変更時処理
 	 */
 	public void firePartitionChanged() {
 		if (getModelTargetConnections().size() > 0) {
-			((Entity2SubsetTypeRelationship) getModelTargetConnections().get(0)).firePartitionChanged();
+			((Entity2SubsetTypeRelationship) getModelTargetConnections().get(0))
+					.firePartitionChanged();
 		}
 	}
+
 	/**
 	 * オブジェクト破棄
 	 */
 	public void dispose() {
 		// TODO 必要な処理を記述
 	}
-	
+
 }

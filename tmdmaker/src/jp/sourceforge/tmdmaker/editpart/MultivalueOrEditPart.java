@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
@@ -25,6 +40,7 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
+ * 多値のORのコントローラ
  * 
  * @author nakaG
  * 
@@ -77,9 +93,9 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		MultivalueOrEntity entity = (MultivalueOrEntity) getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
-//		List<Attribute> atts = entity.getAttributes();
+		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-//		entityFigure.removeAllAttributes();
+		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.MO.getLabel());
@@ -89,9 +105,9 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-//		for (Attribute a : atts) {
-//			entityFigure.addAttribute(a.getName());
-//		}
+		// for (Attribute a : atts) {
+		// entityFigure.addAttribute(a.getName());
+		// }
 
 	}
 
@@ -122,9 +138,10 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 				new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
+
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
 	 */
 	@Override
@@ -134,14 +151,13 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
-		return 
-		((AbstractEntityModel) getModel()).getAttributes();
+		return ((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**

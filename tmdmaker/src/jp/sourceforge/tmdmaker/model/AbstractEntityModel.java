@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * エンティティ系モデルの基底クラス
  * 
  * @author nakaG
  * 
@@ -123,13 +124,13 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public void setAttributes(List<Attribute> attributes) {
 		List<Attribute> oldValue = this.attributes;
-//		for (Attribute attribute : oldValue) {
-//			attribute.setParent(null);
-//		}
+		// for (Attribute attribute : oldValue) {
+		// attribute.setParent(null);
+		// }
 		this.attributes = attributes;
-//		for (Attribute attribute : attributes) {
-//			attribute.setParent(this);
-//		}
+		// for (Attribute attribute : attributes) {
+		// attribute.setParent(this);
+		// }
 		firePropertyChange(PROPERTY_ATTRIBUTE_REORDER, oldValue, attributes);
 	}
 
@@ -139,7 +140,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public void addAttribute(Attribute attribute) {
 		this.attributes.add(attribute);
-//		attribute.setParent(this);
+		// attribute.setParent(this);
 	}
 
 	/**
@@ -150,19 +151,22 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public void addAttribute(int index, Attribute attribute) {
 		this.attributes.add(index, attribute);
-//		attribute.setParent(this);
+		// attribute.setParent(this);
 		firePropertyChange(PROPERTY_ATTRIBUTE, null, attribute);
 	}
+
 	/**
 	 * 
-	 * @param attribute the attribute to remove
+	 * @param attribute
+	 *            the attribute to remove
 	 */
 	public void removeAttribute(Attribute attribute) {
 		if (this.attributes.remove(attribute)) {
-//			attribute.setParent(null);
+			// attribute.setParent(null);
 			firePropertyChange(PROPERTY_ATTRIBUTE, attribute, null);
 		}
 	}
+
 	/**
 	 * @return the entityType
 	 */

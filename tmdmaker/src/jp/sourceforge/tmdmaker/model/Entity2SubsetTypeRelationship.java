@@ -1,17 +1,36 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.model;
+
 /**
+ * エンティティ系モデルとサブセット種類とのリレーションシップ
  * 
  * @author nakaG
- *
+ * 
  */
 @SuppressWarnings("serial")
-public class Entity2SubsetTypeRelationship extends AbstractConnectionModel implements IdentifierChangeListener {
+public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
+		implements IdentifierChangeListener {
 	/** 区分コードプロパティ定数 */
 	public static final String PROPERTY_PARTITION = "_property_partition";
-//	/** 区分コードの属性 */
-//	private Attribute partitionAttribute;
-//	/** NULLを排除（形式的サブセット）するか？ */
-//	private boolean exceptNull;
+
+	// /** 区分コードの属性 */
+	// private Attribute partitionAttribute;
+	// /** NULLを排除（形式的サブセット）するか？ */
+	// private boolean exceptNull;
 
 	/**
 	 * @return the partitionAttributeName
@@ -20,23 +39,24 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel imple
 		return ((SubsetType) getTarget()).getPartitionAttribute();
 	}
 
-//	/**
-//	 * @param partitionAttribute the partitionAttributeName to set
-//	 */
-//	public void setPartitionAttribute(Attribute partitionAttribute) {
-//		Attribute oldValue = this.partitionAttribute;
-//		this.partitionAttribute = partitionAttribute;
-//		firePropertyChange(PROPERTY_PARTITION, oldValue, partitionAttribute);
-//	}
+	// /**
+	// * @param partitionAttribute the partitionAttributeName to set
+	// */
+	// public void setPartitionAttribute(Attribute partitionAttribute) {
+	// Attribute oldValue = this.partitionAttribute;
+	// this.partitionAttribute = partitionAttribute;
+	// firePropertyChange(PROPERTY_PARTITION, oldValue, partitionAttribute);
+	// }
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.IdentifierChangeListener#identifierChanged()
 	 */
 	@Override
 	public void identifierChanged() {
-		for (AbstractConnectionModel con : getTarget().getModelSourceConnections()) {
+		for (AbstractConnectionModel con : getTarget()
+				.getModelSourceConnections()) {
 			if (con instanceof IdentifierChangeListener) {
 				((IdentifierChangeListener) con).identifierChanged();
 			}
@@ -45,7 +65,7 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel imple
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#isDeletable()
 	 */
 	@Override
@@ -61,12 +81,12 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel imple
 		return ((SubsetType) getTarget()).isExceptNull();
 	}
 
-//	/**
-//	 * @param exceptNull the exceptNull to set
-//	 */
-//	public void setExceptNull(boolean exceptNull) {
-//		this.exceptNull = exceptNull;
-//	}
+	// /**
+	// * @param exceptNull the exceptNull to set
+	// */
+	// public void setExceptNull(boolean exceptNull) {
+	// this.exceptNull = exceptNull;
+	// }
 	/**
 	 * 区分コード変更時処理
 	 */

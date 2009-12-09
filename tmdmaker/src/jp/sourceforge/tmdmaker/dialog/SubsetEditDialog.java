@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.util.ArrayList;
@@ -16,9 +31,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
+ * サブセット編集ダイアログ
  * 
  * @author nakaG
- *
+ * 
  */
 public class SubsetEditDialog extends Dialog {
 	private SubsetSettingPanel panel;
@@ -32,12 +48,19 @@ public class SubsetEditDialog extends Dialog {
 	private List<EditSubsetEntity> editedSubsetEntities;
 	private List<EditSubsetEntity> deletedSubsetEntities;
 	private boolean editedExceptNull;
-	
 	/**
 	 * 
 	 * @param parentShell 親
+	 * @param subsetType サブセットの種類（同一/相違）
+	 * @param exceptNull 形式的サブセットの判定
+	 * @param attributes 区分コードにするアトリビュートの候補
+	 * @param subsetEntities 既作成のサブセット
+	 * @param selectedAttribute 既選択の区分コードアトリビュート
 	 */
-	public SubsetEditDialog(Shell parentShell, SubsetType.SubsetTypeValue subsetType, boolean exceptNull, List<Attribute> attributes, List<SubsetEntity> subsetEntities, Attribute selectedAttribute) {
+	public SubsetEditDialog(Shell parentShell,
+			SubsetType.SubsetTypeValue subsetType, boolean exceptNull,
+			List<Attribute> attributes, List<SubsetEntity> subsetEntities,
+			Attribute selectedAttribute) {
 		super(parentShell);
 		this.subsetType = subsetType;
 		this.exceptNull = exceptNull;
@@ -50,7 +73,7 @@ public class SubsetEditDialog extends Dialog {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -58,21 +81,25 @@ public class SubsetEditDialog extends Dialog {
 		getShell().setText("サブセット編集");
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new SubsetSettingPanel(composite, SWT.NULL);
-		panel.initializeValue(this.subsetType.equals(SubsetType.SubsetTypeValue.SAME), this.exceptNull, this.attributes, this.subsetEntities, this.selectedAttribute);
+		panel.initializeValue(this.subsetType
+				.equals(SubsetType.SubsetTypeValue.SAME), this.exceptNull,
+				this.attributes, this.subsetEntities, this.selectedAttribute);
 		return composite;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
 	protected void okPressed() {
 		editedSubsetType = createEditedSubsetType();
-		int partitionSelectionIndex = panel.getSelectedPartitionAttributeIndex();
+		int partitionSelectionIndex = panel
+				.getSelectedPartitionAttributeIndex();
 		if (partitionSelectionIndex != -1) {
-			editedPartitionAttribute = this.attributes.get(partitionSelectionIndex);
+			editedPartitionAttribute = this.attributes
+					.get(partitionSelectionIndex);
 		}
 		editedSubsetEntities = panel.getSubsetEntityList();
 		deletedSubsetEntities = panel.getDeletedSubsetEntityList();
@@ -87,14 +114,14 @@ public class SubsetEditDialog extends Dialog {
 			return SubsetType.SubsetTypeValue.DIFFERENT;
 		}
 	}
-	
+
 	/**
 	 * @return the editedSubsetType
 	 */
 	public SubsetType.SubsetTypeValue getEditedSubsetType() {
 		return editedSubsetType;
 	}
-	
+
 	/**
 	 * @return the editedPartitionAttribute
 	 */
@@ -123,5 +150,4 @@ public class SubsetEditDialog extends Dialog {
 		return editedExceptNull;
 	}
 
-	
 }

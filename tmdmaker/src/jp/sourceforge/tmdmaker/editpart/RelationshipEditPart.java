@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
@@ -23,15 +38,16 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
+ * リレーションシップのコントローラ
  * 
  * @author nakaG
- *
+ * 
  */
 public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#createFigure()
 	 */
 	@Override
@@ -41,9 +57,11 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 
 		return connection;
 	}
+
 	/**
 	 * 
-	 * @param connection figure
+	 * @param connection
+	 *            figure
 	 */
 	protected void updateFigure(RelationshipFigure connection) {
 		AbstractRelationship model = (AbstractRelationship) getModel();

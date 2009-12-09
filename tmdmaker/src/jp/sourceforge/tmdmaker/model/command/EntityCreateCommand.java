@@ -24,7 +24,7 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import org.eclipse.gef.commands.Command;
 
 /**
- * エンティティ作成コマンド
+ * エンティティ作成Command
  * 
  * @author nakaG
  * 

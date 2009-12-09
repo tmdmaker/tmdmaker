@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.model;
 
 /**
+ * 多値のANDのディテール
  * 
  * @author nakaG
  * 
@@ -27,12 +28,13 @@ public class Detail extends AbstractEntityModel {
 
 	/** DTLの個体指定子 */
 	private Identifier detailIdentifier = new Identifier();
-	
-//	public Detail() {
-//		detailIdentifier.setParent(this);
-//	}
+
+	// public Detail() {
+	// detailIdentifier.setParent(this);
+	// }
 	/**
 	 * DTLの個体指定子名を設定する
+	 * 
 	 * @param name
 	 */
 	public void setDetailIdentifierName(String name) {
@@ -41,24 +43,25 @@ public class Detail extends AbstractEntityModel {
 		if (oldValue == null || !oldValue.equals(name)) {
 			firePropertyChange(PROPERTY_IDENTIFIER, oldValue, name);
 			fireIdentifierChanged(null);
-		}		
+		}
 	}
-	
+
 	/**
 	 * @return the detailIdentifier
 	 */
 	public Identifier getDetailIdentifier() {
 		return detailIdentifier;
 	}
-	
+
 	/**
-	 * @param detailIdentifier the detailIdentifier to set
+	 * @param detailIdentifier
+	 *            the detailIdentifier to set
 	 */
 	public void setDetailIdentifier(Identifier detailIdentifier) {
 		Identifier oldValue = this.detailIdentifier;
-//		oldValue.setParent(null);
+		// oldValue.setParent(null);
 		this.detailIdentifier = detailIdentifier;
-//		this.detailIdentifier.setParent(this);
+		// this.detailIdentifier.setParent(this);
 		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, detailIdentifier);
 	}
 
@@ -110,6 +113,7 @@ public class Detail extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return getModelSourceConnections().size() == 1 && getModelTargetConnections().size() == 1;
+		return getModelSourceConnections().size() == 1
+				&& getModelTargetConnections().size() == 1;
 	}
 }
