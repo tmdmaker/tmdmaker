@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -177,24 +178,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	 * @return
 	 */
 	private String createEntityName(String identifierName) {
-		String[] suffixes = { "コード", "ID", "ＩＤ", "id", "ｉｄ", "番号", "No" };
-		String[] reportSuffixes = { "伝票", "報告書", "書", "レポート" };
-		String entityName = identifierName;
-		for (String suffix : suffixes) {
-			if (identifierName.endsWith(suffix)) {
-				entityName = identifierName.substring(0, identifierName
-						.lastIndexOf(suffix));
-				break;
-			}
-		}
-		for (String reportSuffix : reportSuffixes) {
-			if (entityName.endsWith(reportSuffix)) {
-				entityName = entityName.substring(0, entityName
-						.lastIndexOf(reportSuffix));
-				break;
-			}
-		}
-		return entityName;
+		return EntityRecognitionRule.generateEntityNameFromIdentifier(identifierName);
 	}
 	/**
 	 * @return the entityName

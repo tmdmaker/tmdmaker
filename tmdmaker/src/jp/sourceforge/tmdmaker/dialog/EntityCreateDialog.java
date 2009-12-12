@@ -33,8 +33,6 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 public class EntityCreateDialog extends Dialog {
-	/** 個体指定子名称 */
-	private String inputIdentifierName;
 	/** エンティティ名称 */
 	private String inputEntityName;
 	/** 類別 */
@@ -42,8 +40,8 @@ public class EntityCreateDialog extends Dialog {
 	/** エンティティ名称・種類設定用パネル */
 	private EntityNameAndTypeSettingPanel panel;
 	/** 個体指定子 */
-	private Identifier newIdentifier;
-	
+	private Identifier inputIdentifier;
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -68,8 +66,8 @@ public class EntityCreateDialog extends Dialog {
 
 		panel = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
 		panel.setEditIdentifier(new EditAttribute());
-//		panel.setInitialFocus();
-		
+		// panel.setInitialFocus();
+
 		return composite;
 	}
 
@@ -81,14 +79,13 @@ public class EntityCreateDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		this.inputIdentifierName = this.panel.getIdentifierName();
 		this.inputEntityType = this.panel.getSelectedType();
 		this.inputEntityName = this.panel.getEntityName();
 		this.panel.getEditIdentifier();
-		this.newIdentifier = new Identifier(this.panel.getIdentifierName());
+		this.inputIdentifier = new Identifier(this.panel.getIdentifierName());
 		EditAttribute editIdentifier = this.panel.getEditIdentifier();
-		editIdentifier.copyTo(this.newIdentifier);
-		
+		editIdentifier.copyTo(this.inputIdentifier);
+
 		if (validate()) {
 			super.okPressed();
 		} else {
@@ -103,17 +100,10 @@ public class EntityCreateDialog extends Dialog {
 	 * @return 必須事項が全て入力されている場合にtrueを返す
 	 */
 	private boolean validate() {
-		return this.inputIdentifierName != null
-				&& this.inputIdentifierName.length() > 0
+		String inputIdentifierName = this.inputIdentifier.getName();
+		return inputIdentifierName != null && inputIdentifierName.length() > 0
 				&& this.inputEntityName != null
 				&& this.inputEntityName.length() > 0;
-	}
-
-	/**
-	 * @return the inputIdentifierName
-	 */
-	public String getInputIdentifierName() {
-		return inputIdentifierName;
 	}
 
 	/**
@@ -128,6 +118,13 @@ public class EntityCreateDialog extends Dialog {
 	 */
 	public String getInputEntityName() {
 		return inputEntityName;
+	}
+
+	/**
+	 * @return the inputIdentifier
+	 */
+	public Identifier getInputIdentifier() {
+		return inputIdentifier;
 	}
 
 }

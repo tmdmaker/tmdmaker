@@ -36,8 +36,9 @@ public class EntityCreateCommand extends Command {
 	private Entity model;
 	/** エンティティ名 */
 	private String entityName;
-	/** 個体指定子名称 */
-	private String identifierName;
+	/** 個体指定子 */
+	private Identifier identifier;
+
 	/** エンティティ種類 */
 	private EntityType entityType;
 	/** デフォルトで追加するアトリビュート名 */
@@ -58,9 +59,6 @@ public class EntityCreateCommand extends Command {
 	public EntityCreateCommand(Diagram diagram, Entity model) {
 		this.diagram = diagram;
 		this.model = model;
-//		this.entityName = entityName;
-//		this.identifierName = identifierName;
-//		this.entityType = entityType;
 	}
 
 	/**
@@ -76,11 +74,9 @@ public class EntityCreateCommand extends Command {
 		}
 		if (entityName != null && entityName.length() > 0) {
 			model.setName(entityName);
-//			model.setPhysicalName(model.getName());
+			// model.setPhysicalName(model.getName());
 			model.setEntityType(entityType);
-			Identifier identifier = new Identifier(identifierName);
 			model.setIdentifier(identifier);
-			// model.setDiagram(diagram);
 			diagram.addChild(model);
 		}
 	}
@@ -105,21 +101,16 @@ public class EntityCreateCommand extends Command {
 	}
 
 	/**
-	 * @param entityName the entityName to set
+	 * @param entityName
+	 *            the entityName to set
 	 */
 	public void setEntityName(String entityName) {
 		this.entityName = entityName;
 	}
 
 	/**
-	 * @param identifierName the identifierName to set
-	 */
-	public void setIdentifierName(String identifierName) {
-		this.identifierName = identifierName;
-	}
-
-	/**
-	 * @param entityType the entityType to set
+	 * @param entityType
+	 *            the entityType to set
 	 */
 	public void setEntityType(EntityType entityType) {
 		this.entityType = entityType;
@@ -130,6 +121,14 @@ public class EntityCreateCommand extends Command {
 	 */
 	public String getEntityName() {
 		return entityName;
+	}
+
+	/**
+	 * @param identifier
+	 *            the identifier to set
+	 */
+	public void setIdentifier(Identifier identifier) {
+		this.identifier = identifier;
 	}
 
 }

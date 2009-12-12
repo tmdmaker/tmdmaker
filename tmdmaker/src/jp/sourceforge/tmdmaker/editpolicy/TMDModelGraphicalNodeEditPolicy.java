@@ -17,13 +17,13 @@ package jp.sourceforge.tmdmaker.editpolicy;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
-import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship;
 import jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.strategy.ResourceAndEventEntitiesSwitchStrategy;
+import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
@@ -78,64 +78,26 @@ public class TMDModelGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 		Command command = null;
 		// 再帰
-		if (source == target) {
+		if (RelationshipRule.isRecursive(source, target)) {
 			logger.debug("Recursive");
 			command = createRecursiveTableCommand(request);
 			command.setLabel("Recursive");
-		} else if (isR2E(source, target)) {
+		} else if (RelationshipRule.isR2E(source, target)) {
 			logger.debug("RESOURCE:EVENT");
-			command = createR2ERelationshipCommand(startCommand);
+			command = createR2ERelationshipCommand(request);
 			command.setLabel("RESOURCE:EVENT");
-		} else if (isR2R(source, target)) {
+		} else if (RelationshipRule.isR2R(source, target)) {
 			logger.debug("RESOURCE:RESOURCE");
 			/* 対照表作成 */
 			command = createCombinationTableCommand(request);
 			command.setLabel("RESOURCE:RESOURCE");
-		} else if (isE2E(source, target)) {
+		} else if (RelationshipRule.isE2E(source, target)) {
 			logger.debug("EVENT:EVENT");
 			/* 通常コネクション */
 			command = createE2ERelationshipCommand(request);
 			command.setLabel("EVENT:EVENT");
 		} // else 対応表とのリレーションシップ
 		return command;
-	}
-
-	/**
-	 * エンティティの関連がR:Rかを判定する。
-	 * 
-	 * @param source
-	 * @param target
-	 * @return RESOURCE:Rの場合にtrueを返す。
-	 */
-	private boolean isR2R(AbstractEntityModel source, AbstractEntityModel target) {
-		return source.getEntityType().equals(EntityType.RESOURCE)
-				&& target.getEntityType().equals(EntityType.RESOURCE);
-	}
-
-	/**
-	 * エンティティの関連がR:Eかを判定する。
-	 * 
-	 * @param source
-	 * @param target
-	 * @return RESOURCE:Eの場合にtrueを返す。
-	 */
-	private boolean isR2E(AbstractEntityModel source, AbstractEntityModel target) {
-		return (source.getEntityType().equals(EntityType.EVENT) && target
-				.getEntityType().equals(EntityType.RESOURCE))
-				|| (source.getEntityType().equals(EntityType.RESOURCE) && target
-						.getEntityType().equals(EntityType.EVENT));
-	}
-
-	/**
-	 * エンティティの関連がE:Eかを判定する。
-	 * 
-	 * @param source
-	 * @param target
-	 * @return EVENT:Eの場合にtrueを返す。
-	 */
-	private boolean isE2E(AbstractEntityModel source, AbstractEntityModel target) {
-		return source.getEntityType().equals(EntityType.EVENT)
-				&& target.getEntityType().equals(EntityType.EVENT);
 	}
 
 	/**
@@ -206,7 +168,6 @@ public class TMDModelGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 				getAbstractEntityModel());
 		startCommand.setConnection(relationship);
 		startCommand.setTarget(getAbstractEntityModel());
-		startCommand.setLabel("E2E");
 		startCommand.setStrategy(null);
 		return startCommand;
 	}
@@ -218,18 +179,13 @@ public class TMDModelGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 * @return
 	 */
 	protected Command createR2ERelationshipCommand(
-			ConnectionCreateCommand command) {
-		command.setConnection(new TransfarReuseKeysToTargetRelationship());
-		command.setTarget(getAbstractEntityModel());
-		command.setStrategy(new ResourceAndEventEntitiesSwitchStrategy());
-		return command;
-		// Resource2EventConnectionCreateCommand newCommand = new
-		// Resource2EventConnectionCreateCommand(
-		// (AbstractEntityModel) command.getSource(),
-		// (AbstractEntityModel) getHost().getModel(),
-		// new TransfarReuseKeysToTargetRelationship());
-		// // new Resource2EventRelationship());
-		// return newCommand;
+			CreateConnectionRequest request) {
+		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
+				.getStartCommand();
+		startCommand.setConnection(new TransfarReuseKeysToTargetRelationship());
+		startCommand.setTarget(getAbstractEntityModel());
+		startCommand.setStrategy(new ResourceAndEventEntitiesSwitchStrategy());
+		return startCommand;
 	}
 
 	/**

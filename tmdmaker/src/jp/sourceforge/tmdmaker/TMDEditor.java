@@ -520,13 +520,12 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 									logger
 											.debug(getClass()
 													+ "#stackChanged():dialog.open() == Dialog.OK)");
-									command.setIdentifierName(dialog
-											.getInputIdentifierName());
 									command.setEntityName(dialog
 											.getInputEntityName());
 									EntityType entityType = dialog
 											.getInputEntityType();
 									command.setEntityType(entityType);
+									command.setIdentifier(dialog.getInputIdentifier());
 									if (entityType.equals(EntityType.EVENT)) {
 										command.setDefaultAttributeName(command
 												.getEntityName()
