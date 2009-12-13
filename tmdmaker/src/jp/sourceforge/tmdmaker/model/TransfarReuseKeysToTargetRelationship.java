@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
+
 /**
  * ソースのRe-usedをターゲットへ移送するリレーションシップ
  * 
@@ -23,6 +25,25 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship {
+	
+	public TransfarReuseKeysToTargetRelationship() {	
+	}
+	
+	public TransfarReuseKeysToTargetRelationship(AbstractEntityModel source,
+			AbstractEntityModel target) {
+		AbstractEntityModel from = null;
+		AbstractEntityModel to = null;
+		if (EntityTypeRule.isResource(source)) {
+			from = source;
+			to = target;
+		} else {
+			from = target;
+			to = source;
+		}
+		setSource(from);
+		setTarget(to);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

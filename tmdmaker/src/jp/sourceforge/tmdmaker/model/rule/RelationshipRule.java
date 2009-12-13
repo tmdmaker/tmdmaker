@@ -16,6 +16,14 @@
 package jp.sourceforge.tmdmaker.model.rule;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
+import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
+import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
+import jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship;
+import jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 関係の文法に関するルールをまとめたクラス
@@ -24,6 +32,29 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
  * 
  */
 public class RelationshipRule {
+	/** logging */
+	private static Logger logger = LoggerFactory.getLogger(RelationshipRule.class);
+
+	public static AbstractRelationship createRelationship(AbstractEntityModel source, AbstractEntityModel target) {
+		AbstractRelationship relationship = null;
+		// 再帰
+		if (isRecursive(source, target)) {
+			logger.debug("Recursive");
+			relationship = new RecursiveRelationship(source);
+		} else if (isR2E(source, target)) {
+			logger.debug("RESOURCE:EVENT");
+			relationship = new TransfarReuseKeysToTargetRelationship(source, target);
+		} else if (isR2R(source, target)) {
+			logger.debug("RESOURCE:RESOURCE");
+			/* 対照表作成 */
+			relationship = new Resource2ResourceRelationship(source, target);
+		} else if (isE2E(source, target)) {
+			logger.debug("EVENT:EVENT");
+			/* 通常コネクション */
+			relationship = new Event2EventRelationship(source, target);
+		} // else 対応表とのリレーションシップ
+		return relationship;
+	}
 	/**
 	 * エンティティの関連が再帰かを判定する。
 	 * 
@@ -31,7 +62,7 @@ public class RelationshipRule {
 	 * @param target
 	 * @return エンティティが同一インスタンスの場合にtrueを返す。
 	 */
-	public static boolean isRecursive(AbstractEntityModel source,
+	private static boolean isRecursive(AbstractEntityModel source,
 			AbstractEntityModel target) {
 		return source == target;
 	}
@@ -43,7 +74,7 @@ public class RelationshipRule {
 	 * @param target
 	 * @return RESOURCE:Rの場合にtrueを返す。
 	 */
-	public static boolean isR2R(AbstractEntityModel source,
+	private static boolean isR2R(AbstractEntityModel source,
 			AbstractEntityModel target) {
 		return EntityTypeRule.isResource(source)
 				&& EntityTypeRule.isResource(target);
@@ -56,7 +87,7 @@ public class RelationshipRule {
 	 * @param target
 	 * @return RESOURCE:Eの場合にtrueを返す。
 	 */
-	public static boolean isR2E(AbstractEntityModel source,
+	private static boolean isR2E(AbstractEntityModel source,
 			AbstractEntityModel target) {
 		return (EntityTypeRule.isEvent(source) && EntityTypeRule
 				.isResource(target))
@@ -71,7 +102,7 @@ public class RelationshipRule {
 	 * @param target
 	 * @return EVENT:Eの場合にtrueを返す。
 	 */
-	public static boolean isE2E(AbstractEntityModel source,
+	private static boolean isE2E(AbstractEntityModel source,
 			AbstractEntityModel target) {
 		return EntityTypeRule.isEvent(source) && EntityTypeRule.isEvent(target);
 	}

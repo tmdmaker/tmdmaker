@@ -16,13 +16,7 @@
 package jp.sourceforge.tmdmaker.editpolicy;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
-import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
-import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
-import jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship;
-import jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
-import jp.sourceforge.tmdmaker.model.command.strategy.ResourceAndEventEntitiesSwitchStrategy;
 import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
 
 import org.eclipse.gef.commands.Command;
@@ -75,116 +69,10 @@ public class TMDModelGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 		AbstractEntityModel source = (AbstractEntityModel) startCommand
 				.getSource();
 		AbstractEntityModel target = (AbstractEntityModel) getHost().getModel();
+		startCommand.setTarget(target);
+		startCommand.setConnection(RelationshipRule.createRelationship(source,
+				target));
 
-		Command command = null;
-		// 再帰
-		if (RelationshipRule.isRecursive(source, target)) {
-			logger.debug("Recursive");
-			command = createRecursiveTableCommand(request);
-			command.setLabel("Recursive");
-		} else if (RelationshipRule.isR2E(source, target)) {
-			logger.debug("RESOURCE:EVENT");
-			command = createR2ERelationshipCommand(request);
-			command.setLabel("RESOURCE:EVENT");
-		} else if (RelationshipRule.isR2R(source, target)) {
-			logger.debug("RESOURCE:RESOURCE");
-			/* 対照表作成 */
-			command = createCombinationTableCommand(request);
-			command.setLabel("RESOURCE:RESOURCE");
-		} else if (RelationshipRule.isE2E(source, target)) {
-			logger.debug("EVENT:EVENT");
-			/* 通常コネクション */
-			command = createE2ERelationshipCommand(request);
-			command.setLabel("EVENT:EVENT");
-		} // else 対応表とのリレーションシップ
-		return command;
-	}
-
-	/**
-	 * 対照表を作成する。
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Command createCombinationTableCommand(
-			CreateConnectionRequest request) {
-
-		// 元エンティティと先エンティティを接続
-		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
-				.getStartCommand();
-
-		startCommand.setTarget(getAbstractEntityModel());
-		((AbstractRelationship) startCommand.getConnection())
-				.setCenterMark(true);
-
-		AbstractEntityModel source = (AbstractEntityModel) startCommand
-				.getSource();
-		AbstractEntityModel target = (AbstractEntityModel) startCommand
-				.getTarget();
-		Resource2ResourceRelationship relationship = new Resource2ResourceRelationship(
-				source, target);
-		startCommand.setConnection(relationship);
-		startCommand.setStrategy(null);
-		return startCommand;
-	}
-
-	/**
-	 * 再帰表を作成する。
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Command createRecursiveTableCommand(CreateConnectionRequest request) {
-		logger.debug(getClass() + "#createRecursiveTableCommand() start");
-
-		// 元エンティティと先エンティティを接続
-		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
-				.getStartCommand();
-		AbstractEntityModel source = (AbstractEntityModel) startCommand
-				.getSource();
-		RecursiveRelationship relationship = new RecursiveRelationship(source);
-
-		startCommand.setConnection(relationship);
-		startCommand.setSource(source);
-		startCommand.setTarget(getAbstractEntityModel());
-		startCommand.setStrategy(null);
-
-		logger.debug(getClass() + "#createRecursiveTableCommand() end");
-		return startCommand;
-
-	}
-
-	/**
-	 * EventとEventのリレーションシップを作成する。
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Command createE2ERelationshipCommand(CreateConnectionRequest request) {
-		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
-				.getStartCommand();
-		Event2EventRelationship relationship = new Event2EventRelationship(
-				(AbstractEntityModel) startCommand.getSource(),
-				getAbstractEntityModel());
-		startCommand.setConnection(relationship);
-		startCommand.setTarget(getAbstractEntityModel());
-		startCommand.setStrategy(null);
-		return startCommand;
-	}
-
-	/**
-	 * ResourceとEventのリレーションシップを作成する。
-	 * 
-	 * @param command
-	 * @return
-	 */
-	protected Command createR2ERelationshipCommand(
-			CreateConnectionRequest request) {
-		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
-				.getStartCommand();
-		startCommand.setConnection(new TransfarReuseKeysToTargetRelationship());
-		startCommand.setTarget(getAbstractEntityModel());
-		startCommand.setStrategy(new ResourceAndEventEntitiesSwitchStrategy());
 		return startCommand;
 	}
 

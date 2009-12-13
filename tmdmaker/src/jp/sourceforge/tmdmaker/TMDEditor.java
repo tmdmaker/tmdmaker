@@ -489,9 +489,10 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 				getGraphicalViewer());
 		getActionRegistry().registerAction(action6);
 
-		AttributeListSaveAction action7 = new AttributeListSaveAction(getGraphicalViewer());
+		AttributeListSaveAction action7 = new AttributeListSaveAction(
+				getGraphicalViewer());
 		getActionRegistry().registerAction(action7);
-		
+
 		// when entity create, show dialog and set properties.
 		getCommandStack().addCommandStackEventListener(
 				new CommandStackEventListener() {
@@ -525,7 +526,8 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 									EntityType entityType = dialog
 											.getInputEntityType();
 									command.setEntityType(entityType);
-									command.setIdentifier(dialog.getInputIdentifier());
+									command.setIdentifier(dialog
+											.getInputIdentifier());
 									if (entityType.equals(EntityType.EVENT)) {
 										command.setDefaultAttributeName(command
 												.getEntityName()
@@ -569,9 +571,13 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 										relationship
 												.setSourceCardinality(dialog
 														.getSourceCardinality());
+										relationship.setSourceNoInstance(dialog
+												.isSourceNoInstance());
 										relationship
 												.setTargetCardinality(dialog
 														.getTargetCardinality());
+										relationship.setTargetNoInstance(dialog
+												.isTargetNoInstance());
 									}
 								}
 

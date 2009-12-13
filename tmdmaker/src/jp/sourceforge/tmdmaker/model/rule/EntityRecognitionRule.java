@@ -30,24 +30,44 @@ public class EntityRecognitionRule {
 	 * @return 生成したエンティティ名称
 	 */
 	public static String generateEntityNameFromIdentifier(String identifierName) {
+		String entityName = removeIdentifierSuffixFromIdentifierName(identifierName);
+		return removeReportNameSuffixFromEntityName(entityName);
+	}
+
+	/**
+	 * 個体指定子名を表す文言を個体指定子名から取り除く
+	 * 
+	 * @param identifierName
+	 *            個体指定子名
+	 * @return 編集後個体指定子名
+	 */
+	private static String removeIdentifierSuffixFromIdentifierName(
+			String identifierName) {
 		String[] suffixes = { "コード", "ID", "ＩＤ", "id", "ｉｄ", "番号", "No" };
-		String[] reportSuffixes = { "伝票", "報告書", "書", "レポート" };
-		String entityName = identifierName;
 		for (String suffix : suffixes) {
 			if (identifierName.endsWith(suffix)) {
-				entityName = identifierName.substring(0, identifierName
+				return identifierName.substring(0, identifierName
 						.lastIndexOf(suffix));
-				break;
 			}
 		}
+		return identifierName;
+	}
+
+	/**
+	 * レポート名を表す文言をエンティティ名から取り除く
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @return 編集後エンティティ名
+	 */
+	private static String removeReportNameSuffixFromEntityName(String entityName) {
+		String[] reportSuffixes = { "伝票", "報告書", "書", "レポート" };
 		for (String reportSuffix : reportSuffixes) {
 			if (entityName.endsWith(reportSuffix)) {
-				entityName = entityName.substring(0, entityName
+				return entityName.substring(0, entityName
 						.lastIndexOf(reportSuffix));
-				break;
 			}
 		}
 		return entityName;
-
 	}
 }

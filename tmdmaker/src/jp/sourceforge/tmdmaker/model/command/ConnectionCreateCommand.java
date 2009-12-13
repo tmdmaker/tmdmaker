@@ -17,7 +17,6 @@ package jp.sourceforge.tmdmaker.model.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
-import jp.sourceforge.tmdmaker.model.command.ConnectingModelSwitchStrategy.ModelPair;
 
 import org.eclipse.gef.commands.Command;
 
@@ -43,9 +42,6 @@ public class ConnectionCreateCommand extends Command {
 	 */
 	private AbstractConnectionModel connection;
 
-	/** ソースとターゲットの入れ替え処理 */
-	private ConnectingModelSwitchStrategy strategy;
-
 	/**
 	 * デフォルトコンストラクタ
 	 */
@@ -70,27 +66,20 @@ public class ConnectionCreateCommand extends Command {
 		return source != null && target != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
 	public void execute() {
-		if (connection.getSource() == null || connection.getTarget() == null) {
-			if (strategy != null) {
-				ModelPair pair = strategy.switchModel(source, target);
-				source = pair.source;
-				target = pair.target;
-			}
-			connection.setSource(source);
-			connection.setTarget(target);
-		}
 		connection.connect();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
+	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
@@ -139,13 +128,4 @@ public class ConnectionCreateCommand extends Command {
 	public ConnectableElement getTarget() {
 		return target;
 	}
-
-	/**
-	 * @param strategy
-	 *            the strategy to set
-	 */
-	public void setStrategy(ConnectingModelSwitchStrategy strategy) {
-		this.strategy = strategy;
-	}
-
 }
