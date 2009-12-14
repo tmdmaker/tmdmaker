@@ -528,15 +528,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 									command.setEntityType(entityType);
 									command.setIdentifier(dialog
 											.getInputIdentifier());
-									if (entityType.equals(EntityType.EVENT)) {
-										command.setDefaultAttributeName(command
-												.getEntityName()
-												+ "日");
-									} else {
-										command.setDefaultAttributeName(command
-												.getEntityName()
-												+ "名称");
-									}
 								}
 							}
 						}

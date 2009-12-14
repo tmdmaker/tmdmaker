@@ -15,11 +15,11 @@
  */
 package jp.sourceforge.tmdmaker.model.command;
 
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
 
 import org.eclipse.gef.commands.Command;
 
@@ -38,11 +38,8 @@ public class EntityCreateCommand extends Command {
 	private String entityName;
 	/** 個体指定子 */
 	private Identifier identifier;
-
 	/** エンティティ種類 */
 	private EntityType entityType;
-	/** デフォルトで追加するアトリビュート名 */
-	private String defaultAttributeName;
 
 	/**
 	 * コンストラクタ
@@ -69,14 +66,14 @@ public class EntityCreateCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		if (defaultAttributeName != null && model.getAttributes().size() == 0) {
-			model.addAttribute(new Attribute(defaultAttributeName));
-		}
 		if (entityName != null && entityName.length() > 0) {
 			model.setName(entityName);
 			// model.setPhysicalName(model.getName());
 			model.setEntityType(entityType);
 			model.setIdentifier(identifier);
+			if (!EntityTypeRule.hasDefaultAttributeAlreadyAdded(model)) {
+				EntityTypeRule.addDefaultAttribute(model);
+			}
 			diagram.addChild(model);
 		}
 	}
@@ -90,14 +87,6 @@ public class EntityCreateCommand extends Command {
 	@Override
 	public void undo() {
 		diagram.removeChild(model);
-	}
-
-	/**
-	 * @param defaultAttributeName
-	 *            the defaultAttributeName to set
-	 */
-	public void setDefaultAttributeName(String transactionDate) {
-		this.defaultAttributeName = transactionDate;
 	}
 
 	/**

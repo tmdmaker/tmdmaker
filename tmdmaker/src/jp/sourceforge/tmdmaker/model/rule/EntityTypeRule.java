@@ -16,6 +16,8 @@
 package jp.sourceforge.tmdmaker.model.rule;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 
 /**
@@ -43,5 +45,32 @@ public class EntityTypeRule {
 	 */
 	public static boolean isEvent(AbstractEntityModel model) {
 		return model.getEntityType().equals(EntityType.EVENT);
+	}
+
+	/**
+	 * エンティティ種類によりエンティティ作成時に保持するアトリビュートを追加する
+	 * 
+	 * @param model
+	 *            作成対象エンティティ
+	 */
+	public static void addDefaultAttribute(Entity model) {
+		Attribute defaultAttribute = new Attribute();
+		if (isEvent(model)) {
+			defaultAttribute.setName(model.getName() + "日");
+		} else {
+			defaultAttribute.setName(model.getName() + "名称");
+		}
+		model.addAttribute(defaultAttribute);
+	}
+
+	/**
+	 * エンティティ作成時に保持するアトリビュートが既に追加されているか
+	 * 
+	 * @param model
+	 *            チェック対象エンティティ
+	 * @return アトリビュートが追加されている場合にtrueを返す
+	 */
+	public static boolean hasDefaultAttributeAlreadyAdded(Entity model) {
+		return model.getAttributes().size() > 0;
 	}
 }
