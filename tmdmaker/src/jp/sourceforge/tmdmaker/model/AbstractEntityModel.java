@@ -187,15 +187,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * 
 	 * @return SubsetType。存在しない場合はnullを返す。
 	 */
-	public SubsetType findSubset() {
-		// for (AbstractConnectionModel<?> connection :
-		// getModelSourceConnections()) {
-		// if (connection instanceof Entity2SubsetTypeRelationship) {
-		// return (SubsetType) ((Entity2SubsetTypeRelationship) connection)
-		// .getTarget();
-		// }
-		// }
-		// return null;
+	public SubsetType findSubsetType() {
 		List<AbstractConnectionModel> results = findRelationship(
 				getModelSourceConnections(),
 				Entity2SubsetTypeRelationship.class);

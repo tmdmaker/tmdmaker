@@ -24,7 +24,7 @@ import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
-import jp.sourceforge.tmdmaker.action.SubsetEditAction;
+import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog;
@@ -402,7 +402,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
 
-		SubsetEditAction action1 = new SubsetEditAction(this);
+		SubsetCreateAction action1 = new SubsetCreateAction(this);
 		registry.registerAction(action1);
 		selectionActions.add(action1.getId());
 		action1.setSelectionProvider(getGraphicalViewer());

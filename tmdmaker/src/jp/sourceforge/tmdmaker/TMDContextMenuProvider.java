@@ -19,7 +19,7 @@ import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
-import jp.sourceforge.tmdmaker.action.SubsetEditAction;
+import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 
@@ -78,7 +78,7 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 	public void buildContextMenu(IMenuManager menu) {
 
 		// GEFActionConstants.addStandardActionGroups(menu);
-		menu.add(getActionRegistry().getAction(SubsetEditAction.ID));
+		menu.add(getActionRegistry().getAction(SubsetCreateAction.ID));
 
 		MenuManager multivalueMenu = new MenuManager("データ の多値");
 		multivalueMenu.add(getActionRegistry().getAction(

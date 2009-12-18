@@ -27,10 +27,19 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	/** 区分コードプロパティ定数 */
 	public static final String PROPERTY_PARTITION = "_property_partition";
 
-	// /** 区分コードの属性 */
-	// private Attribute partitionAttribute;
-	// /** NULLを排除（形式的サブセット）するか？ */
-	// private boolean exceptNull;
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param source
+	 *            サブセット作成元モデル
+	 * @param target
+	 *            サブセット種類
+	 */
+	public Entity2SubsetTypeRelationship(AbstractEntityModel source,
+			ConnectableElement target) {
+		setSource(source);
+		setTarget(target);
+	}
 
 	/**
 	 * @return the partitionAttributeName
@@ -38,15 +47,6 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	public Attribute getPartitionAttribute() {
 		return ((SubsetType) getTarget()).getPartitionAttribute();
 	}
-
-	// /**
-	// * @param partitionAttribute the partitionAttributeName to set
-	// */
-	// public void setPartitionAttribute(Attribute partitionAttribute) {
-	// Attribute oldValue = this.partitionAttribute;
-	// this.partitionAttribute = partitionAttribute;
-	// firePropertyChange(PROPERTY_PARTITION, oldValue, partitionAttribute);
-	// }
 
 	/**
 	 * {@inheritDoc}
@@ -81,12 +81,6 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 		return ((SubsetType) getTarget()).isExceptNull();
 	}
 
-	// /**
-	// * @param exceptNull the exceptNull to set
-	// */
-	// public void setExceptNull(boolean exceptNull) {
-	// this.exceptNull = exceptNull;
-	// }
 	/**
 	 * 区分コード変更時処理
 	 */
