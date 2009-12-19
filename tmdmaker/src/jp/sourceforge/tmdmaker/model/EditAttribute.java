@@ -47,7 +47,7 @@ public class EditAttribute {
 	 * コンストラクタ
 	 */
 	public EditAttribute() {
-
+		this.originalAttribute = new Attribute();
 	}
 
 	/**
@@ -91,7 +91,9 @@ public class EditAttribute {
 		this.name = name;
 		setEdited(true);
 	}
-
+	public boolean isNameChanged() {
+		return !this.name.equals(originalAttribute.getName());
+	}
 	/**
 	 * @return the originalAttribute
 	 */
@@ -115,7 +117,7 @@ public class EditAttribute {
 	}
 
 	public boolean isAdded() {
-		return originalAttribute == null;
+		return originalAttribute.getName() == null;
 	}
 
 	/**
@@ -238,16 +240,6 @@ public class EditAttribute {
 		setEdited(true);
 	}
 
-	// public Attribute createEditedAttribute() {
-	// Attribute a = new Attribute();
-	// a.setName(name);
-	// a.setDataType(dataType);
-	// a.setDerivationRule(derivationRule);
-	// a.setDescription(description);
-	// a.setLock(lock);
-	// a.setValidationRule(validationRule);
-	// return a;
-	// }
 	/**
 	 * toへ自身のフィールド値をコピー（sharrow copy)する。
 	 * 
@@ -276,6 +268,13 @@ public class EditAttribute {
 			to.setValidationRule(validationRule);
 		}
 		to.setName(name);
+	}
+
+	/**
+	 * 元のアトリビュートへ自身のフィールド値をコピーする。
+	 */
+	public void copyToOriginal() {
+		copyTo(originalAttribute);
 	}
 
 	/**
