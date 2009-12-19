@@ -174,11 +174,11 @@ public class CombinationTableEditDialog extends Dialog {
 
 		for (EditAttribute ea : editAttributeList) {
 			Attribute originalAttribute = ea.getOriginalAttribute();
-			if (originalAttribute == null) {
-				originalAttribute = new Attribute(ea.getName());
-				addAttributes.add(originalAttribute);
+			if (ea.isAdded()) {
+				ea.copyToOriginal();
+				addAttributes.add(ea.getOriginalAttribute());
 			} else {
-				if (originalAttribute.getName().equals(ea.getName()) == false) {
+				if (ea.isNameChanged()) {
 					// AttributeEditCommand editCommand = new
 					// AttributeEditCommand(original, ea.getName());
 					// ccommand.add(editCommand);
