@@ -23,7 +23,7 @@
   <strong><a href="summary.html" target="attribute_frame">対象エンティティ一覧</a></strong><br>
   #foreach($attr in $attributes)
     &nbsp;
-    <a href="attributes/${attr.name}.html" target="attribute_frame">$esc.html($attr.name)</a><br>
+    <a href="attributes/${attr.value.createAttributeFileKey()}.html" target="attribute_frame">$esc.html($attr.value.attribute.name)</a><br>
   #end
   </body>
 </html>

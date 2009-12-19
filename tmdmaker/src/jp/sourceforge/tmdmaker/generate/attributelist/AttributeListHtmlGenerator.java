@@ -35,6 +35,7 @@ import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
@@ -95,22 +96,22 @@ public class AttributeListHtmlGenerator {
 				new File(rootDir, "index.html")));
 		// context.put("entities", findAvailableModel(model));
 		context.put("esc", new EscapeTool());
-		Map<Attribute, AbstractEntityModel> attributes = findAllAttributes(model);
+		Map<String, EntityAttributePair> attributes = findAllAttributes(model);
 
 		context.put("entities", findAvailableModel(model));
 		applyTemplate("summary.html", new File(rootDir, "summary.html"),
 				context);
 
-		context.put("attributes", attributes.keySet());
+		context.put("attributes", attributes.entrySet());
 
 		applyTemplate("attribute_list.html", new File(rootDir,
 				"attribute_list.html"), context);
 		File attributesDir = new File(rootDir, "attributes");
 		attributesDir.mkdir();
-		for (Map.Entry<Attribute, AbstractEntityModel> entry : attributes
+		for (Map.Entry<String, EntityAttributePair> entry : attributes
 				.entrySet()) {
-			Attribute attribute = entry.getKey();
-			AbstractEntityModel entity = entry.getValue();
+			Attribute attribute = entry.getValue().getAttribute();
+			AbstractEntityModel entity = entry.getValue().getModel();
 			context.put("attribute", attribute);
 			context.put("entity", entity);
 			if (entity instanceof Entity) {
@@ -119,9 +120,8 @@ public class AttributeListHtmlGenerator {
 			} else {
 				context.remove("entityType");
 			}
-			applyTemplate("attribute.html", new File(attributesDir, attribute
-					.getName()
-					+ ".html"), context);
+			applyTemplate("attribute.html", new File(attributesDir,
+					entry.getValue().createAttributeFileKey() + ".html"), context);
 		}
 	}
 
@@ -154,10 +154,11 @@ public class AttributeListHtmlGenerator {
 		return entities;
 	}
 
-	private Map<Attribute, AbstractEntityModel> findAllAttributes(
+	private Map<String, EntityAttributePair> findAllAttributes(
 			Diagram diagram) {
-		Map<Attribute, AbstractEntityModel> attributes = new TreeMap<Attribute, AbstractEntityModel>(
-				new Comparator<Attribute>() {
+
+		Map<String, EntityAttributePair> attributes = new TreeMap<String, EntityAttributePair>(
+				new Comparator<String>() {
 
 					/**
 					 * {@inheritDoc}
@@ -166,23 +167,29 @@ public class AttributeListHtmlGenerator {
 					 *      java.lang.Object)
 					 */
 					@Override
-					public int compare(Attribute o1, Attribute o2) {
-						return o1.getName().compareTo(o2.getName());
+					public int compare(String o1, String o2) {
+						return o1.compareTo(o2);
 
 					}
+					
 				});
 
 		for (AbstractEntityModel m : findAvailableModel(diagram)) {
 			if (m instanceof Entity) {
 				Entity e = (Entity) m;
-				attributes.put(e.getIdentifier(), e);
+				Identifier i = e.getIdentifier();
+				EntityAttributePair pair = new EntityAttributePair(e, i);
+				attributes.put(pair.createAttributeFileKey(), pair);
 			}
 			if (m instanceof Detail) {
 				Detail d = (Detail) m;
-				attributes.put(d.getDetailIdentifier(), d);
+				Identifier i = d.getDetailIdentifier();
+				EntityAttributePair pair = new EntityAttributePair(d, i);
+				attributes.put(pair.createAttributeFileKey(), pair);
 			}
 			for (Attribute a : m.getAttributes()) {
-				attributes.put(a, m);
+				EntityAttributePair pair = new EntityAttributePair(m, a);
+				attributes.put(pair.createAttributeFileKey(), pair);
 			}
 		}
 		return attributes;
@@ -209,4 +216,5 @@ public class AttributeListHtmlGenerator {
 			}
 		}
 	}
+	
 }
