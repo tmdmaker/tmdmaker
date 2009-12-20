@@ -20,12 +20,21 @@ import java.util.Map;
 import jp.sourceforge.tmdmaker.dialog.MultivalueAndSupersetEditDialog;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.VirtualSuperset;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
+import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.VirtualSupersetEditCommand;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.editpolicies.ComponentEditPolicy;
+import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
@@ -98,8 +107,141 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
+		installEditPolicy(EditPolicy.COMPONENT_ROLE,
+				new VirtualSupersetComponentEditPolicy());
 
 	}
 
+	/**
+	 * みなしスーパーセットのComponentEditPolicy
+	 * 
+	 * @author hiro
+	 * 
+	 */
+	private static class VirtualSupersetComponentEditPolicy extends
+			ComponentEditPolicy {
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+		 */
+		@Override
+		protected Command createDeleteCommand(GroupRequest deleteRequest) {
+			VirtualSuperset model = (VirtualSuperset) getHost().getModel();
+			Diagram diagram = model.getDiagram();
+			VirtualSupersetAggregator aggregator = model
+					.getVirtualSupersetAggregator();
+
+			CompoundCommand ccommand = new CompoundCommand();
+			ccommand.add(new VirtualSupersetAggregatorDeleteCommand(diagram,
+					aggregator));
+			ccommand.add(new VirtualSupersetDeleteCommand(diagram, model));
+			return ccommand.unwrap();
+		}
+
+	}
+
+	/**
+	 * みなしスーパーセット削除Command
+	 * 
+	 * @author hiro
+	 * 
+	 */
+	private static class VirtualSupersetDeleteCommand extends Command {
+		private Diagram diagram;
+		private VirtualSuperset model;
+
+		/**
+		 * コンストラクタ
+		 * 
+		 * @param diagram
+		 *            ダイアグラム
+		 * @param model
+		 *            みなしスーパーセット
+		 */
+		public VirtualSupersetDeleteCommand(Diagram diagram,
+				VirtualSuperset model) {
+			this.diagram = diagram;
+			this.model = model;
+		}
+
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			diagram.removeChild(model);
+		}
+
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			diagram.addChild(model);
+		}
+
+	}
+
+	/**
+	 * みなしスーパーセットとの接点モデルの削除Command
+	 * 
+	 * @author hiro
+	 * 
+	 */
+	private static class VirtualSupersetAggregatorDeleteCommand extends
+			ConnectableElementDeleteCommand {
+		private VirtualSupersetAggregator model;
+
+		/**
+		 * コンストラクタ
+		 * 
+		 * @param diagram
+		 *            ダイアグラム
+		 * @param model
+		 *            みなしスーパーセットとの接点
+		 */
+		public VirtualSupersetAggregatorDeleteCommand(Diagram diagram,
+				VirtualSupersetAggregator model) {
+			this.diagram = diagram;
+			this.model = model;
+			sourceConnections.addAll(model.getModelSourceConnections());
+			targetConnections.addAll(model.getModelTargetConnections());
+		}
+
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			// 接点と接続しているコネクションは全て削除
+			detachConnections(sourceConnections);
+			detachConnections(targetConnections);
+			diagram.removeChild(model);
+		}
+
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			diagram.addChild(model);
+			attathConnections(sourceConnections);
+			attathConnections(targetConnections);
+		}
+
+	}
 }
