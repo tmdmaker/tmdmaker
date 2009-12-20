@@ -167,7 +167,8 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 		System.out.println(pos);
 		pos = control.toControl(pos);
 		System.out.println(pos);
-
+		pos.x = pos.x - 200;
+		pos.y = pos.y - 100;
 		return pos;
 	}
 
