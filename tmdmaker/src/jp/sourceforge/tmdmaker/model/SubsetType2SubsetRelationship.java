@@ -25,6 +25,19 @@ package jp.sourceforge.tmdmaker.model;
 public class SubsetType2SubsetRelationship extends RelatedRelationship
 		implements IdentifierChangeListener {
 	/**
+	 * コンストラクタ
+	 * 
+	 * @param source
+	 *            接続元
+	 * @param target
+	 *            接続先
+	 */
+	public SubsetType2SubsetRelationship(ConnectableElement source,
+			ConnectableElement target) {
+		super(source, target);
+	}
+
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 

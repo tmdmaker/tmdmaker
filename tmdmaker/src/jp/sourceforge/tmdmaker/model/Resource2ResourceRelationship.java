@@ -59,9 +59,7 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 				+ target.getName().replace(
 						CombinationTable.COMBINATION_TABLE_SUFFIX, "")
 				+ CombinationTable.COMBINATION_TABLE_SUFFIX);
-		this.combinationTableConnection = new RelatedRelationship();
-		this.combinationTableConnection.setSource(this);
-		this.combinationTableConnection.setTarget(this.table);
+		this.combinationTableConnection = new RelatedRelationship(this, this.table);
 		this.setCenterMark(true);
 	}
 

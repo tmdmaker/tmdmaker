@@ -23,6 +23,19 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class RelatedRelationship extends AbstractConnectionModel {
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param source
+	 *            接続元
+	 * @param target
+	 *            接続先
+	 */
+	public RelatedRelationship(ConnectableElement source,
+			ConnectableElement target) {
+		setSource(source);
+		setTarget(target);
+	}
 
 	/**
 	 * {@inheritDoc}

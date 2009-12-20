@@ -72,7 +72,7 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 	public void run() {
 		// アクション呼び出し時のマウスカーソル位置を取得。位置の微調整必要かも
 		Point pos = getControlCursorLocation();
-		
+
 		Diagram diagram = null;
 		VirtualSuperset original = null;
 		VirtualSupersetAggregator aggregator = null;
@@ -107,16 +107,15 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 				ccommand.add(new VirtualSupersetAggregatorCreateCommand(
 						diagram, aggregator));
 
-				ConnectionCreateCommand command = new ConnectionCreateCommand();
-				command.setConnection(new RelatedRelationship());
-				command.setSource(edited);
-				command.setTarget(aggregator);
-				ccommand.add(command);
+				ccommand.add(new ConnectionCreateCommand(
+						new RelatedRelationship(edited, aggregator), edited,
+						aggregator));
 
 				// 接点とみなしサブセットの接続
 				for (AbstractEntityModel model : selection) {
 					ccommand.add(new ConnectionCreateCommand(
-							new RelatedRelationship(), aggregator, model));
+							new RelatedRelationship(aggregator, model),
+							aggregator, model));
 				}
 			} else {
 				// みなしスーパーセット編集
@@ -152,7 +151,8 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 					for (AbstractEntityModel s : selection) {
 						if (!selectedList.contains(s)) {
 							ccommand.add(new ConnectionCreateCommand(
-									new RelatedRelationship(), aggregator, s));
+									new RelatedRelationship(aggregator, s),
+									aggregator, s));
 						}
 					}
 				}

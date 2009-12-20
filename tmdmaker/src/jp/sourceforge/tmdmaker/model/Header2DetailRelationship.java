@@ -63,17 +63,11 @@ public class Header2DetailRelationship extends
 		aggregator = new MultivalueAndAggregator();
 		aggregator.setConstraint(header.getConstraint().getTranslated(75, -30));
 
-		superset2aggregator = new RelatedRelationship();
-		superset2aggregator.setSource(superset);
-		superset2aggregator.setTarget(aggregator);
+		superset2aggregator = new RelatedRelationship(superset, aggregator);
 
-		header2aggregator = new RelatedRelationship();
-		header2aggregator.setSource(header);
-		header2aggregator.setTarget(aggregator);
+		header2aggregator = new RelatedRelationship(header, aggregator);
 
-		detail2aggregator = new RelatedRelationship();
-		detail2aggregator.setSource(detail);
-		detail2aggregator.setTarget(aggregator);
+		detail2aggregator = new RelatedRelationship(detail, aggregator);
 
 	}
 

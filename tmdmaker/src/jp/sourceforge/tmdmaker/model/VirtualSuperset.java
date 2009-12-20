@@ -26,24 +26,42 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 public class VirtualSuperset extends AbstractEntityModel {
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#createReusedIdentifier()
+	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#isDeletable()
+	 */
 	@Override
 	public boolean isDeletable() {
 		return true;
 	}
-
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#isEntityTypeEditable()
+	 */
 	@Override
 	public boolean isEntityTypeEditable() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public List<AbstractEntityModel> getVirtualSubsetList() {
 		List<AbstractEntityModel> results = new ArrayList<AbstractEntityModel>();
 		for (AbstractConnectionModel con : getVirtualSupersetAggregator()
@@ -52,7 +70,10 @@ public class VirtualSuperset extends AbstractEntityModel {
 		}
 		return results;
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public List<AbstractConnectionModel> getVirtualSubsetRelationshipList() {
 		List<AbstractConnectionModel> results = new ArrayList<AbstractConnectionModel>();
 		for (AbstractConnectionModel con : getVirtualSupersetAggregator()
@@ -61,7 +82,10 @@ public class VirtualSuperset extends AbstractEntityModel {
 		}
 		return results;
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public VirtualSupersetAggregator getVirtualSupersetAggregator() {
 		return (VirtualSupersetAggregator) getModelSourceConnections().get(0)
 				.getTarget();

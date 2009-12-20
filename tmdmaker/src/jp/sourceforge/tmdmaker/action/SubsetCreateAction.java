@@ -146,8 +146,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 				ccommand.add(command);
 			} else if (e.isNameChanged()) {
 				SubsetEntity subsetEntity = e.getOriginal();
-				SubsetNameChangeCommand command = new SubsetNameChangeCommand(subsetEntity,
-						e.getName());
+				SubsetNameChangeCommand command = new SubsetNameChangeCommand(
+						subsetEntity, e.getName());
 				ccommand.add(command);
 			}
 		}
@@ -318,9 +318,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 			this.subsetType = subsetType;
 			this.diagram = model.getDiagram();
 			this.subsetEntity = subsetEntity;
-			subsetType2subsetEntityRelationship = new SubsetType2SubsetRelationship();
-			subsetType2subsetEntityRelationship.setSource(subsetType);
-			subsetType2subsetEntityRelationship.setTarget(this.subsetEntity);
+			subsetType2subsetEntityRelationship = new SubsetType2SubsetRelationship(
+					this.subsetType, this.subsetEntity);
 			Rectangle constraint = subsetType.getConstraint().getTranslated(0,
 					50);
 			subsetEntity.setConstraint(constraint);

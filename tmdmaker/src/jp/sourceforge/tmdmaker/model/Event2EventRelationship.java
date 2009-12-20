@@ -154,9 +154,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 		table.addReusedIdentifier(sourceEntity);
 		table.addReusedIdentifier(targetEntity);
 
-		mappingListConnection = new RelatedRelationship();
-		mappingListConnection.setSource(this);
-		mappingListConnection.setTarget(table);
+		mappingListConnection = new RelatedRelationship(this, table);
 		mappingListConnection.connect();
 	}
 
