@@ -17,11 +17,14 @@ package jp.sourceforge.tmdmaker;
 
 import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
+import jp.sourceforge.tmdmaker.action.GenerateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
+import jp.sourceforge.tmdmaker.generate.Generator;
+import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -98,6 +101,11 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		menu.add(getActionRegistry().getAction(DiagramImageSaveAction.ID));
 
 		menu.add(getActionRegistry().getAction(AttributeListSaveAction.ID));
+		
+		for (Generator generator : GeneratorProvider.getGenerators()) {
+			menu.add(getActionRegistry().getAction(generator.getClass().getName()));
+		}
+
 	}
 
 }

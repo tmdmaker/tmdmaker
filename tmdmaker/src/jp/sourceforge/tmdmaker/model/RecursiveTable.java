@@ -79,4 +79,24 @@ public class RecursiveTable extends AbstractEntityModel {
 				&& getModelSourceConnections().size() == 0;
 	}
 
+	/**
+	 * リレーションシップ元のエンティティ系モデルを返す
+	 * 
+	 * @return リレーションシップ元のエンティティ系モデル
+	 */
+	private AbstractEntityModel getSource() {
+		return (AbstractEntityModel) getModelTargetConnections().get(0)
+				.getSource();
+	}
+
+	/**
+	 * リレーションシップ元のエンティティ系モデルか判定する
+	 * 
+	 * @param source
+	 *            判定対象
+	 * @return 判定対象がリレーションシップ元である場合にtrueを返す
+	 */
+	public boolean isSource(AbstractEntityModel source) {
+		return source == getSource();
+	}
 }

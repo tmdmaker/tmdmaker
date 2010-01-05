@@ -22,6 +22,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
+import jp.sourceforge.tmdmaker.action.GenerateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
@@ -30,6 +31,8 @@ import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog;
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
+import jp.sourceforge.tmdmaker.generate.Generator;
+import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -485,13 +488,18 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		// getSite().registerContextMenu("tmd.contextmenu", provider, viewer);
 
 		// viewerを取得するためcreateActionsメソッドではなくここでアクションを登録
+		ActionRegistry registry = getActionRegistry();
 		DiagramImageSaveAction action6 = new DiagramImageSaveAction(
-				getGraphicalViewer());
-		getActionRegistry().registerAction(action6);
+				viewer);
+		registry.registerAction(action6);
 
 		AttributeListSaveAction action7 = new AttributeListSaveAction(
-				getGraphicalViewer());
-		getActionRegistry().registerAction(action7);
+				viewer);
+		registry.registerAction(action7);
+
+		for (Generator generator : GeneratorProvider.getGenerators()) {
+			registry.registerAction(new GenerateAction(viewer, generator));
+		}
 
 		// when entity create, show dialog and set properties.
 		getCommandStack().addCommandStackEventListener(

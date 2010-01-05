@@ -15,20 +15,15 @@
  */
 package jp.sourceforge.tmdmaker.generate.attributelist;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import jp.sourceforge.tmdmaker.generate.EscapeTool;
+import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
@@ -37,7 +32,6 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MappingList;
-import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
@@ -91,21 +85,24 @@ public class AttributeListHtmlGenerator {
 		System.out.println("init");
 		VelocityContext context = new VelocityContext();
 
-		copyStream(AttributeListHtmlGenerator.class
+		GeneratorUtils.copyStream(AttributeListHtmlGenerator.class
 				.getResourceAsStream("index.html"), new FileOutputStream(
 				new File(rootDir, "index.html")));
+		GeneratorUtils.copyStream(AttributeListHtmlGenerator.class
+				.getResourceAsStream("stylesheet.css"), new FileOutputStream(
+				new File(rootDir, "stylesheet.css")));
 		// context.put("entities", findAvailableModel(model));
 		context.put("esc", new EscapeTool());
 		Map<String, EntityAttributePair> attributes = findAllAttributes(model);
 
-		context.put("entities", findAvailableModel(model));
-		applyTemplate("summary.html", new File(rootDir, "summary.html"),
-				context);
+		context.put("entities", model.findEntityModel());
+		GeneratorUtils.applyTemplate("summary.html", this.getClass(), new File(
+				rootDir, "summary.html"), context);
 
 		context.put("attributes", attributes.entrySet());
 
-		applyTemplate("attribute_list.html", new File(rootDir,
-				"attribute_list.html"), context);
+		GeneratorUtils.applyTemplate("attribute_list.html", this.getClass(),
+				new File(rootDir, "attribute_list.html"), context);
 		File attributesDir = new File(rootDir, "attributes");
 		attributesDir.mkdir();
 		for (Map.Entry<String, EntityAttributePair> entry : attributes
@@ -120,42 +117,14 @@ public class AttributeListHtmlGenerator {
 			} else {
 				context.remove("entityType");
 			}
-			applyTemplate("attribute.html", new File(attributesDir,
-					entry.getValue().createAttributeFileKey() + ".html"), context);
+			GeneratorUtils.applyTemplate("attribute.html", this.getClass(),
+					new File(attributesDir, entry.getValue()
+							.createAttributeFileKey()
+							+ ".html"), context);
 		}
 	}
 
-	private void applyTemplate(String templateName, File output,
-			VelocityContext context) throws Exception {
-		StringWriter writer = new StringWriter();
-
-		InputStreamReader reader = new InputStreamReader(
-				AttributeListHtmlGenerator.class
-						.getResourceAsStream(templateName), "UTF-8");
-		Velocity.evaluate(context, writer, templateName, reader);
-
-		FileOutputStream out = new FileOutputStream(output);
-		out.write(writer.getBuffer().toString().getBytes("UTF-8"));
-
-		close(out);
-		close(writer);
-		close(reader);
-
-	}
-
-	private List<AbstractEntityModel> findAvailableModel(Diagram diagram) {
-		List<AbstractEntityModel> entities = new ArrayList<AbstractEntityModel>();
-
-		for (ModelElement m : diagram.getChildren()) {
-			if (m instanceof AbstractEntityModel) {
-				entities.add((AbstractEntityModel) m);
-			}
-		}
-		return entities;
-	}
-
-	private Map<String, EntityAttributePair> findAllAttributes(
-			Diagram diagram) {
+	private Map<String, EntityAttributePair> findAllAttributes(Diagram diagram) {
 
 		Map<String, EntityAttributePair> attributes = new TreeMap<String, EntityAttributePair>(
 				new Comparator<String>() {
@@ -171,10 +140,10 @@ public class AttributeListHtmlGenerator {
 						return o1.compareTo(o2);
 
 					}
-					
+
 				});
 
-		for (AbstractEntityModel m : findAvailableModel(diagram)) {
+		for (AbstractEntityModel m : diagram.findEntityModel()) {
 			if (m instanceof Entity) {
 				Entity e = (Entity) m;
 				Identifier i = e.getIdentifier();
@@ -195,26 +164,4 @@ public class AttributeListHtmlGenerator {
 		return attributes;
 	}
 
-	private void copyStream(InputStream in, OutputStream out) {
-		try {
-			byte[] buf = new byte[in.available()];
-			in.read(buf);
-			out.write(buf);
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		} finally {
-			close(in);
-			close(out);
-		}
-	}
-
-	public void close(Closeable closeable) {
-		if (closeable != null) {
-			try {
-				closeable.close();
-			} catch (Exception ex) {
-			}
-		}
-	}
-	
 }

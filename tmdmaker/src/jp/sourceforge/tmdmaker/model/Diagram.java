@@ -99,9 +99,28 @@ public class Diagram extends ModelElement {
 	}
 
 	/**
-	 * @param version the version to set
+	 * @param version
+	 *            the version to set
 	 */
 	public void setVersion(String version) {
 		this.version = version;
 	}
+
+	/**
+	 * エンティティ系モデルとして利用可能なモデルのリストを取得する。
+	 * 
+	 * @return AbstractEntityModelのリスト
+	 */
+	public List<AbstractEntityModel> findEntityModel() {
+		List<AbstractEntityModel> entities = new ArrayList<AbstractEntityModel>(
+				getChildren().size());
+
+		for (ModelElement m : getChildren()) {
+			if (m instanceof AbstractEntityModel) {
+				entities.add((AbstractEntityModel) m);
+			}
+		}
+		return entities;
+	}
+
 }

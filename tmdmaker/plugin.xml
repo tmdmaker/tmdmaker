@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.3"?>
 <plugin>
+   <extension-point id="tmdmaker.generators" name="generators" schema="schema/tmdmaker.generators.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -26,6 +27,14 @@
             id="tmdmaker.wizard.newdiagramwizard"
             name="%wizard.name.0">
       </wizard>
+   </extension>
+   <extension
+         point="tmdmaker.generators">
+      <generator
+            class="jp.sourceforge.tmdmaker.generate.relationshiplist.RelationshipListHtmlGenerator"
+            group="HTML"
+            name="relationship_list">
+      </generator>
    </extension>
 
 </plugin>
