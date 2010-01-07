@@ -23,5 +23,24 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class VirtualSupersetAggregator extends ConnectableElement {
+	public static final String PROPERTY_SUPERSET_TYPE = "_property_superset_type";
+	
+	/** アトリビュートに適用するか */
+	private boolean applyAttribute = false;
 
+	/**
+	 * @return the applyAttribute
+	 */
+	public boolean isApplyAttribute() {
+		return applyAttribute;
+	}
+
+	/**
+	 * @param applyAttribute the applyAttribute to set
+	 */
+	public void setApplyAttribute(boolean applyAttribute) {
+		boolean oldValue = this.applyAttribute;
+		this.applyAttribute = applyAttribute;
+		firePropertyChange(PROPERTY_SUPERSET_TYPE, oldValue, this.applyAttribute);
+	}	
 }

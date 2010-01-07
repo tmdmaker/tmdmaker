@@ -15,6 +15,10 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import java.beans.PropertyChangeEvent;
+
+import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
+
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
@@ -37,8 +41,13 @@ public class VirtualSupersetAggregatorEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
-		// TODO Auto-generated method stub
-
+		VirtualSupersetAggregator model = (VirtualSupersetAggregator) getModel();
+		((AggregatorBorder)figure.getBorder()).setSameType(model.isApplyAttribute());
+		if (model.isApplyAttribute()) {
+			figure.setSize(30, 5);
+		} else {
+			figure.setSize(30, 10);			
+		}
 	}
 	/**
 	 * 
@@ -63,6 +72,7 @@ public class VirtualSupersetAggregatorEditPart extends AbstractEntityEditPart {
 		figure.setSize(20, 10);
 		figure.setOpaque(false);
 		figure.setBorder(new AggregatorBorder());
+		updateFigure(figure);
 		return figure;
 	}
 	/**
@@ -87,6 +97,22 @@ public class VirtualSupersetAggregatorEditPart extends AbstractEntityEditPart {
 		return new CenterAnchor(getFigure());
 	}
 
+	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(VirtualSupersetAggregator.PROPERTY_SUPERSET_TYPE)) {
+			refreshVisuals();
+		} else {
+			super.propertyChange(evt);
+		}
+	}
+
+
 	/**
 	 * 
 	 * @author nakaG
@@ -95,12 +121,28 @@ public class VirtualSupersetAggregatorEditPart extends AbstractEntityEditPart {
 	private static class AggregatorBorder extends AbstractBorder {
 		/** Figureの長さ */
 		private int width = 1;
-
+		/** 同一タイプか？ */
+		private boolean sameType = false;
+		
 		/**
 		 * @return the width
 		 */
 		public int getWidth() {
 			return width;
+		}
+
+		/**
+		 * @return the sameType
+		 */
+		public boolean isSameType() {
+			return sameType;
+		}
+
+		/**
+		 * @param sameType the sameType to set
+		 */
+		public void setSameType(boolean sameType) {
+			this.sameType = sameType;
 		}
 
 		/**
@@ -123,12 +165,57 @@ public class VirtualSupersetAggregatorEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
+			if (isSameType()) {
+				paintSameType(figure, graphics, insets);
+			} else {
+				paintDifferenceType(figure, graphics, insets);
+			}
+		}
+		/**
+		 * 同一タイプを描画する
+		 * 
+		 * @param figure
+		 *            The figure this border belongs to
+		 * @param graphics
+		 *            The graphics object used for painting
+		 * @param insets
+		 *            The insets
+		 */
+		private void paintSameType(IFigure figure, Graphics graphics,
+				Insets insets) {
+			tempRect.setBounds(getPaintRectangle(figure, insets));
+			if (getWidth() % 2 != 0) {
+				tempRect.width--;
+				tempRect.height--;
+			}
+			tempRect.shrink(getWidth() / 2, getWidth() / 2);
+			graphics.setLineWidth(getWidth());
+
+			// 同一
+			graphics.drawLine(tempRect.getTopLeft(), tempRect.getTopRight());
+			graphics.drawLine(tempRect.getBottomLeft(), tempRect
+					.getBottomRight());
+			graphics.drawLine(getPaintRectangle(figure, insets).getTop(),
+					tempRect.getCenter());
+		}
+
+		/**
+		 * 相違タイプを描画する
+		 * 
+		 * @param figure
+		 *            The figure this border belongs to
+		 * @param graphics
+		 *            The graphics object used for painting
+		 * @param insets
+		 *            The insets
+		 */
+		private void paintDifferenceType(IFigure figure,
+				Graphics graphics, Insets insets) {
+			// 相違
 			tempRect.setBounds(getPaintRectangle(figure, insets));
 			graphics.drawLine(tempRect.getTopLeft(), tempRect.getBottomRight());
 			graphics.drawLine(tempRect.getBottomLeft(), tempRect.getTopRight());
-
 		}
-
 	}
 
 }

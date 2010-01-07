@@ -17,7 +17,6 @@ package jp.sourceforge.tmdmaker;
 
 import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
-import jp.sourceforge.tmdmaker.action.GenerateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;

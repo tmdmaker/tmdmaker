@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 
 public class VirtualSupersetSettingPanel extends Composite {
+	private boolean applyAttribute = false;
 	private java.util.List<AbstractEntityModel> notSelectedModelList = null;  //  @jve:decl-index=0:
 	private java.util.List<AbstractEntityModel> selectedModelList = null;  //  @jve:decl-index=0:
 	private Label virtualSupersetNameLabel = null;
@@ -254,9 +255,23 @@ public class VirtualSupersetSettingPanel extends Composite {
 		sameRadioButton = new Button(typeComposite, SWT.RADIO);
 		sameRadioButton.setText("アトリビュートに適用");
 		sameRadioButton.setLayoutData(gridData2);
+		sameRadioButton
+				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
+						applyAttribute = true;
+					}
+				});
 		differentRadioButton = new Button(typeComposite, SWT.RADIO);
 		differentRadioButton.setText("エンティティに適用");
 		differentRadioButton.setLayoutData(gridData5);
+		differentRadioButton
+				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
+						applyAttribute = false;
+					}
+				});
 	}
 
 	public void initializeValue(java.util.List<AbstractEntityModel> notSelection, java.util.List<AbstractEntityModel> selection, VirtualSuperset superset) {
@@ -268,11 +283,26 @@ public class VirtualSupersetSettingPanel extends Composite {
 		for (AbstractEntityModel m : selection) {
 			selectedEntityNameList.add(m.getName());
 		}
-		if (superset != null && superset.getName() != null) {
-			virtualSupersetNameText.setText(superset.getName());
+		if (superset != null) {
+			if (superset.getName() != null) {
+				virtualSupersetNameText.setText(superset.getName());
+			}
+			boolean applyAttribute = superset.getVirtualSupersetAggregator().isApplyAttribute();
+				sameRadioButton.setSelection(applyAttribute);
+				differentRadioButton.setSelection(!applyAttribute);
+		} else {
+			sameRadioButton.setSelection(true);
 		}
 	}
 	public String getVirtualSupersetName() {
 		return virtualSupersetNameText.getText();
 	}
+
+	/**
+	 * @return the sameType
+	 */
+	public boolean isApplyAttributeSelected() {
+		return applyAttribute;
+	}
+	
 }  //  @jve:decl-index=0:visual-constraint="10,10"

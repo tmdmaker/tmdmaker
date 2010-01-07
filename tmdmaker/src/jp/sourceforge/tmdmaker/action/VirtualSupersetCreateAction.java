@@ -102,7 +102,7 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 				ccommand.add(new VirtualSupersetCreateCommand(diagram, edited));
 
 				// みなしスーパーセットと既存エンティティとの接点
-				aggregator = new VirtualSupersetAggregator();
+				aggregator = dialog.getEditedAggregator();
 				aggregator.setConstraint(constraint.getTranslated(0, 50));
 				ccommand.add(new VirtualSupersetAggregatorCreateCommand(
 						diagram, aggregator));
@@ -122,12 +122,13 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 				ccommand.add(new TableEditCommand<VirtualSuperset>(original,
 						edited));
 
+				// 接点との接続
 				List<AbstractEntityModel> notSelection = dialog
 						.getNotSelection();
 				List<AbstractEntityModel> selection = dialog.getSelection();
 				List<AbstractEntityModel> selectedList = original
 						.getVirtualSubsetList();
-				// 接点編集
+
 				for (AbstractConnectionModel con : original
 						.getVirtualSubsetRelationshipList()) {
 					ConnectableElement target = con.getTarget();
@@ -137,16 +138,21 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 					}
 				}
 				if (selection.size() == 0) {
-					// TODO みなしエンティティと接点とのコネクション削除
+					// みなしスーパーセットと接点とのコネクション削除
 					ccommand.add(new ConnectionDeleteCommand(aggregator
 							.getModelTargetConnections().get(0)));
-					// TODO 接点削除
+					// 接点削除
 					ccommand.add(new VirtualSupersetAggregatorDeleteCommand(
 							diagram, aggregator));
-					// TODO みなしエンティティ削除
+					// みなしスーパーセット削除
 					ccommand.add(new VirtualSupersetDeleteCommand(diagram,
 							original));
 				} else {
+					// 接点編集
+					ccommand.add(new VirtualSupersetAggregatorChangeCommand(
+							original.getVirtualSupersetAggregator(), dialog
+									.getEditedAggregator().isApplyAttribute()));
+					
 					// 未接続のみなしサブセットとの接続
 					for (AbstractEntityModel s : selection) {
 						if (!selectedList.contains(s)) {
@@ -329,4 +335,47 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 		}
 	}
 
+	/**
+	 * 
+	 * @author hiro
+	 * 
+	 */
+	private static class VirtualSupersetAggregatorChangeCommand extends Command {
+		private VirtualSupersetAggregator model;
+		private boolean oldApplyAttribute;
+		private boolean newApplyAttribute;
+
+		/**
+		 * 
+		 * @param model
+		 * @param newApplyAttribute
+		 */
+		public VirtualSupersetAggregatorChangeCommand(
+				VirtualSupersetAggregator model, boolean newApplyAttribute) {
+			this.model = model;
+			this.newApplyAttribute = newApplyAttribute;
+			this.oldApplyAttribute = model.isApplyAttribute();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			this.model.setApplyAttribute(newApplyAttribute);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			this.model.setApplyAttribute(oldApplyAttribute);
+		}
+
+	}
 }
