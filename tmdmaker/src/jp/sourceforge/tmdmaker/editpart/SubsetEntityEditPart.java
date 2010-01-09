@@ -82,8 +82,17 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
-		// entityFigure.setEntityType(entity.getEntityType().toString());
-		// figure.setIdentifier(entity.getIdentifier().getName());
+
+		if (entity.isSupersetAnEntity()) {
+			entityFigure.setIdentifier(entity.getOriginalReusedIdentifier()
+					.getIdentifires().get(0).getName());
+		} else {
+			for (Identifier i : entity.getOriginalReusedIdentifier()
+					.getIdentifires()) {
+				entityFigure.addRelationship(i.getName());
+			}
+		}
+
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {
 			for (Identifier i : rk.getValue().getIdentifires()) {
@@ -188,7 +197,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			// RelatedRelationship relationship = findRelatedRelationship(model
 			// .getModelTargetConnections());
 			SubsetType2SubsetRelationship relationship = (SubsetType2SubsetRelationship) model
-					.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class).get(0);
+					.findRelationshipFromTargetConnections(
+							SubsetType2SubsetRelationship.class).get(0);
 			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(
 					diagram, (SubsetType) relationship.getSource());
 			ccommand.add(command2);
@@ -225,7 +235,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			this.diagram = diagram;
 			this.model = model;
 			this.subsetType2SubsetEntityRelationship = (SubsetType2SubsetRelationship) this.model
-					.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class).get(0);
+					.findRelationshipFromTargetConnections(
+							SubsetType2SubsetRelationship.class).get(0);
 			// findRelatedRelationship(this.model.getModelTargetConnections());
 			// this.subsetType = (SubsetType)
 			// subsetType2SubsetEntityRelationship

@@ -76,4 +76,12 @@ public class SubsetEntity extends AbstractEntityModel {
 				&& getModelSourceConnections().size() == 0;
 	}
 
+	/**
+	 * サブセット元がエンティティか？
+	 * 
+	 * @return サブセット元がエンティティの場合にtrueを返す。
+	 */
+	public boolean isSupersetAnEntity() {
+		return this.originalReusedIdentifier.getIdentifires().size() == 1;
+	}
 }
