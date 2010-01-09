@@ -15,8 +15,6 @@
  */
 package jp.sourceforge.tmdmaker.figure;
 
-import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
-
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -30,11 +28,12 @@ import org.eclipse.draw2d.geometry.Insets;
  * 
  */
 public class SubsetTypeFigure extends Figure {
+
 	/**
 	 * コンストラクタ
 	 */
 	public SubsetTypeFigure() {
-		this(SubsetTypeValue.SAME);
+		this(true);
 	}
 
 	/**
@@ -43,11 +42,9 @@ public class SubsetTypeFigure extends Figure {
 	 * @param subsetTypeValue
 	 *            サブセットタイプ
 	 */
-	public SubsetTypeFigure(SubsetTypeValue subsetTypeValue) {
+	public SubsetTypeFigure(boolean sameType) {
 		super();
-		// setSize(30, 10);
-		setSubsetTypeValue(subsetTypeValue);
-		setBorder(new SubsetBorder(subsetTypeValue));
+		setBorder(new SubsetBorder(sameType));
 		setOpaque(false);
 	}
 
@@ -57,13 +54,13 @@ public class SubsetTypeFigure extends Figure {
 	 * @param subsetTypeValue
 	 *            サブセットタイプ値
 	 */
-	public void setSubsetTypeValue(SubsetTypeValue subsetTypeValue) {
-		if (subsetTypeValue.equals(SubsetTypeValue.SAME)) {
+	public void setSameType(boolean sameType) {
+		if (sameType) {
 			setSize(30, 5);
 		} else {
 			setSize(30, 10);
 		}
-		setBorder(new SubsetBorder(subsetTypeValue));
+		((SubsetBorder)getBorder()).setSameType(sameType);
 	}
 
 	/**
@@ -75,18 +72,18 @@ public class SubsetTypeFigure extends Figure {
 	private static class SubsetBorder extends AbstractBorder {
 		/** Figureの長さ */
 		private int width = 1;
-		/** サブセットタイプ値 */
-		private SubsetTypeValue subsetTypeValue;
+		/** 同一タイプか？ */
+		private boolean sameType;
 
 		/**
 		 * コンストラクタ
 		 * 
-		 * @param subsetTypeValue
+		 * @param subsetType
 		 *            サブセットタイプ値
 		 */
-		public SubsetBorder(SubsetTypeValue subsetTypeValue) {
+		public SubsetBorder(boolean sameType) {
 			super();
-			this.subsetTypeValue = subsetTypeValue;
+			this.sameType = sameType;
 		}
 
 		/**
@@ -116,7 +113,7 @@ public class SubsetTypeFigure extends Figure {
 		 */
 		@Override
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
-			if (subsetTypeValue.equals(SubsetTypeValue.SAME)) {
+			if (sameType) {
 				paintSubsetSameType(figure, graphics, insets);
 			} else {
 				paintSubsetDifferenceType(figure, graphics, insets);
@@ -168,5 +165,13 @@ public class SubsetTypeFigure extends Figure {
 			graphics.drawLine(tempRect.getTopLeft(), tempRect.getBottomRight());
 			graphics.drawLine(tempRect.getBottomLeft(), tempRect.getTopRight());
 		}
+
+		/**
+		 * @param sameType the sameType to set
+		 */
+		public void setSameType(boolean sameType) {
+			this.sameType = sameType;
+		}
+		
 	}
 }

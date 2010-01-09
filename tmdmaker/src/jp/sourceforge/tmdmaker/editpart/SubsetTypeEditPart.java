@@ -40,7 +40,6 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected IFigure createFigure() {
-		// Figure figure = new Label("=");
 		Figure figure = new SubsetTypeFigure();
 		updateFigure(figure);
 		return figure;
@@ -56,7 +55,7 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	protected void updateFigure(IFigure figure) {
 		SubsetTypeFigure sf = (SubsetTypeFigure) figure;
 		SubsetType model = (SubsetType) getModel();
-		sf.setSubsetTypeValue(model.getSubsetType());
+		sf.setSameType(model.isSameType());
 	}
 
 	/**

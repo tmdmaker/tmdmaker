@@ -125,6 +125,15 @@ public class SubsetType extends ConnectableElement {
 	}
 
 	/**
+	 * 同一のサブセットか？
+	 * 
+	 * @return 同一サブセットの場合にtrueを返す。
+	 */
+	public boolean isSameType() {
+		return subsetType.equals(SubsetTypeValue.SAME);
+	}
+
+	/**
 	 * オブジェクト破棄
 	 */
 	public void dispose() {
