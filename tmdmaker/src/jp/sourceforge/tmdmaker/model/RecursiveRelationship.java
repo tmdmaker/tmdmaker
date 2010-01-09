@@ -81,7 +81,7 @@ public class RecursiveRelationship extends AbstractRelationship {
 		table.addTargetConnection(this);
 		attachSource();
 		attachTarget();
-		table.addReusedIdentifier((AbstractEntityModel) sourceEntity);
+		table.addCreationIdentifier((AbstractEntityModel) sourceEntity);
 
 	}
 

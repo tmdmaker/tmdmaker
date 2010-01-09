@@ -49,8 +49,19 @@ public class RecursiveTable extends AbstractEntityModel {
 	 */
 	@Override
 	public void addReusedIdentifier(AbstractEntityModel source) {
-		// ReusedIdentifier added = source.createReusedIdentifier();
-		// added.addAll(added.getIdentifires());
+		ReusedIdentifier added = new ReusedIdentifier();
+		added.addAll(source.createReusedIdentifier().getIdentifires());
+		this.reusedIdentifieres.put(source, added);
+		firePropertyChange(PROPERTY_REUSED, null, added);
+	}
+
+	/**
+	 * 再帰表作成時にReusedを追加する
+	 * 
+	 * @param source
+	 *            再帰表の元
+	 */
+	public void addCreationIdentifier(AbstractEntityModel source) {
 		ReusedIdentifier added = new ReusedIdentifier();
 		added.addAll(source.createReusedIdentifier().getIdentifires());
 		added.addAll(source.createReusedIdentifier().getIdentifires());
