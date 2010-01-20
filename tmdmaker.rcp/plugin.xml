@@ -26,6 +26,10 @@
             application="tmdmaker.rcp.application"
             name="TMD-Maker for RCP">
          <property
+               name="tmdmaker.rcp"
+               value="TMD-Maker for RCP">
+         </property>
+         <property
                name="appName"
                value="TMD-Maker for RCP">
          </property>
