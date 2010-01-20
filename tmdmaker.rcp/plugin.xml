@@ -19,5 +19,17 @@
             id="tmdmaker.rcp.perspective">
       </perspective>
    </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="tmdmaker.rcp.application"
+            name="TMD-Maker for RCP">
+         <property
+               name="appName"
+               value="TMD-Maker for RCP">
+         </property>
+      </product>
+   </extension>
 
 </plugin>
