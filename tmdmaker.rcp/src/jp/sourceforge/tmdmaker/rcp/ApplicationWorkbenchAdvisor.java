@@ -47,9 +47,15 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 	@Override
 	public void initialize(IWorkbenchConfigurer configurer) {
 		super.initialize(configurer);
+		initializeWorkbenchImages(configurer);
+		configurer.setSaveAndRestore(true);
+	}
+
+	private void initializeWorkbenchImages(IWorkbenchConfigurer configurer) {
 		final String ICONS_PATH = "icons/full/";
 		final String PATH_OBJECT = ICONS_PATH + "obj16/";
 		final String IDE_WORKBENCH = "org.eclipse.ui.ide"; //$NON-NLS-1$
+
 		Bundle ideBundle = Platform.getBundle(IDE_WORKBENCH);
 		declareWorkbenchImage(configurer, ideBundle,
 				IDE.SharedImages.IMG_OBJ_PROJECT, PATH_OBJECT + "prj_obj.gif",
@@ -65,16 +71,17 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
 		configurer_p.declareImage(symbolicName, desc, shared);
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.ui.application.WorkbenchAdvisor#preStartup()
 	 */
 	@Override
 	public void preStartup() {
 		super.preStartup();
-		IDE.registerAdapters();	
+		IDE.registerAdapters();
 	}
 
 	/**
@@ -100,7 +107,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.ui.application.WorkbenchAdvisor#getDefaultPageInput()
 	 */
 	@Override
@@ -108,5 +115,5 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		return workspace.getRoot();
 	}
-	
+
 }
