@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,14 @@ import org.eclipse.ui.IPerspectiveFactory;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 public class Perspective implements IPerspectiveFactory {
 
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui.IPageLayout)
 	 */
 	public void createInitialLayout(IPageLayout layout) {
@@ -36,7 +36,9 @@ public class Perspective implements IPerspectiveFactory {
 		layout.setEditorAreaVisible(true);
 
 		layout.setFixed(false);
-		layout.addView("org.eclipse.ui.navigator.ProjectExplorer", IPageLayout.LEFT, 0.3f, editorArea);
-		layout.addView("org.eclipse.ui.views.ContentOutline", IPageLayout.RIGHT, 1.0f, editorArea);
+		layout.addView("org.eclipse.ui.navigator.ProjectExplorer",
+				IPageLayout.LEFT, 0.3f, editorArea);
+		layout.addView("org.eclipse.ui.views.ContentOutline",
+				IPageLayout.RIGHT, 1.0f, editorArea);
 	}
 }

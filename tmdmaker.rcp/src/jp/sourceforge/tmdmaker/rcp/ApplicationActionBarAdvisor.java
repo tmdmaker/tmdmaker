@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
-
 /**
  * 
  * @author nakaG
@@ -39,33 +38,36 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.ui.application.ActionBarAdvisor#makeActions(org.eclipse.ui.IWorkbenchWindow)
 	 */
 	protected void makeActions(IWorkbenchWindow window) {
-        register(ActionFactory.UNDO.create(window));
-        register(ActionFactory.REDO.create(window));
-        register(ActionFactory.SAVE.create(window));
-        register(ActionFactory.NEW.create(window));
-        register(ActionFactory.SAVE_AS.create(window));
+		register(ActionFactory.UNDO.create(window));
+		register(ActionFactory.REDO.create(window));
+		register(ActionFactory.SAVE.create(window));
+		register(ActionFactory.NEW.create(window));
+		register(ActionFactory.SAVE_AS.create(window));
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.ui.application.ActionBarAdvisor#fillMenuBar(org.eclipse.jface.action.IMenuManager)
 	 */
 	protected void fillMenuBar(IMenuManager menuBar) {
 	}
+
 	@Override
 	protected void fillCoolBar(ICoolBarManager coolBar) {
-        ToolBarManager toolBar = new ToolBarManager(SWT.FLAT);
-        // アクションの追加
-        toolBar.add(getAction(ActionFactory.NEW.getId()));
-        toolBar.add(getAction(ActionFactory.SAVE.getId()));
-        coolBar.add(new ToolBarContributionItem(toolBar,"main"));
+		ToolBarManager toolBar = new ToolBarManager(SWT.FLAT);
+		// アクションの追加
+		toolBar.add(getAction(ActionFactory.NEW.getId()));
+		toolBar.add(getAction(ActionFactory.SAVE.getId()));
+		coolBar.add(new ToolBarContributionItem(toolBar, "main"));
 	}
 }

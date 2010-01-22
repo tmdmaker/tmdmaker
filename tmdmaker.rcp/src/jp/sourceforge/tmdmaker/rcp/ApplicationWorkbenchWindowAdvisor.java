@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,36 +24,40 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 /**
  * 
  * @author nakaG
- *
+ * 
  */
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	/**
 	 * 
 	 * @param configurer
 	 */
-    public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
-        super(configurer);
-    }
-    /**
-     * 
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#createActionBarAdvisor(org.eclipse.ui.application.IActionBarConfigurer)
-     */
-    public ActionBarAdvisor createActionBarAdvisor(IActionBarConfigurer configurer) {
-        return new ApplicationActionBarAdvisor(configurer);
-    }
-    /**
-     * 
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#preWindowOpen()
-     */
-    public void preWindowOpen() {
-        IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-        configurer.setInitialSize(new Point(600, 300));
-        configurer.setShowCoolBar(true);
-        configurer.setShowStatusLine(false);
-        configurer.setTitle("TMD-Maker for RCP");
-    }
+	public ApplicationWorkbenchWindowAdvisor(
+			IWorkbenchWindowConfigurer configurer) {
+		super(configurer);
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#createActionBarAdvisor(org.eclipse.ui.application.IActionBarConfigurer)
+	 */
+	public ActionBarAdvisor createActionBarAdvisor(
+			IActionBarConfigurer configurer) {
+		return new ApplicationActionBarAdvisor(configurer);
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#preWindowOpen()
+	 */
+	public void preWindowOpen() {
+		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
+		configurer.setInitialSize(new Point(600, 300));
+		configurer.setShowCoolBar(true);
+		configurer.setShowStatusLine(false);
+		configurer.setTitle("TMD-Maker for RCP");
+	}
 }
