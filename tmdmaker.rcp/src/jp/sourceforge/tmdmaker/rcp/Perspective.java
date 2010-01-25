@@ -19,6 +19,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 /**
+ * パースペクティブ
  * 
  * @author nakaG
  * 
@@ -36,9 +37,9 @@ public class Perspective implements IPerspectiveFactory {
 		layout.setEditorAreaVisible(true);
 
 		layout.setFixed(false);
-		layout.addView("org.eclipse.ui.navigator.ProjectExplorer",
-				IPageLayout.LEFT, 0.3f, editorArea);
-		layout.addView("org.eclipse.ui.views.ContentOutline",
-				IPageLayout.RIGHT, 1.0f, editorArea);
+		layout.addView(IPageLayout.ID_PROJECT_EXPLORER, IPageLayout.LEFT, 0.3f,
+				editorArea);
+		layout.addView(IPageLayout.ID_OUTLINE, IPageLayout.RIGHT, 1.0f,
+				editorArea);
 	}
 }
