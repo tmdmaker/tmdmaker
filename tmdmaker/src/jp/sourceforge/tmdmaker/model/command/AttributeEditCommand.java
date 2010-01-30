@@ -52,8 +52,8 @@ public class AttributeEditCommand extends Command {
 		oldValueAttribute.setDerivationRule(attribute.getDerivationRule());
 		oldValueAttribute.setDescription(attribute.getDescription());
 		oldValueAttribute.setLock(attribute.getLock());
-		oldValueAttribute.setScale(attribute.getScale());
-		oldValueAttribute.setSize(attribute.getSize());
+//		oldValueAttribute.setScale(attribute.getScale());
+//		oldValueAttribute.setSize(attribute.getSize());
 		oldValueAttribute.setValidationRule(attribute.getValidationRule());
 		this.entity = entity;
 	}
@@ -70,8 +70,8 @@ public class AttributeEditCommand extends Command {
 		attribute.setDerivationRule(editedValueAttribute.getDerivationRule());
 		attribute.setDescription(editedValueAttribute.getDescription());
 		attribute.setLock(editedValueAttribute.getLock());
-		attribute.setScale(editedValueAttribute.getScale());
-		attribute.setSize(editedValueAttribute.getSize());
+//		attribute.setScale(editedValueAttribute.getScale());
+//		attribute.setSize(editedValueAttribute.getSize());
 		attribute.setValidationRule(editedValueAttribute.getValidationRule());
 
 		entity.setName(this.entity.getName());
@@ -89,8 +89,8 @@ public class AttributeEditCommand extends Command {
 		attribute.setDerivationRule(oldValueAttribute.getDerivationRule());
 		attribute.setDescription(oldValueAttribute.getDescription());
 		attribute.setLock(oldValueAttribute.getLock());
-		attribute.setScale(oldValueAttribute.getScale());
-		attribute.setSize(oldValueAttribute.getSize());
+//		attribute.setScale(oldValueAttribute.getScale());
+//		attribute.setSize(oldValueAttribute.getSize());
 		attribute.setValidationRule(oldValueAttribute.getValidationRule());
 		this.entity.setName(this.entity.getName());
 	}

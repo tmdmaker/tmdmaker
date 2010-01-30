@@ -27,11 +27,14 @@ public class Attribute extends ModelElement {
 	/** 摘要 */
 	private String description = "";
 	/** データ属性 */
-	private String dataType = "";
-	/** 長さ */
-	private int size;
-	/** 精度 */
-	private int scale;
+	private DataTypeDeclaration dataType;
+	
+//	/** データ属性 */
+//	private String dataType = "";
+//	/** 長さ */
+//	private int size;
+//	/** 精度 */
+//	private int scale;
 	/** 前提 */
 	private String validationRule;
 	/** 機密性 */
@@ -88,50 +91,50 @@ public class Attribute extends ModelElement {
 		this.description = description;
 	}
 
-	/**
-	 * @return the size
-	 */
-	public int getSize() {
-		return size;
-	}
-
-	/**
-	 * @param size
-	 *            the size to set
-	 */
-	public void setSize(int size) {
-		this.size = size;
-	}
-
-	/**
-	 * @return the scale
-	 */
-	public int getScale() {
-		return scale;
-	}
-
-	/**
-	 * @param scale
-	 *            the scale to set
-	 */
-	public void setScale(int scale) {
-		this.scale = scale;
-	}
-
-	/**
-	 * @return the dataType
-	 */
-	public String getDataType() {
-		return dataType;
-	}
-
-	/**
-	 * @param dataType
-	 *            the dataType to set
-	 */
-	public void setDataType(String type) {
-		this.dataType = type;
-	}
+//	/**
+//	 * @return the size
+//	 */
+//	public int getSize() {
+//		return size;
+//	}
+//
+//	/**
+//	 * @param size
+//	 *            the size to set
+//	 */
+//	public void setSize(int size) {
+//		this.size = size;
+//	}
+//
+//	/**
+//	 * @return the scale
+//	 */
+//	public int getScale() {
+//		return scale;
+//	}
+//
+//	/**
+//	 * @param scale
+//	 *            the scale to set
+//	 */
+//	public void setScale(int scale) {
+//		this.scale = scale;
+//	}
+//
+//	/**
+//	 * @return the dataType
+//	 */
+//	public String getDataType() {
+//		return dataType;
+//	}
+//
+//	/**
+//	 * @param dataType
+//	 *            the dataType to set
+//	 */
+//	public void setDataType(String type) {
+//		this.dataType = type;
+//	}
 
 	/**
 	 * @return the validationRule
@@ -177,6 +180,20 @@ public class Attribute extends ModelElement {
 	public void setDerivationRule(String derivationRule) {
 		this.derivationRule = derivationRule;
 	}
+	
+	/**
+	 * @return the dataType
+	 */
+	public DataTypeDeclaration getDataType() {
+		return dataType;
+	}
+
+	/**
+	 * @param dataType the dataType to set
+	 */
+	public void setDataType(DataTypeDeclaration dataType) {
+		this.dataType = dataType;
+	}
 
 	/**
 	 * fromから自身のフィールド値へコピー（sharrow copy)する。
@@ -184,13 +201,14 @@ public class Attribute extends ModelElement {
 	 * @param from
 	 */
 	public void copyFrom(Attribute from) {
-		this.setDataType(from.getDataType());
+//		this.setDataType(from.getDataType());
 		this.setDerivationRule(from.getDerivationRule());
 		this.setDescription(from.getDescription());
 		this.setLock(from.getLock());
-		this.setScale(from.getScale());
-		this.setSize(from.getSize());
+//		this.setScale(from.getScale());
+//		this.setSize(from.getSize());
 		this.setValidationRule(from.getValidationRule());
+		this.setDataType(from.getDataType());
 		this.setName(from.getName());
 	}
 
@@ -200,13 +218,14 @@ public class Attribute extends ModelElement {
 	 * @param to
 	 */
 	public void copyTo(Attribute to) {
-		to.setDataType(dataType);
+//		to.setDataType(dataType);
 		to.setDerivationRule(derivationRule);
 		to.setDescription(description);
 		to.setLock(lock);
-		to.setScale(scale);
-		to.setSize(size);
+//		to.setScale(scale);
+//		to.setSize(size);
 		to.setValidationRule(validationRule);
+		to.setDataType(dataType);
 		to.setName(getName());
 	}
 

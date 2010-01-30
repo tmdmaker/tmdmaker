@@ -13,20 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model;
+package jp.sourceforge.tmdmaker.generate.ddl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ddlutils.PlatformFactory;
 
 /**
- * JDBCデータ型
+ * 物理実装用の情報を提供するクラス
  * 
  * @author nakaG
  * 
  */
-public class DataType {
-	// 未使用クラス。物理実装時に使うかも
-	String[] dataTypes = new String[] { "TINYINT", "SMALLINT", "INTEGER",
-			"BIGINT", "REAL", "FLOAT", "DOUBLE", "DECIMAL", "NUMERIC", "BIT",
-			"CHAR", "VARCHAR", "LONGVARCHAR", "BINARY", "VARBINARY",
-			"LONGVARBINARY", "DATE", "TIME", "TIMESTAMP", "CLOB", "BLOB",
-			"ARRAY", "OTHER" };
-
+public class DatabaseDialectProvider {
+	/**
+	 * 対応データベース名の一覧を取得する。
+	 * 
+	 * @return データベース名のリスト
+	 */
+	public List<String> getDatabaseList() {
+		List<String> result = new ArrayList<String>();
+		for (String platform : PlatformFactory.getSupportedPlatforms()) {
+			result.add(platform);
+		}
+		return result;
+	}
 }

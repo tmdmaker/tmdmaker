@@ -31,7 +31,7 @@ public class EditAttribute {
 	/** 摘要 */
 	private String description = "";
 	/** データ属性 */
-	private String dataType = "";
+	private StandardSQLDataType dataType = null;
 	/** 長さ */
 	private String size = "";
 	/** 精度 */
@@ -60,20 +60,32 @@ public class EditAttribute {
 		this.originalAttribute = original;
 		String value = original.getName();
 		this.name = value == null ? "" : value;
-		value = original.getDataType();
-		this.dataType = value == null ? "" : value;
+//		value = original.getDataType();
+//		this.dataType = value == null ? "" : value;
 		value = original.getDescription();
 		this.description = value == null ? "" : value;
-		value = String.valueOf(original.getSize());
-		this.size = value == null ? "" : value;
-		value = String.valueOf(original.getScale());
-		this.scale = value == null ? "" : value;
+//		value = String.valueOf(original.getSize());
+//		this.size = value == null ? "" : value;
+//		value = String.valueOf(original.getScale());
+//		this.scale = value == null ? "" : value;
 		value = original.getDerivationRule();
 		this.derivationRule = value == null ? "" : value;
 		value = original.getLock();
 		this.lock = value == null ? "" : value;
 		value = original.getValidationRule();
 		this.validationRule = value == null ? "" : value;
+		DataTypeDeclaration dataTypeDeclaration = original.getDataType();
+		if (dataTypeDeclaration != null) {
+			this.dataType = dataTypeDeclaration.getLogicalType();
+			Integer intValue = dataTypeDeclaration.getSize();
+			this.size = intValue == null ? "" : String.valueOf(intValue);
+			intValue = dataTypeDeclaration.getScale();
+			this.scale = intValue == null ? "" : String.valueOf(intValue);
+		} else {
+			this.dataType = null;
+			this.size = "";
+			this.scale = "";
+		}
 	}
 
 	/**
@@ -139,7 +151,7 @@ public class EditAttribute {
 	/**
 	 * @return the dataType
 	 */
-	public String getDataType() {
+	public StandardSQLDataType getDataType() {
 		return dataType;
 	}
 
@@ -147,7 +159,7 @@ public class EditAttribute {
 	 * @param dataType
 	 *            the dataType to set
 	 */
-	public void setDataType(String dataType) {
+	public void setDataType(StandardSQLDataType dataType) {
 		this.dataType = dataType;
 		setEdited(true);
 	}
@@ -246,8 +258,25 @@ public class EditAttribute {
 	 * @param to
 	 */
 	public void copyTo(Attribute to) {
-		if (dataType.length() != 0) {
-			to.setDataType(dataType);
+		if (dataType != null) {
+			Integer size = null;
+			Integer scale = null;
+			if (dataType.isSupportScale()) {
+				if( this.scale.length() != 0) {
+					size = Integer.valueOf(this.size);
+				}
+			} else {
+				size = null;
+			}
+			if (dataType.isSupportSize()) {
+				if (this.size.length() != 0) {
+					scale = Integer.valueOf(this.scale);
+				}
+			} else {
+				scale = null;
+			}
+			DataTypeDeclaration dataTypeDeclaration = new DataTypeDeclaration(dataType, size, scale);
+			to.setDataType(dataTypeDeclaration);
 		}
 		if (derivationRule.length() != 0) {
 			to.setDerivationRule(derivationRule);
@@ -257,12 +286,6 @@ public class EditAttribute {
 		}
 		if (lock.length() != 0) {
 			to.setLock(lock);
-		}
-		if (scale.length() != 0) {
-			to.setScale(toInteger(scale));
-		}
-		if (size.length() != 0) {
-			to.setSize(toInteger(size));
 		}
 		if (validationRule.length() != 0) {
 			to.setValidationRule(validationRule);

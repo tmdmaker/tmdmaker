@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -152,9 +153,12 @@ public class PhysicalDesignEditPanel extends Composite {
 			item.setText(0, a.getName());
 			item.setText(1, "a");
 //			item.setText(1, a.getPhysicalName());
-			item.setText(2, a.getDataType());
-			item.setText(3, String.valueOf(a.getSize()));
-			item.setText(4, String.valueOf(a.getScale()));
+			DataTypeDeclaration type = a.getDataType();
+			if (type != null) {
+				item.setText(2, type.getLogicalType().getName());
+				item.setText(3, String.valueOf(type.getSize()));
+				item.setText(4, String.valueOf(type.getScale()));
+			}
 			item.setText(5, "");
 		}
 	}
