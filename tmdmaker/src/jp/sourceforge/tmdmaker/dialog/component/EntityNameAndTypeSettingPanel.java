@@ -86,7 +86,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         gridData11.horizontalAlignment = GridData.FILL;
         gridData11.verticalAlignment = GridData.CENTER;
         GridData gridData10 = new GridData();
-        gridData10.horizontalAlignment = GridData.BEGINNING;
+        gridData10.horizontalAlignment = GridData.CENTER;
         gridData10.verticalAlignment = GridData.CENTER;
         GridData gridData9 = new GridData();
         gridData9.horizontalSpan = 2;

@@ -69,6 +69,9 @@ public class AttributeDialog extends Dialog {
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new AttributePanel(composite, SWT.NULL);
 		panel.initializeValue(original);
+		
+//		composite.setSize(260, 480);
+		composite.pack();
 		return composite;
 	}
 

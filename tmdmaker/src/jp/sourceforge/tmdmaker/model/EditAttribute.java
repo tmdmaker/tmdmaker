@@ -60,21 +60,22 @@ public class EditAttribute {
 		this.originalAttribute = original;
 		String value = original.getName();
 		this.name = value == null ? "" : value;
-//		value = original.getDataType();
-//		this.dataType = value == null ? "" : value;
+		// value = original.getDataType();
+		// this.dataType = value == null ? "" : value;
 		value = original.getDescription();
 		this.description = value == null ? "" : value;
-//		value = String.valueOf(original.getSize());
-//		this.size = value == null ? "" : value;
-//		value = String.valueOf(original.getScale());
-//		this.scale = value == null ? "" : value;
+		// value = String.valueOf(original.getSize());
+		// this.size = value == null ? "" : value;
+		// value = String.valueOf(original.getScale());
+		// this.scale = value == null ? "" : value;
 		value = original.getDerivationRule();
 		this.derivationRule = value == null ? "" : value;
 		value = original.getLock();
 		this.lock = value == null ? "" : value;
 		value = original.getValidationRule();
 		this.validationRule = value == null ? "" : value;
-		DataTypeDeclaration dataTypeDeclaration = original.getDataType();
+		DataTypeDeclaration dataTypeDeclaration = original
+				.getDataTypeDeclaration();
 		if (dataTypeDeclaration != null) {
 			this.dataType = dataTypeDeclaration.getLogicalType();
 			Integer intValue = dataTypeDeclaration.getSize();
@@ -103,9 +104,11 @@ public class EditAttribute {
 		this.name = name;
 		setEdited(true);
 	}
+
 	public boolean isNameChanged() {
 		return !this.name.equals(originalAttribute.getName());
 	}
+
 	/**
 	 * @return the originalAttribute
 	 */
@@ -261,22 +264,25 @@ public class EditAttribute {
 		if (dataType != null) {
 			Integer size = null;
 			Integer scale = null;
-			if (dataType.isSupportScale()) {
-				if( this.scale.length() != 0) {
-					size = Integer.valueOf(this.size);
+			if (dataType.isSupportSize()) {
+				if (this.size.length() != 0) {
+					size = toInteger(this.size);
 				}
 			} else {
 				size = null;
 			}
-			if (dataType.isSupportSize()) {
-				if (this.size.length() != 0) {
-					scale = Integer.valueOf(this.scale);
+			if (dataType.isSupportScale()) {
+				if (this.scale.length() != 0) {
+					scale = toInteger(this.scale);
 				}
 			} else {
 				scale = null;
 			}
-			DataTypeDeclaration dataTypeDeclaration = new DataTypeDeclaration(dataType, size, scale);
-			to.setDataType(dataTypeDeclaration);
+			DataTypeDeclaration dataTypeDeclaration = new DataTypeDeclaration(
+					dataType, size, scale);
+			to.setDataTypeDeclaration(dataTypeDeclaration);
+		} else {
+			to.setDataTypeDeclaration(null);
 		}
 		if (derivationRule.length() != 0) {
 			to.setDerivationRule(derivationRule);
@@ -304,9 +310,9 @@ public class EditAttribute {
 	 * 
 	 * @param value
 	 *            文字列をintへ変換する。
-	 * @return int 変換エラー時は0を返す。
+	 * @return Integer 変換エラー時は0を返す。
 	 */
-	private int toInteger(String value) {
+	private Integer toInteger(String value) {
 		try {
 			return Integer.valueOf(value);
 		} catch (NumberFormatException e) {

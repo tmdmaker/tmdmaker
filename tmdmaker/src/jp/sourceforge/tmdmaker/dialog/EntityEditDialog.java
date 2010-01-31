@@ -20,7 +20,6 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndTypeSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.component.PhysicalDesignEditPanel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.Entity;
@@ -33,9 +32,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * エンティティ編集ダイアログ
@@ -50,9 +49,8 @@ public class EntityEditDialog extends Dialog {
 	private AttributeSettingPanel panel2;
 	/** 実装可否設定用 */
 	private Button notImplementCheck;
-	// private String oldIdentifierName;
-	// private String oldEntityName;
-	// private EntityType oldEntityType;
+	private Label implementNameLabel;
+	private Text implementNameText;
 
 	// private String editIdentifierName;
 	// private String editEntityName;
@@ -110,13 +108,13 @@ public class EntityEditDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("エンティティ編集");
-		TabFolder tabFolder = new TabFolder(parent, SWT.NULL);
-		// １つめのタブを作成
-		TabItem item1 = new TabItem(tabFolder, SWT.NULL);
-		item1.setText("論理設計");
+//		TabFolder tabFolder = new TabFolder(parent, SWT.NULL);
+//		// １つめのタブを作成
+//		TabItem item1 = new TabItem(tabFolder, SWT.NULL);
+//		item1.setText("論理設計");
 
-		Composite composite = new Composite(tabFolder, SWT.NULL);
-		item1.setControl(composite);
+		Composite composite = new Composite(parent, SWT.NULL);
+//		item1.setControl(composite);
 		// composite.setLayout(new FillLayout(SWT.VERTICAL));
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
@@ -133,12 +131,21 @@ public class EntityEditDialog extends Dialog {
 		notImplementCheck.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalIndent = 5;
+
+//TODO 共通コンポーネント化
+		implementNameLabel = new Label(composite, SWT.NULL);
+		implementNameLabel.setText("実装名");
+		implementNameText = new Text(composite, SWT.BORDER);
+		implementNameText.setLayoutData(gridData);
+		
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel2 = new AttributeSettingPanel(composite, SWT.NULL);
 		panel2.setLayoutData(gridData);
 
 		// ２つめのタブを作成
-		TabItem item2 = new TabItem(tabFolder, SWT.NULL);
-		item2.setText("物理設計");
+//		TabItem item2 = new TabItem(tabFolder, SWT.NULL);
+//		item2.setText("物理設計");
 		// gridData = new GridData(GridData.FILL_HORIZONTAL);
 		// panel2 = new AttributeSettingPanel(tabFolder, SWT.NULL);
 		// item2.setControl(panel2);
@@ -146,13 +153,13 @@ public class EntityEditDialog extends Dialog {
 		// TODO 物理設計用画面作成
 		// Label label2 = new Label(tabFolder,SWT.BORDER);
 		// label2.setText("TBD");
-		PhysicalDesignEditPanel panel3 = new PhysicalDesignEditPanel(tabFolder,
-				SWT.NULL);
-		item2.setControl(panel3);
-		panel3.initializeData(original.getAttributes());
-		// 3つめのタブを作成
-		TabItem item3 = new TabItem(tabFolder, SWT.NULL);
-		item3.setText("インデックス設計");
+//		PhysicalDesignEditPanel panel3 = new PhysicalDesignEditPanel(tabFolder,
+//				SWT.NULL);
+//		item2.setControl(panel3);
+//		panel3.initializeData(original.getAttributes());
+//		// 3つめのタブを作成
+//		TabItem item3 = new TabItem(tabFolder, SWT.NULL);
+//		item3.setText("インデックス設計");
 
 		composite.pack();
 		initializeValue();

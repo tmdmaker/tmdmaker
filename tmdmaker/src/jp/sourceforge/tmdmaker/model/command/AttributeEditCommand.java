@@ -38,9 +38,13 @@ public class AttributeEditCommand extends Command {
 
 	/**
 	 * コンストラクタ
-	 * @param attribute 編集対象モデル
-	 * @param editedValueAttribute 編集後値
-	 * @param entity 親モデル
+	 * 
+	 * @param attribute
+	 *            編集対象モデル
+	 * @param editedValueAttribute
+	 *            編集後値
+	 * @param entity
+	 *            親モデル
 	 */
 	public AttributeEditCommand(Attribute attribute,
 			Attribute editedValueAttribute, AbstractEntityModel entity) {
@@ -48,12 +52,10 @@ public class AttributeEditCommand extends Command {
 		this.editedValueAttribute = editedValueAttribute;
 		this.oldValueAttribute = new Attribute();
 		oldValueAttribute.setName(attribute.getName());
-		oldValueAttribute.setDataType(attribute.getDataType());
+		oldValueAttribute.setDataTypeDeclaration(attribute.getDataTypeDeclaration());
 		oldValueAttribute.setDerivationRule(attribute.getDerivationRule());
 		oldValueAttribute.setDescription(attribute.getDescription());
 		oldValueAttribute.setLock(attribute.getLock());
-//		oldValueAttribute.setScale(attribute.getScale());
-//		oldValueAttribute.setSize(attribute.getSize());
 		oldValueAttribute.setValidationRule(attribute.getValidationRule());
 		this.entity = entity;
 	}
@@ -66,14 +68,12 @@ public class AttributeEditCommand extends Command {
 	@Override
 	public void execute() {
 		attribute.setName(editedValueAttribute.getName());
-		attribute.setDataType(editedValueAttribute.getDataType());
+		attribute.setDataTypeDeclaration(editedValueAttribute.getDataTypeDeclaration());
 		attribute.setDerivationRule(editedValueAttribute.getDerivationRule());
 		attribute.setDescription(editedValueAttribute.getDescription());
 		attribute.setLock(editedValueAttribute.getLock());
-//		attribute.setScale(editedValueAttribute.getScale());
-//		attribute.setSize(editedValueAttribute.getSize());
 		attribute.setValidationRule(editedValueAttribute.getValidationRule());
-
+		attribute.setDataTypeDeclaration(editedValueAttribute.getDataTypeDeclaration());
 		entity.setName(this.entity.getName());
 	}
 
@@ -85,13 +85,12 @@ public class AttributeEditCommand extends Command {
 	@Override
 	public void undo() {
 		attribute.setName(oldValueAttribute.getName());
-		attribute.setDataType(oldValueAttribute.getDataType());
+		attribute.setDataTypeDeclaration(oldValueAttribute.getDataTypeDeclaration());
 		attribute.setDerivationRule(oldValueAttribute.getDerivationRule());
 		attribute.setDescription(oldValueAttribute.getDescription());
 		attribute.setLock(oldValueAttribute.getLock());
-//		attribute.setScale(oldValueAttribute.getScale());
-//		attribute.setSize(oldValueAttribute.getSize());
 		attribute.setValidationRule(oldValueAttribute.getValidationRule());
+		attribute.setDataTypeDeclaration(oldValueAttribute.getDataTypeDeclaration());
 		this.entity.setName(this.entity.getName());
 	}
 

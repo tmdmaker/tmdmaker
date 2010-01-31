@@ -22,7 +22,6 @@ import java.io.Serializable;
  * 
  * 実際にアトリビュートに使用するデータ型と桁、位を宣言したものを表す。
  * 
- * 
  * @author nakaG
  * 
  */
@@ -30,11 +29,10 @@ import java.io.Serializable;
 public class DataTypeDeclaration implements Serializable {
 	// 未使用。使うかも
 	// enum DataTypeGroup {
-	// NUMBER("数字", true, true),
+	// NUMBER("数値", true, true),
 	// CHAR("固定長文字列", true, false),
 	// VARCHAR("可変長文字列", true, false),
 	// DATE("日付", false, false),
-	// TIME("時間", false, false),
 	// DATETIME("日時", false, false);
 	//		
 	// private String name;
@@ -60,7 +58,8 @@ public class DataTypeDeclaration implements Serializable {
 	 * @param scale
 	 *            精度
 	 */
-	public DataTypeDeclaration(StandardSQLDataType logicalType, Integer size, Integer scale) {
+	public DataTypeDeclaration(StandardSQLDataType logicalType, Integer size,
+			Integer scale) {
 		this.logicalType = logicalType;
 		this.size = size;
 		this.scale = scale;
@@ -94,4 +93,12 @@ public class DataTypeDeclaration implements Serializable {
 		return scale;
 	}
 
+	/**
+	 * コピー(sharrow copy)を取得する。
+	 * 
+	 * @return コピーしたオブジェクト
+	 */
+	public DataTypeDeclaration getCopy() {
+		return new DataTypeDeclaration(logicalType, size, scale);
+	}
 }

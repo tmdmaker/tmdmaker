@@ -153,7 +153,7 @@ public class PhysicalDesignEditPanel extends Composite {
 			item.setText(0, a.getName());
 			item.setText(1, "a");
 //			item.setText(1, a.getPhysicalName());
-			DataTypeDeclaration type = a.getDataType();
+			DataTypeDeclaration type = a.getDataTypeDeclaration();
 			if (type != null) {
 				item.setText(2, type.getLogicalType().getName());
 				item.setText(3, String.valueOf(type.getSize()));

@@ -18,15 +18,15 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.graphics.Rectangle;
 
 public class AttributePanel extends Composite {
 
@@ -79,6 +79,7 @@ public class AttributePanel extends Composite {
 		gridLayout.numColumns = 2;
 		inputNameLabel = new Label(this, SWT.NONE);
 		inputNameLabel.setText("論理名");
+		inputNameLabel.setBounds(new Rectangle(0, -8, 41, 8));
 		inputNameText = new Text(this, SWT.BORDER);
 		inputNameText.setLayoutData(gridData8);
 		descriptionLabel = new Label(this, SWT.NONE);
@@ -101,7 +102,7 @@ public class AttributePanel extends Composite {
 		derivationRuleTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		derivationRuleTextArea.setLayoutData(gridData7);
 		this.setLayout(gridLayout);
-		this.setSize(new Point(304, 370));
+		this.setSize(new Point(285, 400));
 	}
 
 	/**
@@ -110,8 +111,8 @@ public class AttributePanel extends Composite {
 	 */
 	private void createDataCombo() {
 		GridData gridData1 = new GridData();
-		gridData1.horizontalAlignment = GridData.FILL;
-		gridData1.widthHint = 200;
+		gridData1.horizontalAlignment = GridData.CENTER;
+		gridData1.widthHint = 180;
 		gridData1.horizontalSpan = 4;
 		gridData1.verticalAlignment = GridData.CENTER;
 		dataCombo = new Combo(dataTypeComposite, SWT.READ_ONLY);
@@ -156,7 +157,7 @@ public class AttributePanel extends Composite {
 			if (dt.isSupportScale()) {
 				scaleText.setText(ea.getScale());
 			}
-			dataCombo.select(dt.ordinal());
+			dataCombo.select(dt.ordinal()+1);
 			fireDataTypeChanged(dataCombo.getSelectionIndex());
 		}
 	}
@@ -177,7 +178,7 @@ public class AttributePanel extends Composite {
 	public StandardSQLDataType getDataType() {
 		int selectionIndex = dataCombo.getSelectionIndex();
 		if (selectionIndex != 0) {
-			return StandardSQLDataType.values()[selectionIndex];
+			return StandardSQLDataType.values()[selectionIndex -1];
 		} else {
 			return null;
 		}
@@ -221,7 +222,8 @@ public class AttributePanel extends Composite {
 		GridLayout gridLayout1 = new GridLayout();
 		gridLayout1.numColumns = 4;
 		GridData gridData2 = new GridData();
-		gridData2.horizontalAlignment = GridData.FILL;
+		gridData2.horizontalAlignment = GridData.CENTER;
+		gridData2.grabExcessHorizontalSpace = false;
 		gridData2.verticalAlignment = GridData.CENTER;
 		dataTypeComposite = new Composite(this, SWT.NONE);
 		dataTypeComposite.setLayoutData(gridData2);
@@ -236,4 +238,4 @@ public class AttributePanel extends Composite {
 		scaleText = new Text(dataTypeComposite, SWT.BORDER);
 		scaleText.setLayoutData(gridData4);
 	}
-}  //  @jve:decl-index=0:visual-constraint="0,0"
+}  //  @jve:decl-index=0:visual-constraint="-60,-10"
