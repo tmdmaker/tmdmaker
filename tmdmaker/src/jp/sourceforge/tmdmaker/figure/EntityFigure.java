@@ -174,13 +174,13 @@ public class EntityFigure extends Figure {
 			this.notImplement = notImplement;
 		}
 
-		/**
-		 * @param notImplement
-		 *            the notImplement to set
-		 */
-		public void setNotImplement(boolean notImplement) {
-			this.notImplement = notImplement;
-		}
+//		/**
+//		 * @param notImplement
+//		 *            the notImplement to set
+//		 */
+//		public void setNotImplement(boolean notImplement) {
+//			this.notImplement = notImplement;
+//		}
 
 		/**
 		 * {@inheritDoc}

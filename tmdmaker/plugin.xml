@@ -2,6 +2,7 @@
 <?eclipse version="3.3"?>
 <plugin>
    <extension-point id="tmdmaker.generators" name="generators" schema="schema/tmdmaker.generators.exsd"/>
+   <extension-point id="tmdmaker.dialect.provider" name="Dialect Provider" schema="schema/tmdmaker.dialect.provider.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor

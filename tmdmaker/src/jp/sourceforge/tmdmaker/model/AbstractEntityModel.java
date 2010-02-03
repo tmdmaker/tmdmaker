@@ -46,7 +46,9 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	protected EntityType entityType = EntityType.RESOURCE;
 	/** 物理実装しない */
 	protected boolean notImplement = false;
-
+	/** 実装名 */
+	protected String implementName = "";
+	
 	/**
 	 * @return the diagram
 	 */
@@ -322,4 +324,19 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @return 削除可能な場合にtrueを返す。
 	 */
 	public abstract boolean isDeletable();
+
+	/**
+	 * @return the implementName
+	 */
+	public String getImplementName() {
+		return implementName;
+	}
+
+	/**
+	 * @param implementName the implementName to set
+	 */
+	public void setImplementName(String implementName) {
+		this.implementName = implementName;
+	}
+	
 }

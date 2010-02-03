@@ -13,30 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.generate.ddl;
+package jp.sourceforge.tmdmaker.dialect;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.ddlutils.PlatformFactory;
-
 /**
- * 物理実装用の情報を提供するクラス
- * 
  * @author nakaG
- * 
+ *
  */
-public class DatabaseDialectProvider {
-	/**
-	 * 対応データベース名の一覧を取得する。
-	 * 
-	 * @return データベース名のリスト
-	 */
-	public List<String> getDatabaseList() {
-		List<String> result = new ArrayList<String>();
-		for (String platform : PlatformFactory.getSupportedPlatforms()) {
-			result.add(platform);
-		}
-		return result;
-	}
+public interface DialectProvider {
+	List<String> getDatabaseList();
 }

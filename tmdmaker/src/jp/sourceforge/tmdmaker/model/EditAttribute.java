@@ -42,6 +42,8 @@ public class EditAttribute {
 	private String lock = "";
 	/** 計算式 */
 	private String derivationRule = "";
+	/** 実装名 */
+	private String implementName = "";
 
 	/**
 	 * コンストラクタ
@@ -58,30 +60,19 @@ public class EditAttribute {
 	 */
 	public EditAttribute(Attribute original) {
 		this.originalAttribute = original;
-		String value = original.getName();
-		this.name = value == null ? "" : value;
-		// value = original.getDataType();
-		// this.dataType = value == null ? "" : value;
-		value = original.getDescription();
-		this.description = value == null ? "" : value;
-		// value = String.valueOf(original.getSize());
-		// this.size = value == null ? "" : value;
-		// value = String.valueOf(original.getScale());
-		// this.scale = value == null ? "" : value;
-		value = original.getDerivationRule();
-		this.derivationRule = value == null ? "" : value;
-		value = original.getLock();
-		this.lock = value == null ? "" : value;
-		value = original.getValidationRule();
-		this.validationRule = value == null ? "" : value;
+
+		this.name = toBlankStringIfNull(original.getName());
+		this.description = toBlankStringIfNull(original.getDescription());
+		this.derivationRule = toBlankStringIfNull(original.getDerivationRule());
+		this.lock = toBlankStringIfNull(original.getLock());
+		this.validationRule = toBlankStringIfNull(original.getValidationRule());
+		this.implementName = toBlankStringIfNull(original.getImplementName());
 		DataTypeDeclaration dataTypeDeclaration = original
 				.getDataTypeDeclaration();
 		if (dataTypeDeclaration != null) {
 			this.dataType = dataTypeDeclaration.getLogicalType();
-			Integer intValue = dataTypeDeclaration.getSize();
-			this.size = intValue == null ? "" : String.valueOf(intValue);
-			intValue = dataTypeDeclaration.getScale();
-			this.scale = intValue == null ? "" : String.valueOf(intValue);
+			this.size = toBlankIfNull(dataTypeDeclaration.getSize());
+			this.scale = toBlankIfNull(dataTypeDeclaration.getScale());
 		} else {
 			this.dataType = null;
 			this.size = "";
@@ -256,6 +247,21 @@ public class EditAttribute {
 	}
 
 	/**
+	 * @return the implementName
+	 */
+	public String getImplementName() {
+		return implementName;
+	}
+
+	/**
+	 * @param implementName the implementName to set
+	 */
+	public void setImplementName(String implementName) {
+		this.implementName = implementName;
+		setEdited(true);
+	}
+
+	/**
 	 * toへ自身のフィールド値をコピー（sharrow copy)する。
 	 * 
 	 * @param to
@@ -296,6 +302,9 @@ public class EditAttribute {
 		if (validationRule.length() != 0) {
 			to.setValidationRule(validationRule);
 		}
+		if (implementName.length() != 0) {
+			to.setImplementName(implementName);
+		}
 		to.setName(name);
 	}
 
@@ -319,5 +328,11 @@ public class EditAttribute {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+	private String toBlankIfNull(Integer value) {
+		return value == null ? "" : String.valueOf(value);
+	}
+	private String toBlankStringIfNull(String value) {
+		return value == null ? "" : value;
 	}
 }

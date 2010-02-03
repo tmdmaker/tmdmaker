@@ -4,7 +4,7 @@ Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: tmdmaker;singleton:=true
 Bundle-Version: 0.1.0
 Bundle-Activator: jp.sourceforge.tmdmaker.TMDPlugin
-Require-Bundle: org.eclipse.ui,
+Require-Bundle: org.eclipse.ui,	
  org.eclipse.gef,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide,
@@ -25,3 +25,7 @@ Bundle-ClassPath: lib/slf4j-api-1.5.8.jar,
  .
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider
+Export-Package: jp.sourceforge.tmdmaker,
+ jp.sourceforge.tmdmaker.dialect,
+ jp.sourceforge.tmdmaker.generate,
+ jp.sourceforge.tmdmaker.model

@@ -97,6 +97,7 @@ public class AttributeDialog extends Dialog {
 		original.setLock(panel.getLock());
 		original.setName(panel.getInputName());
 		original.setValidationRule(panel.getValidationRule());
+		original.setImplementName(panel.getImplementName());
 		original.setDataType(panel.getDataType());
 		original.setSize(panel.getPresition());
 		original.setScale(panel.getScale());

@@ -3,7 +3,7 @@
 <schema targetNamespace="tmdmaker" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="tmdmaker" id="tmdmaker.generators" name="generators"/>
+         <meta.schema plugin="tmdmaker" id="tmdmaker.dialect.provider" name="Dialect Provider"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="generator" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="provider" minOccurs="0" maxOccurs="1"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,16 +47,13 @@
       </complexType>
    </element>
 
-   <element name="generator">
+   <element name="provider">
       <complexType>
-         <attribute name="name" type="string" use="required">
+         <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  for Grouping ContextMenu
+                  
                </documentation>
-               <appInfo>
-                  <meta.attribute translatable="true"/>
-               </appInfo>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
@@ -65,15 +62,8 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.generate.Generator"/>
+                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.dialect.DialectProvider"/>
                </appInfo>
-            </annotation>
-         </attribute>
-         <attribute name="group" type="string">
-            <annotation>
-               <documentation>
-                  for Grouping ContextMenu
-               </documentation>
             </annotation>
          </attribute>
       </complexType>

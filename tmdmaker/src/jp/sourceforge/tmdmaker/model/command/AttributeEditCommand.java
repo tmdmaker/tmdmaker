@@ -57,6 +57,7 @@ public class AttributeEditCommand extends Command {
 		oldValueAttribute.setDescription(attribute.getDescription());
 		oldValueAttribute.setLock(attribute.getLock());
 		oldValueAttribute.setValidationRule(attribute.getValidationRule());
+		oldValueAttribute.setImplementName(attribute.getImplementName());
 		this.entity = entity;
 	}
 
@@ -74,6 +75,7 @@ public class AttributeEditCommand extends Command {
 		attribute.setLock(editedValueAttribute.getLock());
 		attribute.setValidationRule(editedValueAttribute.getValidationRule());
 		attribute.setDataTypeDeclaration(editedValueAttribute.getDataTypeDeclaration());
+		attribute.setImplementName(editedValueAttribute.getImplementName());
 		entity.setName(this.entity.getName());
 	}
 
@@ -91,6 +93,7 @@ public class AttributeEditCommand extends Command {
 		attribute.setLock(oldValueAttribute.getLock());
 		attribute.setValidationRule(oldValueAttribute.getValidationRule());
 		attribute.setDataTypeDeclaration(oldValueAttribute.getDataTypeDeclaration());
+		attribute.setImplementName(oldValueAttribute.getImplementName());
 		this.entity.setName(this.entity.getName());
 	}
 

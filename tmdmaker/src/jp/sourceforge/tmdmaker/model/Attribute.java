@@ -23,7 +23,6 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class Attribute extends ModelElement {
-	private String physicalName = "";
 	/** 摘要 */
 	private String description = "";
 	/** データ属性 */
@@ -34,6 +33,8 @@ public class Attribute extends ModelElement {
 	private String lock;
 	/** 計算式 */
 	private String derivationRule;
+	/** 実装名 */
+	protected String implementName;
 
 	/**
 	 * コンストラクタ
@@ -51,19 +52,33 @@ public class Attribute extends ModelElement {
 		setName(name);
 	}
 
+//	/**
+//	 * @return the physicalName
+//	 */
+//	public String getPhysicalName() {
+//		return physicalName;
+//	}
+//
+//	/**
+//	 * @param physicalName
+//	 *            the physicalName to set
+//	 */
+//	public void setPhysicalName(String physicalName) {
+//		this.physicalName = physicalName;
+//	}
+
 	/**
-	 * @return the physicalName
+	 * @return the implementName
 	 */
-	public String getPhysicalName() {
-		return physicalName;
+	public String getImplementName() {
+		return implementName;
 	}
 
 	/**
-	 * @param physicalName
-	 *            the physicalName to set
+	 * @param implementName the implementName to set
 	 */
-	public void setPhysicalName(String physicalName) {
-		this.physicalName = physicalName;
+	public void setImplementName(String implementName) {
+		this.implementName = implementName;
 	}
 
 	/**

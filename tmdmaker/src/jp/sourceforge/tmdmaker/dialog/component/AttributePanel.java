@@ -47,12 +47,17 @@ public class AttributePanel extends Composite {
 	private Text scaleText = null;
 	private Label pLabel = null;
 	private Label sLabel = null;
+	private Label implementNameLabel = null;
+	private Text implementNameText = null;
 	public AttributePanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
 	}
 
 	private void initialize() {
+		GridData gridData10 = new GridData();
+		gridData10.horizontalAlignment = GridData.FILL;
+		gridData10.verticalAlignment = GridData.CENTER;
 		GridData gridData11 = new GridData();
 		gridData11.horizontalAlignment = GridData.FILL;
 		gridData11.heightHint = 60;
@@ -78,10 +83,14 @@ public class AttributePanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		inputNameLabel = new Label(this, SWT.NONE);
-		inputNameLabel.setText("論理名");
+		inputNameLabel.setText("名称");
 		inputNameLabel.setBounds(new Rectangle(0, -8, 41, 8));
 		inputNameText = new Text(this, SWT.BORDER);
 		inputNameText.setLayoutData(gridData8);
+		implementNameLabel = new Label(this, SWT.NONE);
+		implementNameLabel.setText("実装名");
+		implementNameText = new Text(this, SWT.BORDER);
+		implementNameText.setLayoutData(gridData10);
 		descriptionLabel = new Label(this, SWT.NONE);
 		descriptionLabel.setText("摘要");
 		descriptionTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
@@ -149,6 +158,7 @@ public class AttributePanel extends Composite {
 		validationRuleTextArea.setText(ea.getValidationRule());
 		lockTextArea.setText(ea.getLock());
 		derivationRuleTextArea.setText(ea.getDerivationRule());
+		implementNameText.setText(ea.getImplementName());
 		StandardSQLDataType dt = ea.getDataType();
 		if (dt != null) {
 			if (dt.isSupportSize()) {
@@ -177,7 +187,7 @@ public class AttributePanel extends Composite {
 	}
 	public StandardSQLDataType getDataType() {
 		int selectionIndex = dataCombo.getSelectionIndex();
-		if (selectionIndex != 0) {
+		if (selectionIndex > 0) {
 			return StandardSQLDataType.values()[selectionIndex -1];
 		} else {
 			return null;
@@ -209,7 +219,9 @@ public class AttributePanel extends Composite {
 	public String getInputName() {
 		return inputNameText.getText();
 	}
-
+	public String getImplementName() {
+		return implementNameText.getText();
+	}
 	/**
 	 * This method initializes dataTypeComposite	
 	 *
@@ -221,6 +233,9 @@ public class AttributePanel extends Composite {
 		gridData3.widthHint = 50;
 		GridLayout gridLayout1 = new GridLayout();
 		gridLayout1.numColumns = 4;
+		gridLayout1.marginWidth = 5;
+		gridLayout1.verticalSpacing = 5;
+		gridLayout1.horizontalSpacing = 5;
 		GridData gridData2 = new GridData();
 		gridData2.horizontalAlignment = GridData.CENTER;
 		gridData2.grabExcessHorizontalSpace = false;

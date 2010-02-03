@@ -179,7 +179,7 @@ public class EntityEditDialog extends Dialog {
 		panel1.setEntityTypeComboEnabled(original.isEntityTypeEditable());
 
 		notImplementCheck.setSelection(original.isNotImplement());
-
+		implementNameText.setText(original.getImplementName());
 		panel2.setAttributeTableRow(editAttributeList);
 	}
 
@@ -202,6 +202,7 @@ public class EntityEditDialog extends Dialog {
 		this.editedValueEntity.setEntityType(panel1.getSelectedType());
 		this.editedValueEntity
 				.setNotImplement(notImplementCheck.getSelection());
+		this.editedValueEntity.setImplementName(implementNameText.getText());
 		createEditAttributeResult();
 		super.okPressed();
 	}
