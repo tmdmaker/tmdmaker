@@ -97,20 +97,4 @@ public class CombinationTable extends AbstractEntityModel {
 		this.combinationTableType = combinationTableType;
 	}
 
-	// public void notifyReUseKeyChange(AbstractConnectionModel<?>
-	// callConnection) {
-	// firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
-	// for (AbstractConnectionModel<?> con : getModelTargetConnections()) {
-	//
-	// if (con instanceof IdentifierChangeListener && con != callConnection ) {
-	// ((IdentifierChangeListener) con).awareReUseKeysChanged();
-	// }
-	// }
-	// for (AbstractConnectionModel<?> con : getModelSourceConnections()) {
-	// if (con instanceof IdentifierChangeListener && con != callConnection ) {
-	// ((IdentifierChangeListener) con).awareReUseKeysChanged();
-	// }
-	// }
-	//
-	// }
 }

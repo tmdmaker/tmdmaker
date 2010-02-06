@@ -48,7 +48,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	protected boolean notImplement = false;
 	/** 実装名 */
 	protected String implementName = "";
-	
+
 	/**
 	 * @return the diagram
 	 */
@@ -333,10 +333,23 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @param implementName the implementName to set
+	 * @param implementName
+	 *            the implementName to set
 	 */
 	public void setImplementName(String implementName) {
 		this.implementName = implementName;
 	}
-	
+
+	/**
+	 * 引数で渡されたモデルへ自身の値をコピーする。
+	 * 
+	 * @param to
+	 *            値を設定するモデル
+	 */
+	public void copyTo(AbstractEntityModel to) {
+		to.setEntityType(getEntityType());
+		to.setNotImplement(isNotImplement());
+		to.setImplementName(getImplementName());
+		to.setName(getName());
+	}
 }

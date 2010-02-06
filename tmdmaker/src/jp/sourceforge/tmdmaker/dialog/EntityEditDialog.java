@@ -20,6 +20,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndTypeSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.Entity;
@@ -29,12 +30,9 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * エンティティ編集ダイアログ
@@ -48,10 +46,8 @@ public class EntityEditDialog extends Dialog {
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
 	/** 実装可否設定用 */
-	private Button notImplementCheck;
-	private Label implementNameLabel;
-	private Text implementNameText;
-
+	private ImplementInfoSettingPanel panel3;
+	
 	// private String editIdentifierName;
 	// private String editEntityName;
 	// private EntityType editEntityType;
@@ -124,20 +120,24 @@ public class EntityEditDialog extends Dialog {
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
+		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.horizontalIndent = 5;
-		notImplementCheck = new Button(composite, SWT.CHECK);
-		notImplementCheck.setText("実装しない");
-		notImplementCheck.setLayoutData(gridData);
-
-		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.horizontalIndent = 5;
-
-//TODO 共通コンポーネント化
-		implementNameLabel = new Label(composite, SWT.NULL);
-		implementNameLabel.setText("実装名");
-		implementNameText = new Text(composite, SWT.BORDER);
-		implementNameText.setLayoutData(gridData);
+		panel3.setLayoutData(gridData);
+		
+//		gridData = new GridData(GridData.FILL_HORIZONTAL);
+//		gridData.horizontalIndent = 5;
+//		notImplementCheck = new Button(composite, SWT.CHECK);
+//		notImplementCheck.setText("実装しない");
+//		notImplementCheck.setLayoutData(gridData);
+//
+//		gridData = new GridData(GridData.FILL_HORIZONTAL);
+//		gridData.horizontalIndent = 5;
+//
+////TODO 共通コンポーネント化
+//		implementNameLabel = new Label(composite, SWT.NULL);
+//		implementNameLabel.setText("実装名");
+//		implementNameText = new Text(composite, SWT.BORDER);
+//		implementNameText.setLayoutData(gridData);
 		
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel2 = new AttributeSettingPanel(composite, SWT.NULL);
@@ -178,8 +178,9 @@ public class EntityEditDialog extends Dialog {
 				original.getName());
 		panel1.setEntityTypeComboEnabled(original.isEntityTypeEditable());
 
-		notImplementCheck.setSelection(original.isNotImplement());
-		implementNameText.setText(original.getImplementName());
+//		notImplementCheck.setSelection(original.isNotImplement());
+//		implementNameText.setText(original.getImplementName());
+		panel3.initializeValue(original.isNotImplement(), original.getImplementName());
 		panel2.setAttributeTableRow(editAttributeList);
 	}
 
@@ -200,9 +201,11 @@ public class EntityEditDialog extends Dialog {
 		this.editedValueEntity.setIdentifier(newIdentifier);
 		this.editedValueEntity.setName(panel1.getEntityName());
 		this.editedValueEntity.setEntityType(panel1.getSelectedType());
-		this.editedValueEntity
-				.setNotImplement(notImplementCheck.getSelection());
-		this.editedValueEntity.setImplementName(implementNameText.getText());
+//		this.editedValueEntity
+//				.setNotImplement(notImplementCheck.getSelection());
+//		this.editedValueEntity.setImplementName(implementNameText.getText());
+		this.editedValueEntity.setNotImplement(panel3.isNotImplement());
+		this.editedValueEntity.setImplementName(panel3.getImplementName());
 		createEditAttributeResult();
 		super.okPressed();
 	}

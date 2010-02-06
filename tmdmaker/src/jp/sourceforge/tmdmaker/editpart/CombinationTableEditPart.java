@@ -78,9 +78,9 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 
 		entityFigure.setEntityType(table.getCombinationTableType().getLabel());
 		entityFigure.setNotImplement(table.isNotImplement());
-//		List<Attribute> atts = table.getAttributes();
+		// List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
-//		entityFigure.removeAllAttributes();
+		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
 		List<String> reusedIdentifierNames = new ArrayList<String>();
@@ -96,9 +96,9 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		for (String name : reusedIdentifierNames) {
 			entityFigure.addRelationship(name);
 		}
-//		for (Attribute a : atts) {
-//			entityFigure.addAttribute(a.getName());
-//		}
+		// for (Attribute a : atts) {
+		// entityFigure.addAttribute(a.getName());
+		// }
 	}
 
 	/**
@@ -128,8 +128,8 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 		// .getShell(), table.getName(), table.getReuseKeys(), table
 		// .getAttributes());
-		CombinationTableEditDialog dialog = new CombinationTableEditDialog(getViewer().getControl()
-				.getShell(), "対照表編集", table);
+		CombinationTableEditDialog dialog = new CombinationTableEditDialog(
+				getViewer().getControl().getShell(), "対照表編集", table);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 
@@ -137,10 +137,11 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			CombinationTableEditCommand command = new CombinationTableEditCommand (
+			CombinationTableEditCommand command = new CombinationTableEditCommand(
 					table, (CombinationTable) dialog.getEditedValue());
 			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand.unwrap());
+			getViewer().getEditDomain().getCommandStack().execute(
+					ccommand.unwrap());
 			// TableEditCommand<CombinationTable> command = new
 			// TableEditCommand<CombinationTable>(
 			// table, dialog.getEntityName(), dialog.getReuseKeys(),
@@ -152,7 +153,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
 	 */
 	@Override
@@ -162,14 +163,13 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
-		return 
-		((AbstractEntityModel) getModel()).getAttributes();
+		return ((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**
@@ -197,60 +197,69 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 			return new TableDeleteCommand(model, creationRelationship);
 		}
 	}
+
 	/**
 	 * 
 	 * @author nakaG
-	 *
+	 * 
 	 */
 	private static class CombinationTableEditCommand extends Command {
 		private String newName;
-//		private List<Identifier> reusedIdentifieres;
+		// private List<Identifier> reusedIdentifieres;
 		private List<Attribute> newAttributes;
 		private boolean newNotImplement;
+		private String newImplementName;
 		private CombinationTableType newType;
 		protected CombinationTable model;
 		protected CombinationTable newValue;
-		
+
 		private String oldName;
-//		private List<Identifier> oldReuseKeys = new ArrayList<Identifier>();
+		// private List<Identifier> oldReuseKeys = new ArrayList<Identifier>();
 		private List<Attribute> oldAttributes;
 		private boolean oldNotImplement;
 		private CombinationTableType oldType;
-		
-		public CombinationTableEditCommand(CombinationTable toBeEdit, CombinationTable newValue) {
+		private String oldImplementName;
+
+		public CombinationTableEditCommand(CombinationTable toBeEdit,
+				CombinationTable newValue) {
 			this.model = toBeEdit;
 			this.newValue = newValue;
 			this.oldName = toBeEdit.getName();
 			this.oldAttributes = toBeEdit.getAttributes();
 			this.oldNotImplement = toBeEdit.isNotImplement();
+			this.oldImplementName = toBeEdit.getImplementName();
 			this.oldType = toBeEdit.getCombinationTableType();
 			this.newName = this.newValue.getName();
 			this.newAttributes = this.newValue.getAttributes();
 			this.newNotImplement = this.newValue.isNotImplement();
+			this.newImplementName = this.newValue.getImplementName();
 			this.newType = this.newValue.getCombinationTableType();
 		}
+
 		/**
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
 		public void execute() {
 			model.setAttributes(newAttributes);
 			model.setNotImplement(newNotImplement);
+			model.setImplementName(newImplementName);
 			model.setCombinationTableType(newType);
 			model.setName(newName);
 		}
 
 		/**
 		 * {@inheritDoc}
-		 *
+		 * 
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override
 		public void undo() {
 			model.setAttributes(oldAttributes);
 			model.setNotImplement(oldNotImplement);
+			model.setImplementName(oldImplementName);
 			model.setCombinationTableType(oldType);
 			model.setName(oldName);
 		}
