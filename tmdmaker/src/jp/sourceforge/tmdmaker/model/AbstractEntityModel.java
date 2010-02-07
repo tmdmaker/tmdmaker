@@ -350,6 +350,9 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		to.setEntityType(getEntityType());
 		to.setNotImplement(isNotImplement());
 		to.setImplementName(getImplementName());
+		to.setAttributes(getAttributes());
 		to.setName(getName());
 	}
+	
+	public abstract AbstractEntityModel getCopy();
 }

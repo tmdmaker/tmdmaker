@@ -63,4 +63,16 @@ public class MultivalueOrEntity extends AbstractEntityModel {
 				&& getModelTargetConnections().size() == 1;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public MultivalueOrEntity getCopy() {
+		MultivalueOrEntity copy = new MultivalueOrEntity();
+		copyTo(copy);
+		return copy;
+	}
+
 }

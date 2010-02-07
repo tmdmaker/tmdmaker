@@ -116,4 +116,32 @@ public class Detail extends AbstractEntityModel {
 		return getModelSourceConnections().size() == 1
 				&& getModelTargetConnections().size() == 1;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#copyTo(jp.sourceforge.tmdmaker.model.AbstractEntityModel)
+	 */
+	@Override
+	public void copyTo(AbstractEntityModel to) {
+		if (to instanceof Detail) {
+			Detail toDetail = (Detail) to;
+			toDetail.setDetailIdentifierName(getDetailIdentifier().getName());
+			toDetail.getDetailIdentifier().copyFrom(getDetailIdentifier());
+		}
+		super.copyTo(to);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public Detail getCopy() {
+		Detail copy = new Detail();
+		copyTo(copy);
+		return copy;
+	}
+	
 }

@@ -73,4 +73,17 @@ public class MappingList extends AbstractEntityModel {
 		assert r instanceof RelatedRelationship;
 		return (RelatedRelationship) r;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public MappingList getCopy() {
+		MappingList copy = new MappingList();
+		copyTo(copy);
+		return copy;
+	}
+	
 }

@@ -172,6 +172,7 @@ public class Attribute extends ModelElement {
 		} else {
 			this.setDataTypeDeclaration(null);
 		}
+		this.setImplementName(from.getImplementName());
 		this.setName(from.getName());
 	}
 
@@ -190,6 +191,7 @@ public class Attribute extends ModelElement {
 		} else {
 			to.setDataTypeDeclaration(null);
 		}
+		to.setImplementName(implementName);
 		to.setName(getName());
 	}
 }

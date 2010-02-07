@@ -19,16 +19,16 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.DetailEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -67,7 +67,9 @@ public class DetailEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			DetailEditCommand command = new DetailEditCommand(table,
+//			DetailEditCommand command = new DetailEditCommand(table,
+//					(Detail) dialog.getEditedValue());
+			ModelEditCommand command = new ModelEditCommand(table,
 					(Detail) dialog.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
@@ -188,40 +190,40 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		}
 	}
 
-	private static class DetailEditCommand extends TableEditCommand<Detail> {
-		private String oldDetailIdentifierName;
-
-		/**
-		 * 
-		 * @param toBeEdit
-		 * @param newValue
-		 */
-		public DetailEditCommand(Detail toBeEdit, Detail newValue) {
-			super(toBeEdit, newValue);
-			oldDetailIdentifierName = toBeEdit.getDetailIdentifier().getName();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see jp.sourceforge.tmdmaker.model.command.TableEditCommand#execute()
-		 */
-		@Override
-		public void execute() {
-			super.execute();
-			model.setDetailIdentifierName(newValue.getDetailIdentifier().getName());
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see jp.sourceforge.tmdmaker.model.command.TableEditCommand#undo()
-		 */
-		@Override
-		public void undo() {
-			super.undo();
-			model.setDetailIdentifierName(oldDetailIdentifierName);
-		}
-
-	}
+//	private static class DetailEditCommand extends TableEditCommand<Detail> {
+//		private String oldDetailIdentifierName;
+//
+//		/**
+//		 * 
+//		 * @param toBeEdit
+//		 * @param newValue
+//		 */
+//		public DetailEditCommand(Detail toBeEdit, Detail newValue) {
+//			super(toBeEdit, newValue);
+//			oldDetailIdentifierName = toBeEdit.getDetailIdentifier().getName();
+//		}
+//
+//		/**
+//		 * {@inheritDoc}
+//		 * 
+//		 * @see jp.sourceforge.tmdmaker.model.command.TableEditCommand#execute()
+//		 */
+//		@Override
+//		public void execute() {
+//			super.execute();
+//			model.setDetailIdentifierName(newValue.getDetailIdentifier().getName());
+//		}
+//
+//		/**
+//		 * {@inheritDoc}
+//		 * 
+//		 * @see jp.sourceforge.tmdmaker.model.command.TableEditCommand#undo()
+//		 */
+//		@Override
+//		public void undo() {
+//			super.undo();
+//			model.setDetailIdentifierName(oldDetailIdentifierName);
+//		}
+//
+//	}
 }

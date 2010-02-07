@@ -30,8 +30,8 @@ import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
+import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -161,8 +161,11 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			TableEditCommand<SubsetEntity> command = new TableEditCommand<SubsetEntity>(
-					table, (SubsetEntity) dialog.getEditedValue());
+			// TableEditCommand<SubsetEntity> command = new
+			// TableEditCommand<SubsetEntity>(
+			// table, (SubsetEntity) dialog.getEditedValue());
+			ModelEditCommand command = new ModelEditCommand(table, dialog
+					.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 			// TableEditCommand<SubsetEntity> command = new

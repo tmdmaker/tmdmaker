@@ -75,4 +75,16 @@ public class MultivalueAndSuperset extends AbstractEntityModel {
 		this.detail = detail;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public MultivalueAndSuperset getCopy() {
+		MultivalueAndSuperset copy = new MultivalueAndSuperset();
+		copyTo(copy);
+		return copy;
+	}
+	
 }

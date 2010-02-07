@@ -110,4 +110,17 @@ public class RecursiveTable extends AbstractEntityModel {
 	public boolean isSource(AbstractEntityModel source) {
 		return source == getSource();
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public RecursiveTable getCopy() {
+		RecursiveTable copy = new RecursiveTable();
+		copyTo(copy);
+		return copy;
+	}
+
 }

@@ -77,4 +77,16 @@ public class VirtualEntity extends AbstractEntityModel {
 		return getModelSourceConnections().size() == 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public VirtualEntity getCopy() {
+		VirtualEntity copy = new VirtualEntity();
+		copyTo(copy);
+		return copy;
+	}
+
 }

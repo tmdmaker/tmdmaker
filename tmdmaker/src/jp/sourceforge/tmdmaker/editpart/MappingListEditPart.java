@@ -27,8 +27,8 @@ import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -121,8 +121,10 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			TableEditCommand<MappingList> command = new TableEditCommand<MappingList>(
-					table, (MappingList) dialog.getEditedValue());
+//			TableEditCommand<MappingList> command = new TableEditCommand<MappingList>(
+//					table, (MappingList) dialog.getEditedValue());
+			ModelEditCommand command = new ModelEditCommand(
+					table, dialog.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 			// TableEditCommand<MappingList> command = new

@@ -27,8 +27,8 @@ import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -63,8 +63,11 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, entity, editAttributeList);
 
-			TableEditCommand<AbstractEntityModel> command = new TableEditCommand<AbstractEntityModel>(
-					entity, (AbstractEntityModel) dialog.getEditedValue());
+			// TableEditCommand<AbstractEntityModel> command = new
+			// TableEditCommand<AbstractEntityModel>(
+			// entity, (AbstractEntityModel) dialog.getEditedValue());
+			ModelEditCommand command = new ModelEditCommand(entity, dialog
+					.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}

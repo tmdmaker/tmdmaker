@@ -19,16 +19,16 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -144,8 +144,11 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			TableEditCommand<RecursiveTable> command = new TableEditCommand<RecursiveTable>(
-					table, (RecursiveTable) dialog.getEditedValue());
+			// TableEditCommand<RecursiveTable> command = new
+			// TableEditCommand<RecursiveTable>(
+			// table, (RecursiveTable) dialog.getEditedValue());
+			ModelEditCommand command = new ModelEditCommand(table, dialog
+					.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 

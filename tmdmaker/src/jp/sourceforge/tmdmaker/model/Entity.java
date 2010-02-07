@@ -87,7 +87,7 @@ public class Entity extends AbstractEntityModel {
 	public void setIdentifierName(String identifierName) {
 		String oldValue = this.identifier.getName();
 		this.identifier.setName(identifierName);
-		if (!oldValue.equals(identifierName)) {
+		if (oldValue == null || !oldValue.equals(identifierName)) {
 			firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
 			fireIdentifierChanged(null);
 		}
@@ -131,4 +131,32 @@ public class Entity extends AbstractEntityModel {
 
 	}
 
+	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#copyTo(jp.sourceforge.tmdmaker.model.AbstractEntityModel)
+	 */
+	@Override
+	public void copyTo(AbstractEntityModel to) {
+		if (to instanceof Entity) {
+			Entity toEntity = (Entity) to;
+			toEntity.setIdentifierName(getIdentifier().getName());
+			toEntity.getIdentifier().copyFrom(getIdentifier());
+		}
+		super.copyTo(to);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public Entity getCopy() {
+		Entity copy = new Entity();
+		copyTo(copy);
+		return copy;
+	}
+	
 }

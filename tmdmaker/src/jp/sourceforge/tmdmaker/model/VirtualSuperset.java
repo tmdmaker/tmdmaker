@@ -90,4 +90,16 @@ public class VirtualSuperset extends AbstractEntityModel {
 		return (VirtualSupersetAggregator) getModelSourceConnections().get(0)
 				.getTarget();
 	}
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public VirtualSuperset getCopy() {
+		VirtualSuperset copy = new VirtualSuperset();
+		copyTo(copy);
+		return copy;
+	}
+	
 }

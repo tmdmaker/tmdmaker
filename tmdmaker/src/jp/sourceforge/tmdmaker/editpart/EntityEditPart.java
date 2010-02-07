@@ -19,18 +19,17 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
+import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -165,7 +164,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 //					.getEditEntityName(), dialog.getEditEntityType(), dialog
 //					.getEditIdentifierName(), newAttributes,
 //					entity);
-			EditCommand command = new EditCommand(entity, dialog.getEditedValueEntity());
+//			EditCommand command = new EditCommand(entity, dialog.getEditedValueEntity());
+			ModelEditCommand command = new ModelEditCommand(entity, dialog.getEditedValueEntity());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}
@@ -224,76 +224,76 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			attathConnections(targetConnections);
 		}
 	}
-	/**
-	 * エンティティ編集Command
-	 * @author nakaG
-	 *
-	 */
-	private static class EditCommand extends Command {
-		private String newEntityName;
-		private EntityType newEntityType;
-		private boolean newNotImplement;
-		private String newImplementName;
-		private Entity toBeEditEntity;
-//		private AbstractEntityModel newValueEntity;
-		private String oldEntityName;
-		private EntityType oldEntityType;
-		private boolean oldNotImplement;
-		private String oldImplementName;
-		private List<Attribute> newAttributes;
-		private List<Attribute> oldAttributes;
-		private Identifier oldIdentifier;
-		private Identifier newIdentifier;
-
-		public EditCommand(Entity toBeEditEntity, Entity newValueEntity) {
-			this.toBeEditEntity = toBeEditEntity;
-//			this.newValueEntity = newValueEntity;
-			this.newEntityName = newValueEntity.getName();
-			this.newEntityType = newValueEntity.getEntityType();
-			this.newAttributes = newValueEntity.getAttributes();
-			this.newNotImplement = newValueEntity.isNotImplement();
-			this.newImplementName = newValueEntity.getImplementName();
-			this.newIdentifier = newValueEntity.getIdentifier();
-			this.oldEntityName = toBeEditEntity.getName();
-			this.oldEntityType = toBeEditEntity.getEntityType();
-			this.oldAttributes = toBeEditEntity.getAttributes();
-			this.oldNotImplement = toBeEditEntity.isNotImplement();
-			this.oldImplementName = toBeEditEntity.getImplementName();
-			this.oldIdentifier = new Identifier();
-			toBeEditEntity.getIdentifier().copyTo(oldIdentifier);
-		}
-		/**
-		 * {@inheritDoc}
-		 *
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			toBeEditEntity.setEntityType(newEntityType);
-			toBeEditEntity.setIdentifierName(newIdentifier.getName());// ID変更伝播
-			toBeEditEntity.getIdentifier().copyFrom(newIdentifier);
-			toBeEditEntity.setAttributes(newAttributes);
-			toBeEditEntity.setNotImplement(newNotImplement);
-			toBeEditEntity.setImplementName(newImplementName);
-			toBeEditEntity.setName(newEntityName);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 *
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			toBeEditEntity.setAttributes(oldAttributes);
-			toBeEditEntity.setEntityType(oldEntityType);
-			toBeEditEntity.setIdentifierName(oldIdentifier.getName());
-			toBeEditEntity.getIdentifier().copyFrom(oldIdentifier);
-			toBeEditEntity.setNotImplement(oldNotImplement);
-			toBeEditEntity.setImplementName(oldImplementName);
-			toBeEditEntity.setName(oldEntityName);
-		}
-		
-		
-	}
+//	/**
+//	 * エンティティ編集Command
+//	 * @author nakaG
+//	 *
+//	 */
+//	private static class EditCommand extends Command {
+//		private String newEntityName;
+//		private EntityType newEntityType;
+//		private boolean newNotImplement;
+//		private String newImplementName;
+//		private Entity toBeEditEntity;
+////		private AbstractEntityModel newValueEntity;
+//		private String oldEntityName;
+//		private EntityType oldEntityType;
+//		private boolean oldNotImplement;
+//		private String oldImplementName;
+//		private List<Attribute> newAttributes;
+//		private List<Attribute> oldAttributes;
+//		private Identifier oldIdentifier;
+//		private Identifier newIdentifier;
+//
+//		public EditCommand(Entity toBeEditEntity, Entity newValueEntity) {
+//			this.toBeEditEntity = toBeEditEntity;
+////			this.newValueEntity = newValueEntity;
+//			this.newEntityName = newValueEntity.getName();
+//			this.newEntityType = newValueEntity.getEntityType();
+//			this.newAttributes = newValueEntity.getAttributes();
+//			this.newNotImplement = newValueEntity.isNotImplement();
+//			this.newImplementName = newValueEntity.getImplementName();
+//			this.newIdentifier = newValueEntity.getIdentifier();
+//			this.oldEntityName = toBeEditEntity.getName();
+//			this.oldEntityType = toBeEditEntity.getEntityType();
+//			this.oldAttributes = toBeEditEntity.getAttributes();
+//			this.oldNotImplement = toBeEditEntity.isNotImplement();
+//			this.oldImplementName = toBeEditEntity.getImplementName();
+//			this.oldIdentifier = new Identifier();
+//			toBeEditEntity.getIdentifier().copyTo(oldIdentifier);
+//		}
+//		/**
+//		 * {@inheritDoc}
+//		 *
+//		 * @see org.eclipse.gef.commands.Command#execute()
+//		 */
+//		@Override
+//		public void execute() {
+//			toBeEditEntity.setEntityType(newEntityType);
+//			toBeEditEntity.setIdentifierName(newIdentifier.getName());// ID変更伝播
+//			toBeEditEntity.getIdentifier().copyFrom(newIdentifier);
+//			toBeEditEntity.setAttributes(newAttributes);
+//			toBeEditEntity.setNotImplement(newNotImplement);
+//			toBeEditEntity.setImplementName(newImplementName);
+//			toBeEditEntity.setName(newEntityName);
+//		}
+//
+//		/**
+//		 * {@inheritDoc}
+//		 *
+//		 * @see org.eclipse.gef.commands.Command#undo()
+//		 */
+//		@Override
+//		public void undo() {
+//			toBeEditEntity.setAttributes(oldAttributes);
+//			toBeEditEntity.setEntityType(oldEntityType);
+//			toBeEditEntity.setIdentifierName(oldIdentifier.getName());
+//			toBeEditEntity.getIdentifier().copyFrom(oldIdentifier);
+//			toBeEditEntity.setNotImplement(oldNotImplement);
+//			toBeEditEntity.setImplementName(oldImplementName);
+//			toBeEditEntity.setName(oldEntityName);
+//		}
+//		
+//		
+//	}
 }

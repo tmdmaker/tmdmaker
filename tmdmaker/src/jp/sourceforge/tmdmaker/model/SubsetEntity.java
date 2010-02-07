@@ -84,4 +84,17 @@ public class SubsetEntity extends AbstractEntityModel {
 	public boolean isSupersetAnEntity() {
 		return this.originalReusedIdentifier.getIdentifires().size() == 1;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public SubsetEntity getCopy() {
+		SubsetEntity copy = new SubsetEntity();
+		copyTo(copy);
+		return copy;
+	}
+	
 }

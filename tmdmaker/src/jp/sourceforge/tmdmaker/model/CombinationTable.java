@@ -97,4 +97,16 @@ public class CombinationTable extends AbstractEntityModel {
 		this.combinationTableType = combinationTableType;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#getCopy()
+	 */
+	@Override
+	public CombinationTable getCopy() {
+		CombinationTable copy = new CombinationTable();
+		copyTo(copy);
+		return copy;
+	}
+
 }

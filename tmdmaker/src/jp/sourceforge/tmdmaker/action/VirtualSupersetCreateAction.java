@@ -30,7 +30,7 @@ import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.ConnectionDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.TableEditCommand;
+import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -119,7 +119,9 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 				}
 			} else {
 				// みなしスーパーセット編集
-				ccommand.add(new TableEditCommand<VirtualSuperset>(original,
+//				ccommand.add(new TableEditCommand<VirtualSuperset>(original,
+//						edited));
+				ccommand.add(new ModelEditCommand(original,
 						edited));
 
 				// 接点との接続
