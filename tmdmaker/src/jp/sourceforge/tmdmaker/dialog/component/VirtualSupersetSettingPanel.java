@@ -287,11 +287,12 @@ public class VirtualSupersetSettingPanel extends Composite {
 			if (superset.getName() != null) {
 				virtualSupersetNameText.setText(superset.getName());
 			}
-			boolean applyAttribute = superset.getVirtualSupersetAggregator().isApplyAttribute();
-				sameRadioButton.setSelection(applyAttribute);
-				differentRadioButton.setSelection(!applyAttribute);
+			applyAttribute = superset.getVirtualSupersetAggregator().isApplyAttribute();
+			sameRadioButton.setSelection(applyAttribute);
+			differentRadioButton.setSelection(!applyAttribute);
 		} else {
-			sameRadioButton.setSelection(true);
+			applyAttribute = true;
+			sameRadioButton.setSelection(applyAttribute);
 		}
 	}
 	public String getVirtualSupersetName() {

@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
+import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -34,19 +37,35 @@ import org.eclipse.swt.widgets.Text;
 public class MultivalueAndSupersetEditDialog extends Dialog {
 	/** 名称入力欄 */
 	private Text inputNameText;
-	private String inputName;
-	private String originalName;
+//	private String inputName;
+//	private String originalName;
+	/** 編集対象モデル */
+	private AbstractEntityModel original;
+	/** 編集結果格納用 */
+	private AbstractEntityModel editedValue;
+	/** 実装可否設定用 */
+	private ImplementInfoSettingPanel panel;
 
+//	/**
+//	 * コンストラクタ
+//	 * 
+//	 * @param parentShell
+//	 *            親
+//	 */
+//	public MultivalueAndSupersetEditDialog(Shell parentShell,
+//			String originalName) {
+//		super(parentShell);
+//		this.originalName = originalName;
+//	}
 	/**
 	 * コンストラクタ
 	 * 
 	 * @param parentShell
 	 *            親
 	 */
-	public MultivalueAndSupersetEditDialog(Shell parentShell,
-			String originalName) {
+	public MultivalueAndSupersetEditDialog(Shell parentShell, AbstractEntityModel original) {
 		super(parentShell);
-		this.originalName = originalName;
+		this.original = original;
 	}
 
 	/**
@@ -68,12 +87,19 @@ public class MultivalueAndSupersetEditDialog extends Dialog {
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.widthHint = 100;
 		inputNameText.setLayoutData(gridData);
+		
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 2;
+		panel = new ImplementInfoSettingPanel(composite, SWT.NULL);
+		panel.setLayoutData(gridData);
+	
 		initializeValue();
 		return composite;
 	}
 
 	private void initializeValue() {
-		inputNameText.setText(originalName);
+		inputNameText.setText(original.getName());
+		panel.initializeValue(original.isNotImplement(), original.getImplementName());
 	}
 
 	/**
@@ -83,11 +109,30 @@ public class MultivalueAndSupersetEditDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		inputName = inputNameText.getText();
+		try {
+			editedValue = original.getClass().newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		editedValue.setName(inputNameText.getText());
+		editedValue.setNotImplement(panel.isNotImplement());
+		editedValue.setImplementName(panel.getImplementName());
+		
 		super.okPressed();
 	}
-
-	public String getInputName() {
-		return inputName;
+	/**
+	 * @return the editedValue
+	 */
+	public AbstractEntityModel getEditedValue() {
+		return editedValue;
 	}
+	
+//
+//	public String getInputName() {
+//		return inputName;
+//	}
 }

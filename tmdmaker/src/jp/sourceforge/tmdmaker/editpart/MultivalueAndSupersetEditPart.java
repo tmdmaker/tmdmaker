@@ -24,8 +24,8 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
+import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.VirtualSupersetEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -51,11 +51,11 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		AbstractEntityModel entity = (AbstractEntityModel) getModel();
 		MultivalueAndSupersetEditDialog dialog = new MultivalueAndSupersetEditDialog(
-				getViewer().getControl().getShell(), entity.getName());
+				getViewer().getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
 			getViewer().getEditDomain().getCommandStack().execute(
-					new VirtualSupersetEditCommand(entity, dialog
-							.getInputName()));
+					new ModelEditCommand(entity, dialog
+							.getEditedValue()));
 		}
 	}
 
@@ -70,6 +70,7 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
 		MultivalueAndSuperset entity = (MultivalueAndSuperset) getModel();
+		entityFigure.setNotImplement(entity.isNotImplement());
 
 		List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();

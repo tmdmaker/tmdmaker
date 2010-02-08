@@ -20,6 +20,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.DetailIdentifierSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
@@ -30,7 +31,6 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -48,14 +48,16 @@ public class DetailEditDialog extends Dialog {
 	private Detail editedValue;
 	/** 編集用アトリビュートリスト */
 	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
-	/** 実装可否設定用 */
-	private Button notImplementCheck;
+	// /** 実装可否設定用 */
+	// private Button notImplementCheck;
 	/** 表名設定用 */
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
 	/** Detail個体指定子設定用 */
 	private DetailIdentifierSettingPanel panel3;
+	/** 実装可否設定用 */
+	private ImplementInfoSettingPanel panel4;
 
 	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
 	private List<Attribute> addAttributes = new ArrayList<Attribute>();
@@ -100,12 +102,15 @@ public class DetailEditDialog extends Dialog {
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel3 = new DetailIdentifierSettingPanel(composite, SWT.NULL);
 		panel3.setLayoutData(gridData);
-		
+
+		// gridData = new GridData(GridData.FILL_HORIZONTAL);
+		// gridData.horizontalIndent = 5;
+		// notImplementCheck = new Button(composite, SWT.CHECK);
+		// notImplementCheck.setText("実装しない");
+		// notImplementCheck.setLayoutData(gridData);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.horizontalIndent = 5;
-		notImplementCheck = new Button(composite, SWT.CHECK);
-		notImplementCheck.setText("実装しない");
-		notImplementCheck.setLayoutData(gridData);
+		panel4 = new ImplementInfoSettingPanel(composite, SWT.NULL);
+		panel4.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel2 = new AttributeSettingPanel(composite, SWT.NULL);
@@ -117,38 +122,47 @@ public class DetailEditDialog extends Dialog {
 
 		return composite;
 	}
+
 	/**
 	 * ダイアログへ初期値を設定する
 	 */
 	private void initializeValue() {
 		panel1.setTableName(original.getName());
-		notImplementCheck.setSelection(original.isNotImplement());
+		// notImplementCheck.setSelection(original.isNotImplement());
 
 		panel2.setAttributeTableRow(editAttributeList);
 
-		panel3.setEditIdentifier(new EditAttribute(original.getDetailIdentifier()));
+		panel3.setEditIdentifier(new EditAttribute(original
+				.getDetailIdentifier()));
 		panel3.setIdentifierName(original.getDetailIdentifier().getName());
+
+		panel4.initializeValue(original.isNotImplement(), original
+				.getImplementName());
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
 	protected void okPressed() {
 		editedValue = new Detail();
 		editedValue.setName(panel1.getTableName());
-//		editedValue.setDetailIdeitifierName(panel3.getIdentifierName());
+		// editedValue.setDetailIdeitifierName(panel3.getIdentifierName());
 		Identifier newIdentifier = new Identifier(panel3.getIdentifierName());
 		EditAttribute editIdentifier = panel3.getEditIdentifier();
 		editIdentifier.copyTo(newIdentifier);
 		editedValue.setDetailIdentifier(newIdentifier);
-		editedValue.setNotImplement(notImplementCheck.getSelection());
+		// editedValue.setNotImplement(notImplementCheck.getSelection());
+		editedValue.setNotImplement(panel4.isNotImplement());
+		editedValue.setImplementName(panel4.getImplementName());
+
 		createEditAttributeResult();
-		
+
 		super.okPressed();
 	}
+
 	private void createEditAttributeResult() {
 
 		for (EditAttribute ea : editAttributeList) {
@@ -166,7 +180,7 @@ public class DetailEditDialog extends Dialog {
 			}
 			newAttributeOrder.add(originalAttribute);
 		}
-//		deleteAttributes = panel2.getDeletedAttributeList();
+		// deleteAttributes = panel2.getDeletedAttributeList();
 		editedValue.setAttributes(newAttributeOrder);
 	}
 

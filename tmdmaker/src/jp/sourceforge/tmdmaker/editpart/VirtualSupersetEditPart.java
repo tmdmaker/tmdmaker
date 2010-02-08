@@ -27,7 +27,7 @@ import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.VirtualSupersetEditCommand;
+import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -78,11 +78,10 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		AbstractEntityModel entity = (AbstractEntityModel) getModel();
 		MultivalueAndSupersetEditDialog dialog = new MultivalueAndSupersetEditDialog(
-				getViewer().getControl().getShell(), entity.getName());
+				getViewer().getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
 			getViewer().getEditDomain().getCommandStack().execute(
-					new VirtualSupersetEditCommand(entity, dialog
-							.getInputName()));
+					new ModelEditCommand(entity, dialog.getEditedValue()));
 		}
 	}
 

@@ -45,7 +45,7 @@ public class VirtualSupersetEditDialog extends Dialog {
 	private VirtualSupersetAggregator editedAggregator;
 	private List<AbstractEntityModel> notSelection;
 	private List<AbstractEntityModel> selection = new ArrayList<AbstractEntityModel>();
-
+	// TODO 実装名設定、同一・相違の初期値が設定されない
 	/**
 	 * コンストラクタ
 	 * 
