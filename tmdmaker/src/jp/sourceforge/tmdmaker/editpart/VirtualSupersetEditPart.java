@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.MultivalueAndSupersetEditDialog;
+import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -77,7 +77,7 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		AbstractEntityModel entity = (AbstractEntityModel) getModel();
-		MultivalueAndSupersetEditDialog dialog = new MultivalueAndSupersetEditDialog(
+		SupersetEditDialog dialog = new SupersetEditDialog(
 				getViewer().getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
 			getViewer().getEditDomain().getCommandStack().execute(

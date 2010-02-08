@@ -29,16 +29,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 多値のANDの概念的スーパーセット編集ダイアログ
+ * (多値のANDとみなし)スーパーセット編集ダイアログ
  * 
  * @author nakaG
  * 
  */
-public class MultivalueAndSupersetEditDialog extends Dialog {
+public class SupersetEditDialog extends Dialog {
 	/** 名称入力欄 */
 	private Text inputNameText;
-//	private String inputName;
-//	private String originalName;
 	/** 編集対象モデル */
 	private AbstractEntityModel original;
 	/** 編集結果格納用 */
@@ -46,24 +44,16 @@ public class MultivalueAndSupersetEditDialog extends Dialog {
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel;
 
-//	/**
-//	 * コンストラクタ
-//	 * 
-//	 * @param parentShell
-//	 *            親
-//	 */
-//	public MultivalueAndSupersetEditDialog(Shell parentShell,
-//			String originalName) {
-//		super(parentShell);
-//		this.originalName = originalName;
-//	}
 	/**
 	 * コンストラクタ
 	 * 
 	 * @param parentShell
 	 *            親
+	 * @param original
+	 *            編集元モデル
 	 */
-	public MultivalueAndSupersetEditDialog(Shell parentShell, AbstractEntityModel original) {
+	public SupersetEditDialog(Shell parentShell,
+			AbstractEntityModel original) {
 		super(parentShell);
 		this.original = original;
 	}
@@ -87,19 +77,20 @@ public class MultivalueAndSupersetEditDialog extends Dialog {
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.widthHint = 100;
 		inputNameText.setLayoutData(gridData);
-		
+
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 		panel = new ImplementInfoSettingPanel(composite, SWT.NULL);
 		panel.setLayoutData(gridData);
-	
+
 		initializeValue();
 		return composite;
 	}
 
 	private void initializeValue() {
 		inputNameText.setText(original.getName());
-		panel.initializeValue(original.isNotImplement(), original.getImplementName());
+		panel.initializeValue(original.isNotImplement(), original
+				.getImplementName());
 	}
 
 	/**
@@ -121,18 +112,14 @@ public class MultivalueAndSupersetEditDialog extends Dialog {
 		editedValue.setName(inputNameText.getText());
 		editedValue.setNotImplement(panel.isNotImplement());
 		editedValue.setImplementName(panel.getImplementName());
-		
+
 		super.okPressed();
 	}
+
 	/**
 	 * @return the editedValue
 	 */
 	public AbstractEntityModel getEditedValue() {
 		return editedValue;
 	}
-	
-//
-//	public String getInputName() {
-//		return inputName;
-//	}
 }
