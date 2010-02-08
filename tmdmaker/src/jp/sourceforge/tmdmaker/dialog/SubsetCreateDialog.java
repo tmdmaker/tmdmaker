@@ -31,12 +31,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * サブセット編集ダイアログ
+ * サブセット作成ダイアログ
  * 
  * @author nakaG
  * 
  */
-public class SubsetEditDialog extends Dialog {
+public class SubsetCreateDialog extends Dialog {
 	private SubsetSettingPanel panel;
 	private SubsetType.SubsetTypeValue subsetType;
 	private boolean exceptNull;
@@ -57,7 +57,7 @@ public class SubsetEditDialog extends Dialog {
 	 * @param subsetEntities 既作成のサブセット
 	 * @param selectedAttribute 既選択の区分コードアトリビュート
 	 */
-	public SubsetEditDialog(Shell parentShell,
+	public SubsetCreateDialog(Shell parentShell,
 			SubsetType.SubsetTypeValue subsetType, boolean exceptNull,
 			List<Attribute> attributes, List<SubsetEntity> subsetEntities,
 			Attribute selectedAttribute) {

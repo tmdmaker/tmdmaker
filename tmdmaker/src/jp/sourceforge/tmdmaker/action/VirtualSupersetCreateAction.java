@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.action;
 
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.dialog.VirtualSupersetEditDialog;
+import jp.sourceforge.tmdmaker.dialog.VirtualSupersetCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
@@ -85,7 +85,7 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 			aggregator = original.getVirtualSupersetAggregator();
 			diagram = original.getDiagram();
 		}
-		VirtualSupersetEditDialog dialog = new VirtualSupersetEditDialog(
+		VirtualSupersetCreateDialog dialog = new VirtualSupersetCreateDialog(
 				getPart().getViewer().getControl().getShell(), diagram,
 				original);
 		if (dialog.open() == Dialog.OK) {

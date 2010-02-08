@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.action;
 
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.dialog.SubsetEditDialog;
+import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
@@ -93,7 +93,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		AbstractEntityModel model = getModel();
 		SubsetType subsetType = SubsetRule.setupSubsetType(model);
 
-		SubsetEditDialog dialog = new SubsetEditDialog(part.getViewer()
+		SubsetCreateDialog dialog = new SubsetCreateDialog(part.getViewer()
 				.getControl().getShell(), subsetType.getSubsetType(),
 				subsetType.isExceptNull(), model.getAttributes(), subsetType
 						.findSubsetEntityList(), subsetType

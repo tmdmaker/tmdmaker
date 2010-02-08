@@ -32,12 +32,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * みなしスーパーセット編集ダイアログ
+ * みなしスーパーセット作成ダイアログ
  * 
  * @author nakaG
  * 
  */
-public class VirtualSupersetEditDialog extends Dialog {
+public class VirtualSupersetCreateDialog extends Dialog {
 	private VirtualSupersetSettingPanel panel1;
 	private Diagram diagram;
 	private VirtualSuperset superset;
@@ -53,7 +53,7 @@ public class VirtualSupersetEditDialog extends Dialog {
 	 * @param diagram 対象ダイアグラム
 	 * @param superset みなしスーパーセット
 	 */
-	public VirtualSupersetEditDialog(Shell parentShell, Diagram diagram,
+	public VirtualSupersetCreateDialog(Shell parentShell, Diagram diagram,
 			VirtualSuperset superset) {
 		super(parentShell);
 		this.diagram = diagram;
