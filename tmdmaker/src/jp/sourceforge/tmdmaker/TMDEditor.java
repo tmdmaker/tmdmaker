@@ -21,6 +21,7 @@ import java.util.EventObject;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
+import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.GenerateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
@@ -496,6 +497,10 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		AttributeListSaveAction action7 = new AttributeListSaveAction(
 				viewer);
 		registry.registerAction(action7);
+
+		DatabaseSelectAction action8 = new DatabaseSelectAction(
+				viewer);
+		registry.registerAction(action8);
 
 		for (Generator generator : GeneratorProvider.getGenerators()) {
 			registry.registerAction(new GenerateAction(viewer, generator));

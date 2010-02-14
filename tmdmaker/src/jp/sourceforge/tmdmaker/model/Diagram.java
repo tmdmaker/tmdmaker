@@ -29,6 +29,9 @@ public class Diagram extends ModelElement {
 	/** ダイアグラムを作成したプラグインのバージョン */
 	private String version;
 
+	/** 使用するデータベース名 */
+	private String databaseName;
+
 	/** 子モデル */
 	private List<ModelElement> children = new ArrayList<ModelElement>();
 	/** 子モデルプロパティ定数 */
@@ -123,4 +126,18 @@ public class Diagram extends ModelElement {
 		return entities;
 	}
 
+	/**
+	 * @return the databaseName
+	 */
+	public String getDatabaseName() {
+		return databaseName;
+	}
+
+	/**
+	 * @param databaseName the databaseName to set
+	 */
+	public void setDatabaseName(String databaseName) {
+		this.databaseName = databaseName;
+	}
+	
 }

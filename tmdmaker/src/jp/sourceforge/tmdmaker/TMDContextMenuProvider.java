@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker;
 
 import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
+import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
@@ -96,10 +97,14 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 				VirtualSupersetCreateAction.ID));
 		menu.add(tmdashMenu);
 
-		menu.add(new Separator("print"));
+		menu.add(new Separator("database"));
+		menu.add(getActionRegistry().getAction(DatabaseSelectAction.ID));
+
+		menu.add(new Separator("export"));
 		menu.add(getActionRegistry().getAction(DiagramImageSaveAction.ID));
 
 		menu.add(getActionRegistry().getAction(AttributeListSaveAction.ID));
+		
 		
 		for (Generator generator : GeneratorProvider.getGenerators()) {
 			menu.add(getActionRegistry().getAction(generator.getClass().getName()));

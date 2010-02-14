@@ -18,9 +18,16 @@ package jp.sourceforge.tmdmaker.dialect;
 import java.util.List;
 
 /**
+ * データベース毎に異なる情報を提供するクラス
+ * 
  * @author nakaG
- *
+ * 
  */
 public interface DialectProvider {
+	/**
+	 * 対応しているデータベース名を取得する
+	 * 
+	 * @return データベース名のリスト
+	 */
 	List<String> getDatabaseList();
 }
