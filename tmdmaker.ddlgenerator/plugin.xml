@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="tmdmaker.dialect.provider">
+      <provider
+            class="jp.sourceforge.tmdmaker.dialect.DdlUtilsDialectProvider">
+      </provider>
+   </extension>
+   <extension
+         point="tmdmaker.generators">
+      <generator
+            class="jp.sourceforge.tmdmaker.generate.DdlUtilsDDLGenerator"
+            name="name">
+      </generator>
+   </extension>
+
+</plugin>

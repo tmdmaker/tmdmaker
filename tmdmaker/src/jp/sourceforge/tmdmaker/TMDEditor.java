@@ -24,6 +24,7 @@ import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.GenerateAction;
+import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
@@ -432,6 +433,11 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		selectionActions.add(action5.getId());
 		action5.setSelectionProvider(getGraphicalViewer());
 
+		ImplementInfoEditAction action6 = new ImplementInfoEditAction(this);
+		registry.registerAction(action6);
+		selectionActions.add(action6.getId());
+		action6.setSelectionProvider(getGraphicalViewer());
+		
 		IAction action = null;
 		// 水平方向の整列アクション
 		action = new AlignmentAction((IWorkbenchPart) this,

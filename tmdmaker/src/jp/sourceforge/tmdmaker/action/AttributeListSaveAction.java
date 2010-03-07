@@ -61,7 +61,7 @@ public class AttributeListSaveAction extends Action {
 		if (rootDir != null) {
 			try {
 				Diagram diagram = (Diagram) viewer.getContents().getModel();
-				this.generator.generate(rootDir, diagram);
+				this.generator.execute(rootDir, diagram);
 			} catch (Throwable t) {
 				t.printStackTrace();
 				throw new RuntimeException(t);

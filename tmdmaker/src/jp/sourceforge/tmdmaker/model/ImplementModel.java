@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.generate;
+package jp.sourceforge.tmdmaker.model;
 
-import jp.sourceforge.tmdmaker.model.Diagram;
+import java.io.Serializable;
 
 /**
- * ダイアグラムを元に何かを生成するためのインターフェース
+ * 未使用
  * 
- * @author hiro
+ * @author nakaG
  * 
  */
-public interface Generator {
-	String getGroupName();
-	String getGeneratorName();
-	void execute(String rootDir, Diagram diagram);
+public class ImplementModel implements Serializable {
 }

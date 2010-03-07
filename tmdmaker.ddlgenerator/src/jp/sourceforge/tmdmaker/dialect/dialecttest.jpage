@@ -1,0 +1,3 @@
+jp.sourceforge.tmdmaker.dialect.DdlUtilsDialectProvider p = new jp.sourceforge.tmdmaker.dialect.DdlUtilsDialectProvider();for(String s : p.getDatabaseList()) {
+	System.out.println(s);
+}

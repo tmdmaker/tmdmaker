@@ -35,6 +35,8 @@ public class Attribute extends ModelElement {
 	private String derivationRule;
 	/** 実装名 */
 	protected String implementName;
+	/** NULL許可 */
+	private boolean nullable = false;
 
 	/**
 	 * コンストラクタ
@@ -52,21 +54,6 @@ public class Attribute extends ModelElement {
 		setName(name);
 	}
 
-//	/**
-//	 * @return the physicalName
-//	 */
-//	public String getPhysicalName() {
-//		return physicalName;
-//	}
-//
-//	/**
-//	 * @param physicalName
-//	 *            the physicalName to set
-//	 */
-//	public void setPhysicalName(String physicalName) {
-//		this.physicalName = physicalName;
-//	}
-
 	/**
 	 * @return the implementName
 	 */
@@ -75,7 +62,8 @@ public class Attribute extends ModelElement {
 	}
 
 	/**
-	 * @param implementName the implementName to set
+	 * @param implementName
+	 *            the implementName to set
 	 */
 	public void setImplementName(String implementName) {
 		this.implementName = implementName;
@@ -157,6 +145,21 @@ public class Attribute extends ModelElement {
 	}
 
 	/**
+	 * @return the nullable
+	 */
+	public boolean isNullable() {
+		return nullable;
+	}
+
+	/**
+	 * @param nullable
+	 *            the nullable to set
+	 */
+	public void setNullable(boolean nullable) {
+		this.nullable = nullable;
+	}
+
+	/**
 	 * fromから自身のフィールド値へコピー（sharrow copy)する。
 	 * 
 	 * @param from
@@ -173,6 +176,7 @@ public class Attribute extends ModelElement {
 			this.setDataTypeDeclaration(null);
 		}
 		this.setImplementName(from.getImplementName());
+		this.setNullable(from.isNullable());
 		this.setName(from.getName());
 	}
 
@@ -192,6 +196,7 @@ public class Attribute extends ModelElement {
 			to.setDataTypeDeclaration(null);
 		}
 		to.setImplementName(implementName);
+		to.setNullable(nullable);
 		to.setName(getName());
 	}
 }

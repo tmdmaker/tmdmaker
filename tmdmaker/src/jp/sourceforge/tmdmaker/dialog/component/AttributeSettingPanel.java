@@ -60,6 +60,10 @@ public class AttributeSettingPanel extends Composite {
 	}
 
 	private void initialize() {
+		GridData gridData12 = new GridData();
+		gridData12.grabExcessVerticalSpace = false;
+		gridData12.verticalAlignment = GridData.FILL;
+		gridData12.horizontalAlignment = GridData.BEGINNING;
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = GridData.FILL;
@@ -71,6 +75,7 @@ public class AttributeSettingPanel extends Composite {
 		tableEditor.horizontalAlignment = SWT.LEFT;
 		tableEditor.minimumWidth = 50;
 		attributeTable.setHeaderVisible(true);
+		attributeTable.setLayoutData(gridData12);
 		attributeTable.setLayoutData(gridData);
 		attributeTable.setLinesVisible(true);
 		attributeTable

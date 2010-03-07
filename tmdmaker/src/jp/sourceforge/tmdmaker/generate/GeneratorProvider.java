@@ -16,6 +16,8 @@
 package jp.sourceforge.tmdmaker.generate;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
@@ -60,7 +62,19 @@ public class GeneratorProvider {
 				}
 			}
 		}
-		
+		Collections.sort(list, new Comparator<Generator>() {
+
+			/**
+			 * {@inheritDoc}
+			 * 
+			 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+			 */
+			@Override
+			public int compare(Generator o1, Generator o2) {
+				return o1.getGeneratorName().compareTo(o2.getGeneratorName());
+			}
+			
+		});
 		return list;
 	}
 }

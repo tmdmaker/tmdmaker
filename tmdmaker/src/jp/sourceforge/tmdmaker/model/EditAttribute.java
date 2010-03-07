@@ -44,6 +44,8 @@ public class EditAttribute {
 	private String derivationRule = "";
 	/** 実装名 */
 	private String implementName = "";
+	/** NULL許可 */
+	private boolean nullable = false;
 
 	/**
 	 * コンストラクタ
@@ -78,6 +80,7 @@ public class EditAttribute {
 			this.size = "";
 			this.scale = "";
 		}
+		this.nullable = original.isNullable();
 	}
 
 	/**
@@ -261,6 +264,22 @@ public class EditAttribute {
 		setEdited(true);
 	}
 
+	
+	/**
+	 * @return the nullable
+	 */
+	public boolean isNullable() {
+		return nullable;
+	}
+
+	/**
+	 * @param nullable the nullable to set
+	 */
+	public void setNullable(boolean nullable) {
+		this.nullable = nullable;
+		setEdited(true);
+	}
+
 	/**
 	 * toへ自身のフィールド値をコピー（sharrow copy)する。
 	 * 
@@ -305,6 +324,7 @@ public class EditAttribute {
 		if (implementName.length() != 0) {
 			to.setImplementName(implementName);
 		}
+		to.setNullable(nullable);
 		to.setName(name);
 	}
 

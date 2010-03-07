@@ -48,9 +48,6 @@ public class EntityEditDialog extends Dialog {
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel3;
 	
-	// private String editIdentifierName;
-	// private String editEntityName;
-	// private EntityType editEntityType;
 	/** 編集用アトリビュート */
 	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
 	/** 編集元エンティティ */
@@ -153,7 +150,7 @@ public class EntityEditDialog extends Dialog {
 		// TODO 物理設計用画面作成
 		// Label label2 = new Label(tabFolder,SWT.BORDER);
 		// label2.setText("TBD");
-//		PhysicalDesignEditPanel panel3 = new PhysicalDesignEditPanel(tabFolder,
+//		ImplementInfoEditPanel panel3 = new ImplementInfoEditPanel(tabFolder,
 //				SWT.NULL);
 //		item2.setControl(panel3);
 //		panel3.initializeData(original.getAttributes());

@@ -43,6 +43,18 @@ public class AttributeEditCommand extends Command {
 	 *            編集対象モデル
 	 * @param editedValueAttribute
 	 *            編集後値
+	 */
+	public AttributeEditCommand(Attribute attribute,
+			Attribute editedValueAttribute) {
+		this(attribute, editedValueAttribute, null);
+	}
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param attribute
+	 *            編集対象モデル
+	 * @param editedValueAttribute
+	 *            編集後値
 	 * @param entity
 	 *            親モデル
 	 */
@@ -58,6 +70,7 @@ public class AttributeEditCommand extends Command {
 		oldValueAttribute.setLock(attribute.getLock());
 		oldValueAttribute.setValidationRule(attribute.getValidationRule());
 		oldValueAttribute.setImplementName(attribute.getImplementName());
+		oldValueAttribute.setNullable(attribute.isNullable());
 		this.entity = entity;
 	}
 
@@ -76,7 +89,10 @@ public class AttributeEditCommand extends Command {
 		attribute.setValidationRule(editedValueAttribute.getValidationRule());
 		attribute.setDataTypeDeclaration(editedValueAttribute.getDataTypeDeclaration());
 		attribute.setImplementName(editedValueAttribute.getImplementName());
-		entity.setName(this.entity.getName());
+		attribute.setNullable(editedValueAttribute.isNullable());
+		if (entity != null) {
+			entity.setName(this.entity.getName());
+		}
 	}
 
 	/**
@@ -94,7 +110,9 @@ public class AttributeEditCommand extends Command {
 		attribute.setValidationRule(oldValueAttribute.getValidationRule());
 		attribute.setDataTypeDeclaration(oldValueAttribute.getDataTypeDeclaration());
 		attribute.setImplementName(oldValueAttribute.getImplementName());
-		this.entity.setName(this.entity.getName());
+		attribute.setNullable(oldValueAttribute.isNullable());
+		if (entity != null) {
+			this.entity.setName(this.entity.getName());
+		}
 	}
-
 }

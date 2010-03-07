@@ -60,6 +60,16 @@ public class RelationshipListHtmlGenerator implements Generator {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.generate.Generator#getGroupName()
+	 */
+	@Override
+	public String getGroupName() {
+		return "HTML";
+	}
+
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 

@@ -64,8 +64,48 @@ public class IdentifierRef extends Identifier {
 		}
 		return returnName;
 	}
-
+	
 	public boolean isSame(IdentifierRef identifierRef) {
 		return this.original.equals(identifierRef.getOriginal());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#getImplementName()
+	 */
+	@Override
+	public String getImplementName() {
+		String returnName = super.getImplementName();
+		if (returnName == null) {
+			returnName = original.getImplementName();
+		}
+		return returnName;
+	}
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#setImplementName(java.lang.String)
+	 */
+	@Override
+	public void setImplementName(String implementName) {
+		String oldValue = super.getImplementName();
+		if (implementName == null || !implementName.equals(oldValue)) {
+			super.setImplementName(implementName);			
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#getDataTypeDeclaration()
+	 */
+	@Override
+	public DataTypeDeclaration getDataTypeDeclaration() {
+		DataTypeDeclaration returnValue = super.getDataTypeDeclaration();
+		if (returnValue == null) {
+			returnValue = original.getDataTypeDeclaration();
+		}
+		return returnValue;
 	}
 }

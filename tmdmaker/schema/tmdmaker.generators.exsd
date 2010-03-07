@@ -69,13 +69,6 @@
                </appInfo>
             </annotation>
          </attribute>
-         <attribute name="group" type="string">
-            <annotation>
-               <documentation>
-                  for Grouping ContextMenu
-               </documentation>
-            </annotation>
-         </attribute>
       </complexType>
    </element>
 
