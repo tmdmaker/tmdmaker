@@ -27,6 +27,7 @@ import jp.sourceforge.tmdmaker.generate.Activator;
 import jp.sourceforge.tmdmaker.generate.EscapeTool;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
+import jp.sourceforge.tmdmaker.generate.HtmlGeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 
@@ -47,7 +48,6 @@ public class RelationshipListHtmlGenerator implements Generator {
 	 * コンストラクタ
 	 */
 	public RelationshipListHtmlGenerator() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class RelationshipListHtmlGenerator implements Generator {
 			Velocity.init();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return;
+			throw new HtmlGeneratorRuntimeException(e);
 		}
 		System.out.println("init");
 		VelocityContext context = new VelocityContext();
@@ -101,16 +101,16 @@ public class RelationshipListHtmlGenerator implements Generator {
 					.getClass(), new File(rootDir, "relationship_list.html"),
 					context);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new HtmlGeneratorRuntimeException(e);
 		}
 		try {
 			GeneratorUtils.copyStream(Activator.class
 					.getResourceAsStream("stylesheet.css"), new FileOutputStream(
 					new File(rootDir, "stylesheet.css")));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new HtmlGeneratorRuntimeException(e);
 		}
 	}
 

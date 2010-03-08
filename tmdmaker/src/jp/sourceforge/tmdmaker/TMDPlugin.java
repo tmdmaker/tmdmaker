@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -75,6 +77,19 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	/**
+	 * 例外用のログ出力
+	 * 
+	 * @param t
+	 *            発生した例外
+	 */
+	public static void log(Throwable t) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR,
+				"TMD-Maker Error", t);
+		getDefault().getLog().log(status);
+		t.printStackTrace();
 	}
 
 }

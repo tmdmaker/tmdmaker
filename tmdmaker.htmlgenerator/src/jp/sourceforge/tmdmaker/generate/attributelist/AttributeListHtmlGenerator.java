@@ -26,6 +26,7 @@ import jp.sourceforge.tmdmaker.generate.Activator;
 import jp.sourceforge.tmdmaker.generate.EscapeTool;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
+import jp.sourceforge.tmdmaker.generate.HtmlGeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
@@ -106,9 +107,8 @@ public class AttributeListHtmlGenerator implements Generator {
 		try {
 			Velocity.init();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return;
+			throw new HtmlGeneratorRuntimeException(e);
 		}
 		System.out.println("init");
 		VelocityContext context = new VelocityContext();
@@ -153,6 +153,7 @@ public class AttributeListHtmlGenerator implements Generator {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new HtmlGeneratorRuntimeException(e);
 		}
 	}
 

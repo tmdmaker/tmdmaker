@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.model.Diagram;
 
@@ -30,6 +31,7 @@ import org.eclipse.swt.widgets.DirectoryDialog;
  * 
  */
 public class GenerateAction extends Action {
+
 	private Generator generator;
 	private GraphicalViewer viewer;
 
@@ -47,14 +49,23 @@ public class GenerateAction extends Action {
 		setText(this.generator.getGeneratorName());
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
 	@Override
 	public void run() {
 		Diagram diagram = (Diagram) viewer.getContents().getModel();
 		DirectoryDialog dialog = new DirectoryDialog(viewer.getControl()
 				.getShell(), SWT.SAVE);
 		String rootDir = dialog.open();
-		generator.execute(rootDir, diagram);
+		try {
+			generator.execute(rootDir, diagram);
+		} catch (Throwable t) {
+			TMDPlugin.log(t);
+		}
 	}
 
-	
 }
