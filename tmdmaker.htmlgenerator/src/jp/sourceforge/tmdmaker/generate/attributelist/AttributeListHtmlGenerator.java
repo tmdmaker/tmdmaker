@@ -18,18 +18,28 @@ package jp.sourceforge.tmdmaker.generate.attributelist;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import jp.sourceforge.tmdmaker.generate.Activator;
 import jp.sourceforge.tmdmaker.generate.EscapeTool;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.MappingList;
+import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
+import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
+import jp.sourceforge.tmdmaker.model.RecursiveTable;
+import jp.sourceforge.tmdmaker.model.SubsetEntity;
+import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -44,7 +54,20 @@ import org.apache.velocity.runtime.log.NullLogChute;
  */
 public class AttributeListHtmlGenerator implements Generator {
 
-	
+	// 未使用。別機能で使うかも
+	private Map<Class<? extends AbstractEntityModel>, String> displayEntityType = new HashMap<Class<? extends AbstractEntityModel>, String>() {
+		{
+			put(CombinationTable.class, "対照表");
+			put(Detail.class, "明細");
+			put(MappingList.class, "対応表");
+			put(MultivalueAndSuperset.class, "概念的スーパーセット");
+			put(MultivalueOrEntity.class, "多値のOR");
+			put(RecursiveTable.class, "再帰表");
+			put(SubsetEntity.class, "サブセット");
+			put(VirtualEntity.class, "みなしエンティティ");
+			put(VirtualSuperset.class, "みなしスーパーセット");
+		}
+	};
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -94,7 +117,7 @@ public class AttributeListHtmlGenerator implements Generator {
 			GeneratorUtils.copyStream(AttributeListHtmlGenerator.class
 					.getResourceAsStream("index.html"), new FileOutputStream(
 					new File(rootDir, "index.html")));
-			GeneratorUtils.copyStream(AttributeListHtmlGenerator.class
+			GeneratorUtils.copyStream(Activator.class
 					.getResourceAsStream("stylesheet.css"), new FileOutputStream(
 					new File(rootDir, "stylesheet.css")));
 			// context.put("entities", findAvailableModel(model));

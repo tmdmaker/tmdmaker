@@ -28,16 +28,17 @@ import org.apache.ddlutils.model.Database;
 import org.apache.ddlutils.model.Table;
 
 /**
+ * DdlUtilsを使ったDDLGenerator
+ * 
  * @author nakaG
  * 
  */
 public class DdlUtilsDDLGenerator implements Generator {
 
 	/**
-	 * 
+	 * コンストラクタ
 	 */
 	public DdlUtilsDDLGenerator() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -81,6 +82,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see jp.sourceforge.tmdmaker.generate.Generator#getGroupName()
 	 */
 	@Override

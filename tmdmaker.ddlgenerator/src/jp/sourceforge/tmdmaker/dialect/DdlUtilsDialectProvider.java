@@ -10,19 +10,22 @@ import java.util.List;
 import org.apache.ddlutils.PlatformFactory;
 
 /**
+ * DdlUtilsを使った対応データベースについての情報を提供するクラス
+ * 
  * @author nakaG
- *
+ * 
  */
 public class DdlUtilsDialectProvider implements DialectProvider {
 
 	/**
-	 * 
+	 * コンストラクタ
 	 */
 	public DdlUtilsDialectProvider() {
-		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see jp.sourceforge.tmdmaker.dialect.DialectProvider#getDatabaseList()
 	 */
 	@Override

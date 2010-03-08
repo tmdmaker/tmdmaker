@@ -24,7 +24,27 @@ import jp.sourceforge.tmdmaker.model.Diagram;
  * 
  */
 public interface Generator {
+	/**
+	 * Generatorのグループ名を返す。グループ名,Generator名の順でコンテキストメニューに表示される。
+	 * 
+	 * @return グループ名
+	 */
 	String getGroupName();
+
+	/**
+	 * Generator名を返す。コンテキストメニューに表示する名称となる。
+	 * 
+	 * @return Generator名
+	 */
 	String getGeneratorName();
+
+	/**
+	 * 生成処理実行
+	 * 
+	 * @param rootDir
+	 *            　生成先ディレクトリ
+	 * @param diagram
+	 *            ダイアグラム
+	 */
 	void execute(String rootDir, Diagram diagram);
 }

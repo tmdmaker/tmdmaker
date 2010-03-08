@@ -20,7 +20,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.EventObject;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.action.AttributeListSaveAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.GenerateAction;
@@ -500,9 +499,9 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 				viewer);
 		registry.registerAction(action6);
 
-		AttributeListSaveAction action7 = new AttributeListSaveAction(
-				viewer);
-		registry.registerAction(action7);
+//		AttributeListSaveAction action7 = new AttributeListSaveAction(
+//				viewer);
+//		registry.registerAction(action7);
 
 		DatabaseSelectAction action8 = new DatabaseSelectAction(
 				viewer);

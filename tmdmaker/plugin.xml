@@ -29,20 +29,5 @@
             name="%wizard.name.0">
       </wizard>
    </extension>
-   <extension
-         point="tmdmaker.generators">
-      <generator
-            class="jp.sourceforge.tmdmaker.generate.attributelist.AttributeListHtmlGenerator"
-            name="attribute_list">
-      </generator>
-   </extension>
-   <extension
-         point="tmdmaker.generators">
-      <generator
-            class="jp.sourceforge.tmdmaker.generate.relationshiplist.RelationshipListHtmlGenerator"
-            group="HTML"
-            name="relationship_list">
-      </generator>
-   </extension>
 
 </plugin>

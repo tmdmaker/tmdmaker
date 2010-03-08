@@ -30,25 +30,33 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 /**
+ * contributeされているGeneratorを提供するクラス
+ * 
  * @author hiro
- *
+ * 
  */
 public class GeneratorProvider {
-//	static {
-//		IExtensionRegistry registry = Platform.getExtensionRegistry();
-//		registry.addRegistryChangeListener(new IRegistryChangeListener() {
-//
-//			@Override
-//			public void registryChanged(IRegistryChangeEvent event) {
-//				System.out.println("RegistryChanged.");
-//			}
-//			
-//		}, TMDPlugin.PLUGIN_ID);
-//		
-//	}
+	// static {
+	// IExtensionRegistry registry = Platform.getExtensionRegistry();
+	// registry.addRegistryChangeListener(new IRegistryChangeListener() {
+	//
+	// @Override
+	// public void registryChanged(IRegistryChangeEvent event) {
+	// System.out.println("RegistryChanged.");
+	// }
+	//			
+	// }, TMDPlugin.PLUGIN_ID);
+	//		
+	// }
+	/**
+	 * Generatorを返す。
+	 * 
+	 * @return 取得したGeneratorのリスト
+	 */
 	public static List<Generator> getGenerators() {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		IExtensionPoint point = registry.getExtensionPoint(TMDPlugin.PLUGIN_ID + ".generators");
+		IExtensionPoint point = registry.getExtensionPoint(TMDPlugin.PLUGIN_ID
+				+ ".generators");
 		IExtension[] extensions = point.getExtensions();
 
 		List<Generator> list = new ArrayList<Generator>();
@@ -67,13 +75,20 @@ public class GeneratorProvider {
 			/**
 			 * {@inheritDoc}
 			 * 
-			 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+			 * @see java.util.Comparator#compare(java.lang.Object,
+			 *      java.lang.Object)
 			 */
 			@Override
 			public int compare(Generator o1, Generator o2) {
-				return o1.getGeneratorName().compareTo(o2.getGeneratorName());
+				int compareResult = o1.getGroupName().compareTo(
+						o2.getGroupName());
+				if (compareResult == 0) {
+					return o1.getGeneratorName().compareTo(
+							o2.getGeneratorName());
+				} else {
+					return compareResult;
+				}
 			}
-			
 		});
 		return list;
 	}

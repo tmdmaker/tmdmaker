@@ -27,16 +27,32 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 /**
+ * HtmlGeneratorのUtilityクラス
+ * 
  * @author hiro
- *
+ * 
  */
 public class GeneratorUtils {
-	public static void applyTemplate(String templateName, Class<?> clazz, File output,
-			VelocityContext context) throws Exception {
+	/**
+	 * テンプレートを適用する。
+	 * 
+	 * @param templateName
+	 *            Velocityのテンプレート名
+	 * @param clazz
+	 *            リソース取得先のクラス
+	 * @param output
+	 *            出力先ファイル
+	 * @param context
+	 *            VelociryContext
+	 * @throws Exception
+	 *             I/O系例外やVelocityの例外
+	 */
+	public static void applyTemplate(String templateName, Class<?> clazz,
+			File output, VelocityContext context) throws Exception {
 		StringWriter writer = new StringWriter();
 
-		InputStreamReader reader = new InputStreamReader(
-				clazz.getResourceAsStream(templateName), "UTF-8");
+		InputStreamReader reader = new InputStreamReader(clazz
+				.getResourceAsStream(templateName), "UTF-8");
 		Velocity.evaluate(context, writer, templateName, reader);
 
 		FileOutputStream out = new FileOutputStream(output);
@@ -48,6 +64,14 @@ public class GeneratorUtils {
 
 	}
 
+	/**
+	 * 入力ストリームの内容を出力ストリームへ流す。
+	 * 
+	 * @param in
+	 *            入力ストリーム
+	 * @param out
+	 *            出力ストリーム
+	 */
 	public static void copyStream(InputStream in, OutputStream out) {
 		try {
 			byte[] buf = new byte[in.available()];
@@ -60,6 +84,13 @@ public class GeneratorUtils {
 			close(out);
 		}
 	}
+
+	/**
+	 * ストリームのクローズ
+	 * 
+	 * @param closeable
+	 *            主にストリーム
+	 */
 	public static void close(Closeable closeable) {
 		if (closeable != null) {
 			try {

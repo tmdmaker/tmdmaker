@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.generate.Activator;
 import jp.sourceforge.tmdmaker.generate.EscapeTool;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
@@ -104,7 +105,7 @@ public class RelationshipListHtmlGenerator implements Generator {
 			e.printStackTrace();
 		}
 		try {
-			GeneratorUtils.copyStream(RelationshipListHtmlGenerator.class
+			GeneratorUtils.copyStream(Activator.class
 					.getResourceAsStream("stylesheet.css"), new FileOutputStream(
 					new File(rootDir, "stylesheet.css")));
 		} catch (FileNotFoundException e) {
