@@ -17,7 +17,11 @@ package jp.sourceforge.tmdmaker;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -86,10 +90,42 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 *            発生した例外
 	 */
 	public static void log(Throwable t) {
-		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR,
-				"TMD-Maker Error", t);
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, t
+				.getMessage(), t);
 		getDefault().getLog().log(status);
 		t.printStackTrace();
+	}
+
+	/**
+	 * 情報ダイアログ表示
+	 * 
+	 * @param message
+	 *            表示内容
+	 */
+	public static void showMessageDialog(String message) {
+		MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION
+				| SWT.OK);
+		messageBox.setText("情報");
+		messageBox.setMessage(message);
+		messageBox.open();
+	}
+
+	/**
+	 * エラーダイアログ表示
+	 * 
+	 * @param t
+	 *            表示対象の例外
+	 */
+	public static void showErrorDialog(Throwable t) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, 0,
+				t.getMessage(), t);
+
+		log(t);
+
+		ErrorDialog.openError(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell(), "エラー", "エラーが発生しました",
+				status);
 	}
 
 }

@@ -63,8 +63,9 @@ public class GenerateAction extends Action {
 		String rootDir = dialog.open();
 		try {
 			generator.execute(rootDir, diagram);
+			TMDPlugin.showMessageDialog(generator.getGeneratorName() + " 完了");
 		} catch (Throwable t) {
-			TMDPlugin.log(t);
+			TMDPlugin.showErrorDialog(t);
 		}
 	}
 
