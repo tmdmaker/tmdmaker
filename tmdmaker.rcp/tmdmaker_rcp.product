@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.0.1" useFeatures="false" includeLaunchers="true">
-
+<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.0.2" useFeatures="false" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -13,14 +12,12 @@
 
    <windowImages/>
 
-
    <launcher name="tmdmaker">
       <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
@@ -319,7 +316,9 @@
       <plugin id="org.eclipse.ui.win32" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
-      <plugin id="tmdmaker"/>
+      <plugin id="tmdmaker" version="0.1.0"/>
+      <plugin id="tmdmaker.ddlgenerator" version="0.0.1.qualifier"/>
+      <plugin id="tmdmaker.htmlgenerator" version="0.0.1.qualifier"/>
       <plugin id="tmdmaker.rcp"/>
    </plugins>
 
