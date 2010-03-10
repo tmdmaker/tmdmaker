@@ -218,7 +218,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 				column.setScale(dtd.getScale().intValue());
 			}
 		}
-
+		column.setRequired(!attribute.isNullable());
 		return column;
 	}
 }
