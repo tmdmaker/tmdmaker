@@ -32,6 +32,7 @@ import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
+import jp.sourceforge.tmdmaker.model.SubsetEntity;
 
 import org.apache.ddlutils.Platform;
 import org.apache.ddlutils.PlatformFactory;
@@ -187,6 +188,12 @@ public class DdlUtilsDDLGenerator implements Generator {
 		if (model instanceof Detail) {
 			Detail detail = (Detail) model;
 			table.addColumn(convert(detail.getDetailIdentifier()));
+		}
+		if (model instanceof SubsetEntity) {
+			SubsetEntity subset = (SubsetEntity) model;
+			for (IdentifierRef ri : subset.getOriginalReusedIdentifier().getIdentifires()) {
+				table.addColumn(convert(ri));
+			}
 		}
 	}
 
