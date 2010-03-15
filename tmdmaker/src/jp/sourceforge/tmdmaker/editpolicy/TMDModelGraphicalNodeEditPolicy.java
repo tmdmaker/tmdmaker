@@ -15,10 +15,18 @@
  */
 package jp.sourceforge.tmdmaker.editpolicy;
 
+import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.XYChopboxAnchorHelper;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
+import jp.sourceforge.tmdmaker.model.command.SourceConnectionReconnectCommand;
+import jp.sourceforge.tmdmaker.model.command.TargetConnectionReconnectCommand;
 import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
@@ -83,8 +91,39 @@ public class TMDModelGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 */
 	@Override
 	protected Command getReconnectSourceCommand(ReconnectRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		AbstractRelationship connection = (AbstractRelationship) request
+				.getConnectionEditPart().getModel();
+		if (connection.getSource() == connection.getTarget()) {
+			System.out.println("source == target");
+			return null;
+		}
+		AbstractEntityModel newSource = (AbstractEntityModel) request
+				.getTarget().getModel();
+		if (!connection.getSource().equals(newSource)) {
+			System.out.println("source not equals newSource");
+			return null;
+		}
+		Point location = new Point(request.getLocation());
+		AbstractEntityEditPart sourceEditPart = (AbstractEntityEditPart) request
+				.getConnectionEditPart().getSource();
+		IFigure sourceFigure = sourceEditPart.getFigure();
+		sourceFigure.translateToRelative(location);
+
+		int xp = -1;
+		int yp = -1;
+
+		Rectangle bounds = sourceFigure.getBounds();
+		Rectangle centerRectangle = new Rectangle(
+				bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4),
+				bounds.width / 2, bounds.height / 2);
+		if (!centerRectangle.contains(location)) {
+			System.out.println("not center");
+			Point point = new XYChopboxAnchorHelper(bounds)
+					.getIntersectionPoint(location);
+			xp = 100 * (point.x - bounds.x) / bounds.width;
+			yp = 100 * (point.y - bounds.y) / bounds.height;
+		}
+		return new SourceConnectionReconnectCommand(connection, xp, yp);
 	}
 
 	/**
@@ -94,8 +133,40 @@ public class TMDModelGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 */
 	@Override
 	protected Command getReconnectTargetCommand(ReconnectRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		AbstractRelationship connection = (AbstractRelationship) request
+				.getConnectionEditPart().getModel();
+		if (connection.getSource() == connection.getTarget()) {
+			System.out.println("source == target");
+			return null;
+		}
+		AbstractEntityModel newTarget = (AbstractEntityModel) request
+				.getTarget().getModel();
+		if (!connection.getTarget().equals(newTarget)) {
+			System.out.println("target not equals newTarget");
+			return null;
+		}
+		Point location = new Point(request.getLocation());
+		AbstractEntityEditPart targetEditPart = (AbstractEntityEditPart) request
+				.getConnectionEditPart().getTarget();
+		IFigure targetFigure = targetEditPart.getFigure();
+		targetFigure.translateToRelative(location);
+
+		int xp = -1;
+		int yp = -1;
+
+		Rectangle bounds = targetFigure.getBounds();
+		Rectangle centerRectangle = new Rectangle(
+				bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4),
+				bounds.width / 2, bounds.height / 2);
+
+		if (!centerRectangle.contains(location)) {
+			System.out.println("not center");
+			Point point = new XYChopboxAnchorHelper(bounds)
+					.getIntersectionPoint(location);
+			xp = 100 * (point.x - bounds.x) / bounds.width;
+			yp = 100 * (point.y - bounds.y) / bounds.height;
+		}
+		return new TargetConnectionReconnectCommand(connection, xp, yp);
 	}
 
 	/**

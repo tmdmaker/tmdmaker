@@ -21,6 +21,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 
@@ -186,6 +187,27 @@ public abstract class AbstractRelationshipEditPart extends
 	@Override
 	protected List<AbstractConnectionModel> getModelTargetConnections() {
 		return ((ConnectableElement) getModel()).getModelTargetConnections();
+	}
+
+	protected void calculateAnchorLocation() {
+		AbstractRelationship relationship = (AbstractRelationship) getModel();
+
+		ConnectionAnchor sourceAnchor = this.getConnectionFigure()
+				.getSourceAnchor();
+
+		if (sourceAnchor instanceof XYChopboxAnchor) {
+			((XYChopboxAnchor) sourceAnchor).setLocation(relationship
+					.getSourceXp(), relationship.getSourceYp());
+		}
+
+		ConnectionAnchor targetAnchor = this.getConnectionFigure()
+				.getTargetAnchor();
+
+		if (targetAnchor instanceof XYChopboxAnchor) {
+			((XYChopboxAnchor) targetAnchor).setLocation(relationship
+					.getTargetXp(), relationship.getTargetYp());
+		}
+
 	}
 
 	/**

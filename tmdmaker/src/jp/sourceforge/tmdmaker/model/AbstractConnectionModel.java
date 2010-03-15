@@ -117,6 +117,13 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	}
 
 	/**
+	 * エンティティ系モデルが移動した際の再描画用
+	 */
+	public void fireParentMoved() {
+		firePropertyChange(PROPERTY_CONNECTION, null, null);
+	}
+
+	/**
 	 * 削除可能か判定する
 	 * 
 	 * @return 削除可能な場合にtrueを返す

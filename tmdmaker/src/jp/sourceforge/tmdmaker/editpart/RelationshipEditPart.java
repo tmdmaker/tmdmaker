@@ -102,6 +102,7 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	@Override
 	protected void refreshVisuals() {
 		super.refreshVisuals();
+		this.calculateAnchorLocation();
 		updateFigure((RelationshipFigure) getFigure());
 	}
 

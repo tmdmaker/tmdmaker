@@ -20,6 +20,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
@@ -29,12 +30,15 @@ import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.requests.ReconnectRequest;
 
 /**
  * エンティティ系モデルのコントローラの基底クラス
@@ -88,7 +92,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	 */
 	protected ConnectionAnchor getConnectionAnchor() {
 		if (anchor == null) {
-			anchor = new ChopboxAnchor(getFigure());
+			anchor = new XYChopboxAnchor(getFigure());
 		}
 		return anchor;
 	}
@@ -102,7 +106,15 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
-		return getConnectionAnchor();
+		if (!(connection instanceof RelationshipEditPart)) {
+			return new ChopboxAnchor(this.getFigure());
+		}
+		AbstractRelationship relationship = (AbstractRelationship) connection
+				.getModel();
+
+		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
+				relationship.getSourceXp(), relationship.getSourceYp());
+		return anchor;
 	}
 
 	/**
@@ -113,7 +125,49 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	 */
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		return getConnectionAnchor();
+		if (request instanceof ReconnectRequest) {
+			ReconnectRequest reconnectRequest = (ReconnectRequest) request;
+
+			ConnectionEditPart connectionEditPart = reconnectRequest
+					.getConnectionEditPart();
+
+			if (!(connectionEditPart instanceof RelationshipEditPart)) {
+				return new ChopboxAnchor(this.getFigure());
+			}
+			AbstractRelationship relationship = (AbstractRelationship) connectionEditPart
+					.getModel();
+			if (relationship.getSource() == relationship.getTarget()) {
+				return new XYChopboxAnchor(this.getFigure());
+			}
+			EditPart editPart = reconnectRequest.getTarget();
+			if (editPart == null
+					|| !editPart.getModel().equals(relationship.getSource())) {
+				return new XYChopboxAnchor(this.getFigure());
+			}
+
+			Point location = new Point(reconnectRequest.getLocation());
+			this.getFigure().translateToRelative(location);
+			IFigure sourceFigure = ((AbstractEntityEditPart) connectionEditPart
+					.getSource()).getFigure();
+			XYChopboxAnchor anchor = new XYChopboxAnchor(getFigure());
+
+			Rectangle bounds = sourceFigure.getBounds();
+
+			Rectangle centerRectangle = new Rectangle(bounds.x
+					+ (bounds.width / 4), bounds.y + (bounds.height / 4),
+					bounds.width / 2, bounds.height / 2);
+
+			if (!centerRectangle.contains(location)) {
+				Point point = new XYChopboxAnchorHelper(bounds)
+						.getIntersectionPoint(location);
+				int xp = 100 * (point.x - bounds.x) / bounds.width;
+				int yp = 100 * (point.y - bounds.y) / bounds.height;
+				anchor.setLocation(xp, yp);
+			}
+			return anchor;
+		}
+
+		return new XYChopboxAnchor(getFigure());
 	}
 
 	/**
@@ -125,7 +179,19 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
-		return getConnectionAnchor();
+		if (!(connection instanceof RelationshipEditPart)) {
+			return new ChopboxAnchor(this.getFigure());
+		}
+		AbstractRelationship relationship = (AbstractRelationship) connection
+				.getModel();
+		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
+				relationship.getTargetXp(), relationship.getTargetYp());
+
+		if (relationship.getTargetXp() != -1
+				&& relationship.getTargetYp() != -1) {
+		}
+
+		return anchor;
 	}
 
 	/**
@@ -136,7 +202,52 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	 */
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		return getConnectionAnchor();
+		System.out.println("getTargetConnectionAnchor(Request request)");
+		if (request instanceof ReconnectRequest) {
+			ReconnectRequest reconnectRequest = (ReconnectRequest) request;
+			ConnectionEditPart connectionEditPart = reconnectRequest
+					.getConnectionEditPart();
+
+			if (!(connectionEditPart instanceof RelationshipEditPart)) {
+				return new ChopboxAnchor(this.getFigure());
+			}
+			AbstractRelationship relationship = (AbstractRelationship) connectionEditPart
+					.getModel();
+			if (relationship.getSource() == relationship.getTarget()) {
+				return new XYChopboxAnchor(this.getFigure());
+			}
+			EditPart editPart = reconnectRequest.getTarget();
+
+			if (editPart == null
+					|| !editPart.getModel().equals(relationship.getTarget())) {
+				return new XYChopboxAnchor(this.getFigure());
+			}
+			Point location = new Point(reconnectRequest.getLocation());
+			this.getFigure().translateToRelative(location);
+			IFigure targetFigure = ((AbstractEntityEditPart) connectionEditPart
+					.getTarget()).getFigure();
+
+			XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
+					relationship.getTargetXp(), relationship.getTargetYp());
+
+			Rectangle bounds = targetFigure.getBounds();
+
+			Rectangle centerRectangle = new Rectangle(bounds.x
+					+ (bounds.width / 4), bounds.y + (bounds.height / 4),
+					bounds.width / 2, bounds.height / 2);
+
+			if (!centerRectangle.contains(location)) {
+				Point point = new XYChopboxAnchorHelper(bounds)
+						.getIntersectionPoint(location);
+				int xp = 100 * (point.x - bounds.x) / bounds.width;
+				int yp = 100 * (point.y - bounds.y) / bounds.height;
+
+				anchor.setLocation(xp, yp);
+			}
+
+			return anchor;
+		}
+		return new XYChopboxAnchor(getFigure());
 	}
 
 	/**
@@ -284,6 +395,17 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refresh()
+	 */
+	@Override
+	public void refresh() {
+		super.refresh();
+		refleshConnections();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
 	@Override
@@ -297,6 +419,16 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 
 		updateFigure(getFigure());
 		refreshChildren();
+	}
+
+	protected void refleshConnections() {
+		for (AbstractConnectionModel connection : getModelSourceConnections()) {
+			connection.fireParentMoved();
+		}
+		for (AbstractConnectionModel connection : getModelTargetConnections()) {
+			connection.fireParentMoved();
+		}
+
 	}
 
 	/**

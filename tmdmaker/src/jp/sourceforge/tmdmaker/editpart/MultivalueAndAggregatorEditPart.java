@@ -21,6 +21,8 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.Request;
 
 /**
  * 多値のANDの相違マーク(×)のコントローラ
@@ -87,6 +89,48 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected ConnectionAnchor getConnectionAnchor() {
+		return new CenterAnchor(getFigure());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(
+			ConnectionEditPart connection) {
+		return new CenterAnchor(getFigure());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+	 */
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		return new CenterAnchor(getFigure());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(
+			ConnectionEditPart connection) {
+		return new CenterAnchor(getFigure());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+	 */
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return new CenterAnchor(getFigure());
 	}
 
