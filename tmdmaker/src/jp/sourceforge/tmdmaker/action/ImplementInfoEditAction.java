@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.dialog.ImplementInfoEditDialog;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.EditAttribute;
+import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
@@ -27,16 +27,20 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
+ * 実装情報編集Action
+ * 
  * @author nakaG
- *
+ * 
  */
 public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 	public static final String ID = "ImplementInfoEditAction";
+
 	public ImplementInfoEditAction(IWorkbenchPart part) {
 		super(part);
 		setText("実装情報編集");
 		setId(ID);
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -44,26 +48,31 @@ public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		
-		ImplementInfoEditDialog dialog = new ImplementInfoEditDialog(getPart().getViewer().getControl().getShell(), getModel());
+
+		ImplementInfoEditDialog dialog = new ImplementInfoEditDialog(getPart()
+				.getViewer().getControl().getShell(), getModel());
 		if (dialog.open() == Dialog.OK) {
 
 			CompoundCommand ccommand = new CompoundCommand();
 
-			for (EditAttribute ei : dialog.getEditedValueIdentifieres()) {
+			for (EditImplementAttribute ei : dialog
+					.getEditedValueIdentifieres()) {
 				Identifier newIdentifier = new Identifier();
 				Identifier original = (Identifier) ei.getOriginalAttribute();
 				ei.copyTo(newIdentifier);
-				ccommand.add(new AttributeEditCommand(original, newIdentifier));
+				ccommand.add(new AttributeEditCommand(original, newIdentifier,
+						ei.getContainerModel()));
 			}
 
-			for (EditAttribute ea : dialog.getEditedValueAttributes()) {
+			for (EditImplementAttribute ea : dialog.getEditedValueAttributes()) {
 				Attribute newAttribute = new Attribute();
 				Attribute original = ea.getOriginalAttribute();
 				ea.copyTo(newAttribute);
-				ccommand.add(new AttributeEditCommand(original, newAttribute));
+				ccommand.add(new AttributeEditCommand(original, newAttribute,
+						ea.getContainerModel()));
 			}
-			ccommand.add(new ModelEditCommand(getModel(), dialog.getEditedValueEntity()));
+			ccommand.add(new ModelEditCommand(getModel(), dialog
+					.getEditedValueEntity()));
 			execute(ccommand);
 		}
 	}

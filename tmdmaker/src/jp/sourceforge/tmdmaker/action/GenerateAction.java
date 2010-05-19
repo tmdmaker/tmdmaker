@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 /**
  * 設定されたGeneratorを実行するActoin
  * 
- * @author hiro
+ * @author nakaG
  * 
  */
 public class GenerateAction extends Action {

@@ -1,0 +1,94 @@
+/*
+ * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package jp.sourceforge.tmdmaker.model.rule;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.SubsetEntity;
+import jp.sourceforge.tmdmaker.model.SubsetType;
+import jp.sourceforge.tmdmaker.model.VirtualEntity;
+
+/**
+ * 実装に関するルールをまとめたクラス
+ * 
+ * @author nakaG
+ * 
+ */
+public class ImplementRule {
+	/**
+	 * 実装しない派生モデルを取得する。
+	 * 
+	 * @param model
+	 *            派生元
+	 * @return 実装しない派生モデルのリスト。対象が存在しない場合は空リストを返す。
+	 */
+	public static List<AbstractEntityModel> findImplementModel(
+			AbstractEntityModel model) {
+		List<AbstractEntityModel> subsets = new ArrayList<AbstractEntityModel>();
+		List<AbstractEntityModel> ves = new ArrayList<AbstractEntityModel>();
+		List<AbstractEntityModel> results = new ArrayList<AbstractEntityModel>();
+		// 実装しない設定になっているサブセットを抽出
+		findSubset(subsets, model);
+
+		// 実装しない設定になっているVEを抽出
+		findVirtualEntity(ves, model);
+
+		// サブセットにVEが存在する場合を考慮
+		for (AbstractEntityModel m : subsets) {
+			findVirtualEntity(ves, m);
+		}
+		results.addAll(subsets);
+		results.addAll(ves);
+
+		return results;
+	}
+
+	private static void findSubset(List<AbstractEntityModel> results,
+			AbstractEntityModel model) {
+		SubsetType type = model.findSubsetType();
+		if (type == null) {
+			return;
+		}
+
+		for (AbstractConnectionModel connection : type
+				.getModelSourceConnections()) {
+			SubsetEntity subset = (SubsetEntity) connection.getTarget();
+			if (subset.isNotImplement()) {
+				results.add(subset);
+			}
+			findSubset(results, subset);
+		}
+	}
+
+	private static void findVirtualEntity(List<AbstractEntityModel> results,
+			AbstractEntityModel model) {
+		for (AbstractConnectionModel connection : model
+				.getModelSourceConnections()) {
+			ConnectableElement e = connection.getTarget();
+			if (e instanceof VirtualEntity) {
+				VirtualEntity ve = (VirtualEntity) e;
+				if (ve.isNotImplement()) {
+					results.add(ve);
+				}
+				findVirtualEntity(results, ve);
+			}
+		}
+	}
+}

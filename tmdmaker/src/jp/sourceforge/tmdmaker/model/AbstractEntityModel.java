@@ -48,6 +48,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	protected boolean notImplement = false;
 	/** 実装名 */
 	protected String implementName = "";
+	/** 派生元に戻して実装するモデルのリスト */
+	protected List<AbstractEntityModel> implementDerivationModels = new ArrayList<AbstractEntityModel>();
+	/** インデックスの実装情報 */
+	protected IndexModel indexModel;
 
 	/**
 	 * @return the diagram
@@ -351,8 +355,28 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		to.setNotImplement(isNotImplement());
 		to.setImplementName(getImplementName());
 		to.setAttributes(getAttributes());
+		to.setImplementDerivationModels(getImplementDerivationModels());
 		to.setName(getName());
 	}
-	
+
+	/**
+	 * @return the implementDerivationModels
+	 */
+	public List<AbstractEntityModel> getImplementDerivationModels() {
+		if (implementDerivationModels == null) {
+			return new ArrayList<AbstractEntityModel>();
+		}
+		return new ArrayList<AbstractEntityModel>(implementDerivationModels);
+	}
+
+	/**
+	 * @param implementDerivationModels
+	 *            the implementDerivationModels to set
+	 */
+	public void setImplementDerivationModels(
+			List<AbstractEntityModel> implementDerivationModels) {
+		this.implementDerivationModels = implementDerivationModels;
+	}
+
 	public abstract AbstractEntityModel getCopy();
 }

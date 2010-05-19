@@ -16,25 +16,35 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoEditPanel;
+import jp.sourceforge.tmdmaker.dialog.component.IndexSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.component.OtherModelSelectPanel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
-import jp.sourceforge.tmdmaker.model.EditAttribute;
+import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 
 /**
  * 実装情報編集Dialog
@@ -44,16 +54,21 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class ImplementInfoEditDialog extends Dialog {
 	/** 編集情報実装用 */
-	private ImplementInfoEditPanel panel;
+	private ImplementInfoEditPanel panel1;
 	/** 編集元モデル */
 	private AbstractEntityModel model;
 	/** 編集用アトリビュート */
-	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
+	private List<EditImplementAttribute> editAttributeList = new ArrayList<EditImplementAttribute>();
 	/** 編集結果格納用 */
 	private AbstractEntityModel editedValueEntity;
-	private List<EditAttribute> editedValueAttributes = new ArrayList<EditAttribute>();
-	private List<EditAttribute> editedValueIdentifieres = new ArrayList<EditAttribute>();
+	private List<EditImplementAttribute> editedValueAttributes = new ArrayList<EditImplementAttribute>();
+	private List<EditImplementAttribute> editedValueIdentifieres = new ArrayList<EditImplementAttribute>();
 
+	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
+	private OtherModelSelectPanel panel2;
+	private IndexSettingPanel panel3;
+
+	private Button updateButton;
 	/**
 	 * コンストラクタ
 	 * 
@@ -67,10 +82,10 @@ public class ImplementInfoEditDialog extends Dialog {
 		this.model = model;
 
 		if (model instanceof Entity) {
-			editAttributeList.add(new EditAttribute(((Entity) model)
+			editAttributeList.add(new EditImplementAttribute(model,((Entity) model)
 					.getIdentifier()));
 		} else if (model instanceof Detail) {
-			editAttributeList.add(new EditAttribute(((Detail) model)
+			editAttributeList.add(new EditImplementAttribute(model, ((Detail) model)
 					.getDetailIdentifier()));
 		}
 		// Re-usedをカラムとして追加
@@ -79,14 +94,28 @@ public class ImplementInfoEditDialog extends Dialog {
 		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
 				.entrySet()) {
 			for (IdentifierRef ref : entry.getValue().getIdentifires()) {
-				editAttributeList.add(new EditAttribute(ref));
+				editAttributeList.add(new EditImplementAttribute(model, ref));
 			}
 		}
 		for (Attribute a : model.getAttributes()) {
-			editAttributeList.add(new EditAttribute(a));
+			editAttributeList.add(new EditImplementAttribute(model, a));
+		}
+		for (AbstractEntityModel m : ImplementRule.findImplementModel(model)) {
+			List<EditImplementAttribute> list = new ArrayList<EditImplementAttribute>();
+			for (Attribute a : m.getAttributes()) {
+				list.add(new EditImplementAttribute(m, a));
+			}
+			otherModelAttributesMap.put(m, list);			
+		}
+		if (model.getImplementDerivationModels() != null) {
+			for (AbstractEntityModel m : model.getImplementDerivationModels()) {
+				List<EditImplementAttribute> list = otherModelAttributesMap.get(m);
+				if (list != null) {
+					editAttributeList.addAll(list);
+				}
+			}
 		}
 	}
-
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -95,10 +124,82 @@ public class ImplementInfoEditDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("実装情報編集");
-		Composite composite = new Composite(parent, SWT.NULL);
-		panel = new ImplementInfoEditPanel(composite, SWT.NULL);
-		panel.initializeValue(model, editAttributeList);
+		TabFolder tabFolder = new TabFolder(parent, SWT.NULL);
+		// １つめのタブを作成
+		TabItem item1 = new TabItem(tabFolder, SWT.NULL);
+		item1.setText("テーブル設計");
+		
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 1;
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 
+		Composite composite = new Composite(tabFolder, SWT.NULL);
+		composite.setLayout(gridLayout);
+		panel1 = new ImplementInfoEditPanel(composite, SWT.NULL);
+		panel1.initializeValue(model, editAttributeList);
+		panel1.setLayoutData(gridData);
+		
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		panel2 = new OtherModelSelectPanel(composite, SWT.NULL);
+		
+		List<AbstractEntityModel> selectModels = model.getImplementDerivationModels();
+		List<AbstractEntityModel> notSelectModels = ImplementRule.findImplementModel(model);
+		notSelectModels.removeAll(selectModels);
+		panel2.initializeValue(selectModels, notSelectModels);
+		panel2.setLayoutData(gridData);
+
+		item1.setControl(composite);
+
+		updateButton = new Button(composite, SWT.NULL);
+		updateButton.setText("属性一覧へ反映");
+		updateButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 * 
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				for (Map.Entry<AbstractEntityModel, List<EditImplementAttribute>> entry : otherModelAttributesMap.entrySet()) {
+					System.out.println("remove all other model");
+					editAttributeList.removeAll(entry.getValue());
+				}
+				for (AbstractEntityModel m : panel2.getSelectModels()) {
+					System.out.println(m);
+					System.out.println(m.getName());
+					List<EditImplementAttribute> list = otherModelAttributesMap.get(m);
+					System.out.println("add other model");
+					if (list != null) {
+						System.out.println("add other model attributes");
+						editAttributeList.addAll(list);
+					}
+				}
+//				for (Map.Entry<AbstractEntityModel, List<EditImplementAttribute>> entry : otherModelAttributesMap.entrySet()) {
+//					System.out.println(entry.getKey());
+//					System.out.println(entry.getKey().getName());
+//				}
+				System.out.println("update");
+				panel1.initializeValue(model, editAttributeList);
+			}
+			
+		});
+		
+		// ２つめのタブを作成
+		TabItem item2 = new TabItem(tabFolder, SWT.NULL);
+		item2.setText("キー定義");
+		
+		gridLayout = new GridLayout();
+		gridLayout.numColumns = 1;
+		composite =	new Composite(tabFolder, SWT.NULL);
+		composite.setLayout(gridLayout);
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		panel3 = new IndexSettingPanel(composite, SWT.NULL);
+		panel3.setLayoutData(gridData);
+
+		item2.setControl(composite);
+		
+		
 		return composite;
 	}
 
@@ -110,14 +211,15 @@ public class ImplementInfoEditDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		editedValueEntity = model.getCopy();
-		editedValueEntity.setImplementName(panel.getImplementName());
+		editedValueEntity.setImplementName(panel1.getImplementName());
+		editedValueEntity.setImplementDerivationModels(panel2.getSelectModels());
 		createEditAttributeResult();
 
 		super.okPressed();
 	}
 
 	private void createEditAttributeResult() {
-		for (EditAttribute ea : panel.getAttributes()) {
+		for (EditImplementAttribute ea : panel1.getAttributes()) {
 			if (ea.isEdited()) {
 				System.out.println(ea);
 				Attribute a = ea.getOriginalAttribute();
@@ -140,14 +242,14 @@ public class ImplementInfoEditDialog extends Dialog {
 	/**
 	 * @return the editedValueAttributes
 	 */
-	public List<EditAttribute> getEditedValueAttributes() {
+	public List<EditImplementAttribute> getEditedValueAttributes() {
 		return editedValueAttributes;
 	}
 
 	/**
 	 * @return the editedValueIdentifieres
 	 */
-	public List<EditAttribute> getEditedValueIdentifieres() {
+	public List<EditImplementAttribute> getEditedValueIdentifieres() {
 		return editedValueIdentifieres;
 	}
 

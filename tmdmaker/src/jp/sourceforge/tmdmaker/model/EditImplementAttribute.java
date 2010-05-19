@@ -15,13 +15,31 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
-import java.io.Serializable;
-
 /**
- * 未使用
+ * アトリビュートの実装方法の編集用クラス
  * 
  * @author nakaG
  * 
  */
-public class ImplementModel implements Serializable {
+public class EditImplementAttribute extends EditAttribute {
+	/** 編集対象のアトリビュートを保持しているモデル */
+	private AbstractEntityModel containerModel;
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param containerModel
+	 */
+	public EditImplementAttribute(AbstractEntityModel containerModel,
+			Attribute original) {
+		super(original);
+		this.containerModel = containerModel;
+	}
+
+	/**
+	 * @return the containerModel
+	 */
+	public AbstractEntityModel getContainerModel() {
+		return containerModel;
+	}
 }

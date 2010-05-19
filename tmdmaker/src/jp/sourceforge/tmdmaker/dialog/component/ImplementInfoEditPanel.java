@@ -19,6 +19,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
+import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
 import org.eclipse.swt.SWT;
@@ -38,7 +39,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 public class ImplementInfoEditPanel extends Composite {
-	private static final String[] NULLABLES = {"禁止", "許可"};
+	private static final String[] NULLABLES = {"禁止", "許可"};//  @jve:decl-index=0:
 	private static final int COLUMN_NO_MODEL_NAME = 0;
 	private static final int COLUMN_NO_ATTRIBUTE_NAME = 1;
 	private static final int COLUMN_NO_IMPLEMENT_NAME = 2;
@@ -46,10 +47,10 @@ public class ImplementInfoEditPanel extends Composite {
 	private static final int COLUMN_NO_SIZE = 4;
 	private static final int COLUMN_NO_SCALE = 5;
 	private static final int COLUMN_NO_NULLABLE = 6;
-	private AbstractEntityModel model;  //  @jve:decl-index=0:
+//	private AbstractEntityModel model;  //  @jve:decl-index=0:
 	private int tableSelectedIndex = -1;
-	private List<EditAttribute> attributes;  //  @jve:decl-index=0:
-	private TableEditor tableEditor;
+	private List<EditImplementAttribute> attributes;  //  @jve:decl-index=0:
+	private TableEditor tableEditor;  //  @jve:decl-index=0:
 	private Label implementNameLabel = null;
 	private Text implementNameText = null;
 	private Table columnTable = null;
@@ -297,10 +298,9 @@ public class ImplementInfoEditPanel extends Composite {
 			});
 		}
 	}
-	public void initializeValue(AbstractEntityModel model, List<EditAttribute> attributes) {
+	public void initializeValue(AbstractEntityModel model, List<EditImplementAttribute> attributes) {
 //		TableItem item = null;
 		this.attributes = attributes;
-		this.model = model;
 		implementNameText.setText(model.getImplementName());
 		updateTable();
 //		if (model instanceof Entity) {
@@ -338,9 +338,9 @@ public class ImplementInfoEditPanel extends Composite {
 	}
 	private void updateTable() {
 		columnTable.removeAll();
-		for (EditAttribute a : attributes) {
+		for (EditImplementAttribute a : attributes) {
 			TableItem item = new TableItem(columnTable, SWT.NULL);
-			item.setText(COLUMN_NO_MODEL_NAME, model.getName());
+			item.setText(COLUMN_NO_MODEL_NAME, a.getContainerModel().getName());
 			item.setText(COLUMN_NO_ATTRIBUTE_NAME, a.getName());
 			item.setText(COLUMN_NO_IMPLEMENT_NAME, a.getImplementName());
 			StandardSQLDataType type = a.getDataType();
@@ -490,7 +490,7 @@ public class ImplementInfoEditPanel extends Composite {
 	/**
 	 * @return the attributes
 	 */
-	public List<EditAttribute> getAttributes() {
+	public List<EditImplementAttribute> getAttributes() {
 		return attributes;
 	}
 	
