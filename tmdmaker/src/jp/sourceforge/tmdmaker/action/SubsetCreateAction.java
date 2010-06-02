@@ -19,6 +19,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
@@ -75,7 +76,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 			return selection instanceof AbstractEntityEditPart
 					&& !(selection instanceof SubsetTypeEditPart)
 					&& !(selection instanceof MultivalueAndAggregatorEditPart)
-					&& !(selection instanceof VirtualSupersetEditPart);
+					&& !(selection instanceof VirtualSupersetEditPart)
+					&& !(selection instanceof LaputaEditPart);
 		} else {
 			return false;
 		}

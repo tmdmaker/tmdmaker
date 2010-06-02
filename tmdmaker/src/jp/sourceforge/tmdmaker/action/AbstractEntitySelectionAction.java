@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -53,7 +54,8 @@ public abstract class AbstractEntitySelectionAction extends SelectionAction {
 			Object selection = getSelectedObjects().get(0);
 			return selection instanceof AbstractEntityEditPart
 					&& !(selection instanceof SubsetTypeEditPart)
-					&& !(selection instanceof MultivalueAndAggregatorEditPart);
+					&& !(selection instanceof MultivalueAndAggregatorEditPart)
+					&& !(selection instanceof LaputaEditPart);
 		} else {
 			return false;
 		}

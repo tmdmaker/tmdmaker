@@ -51,7 +51,8 @@ public class LaputaEditPart extends AbstractEntityEditPart {
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		Laputa entity = (Laputa) getModel();
-		entityFigure.setNotImplement(entity.isNotImplement());
+		// ラピュタは実装しないが×は付けない
+//		entityFigure.setNotImplement(entity.isNotImplement());
 
 		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
