@@ -23,6 +23,7 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
+import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
@@ -96,6 +97,8 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new VirtualSupersetEditPart();
 		} else if (model instanceof VirtualSupersetAggregator) {
 			part = new VirtualSupersetAggregatorEditPart();
+		} else if (model instanceof Laputa) {
+			part = new LaputaEditPart();
 		} else if (model instanceof Attribute) {
 			part = new AttributeEditPart();
 		}

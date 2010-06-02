@@ -15,6 +15,11 @@
  */
 package jp.sourceforge.tmdmaker.model.rule;
 
+import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.Laputa;
+
 /**
  * 個体の認知に関するルールをまとめたクラス
  * 
@@ -69,5 +74,52 @@ public class EntityRecognitionRule {
 			}
 		}
 		return entityName;
+	}
+
+	/**
+	 * エンティティのモデルを作成する
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @param identifier
+	 *            個体指定子
+	 * @param entityType
+	 *            エンティティ種類
+	 * @return 新規エンティティモデル
+	 */
+	public static Entity createEntity(String entityName, Identifier identifier,
+			EntityType entityType) {
+		Entity entity = new Entity();
+		entity.setName(entityName);
+		entity.setEntityType(entityType);
+		entity.setIdentifier(identifier);
+		EntityTypeRule.addDefaultAttribute(entity);
+
+		return entity;
+	}
+
+	/**
+	 * ラピュタのモデルを作成する
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @param identifier
+	 *            個体指定子
+	 * @return 新規ラピュタモデル
+	 */
+	public static Laputa createLaputa(String entityName, Identifier identifier) {
+		Laputa laputa = new Laputa();
+		if (entityName != null && entityName.length() > 0) {
+			laputa.setName(entityName);
+		} else {
+			laputa.setName("ラピュタ");
+		}
+		if (identifier != null) {
+			laputa.setIdentifier(identifier);
+		} else {
+			laputa.setIdentifier(new Identifier(entityName));
+		}
+		laputa.setEntityType(EntityType.LAPUTA);
+		return laputa;
 	}
 }

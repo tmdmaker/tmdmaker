@@ -31,7 +31,8 @@ public enum EntityType {
 	/** 多値のAND */
 	MA("多値のAND", "MA"),
 	/** みなしエンティティ */
-	VE("みなしエンティティ", "VE");
+	VE("みなしエンティティ", "VE"),
+	LAPUTA("ラピュタ", "");
 	
 	/** ダイアグラム表示用 */
 	private String label;

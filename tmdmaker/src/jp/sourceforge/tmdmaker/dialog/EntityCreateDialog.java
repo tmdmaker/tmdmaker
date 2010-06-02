@@ -16,9 +16,11 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndTypeSettingPanel;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -100,12 +102,21 @@ public class EntityCreateDialog extends Dialog {
 	 * @return 必須事項が全て入力されている場合にtrueを返す
 	 */
 	private boolean validate() {
-		String inputIdentifierName = this.inputIdentifier.getName();
-		return inputIdentifierName != null && inputIdentifierName.length() > 0
-				&& this.inputEntityName != null
+		return (isIdentifierNameFilled() && isEntityNameFilled()) || isLaputa();
+	}
+
+	private boolean isEntityNameFilled() {
+		return this.inputEntityName != null
 				&& this.inputEntityName.length() > 0;
 	}
 
+	private boolean isIdentifierNameFilled() {
+		String inputIdentifierName = this.inputIdentifier.getName();
+		return inputIdentifierName != null && inputIdentifierName.length() > 0;
+	}
+	private boolean isLaputa() {
+		return this.inputEntityType.equals(EntityType.LAPUTA);
+	}
 	/**
 	 * @return the inputEntityType
 	 */
@@ -126,5 +137,11 @@ public class EntityCreateDialog extends Dialog {
 	public Identifier getInputIdentifier() {
 		return inputIdentifier;
 	}
-
+	public AbstractEntityModel getCreateModel() {
+		if (isLaputa()) {
+			return EntityRecognitionRule.createLaputa(getInputEntityName(), getInputIdentifier());
+		} else {
+			return EntityRecognitionRule.createEntity(getInputEntityName(), getInputIdentifier(), getInputEntityType());
+		}
+	}
 }

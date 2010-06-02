@@ -21,7 +21,7 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
+import jp.sourceforge.tmdmaker.model.command.ModelAddCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
 
 import org.eclipse.draw2d.Figure;
@@ -152,7 +152,7 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 			Entity entity = (Entity) request
 					.getNewObject();
 			entity.setConstraint(constraint);
-			return new EntityCreateCommand((Diagram) getModel(), entity);
+			return new ModelAddCommand((Diagram) getModel(), constraint.x, constraint.y);
 		}
 	}
 }

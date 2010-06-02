@@ -38,11 +38,10 @@ import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.Version;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
-import jp.sourceforge.tmdmaker.model.command.EntityCreateCommand;
+import jp.sourceforge.tmdmaker.model.command.ModelAddCommand;
 import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
 
 import org.eclipse.core.resources.IFile;
@@ -511,46 +510,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			registry.registerAction(new GenerateAction(viewer, generator));
 		}
 
-		// when entity create, show dialog and set properties.
-		getCommandStack().addCommandStackEventListener(
-				new CommandStackEventListener() {
-
-					/**
-					 * {@inheritDoc}
-					 */
-					@Override
-					public void stackChanged(CommandStackEvent event) {
-						EntityCreateCommand command = null;
-						if (event.getCommand() instanceof EntityCreateCommand) {
-							command = (EntityCreateCommand) event.getCommand();
-						} else {
-							return;
-						}
-
-						logger.debug(getClass().toString()
-								+ "#stackChanged():PreChangeEvent");
-						if (event.getDetail() == CommandStack.PRE_EXECUTE
-								|| event.getDetail() == CommandStack.PRE_REDO) {
-							if (command.getEntityName() == null) {
-								EntityCreateDialog dialog = new EntityCreateDialog(
-										getGraphicalViewer().getControl()
-												.getShell());
-								if (dialog.open() == Dialog.OK) {
-									logger
-											.debug(getClass()
-													+ "#stackChanged():dialog.open() == Dialog.OK)");
-									command.setEntityName(dialog
-											.getInputEntityName());
-									EntityType entityType = dialog
-											.getInputEntityType();
-									command.setEntityType(entityType);
-									command.setIdentifier(dialog
-											.getInputIdentifier());
-								}
-							}
-						}
-					}
-				});
+		getCommandStack().addCommandStackEventListener(new ModelAddCommandStackEventListener());
 		getCommandStack().addCommandStackEventListener(
 				new CommandStackEventListener() {
 					/**
@@ -611,5 +571,44 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			return new TMDContentOutlinePage();
 		}
 		return super.getAdapter(type);
+	}
+	private class ModelAddCommandStackEventListener implements CommandStackEventListener {
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.CommandStackEventListener#stackChanged(org.eclipse.gef.commands.CommandStackEvent)
+		 */
+		@Override
+		public void stackChanged(CommandStackEvent event) {
+			ModelAddCommand command = null;
+			if (isModelAddCommand(event)) {
+				command = (ModelAddCommand) event.getCommand();
+			} else {
+				return;
+			}
+
+			logger.debug(getClass().toString()
+					+ "#stackChanged():PreChangeEvent");
+			if (event.getDetail() == CommandStack.PRE_EXECUTE
+					|| event.getDetail() == CommandStack.PRE_REDO) {
+				if (!command.isModelAdded()) {
+					EntityCreateDialog dialog = new EntityCreateDialog(
+							getGraphicalViewer().getControl()
+									.getShell());
+					if (dialog.open() == Dialog.OK) {
+						logger
+								.debug(getClass()
+										+ "#stackChanged():dialog.open() == Dialog.OK)");
+						command.setModel(dialog.getCreateModel());
+					}
+				}
+			}
+		}
+		private boolean isModelAddCommand(CommandStackEvent event) {
+			Command cmd = event.getCommand();
+			return cmd instanceof ModelAddCommand;
+		}
+		
 	}
 }

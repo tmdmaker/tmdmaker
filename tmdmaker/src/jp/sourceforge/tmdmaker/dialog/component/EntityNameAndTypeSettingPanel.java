@@ -73,8 +73,10 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	public void selectEntityTypeCombo(EntityType type) {
 		if (EntityType.RESOURCE.equals(type)) {
 			this.typeCombo.select(0);
-		} else {
+		} else if (EntityType.EVENT.equals(type)){
 			this.typeCombo.select(1);			
+		} else {
+			this.typeCombo.select(2);
 		}
 	}
 	/**
@@ -171,6 +173,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 		typeCombo = new Combo(this, SWT.READ_ONLY);
 		typeCombo.add("リソース");
 		typeCombo.add("イベント");
+		typeCombo.add("不明");
 	}
 	/**
 	 * 
@@ -198,10 +201,13 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	 * @return the entityType
 	 */
 	public EntityType getSelectedType() {
-		if (typeCombo.getSelectionIndex() == 0) {
+		int selection = typeCombo.getSelectionIndex();
+		if (selection == 0) {
 			return EntityType.RESOURCE;
-		} else {
+		} else if (selection == 1) {
 			return EntityType.EVENT;
+		} else {
+			return EntityType.LAPUTA;
 		}
 	}
 	public void setEntityTypeComboEnabled(boolean enabled) {
