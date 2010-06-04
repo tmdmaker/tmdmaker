@@ -61,6 +61,9 @@ public class GenerateAction extends Action {
 		DirectoryDialog dialog = new DirectoryDialog(viewer.getControl()
 				.getShell(), SWT.SAVE);
 		String rootDir = dialog.open();
+		if (rootDir == null) {
+			return;
+		}
 		try {
 			generator.execute(rootDir, diagram);
 			TMDPlugin.showMessageDialog(generator.getGeneratorName() + " 完了");
