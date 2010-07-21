@@ -34,7 +34,10 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 	public static final String ID = "ImplementInfoEditAction";
-
+	/**
+	 * コンストラクタ
+	 * @param part エディター
+	 */
 	public ImplementInfoEditAction(IWorkbenchPart part) {
 		super(part);
 		setText("実装情報編集");
@@ -48,13 +51,15 @@ public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-
+		// TODO 個体指定子の実装情報が反映されない？
 		ImplementInfoEditDialog dialog = new ImplementInfoEditDialog(getPart()
 				.getViewer().getControl().getShell(), getModel());
 		if (dialog.open() == Dialog.OK) {
 
 			CompoundCommand ccommand = new CompoundCommand();
 
+			ccommand.add(new ModelEditCommand(getModel(), dialog
+					.getEditedValueEntity()));
 			for (EditImplementAttribute ei : dialog
 					.getEditedValueIdentifieres()) {
 				Identifier newIdentifier = new Identifier();
@@ -71,8 +76,6 @@ public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 				ccommand.add(new AttributeEditCommand(original, newAttribute,
 						ea.getContainerModel()));
 			}
-			ccommand.add(new ModelEditCommand(getModel(), dialog
-					.getEditedValueEntity()));
 			execute(ccommand);
 		}
 	}

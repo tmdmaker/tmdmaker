@@ -74,6 +74,7 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
+import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.gef.ui.parts.TreeViewer;
@@ -503,6 +504,14 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 				viewer);
 		registry.registerAction(action6);
 
+		@SuppressWarnings("unchecked") 
+		List<String> selectionActions = getSelectionActions();
+		for (Generator generator : GeneratorProvider.getGenerators()) {
+			SelectionAction act = new GenerateAction(this, viewer, generator);
+			registry.registerAction(act);
+			selectionActions.add(act.getId());
+		}
+
 //		AttributeListSaveAction action7 = new AttributeListSaveAction(
 //				viewer);
 //		registry.registerAction(action7);
@@ -510,10 +519,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		DatabaseSelectAction action8 = new DatabaseSelectAction(
 				viewer);
 		registry.registerAction(action8);
-
-		for (Generator generator : GeneratorProvider.getGenerators()) {
-			registry.registerAction(new GenerateAction(viewer, generator));
-		}
 
 		getCommandStack().addCommandStackEventListener(new ModelAddCommandStackEventListener());
 		getCommandStack().addCommandStackEventListener(

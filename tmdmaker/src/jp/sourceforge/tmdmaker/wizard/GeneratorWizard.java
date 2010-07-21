@@ -13,16 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model;
+package jp.sourceforge.tmdmaker.wizard;
 
-import java.io.Serializable;
+import org.eclipse.jface.wizard.Wizard;
 
 /**
- * 未使用
- * 
  * @author nakaG
- * 
+ *
  */
-public class IndexModel implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class GeneratorWizard extends Wizard {
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
+	 */
+	@Override
+	public boolean performFinish() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

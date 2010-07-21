@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -29,6 +30,7 @@ import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
+import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
@@ -38,7 +40,11 @@ import org.apache.ddlutils.Platform;
 import org.apache.ddlutils.PlatformFactory;
 import org.apache.ddlutils.model.Column;
 import org.apache.ddlutils.model.Database;
+import org.apache.ddlutils.model.Index;
+import org.apache.ddlutils.model.IndexColumn;
+import org.apache.ddlutils.model.NonUniqueIndex;
 import org.apache.ddlutils.model.Table;
+import org.apache.ddlutils.model.UniqueIndex;
 
 /**
  * DdlUtilsを使ったDDLGenerator
@@ -56,6 +62,37 @@ public class DdlUtilsDDLGenerator implements Generator {
 
 	/**
 	 * {@inheritDoc}
+	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String, java.util.List)
+	 */
+	@Override
+	public void execute(String rootDir, List<AbstractEntityModel> models) {
+		assert models.size() != 0;
+		Diagram diagram = models.get(0).getDiagram();
+
+		String databaseName = diagram.getDatabaseName();
+		if (databaseName == null || databaseName.length() == 0) {
+			throw new DatabaseNotSelectRuntimeException();
+		}
+		Database database = convert(diagram, models);
+		Platform platform = PlatformFactory.createNewPlatformInstance(databaseName);
+		String sql = platform.getCreateModelSql(database, true, true);
+		System.out.println(sql);
+		File file = new File(rootDir, "ddl.sql");
+		try {
+			FileOutputStream out = new FileOutputStream(file);
+			out.write(sql.getBytes("UTF-8"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * 
 	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String,
 	 *      jp.sourceforge.tmdmaker.model.Diagram)
@@ -68,7 +105,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 		if (databaseName == null || databaseName.length() == 0) {
 			throw new DatabaseNotSelectRuntimeException();
 		}
-		Database database = convert(diagram);
+		Database database = convert(diagram, diagram.findEntityModel());
 		Platform platform = PlatformFactory.createNewPlatformInstance(databaseName);
 		String sql = platform.getCreateModelSql(database, true, true);
 		System.out.println(sql);
@@ -105,6 +142,16 @@ public class DdlUtilsDDLGenerator implements Generator {
 	public String getGroupName() {
 		return "DDL";
 	}
+	
+	/** 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.generate.Generator#isImplementModelOnly()
+	 */
+	@Override
+	public boolean isImplementModelOnly() {
+		return true;
+	}
 
 	/**
 	 * TMD-MakerのモデルをDDLUtilsのデータベースモデルへ変換する
@@ -113,14 +160,13 @@ public class DdlUtilsDDLGenerator implements Generator {
 	 *            TMD-Makerのルートモデル
 	 * @return DDLUtilsのルートモデル
 	 */
-	private Database convert(Diagram diagram) {
+	private Database convert(Diagram diagram, List<AbstractEntityModel> models) {
 		Database database = new Database();
 		database.setName(diagram.getName());
 
-		for (ModelElement model : diagram.getChildren()) {
+		for (AbstractEntityModel model : models) {
 			addModel(database, model);
 		}
-
 		return database;
 	}
 
@@ -168,8 +214,39 @@ public class DdlUtilsDDLGenerator implements Generator {
 		for (Attribute attribute : entity.getAttributes()) {
 			table.addColumn(convert(attribute));
 		}
+
+		// キーをインデックスとして追加
+		for (KeyModel idx : entity.getKeyModels()) {
+			table.addIndex(convert(idx));
+		}
+		
 		return table;
 
+	}
+
+	/**
+	 * TMD-MakerのキーモデルをDDLUtilsのインデックスモデルへ変換する
+	 * 
+	 * @param key
+	 *            TMD-Makerのアトリビュートモデル
+	 * @return DDLUtilsのインデックスモデル
+	 */
+	private Index convert(KeyModel key) {
+		Index index = null;
+		if (key.isUnique()) {
+			index = new UniqueIndex();
+		} else {
+			index = new NonUniqueIndex();
+		}
+		index.setName(key.getName());
+
+		for (Attribute attr : key.getAttributes()) {
+			Column column = convert(attr);
+			IndexColumn indexColumn = new IndexColumn(column);
+			index.addColumn(indexColumn);
+		}
+
+		return index;
 	}
 
 	/**

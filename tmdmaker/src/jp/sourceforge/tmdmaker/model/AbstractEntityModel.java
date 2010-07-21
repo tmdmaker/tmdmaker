@@ -50,8 +50,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	protected String implementName = "";
 	/** 派生元に戻して実装するモデルのリスト */
 	protected List<AbstractEntityModel> implementDerivationModels = new ArrayList<AbstractEntityModel>();
-	/** インデックスの実装情報 */
-	protected IndexModel indexModel;
+	/** キー定義情報 */
+	protected List<KeyModel> keyModels;
 
 	/**
 	 * @return the diagram
@@ -376,6 +376,16 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public void setImplementDerivationModels(
 			List<AbstractEntityModel> implementDerivationModels) {
 		this.implementDerivationModels = implementDerivationModels;
+	}
+
+	/**
+	 * @return the keyModels
+	 */
+	public List<KeyModel> getKeyModels() {
+		if (keyModels == null) {
+			keyModels = new ArrayList<KeyModel>();
+		}
+		return keyModels;
 	}
 
 	public abstract AbstractEntityModel getCopy();

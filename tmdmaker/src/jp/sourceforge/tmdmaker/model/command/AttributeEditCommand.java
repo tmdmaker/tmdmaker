@@ -81,7 +81,6 @@ public class AttributeEditCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		attribute.setName(editedValueAttribute.getName());
 		attribute.setDataTypeDeclaration(editedValueAttribute.getDataTypeDeclaration());
 		attribute.setDerivationRule(editedValueAttribute.getDerivationRule());
 		attribute.setDescription(editedValueAttribute.getDescription());
@@ -90,6 +89,7 @@ public class AttributeEditCommand extends Command {
 		attribute.setDataTypeDeclaration(editedValueAttribute.getDataTypeDeclaration());
 		attribute.setImplementName(editedValueAttribute.getImplementName());
 		attribute.setNullable(editedValueAttribute.isNullable());
+		attribute.setName(editedValueAttribute.getName());
 		if (entity != null) {
 			entity.setName(this.entity.getName());
 		}
@@ -102,7 +102,6 @@ public class AttributeEditCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		attribute.setName(oldValueAttribute.getName());
 		attribute.setDataTypeDeclaration(oldValueAttribute.getDataTypeDeclaration());
 		attribute.setDerivationRule(oldValueAttribute.getDerivationRule());
 		attribute.setDescription(oldValueAttribute.getDescription());
@@ -111,6 +110,7 @@ public class AttributeEditCommand extends Command {
 		attribute.setDataTypeDeclaration(oldValueAttribute.getDataTypeDeclaration());
 		attribute.setImplementName(oldValueAttribute.getImplementName());
 		attribute.setNullable(oldValueAttribute.isNullable());
+		attribute.setName(oldValueAttribute.getName());
 		if (entity != null) {
 			this.entity.setName(this.entity.getName());
 		}

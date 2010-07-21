@@ -15,14 +15,27 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.model.Diagram;
+import java.util.ArrayList;
+import java.util.List;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
+import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.dialog.GeneratorDialog;
+import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
+import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
+import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
+import jp.sourceforge.tmdmaker.generate.Generator;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.ModelElement;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.jface.action.Action;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
 
 /**
  * 設定されたGeneratorを実行するActoin
@@ -30,23 +43,47 @@ import org.eclipse.swt.widgets.DirectoryDialog;
  * @author nakaG
  * 
  */
-public class GenerateAction extends Action {
+public class GenerateAction extends SelectionAction {
 
 	private Generator generator;
 	private GraphicalViewer viewer;
 
 	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 * @param generator
+	 * @param part
 	 */
-	public GenerateAction(GraphicalViewer viewer, Generator generator) {
-		super();
-		this.viewer = viewer;
+	public GenerateAction(TMDEditor editor, GraphicalViewer viewer,
+			Generator generator) {
+		super(editor);
 		this.generator = generator;
-		setId(this.generator.getClass().getName());
-		setText(this.generator.getGeneratorName());
+		this.viewer = viewer;
+		setId(generator.getClass().getName());
+		setText(generator.getGeneratorName());
+	}
+
+	// /**
+	// * コンストラクタ
+	// *
+	// * @param viewer
+	// * ビューワ
+	// * @param generator
+	// * アクションから呼び出すGenerator
+	// */
+	// public GenerateAction(GraphicalViewer viewer, Generator generator) {
+	// super();
+	// this.viewer = viewer;
+	// this.generator = generator;
+	// setId(this.generator.getClass().getName());
+	// setText(this.generator.getGeneratorName());
+	// }
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 */
+	@Override
+	protected boolean calculateEnabled() {
+		return true;
 	}
 
 	/**
@@ -57,19 +94,86 @@ public class GenerateAction extends Action {
 	 */
 	@Override
 	public void run() {
-		Diagram diagram = (Diagram) viewer.getContents().getModel();
-		DirectoryDialog dialog = new DirectoryDialog(viewer.getControl()
-				.getShell(), SWT.SAVE);
-		String rootDir = dialog.open();
-		if (rootDir == null) {
-			return;
+		 Diagram diagram = (Diagram) viewer.getContents().getModel();
+		 List<AbstractEntityModel> selectedModels = getSelectedModelList();
+		 
+		GeneratorDialog dialog = new GeneratorDialog(getWorkbenchPart()
+				.getSite().getShell(), getSavePath(), generator
+				.getGeneratorName(), selectedModels, getNotSelectedModelList(diagram, selectedModels));
+		if (dialog.open() == Dialog.OK) {
+			try {
+				generator.execute(dialog.getSavePath(), dialog.getSelectedModels());
+//				generator.execute(dialog.getSavePath(), diagram);
+				TMDPlugin.showMessageDialog(generator.getGeneratorName()
+						+ " 完了");
+			} catch (Throwable t) {
+				TMDPlugin.showErrorDialog(t);
+			}
 		}
-		try {
-			generator.execute(rootDir, diagram);
-			TMDPlugin.showMessageDialog(generator.getGeneratorName() + " 完了");
-		} catch (Throwable t) {
-			TMDPlugin.showErrorDialog(t);
-		}
+		// Diagram diagram = (Diagram) viewer.getContents().getModel();
+		// DirectoryDialog dialog = new DirectoryDialog(viewer.getControl()
+		// .getShell(), SWT.SAVE);
+		// String rootDir = dialog.open();
+		// if (rootDir == null) {
+		// return;
+		// }
+		// try {
+		// generator.execute(rootDir, diagram);
+		// TMDPlugin.showMessageDialog(generator.getGeneratorName() + " 完了");
+		// } catch (Throwable t) {
+		// TMDPlugin.showErrorDialog(t);
+		// }
 	}
 
+	private String getSavePath() {
+		IFile file = ((IFileEditorInput) ((IEditorPart) getWorkbenchPart())
+				.getEditorInput()).getFile();
+		return file.getLocation().removeLastSegments(1).toOSString();
+	}
+	private List<AbstractEntityModel> getSelectedModelList() {
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		for (Object selection : getSelectedObjects()) {
+			if (selection instanceof AbstractEntityEditPart
+				&& !(selection instanceof SubsetTypeEditPart)
+				&& !(selection instanceof MultivalueAndAggregatorEditPart)
+				&& !(selection instanceof LaputaEditPart)) {
+				AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart) selection).getModel();
+				if (generator.isImplementModelOnly()) {
+					if (!model.isNotImplement()) {
+						list.add(model);
+					}
+				} else {
+					list.add(model);
+				}
+			}
+		}
+		return list;
+	}
+	private List<AbstractEntityModel> getNotSelectedModelList(Diagram diagram, List<AbstractEntityModel>selectedModels) {
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		List<AbstractEntityModel> target = diagram.findEntityModel();
+		list.removeAll(selectedModels);
+		if (generator.isImplementModelOnly()) {
+			for (AbstractEntityModel m : target) {
+				if (!m.isNotImplement()) {
+					list.add(m);
+				}
+			}
+		} else {
+			list.addAll(target);
+		}
+		list.removeAll(selectedModels);
+		return list;
+	}
+//	private List<AbstractEntityModel> getSelectedModelList() {
+//		Diagram diagram = (Diagram) viewer.getContents().getModel();
+//		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+//		
+//		for (ModelElement m : getDiagram()) {
+//			if (m instanceof AbstractEntityModel && !m.equals(superset)
+//					&& !selection.contains(m)) {
+//				notSelection.add((AbstractEntityModel) m);
+//			}
+//		}
+//	}
 }

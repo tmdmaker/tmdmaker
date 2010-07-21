@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.generate;
 
+import java.util.List;
+
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 
 /**
@@ -39,6 +42,13 @@ public interface Generator {
 	String getGeneratorName();
 
 	/**
+	 * 実装モデルだけを出力対象とするか？
+	 * 
+	 * @return 実装モデルだけを対照とする場合にtrueを返す。
+	 */
+	boolean isImplementModelOnly();
+
+	/**
 	 * 生成処理実行
 	 * 
 	 * @param rootDir
@@ -46,5 +56,7 @@ public interface Generator {
 	 * @param diagram
 	 *            ダイアグラム
 	 */
+	@Deprecated
 	void execute(String rootDir, Diagram diagram);
+	void execute(String rootDir, List<AbstractEntityModel> models);
 }

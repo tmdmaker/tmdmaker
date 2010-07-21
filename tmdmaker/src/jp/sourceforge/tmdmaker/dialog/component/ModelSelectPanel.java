@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.List;
  * @author nakaG
  *
  */
-public class OtherModelSelectPanel extends Composite {
+public class ModelSelectPanel extends Composite {
 	private java.util.List<AbstractEntityModel> selectModels = null;  //  @jve:decl-index=0:
 	private java.util.List<AbstractEntityModel> notSelectModels = null;  //  @jve:decl-index=0:
 	private List selectedList = null;
@@ -43,7 +43,7 @@ public class OtherModelSelectPanel extends Composite {
 	private Button selectAllButton = null;
 	private Button removeAllButton = null;
 
-	public OtherModelSelectPanel(Composite parent, int style) {
+	public ModelSelectPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
 	}
@@ -68,13 +68,13 @@ public class OtherModelSelectPanel extends Composite {
 		GridData gridData1 = new GridData();
 		gridData1.verticalSpan = 4;
 		gridData1.verticalAlignment = GridData.FILL;
-		gridData1.widthHint = 100;
+		gridData1.widthHint = 150;
 		gridData1.horizontalAlignment = GridData.BEGINNING;
 		GridData gridData = new GridData();
 		gridData.grabExcessVerticalSpace = false;
 		gridData.horizontalAlignment = GridData.BEGINNING;
 		gridData.verticalAlignment = GridData.FILL;
-		gridData.widthHint = 100;
+		gridData.widthHint = 150;
 		gridData.verticalSpan = 4;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
@@ -166,7 +166,7 @@ public class OtherModelSelectPanel extends Composite {
 					}
 				});
 		this.setLayout(gridLayout);
-		this.setSize(new Point(296, 130));
+		this.setSize(new Point(396, 130));
 	}
 	public void initializeValue(java.util.List<AbstractEntityModel> selectModels, java.util.List<AbstractEntityModel> notSelectModels) {
 		this.selectModels = selectModels;

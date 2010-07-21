@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.dialog.IndexEditDialog;
+
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -33,7 +36,6 @@ public class IndexSettingPanel extends Composite {
 	private Table indexTable = null;
 	private Button addButton = null;
 	private Button deleteButton = null;
-
 	public IndexSettingPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
@@ -52,8 +54,18 @@ public class IndexSettingPanel extends Composite {
 		indexTable.setLinesVisible(true);
 		addButton = new Button(this, SWT.NONE);
 		addButton.setText("追加");
+		addButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
+				IndexEditDialog dialog = new IndexEditDialog(getShell());
+				if (dialog.open() == Dialog.OK) {
+					
+				}
+			}
+		});
 		deleteButton = new Button(this, SWT.NONE);
 		deleteButton.setText("削除");
+		
 		TableColumn tableColumn = new TableColumn(indexTable, SWT.NONE);
 		tableColumn.setWidth(150);
 		tableColumn.setText("実装名");

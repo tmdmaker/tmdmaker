@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoEditPanel;
 import jp.sourceforge.tmdmaker.dialog.component.IndexSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.component.OtherModelSelectPanel;
+import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
@@ -65,7 +65,7 @@ public class ImplementInfoEditDialog extends Dialog {
 	private List<EditImplementAttribute> editedValueIdentifieres = new ArrayList<EditImplementAttribute>();
 
 	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
-	private OtherModelSelectPanel panel2;
+	private ModelSelectPanel panel2;
 	private IndexSettingPanel panel3;
 
 	private Button updateButton;
@@ -140,7 +140,7 @@ public class ImplementInfoEditDialog extends Dialog {
 		panel1.setLayoutData(gridData);
 		
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel2 = new OtherModelSelectPanel(composite, SWT.NULL);
+		panel2 = new ModelSelectPanel(composite, SWT.NULL);
 		
 		List<AbstractEntityModel> selectModels = model.getImplementDerivationModels();
 		List<AbstractEntityModel> notSelectModels = ImplementRule.findImplementModel(model);
