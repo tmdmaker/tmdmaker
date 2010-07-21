@@ -32,12 +32,15 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.PlatformUI;
 
 /**
+ * ダイアグラムを画像として保存するAction
  * 
  * @author nakaG
  * 
  */
 public class DiagramImageSaveAction extends Action {
+	/** ビューワ */
 	private GraphicalViewer viewer;
+	/** ID */
 	public static final String ID = "DiagramImageSaveAction";
 
 	/**
@@ -77,6 +80,11 @@ public class DiagramImageSaveAction extends Action {
 					rectangle.height + 50);
 			GC gc = new GC(image);
 			SWTGraphics graphics = new SWTGraphics(gc);
+			// 一部画像が表示されないための対策。何故この処理なのかは良く分かっていない・・・
+			// 参照URL
+			// http://www.eclipse.org/forums/index.php?t=msg&th=168154&start=0&
+			graphics.translate(rectangle.x * -1, rectangle.y * -1);
+
 			figure.paint(graphics);
 
 			ImageLoader loader = new ImageLoader();
