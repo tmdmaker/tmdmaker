@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.generate;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -25,6 +26,8 @@ import java.io.StringWriter;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.log.NullLogChute;
 
 /**
  * HtmlGeneratorのUtilityクラス
@@ -43,7 +46,7 @@ public class GeneratorUtils {
 	 * @param output
 	 *            出力先ファイル
 	 * @param context
-	 *            VelociryContext
+	 *            VelocityContext
 	 * @throws Exception
 	 *             I/O系例外やVelocityの例外
 	 */
@@ -99,4 +102,28 @@ public class GeneratorUtils {
 			}
 		}
 	}
+	/**
+	 * 
+	 * @return VelocityContext
+	 */
+	public static VelocityContext getVecityContext() {
+		Velocity.addProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+				NullLogChute.class.getName());
+		try {
+			Velocity.init();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HtmlGeneratorRuntimeException(e);
+		}
+		System.out.println("init");
+		VelocityContext context = new VelocityContext();
+		context.put("esc", new EscapeTool());
+		return context;
+	}
+	public static void outputCSS(String rootDir) throws IOException {
+		GeneratorUtils.copyStream(Activator.class
+				.getResourceAsStream("stylesheet.css"), new FileOutputStream(
+				new File(rootDir, "stylesheet.css")));
+	}
+
 }

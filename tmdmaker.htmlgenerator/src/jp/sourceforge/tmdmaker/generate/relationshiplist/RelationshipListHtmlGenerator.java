@@ -71,6 +71,60 @@ public class RelationshipListHtmlGenerator implements Generator {
 	}
 
 	/**
+	 * {inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String,
+	 *      java.util.List)
+	 */
+	@Override
+	public void execute(String rootDir, List<AbstractEntityModel> models) {
+		System.out.println("generate");
+		VelocityContext context = GeneratorUtils.getVecityContext();
+
+		Map<AbstractEntityModel, List<RelationshipMapping>> relationshipMappingMap = createData(models);
+
+		context.put("entities", relationshipMappingMap.keySet());
+		context.put("mappings", relationshipMappingMap.entrySet());
+		try {
+			GeneratorUtils.outputCSS(rootDir);
+			GeneratorUtils.applyTemplate("relationship_list.html", this
+					.getClass(), new File(rootDir, "relationship_list.html"),
+					context);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HtmlGeneratorRuntimeException(e);
+		}
+		try {
+			GeneratorUtils.copyStream(Activator.class
+					.getResourceAsStream("stylesheet.css"),
+					new FileOutputStream(new File(rootDir, "stylesheet.css")));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new HtmlGeneratorRuntimeException(e);
+		}
+
+	}
+	/**
+	 * 出力用データを作成する
+	 * 
+	 * @param diagram
+	 *            ダイアグラム
+	 * @return 出力用データ
+	 */
+	private Map<AbstractEntityModel, List<RelationshipMapping>> createData(
+			List<AbstractEntityModel> models) {
+		Map<AbstractEntityModel, List<RelationshipMapping>> relationshipMappingMap = new LinkedHashMap<AbstractEntityModel, List<RelationshipMapping>>();
+		for (AbstractEntityModel source : models) {
+			List<RelationshipMapping> relationshipMappingList = new ArrayList<RelationshipMapping>();
+			for (AbstractEntityModel target : models) {
+				relationshipMappingList.add(new RelationshipMapping(source,
+						target));
+			}
+			relationshipMappingMap.put(source, relationshipMappingList);
+		}
+		return relationshipMappingMap;
+	}
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
@@ -106,8 +160,8 @@ public class RelationshipListHtmlGenerator implements Generator {
 		}
 		try {
 			GeneratorUtils.copyStream(Activator.class
-					.getResourceAsStream("stylesheet.css"), new FileOutputStream(
-					new File(rootDir, "stylesheet.css")));
+					.getResourceAsStream("stylesheet.css"),
+					new FileOutputStream(new File(rootDir, "stylesheet.css")));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new HtmlGeneratorRuntimeException(e);
@@ -134,4 +188,15 @@ public class RelationshipListHtmlGenerator implements Generator {
 		}
 		return relationshipMappingMap;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.generate.Generator#isImplementModelOnly()
+	 */
+	@Override
+	public boolean isImplementModelOnly() {
+		return false;
+	}
+
 }
