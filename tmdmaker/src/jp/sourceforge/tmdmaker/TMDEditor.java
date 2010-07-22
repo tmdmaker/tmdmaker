@@ -217,7 +217,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			diagram = (Diagram) XStreamSerializer.deserialize(file
 					.getContents(), this.getClass().getClassLoader());
 		} catch (Exception e) {
-			logger.warn("load error.", e);
+			TMDPlugin.showErrorDialog("読み込み時にエラーが発生しました。", e);
 			diagram = new Diagram();
 		}
 		Version version = getPluginVersion();
@@ -304,14 +304,17 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		try {
 			file.deleteMarkers(IMarker.PROBLEM, false, 0);
 		} catch (CoreException e) {
+			TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
 			logger.warn("IFile#deleteMarkers()." + e);
 		}
 		try {
 			file.setContents(XStreamSerializer.serializeStream(diagram, this
 					.getClass().getClassLoader()), true, true, monitor);
 		} catch (UnsupportedEncodingException e) {
+			TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
 			logger.warn("IFile#setContents().", e);
 		} catch (CoreException e) {
+			TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
 			logger.warn("IFile#setContents().", e);
 		}
 		getCommandStack().markSaveLocation();
@@ -360,8 +363,10 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 												.getClassLoader()), true,
 										monitor);
 							} catch (UnsupportedEncodingException e) {
+								TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
 								logger.warn("IFile#setContents().", e);
 							} catch (CoreException e) {
+								TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
 								logger.warn("IFile#setContents().", e);
 							}
 							getCommandStack().markSaveLocation();

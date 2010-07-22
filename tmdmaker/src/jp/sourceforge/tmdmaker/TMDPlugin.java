@@ -118,14 +118,25 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 *            表示対象の例外
 	 */
 	public static void showErrorDialog(Throwable t) {
+		showErrorDialog("エラーが発生しました", t);
+	}
+
+	/**
+	 * エラーダイアログ表示
+	 * 
+	 * @param message
+	 *            ダイアログに表示するメッセージ
+	 * @param t
+	 *            表示対象の例外
+	 */
+	public static void showErrorDialog(String message, Throwable t) {
 		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, 0,
 				t.getMessage(), t);
 
 		log(t);
 
 		ErrorDialog.openError(PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getShell(), "エラー", "エラーが発生しました",
-				status);
+				.getActiveWorkbenchWindow().getShell(), "エラー", message, status);
 	}
 
 }
