@@ -28,15 +28,18 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
+import jp.sourceforge.tmdmaker.model.EditKeyModel;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
+import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -63,7 +66,7 @@ public class ImplementInfoEditDialog extends Dialog {
 	private AbstractEntityModel editedValueEntity;
 	private List<EditImplementAttribute> editedValueAttributes = new ArrayList<EditImplementAttribute>();
 	private List<EditImplementAttribute> editedValueIdentifieres = new ArrayList<EditImplementAttribute>();
-
+	private List<EditKeyModel> editedKeyModels = new ArrayList<EditKeyModel>();
 	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
 	private ModelSelectPanel panel2;
 	private IndexSettingPanel panel3;
@@ -97,16 +100,19 @@ public class ImplementInfoEditDialog extends Dialog {
 				editAttributeList.add(new EditImplementAttribute(model, ref));
 			}
 		}
+		// attributeをカラムとして追加
 		for (Attribute a : model.getAttributes()) {
 			editAttributeList.add(new EditImplementAttribute(model, a));
 		}
-		for (AbstractEntityModel m : ImplementRule.findImplementModel(model)) {
+		// 対象モデルを元とした実装しないモデル（サブセット、みなしエンティティ）のattributeを抽出
+		for (AbstractEntityModel m : ImplementRule.findNotImplementModel(model)) {
 			List<EditImplementAttribute> list = new ArrayList<EditImplementAttribute>();
 			for (Attribute a : m.getAttributes()) {
 				list.add(new EditImplementAttribute(m, a));
 			}
 			otherModelAttributesMap.put(m, list);			
 		}
+		// 対象モデルに戻して実装するモデルが保持するattributeを抽出
 		if (model.getImplementDerivationModels() != null) {
 			for (AbstractEntityModel m : model.getImplementDerivationModels()) {
 				List<EditImplementAttribute> list = otherModelAttributesMap.get(m);
@@ -115,6 +121,17 @@ public class ImplementInfoEditDialog extends Dialog {
 				}
 			}
 		}
+		// 対象モデルのキーを抽出
+		if (model.getKeyModels() != null) {
+			for (KeyModel km : model.getKeyModels()) {
+				editedKeyModels.add(new EditKeyModel(km));
+			}
+		}
+//		for (EditImplementAttribute ea : editAttributeList) {
+//			for (EditKeyModel ek : editedKeyModels) {
+//				ea.addEditKeyModel(ek);
+//			}
+//		}
 	}
 	/**
 	 * {@inheritDoc}
@@ -125,6 +142,24 @@ public class ImplementInfoEditDialog extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("実装情報編集");
 		TabFolder tabFolder = new TabFolder(parent, SWT.NULL);
+		tabFolder.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				if (((TabItem)e.item).getText().equals("キー定義")) {
+					System.out.println(e.data);
+					panel3.updateTable();
+				}
+			}
+			
+		});
 		// １つめのタブを作成
 		TabItem item1 = new TabItem(tabFolder, SWT.NULL);
 		item1.setText("テーブル設計");
@@ -143,7 +178,7 @@ public class ImplementInfoEditDialog extends Dialog {
 		panel2 = new ModelSelectPanel(composite, SWT.NULL);
 		
 		List<AbstractEntityModel> selectModels = model.getImplementDerivationModels();
-		List<AbstractEntityModel> notSelectModels = ImplementRule.findImplementModel(model);
+		List<AbstractEntityModel> notSelectModels = ImplementRule.findNotImplementModel(model);
 		notSelectModels.removeAll(selectModels);
 		panel2.initializeValue(selectModels, notSelectModels);
 		panel2.setLayoutData(gridData);
@@ -181,14 +216,13 @@ public class ImplementInfoEditDialog extends Dialog {
 //				}
 				System.out.println("update");
 				panel1.initializeValue(model, editAttributeList);
+				panel3.initializeValue(editAttributeList, editedKeyModels);
 			}
-			
 		});
-		
+
 		// ２つめのタブを作成
 		TabItem item2 = new TabItem(tabFolder, SWT.NULL);
 		item2.setText("キー定義");
-		
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		composite =	new Composite(tabFolder, SWT.NULL);
@@ -196,7 +230,7 @@ public class ImplementInfoEditDialog extends Dialog {
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel3 = new IndexSettingPanel(composite, SWT.NULL);
 		panel3.setLayoutData(gridData);
-
+		panel3.initializeValue(editAttributeList, editedKeyModels);
 		item2.setControl(composite);
 		
 		
@@ -213,11 +247,17 @@ public class ImplementInfoEditDialog extends Dialog {
 		editedValueEntity = model.getCopy();
 		editedValueEntity.setImplementName(panel1.getImplementName());
 		editedValueEntity.setImplementDerivationModels(panel2.getSelectModels());
+		
+		List<KeyModel> keyModels = new ArrayList<KeyModel>();
+		for (EditKeyModel km : editedKeyModels) {
+			keyModels.add(km.createEditedValue());
+		}
+		editedValueEntity.setKeyModels(keyModels);
 		createEditAttributeResult();
 
 		super.okPressed();
 	}
-
+	
 	private void createEditAttributeResult() {
 		for (EditImplementAttribute ea : panel1.getAttributes()) {
 			if (ea.isEdited()) {

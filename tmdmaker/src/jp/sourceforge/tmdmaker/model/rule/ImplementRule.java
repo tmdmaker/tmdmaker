@@ -39,20 +39,20 @@ public class ImplementRule {
 	 *            派生元
 	 * @return 実装しない派生モデルのリスト。対象が存在しない場合は空リストを返す。
 	 */
-	public static List<AbstractEntityModel> findImplementModel(
+	public static List<AbstractEntityModel> findNotImplementModel(
 			AbstractEntityModel model) {
 		List<AbstractEntityModel> subsets = new ArrayList<AbstractEntityModel>();
 		List<AbstractEntityModel> ves = new ArrayList<AbstractEntityModel>();
 		List<AbstractEntityModel> results = new ArrayList<AbstractEntityModel>();
 		// 実装しない設定になっているサブセットを抽出
-		findSubset(subsets, model);
+		findNotImplementSubset(subsets, model);
 
 		// 実装しない設定になっているVEを抽出
-		findVirtualEntity(ves, model);
+		findNotImplementVirtualEntity(ves, model);
 
 		// サブセットにVEが存在する場合を考慮
 		for (AbstractEntityModel m : subsets) {
-			findVirtualEntity(ves, m);
+			findNotImplementVirtualEntity(ves, m);
 		}
 		results.addAll(subsets);
 		results.addAll(ves);
@@ -60,7 +60,7 @@ public class ImplementRule {
 		return results;
 	}
 
-	private static void findSubset(List<AbstractEntityModel> results,
+	private static void findNotImplementSubset(List<AbstractEntityModel> results,
 			AbstractEntityModel model) {
 		SubsetType type = model.findSubsetType();
 		if (type == null) {
@@ -73,11 +73,11 @@ public class ImplementRule {
 			if (subset.isNotImplement()) {
 				results.add(subset);
 			}
-			findSubset(results, subset);
+			findNotImplementSubset(results, subset);
 		}
 	}
 
-	private static void findVirtualEntity(List<AbstractEntityModel> results,
+	private static void findNotImplementVirtualEntity(List<AbstractEntityModel> results,
 			AbstractEntityModel model) {
 		for (AbstractConnectionModel connection : model
 				.getModelSourceConnections()) {
@@ -87,7 +87,7 @@ public class ImplementRule {
 				if (ve.isNotImplement()) {
 					results.add(ve);
 				}
-				findVirtualEntity(results, ve);
+				findNotImplementVirtualEntity(results, ve);
 			}
 		}
 	}

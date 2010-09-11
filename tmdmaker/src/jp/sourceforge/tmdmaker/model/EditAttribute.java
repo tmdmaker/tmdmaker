@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
+
 /**
  * 編集用アトリビュート
  * 
@@ -63,18 +65,18 @@ public class EditAttribute {
 	public EditAttribute(Attribute original) {
 		this.originalAttribute = original;
 
-		this.name = toBlankStringIfNull(original.getName());
-		this.description = toBlankStringIfNull(original.getDescription());
-		this.derivationRule = toBlankStringIfNull(original.getDerivationRule());
-		this.lock = toBlankStringIfNull(original.getLock());
-		this.validationRule = toBlankStringIfNull(original.getValidationRule());
-		this.implementName = toBlankStringIfNull(original.getImplementName());
+		this.name = ModelEditUtils.toBlankStringIfNull(original.getName());
+		this.description = ModelEditUtils.toBlankStringIfNull(original.getDescription());
+		this.derivationRule = ModelEditUtils.toBlankStringIfNull(original.getDerivationRule());
+		this.lock = ModelEditUtils.toBlankStringIfNull(original.getLock());
+		this.validationRule = ModelEditUtils.toBlankStringIfNull(original.getValidationRule());
+		this.implementName = ModelEditUtils.toBlankStringIfNull(original.getImplementName());
 		DataTypeDeclaration dataTypeDeclaration = original
 				.getDataTypeDeclaration();
 		if (dataTypeDeclaration != null) {
 			this.dataType = dataTypeDeclaration.getLogicalType();
-			this.size = toBlankIfNull(dataTypeDeclaration.getSize());
-			this.scale = toBlankIfNull(dataTypeDeclaration.getScale());
+			this.size = ModelEditUtils.toBlankIfNull(dataTypeDeclaration.getSize());
+			this.scale = ModelEditUtils.toBlankIfNull(dataTypeDeclaration.getScale());
 		} else {
 			this.dataType = null;
 			this.size = "";
@@ -291,14 +293,14 @@ public class EditAttribute {
 			Integer scale = null;
 			if (dataType.isSupportSize()) {
 				if (this.size.length() != 0) {
-					size = toInteger(this.size);
+					size = ModelEditUtils.toInteger(this.size);
 				}
 			} else {
 				size = null;
 			}
 			if (dataType.isSupportScale()) {
 				if (this.scale.length() != 0) {
-					scale = toInteger(this.scale);
+					scale = ModelEditUtils.toInteger(this.scale);
 				}
 			} else {
 				scale = null;
@@ -335,24 +337,4 @@ public class EditAttribute {
 		copyTo(originalAttribute);
 	}
 
-	/**
-	 * 
-	 * @param value
-	 *            文字列をintへ変換する。
-	 * @return Integer 変換エラー時は0を返す。
-	 */
-	private Integer toInteger(String value) {
-		try {
-			return Integer.valueOf(value);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			return 0;
-		}
-	}
-	private String toBlankIfNull(Integer value) {
-		return value == null ? "" : String.valueOf(value);
-	}
-	private String toBlankStringIfNull(String value) {
-		return value == null ? "" : value;
-	}
 }

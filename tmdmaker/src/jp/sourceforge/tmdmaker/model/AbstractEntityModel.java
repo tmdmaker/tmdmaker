@@ -356,6 +356,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		to.setImplementName(getImplementName());
 		to.setAttributes(getAttributes());
 		to.setImplementDerivationModels(getImplementDerivationModels());
+		to.setKeyModels(getKeyModels());
 		to.setName(getName());
 	}
 
@@ -383,9 +384,16 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public List<KeyModel> getKeyModels() {
 		if (keyModels == null) {
-			keyModels = new ArrayList<KeyModel>();
+			return new ArrayList<KeyModel>();
 		}
-		return keyModels;
+		return new ArrayList<KeyModel>(keyModels);
+	}
+	
+	/**
+	 * @param keyModels the keyModels to set
+	 */
+	public void setKeyModels(List<KeyModel> keyModels) {
+		this.keyModels = keyModels;
 	}
 
 	public abstract AbstractEntityModel getCopy();

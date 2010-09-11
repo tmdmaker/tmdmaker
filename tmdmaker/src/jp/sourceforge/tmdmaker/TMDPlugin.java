@@ -19,7 +19,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -60,8 +62,10 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		plugin = null;
 		super.stop(context);
+//		imageRegistryの後片付けはsuper.stop()で実施
+//		getImageRegistry().dispose();
+		plugin = null;
 	}
 
 	/**
@@ -139,4 +143,13 @@ public class TMDPlugin extends AbstractUIPlugin {
 				.getActiveWorkbenchWindow().getShell(), "エラー", message, status);
 	}
 
+	public static Image getImage(String path) {
+		ImageRegistry images = getDefault().getImageRegistry();
+		Image image = images.get(path);
+		if(image == null){
+			image = getImageDescriptor(path).createImage();
+			images.put(path, image);
+		}
+		return image;
+	}
 }

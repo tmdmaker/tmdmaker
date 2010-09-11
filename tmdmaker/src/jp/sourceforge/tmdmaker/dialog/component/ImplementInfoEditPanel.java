@@ -18,7 +18,6 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
@@ -370,7 +369,7 @@ public class ImplementInfoEditPanel extends Composite {
 		
 	}
 	private void setData(int columnIndex, String value) {
-		EditAttribute a = attributes.get(tableSelectedIndex);
+		EditImplementAttribute a = attributes.get(tableSelectedIndex);
 		
 		switch (columnIndex) {
 			case COLUMN_NO_ATTRIBUTE_NAME:

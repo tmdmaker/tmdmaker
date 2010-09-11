@@ -15,10 +15,18 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import java.util.ArrayList;
+
+import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.dialog.IndexEditDialog;
+import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
+import jp.sourceforge.tmdmaker.model.EditKeyModel;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -26,25 +34,36 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
 /**
  * @author nakaG
  *
  */
 public class IndexSettingPanel extends Composite {
-
+	private int selectColumnIndex = -1;
+	private java.util.List<EditImplementAttribute> attributes;  //  @jve:decl-index=0:
+	private java.util.List<EditKeyModel> keyModels;  //  @jve:decl-index=0:
 	private Table indexTable = null;
 	private Button addButton = null;
 	private Button deleteButton = null;
+	private Button updateButton = null;
+	
 	public IndexSettingPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
 	}
 
 	private void initialize() {
+		GridData gridData1 = new GridData();
+		gridData1.horizontalAlignment = GridData.CENTER;
+		gridData1.verticalAlignment = GridData.BEGINNING;
 		GridData gridData = new GridData();
-		gridData.horizontalAlignment = GridData.BEGINNING;
-		gridData.verticalSpan = 2;
+		gridData.horizontalAlignment = GridData.FILL;
+		gridData.verticalSpan = 3;
+		gridData.grabExcessVerticalSpace = false;
+		gridData.heightHint = 150;
+		gridData.grabExcessHorizontalSpace = true;
 		gridData.verticalAlignment = GridData.FILL;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
@@ -54,26 +73,170 @@ public class IndexSettingPanel extends Composite {
 		indexTable.setLinesVisible(true);
 		addButton = new Button(this, SWT.NONE);
 		addButton.setText("追加");
+		updateButton = new Button(this, SWT.NONE);
+		updateButton.setText("更新");
+		updateButton
+				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
+						if (selectColumnIndex == -1) {
+							return;
+						}
+						EditKeyModel model = new EditKeyModel(keyModels.get(selectColumnIndex));
+						java.util.List<Attribute> notSelectedAttributes = new ArrayList<Attribute>();
+						for (EditImplementAttribute ea : attributes) {
+							notSelectedAttributes.add(ea.getOriginalAttribute());
+						}
+						IndexEditDialog dialog = new IndexEditDialog(getShell(), model,attributes);
+						if (dialog.open() == Dialog.OK) {
+							EditKeyModel keyModel = dialog.getKeyModel();
+							keyModels.remove(selectColumnIndex);
+							keyModels.add(selectColumnIndex, keyModel);
+							for (EditImplementAttribute ea : attributes) {
+								ea.replaceEditKeyModel(selectColumnIndex, keyModel);
+							}
+							updateTable();
+						}
+					}
+				});
+		deleteButton = new Button(this, SWT.NONE);
+		deleteButton.setText("削除");
+		deleteButton.setLayoutData(gridData1);
+		deleteButton
+				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
+						if (selectColumnIndex == -1) {
+							return;
+						}
+						indexTable.getColumn(keyModels.size()).dispose();
+						keyModels.remove(selectColumnIndex);
+						for (EditImplementAttribute ea : attributes) {
+							ea.removeEditKyeModel(selectColumnIndex);
+						}
+						updateTable();
+					}
+				});
 		addButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-				IndexEditDialog dialog = new IndexEditDialog(getShell());
+				java.util.List<Attribute> notSelectedAttributes = new ArrayList<Attribute>();
+				for (EditImplementAttribute ea : attributes) {
+					notSelectedAttributes.add(ea.getOriginalAttribute());
+				}
+				IndexEditDialog dialog = new IndexEditDialog(getShell(), attributes);
 				if (dialog.open() == Dialog.OK) {
-					
+					EditKeyModel keyModel = dialog.getKeyModel();
+					keyModels.add(keyModel);
+					for (EditImplementAttribute ea : attributes) {
+						ea.addEditKeyModel(keyModel);
+					}
+					TableColumn tableColumn = new TableColumn(indexTable, SWT.NONE);
+					tableColumn.setWidth(60);
+					tableColumn.setAlignment(SWT.CENTER);
+					tableColumn.setText(String.valueOf(keyModels.size()));
+					tableColumn.addSelectionListener(new SelectionAdapter() {
+
+						/**
+						 * {@inheritDoc}
+						 * 
+						 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+						 */
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							// TODO Auto-generated method stub
+//							super.widgetSelected(e);
+							TableColumn selectColumn = (TableColumn)e.widget;
+							
+							System.out.println("select column is " + selectColumn.getText());
+							TableColumn[] columns = indexTable.getColumns();
+							selectColumnIndex = -1;
+							for (int i = 0;i < columns.length; i++) {
+								columns[i].setImage(null);
+								if (columns[i].equals(selectColumn)) {
+									// 1列目（i=0)は実装名カラムのため2列目からがキーモデルのindexとなる
+									selectColumnIndex = i - 1;
+								}
+							}
+							selectColumn.setImage(TMDPlugin.getImage("icons/column_select.gif"));
+						}
+						
+					});
+					updateTable();
 				}
 			}
 		});
-		deleteButton = new Button(this, SWT.NONE);
-		deleteButton.setText("削除");
 		
 		TableColumn tableColumn = new TableColumn(indexTable, SWT.NONE);
 		tableColumn.setWidth(150);
 		tableColumn.setText("実装名");
-		TableColumn tableColumn1 = new TableColumn(indexTable, SWT.NONE);
-		tableColumn1.setWidth(60);
-		tableColumn1.setText("M/N");
+//		TableColumn tableColumn1 = new TableColumn(indexTable, SWT.NONE);
+//		tableColumn1.setWidth(60);
+//		tableColumn1.setText("M/N");
 		this.setLayout(gridLayout);
-		setSize(new Point(300, 200));
+		this.setSize(new Point(318, 176));
 	}
+	public void initializeValue(java.util.List<EditImplementAttribute> attributes, java.util.List<EditKeyModel> keyModels) {
+		this.attributes = attributes;
+		this.keyModels = keyModels;
+		for (EditImplementAttribute ea : attributes) {
+			ea.removeAllEditKeyModel();
+			for (EditKeyModel ek : keyModels) {
+				ea.addEditKeyModel(ek);
+			}
+		}
+		int keyModelSize = this.keyModels.size();
+		int columnSize = indexTable.getColumnCount() -1;
+		System.out.println("keyModelSize="+keyModelSize);
+		System.out.println("columnSize="+columnSize);
+		
+		for (int i = columnSize; i < keyModelSize; i++) {
+			TableColumn tableColumn = new TableColumn(indexTable, SWT.NONE);
+			tableColumn.setWidth(60);
+			tableColumn.setAlignment(SWT.CENTER);
+			tableColumn.setText(String.valueOf(i + 1));
+			tableColumn.addSelectionListener(new SelectionAdapter() {
 
-}
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+				 */
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					// TODO Auto-generated method stub
+//					super.widgetSelected(e);
+					TableColumn selectColumn = (TableColumn)e.widget;
+					
+					System.out.println("select column is " + selectColumn.getText());
+					TableColumn[] columns = indexTable.getColumns();
+					selectColumnIndex = -1;
+					for (int i = 0;i < columns.length; i++) {
+						columns[i].setImage(null);
+						if (columns[i].equals(selectColumn)) {
+							// 1列目（i=0)は実装名カラムのため2列目からがキーモデルのindexとなる
+							selectColumnIndex = i - 1;
+						}
+					}
+					selectColumn.setImage(TMDPlugin.getImage("icons/column_select.gif"));
+				}
+				
+			});
+	
+		}
+		updateTable();
+	}
+	public void updateTable() {
+		indexTable.removeAll();
+		
+		for (EditImplementAttribute attribute : attributes) {
+			TableItem item = new TableItem(indexTable, SWT.NONE);
+			item.setText(0, attribute.getImplementName());
+			java.util.List<String> keyOrders = attribute.getKeyOrders();
+			int size = keyOrders.size();
+			for (int i = 0;i < size; i++) {
+				item.setText(i + 1, keyOrders.get(i));
+			}
+		}		
+	}
+ }  //  @jve:decl-index=0:visual-constraint="0,0"
