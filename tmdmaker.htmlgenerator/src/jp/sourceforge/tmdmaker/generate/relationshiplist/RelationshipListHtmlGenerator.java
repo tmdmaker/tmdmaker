@@ -39,7 +39,7 @@ import org.apache.velocity.runtime.log.NullLogChute;
 /**
  * 関係の検証表をHTML形式で生成するクラス
  * 
- * @author hiro
+ * @author nakaG
  * 
  */
 public class RelationshipListHtmlGenerator implements Generator {

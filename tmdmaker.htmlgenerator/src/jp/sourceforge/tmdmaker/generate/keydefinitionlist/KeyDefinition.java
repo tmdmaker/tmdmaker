@@ -19,10 +19,8 @@ import jp.sourceforge.tmdmaker.model.KeyModel;
  *
  */
 public class KeyDefinition {
-	private AbstractEntityModel model;
-	private Map<Attribute,List<Boolean>> attributeMap = new LinkedHashMap<Attribute, List<Boolean>>();
-	public KeyDefinition(AbstractEntityModel model) {
-		this.model = model;
+
+	public Map<Attribute, List<KeyDefinitionMapping>> createDate(AbstractEntityModel model) {
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		if (model instanceof Entity) {
 			attributes.add(((Entity)model).getIdentifier());
@@ -31,13 +29,19 @@ public class KeyDefinition {
 			attributes.add(((Detail)model).getDetailIdentifier());
 		}
 		attributes.addAll(model.getAttributes());
-		
-		for (Attribute a : attributes) {
-			List<Boolean> list = new ArrayList<Boolean>();
-			for (KeyModel k : model.getKeyModels()) {
-				list.add(k.getAttributes().contains(a));
-			}
+		// 派生元に戻して実装するモデルのアトリビュートを取得
+		for (AbstractEntityModel m : model.getImplementDerivationModels()) {
+			attributes.addAll(m.getAttributes());
 		}
+		Map<Attribute, List<KeyDefinitionMapping>> data = new LinkedHashMap<Attribute, List<KeyDefinitionMapping>>();
+		for (Attribute a : attributes) {
+			List<KeyDefinitionMapping> list = new ArrayList<KeyDefinitionMapping>();
+			for (KeyModel k : model.getKeyModels()) {
+				list.add(new KeyDefinitionMapping(a, k));
+			}
+			data.put(a, list);
+		}
+		return data;
 	}
 
 }

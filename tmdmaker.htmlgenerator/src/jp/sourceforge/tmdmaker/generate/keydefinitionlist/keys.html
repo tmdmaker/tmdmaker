@@ -22,40 +22,26 @@
 <body onload="setTitle()">
 <script type="text/javascript">
 function setTitle(){
-  parent.document.title="$attribute.name";
+  parent.document.title="$entity.name";
 }
 </script>
 
-<table width="100%" border="1" cellpadding="3" cellspacing="0" >
-  <tr class="TableHeadingColor">
-    <td colspan="3"><strong>キー定義書</strong></td>
-  </tr>
-  <tr>
-    <td width="30%" align="left" nowrap><strong>アトリビュート名称 </strong></td>
-    <td colspan="2">$esc.html($attribute.name)</td>
-  </tr>
-  <tr>
-    <td width="30%" align="left" nowrap><strong>所属エンティティ</strong></td>
-    <td>$esc.html($entity.name)</td>
-    <td>$!esc.html2($entityType)</td>
-  </tr>
-  <tr>
-    <td width="30%" align="left" nowrap><strong>摘要</strong></td>
-    <td colspan="2">$!esc.html2($attribute.description)</td>
-  </tr>
-  <tr>
-    <td width="30%" align="left" nowrap><strong>前提</strong></td>
-    <td colspan="2">$!esc.html2($attribute.validationRule)</td>
-  </tr>
-  <tr>
-    <td width="30%" align="left" nowrap><strong>機密性</strong></td>
-    <td colspan="2">$!esc.html2($attribute.lock)</td>
-  </tr>
-  <tr>
-    <td width="30%" align="left" nowrap><strong>計算式</strong></td>
-    <td colspan="2">$!esc.html2($attribute.derivationRule)</td>
-  </tr>
-</table>
+    <table border="1" cellpadding="3" cellspacing="0" >
+      <tr>
+        <th>アトリビュート名称</th>
+#foreach($key in $keys)
+  	    <th>$esc.html($velocityCount)</th>
+#end
+      </tr>
+#foreach($mapping in $mappings)
+  	  <tr>
+        <td>$esc.html($mapping.key.name)</td>
+  #foreach($rm in $mapping.value)
+        <td>$rm.keyOrder</td>
+  #end
+      </tr>
+#end
+    </table>
+  </body>
 
-</body>
 </html>

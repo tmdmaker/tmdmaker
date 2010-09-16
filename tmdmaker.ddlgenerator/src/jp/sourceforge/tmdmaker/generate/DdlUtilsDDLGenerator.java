@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,6 +36,7 @@ import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.ddlutils.Platform;
 import org.apache.ddlutils.PlatformFactory;
@@ -197,27 +199,47 @@ public class DdlUtilsDDLGenerator implements Generator {
 	private Table convert(AbstractEntityModel entity) {
 		Table table = new Table();
 		table.setName(entity.getImplementName());
-		// 個体指定子をカラムとして追加
-		addIdentifierAsColumn(table, entity);
 
-		// Re-usedをカラムとして追加
-		Map<AbstractEntityModel, ReusedIdentifier> reused = entity
-				.getReusedIdentifieres();
-		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
-				.entrySet()) {
-			for (IdentifierRef ref : entry.getValue().getIdentifires()) {
-				table.addColumn(convert(ref.getOriginal()));
-			}
+		List<Attribute> attributes = ImplementRule.findAllImplementAttributes(entity);
+		Map<Attribute, Column> attributeColumnMap = new HashMap<Attribute, Column>();
+		for (Attribute a : attributes) {
+			Column column = convert(a);
+			table.addColumn(column);
+			attributeColumnMap.put(a, column);
 		}
-
-		// アトリビュートをカラムとして追加
-		for (Attribute attribute : entity.getAttributes()) {
-			table.addColumn(convert(attribute));
-		}
+//		// 個体指定子をカラムとして追加
+//		addIdentifierAsColumn(table, entity);
+//
+//		// Re-usedをカラムとして追加
+//		Map<AbstractEntityModel, ReusedIdentifier> reused = entity
+//				.getReusedIdentifieres();
+//		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
+//				.entrySet()) {
+//			for (IdentifierRef ref : entry.getValue().getIdentifires()) {
+//				table.addColumn(convert(ref.getOriginal()));
+//			}
+//		}
+//		// アトリビュートをカラムとして追加
+//		for (Attribute attribute : entity.getAttributes()) {
+//			Column column = convert(attribute);
+//			attributeColumnMap.put(attribute, column);
+//			
+//			table.addColumn(column);
+//		}
+//		// 派生元に戻して実装するモデルのアトリビュートを追加
+//		for (AbstractEntityModel m : entity.getImplementDerivationModels()) {
+//			for (Attribute attribute : m.getAttributes()) {
+//				Column column = convert(attribute);
+//				attributeColumnMap.put(attribute, column);
+//				
+//				table.addColumn(column);
+//				
+//			}
+//		}
 
 		// キーをインデックスとして追加
 		for (KeyModel idx : entity.getKeyModels()) {
-			table.addIndex(convert(idx));
+			table.addIndex(convert(idx, attributeColumnMap));
 		}
 		
 		return table;
@@ -231,7 +253,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 	 *            TMD-Makerのアトリビュートモデル
 	 * @return DDLUtilsのインデックスモデル
 	 */
-	private Index convert(KeyModel key) {
+	private Index convert(KeyModel key, Map<Attribute, Column> attributeColumnMap) {
 		Index index = null;
 		if (key.isUnique()) {
 			index = new UniqueIndex();
@@ -241,9 +263,13 @@ public class DdlUtilsDDLGenerator implements Generator {
 		index.setName(key.getName());
 
 		for (Attribute attr : key.getAttributes()) {
-			Column column = convert(attr);
-			IndexColumn indexColumn = new IndexColumn(column);
-			index.addColumn(indexColumn);
+			Column column = attributeColumnMap.get(attr);
+			if (column != null) {
+				IndexColumn indexColumn = new IndexColumn(column);
+				index.addColumn(indexColumn);
+			} else {
+				System.err.println("column not found." + attr.getName());
+			}
 		}
 
 		return index;
@@ -272,6 +298,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 				table.addColumn(convert(ri));
 			}
 		}
+		// TODO アトリビュートマップへ追加
 	}
 
 	/**

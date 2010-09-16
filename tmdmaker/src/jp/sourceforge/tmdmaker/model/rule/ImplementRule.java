@@ -17,10 +17,17 @@ package jp.sourceforge.tmdmaker.model.rule;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.Detail;
+import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.IdentifierRef;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
@@ -90,5 +97,33 @@ public class ImplementRule {
 				findNotImplementVirtualEntity(results, ve);
 			}
 		}
+	}
+	public static List<Attribute> findAllImplementAttributes(AbstractEntityModel model) {
+		List<Attribute> attributes = new ArrayList<Attribute>();
+		// 個体指定子を追加
+		if (model instanceof Entity) {
+			attributes.add(((Entity) model).getIdentifier());
+		}
+		if (model instanceof Detail) {
+			attributes.add(((Detail) model).getDetailIdentifier());
+		}
+		// re-usedを追加
+		Map<AbstractEntityModel, ReusedIdentifier> reused = model
+				.getReusedIdentifieres();
+		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
+				.entrySet()) {
+			for (IdentifierRef ref : entry.getValue().getIdentifires()) {
+				attributes.add(ref);
+			}
+		}
+		// モデルのアトリビュートを追加
+		attributes.addAll(model.getAttributes());
+
+		// 派生元に戻して実装するモデルのアトリビュートを追加
+		for (AbstractEntityModel m : model.getImplementDerivationModels()) {
+			attributes.addAll(m.getAttributes());
+		}
+
+		return attributes;
 	}
 }

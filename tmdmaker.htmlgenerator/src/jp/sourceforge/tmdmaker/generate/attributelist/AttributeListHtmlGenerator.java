@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.generate.attributelist;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,9 @@ public class AttributeListHtmlGenerator implements Generator {
 
 		try {
 			GeneratorUtils.outputCSS(rootDir);
+			GeneratorUtils.copyStream(AttributeListHtmlGenerator.class
+					.getResourceAsStream("index.html"), new FileOutputStream(
+					new File(rootDir, "index.html")));
 			Map<String, EntityAttributePair> attributes = findAllAttributes(models);
 
 			context.put("entities", models);
