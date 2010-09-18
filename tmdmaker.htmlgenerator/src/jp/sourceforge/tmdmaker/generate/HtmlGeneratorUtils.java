@@ -35,7 +35,7 @@ import org.apache.velocity.runtime.log.NullLogChute;
  * @author hiro
  * 
  */
-public class GeneratorUtils {
+public class HtmlGeneratorUtils {
 	/**
 	 * テンプレートを適用する。
 	 * 
@@ -102,9 +102,11 @@ public class GeneratorUtils {
 			}
 		}
 	}
+
 	/**
+	 * 初期化済みVelocityContextを取得する。
 	 * 
-	 * @return VelocityContext
+	 * @return VelocityContext 初期化したVelocityContext
 	 */
 	public static VelocityContext getVecityContext() {
 		Velocity.addProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
@@ -120,8 +122,15 @@ public class GeneratorUtils {
 		context.put("esc", new EscapeTool());
 		return context;
 	}
+
+	/**
+	 * 共通のCSSを出力する
+	 * 
+	 * @param rootDir
+	 * @throws IOException
+	 */
 	public static void outputCSS(String rootDir) throws IOException {
-		GeneratorUtils.copyStream(Activator.class
+		HtmlGeneratorUtils.copyStream(Activator.class
 				.getResourceAsStream("stylesheet.css"), new FileOutputStream(
 				new File(rootDir, "stylesheet.css")));
 	}

@@ -35,8 +35,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
+ * ダイアグラムを元に何かを生成する際のダイアログ
+ * 
  * @author nakaG
- *
+ * 
  */
 public class GeneratorDialog extends Dialog {
 	private Text savePathInputText;
@@ -48,9 +50,12 @@ public class GeneratorDialog extends Dialog {
 	private String savePath;
 
 	/**
-	 * @param parentShell
+	 * コンストラクタ
+	 * @param parentShell 親
 	 */
-	public GeneratorDialog(Shell parentShell, String defaultSavePath, String generatorName, List<AbstractEntityModel> selectModels, List<AbstractEntityModel> notSelectModels) {
+	public GeneratorDialog(Shell parentShell, String defaultSavePath,
+			String generatorName, List<AbstractEntityModel> selectModels,
+			List<AbstractEntityModel> notSelectModels) {
 		super(parentShell);
 		this.defaultSavePath = defaultSavePath;
 		this.generatorName = generatorName;
@@ -77,18 +82,18 @@ public class GeneratorDialog extends Dialog {
 		pathLabel.setText("出力先");
 		gridData.horizontalSpan = 2;
 		pathLabel.setLayoutData(gridData);
-		
+
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		savePathInputText = new Text(composite, SWT.BORDER);
 		gridData.widthHint = 150;
 		savePathInputText.setLayoutData(gridData);
 		savePathInputText.setText(defaultSavePath);
 		savePathInputText.setEditable(false);
-//		savePathInputText.setEnabled(false);
-		
+		// savePathInputText.setEnabled(false);
+
 		Button button = new Button(composite, SWT.NULL);
 		button.setText("出力先変更");
-		button.addSelectionListener(new SelectionAdapter(){
+		button.addSelectionListener(new SelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
@@ -99,17 +104,18 @@ public class GeneratorDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				super.widgetSelected(e);
-				DirectoryDialog dialog = new DirectoryDialog(getShell(), SWT.SAVE);
+				DirectoryDialog dialog = new DirectoryDialog(getShell(),
+						SWT.SAVE);
 				String rootDir = dialog.open();
 				if (rootDir != null) {
 					savePathInputText.setText(rootDir);
 				}
 			}
-			
+
 		});
 		gridData = new GridData();
 		button.setLayoutData(gridData);
-		
+
 		gridData = new GridData();
 		Label filler = new Label(composite, SWT.NONE);
 		gridData.horizontalSpan = 2;
@@ -126,7 +132,7 @@ public class GeneratorDialog extends Dialog {
 		gridData.horizontalSpan = 2;
 		panel.setLayoutData(gridData);
 		panel.initializeValue(selectedModels, notSelectedModels);
-		
+
 		return composite;
 	}
 

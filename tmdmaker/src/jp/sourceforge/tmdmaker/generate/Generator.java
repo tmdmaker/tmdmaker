@@ -18,7 +18,6 @@ package jp.sourceforge.tmdmaker.generate;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
 
 /**
  * ダイアグラムを元に何かを生成するためのインターフェース
@@ -52,11 +51,9 @@ public interface Generator {
 	 * 生成処理実行
 	 * 
 	 * @param rootDir
-	 *            　生成先ディレクトリ
-	 * @param diagram
-	 *            ダイアグラム
+	 *            生成先ディレクトリ
+	 * @param models
+	 *            対象モデル
 	 */
-	@Deprecated
-	void execute(String rootDir, Diagram diagram);
 	void execute(String rootDir, List<AbstractEntityModel> models);
 }

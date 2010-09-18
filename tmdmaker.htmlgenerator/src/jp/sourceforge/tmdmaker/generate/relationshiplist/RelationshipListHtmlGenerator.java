@@ -24,17 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.generate.Activator;
-import jp.sourceforge.tmdmaker.generate.EscapeTool;
 import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
+import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.generate.HtmlGeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.log.NullLogChute;
 
 /**
  * 関係の検証表をHTML形式で生成するクラス
@@ -79,15 +74,15 @@ public class RelationshipListHtmlGenerator implements Generator {
 	@Override
 	public void execute(String rootDir, List<AbstractEntityModel> models) {
 		System.out.println("generate");
-		VelocityContext context = GeneratorUtils.getVecityContext();
+		VelocityContext context = HtmlGeneratorUtils.getVecityContext();
 
 		Map<AbstractEntityModel, List<RelationshipMapping>> relationshipMappingMap = createData(models);
 
 		context.put("entities", relationshipMappingMap.keySet());
 		context.put("mappings", relationshipMappingMap.entrySet());
 		try {
-			GeneratorUtils.outputCSS(rootDir);
-			GeneratorUtils.applyTemplate("relationship_list.html", this
+			HtmlGeneratorUtils.outputCSS(rootDir);
+			HtmlGeneratorUtils.applyTemplate("relationship_list.html", this
 					.getClass(), new File(rootDir, "relationship_list.html"),
 					context);
 		} catch (Exception e) {
@@ -95,7 +90,7 @@ public class RelationshipListHtmlGenerator implements Generator {
 			throw new HtmlGeneratorRuntimeException(e);
 		}
 		try {
-			GeneratorUtils.copyStream(Activator.class
+			HtmlGeneratorUtils.copyStream(Activator.class
 					.getResourceAsStream("stylesheet.css"),
 					new FileOutputStream(new File(rootDir, "stylesheet.css")));
 		} catch (FileNotFoundException e) {
@@ -104,11 +99,12 @@ public class RelationshipListHtmlGenerator implements Generator {
 		}
 
 	}
+
 	/**
 	 * 出力用データを作成する
 	 * 
-	 * @param diagram
-	 *            ダイアグラム
+	 * @param models
+	 *            出力対象モデル
 	 * @return 出力用データ
 	 */
 	private Map<AbstractEntityModel, List<RelationshipMapping>> createData(
@@ -117,70 +113,6 @@ public class RelationshipListHtmlGenerator implements Generator {
 		for (AbstractEntityModel source : models) {
 			List<RelationshipMapping> relationshipMappingList = new ArrayList<RelationshipMapping>();
 			for (AbstractEntityModel target : models) {
-				relationshipMappingList.add(new RelationshipMapping(source,
-						target));
-			}
-			relationshipMappingMap.put(source, relationshipMappingList);
-		}
-		return relationshipMappingMap;
-	}
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String,
-	 *      jp.sourceforge.tmdmaker.model.Diagram)
-	 */
-	@Override
-	public void execute(String rootDir, Diagram diagram) {
-		System.out.println("generate");
-		Velocity.addProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-				NullLogChute.class.getName());
-		try {
-			Velocity.init();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new HtmlGeneratorRuntimeException(e);
-		}
-		System.out.println("init");
-		VelocityContext context = new VelocityContext();
-		context.put("esc", new EscapeTool());
-
-		Map<AbstractEntityModel, List<RelationshipMapping>> relationshipMappingMap = createData(diagram);
-
-		context.put("entities", relationshipMappingMap.keySet());
-		context.put("mappings", relationshipMappingMap.entrySet());
-		try {
-			GeneratorUtils.applyTemplate("relationship_list.html", this
-					.getClass(), new File(rootDir, "relationship_list.html"),
-					context);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new HtmlGeneratorRuntimeException(e);
-		}
-		try {
-			GeneratorUtils.copyStream(Activator.class
-					.getResourceAsStream("stylesheet.css"),
-					new FileOutputStream(new File(rootDir, "stylesheet.css")));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new HtmlGeneratorRuntimeException(e);
-		}
-	}
-
-	/**
-	 * 出力用データを作成する
-	 * 
-	 * @param diagram
-	 *            ダイアグラム
-	 * @return 出力用データ
-	 */
-	private Map<AbstractEntityModel, List<RelationshipMapping>> createData(
-			Diagram diagram) {
-		Map<AbstractEntityModel, List<RelationshipMapping>> relationshipMappingMap = new LinkedHashMap<AbstractEntityModel, List<RelationshipMapping>>();
-		for (AbstractEntityModel source : diagram.findEntityModel()) {
-			List<RelationshipMapping> relationshipMappingList = new ArrayList<RelationshipMapping>();
-			for (AbstractEntityModel target : diagram.findEntityModel()) {
 				relationshipMappingList.add(new RelationshipMapping(source,
 						target));
 			}

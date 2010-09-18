@@ -31,31 +31,39 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
+ * キー（インデックス）編集用ダイアログ
+ * 
  * @author nakaG
- *
+ * 
  */
 public class IndexEditDialog extends Dialog {
 	private IndexPanel panel;
 	private EditKeyModel keyModel;
-	private List<EditImplementAttribute> editAttributeList;
 	private List<Attribute> attributes;
+
 	/**
+	 * キー追加時に使用するコンストラクタ
+	 * 
 	 * @param parentShell
+	 *            親
+	 * @param editAttributeList
+	 *            編集用アトリビュートのリスト
 	 */
-	public IndexEditDialog(Shell parentShell, List<EditImplementAttribute> editAttributeList) {
+	public IndexEditDialog(Shell parentShell,
+			List<EditImplementAttribute> editAttributeList) {
 		super(parentShell);
-//		getShell().setText("キー作成");
-		this.editAttributeList = editAttributeList;
+		// getShell().setText("キー作成");
 		this.keyModel = new EditKeyModel(new KeyModel());
 		this.attributes = convert(editAttributeList);
 		this.keyModel.setName(createKeyName(editAttributeList));
 	}
+
 	private String createKeyName(List<EditImplementAttribute> editAttributeList) {
 		String modelName = null;
 		int keyCount = 0;
 		if (editAttributeList != null && editAttributeList.size() > 0) {
 			EditImplementAttribute a = editAttributeList.get(0);
-			modelName = a.getContainerModel().getName();
+			modelName = a.getContainerModel().getImplementName();
 			keyCount = a.getKeyCount();
 		} else {
 			// この処理は行われないはず
@@ -63,22 +71,35 @@ public class IndexEditDialog extends Dialog {
 		}
 		return modelName + "_IDX" + (keyCount + 1);
 	}
-	public IndexEditDialog(Shell parentShell, EditKeyModel keyModel, List<EditImplementAttribute> editAttributeList) {
+
+	/**
+	 * キー修正時に使用するコンストラクタ
+	 * 
+	 * @param parentShell
+	 *            親
+	 * @param keyModel
+	 *            キーモデル
+	 * @param editAttributeList
+	 *            編集用アトリビュートのリスト
+	 */
+	public IndexEditDialog(Shell parentShell, EditKeyModel keyModel,
+			List<EditImplementAttribute> editAttributeList) {
 		super(parentShell);
-//		getShell().setText("キー編集");
-		this.editAttributeList = editAttributeList;
+		// getShell().setText("キー編集");
 		this.keyModel = keyModel;
 		this.attributes = convert(editAttributeList);
 		this.attributes.removeAll(keyModel.getAttributes());
 	}
-	public List<Attribute> convert(List<EditImplementAttribute> sourceList) {
+
+	private List<Attribute> convert(List<EditImplementAttribute> sourceList) {
 		List<Attribute> targetList = new ArrayList<Attribute>();
-		
-		for (EditImplementAttribute ea: sourceList) {
+
+		for (EditImplementAttribute ea : sourceList) {
 			targetList.add(ea.getOriginalAttribute());
 		}
 		return targetList;
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -87,7 +108,7 @@ public class IndexEditDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("キー編集");
-		Composite composite = new Composite(parent,SWT.NULL);
+		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new IndexPanel(composite, SWT.NULL);
 		panel.initializeValue(keyModel, attributes);
 		return composite;
@@ -105,11 +126,14 @@ public class IndexEditDialog extends Dialog {
 		keyModel.setAttributes(panel.getSelectModels());
 		super.okPressed();
 	}
+
 	/**
+	 * 編集後の編集用キーモデルを返す
+	 * 
 	 * @return the keyModel
 	 */
 	public EditKeyModel getKeyModel() {
 		return keyModel;
 	}
-	
+
 }

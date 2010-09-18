@@ -23,7 +23,7 @@ import jp.sourceforge.tmdmaker.model.RecursiveTable;
 /**
  * 関係の検証データ
  * 
- * @author hiro
+ * @author nakaG
  * 
  */
 public class RelationshipMapping {

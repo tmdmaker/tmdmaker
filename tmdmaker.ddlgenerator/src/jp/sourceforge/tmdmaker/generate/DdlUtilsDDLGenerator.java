@@ -22,20 +22,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
-import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
-import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.ddlutils.Platform;
@@ -64,7 +58,9 @@ public class DdlUtilsDDLGenerator implements Generator {
 
 	/**
 	 * {@inheritDoc}
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String, java.util.List)
+	 * 
+	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String,
+	 *      java.util.List)
 	 */
 	@Override
 	public void execute(String rootDir, List<AbstractEntityModel> models) {
@@ -76,12 +72,14 @@ public class DdlUtilsDDLGenerator implements Generator {
 			throw new DatabaseNotSelectRuntimeException();
 		}
 		Database database = convert(diagram, models);
-		Platform platform = PlatformFactory.createNewPlatformInstance(databaseName);
+		Platform platform = PlatformFactory
+				.createNewPlatformInstance(databaseName);
 		String sql = platform.getCreateModelSql(database, true, true);
 		System.out.println(sql);
 		File file = new File(rootDir, "ddl.sql");
+		FileOutputStream out = null;
 		try {
-			FileOutputStream out = new FileOutputStream(file);
+			out = new FileOutputStream(file);
 			out.write(sql.getBytes("UTF-8"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -89,39 +87,16 @@ public class DdlUtilsDDLGenerator implements Generator {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
-	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String,
-	 *      jp.sourceforge.tmdmaker.model.Diagram)
-	 */
-	@Override
-	public void execute(String rootDir, Diagram diagram) {
-		System.out.println(rootDir);
-
-		String databaseName = diagram.getDatabaseName();
-		if (databaseName == null || databaseName.length() == 0) {
-			throw new DatabaseNotSelectRuntimeException();
-		}
-		Database database = convert(diagram, diagram.findEntityModel());
-		Platform platform = PlatformFactory.createNewPlatformInstance(databaseName);
-		String sql = platform.getCreateModelSql(database, true, true);
-		System.out.println(sql);
-		File file = new File(rootDir, "ddl.sql");
-		try {
-			FileOutputStream out = new FileOutputStream(file);
-			out.write(sql.getBytes("UTF-8"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -144,8 +119,8 @@ public class DdlUtilsDDLGenerator implements Generator {
 	public String getGroupName() {
 		return "DDL";
 	}
-	
-	/** 
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see jp.sourceforge.tmdmaker.generate.Generator#isImplementModelOnly()
@@ -197,51 +172,25 @@ public class DdlUtilsDDLGenerator implements Generator {
 	 * @return DDLUtilsのテーブルモデル
 	 */
 	private Table convert(AbstractEntityModel entity) {
+		// テーブル名を指定
 		Table table = new Table();
 		table.setName(entity.getImplementName());
 
-		List<Attribute> attributes = ImplementRule.findAllImplementAttributes(entity);
+		// 実装対象のアトリビュートをカラムとして追加
+		List<Attribute> attributes = ImplementRule
+				.findAllImplementAttributes(entity);
 		Map<Attribute, Column> attributeColumnMap = new HashMap<Attribute, Column>();
 		for (Attribute a : attributes) {
 			Column column = convert(a);
 			table.addColumn(column);
 			attributeColumnMap.put(a, column);
 		}
-//		// 個体指定子をカラムとして追加
-//		addIdentifierAsColumn(table, entity);
-//
-//		// Re-usedをカラムとして追加
-//		Map<AbstractEntityModel, ReusedIdentifier> reused = entity
-//				.getReusedIdentifieres();
-//		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
-//				.entrySet()) {
-//			for (IdentifierRef ref : entry.getValue().getIdentifires()) {
-//				table.addColumn(convert(ref.getOriginal()));
-//			}
-//		}
-//		// アトリビュートをカラムとして追加
-//		for (Attribute attribute : entity.getAttributes()) {
-//			Column column = convert(attribute);
-//			attributeColumnMap.put(attribute, column);
-//			
-//			table.addColumn(column);
-//		}
-//		// 派生元に戻して実装するモデルのアトリビュートを追加
-//		for (AbstractEntityModel m : entity.getImplementDerivationModels()) {
-//			for (Attribute attribute : m.getAttributes()) {
-//				Column column = convert(attribute);
-//				attributeColumnMap.put(attribute, column);
-//				
-//				table.addColumn(column);
-//				
-//			}
-//		}
 
 		// キーをインデックスとして追加
 		for (KeyModel idx : entity.getKeyModels()) {
 			table.addIndex(convert(idx, attributeColumnMap));
 		}
-		
+
 		return table;
 
 	}
@@ -253,7 +202,8 @@ public class DdlUtilsDDLGenerator implements Generator {
 	 *            TMD-Makerのアトリビュートモデル
 	 * @return DDLUtilsのインデックスモデル
 	 */
-	private Index convert(KeyModel key, Map<Attribute, Column> attributeColumnMap) {
+	private Index convert(KeyModel key,
+			Map<Attribute, Column> attributeColumnMap) {
 		Index index = null;
 		if (key.isUnique()) {
 			index = new UniqueIndex();
@@ -273,32 +223,6 @@ public class DdlUtilsDDLGenerator implements Generator {
 		}
 
 		return index;
-	}
-
-	/**
-	 * 個体指定子をカラムへ変換してテーブルへ追加する
-	 * 
-	 * @param table
-	 *            DDLUtilsのテーブルモデル
-	 * @param model
-	 *            TMD-Makerのモデル
-	 */
-	private void addIdentifierAsColumn(Table table, AbstractEntityModel model) {
-		if (model instanceof Entity) {
-			Entity entity = (Entity) model;
-			table.addColumn(convert(entity.getIdentifier()));
-		}
-		if (model instanceof Detail) {
-			Detail detail = (Detail) model;
-			table.addColumn(convert(detail.getDetailIdentifier()));
-		}
-		if (model instanceof SubsetEntity) {
-			SubsetEntity subset = (SubsetEntity) model;
-			for (IdentifierRef ri : subset.getOriginalReusedIdentifier().getIdentifires()) {
-				table.addColumn(convert(ri));
-			}
-		}
-		// TODO アトリビュートマップへ追加
 	}
 
 	/**

@@ -28,7 +28,6 @@ import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.ModelElement;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.GraphicalViewer;
@@ -44,12 +43,18 @@ import org.eclipse.ui.IFileEditorInput;
  * 
  */
 public class GenerateAction extends SelectionAction {
-
 	private Generator generator;
 	private GraphicalViewer viewer;
 
 	/**
-	 * @param part
+	 * コンストラクタ
+	 * 
+	 * @param editor
+	 *            TMDエディタ
+	 * @param viewer
+	 *            ビューワ
+	 * @param generator
+	 *            generator
 	 */
 	public GenerateAction(TMDEditor editor, GraphicalViewer viewer,
 			Generator generator) {
@@ -59,22 +64,6 @@ public class GenerateAction extends SelectionAction {
 		setId(generator.getClass().getName());
 		setText(generator.getGeneratorName());
 	}
-
-	// /**
-	// * コンストラクタ
-	// *
-	// * @param viewer
-	// * ビューワ
-	// * @param generator
-	// * アクションから呼び出すGenerator
-	// */
-	// public GenerateAction(GraphicalViewer viewer, Generator generator) {
-	// super();
-	// this.viewer = viewer;
-	// this.generator = generator;
-	// setId(this.generator.getClass().getName());
-	// setText(this.generator.getGeneratorName());
-	// }
 
 	/**
 	 * {@inheritDoc}
@@ -94,35 +83,24 @@ public class GenerateAction extends SelectionAction {
 	 */
 	@Override
 	public void run() {
-		 Diagram diagram = (Diagram) viewer.getContents().getModel();
-		 List<AbstractEntityModel> selectedModels = getSelectedModelList();
-		 
+		Diagram diagram = (Diagram) viewer.getContents().getModel();
+		List<AbstractEntityModel> selectedModels = getSelectedModelList();
+
 		GeneratorDialog dialog = new GeneratorDialog(getWorkbenchPart()
 				.getSite().getShell(), getSavePath(), generator
-				.getGeneratorName(), selectedModels, getNotSelectedModelList(diagram, selectedModels));
+				.getGeneratorName(), selectedModels, getNotSelectedModelList(
+				diagram, selectedModels));
 		if (dialog.open() == Dialog.OK) {
 			try {
-				generator.execute(dialog.getSavePath(), dialog.getSelectedModels());
-//				generator.execute(dialog.getSavePath(), diagram);
+				generator.execute(dialog.getSavePath(), dialog
+						.getSelectedModels());
+				// generator.execute(dialog.getSavePath(), diagram);
 				TMDPlugin.showMessageDialog(generator.getGeneratorName()
 						+ " 完了");
 			} catch (Throwable t) {
 				TMDPlugin.showErrorDialog(t);
 			}
 		}
-		// Diagram diagram = (Diagram) viewer.getContents().getModel();
-		// DirectoryDialog dialog = new DirectoryDialog(viewer.getControl()
-		// .getShell(), SWT.SAVE);
-		// String rootDir = dialog.open();
-		// if (rootDir == null) {
-		// return;
-		// }
-		// try {
-		// generator.execute(rootDir, diagram);
-		// TMDPlugin.showMessageDialog(generator.getGeneratorName() + " 完了");
-		// } catch (Throwable t) {
-		// TMDPlugin.showErrorDialog(t);
-		// }
 	}
 
 	private String getSavePath() {
@@ -130,14 +108,16 @@ public class GenerateAction extends SelectionAction {
 				.getEditorInput()).getFile();
 		return file.getLocation().removeLastSegments(1).toOSString();
 	}
+
 	private List<AbstractEntityModel> getSelectedModelList() {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Object selection : getSelectedObjects()) {
 			if (selection instanceof AbstractEntityEditPart
-				&& !(selection instanceof SubsetTypeEditPart)
-				&& !(selection instanceof MultivalueAndAggregatorEditPart)
-				&& !(selection instanceof LaputaEditPart)) {
-				AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart) selection).getModel();
+					&& !(selection instanceof SubsetTypeEditPart)
+					&& !(selection instanceof MultivalueAndAggregatorEditPart)
+					&& !(selection instanceof LaputaEditPart)) {
+				AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart) selection)
+						.getModel();
 				if (generator.isImplementModelOnly()) {
 					if (!model.isNotImplement()) {
 						list.add(model);
@@ -149,7 +129,9 @@ public class GenerateAction extends SelectionAction {
 		}
 		return list;
 	}
-	private List<AbstractEntityModel> getNotSelectedModelList(Diagram diagram, List<AbstractEntityModel>selectedModels) {
+
+	private List<AbstractEntityModel> getNotSelectedModelList(Diagram diagram,
+			List<AbstractEntityModel> selectedModels) {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		List<AbstractEntityModel> target = diagram.findEntityModel();
 		list.removeAll(selectedModels);
@@ -165,15 +147,4 @@ public class GenerateAction extends SelectionAction {
 		list.removeAll(selectedModels);
 		return list;
 	}
-//	private List<AbstractEntityModel> getSelectedModelList() {
-//		Diagram diagram = (Diagram) viewer.getContents().getModel();
-//		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
-//		
-//		for (ModelElement m : getDiagram()) {
-//			if (m instanceof AbstractEntityModel && !m.equals(superset)
-//					&& !selection.contains(m)) {
-//				notSelection.add((AbstractEntityModel) m);
-//			}
-//		}
-//	}
 }

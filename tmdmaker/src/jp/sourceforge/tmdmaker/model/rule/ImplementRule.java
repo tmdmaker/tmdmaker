@@ -67,8 +67,8 @@ public class ImplementRule {
 		return results;
 	}
 
-	private static void findNotImplementSubset(List<AbstractEntityModel> results,
-			AbstractEntityModel model) {
+	private static void findNotImplementSubset(
+			List<AbstractEntityModel> results, AbstractEntityModel model) {
 		SubsetType type = model.findSubsetType();
 		if (type == null) {
 			return;
@@ -84,8 +84,8 @@ public class ImplementRule {
 		}
 	}
 
-	private static void findNotImplementVirtualEntity(List<AbstractEntityModel> results,
-			AbstractEntityModel model) {
+	private static void findNotImplementVirtualEntity(
+			List<AbstractEntityModel> results, AbstractEntityModel model) {
 		for (AbstractConnectionModel connection : model
 				.getModelSourceConnections()) {
 			ConnectableElement e = connection.getTarget();
@@ -98,7 +98,16 @@ public class ImplementRule {
 			}
 		}
 	}
-	public static List<Attribute> findAllImplementAttributes(AbstractEntityModel model) {
+
+	/**
+	 * モデルの実装対象アトリビュートを取得する
+	 * 
+	 * @param model
+	 *            対象モデル
+	 * @return アトリビュートのリスト
+	 */
+	public static List<Attribute> findAllImplementAttributes(
+			AbstractEntityModel model) {
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		// 個体指定子を追加
 		if (model instanceof Entity) {
