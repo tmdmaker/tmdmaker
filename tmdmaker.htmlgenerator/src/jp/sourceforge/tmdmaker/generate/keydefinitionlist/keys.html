@@ -30,7 +30,11 @@ function setTitle(){
       <tr>
         <th>アトリビュート名称</th>
 #foreach($key in $keys)
+　　#if($key.masterKey == true)
+  	    <th>$esc.html("M")</th>
+  #else
   	    <th>$esc.html($velocityCount)</th>
+  #end
 #end
       </tr>
 #foreach($mapping in $mappings)
