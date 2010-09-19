@@ -30,7 +30,7 @@ public class EditImplementAttribute {
 	/** 編集用アトリビュート */
 	private EditAttribute editAttribute;
 	/** 編集用キーモデルのリスト */
-	private List<EditKeyModel> editKeyModels = new ArrayList<EditKeyModel>();
+	private List<KeyModel> keyModels = new ArrayList<KeyModel>();
 
 	/**
 	 * コンストラクタ
@@ -49,25 +49,18 @@ public class EditImplementAttribute {
 	public AbstractEntityModel getContainerModel() {
 		return containerModel;
 	}
-	public void addEditKeyModel(EditKeyModel model) {
-		this.editKeyModels.add(model);
-	}
-	public void replaceEditKeyModel(int index, EditKeyModel model) {
-		this.editKeyModels.remove(index);
-		this.editKeyModels.add(index, model);
+	public void addKeyModel(KeyModel model) {
+		this.keyModels.add(model);
 	}
 	public int getKeyCount() {
-		return editKeyModels.size();
+		return keyModels.size();
 	}
-	public void removeAllEditKeyModel() {
-		this.editKeyModels.clear();
-	}
-	public EditKeyModel removeEditKyeModel(int index) {
-		return this.editKeyModels.remove(index);
+	public void removeAllKeyModel() {
+		this.keyModels.clear();
 	}
 	public List<String> getKeyOrders() {
 		List<String> keyOrders = new ArrayList<String>();
-		for (EditKeyModel m : editKeyModels) {
+		for (KeyModel m : keyModels) {
 			Attribute original = getOriginalAttribute();
 			if (m.contains(original)) {
 				keyOrders.add(String.valueOf(m.indexOf(original) + 1));

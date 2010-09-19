@@ -28,11 +28,11 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
-import jp.sourceforge.tmdmaker.model.EditKeyModel;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.KeyModel;
+import jp.sourceforge.tmdmaker.model.KeyModels;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
@@ -66,7 +66,7 @@ public class ImplementInfoEditDialog extends Dialog {
 	private AbstractEntityModel editedValueEntity;
 	private List<EditImplementAttribute> editedValueAttributes = new ArrayList<EditImplementAttribute>();
 	private List<EditImplementAttribute> editedValueIdentifieres = new ArrayList<EditImplementAttribute>();
-	private List<EditKeyModel> editedKeyModels = new ArrayList<EditKeyModel>();
+	private KeyModels editedKeyModels = new KeyModels();
 	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
 	private ModelSelectPanel panel2;
 	private IndexSettingPanel panel3;
@@ -124,14 +124,9 @@ public class ImplementInfoEditDialog extends Dialog {
 		// 対象モデルのキーを抽出
 		if (model.getKeyModels() != null) {
 			for (KeyModel km : model.getKeyModels()) {
-				editedKeyModels.add(new EditKeyModel(km));
+				editedKeyModels.add(km.getCopy());
 			}
 		}
-//		for (EditImplementAttribute ea : editAttributeList) {
-//			for (EditKeyModel ek : editedKeyModels) {
-//				ea.addEditKeyModel(ek);
-//			}
-//		}
 	}
 	/**
 	 * {@inheritDoc}
@@ -210,10 +205,6 @@ public class ImplementInfoEditDialog extends Dialog {
 						editAttributeList.addAll(list);
 					}
 				}
-//				for (Map.Entry<AbstractEntityModel, List<EditImplementAttribute>> entry : otherModelAttributesMap.entrySet()) {
-//					System.out.println(entry.getKey());
-//					System.out.println(entry.getKey().getName());
-//				}
 				System.out.println("update");
 				panel1.initializeValue(model, editAttributeList);
 				panel3.initializeValue(editAttributeList, editedKeyModels);
@@ -247,12 +238,7 @@ public class ImplementInfoEditDialog extends Dialog {
 		editedValueEntity = model.getCopy();
 		editedValueEntity.setImplementName(panel1.getImplementName());
 		editedValueEntity.setImplementDerivationModels(panel2.getSelectModels());
-		
-		List<KeyModel> keyModels = new ArrayList<KeyModel>();
-		for (EditKeyModel km : editedKeyModels) {
-			keyModels.add(km.createEditedValue());
-		}
-		editedValueEntity.setKeyModels(keyModels);
+		editedValueEntity.setKeyModels(editedKeyModels);
 		createEditAttributeResult();
 
 		super.okPressed();

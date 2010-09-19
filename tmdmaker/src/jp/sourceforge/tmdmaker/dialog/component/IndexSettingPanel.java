@@ -21,7 +21,8 @@ import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.dialog.IndexEditDialog;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
-import jp.sourceforge.tmdmaker.model.EditKeyModel;
+import jp.sourceforge.tmdmaker.model.KeyModel;
+import jp.sourceforge.tmdmaker.model.KeyModels;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -43,7 +44,7 @@ import org.eclipse.swt.widgets.TableItem;
 public class IndexSettingPanel extends Composite {
 	private int selectColumnIndex = -1;
 	private java.util.List<EditImplementAttribute> attributes;  //  @jve:decl-index=0:
-	private java.util.List<EditKeyModel> keyModels;  //  @jve:decl-index=0:
+	private KeyModels keyModels;  //  @jve:decl-index=0:
 	private Table indexTable = null;
 	private Button addButton = null;
 	private Button deleteButton = null;
@@ -82,19 +83,16 @@ public class IndexSettingPanel extends Composite {
 						if (selectColumnIndex == -1) {
 							return;
 						}
-						EditKeyModel model = new EditKeyModel(keyModels.get(selectColumnIndex));
+						KeyModel model = keyModels.get(selectColumnIndex);
 						java.util.List<Attribute> notSelectedAttributes = new ArrayList<Attribute>();
 						for (EditImplementAttribute ea : attributes) {
 							notSelectedAttributes.add(ea.getOriginalAttribute());
 						}
 						IndexEditDialog dialog = new IndexEditDialog(getShell(), model,attributes);
 						if (dialog.open() == Dialog.OK) {
-							EditKeyModel keyModel = dialog.getKeyModel();
-							keyModels.remove(selectColumnIndex);
-							keyModels.add(selectColumnIndex, keyModel);
-							for (EditImplementAttribute ea : attributes) {
-								ea.replaceEditKeyModel(selectColumnIndex, keyModel);
-							}
+							KeyModel keyModel = dialog.getKeyModel();
+							keyModels.replaceKeyModel(selectColumnIndex, keyModel);
+							updateEditImplementAttributes();
 							updateTable();
 						}
 					}
@@ -111,9 +109,7 @@ public class IndexSettingPanel extends Composite {
 						}
 						indexTable.getColumn(keyModels.size()).dispose();
 						keyModels.remove(selectColumnIndex);
-						for (EditImplementAttribute ea : attributes) {
-							ea.removeEditKyeModel(selectColumnIndex);
-						}
+						updateEditImplementAttributes();
 						updateTable();
 					}
 				});
@@ -126,11 +122,9 @@ public class IndexSettingPanel extends Composite {
 				}
 				IndexEditDialog dialog = new IndexEditDialog(getShell(), attributes);
 				if (dialog.open() == Dialog.OK) {
-					EditKeyModel keyModel = dialog.getKeyModel();
+					KeyModel keyModel = dialog.getKeyModel();
 					keyModels.add(keyModel);
-					for (EditImplementAttribute ea : attributes) {
-						ea.addEditKeyModel(keyModel);
-					}
+					updateEditImplementAttributes();
 					TableColumn tableColumn = new TableColumn(indexTable, SWT.NONE);
 					tableColumn.setWidth(60);
 					tableColumn.setAlignment(SWT.CENTER);
@@ -170,21 +164,13 @@ public class IndexSettingPanel extends Composite {
 		TableColumn tableColumn = new TableColumn(indexTable, SWT.NONE);
 		tableColumn.setWidth(150);
 		tableColumn.setText("実装名");
-//		TableColumn tableColumn1 = new TableColumn(indexTable, SWT.NONE);
-//		tableColumn1.setWidth(60);
-//		tableColumn1.setText("M/N");
 		this.setLayout(gridLayout);
 		this.setSize(new Point(318, 176));
 	}
-	public void initializeValue(java.util.List<EditImplementAttribute> attributes, java.util.List<EditKeyModel> keyModels) {
+	public void initializeValue(java.util.List<EditImplementAttribute> attributes, KeyModels keyModels) {
 		this.attributes = attributes;
 		this.keyModels = keyModels;
-		for (EditImplementAttribute ea : attributes) {
-			ea.removeAllEditKeyModel();
-			for (EditKeyModel ek : keyModels) {
-				ea.addEditKeyModel(ek);
-			}
-		}
+		updateEditImplementAttributes();
 		int keyModelSize = this.keyModels.size();
 		int columnSize = indexTable.getColumnCount() -1;
 		System.out.println("keyModelSize="+keyModelSize);
@@ -226,9 +212,25 @@ public class IndexSettingPanel extends Composite {
 		}
 		updateTable();
 	}
+
+	private void updateEditImplementAttributes() {
+		for (EditImplementAttribute ea : attributes) {
+			ea.removeAllKeyModel();
+			for (KeyModel ek : keyModels) {
+				ea.addKeyModel(ek);
+			}
+		}
+	}
 	public void updateTable() {
 		indexTable.removeAll();
-		
+		for (int i = 0; i < keyModels.size(); i++) {
+			TableColumn column = indexTable.getColumn(i + 1);
+			if (keyModels.get(i).isMasterKey()) {
+				column.setText("M");
+			} else {
+				column.setText(String.valueOf(i + 1));
+			}
+		}
 		for (EditImplementAttribute attribute : attributes) {
 			TableItem item = new TableItem(indexTable, SWT.NONE);
 			item.setText(0, attribute.getImplementName());
@@ -237,6 +239,6 @@ public class IndexSettingPanel extends Composite {
 			for (int i = 0;i < size; i++) {
 				item.setText(i + 1, keyOrders.get(i));
 			}
-		}		
+		}
 	}
  }  //  @jve:decl-index=0:visual-constraint="0,0"

@@ -51,7 +51,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	/** 派生元に戻して実装するモデルのリスト */
 	protected List<AbstractEntityModel> implementDerivationModels = new ArrayList<AbstractEntityModel>();
 	/** キー定義情報 */
-	protected List<KeyModel> keyModels;
+	protected KeyModels keyModels = new KeyModels();
 
 	/**
 	 * @return the diagram
@@ -379,22 +379,20 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		this.implementDerivationModels = implementDerivationModels;
 	}
 
+	public abstract AbstractEntityModel getCopy();
+
 	/**
 	 * @return the keyModels
 	 */
-	public List<KeyModel> getKeyModels() {
-		if (keyModels == null) {
-			return new ArrayList<KeyModel>();
-		}
-		return new ArrayList<KeyModel>(keyModels);
+	public KeyModels getKeyModels() {
+		return keyModels;
 	}
-	
+
 	/**
 	 * @param keyModels the keyModels to set
 	 */
-	public void setKeyModels(List<KeyModel> keyModels) {
+	public void setKeyModels(KeyModels keyModels) {
 		this.keyModels = keyModels;
 	}
-
-	public abstract AbstractEntityModel getCopy();
+	
 }

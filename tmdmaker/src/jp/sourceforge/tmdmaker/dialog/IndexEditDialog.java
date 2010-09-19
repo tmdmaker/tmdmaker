@@ -21,7 +21,6 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.dialog.component.IndexPanel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
-import jp.sourceforge.tmdmaker.model.EditKeyModel;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -38,7 +37,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class IndexEditDialog extends Dialog {
 	private IndexPanel panel;
-	private EditKeyModel keyModel;
+	private KeyModel keyModel;
 	private List<Attribute> attributes;
 
 	/**
@@ -53,7 +52,7 @@ public class IndexEditDialog extends Dialog {
 			List<EditImplementAttribute> editAttributeList) {
 		super(parentShell);
 		// getShell().setText("キー作成");
-		this.keyModel = new EditKeyModel(new KeyModel());
+		this.keyModel = new KeyModel();
 		this.attributes = convert(editAttributeList);
 		this.keyModel.setName(createKeyName(editAttributeList));
 	}
@@ -82,7 +81,7 @@ public class IndexEditDialog extends Dialog {
 	 * @param editAttributeList
 	 *            編集用アトリビュートのリスト
 	 */
-	public IndexEditDialog(Shell parentShell, EditKeyModel keyModel,
+	public IndexEditDialog(Shell parentShell, KeyModel keyModel,
 			List<EditImplementAttribute> editAttributeList) {
 		super(parentShell);
 		// getShell().setText("キー編集");
@@ -124,15 +123,16 @@ public class IndexEditDialog extends Dialog {
 		keyModel.setName(panel.getIndexName());
 		keyModel.setUnique(panel.isUnique());
 		keyModel.setAttributes(panel.getSelectModels());
+		keyModel.setMasterKey(panel.isMasterKey());
 		super.okPressed();
 	}
 
 	/**
-	 * 編集後の編集用キーモデルを返す
+	 * 編集後のキーモデルを返す
 	 * 
 	 * @return the keyModel
 	 */
-	public EditKeyModel getKeyModel() {
+	public KeyModel getKeyModel() {
 		return keyModel;
 	}
 

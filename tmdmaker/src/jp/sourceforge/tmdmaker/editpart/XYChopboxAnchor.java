@@ -89,7 +89,7 @@ public class XYChopboxAnchor extends ChopboxAnchor {
 			XYChopboxAnchor other = (XYChopboxAnchor) obj;
 			return other.getOwner() == getOwner()
 					&& other.getBox().equals(getBox()) && other.xp == xp
-					&& other.yp == yp;
+					&& other.yp == yp && super.equals(other);
 		}
 		return false;
 	}

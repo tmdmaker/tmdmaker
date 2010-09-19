@@ -16,7 +16,7 @@
 package jp.sourceforge.tmdmaker.dialog.component;
 
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.EditKeyModel;
+import jp.sourceforge.tmdmaker.model.KeyModel;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -50,14 +50,17 @@ public class IndexPanel extends Composite {
 	private Button upButton = null;
 	private Button downButton = null;
 	private Button uniqueCheckBox = null;
+	private Button masterCheckBox = null;
 	public IndexPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
 	}
 
 	private void initialize() {
+		GridData gridData17 = new GridData();
+		gridData17.horizontalSpan = 2;
 		GridData gridData16 = new GridData();
-		gridData16.horizontalSpan = 4;
+		gridData16.horizontalSpan = 2;
 		gridData16.verticalAlignment = GridData.CENTER;
 		gridData16.grabExcessHorizontalSpace = false;
 		gridData16.horizontalAlignment = GridData.FILL;
@@ -122,6 +125,15 @@ public class IndexPanel extends Composite {
 		uniqueCheckBox = new Button(this, SWT.CHECK);
 		uniqueCheckBox.setText("ユニーク制約");
 		uniqueCheckBox.setLayoutData(gridData16);
+		uniqueCheckBox
+				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+						masterCheckBox.setEnabled(uniqueCheckBox.getSelection());
+					}
+				});
+		masterCheckBox = new Button(this, SWT.CHECK);
+		masterCheckBox.setText("マスターキーに指定");
+		masterCheckBox.setLayoutData(gridData17);
 		Label filler31 = new Label(this, SWT.NONE);
 		attributeSelectedLabel = new Label(this, SWT.NONE);
 		attributeSelectedLabel.setText("選択");
@@ -298,11 +310,13 @@ public class IndexPanel extends Composite {
 	public void setAttributeSelectedList(List attributeSelectedList) {
 		this.attributeSelectedList = attributeSelectedList;
 	}
-	public void initializeValue(EditKeyModel keyModel, java.util.List<Attribute> notSelectAttributes) {
+	public void initializeValue(KeyModel keyModel, java.util.List<Attribute> notSelectAttributes) {
 		indexNameText.setText(keyModel.getName());
 		selectModels = keyModel.getAttributes();
 		notSelectModels = notSelectAttributes;
 		uniqueCheckBox.setSelection(keyModel.isUnique());
+		masterCheckBox.setEnabled(uniqueCheckBox.getSelection());
+		masterCheckBox.setSelection(keyModel.isMasterKey());
 		updateList();
 	}
 	public void updateList() {
@@ -328,5 +342,8 @@ public class IndexPanel extends Composite {
 	}
 	public boolean isUnique() {
 		return uniqueCheckBox.getSelection();
+	}
+	public boolean isMasterKey() {
+		return masterCheckBox.getSelection();
 	}
 }  //  @jve:decl-index=0:visual-constraint="0,0"
