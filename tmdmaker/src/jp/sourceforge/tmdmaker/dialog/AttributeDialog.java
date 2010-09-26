@@ -16,7 +16,7 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributePanel;
-import jp.sourceforge.tmdmaker.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -69,8 +69,8 @@ public class AttributeDialog extends Dialog {
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new AttributePanel(composite, SWT.NULL);
 		panel.initializeValue(original);
-		
-//		composite.setSize(260, 480);
+
+		// composite.setSize(260, 480);
 		composite.pack();
 		return composite;
 	}
@@ -82,16 +82,6 @@ public class AttributeDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		// editedValue = new EditAttribute();
-		// editedValue.setOriginalAttribute(original.getOriginalAttribute());
-		// // editedValue.setDataType(panel.getDataType());
-		// editedValue.setDerivationRule(panel.getDerivationRule());
-		// editedValue.setDescription(panel.getDescription());
-		// editedValue.setLock(panel.getLock());
-		// editedValue.setName(panel.getName());
-		// editedValue.setValidationRule(panel.getValidationRule());
-
-		// editedValue.setDataType(panel.getDataType());
 		original.setDerivationRule(panel.getDerivationRule());
 		original.setDescription(panel.getDescription());
 		original.setLock(panel.getLock());

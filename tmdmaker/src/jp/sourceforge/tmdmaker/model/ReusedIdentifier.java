@@ -30,7 +30,7 @@ import java.util.List;
 public class ReusedIdentifier implements Serializable {
 	/** 参照元の個体指定子（またはRe-usedキー） */
 	private List<IdentifierRef> identifieres = new ArrayList<IdentifierRef>();
-
+	private KeyModels keyModels;
 	/**
 	 * デフォルトコンストラクタ
 	 */
@@ -68,7 +68,18 @@ public class ReusedIdentifier implements Serializable {
 	public List<IdentifierRef> getIdentifires() {
 		return Collections.unmodifiableList(identifieres);
 	}
-
+//	public List<IdentifierRef> getImplementIdentifires() {
+//		if (keyModels != null) {
+//			KeyModel masterKey = keyModels.getMasterKey();
+//			if (masterKey == null) {
+//				return getIdentifires();
+//			} else {
+//				masterKey.
+//			}
+//		} else {
+//			return getIdentifires();
+//		}
+//	}
 	/**
 	 * 参照元の個体指定子（またはRe-usedキー）を追加する
 	 * 

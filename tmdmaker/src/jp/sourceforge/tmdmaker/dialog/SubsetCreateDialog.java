@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.SubsetSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.model.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 

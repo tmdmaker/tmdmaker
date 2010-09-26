@@ -24,10 +24,11 @@ import java.util.Map.Entry;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoEditPanel;
 import jp.sourceforge.tmdmaker.dialog.component.IndexSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
+import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditImplementEntity;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
-import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
@@ -59,6 +60,7 @@ public class ImplementInfoEditDialog extends Dialog {
 	/** 編集情報実装用 */
 	private ImplementInfoEditPanel panel1;
 	/** 編集元モデル */
+	private EditImplementEntity implementModel;
 	private AbstractEntityModel model;
 	/** 編集用アトリビュート */
 	private List<EditImplementAttribute> editAttributeList = new ArrayList<EditImplementAttribute>();

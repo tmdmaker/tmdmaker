@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.editpolicy;
 
+import java.util.List;
+
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
@@ -80,5 +82,5 @@ public class EntityComponentEditPolicy extends ComponentEditPolicy {
 			attathConnections(targetConnections);
 		}
 	}
-
+	
 }

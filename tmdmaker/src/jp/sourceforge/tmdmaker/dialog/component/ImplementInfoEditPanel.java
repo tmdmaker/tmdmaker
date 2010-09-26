@@ -17,8 +17,8 @@ package jp.sourceforge.tmdmaker.dialog.component;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
 import org.eclipse.swt.SWT;

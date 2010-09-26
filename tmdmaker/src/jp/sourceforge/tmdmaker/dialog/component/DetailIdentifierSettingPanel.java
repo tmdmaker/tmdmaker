@@ -16,17 +16,17 @@
 package jp.sourceforge.tmdmaker.dialog.component;
 
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
-import jp.sourceforge.tmdmaker.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 
 public class DetailIdentifierSettingPanel extends Composite {
 	private EditAttribute editIdentifier = null;  //  @jve:decl-index=0:

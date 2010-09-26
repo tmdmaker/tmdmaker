@@ -8,7 +8,7 @@
       <editor
             class="jp.sourceforge.tmdmaker.TMDEditor"
             contributorClass="jp.sourceforge.tmdmaker.TMDEditorContributor"
-            default="false"
+            default="true"
             extensions="tmd"
             icon="icons/entity.gif"
             id="tmdmaker.tmdeditor"

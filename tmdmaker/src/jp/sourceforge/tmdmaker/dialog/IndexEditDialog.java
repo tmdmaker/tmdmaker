@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.IndexPanel;
+import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 
 import org.eclipse.jface.dialogs.Dialog;

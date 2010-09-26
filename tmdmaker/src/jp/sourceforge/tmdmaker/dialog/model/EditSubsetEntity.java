@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model;
+package jp.sourceforge.tmdmaker.dialog.model;
+
+import jp.sourceforge.tmdmaker.model.SubsetEntity;
 
 /**
  * 編集用サブセット

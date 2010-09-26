@@ -16,7 +16,7 @@
 package jp.sourceforge.tmdmaker.dialog.component;
 
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
-import jp.sourceforge.tmdmaker.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 

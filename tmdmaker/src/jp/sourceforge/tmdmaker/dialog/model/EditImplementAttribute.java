@@ -13,10 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model;
+package jp.sourceforge.tmdmaker.dialog.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.KeyModel;
+import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
 /**
  * アトリビュートの実装方法の編集用クラス

@@ -15,18 +15,18 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
-import jp.sourceforge.tmdmaker.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.graphics.Rectangle;
 
 public class AttributePanel extends Composite {
 

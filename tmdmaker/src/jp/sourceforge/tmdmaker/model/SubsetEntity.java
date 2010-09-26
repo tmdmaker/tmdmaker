@@ -96,5 +96,8 @@ public class SubsetEntity extends AbstractEntityModel {
 		copyTo(copy);
 		return copy;
 	}
-	
+	public AbstractEntityModel getSuperset() {
+		SubsetType type = (SubsetType) getModelTargetConnections().get(0).getSource();
+		return (AbstractEntityModel) type.getModelTargetConnections().get(0).getSource();
+	}
 }

@@ -19,16 +19,18 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.model.command.ImplementDerivationModelsDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -63,11 +65,14 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, entity, editAttributeList);
 
-			// TableEditCommand<AbstractEntityModel> command = new
-			// TableEditCommand<AbstractEntityModel>(
-			// entity, (AbstractEntityModel) dialog.getEditedValue());
-			ModelEditCommand command = new ModelEditCommand(entity, dialog
-					.getEditedValue());
+			AbstractEntityModel edited = dialog.getEditedValue();
+			ModelEditCommand command = new ModelEditCommand(entity, edited);
+
+			if (entity.isNotImplement() && !edited.isNotImplement()) {
+				AbstractEntityModel original = ImplementRule.findOriginal(entity);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(entity, original));
+			}
+
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}
@@ -98,9 +103,6 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
 	}
 
 	/**
@@ -165,68 +167,18 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			// VirtualEntityDeleteCommand command = new
-			// VirtualEntityDeleteCommand((VirtualEntity) getHost().getModel());
-			// return command;
 			VirtualEntity model = (VirtualEntity) getHost().getModel();
-			return new TableDeleteCommand(model, model
-					.getModelTargetConnections().get(0));
+			CompoundCommand ccommand = new CompoundCommand();
+			if (model.isNotImplement()) {
+				AbstractEntityModel original = ImplementRule.findOriginal(model);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
+			}
+
+			ccommand.add(new TableDeleteCommand(model, model
+					.getModelTargetConnections().get(0)));
+
+			return ccommand;
 		}
 
 	}
-
-	// /**
-	// *
-	// * @author nakaG
-	// *
-	// */
-	// private static class VirtualEntityDeleteCommand extends Command {
-	// /** 削除対象 */
-	// private VirtualEntity ve;
-	// /** みなしエンティテ作成時のリレーションシップ */
-	// private AbstractRelationship relationship;
-	//
-	// /**
-	// * コンストラクタ
-	// *
-	// * @param ve
-	// * 削除対象
-	// */
-	// public VirtualEntityDeleteCommand(VirtualEntity ve) {
-	// this.ve = ve;
-	// this.relationship = (AbstractRelationship) ve
-	// .getModelTargetConnections().get(0);
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#canExecute()
-	// */
-	// @Override
-	// public boolean canExecute() {
-	// return ve.isDeletable();
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#execute()
-	// */
-	// @Override
-	// public void execute() {
-	// relationship.disconnect();
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#undo()
-	// */
-	// @Override
-	// public void undo() {
-	// relationship.connect();
-	// }
-	//
-	// }
 }

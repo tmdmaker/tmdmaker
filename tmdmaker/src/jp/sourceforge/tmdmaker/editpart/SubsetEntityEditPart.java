@@ -19,19 +19,21 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
+import jp.sourceforge.tmdmaker.model.command.ImplementDerivationModelsDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -117,6 +119,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
+//		installEditPolicy(EditPolicy.LAYOUT_ROLE, new DerivationEntityComponentEditPolicy());
 	}
 
 	/**
@@ -161,18 +164,16 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			// TableEditCommand<SubsetEntity> command = new
-			// TableEditCommand<SubsetEntity>(
-			// table, (SubsetEntity) dialog.getEditedValue());
-			ModelEditCommand command = new ModelEditCommand(table, dialog
-					.getEditedValue());
+			AbstractEntityModel edited = dialog.getEditedValue();
+			ModelEditCommand command = new ModelEditCommand(table, edited);
 			ccommand.add(command);
+			
+			if (table.isNotImplement() && !edited.isNotImplement()) {
+				AbstractEntityModel original = ImplementRule.findOriginal(table);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(table, original));
+			}
+
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
-			// TableEditCommand<SubsetEntity> command = new
-			// TableEditCommand<SubsetEntity>(
-			// table, dialog.getEntityName(), dialog.getReuseKeys(),
-			// dialog.getAttributes());
-			// getViewer().getEditDomain().getCommandStack().execute(command);
 		}
 	}
 
@@ -197,8 +198,10 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			SubsetEntityDeleteCommand command1 = new SubsetEntityDeleteCommand(
 					diagram, model);
 			ccommand.add(command1);
-			// RelatedRelationship relationship = findRelatedRelationship(model
-			// .getModelTargetConnections());
+			if (model.isNotImplement()) {
+				AbstractEntityModel original = ImplementRule.findOriginal(model);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
+			}
 			SubsetType2SubsetRelationship relationship = (SubsetType2SubsetRelationship) model
 					.findRelationshipFromTargetConnections(
 							SubsetType2SubsetRelationship.class).get(0);

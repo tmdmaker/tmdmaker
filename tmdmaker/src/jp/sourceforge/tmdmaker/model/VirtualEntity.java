@@ -88,5 +88,7 @@ public class VirtualEntity extends AbstractEntityModel {
 		copyTo(copy);
 		return copy;
 	}
-
+	public AbstractEntityModel getRealEntity() {
+		return (AbstractEntityModel) getModelTargetConnections().get(0).getSource();
+	}
 }

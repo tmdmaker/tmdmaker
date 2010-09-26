@@ -16,8 +16,8 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.dialog.ImplementInfoEditDialog;
+import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
@@ -51,7 +51,6 @@ public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		// TODO 個体指定子の実装情報が反映されない？
 		ImplementInfoEditDialog dialog = new ImplementInfoEditDialog(getPart()
 				.getViewer().getControl().getShell(), getModel());
 		if (dialog.open() == Dialog.OK) {

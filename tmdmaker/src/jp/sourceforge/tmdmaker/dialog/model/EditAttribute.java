@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model;
+package jp.sourceforge.tmdmaker.dialog.model;
 
+import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
+import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
 
 /**

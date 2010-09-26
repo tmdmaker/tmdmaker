@@ -18,8 +18,8 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.model.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.EditSubsetEntity;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;

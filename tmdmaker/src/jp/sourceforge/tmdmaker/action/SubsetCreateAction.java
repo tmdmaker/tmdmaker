@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.action;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
+import jp.sourceforge.tmdmaker.dialog.model.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
@@ -26,14 +27,15 @@ import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
+import jp.sourceforge.tmdmaker.model.command.ImplementDerivationModelsDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -126,10 +128,17 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	private void addSubsetDeleteCommand(AbstractEntityModel model,
 			SubsetType subsetType, CompoundCommand ccommand,
 			List<EditSubsetEntity> deleteSubsets) {
+		AbstractEntityModel original = null;
 		for (EditSubsetEntity e : deleteSubsets) {
-			SubsetDeleteCommand command = new SubsetDeleteCommand(e
-					.getOriginal());
+			SubsetEntity subset = e.getOriginal();
+			if (original == null) {
+				original = ImplementRule.findOriginal(subset);
+			}
+			SubsetDeleteCommand command = new SubsetDeleteCommand(subset);
 			ccommand.add(command);
+			if (subset.isNotImplement()) {
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(subset, original));
+			}
 		}
 		if (deleteSubsets.size() > 0) {
 			SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(model

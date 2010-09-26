@@ -135,4 +135,18 @@ public class ImplementRule {
 
 		return attributes;
 	}
+	public static AbstractEntityModel findOriginal(AbstractEntityModel model) {
+		if (model.isNotImplement()) {
+			if (model instanceof SubsetEntity) {
+				return findOriginal(((SubsetEntity)model).getSuperset());
+			} else if (model instanceof VirtualEntity) {
+				return findOriginal(((VirtualEntity)model).getRealEntity());
+			} else {
+				return model;
+			}
+		} else {
+			return model;
+		}
+	}
+
 }
