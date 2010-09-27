@@ -69,7 +69,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 			ModelEditCommand command = new ModelEditCommand(entity, edited);
 
 			if (entity.isNotImplement() && !edited.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginal(entity);
+				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(entity);
 				ccommand.add(new ImplementDerivationModelsDeleteCommand(entity, original));
 			}
 
@@ -170,7 +170,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 			VirtualEntity model = (VirtualEntity) getHost().getModel();
 			CompoundCommand ccommand = new CompoundCommand();
 			if (model.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginal(model);
+				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(model);
 				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
 			}
 

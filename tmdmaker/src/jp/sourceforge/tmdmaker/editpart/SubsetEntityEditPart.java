@@ -119,7 +119,6 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-//		installEditPolicy(EditPolicy.LAYOUT_ROLE, new DerivationEntityComponentEditPolicy());
 	}
 
 	/**
@@ -169,7 +168,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			ccommand.add(command);
 			
 			if (table.isNotImplement() && !edited.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginal(table);
+				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(table);
 				ccommand.add(new ImplementDerivationModelsDeleteCommand(table, original));
 			}
 
@@ -199,7 +198,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 					diagram, model);
 			ccommand.add(command1);
 			if (model.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginal(model);
+				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(model);
 				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
 			}
 			SubsetType2SubsetRelationship relationship = (SubsetType2SubsetRelationship) model

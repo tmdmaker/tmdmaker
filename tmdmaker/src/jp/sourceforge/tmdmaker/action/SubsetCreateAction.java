@@ -132,7 +132,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		for (EditSubsetEntity e : deleteSubsets) {
 			SubsetEntity subset = e.getOriginal();
 			if (original == null) {
-				original = ImplementRule.findOriginal(subset);
+				original = ImplementRule.findOriginalImplementModel(subset);
 			}
 			SubsetDeleteCommand command = new SubsetDeleteCommand(subset);
 			ccommand.add(command);

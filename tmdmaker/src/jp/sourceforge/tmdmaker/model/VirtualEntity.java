@@ -88,7 +88,14 @@ public class VirtualEntity extends AbstractEntityModel {
 		copyTo(copy);
 		return copy;
 	}
+
+	/**
+	 * 派生元のモデルを取得する
+	 * 
+	 * @return 派生元モデル
+	 */
 	public AbstractEntityModel getRealEntity() {
-		return (AbstractEntityModel) getModelTargetConnections().get(0).getSource();
+		return (AbstractEntityModel) getModelTargetConnections().get(0)
+				.getSource();
 	}
 }

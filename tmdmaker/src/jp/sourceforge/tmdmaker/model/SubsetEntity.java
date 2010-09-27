@@ -96,8 +96,16 @@ public class SubsetEntity extends AbstractEntityModel {
 		copyTo(copy);
 		return copy;
 	}
+
+	/**
+	 * サブセットの派生元（スーパーセット）を取得する
+	 * 
+	 * @return 派生元モデル（スーパーセット）
+	 */
 	public AbstractEntityModel getSuperset() {
-		SubsetType type = (SubsetType) getModelTargetConnections().get(0).getSource();
-		return (AbstractEntityModel) type.getModelTargetConnections().get(0).getSource();
+		SubsetType type = (SubsetType) getModelTargetConnections().get(0)
+				.getSource();
+		return (AbstractEntityModel) type.getModelTargetConnections().get(0)
+				.getSource();
 	}
 }

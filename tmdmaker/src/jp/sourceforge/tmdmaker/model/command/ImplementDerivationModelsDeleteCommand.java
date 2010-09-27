@@ -23,6 +23,8 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import org.eclipse.gef.commands.Command;
 
 /**
+ * 派生元で実装するモデルの情報を削除するCommand
+ * 
  * @author nakaG
  * 
  */
@@ -32,8 +34,12 @@ public class ImplementDerivationModelsDeleteCommand extends Command {
 	private AbstractEntityModel original;
 
 	/**
+	 * コンストラクタ
+	 * 
 	 * @param model
+	 *            削除対象モデル
 	 * @param original
+	 *            派生元モデル
 	 */
 	public ImplementDerivationModelsDeleteCommand(AbstractEntityModel model,
 			AbstractEntityModel original) {

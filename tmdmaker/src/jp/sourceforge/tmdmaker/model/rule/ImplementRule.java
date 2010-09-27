@@ -135,12 +135,23 @@ public class ImplementRule {
 
 		return attributes;
 	}
-	public static AbstractEntityModel findOriginal(AbstractEntityModel model) {
+
+	/**
+	 * 実装対象でないサブセットとみなしエンティティの実装元モデル（候補含む）を取得する。
+	 * 
+	 * @param model
+	 *            対象モデル（実装対象でないサブセットかみなしエンティティ）
+	 * @return 実装元モデル（候補含む）
+	 */
+	public static AbstractEntityModel findOriginalImplementModel(
+			AbstractEntityModel model) {
 		if (model.isNotImplement()) {
 			if (model instanceof SubsetEntity) {
-				return findOriginal(((SubsetEntity)model).getSuperset());
+				return findOriginalImplementModel(((SubsetEntity) model)
+						.getSuperset());
 			} else if (model instanceof VirtualEntity) {
-				return findOriginal(((VirtualEntity)model).getRealEntity());
+				return findOriginalImplementModel(((VirtualEntity) model)
+						.getRealEntity());
 			} else {
 				return model;
 			}
@@ -148,5 +159,4 @@ public class ImplementRule {
 			return model;
 		}
 	}
-
 }

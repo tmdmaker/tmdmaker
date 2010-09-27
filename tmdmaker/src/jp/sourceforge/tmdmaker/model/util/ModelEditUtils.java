@@ -23,9 +23,11 @@ package jp.sourceforge.tmdmaker.model.util;
  */
 public class ModelEditUtils {
 	/**
+	 * 文字列を数値へ変換する。
 	 * 
 	 * @param value
-	 *            文字列をintへ変換する。
+	 *            数値を表す文字列
+	 * 
 	 * @return Integer 変換エラー時は0を返す。
 	 */
 	public static Integer toInteger(String value) {
@@ -36,9 +38,25 @@ public class ModelEditUtils {
 			return 0;
 		}
 	}
+
+	/**
+	 * 数値を文字列へ変換する。
+	 * 
+	 * @param value
+	 *            数値を表す文字列
+	 * @return NULLの場合に空白を返す
+	 */
 	public static String toBlankIfNull(Integer value) {
 		return value == null ? "" : String.valueOf(value);
 	}
+
+	/**
+	 * 文字列を返す。
+	 * 
+	 * @param value
+	 *            文字列
+	 * @return　NULLの場合に空白を返す
+	 */
 	public static String toBlankStringIfNull(String value) {
 		return value == null ? "" : value;
 	}
