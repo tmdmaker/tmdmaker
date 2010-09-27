@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker's DDLGenerator with DdlUtils
 Bundle-SymbolicName: tmdmaker.ddlgenerator;singleton:=true
-Bundle-Version: 0.0.1.qualifier
+Bundle-Version: 0.2.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
- tmdmaker;bundle-version="0.1.0"
+ tmdmaker;bundle-version="0.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/DdlUtils-1.0.jar,

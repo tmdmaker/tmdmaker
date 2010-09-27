@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: tmdmaker;singleton:=true
-Bundle-Version: 0.1.2
+Bundle-Version: 0.2.0
 Bundle-Activator: jp.sourceforge.tmdmaker.TMDPlugin
 Require-Bundle: org.eclipse.ui,	
  org.eclipse.gef,
