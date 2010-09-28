@@ -385,7 +385,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @return the keyModels
 	 */
 	public KeyModels getKeyModels() {
-		if (keyModels != null) {
+		if (keyModels == null) {
 			keyModels = new KeyModels();
 		}
 		return keyModels;

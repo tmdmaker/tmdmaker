@@ -116,6 +116,12 @@ public class ImplementRule {
 		if (model instanceof Detail) {
 			attributes.add(((Detail) model).getDetailIdentifier());
 		}
+		if (model instanceof SubsetEntity) {
+			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
+			for (IdentifierRef ref : reused.getIdentifires()) {
+				attributes.add(ref);
+			}
+		}
 		// re-usedを追加
 		Map<AbstractEntityModel, ReusedIdentifier> reused = model
 				.getReusedIdentifieres();

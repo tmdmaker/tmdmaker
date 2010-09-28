@@ -35,6 +35,7 @@ import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.KeyModels;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -92,6 +93,12 @@ public class ImplementInfoEditDialog extends Dialog {
 		} else if (model instanceof Detail) {
 			editAttributeList.add(new EditImplementAttribute(model, ((Detail) model)
 					.getDetailIdentifier()));
+		} else if (model instanceof SubsetEntity) {
+			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
+			for (IdentifierRef ref : reused.getIdentifires()) {
+				editAttributeList.add(new EditImplementAttribute(model, ref));
+			}
+
 		}
 		// Re-usedをカラムとして追加
 		Map<AbstractEntityModel, ReusedIdentifier> reused = model

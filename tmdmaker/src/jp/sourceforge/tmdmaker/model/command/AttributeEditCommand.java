@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.model.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IdentifierRef;
 
 import org.eclipse.gef.commands.Command;
 
@@ -89,7 +90,11 @@ public class AttributeEditCommand extends Command {
 		attribute.setDataTypeDeclaration(editedValueAttribute.getDataTypeDeclaration());
 		attribute.setImplementName(editedValueAttribute.getImplementName());
 		attribute.setNullable(editedValueAttribute.isNullable());
-		attribute.setName(editedValueAttribute.getName());
+		//TODO 暫定対応
+		if (attribute instanceof IdentifierRef) {
+		} else {
+			attribute.setName(editedValueAttribute.getName());
+		}
 		if (entity != null) {
 			entity.setName(this.entity.getName());
 		}
@@ -110,7 +115,11 @@ public class AttributeEditCommand extends Command {
 		attribute.setDataTypeDeclaration(oldValueAttribute.getDataTypeDeclaration());
 		attribute.setImplementName(oldValueAttribute.getImplementName());
 		attribute.setNullable(oldValueAttribute.isNullable());
-		attribute.setName(oldValueAttribute.getName());
+//		attribute.setName(oldValueAttribute.getName());
+		if (attribute instanceof IdentifierRef) {
+		} else {
+			attribute.setName(oldValueAttribute.getName());
+		}
 		if (entity != null) {
 			this.entity.setName(this.entity.getName());
 		}

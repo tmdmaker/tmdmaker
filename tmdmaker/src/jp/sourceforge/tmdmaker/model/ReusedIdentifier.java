@@ -88,7 +88,7 @@ public class ReusedIdentifier implements Serializable {
 	 */
 	public void addAll(List<IdentifierRef> identifieres) {
 		for (IdentifierRef i : identifieres) {
-			this.identifieres.add(i);
+			this.identifieres.add(new IdentifierRef(i));
 		}
 	}
 
