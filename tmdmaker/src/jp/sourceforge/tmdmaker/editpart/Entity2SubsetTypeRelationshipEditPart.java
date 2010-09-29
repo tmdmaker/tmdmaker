@@ -63,6 +63,8 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 				name = partitionAttribute.getName();
 			}
 			figure.createPartitionAttributeNameDecoration(name);
+		} else {
+			figure.createPartitionAttributeNameDecoration("");			
 		}
 	}
 
