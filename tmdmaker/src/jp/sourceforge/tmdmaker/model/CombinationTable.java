@@ -109,4 +109,15 @@ public class CombinationTable extends AbstractEntityModel {
 		return copy;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#copyTo(jp.sourceforge.tmdmaker.model.AbstractEntityModel)
+	 */
+	@Override
+	public void copyTo(AbstractEntityModel to) {
+		((CombinationTable)to).setCombinationTableType(getCombinationTableType());
+		super.copyTo(to);
+	}
+	
 }
