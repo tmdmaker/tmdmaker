@@ -55,7 +55,7 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 			HtmlGeneratorUtils.outputCSS(rootDir);
 			HtmlGeneratorUtils.copyStream(KeyDefinitionListHtmlGenerator.class
 					.getResourceAsStream("index.html"), new FileOutputStream(
-					new File(rootDir, "index.html")));
+					new File(rootDir, "keys_index.html")));
 
 			context.put("entities", models);
 			HtmlGeneratorUtils.applyTemplate("summary.html", this.getClass(),
@@ -75,7 +75,7 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 				context.put("mappings", attributeKeyMap.entrySet());
 				context.put("entity", m);
 				HtmlGeneratorUtils.applyTemplate("keys.html", this.getClass(),
-						new File(keysDir, m.getName() + "_keys.html"), context);
+						new File(keysDir, m.getName() + ".html"), context);
 
 			}
 		} catch (Exception e) {

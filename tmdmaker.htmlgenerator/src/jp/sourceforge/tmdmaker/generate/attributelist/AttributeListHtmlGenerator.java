@@ -77,7 +77,7 @@ public class AttributeListHtmlGenerator implements Generator {
 			HtmlGeneratorUtils.outputCSS(rootDir);
 			HtmlGeneratorUtils.copyStream(AttributeListHtmlGenerator.class
 					.getResourceAsStream("index.html"), new FileOutputStream(
-					new File(rootDir, "index.html")));
+					new File(rootDir, "attributes_index.html")));
 			Map<String, EntityAttributePair> attributes = findAllAttributes(models);
 
 			context.put("entities", models);
