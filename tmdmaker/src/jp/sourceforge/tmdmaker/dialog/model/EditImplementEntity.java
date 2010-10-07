@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.dialog.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,7 @@ import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.KeyModels;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.SarogateKey;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 /**
@@ -36,12 +39,29 @@ import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
  *
  */
 public class EditImplementEntity {
+	/** プロパティ変更通知用 */
+	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+	public static final String PROPERTY_ATTRIBUTES = "attributes";
+	public static final String PROPERTY_SAROGATE = "sarogate";
 	private AbstractEntityModel model;
+	private EditSarogateKey sarogateKey;
 	private List<EditImplementAttribute> attributes = new ArrayList<EditImplementAttribute>();
 	private KeyModels keyModels = new KeyModels();
 	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
 
 	public EditImplementEntity(AbstractEntityModel model) {
+		// 対象モデルのキーを抽出
+		KeyModels originalKeyModels = model.getKeyModels();
+		if (originalKeyModels != null) {
+			originalKeyModels.copyTo(keyModels);
+
+			SarogateKey key = originalKeyModels.getSarogateKey();
+			sarogateKey = new EditSarogateKey(model, key);
+			if (sarogateKey.isEnabled()) {
+				attributes.add(sarogateKey);
+			}
+		}
+
 		if (model instanceof Entity) {
 			attributes.add(new EditImplementAttribute(model,((Entity) model)
 					.getIdentifier()));
@@ -79,12 +99,100 @@ public class EditImplementEntity {
 				}
 			}
 		}
-		// 対象モデルのキーを抽出
-		if (model.getKeyModels() != null) {
-			for (KeyModel km : model.getKeyModels()) {
-				keyModels.add(km.getCopy());
-			}
+	}
+	public boolean hasSarogateKey() {
+		return sarogateKey.isEnabled();
+	}
+	public void setSarogateKeyEnabled(boolean enabled) {
+		sarogateKey.setEnabled(enabled);
+		if (enabled) {
+			addAttribute(0, sarogateKey);
+		} else {
+			attributes.remove(sarogateKey);
+		}
+		firePropertyChange(PROPERTY_ATTRIBUTES, null, sarogateKey);
+	}
+	public boolean isSarogateKeyEnabled() {
+		return sarogateKey.isEnabled();
+	}
+	public String getSarogateKeyName() {
+		return sarogateKey.getName();
+	}
+	public void setSarogateKeyName(String name) {
+		sarogateKey.setName(name);
+		firePropertyChange(PROPERTY_SAROGATE, null, sarogateKey);
+	}
+	
+	/**
+	 * @return the sarogateKey
+	 */
+	public EditSarogateKey getSarogateKey() {
+		return sarogateKey;
+	}
+	public void addAttribute(EditImplementAttribute attribute) {
+		attributes.add(attribute);
+		for (KeyModel ek : keyModels) {
+			attribute.addKeyModel(ek);
 		}
 
+		firePropertyChange(PROPERTY_ATTRIBUTES, null, attribute);
 	}
+	public void addAttribute(int index, EditImplementAttribute attribute) {
+		attributes.add(index, attribute);
+		firePropertyChange(PROPERTY_ATTRIBUTES, null, attribute);
+	}
+	
+	/**
+	 * @return the attributes
+	 */
+	public List<EditImplementAttribute> getAttributes() {
+		return attributes;
+	}
+	/**
+	 * @return the keyModels
+	 */
+	public KeyModels getKeyModels() {
+		return keyModels;
+	}
+	/**
+	 * @return the otherModelAttributesMap
+	 */
+	public Map<AbstractEntityModel, List<EditImplementAttribute>> getOtherModelAttributesMap() {
+		return otherModelAttributesMap;
+	}
+	/**
+	 * プロパティ変更通知先追加
+	 * 
+	 * @param listener
+	 *            プロパティ変更通知先
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		listeners.addPropertyChangeListener(listener);
+	}
+
+	/**
+	 * プロパティ変更通知
+	 * 
+	 * @param propName
+	 *            変更したプロパティの名称
+	 * @param oldValue
+	 *            変更前の値
+	 * @param newValue
+	 *            変更後の値
+	 */
+	public void firePropertyChange(String propName, Object oldValue,
+			Object newValue) {
+		listeners.firePropertyChange(propName, oldValue, newValue);
+	}
+
+	/**
+	 * プロパティ変更通知先削除
+	 * 
+	 * @param listener
+	 *            プロパティ変更通知先
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		listeners.removePropertyChangeListener(listener);
+	}
+
 }

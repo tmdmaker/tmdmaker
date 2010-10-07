@@ -28,7 +28,7 @@ import java.util.List;
 public class KeyModels implements Iterable<KeyModel> {
 	private List<KeyModel> keys = new ArrayList<KeyModel>();
 	private KeyModel masterKey;
-
+	private SarogateKey sarogateKey;
 	/**
 	 * @return the masterKey
 	 */
@@ -125,7 +125,31 @@ public class KeyModels implements Iterable<KeyModel> {
 	public Iterator<KeyModel> iterator() {
 		return new KeyModelIterator(keys);
 	}
+	
+	/**
+	 * @return the sarogateKey
+	 */
+	public SarogateKey getSarogateKey() {
+		if (sarogateKey == null) {
+			sarogateKey = new SarogateKey();
+		}
+		return sarogateKey;
+	}
+	
+	/**
+	 * @param sarogateKey the sarogateKey to set
+	 */
+	protected void setSarogateKey(SarogateKey sarogateKey) {
+		this.sarogateKey = sarogateKey;
+	}
 
+	public void copyTo(KeyModels to) {
+		to.setMasterKey(getMasterKey());
+		to.setSarogateKey(getSarogateKey());
+		for (KeyModel k : this) {
+			to.add(k);
+		}
+	}
 	/*
 	 * キーモデルのイテレーター
 	 */

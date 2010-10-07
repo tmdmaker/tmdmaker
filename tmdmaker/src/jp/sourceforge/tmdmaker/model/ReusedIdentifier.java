@@ -30,7 +30,8 @@ import java.util.List;
 public class ReusedIdentifier implements Serializable {
 	/** 参照元の個体指定子（またはRe-usedキー） */
 	private List<IdentifierRef> identifieres = new ArrayList<IdentifierRef>();
-	private KeyModels keyModels;
+	private List<SarogateKeyRef> sarogateKeys = new ArrayList<SarogateKeyRef>();
+
 	/**
 	 * デフォルトコンストラクタ
 	 */
@@ -45,6 +46,19 @@ public class ReusedIdentifier implements Serializable {
 	 */
 	public ReusedIdentifier(Identifier identifier) {
 		addIdentifier(identifier);
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param identifier
+	 *            参照元の個体指定子
+	 * @param sarogateKey
+	 *            サロゲートキー
+	 */
+	public ReusedIdentifier(Identifier identifier, SarogateKey sarogateKey) {
+		addIdentifier(identifier);
+		addSarogateKey(sarogateKey);
 	}
 
 	/**
@@ -68,18 +82,19 @@ public class ReusedIdentifier implements Serializable {
 	public List<IdentifierRef> getIdentifires() {
 		return Collections.unmodifiableList(identifieres);
 	}
-//	public List<IdentifierRef> getImplementIdentifires() {
-//		if (keyModels != null) {
-//			KeyModel masterKey = keyModels.getMasterKey();
-//			if (masterKey == null) {
-//				return getIdentifires();
-//			} else {
-//				masterKey.
-//			}
-//		} else {
-//			return getIdentifires();
-//		}
-//	}
+
+	// public List<IdentifierRef> getImplementIdentifires() {
+	// if (keyModels != null) {
+	// KeyModel masterKey = keyModels.getMasterKey();
+	// if (masterKey == null) {
+	// return getIdentifires();
+	// } else {
+	// masterKey.
+	// }
+	// } else {
+	// return getIdentifires();
+	// }
+	// }
 	/**
 	 * 参照元の個体指定子（またはRe-usedキー）を追加する
 	 * 
@@ -96,7 +111,10 @@ public class ReusedIdentifier implements Serializable {
 		IdentifierRef identifierRef = new IdentifierRef(identifier);
 		this.identifieres.add(identifierRef);
 	}
-
+	public void addSarogateKey(SarogateKey sarogateKey) {
+		SarogateKeyRef sarogateKeyRef = new SarogateKeyRef(sarogateKey);
+		this.sarogateKeys.add(sarogateKeyRef);
+	}
 	/**
 	 * オブジェクトを破棄する
 	 */

@@ -316,4 +316,11 @@ public class EditImplementAttribute {
 		return editAttribute.toString();
 	}
 
+	/**
+	 * @return the editAttribute
+	 */
+	protected EditAttribute getEditAttribute() {
+		return editAttribute;
+	}
+	
 }

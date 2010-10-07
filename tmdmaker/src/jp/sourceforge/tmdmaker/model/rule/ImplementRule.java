@@ -28,6 +28,7 @@ import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.SarogateKey;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
@@ -109,6 +110,10 @@ public class ImplementRule {
 	public static List<Attribute> findAllImplementAttributes(
 			AbstractEntityModel model) {
 		List<Attribute> attributes = new ArrayList<Attribute>();
+		SarogateKey sarogateKey = model.getKeyModels().getSarogateKey();
+		if (sarogateKey.isEnabled()) {
+			attributes.add(sarogateKey);
+		}
 		// 個体指定子を追加
 		if (model instanceof Entity) {
 			attributes.add(((Entity) model).getIdentifier());

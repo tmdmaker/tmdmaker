@@ -163,7 +163,7 @@ public class IndexSettingPanel extends Composite {
 		
 		TableColumn tableColumn = new TableColumn(indexTable, SWT.NONE);
 		tableColumn.setWidth(150);
-		tableColumn.setText("実装名");
+		tableColumn.setText("属性名");
 		this.setLayout(gridLayout);
 		this.setSize(new Point(318, 176));
 	}
@@ -233,7 +233,7 @@ public class IndexSettingPanel extends Composite {
 		}
 		for (EditImplementAttribute attribute : attributes) {
 			TableItem item = new TableItem(indexTable, SWT.NONE);
-			item.setText(0, attribute.getImplementName());
+			item.setText(0, attribute.getName());
 			java.util.List<String> keyOrders = attribute.getKeyOrders();
 			int size = keyOrders.size();
 			for (int i = 0;i < size; i++) {
