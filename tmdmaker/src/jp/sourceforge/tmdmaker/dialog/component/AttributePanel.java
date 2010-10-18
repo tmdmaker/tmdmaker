@@ -129,7 +129,7 @@ public class AttributePanel extends Composite {
 		dataCombo.addSelectionListener(new org.eclipse.swt.events.SelectionListener() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-				int index = ((Combo)e.getSource()).getSelectionIndex();
+				int index = ((Combo) e.getSource()).getSelectionIndex();
 				fireDataTypeChanged(index);
 //				if (index > 0) {
 //					StandardSQLDataType dataType = StandardSQLDataType.values()[index - 1];
@@ -167,7 +167,7 @@ public class AttributePanel extends Composite {
 			if (dt.isSupportScale()) {
 				scaleText.setText(ea.getScale());
 			}
-			dataCombo.select(dt.ordinal()+1);
+			dataCombo.select(dt.ordinal() + 1);
 			fireDataTypeChanged(dataCombo.getSelectionIndex());
 		}
 	}
@@ -188,7 +188,7 @@ public class AttributePanel extends Composite {
 	public StandardSQLDataType getDataType() {
 		int selectionIndex = dataCombo.getSelectionIndex();
 		if (selectionIndex > 0) {
-			return StandardSQLDataType.values()[selectionIndex -1];
+			return StandardSQLDataType.values()[selectionIndex - 1];
 		} else {
 			return null;
 		}

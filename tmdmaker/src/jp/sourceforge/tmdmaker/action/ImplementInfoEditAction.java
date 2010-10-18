@@ -17,8 +17,9 @@ package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.dialog.ImplementInfoEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
-import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.dialog.model.EditSarogateKey;
+import jp.sourceforge.tmdmaker.model.IAttribute;
+import jp.sourceforge.tmdmaker.model.SarogateKey;
 import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 
@@ -59,22 +60,27 @@ public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 
 			ccommand.add(new ModelEditCommand(getModel(), dialog
 					.getEditedValueEntity()));
-			for (EditImplementAttribute ei : dialog
-					.getEditedValueIdentifieres()) {
-				Identifier newIdentifier = new Identifier();
-				Identifier original = (Identifier) ei.getOriginalAttribute();
-				ei.copyTo(newIdentifier);
-				ccommand.add(new AttributeEditCommand(original, newIdentifier,
-						ei.getContainerModel()));
-			}
+//			for (EditImplementAttribute ei : dialog
+//					.getEditedValueIdentifieres()) {
+//				Identifier newIdentifier = new Identifier();
+//				Identifier original = (Identifier) ei.getOriginalAttribute();
+//				ei.copyTo(newIdentifier);
+//				ccommand.add(new AttributeEditCommand(original, newIdentifier,
+//						ei.getContainerModel()));
+//			}
 
 			for (EditImplementAttribute ea : dialog.getEditedValueAttributes()) {
-				Attribute newAttribute = new Attribute();
-				Attribute original = ea.getOriginalAttribute();
+				IAttribute original = ea.getOriginalAttribute();
+				IAttribute newAttribute = original.getCopy();
 				ea.copyTo(newAttribute);
 				ccommand.add(new AttributeEditCommand(original, newAttribute,
 						ea.getContainerModel()));
 			}
+			SarogateKey newSarogateKey = new SarogateKey();
+			EditSarogateKey edited = dialog.getEditedSarogateKey();
+			edited.copyTo(newSarogateKey);
+			SarogateKey original = (SarogateKey) edited.getOriginalAttribute();
+			ccommand.add(new AttributeEditCommand(original, newSarogateKey, edited.getContainerModel()));
 			execute(ccommand);
 		}
 	}

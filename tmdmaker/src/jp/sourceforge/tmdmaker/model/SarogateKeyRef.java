@@ -16,21 +16,25 @@
 package jp.sourceforge.tmdmaker.model;
 
 /**
+ * 実装時のサロゲートキーの参照
+ * 
  * @author nakaG
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class SarogateKeyRef extends SarogateKey {
 	private SarogateKey original;
 
-	
 	/**
+	 * コンストラクタ
+	 * 
 	 * @param original
+	 *            参照元のサロゲートキー
 	 */
 	public SarogateKeyRef(SarogateKey original) {
 		this.original = original;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -39,8 +43,34 @@ public class SarogateKeyRef extends SarogateKey {
 	@Override
 	public String getImplementName() {
 		String returnName = super.getImplementName();
-		if (returnName == null) {
+		if (returnName == null || returnName.length() == 0) {
 			returnName = original.getImplementName();
+		}
+		return returnName;
+	}
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#setImplementName(java.lang.String)
+	 */
+	@Override
+	public void setImplementName(String implementName) {
+		String oldValue = super.getImplementName();
+		if (implementName == null || !implementName.equals(oldValue)) {
+			super.setImplementName(implementName);			
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#getName()
+	 */
+	@Override
+	public String getName() {
+		String returnName = super.getName();
+		if (returnName == null || returnName.length() == 0) {
+			returnName = original.getName();
 		}
 		return returnName;
 	}
@@ -53,9 +83,53 @@ public class SarogateKeyRef extends SarogateKey {
 	}
 
 	/**
-	 * @param original the original to set
+	 * @param original
+	 *            the original to set
 	 */
 	public void setOriginal(SarogateKey original) {
 		this.original = original;
 	}
+
+	/**
+	 * @return
+	 * @see jp.sourceforge.tmdmaker.model.SarogateKey#isEnabled()
+	 */
+	public boolean isEnabled() {
+		return original.isEnabled();
+	}
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#getDataTypeDeclaration()
+	 */
+	@Override
+	public DataTypeDeclaration getDataTypeDeclaration() {
+		DataTypeDeclaration returnValue = super.getDataTypeDeclaration();
+		if (returnValue == null) {
+			returnValue = original.getDataTypeDeclaration();
+		}
+		return returnValue;
+	}
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#copyTo(jp.sourceforge.tmdmaker.model.IAttribute)
+	 */
+	@Override
+	public void copyTo(IAttribute to) {
+		to.setDerivationRule(getDerivationRule());
+		to.setDescription(getDescription());
+		to.setLock(getLock());
+		to.setValidationRule(getValidationRule());
+		if (getDataTypeDeclaration() != null) {
+			to.setDataTypeDeclaration(getDataTypeDeclaration().getCopy());
+		} else {
+			to.setDataTypeDeclaration(null);
+		}
+		to.setImplementName(getImplementName());
+		to.setNullable(isNullable());
+//		to.setName(getName());
+
+	}
+
 }

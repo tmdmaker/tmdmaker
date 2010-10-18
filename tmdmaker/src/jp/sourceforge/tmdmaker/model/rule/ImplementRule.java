@@ -22,10 +22,10 @@ import java.util.Map.Entry;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SarogateKey;
@@ -107,9 +107,9 @@ public class ImplementRule {
 	 *            対象モデル
 	 * @return アトリビュートのリスト
 	 */
-	public static List<Attribute> findAllImplementAttributes(
+	public static List<IAttribute> findAllImplementAttributes(
 			AbstractEntityModel model) {
-		List<Attribute> attributes = new ArrayList<Attribute>();
+		List<IAttribute> attributes = new ArrayList<IAttribute>();
 		SarogateKey sarogateKey = model.getKeyModels().getSarogateKey();
 		if (sarogateKey.isEnabled()) {
 			attributes.add(sarogateKey);

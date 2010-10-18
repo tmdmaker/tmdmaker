@@ -20,8 +20,8 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
@@ -72,7 +72,7 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 		MultivalueAndSuperset entity = (MultivalueAndSuperset) getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
-		List<Attribute> atts = entity.getAttributes();
+		List<IAttribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
 		entityFigure.removeAllAttributes();
 
@@ -88,7 +88,7 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 		// entityFigure.addRelationship(i.getName());
 		// }
 		// }
-		for (Attribute a : atts) {
+		for (IAttribute a : atts) {
 			entityFigure.addAttribute(a.getName());
 		}
 	}

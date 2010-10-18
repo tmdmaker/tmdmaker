@@ -3,7 +3,7 @@
  */
 package jp.sourceforge.tmdmaker.generate.keydefinitionlist;
 
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 
 /**
@@ -13,7 +13,7 @@ import jp.sourceforge.tmdmaker.model.KeyModel;
  * 
  */
 public class KeyDefinitionMapping {
-	private Attribute attribute;
+	private IAttribute attribute;
 	private KeyModel keyModel;
 	/** キーにおけるアトリビュートの順序 */
 	private String keyOrder;
@@ -24,7 +24,7 @@ public class KeyDefinitionMapping {
 	 * @param attribute 組み合わせ対象のアトリビュート
 	 * @param keyModel 組み合わせ対象のキー
 	 */
-	public KeyDefinitionMapping(Attribute attribute, KeyModel keyModel) {
+	public KeyDefinitionMapping(IAttribute attribute, KeyModel keyModel) {
 		this.attribute = attribute;
 		this.keyModel = keyModel;
 

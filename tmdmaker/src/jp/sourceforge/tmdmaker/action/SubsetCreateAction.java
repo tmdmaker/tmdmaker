@@ -25,9 +25,9 @@ import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
@@ -107,7 +107,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 			CompoundCommand ccommand = new CompoundCommand();
 			SubsetType.SubsetTypeValue newSubsetType = dialog
 					.getEditedSubsetType();
-			Attribute selectedPartitionAttribute = dialog
+			IAttribute selectedPartitionAttribute = dialog
 					.getEditedPartitionAttribute();
 			boolean newExceptNull = dialog.isEditedExceptNull();
 			ccommand.add(createSuitableSubsetTypeCommand(model, subsetType,
@@ -166,7 +166,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 
 	private Command createSuitableSubsetTypeCommand(AbstractEntityModel model,
 			SubsetType subsetType, SubsetTypeValue newSubsetType,
-			Attribute selectedPartitionAttribute, boolean newExceptNull) {
+			IAttribute selectedPartitionAttribute, boolean newExceptNull) {
 		if (subsetType.getConstraint() == null) {
 			// entityとpartitionCodeModelの接続
 			Rectangle constraint = model.getConstraint().getTranslated(0, 50);
@@ -191,8 +191,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		private SubsetType subsetType;
 		private SubsetType.SubsetTypeValue newSubsetTypeValue;
 		private SubsetType.SubsetTypeValue oldSubsetTypeValue;
-		private Attribute oldPartitionAttribute;
-		private Attribute newPartitionAttribute;
+		private IAttribute oldPartitionAttribute;
+		private IAttribute newPartitionAttribute;
 		private boolean oldExceptNull;
 		private boolean newExceptNull;
 		private Entity2SubsetTypeRelationship relationship;
@@ -207,7 +207,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		 */
 		public SubsetTypeChangeCommand(SubsetType subsetType,
 				SubsetTypeValue newSubsetTypeValue,
-				Attribute selectedPartitionAttribute, boolean newExceptNull) {
+				IAttribute selectedPartitionAttribute, boolean newExceptNull) {
 			this.subsetType = subsetType;
 			this.oldSubsetTypeValue = subsetType.getSubsetType();
 			this.newSubsetTypeValue = newSubsetTypeValue;
@@ -267,7 +267,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		private Entity2SubsetTypeRelationship model2subsetRelationship;
 
 		public Entity2SubsetTypeCreateCommand(AbstractEntityModel model,
-				SubsetType subsetType, Attribute partitionAttribute) {
+				SubsetType subsetType, IAttribute partitionAttribute) {
 			this.diagram = model.getDiagram();
 			this.model = model;
 			this.subsetType = subsetType;

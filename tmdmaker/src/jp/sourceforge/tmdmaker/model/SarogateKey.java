@@ -16,15 +16,71 @@
 package jp.sourceforge.tmdmaker.model;
 
 /**
+ * 実装時に個体指定子の代替となるサロゲートキー
+ * 
  * @author nakaG
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class SarogateKey extends Attribute {
+	private boolean enabled;
+
+	/**
+	 * デフォルトコンストラクタ
+	 */
 	public SarogateKey() {
 		setName("");
 	}
+
+	/**
+	 * @return the enabled
+	 */
 	public boolean isEnabled() {
-		return getName() != null && getName().length() > 0;
+		return enabled;
 	}
+
+	/**
+	 * @param enabled
+	 *            the enabled to set
+	 */
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#copyTo(jp.sourceforge.tmdmaker.model.IAttribute)
+	 */
+	@Override
+	public void copyTo(IAttribute to) {
+		SarogateKey to1 = (SarogateKey) to;
+		to1.setDerivationRule(getDerivationRule());
+		to1.setDescription(getDescription());
+		to1.setLock(getLock());
+		to1.setValidationRule(getValidationRule());
+		if (getDataTypeDeclaration() != null) {
+			to1.setDataTypeDeclaration(getDataTypeDeclaration().getCopy());
+		} else {
+			to1.setDataTypeDeclaration(null);
+		}
+		to1.setImplementName(getImplementName());
+		to1.setNullable(isNullable());
+		to1.setEnabled(isEnabled());
+		to1.setName(getName());
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#getCopy()
+	 */
+	@Override
+	public IAttribute getCopy() {
+		SarogateKey copy = new SarogateKey();
+		copyTo(copy);
+		return copy;
+	}
+
 }

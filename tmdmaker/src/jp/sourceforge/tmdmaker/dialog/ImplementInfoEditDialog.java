@@ -28,17 +28,13 @@ import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
 import jp.sourceforge.tmdmaker.dialog.component.SarogateKeyPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementEntity;
+import jp.sourceforge.tmdmaker.dialog.model.EditSarogateKey;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.KeyModels;
-import jp.sourceforge.tmdmaker.model.SarogateKey;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -66,7 +62,6 @@ public class ImplementInfoEditDialog extends Dialog {
 	private AbstractEntityModel editedValueEntity;
 	private List<EditImplementAttribute> editedValueAttributes = new ArrayList<EditImplementAttribute>();
 	private List<EditImplementAttribute> editedValueIdentifieres = new ArrayList<EditImplementAttribute>();
-	private KeyModels editedKeyModels = new KeyModels();
 	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
 	private ModelSelectPanel panel2;
 	private IndexSettingPanel panel3;
@@ -88,56 +83,6 @@ public class ImplementInfoEditDialog extends Dialog {
 		this.implementModel.addPropertyChangeListener(new ImplementInfoUpdateListener());
 		editAttributeList = implementModel.getAttributes();
 		otherModelAttributesMap = implementModel.getOtherModelAttributesMap();
-		editedKeyModels = implementModel.getKeyModels();
-//		if (model instanceof Entity) {
-//			editAttributeList.add(new EditImplementAttribute(model,((Entity) model)
-//					.getIdentifier()));
-//		} else if (model instanceof Detail) {
-//			editAttributeList.add(new EditImplementAttribute(model, ((Detail) model)
-//					.getDetailIdentifier()));
-//		} else if (model instanceof SubsetEntity) {
-//			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
-//			for (IdentifierRef ref : reused.getIdentifires()) {
-//				editAttributeList.add(new EditImplementAttribute(model, ref));
-//			}
-//
-//		}
-//		// Re-usedをカラムとして追加
-//		Map<AbstractEntityModel, ReusedIdentifier> reused = model
-//				.getReusedIdentifieres();
-//		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
-//				.entrySet()) {
-//			for (IdentifierRef ref : entry.getValue().getIdentifires()) {
-//				editAttributeList.add(new EditImplementAttribute(model, ref));
-//			}
-//		}
-//		// attributeをカラムとして追加
-//		for (Attribute a : model.getAttributes()) {
-//			editAttributeList.add(new EditImplementAttribute(model, a));
-//		}
-//		// 対象モデルを元とした実装しないモデル（サブセット、みなしエンティティ）のattributeを抽出
-//		for (AbstractEntityModel m : ImplementRule.findNotImplementModel(model)) {
-//			List<EditImplementAttribute> list = new ArrayList<EditImplementAttribute>();
-//			for (Attribute a : m.getAttributes()) {
-//				list.add(new EditImplementAttribute(m, a));
-//			}
-//			otherModelAttributesMap.put(m, list);			
-//		}
-//		// 対象モデルに戻して実装するモデルが保持するattributeを抽出
-//		if (model.getImplementDerivationModels() != null) {
-//			for (AbstractEntityModel m : model.getImplementDerivationModels()) {
-//				List<EditImplementAttribute> list = otherModelAttributesMap.get(m);
-//				if (list != null) {
-//					editAttributeList.addAll(list);
-//				}
-//			}
-//		}
-//		// 対象モデルのキーを抽出
-//		if (model.getKeyModels() != null) {
-//			for (KeyModel km : model.getKeyModels()) {
-//				editedKeyModels.add(km.getCopy());
-//			}
-//		}
 	}
 	/**
 	 * {@inheritDoc}
@@ -148,24 +93,6 @@ public class ImplementInfoEditDialog extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("実装情報編集");
 		TabFolder tabFolder = new TabFolder(parent, SWT.NULL);
-//		tabFolder.addSelectionListener(new SelectionListener() {
-//
-//			@Override
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				// TODO Auto-generated method stub
-//				if (((TabItem)e.item).getText().equals("キー定義")) {
-//					System.out.println(e.data);
-//					panel3.updateTable();
-//				}
-//			}
-//			
-//		});
 		// １つめのタブを作成
 		TabItem item1 = new TabItem(tabFolder, SWT.NULL);
 		item1.setText("テーブル設計");
@@ -218,7 +145,7 @@ public class ImplementInfoEditDialog extends Dialog {
 				}
 				System.out.println("update");
 				panel1.initializeValue(model, editAttributeList);
-				panel3.initializeValue(editAttributeList, editedKeyModels);
+//				panel3.initializeValue(editAttributeList, editedKeyModels);
 			}
 		});
 
@@ -230,10 +157,10 @@ public class ImplementInfoEditDialog extends Dialog {
 		composite =	new Composite(tabFolder, SWT.NULL);
 		composite.setLayout(gridLayout);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel3 = new IndexSettingPanel(composite, SWT.NULL);
+		panel3 = new IndexSettingPanel(composite, SWT.NULL, implementModel);
 		panel3.setLayoutData(gridData);
-		panel3.initializeValue(editAttributeList, editedKeyModels);
-
+//		panel3.initializeValue(editAttributeList, editedKeyModels);
+		panel3.updateTable();
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel4 = new SarogateKeyPanel(composite, SWT.NULL, implementModel);
 		panel4.setLayoutData(gridData);
@@ -254,9 +181,9 @@ public class ImplementInfoEditDialog extends Dialog {
 		editedValueEntity = model.getCopy();
 		editedValueEntity.setImplementName(panel1.getImplementName());
 		editedValueEntity.setImplementDerivationModels(panel2.getSelectModels());
-		editedValueEntity.setKeyModels(editedKeyModels);
-//		implementModel.getSarogateKey()
-//		editedKeyModels.getSarogateKey().copyFrom();
+		editedValueEntity.setKeyModels(implementModel.getKeyModels());
+//		implementModel.getSarogateKey();
+//		editedKeyModels.getSarogateKey().copyFrom(e);
 		createEditAttributeResult();
 
 		super.okPressed();
@@ -265,13 +192,16 @@ public class ImplementInfoEditDialog extends Dialog {
 	private void createEditAttributeResult() {
 		for (EditImplementAttribute ea : implementModel.getAttributes()) {
 			if (ea.isEdited()) {
-				System.out.println(ea);
-				Attribute a = ea.getOriginalAttribute();
-				if (a instanceof Identifier) {
-					editedValueIdentifieres.add(ea);
-				} else {
-					editedValueAttributes.add(ea);
-				}
+//				System.out.println(ea);
+//				IAttribute a = ea.getOriginalAttribute();
+//				if (a instanceof Identifier) {
+//					editedValueIdentifieres.add(ea);
+//				} else if (a instanceof SarogateKeyRef) {
+//					// TODO サロゲートキー
+//				} else {
+//					editedValueAttributes.add(ea);
+//				}
+				editedValueAttributes.add(ea);
 			}
 		}
 	}
@@ -296,6 +226,9 @@ public class ImplementInfoEditDialog extends Dialog {
 	public List<EditImplementAttribute> getEditedValueIdentifieres() {
 		return editedValueIdentifieres;
 	}
+	public EditSarogateKey getEditedSarogateKey() {
+		return implementModel.getSarogateKey();
+	}
 	/**
 	 * サービス
 	 *
@@ -316,6 +249,8 @@ public class ImplementInfoEditDialog extends Dialog {
 			} else if (evt.getPropertyName().equals(EditImplementEntity.PROPERTY_SAROGATE)) {
 				panel3.updateTable();
 				panel1.initializeValue(model, editAttributeList);
+			} else if (evt.getPropertyName().equals(EditImplementEntity.PROPERTY_KEYMODELS)) {
+				panel3.updateTable();				
 			}
 		}
 	}

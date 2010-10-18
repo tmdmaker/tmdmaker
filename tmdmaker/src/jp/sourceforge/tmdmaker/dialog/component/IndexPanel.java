@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 
 import org.eclipse.swt.SWT;
@@ -33,8 +33,8 @@ import org.eclipse.swt.widgets.Text;
  *
  */
 public class IndexPanel extends Composite {
-	private java.util.List<Attribute> selectModels = null;  //  @jve:decl-index=0:
-	private java.util.List<Attribute> notSelectModels = null;  //  @jve:decl-index=0:
+	private java.util.List<IAttribute> selectModels = null;  //  @jve:decl-index=0:
+	private java.util.List<IAttribute> notSelectModels = null;  //  @jve:decl-index=0:
 	
 	private Label attributeSelectedLabel = null;
 	private Label attributeNotSelectedLabel = null;
@@ -149,7 +149,7 @@ public class IndexPanel extends Composite {
 				if (selectionIndex <= 0) {
 					return;
 				}
-				Attribute moved = selectModels.remove(selectionIndex);
+				IAttribute moved = selectModels.remove(selectionIndex);
 				selectModels.add(selectionIndex-1, moved);
 				updateList();
 				attributeSelectedList.setSelection(selectionIndex-1);
@@ -207,7 +207,7 @@ public class IndexPanel extends Composite {
 				if (selectionIndex == -1 || selectionIndex == selectModels.size() -1) {
 					return;
 				}
-				Attribute moved = selectModels.remove(selectionIndex);
+				IAttribute moved = selectModels.remove(selectionIndex);
 				selectModels.add(selectionIndex+1, moved);
 				updateList();
 				attributeSelectedList.setSelection(selectionIndex+1);
@@ -310,7 +310,7 @@ public class IndexPanel extends Composite {
 	public void setAttributeSelectedList(List attributeSelectedList) {
 		this.attributeSelectedList = attributeSelectedList;
 	}
-	public void initializeValue(KeyModel keyModel, java.util.List<Attribute> notSelectAttributes) {
+	public void initializeValue(KeyModel keyModel, java.util.List<IAttribute> notSelectAttributes) {
 		indexNameText.setText(keyModel.getName());
 		selectModels = keyModel.getAttributes();
 		notSelectModels = notSelectAttributes;
@@ -322,10 +322,10 @@ public class IndexPanel extends Composite {
 	public void updateList() {
 		attributeSelectedList.removeAll();
 		attributeNotSelectedList.removeAll();
-		for (Attribute a: selectModels) {
+		for (IAttribute a: selectModels) {
 			attributeSelectedList.add(a.getName());
 		}
-		for (Attribute a:notSelectModels) {
+		for (IAttribute a:notSelectModels) {
 			attributeNotSelectedList.add(a.getName());
 		}
 	}
@@ -333,7 +333,7 @@ public class IndexPanel extends Composite {
 	/**
 	 * @return the selectModels
 	 */
-	public java.util.List<Attribute> getSelectModels() {
+	public java.util.List<IAttribute> getSelectModels() {
 		return selectModels;
 	}
 	

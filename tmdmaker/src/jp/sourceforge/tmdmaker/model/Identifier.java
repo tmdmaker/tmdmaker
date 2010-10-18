@@ -38,4 +38,17 @@ public class Identifier extends Attribute {
 	 */
 	public Identifier() {
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#getCopy()
+	 */
+	@Override
+	public IAttribute getCopy() {
+		Identifier copy = new Identifier();
+		copyTo(copy);
+		return copy;
+	}
+	
 }

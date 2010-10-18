@@ -24,6 +24,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 
@@ -452,7 +453,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	protected void addAttributeEditCommands(CompoundCommand ccommand,
 			AbstractEntityModel entity, List<EditAttribute> editAttributeList) {
 		for (EditAttribute ea : editAttributeList) {
-			Attribute original = ea.getOriginalAttribute();
+			IAttribute original = ea.getOriginalAttribute();
 			if (ea.isEdited() && !ea.isAdded()) {
 				Attribute editedValueAttribute = new Attribute();
 				ea.copyTo(editedValueAttribute);

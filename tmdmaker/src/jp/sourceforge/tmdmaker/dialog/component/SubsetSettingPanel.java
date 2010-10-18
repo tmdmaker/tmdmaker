@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.model.EditSubsetEntity;
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -272,7 +272,7 @@ public class SubsetSettingPanel extends Composite {
 				});
 	}
 
-	public void initializeValue(boolean sameType, boolean exceptNull, List<Attribute> attributes, List<EditSubsetEntity> subsets, Attribute selectedAttribute) {
+	public void initializeValue(boolean sameType, boolean exceptNull, List<IAttribute> attributes, List<EditSubsetEntity> subsets, IAttribute selectedAttribute) {
 		this.sameType = sameType;
 		this.exceptNull = exceptNull;
 		if (sameType) {
@@ -282,7 +282,7 @@ public class SubsetSettingPanel extends Composite {
 			this.differenceRadioButton.setSelection(true);
 			this.nullCheckBox.setSelection(exceptNull);
 		}
-		for (Attribute a : attributes) {
+		for (IAttribute a : attributes) {
 			this.partitionSelectCombo.add(a.getName());
 			if (a.equals(selectedAttribute)) {
 				this.partitionSelectCombo.select(this.partitionSelectCombo.getItemCount() - 1);

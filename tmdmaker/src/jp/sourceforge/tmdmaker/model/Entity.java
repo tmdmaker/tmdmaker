@@ -101,7 +101,7 @@ public class Entity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		return new ReusedIdentifier(this.identifier);
+		return new ReusedIdentifier(this.identifier, keyModels.getSarogateKey());
 	}
 
 	/**

@@ -20,6 +20,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
@@ -43,7 +44,7 @@ public class EditImplementAttribute {
 	 * @param containerModel
 	 */
 	public EditImplementAttribute(AbstractEntityModel containerModel,
-			Attribute original) {
+			IAttribute original) {
 		this.editAttribute = new EditAttribute(original);
 		this.containerModel = containerModel;
 	}
@@ -54,19 +55,27 @@ public class EditImplementAttribute {
 	public AbstractEntityModel getContainerModel() {
 		return containerModel;
 	}
+
 	public void addKeyModel(KeyModel model) {
 		this.keyModels.add(model);
 	}
+
 	public int getKeyCount() {
 		return keyModels.size();
 	}
+
 	public void removeAllKeyModel() {
 		this.keyModels.clear();
 	}
+
+	public void removeKeyModel(KeyModel model) {
+		this.keyModels.remove(model);
+	}
+
 	public List<String> getKeyOrders() {
 		List<String> keyOrders = new ArrayList<String>();
 		for (KeyModel m : keyModels) {
-			Attribute original = getOriginalAttribute();
+			IAttribute original = getOriginalAttribute();
 			if (m.contains(original)) {
 				keyOrders.add(String.valueOf(m.indexOf(original) + 1));
 			} else {
@@ -75,13 +84,13 @@ public class EditImplementAttribute {
 		}
 		return keyOrders;
 	}
-	
+
 	/**
-	 * @param to
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#copyTo(jp.sourceforge.tmdmaker.model.Attribute)
+	 * @param newAttribute
+	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#copyTo(jp.sourceforge.tmdmaker.model.IAttribute)
 	 */
-	public void copyTo(Attribute to) {
-		editAttribute.copyTo(to);
+	public void copyTo(IAttribute newAttribute) {
+		editAttribute.copyTo(newAttribute);
 	}
 
 	/**
@@ -144,7 +153,7 @@ public class EditImplementAttribute {
 	 * @return
 	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getOriginalAttribute()
 	 */
-	public Attribute getOriginalAttribute() {
+	public IAttribute getOriginalAttribute() {
 		return editAttribute.getOriginalAttribute();
 	}
 
@@ -322,5 +331,5 @@ public class EditImplementAttribute {
 	protected EditAttribute getEditAttribute() {
 		return editAttribute;
 	}
-	
+
 }

@@ -44,7 +44,7 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	/**
 	 * @return the partitionAttributeName
 	 */
-	public Attribute getPartitionAttribute() {
+	public IAttribute getPartitionAttribute() {
 		return ((SubsetType) getTarget()).getPartitionAttribute();
 	}
 

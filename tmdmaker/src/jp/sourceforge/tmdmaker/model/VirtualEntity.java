@@ -61,7 +61,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		ReusedIdentifier returnValue = new ReusedIdentifier();
+		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
 
 		return returnValue;

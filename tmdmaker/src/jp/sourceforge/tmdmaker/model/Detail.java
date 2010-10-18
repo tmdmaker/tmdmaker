@@ -100,7 +100,7 @@ public class Detail extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		ReusedIdentifier returnValue = new ReusedIdentifier();
+		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
 		returnValue.addIdentifier(detailIdentifier);
 		return returnValue;

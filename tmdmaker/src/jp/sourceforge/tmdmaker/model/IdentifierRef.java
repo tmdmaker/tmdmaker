@@ -108,4 +108,27 @@ public class IdentifierRef extends Identifier {
 		}
 		return returnValue;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.Attribute#copyTo(jp.sourceforge.tmdmaker.model.IAttribute)
+	 */
+	@Override
+	public void copyTo(IAttribute to) {
+		to.setDerivationRule(getDerivationRule());
+		to.setDescription(getDescription());
+		to.setLock(getLock());
+		to.setValidationRule(getValidationRule());
+		if (getDataTypeDeclaration() != null) {
+			to.setDataTypeDeclaration(getDataTypeDeclaration().getCopy());
+		} else {
+			to.setDataTypeDeclaration(null);
+		}
+		to.setImplementName(getImplementName());
+		to.setNullable(isNullable());
+//		to.setName(getName());
+
+	}
+	
 }

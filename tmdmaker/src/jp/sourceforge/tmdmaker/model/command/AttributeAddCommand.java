@@ -16,7 +16,7 @@
 package jp.sourceforge.tmdmaker.model.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.gef.commands.Command;
 
@@ -28,7 +28,7 @@ import org.eclipse.gef.commands.Command;
  */
 public class AttributeAddCommand extends Command {
 	private AbstractEntityModel entity;
-	private Attribute attribute;
+	private IAttribute attribute;
 
 	/**
 	 * コンストラクタ
@@ -38,7 +38,7 @@ public class AttributeAddCommand extends Command {
 	 * @param attribute
 	 *            追加アトリビュート
 	 */
-	public AttributeAddCommand(AbstractEntityModel entity, Attribute attribute) {
+	public AttributeAddCommand(AbstractEntityModel entity, IAttribute attribute) {
 		this.entity = entity;
 		this.attribute = attribute;
 	}

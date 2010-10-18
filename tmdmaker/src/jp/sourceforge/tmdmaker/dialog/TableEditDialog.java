@@ -23,7 +23,7 @@ import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -46,8 +46,6 @@ public class TableEditDialog extends Dialog {
 	private AbstractEntityModel editedValue;
 	/** 編集用アトリビュートリスト */
 	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
-	/** 実装可否設定用 */
-//	private Button notImplementCheck;
 	/** ダイアログタイトル */
 	private String title;
 	/** 表名設定用 */
@@ -57,10 +55,9 @@ public class TableEditDialog extends Dialog {
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel3;
 
-	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
-	private List<Attribute> addAttributes = new ArrayList<Attribute>();
-	private List<Attribute> editAttributes = new ArrayList<Attribute>();
-//	private List<Attribute> deleteAttributes = new ArrayList<Attribute>();
+	private List<IAttribute> newAttributeOrder = new ArrayList<IAttribute>();
+	private List<IAttribute> addAttributes = new ArrayList<IAttribute>();
+	private List<IAttribute> editAttributes = new ArrayList<IAttribute>();
 
 	/**
 	 * コンストラクタ
@@ -77,7 +74,7 @@ public class TableEditDialog extends Dialog {
 		super(parentShell);
 		this.title = title;
 		this.original = original;
-		for (Attribute a : this.original.getAttributes()) {
+		for (IAttribute a : this.original.getAttributes()) {
 			editAttributeList.add(new EditAttribute(a));
 		}
 	}
@@ -100,12 +97,6 @@ public class TableEditDialog extends Dialog {
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
-//		gridData = new GridData(GridData.FILL_HORIZONTAL);
-//		gridData.horizontalIndent = 5;
-//		notImplementCheck = new Button(composite, SWT.CHECK);
-//		notImplementCheck.setText("実装しない");
-//		notImplementCheck.setLayoutData(gridData);
-
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL);
 		panel3.setLayoutData(gridData);
@@ -125,8 +116,6 @@ public class TableEditDialog extends Dialog {
 	 */
 	private void initializeValue() {
 		panel1.setTableName(original.getName());
-
-//		notImplementCheck.setSelection(original.isNotImplement());
 
 		panel2.setAttributeTableRow(editAttributeList);
 
@@ -160,7 +149,7 @@ public class TableEditDialog extends Dialog {
 	private void createEditAttributeResult() {
 
 		for (EditAttribute ea : editAttributeList) {
-			Attribute originalAttribute = ea.getOriginalAttribute();
+			IAttribute originalAttribute = ea.getOriginalAttribute();
 			if (ea.isAdded()) {
 				ea.copyToOriginal();
 				addAttributes.add(ea.getOriginalAttribute());

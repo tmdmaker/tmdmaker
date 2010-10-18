@@ -17,15 +17,27 @@ package jp.sourceforge.tmdmaker.dialog.model;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.SarogateKey;
 
 /**
+ * 編集用サロゲートキー
+ * 
  * @author nakaG
- *
+ * 
  */
 public class EditSarogateKey extends EditImplementAttribute {
 	private boolean enabled;
 	private boolean added;
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param containerModel
+	 *            サロゲートキーを保有するエンティティ系モデル
+	 * @param original
+	 *            サロゲートキー
+	 */
 	public EditSarogateKey(AbstractEntityModel containerModel,
 			SarogateKey original) {
 		super(containerModel, original);
@@ -37,19 +49,22 @@ public class EditSarogateKey extends EditImplementAttribute {
 			added = !enabled;
 		}
 	}
+
 	/**
 	 * @return the enabled
 	 */
 	public boolean isEnabled() {
 		return enabled;
 	}
+
 	/**
-	 * @param enabled the enabled to set
+	 * @param enabled
+	 *            the enabled to set
 	 */
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -59,6 +74,7 @@ public class EditSarogateKey extends EditImplementAttribute {
 	public boolean isAdded() {
 		return false;
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -66,10 +82,35 @@ public class EditSarogateKey extends EditImplementAttribute {
 	 */
 	@Override
 	public Attribute getOriginalAttribute() {
-		SarogateKey sarogeteKey =  (SarogateKey) super.getOriginalAttribute();
+		SarogateKey sarogeteKey = (SarogateKey) super.getOriginalAttribute();
 		if (added) {
 			getEditAttribute().copyTo(sarogeteKey);
 		}
 		return sarogeteKey;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute#copyTo(jp.sourceforge.tmdmaker.model.IAttribute)
+	 */
+	@Override
+	public void copyTo(IAttribute to) {
+		super.copyTo(to);
+		if (to instanceof SarogateKey) {
+			((SarogateKey) to).setEnabled(enabled);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute#copyToOriginal()
+	 */
+	@Override
+	public void copyToOriginal() {
+		super.copyToOriginal();
+		((SarogateKey) getOriginalAttribute()).setEnabled(enabled);
+	}
+
 }

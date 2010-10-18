@@ -26,9 +26,13 @@ import java.util.List;
  * 
  */
 public class KeyModels implements Iterable<KeyModel> {
+	/** キーモデルのリスト */
 	private List<KeyModel> keys = new ArrayList<KeyModel>();
+	/** マスターキーとして指定したキーモデル */
 	private KeyModel masterKey;
+	/** サロゲートキー */
 	private SarogateKey sarogateKey;
+
 	/**
 	 * @return the masterKey
 	 */
@@ -97,6 +101,19 @@ public class KeyModels implements Iterable<KeyModel> {
 	}
 
 	/**
+	 * キーモデルを削除する
+	 * 
+	 * @param model
+	 *            削除するモデル
+	 */
+	public void remove(KeyModel model) {
+		if (model.isMasterKey()) {
+			setMasterKey(null);
+		}
+		keys.remove(model);
+	}
+
+	/**
 	 * キーモデルを取得する
 	 * 
 	 * @param index
@@ -125,7 +142,7 @@ public class KeyModels implements Iterable<KeyModel> {
 	public Iterator<KeyModel> iterator() {
 		return new KeyModelIterator(keys);
 	}
-	
+
 	/**
 	 * @return the sarogateKey
 	 */
@@ -135,21 +152,29 @@ public class KeyModels implements Iterable<KeyModel> {
 		}
 		return sarogateKey;
 	}
-	
+
 	/**
-	 * @param sarogateKey the sarogateKey to set
+	 * @param sarogateKey
+	 *            the sarogateKey to set
 	 */
 	protected void setSarogateKey(SarogateKey sarogateKey) {
 		this.sarogateKey = sarogateKey;
 	}
 
+	/**
+	 * 自身の値をtoへコピーする
+	 * 
+	 * @param to
+	 *            コピー先
+	 */
 	public void copyTo(KeyModels to) {
-		to.setMasterKey(getMasterKey());
+		// to.setMasterKey(getMasterKey());
 		to.setSarogateKey(getSarogateKey());
 		for (KeyModel k : this) {
-			to.add(k);
+			to.add(k.getCopy());
 		}
 	}
+
 	/*
 	 * キーモデルのイテレーター
 	 */
@@ -157,6 +182,12 @@ public class KeyModels implements Iterable<KeyModel> {
 		private List<KeyModel> keyModelList;
 		private int index = 0;
 
+		/**
+		 * コンストラクタ
+		 * 
+		 * @param keyModelList
+		 *            キーモデルのリスト
+		 */
 		public KeyModelIterator(List<KeyModel> keyModelList) {
 			this.keyModelList = keyModelList;
 		}

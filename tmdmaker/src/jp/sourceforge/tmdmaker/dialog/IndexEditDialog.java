@@ -20,7 +20,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.IndexPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Shell;
 public class IndexEditDialog extends Dialog {
 	private IndexPanel panel;
 	private KeyModel keyModel;
-	private List<Attribute> attributes;
+	private List<IAttribute> attributes;
 
 	/**
 	 * キー追加時に使用するコンストラクタ
@@ -90,8 +90,8 @@ public class IndexEditDialog extends Dialog {
 		this.attributes.removeAll(keyModel.getAttributes());
 	}
 
-	private List<Attribute> convert(List<EditImplementAttribute> sourceList) {
-		List<Attribute> targetList = new ArrayList<Attribute>();
+	private List<IAttribute> convert(List<EditImplementAttribute> sourceList) {
+		List<IAttribute> targetList = new ArrayList<IAttribute>();
 
 		for (EditImplementAttribute ea : sourceList) {
 			targetList.add(ea.getOriginalAttribute());

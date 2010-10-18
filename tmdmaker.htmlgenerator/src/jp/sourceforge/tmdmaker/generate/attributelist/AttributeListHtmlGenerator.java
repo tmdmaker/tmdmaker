@@ -23,12 +23,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.generate.HtmlGeneratorRuntimeException;
+import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.apache.velocity.VelocityContext;
@@ -93,7 +93,7 @@ public class AttributeListHtmlGenerator implements Generator {
 			attributesDir.mkdir();
 			for (Map.Entry<String, EntityAttributePair> entry : attributes
 					.entrySet()) {
-				Attribute attribute = entry.getValue().getAttribute();
+				IAttribute attribute = entry.getValue().getAttribute();
 				AbstractEntityModel entity = entry.getValue().getModel();
 				context.put("attribute", attribute);
 				context.put("entity", entity);
@@ -148,7 +148,7 @@ public class AttributeListHtmlGenerator implements Generator {
 				EntityAttributePair pair = new EntityAttributePair(d, i);
 				attributes.put(pair.createAttributeFileKey(), pair);
 			}
-			for (Attribute a : m.getAttributes()) {
+			for (IAttribute a : m.getAttributes()) {
 				EntityAttributePair pair = new EntityAttributePair(m, a);
 				attributes.put(pair.createAttributeFileKey(), pair);
 			}

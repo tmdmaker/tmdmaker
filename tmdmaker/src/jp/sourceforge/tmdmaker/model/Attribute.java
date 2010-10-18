@@ -22,7 +22,7 @@ package jp.sourceforge.tmdmaker.model;
  * 
  */
 @SuppressWarnings("serial")
-public class Attribute extends ModelElement {
+public class Attribute extends ModelElement implements IAttribute {
 	/** 摘要 */
 	private String description = "";
 	/** データ属性 */
@@ -55,116 +55,137 @@ public class Attribute extends ModelElement {
 	}
 
 	/**
-	 * @return the implementName
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#getImplementName()
 	 */
 	public String getImplementName() {
 		return implementName;
 	}
 
 	/**
-	 * @param implementName
-	 *            the implementName to set
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#setImplementName(java.lang.String)
 	 */
 	public void setImplementName(String implementName) {
 		this.implementName = implementName;
 	}
 
 	/**
-	 * @return the description
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#getDescription()
 	 */
 	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#setDescription(java.lang.String)
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	/**
-	 * @return the validationRule
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#getValidationRule()
 	 */
 	public String getValidationRule() {
 		return validationRule;
 	}
 
 	/**
-	 * @param validationRule
-	 *            the validationRule to set
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#setValidationRule(java.lang.String)
 	 */
 	public void setValidationRule(String validationRule) {
 		this.validationRule = validationRule;
 	}
 
 	/**
-	 * @return the lock
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#getLock()
 	 */
 	public String getLock() {
 		return lock;
 	}
 
 	/**
-	 * @param lock
-	 *            the lock to set
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#setLock(java.lang.String)
 	 */
 	public void setLock(String lock) {
 		this.lock = lock;
 	}
 
 	/**
-	 * @return the derivationRule
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#getDerivationRule()
 	 */
 	public String getDerivationRule() {
 		return derivationRule;
 	}
 
 	/**
-	 * @param derivationRule
-	 *            the derivationRule to set
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#setDerivationRule(java.lang.String)
 	 */
 	public void setDerivationRule(String derivationRule) {
 		this.derivationRule = derivationRule;
 	}
 
 	/**
-	 * @return the dataType
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#getDataTypeDeclaration()
 	 */
 	public DataTypeDeclaration getDataTypeDeclaration() {
 		return dataTypeDeclaration;
 	}
 
 	/**
-	 * @param dataType
-	 *            the dataType to set
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#setDataTypeDeclaration(jp.sourceforge.tmdmaker.model.DataTypeDeclaration)
 	 */
 	public void setDataTypeDeclaration(DataTypeDeclaration dataType) {
 		this.dataTypeDeclaration = dataType;
 	}
 
 	/**
-	 * @return the nullable
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#isNullable()
 	 */
 	public boolean isNullable() {
 		return nullable;
 	}
 
 	/**
-	 * @param nullable
-	 *            the nullable to set
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#setNullable(boolean)
 	 */
 	public void setNullable(boolean nullable) {
 		this.nullable = nullable;
 	}
 
 	/**
-	 * fromから自身のフィールド値へコピー（sharrow copy)する。
+	 * {@inheritDoc}
 	 * 
-	 * @param from
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#copyFrom(jp.sourceforge.tmdmaker.model.IAttribute)
 	 */
-	public void copyFrom(Attribute from) {
+	public void copyFrom(IAttribute from) {
 		this.setDerivationRule(from.getDerivationRule());
 		this.setDescription(from.getDescription());
 		this.setLock(from.getLock());
@@ -181,11 +202,11 @@ public class Attribute extends ModelElement {
 	}
 
 	/**
-	 * toへ自身のフィールド値をコピー（sharrow copy)する。
+	 * {@inheritDoc}
 	 * 
-	 * @param to
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#copyTo(jp.sourceforge.tmdmaker.model.IAttribute)
 	 */
-	public void copyTo(Attribute to) {
+	public void copyTo(IAttribute to) {
 		to.setDerivationRule(derivationRule);
 		to.setDescription(description);
 		to.setLock(lock);
@@ -198,5 +219,16 @@ public class Attribute extends ModelElement {
 		to.setImplementName(implementName);
 		to.setNullable(nullable);
 		to.setName(getName());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#getCopy()
+	 */
+	public IAttribute getCopy() {
+		Attribute copy = new Attribute();
+		copyTo(copy);
+		return copy;
 	}
 }

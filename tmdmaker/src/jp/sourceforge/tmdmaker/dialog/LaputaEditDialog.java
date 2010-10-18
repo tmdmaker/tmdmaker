@@ -21,7 +21,7 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 
@@ -44,8 +44,6 @@ public class LaputaEditDialog extends Dialog {
 	private EntityNameAndTypeSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
-//	/** 実装可否設定用 */
-//	private ImplementInfoSettingPanel panel3;
 	
 	/** 編集用アトリビュート */
 	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
@@ -53,10 +51,10 @@ public class LaputaEditDialog extends Dialog {
 	private Laputa original;
 	/** 編集結果格納用 */
 	private Laputa editedValueEntity;
-	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
-	private List<Attribute> addAttributes = new ArrayList<Attribute>();
-	private List<Attribute> editAttributes = new ArrayList<Attribute>();
-	private List<Attribute> deleteAttributes = new ArrayList<Attribute>();
+	private List<IAttribute> newAttributeOrder = new ArrayList<IAttribute>();
+	private List<IAttribute> addAttributes = new ArrayList<IAttribute>();
+	private List<IAttribute> editAttributes = new ArrayList<IAttribute>();
+	private List<IAttribute> deleteAttributes = new ArrayList<IAttribute>();
 
 	/**
 	 * コンストラクタ
@@ -69,7 +67,7 @@ public class LaputaEditDialog extends Dialog {
 	public LaputaEditDialog(Shell parentShell, final Laputa original) {
 		super(parentShell);
 		this.original = original;
-		for (Attribute a : this.original.getAttributes()) {
+		for (IAttribute a : this.original.getAttributes()) {
 			editAttributeList.add(new EditAttribute(a));
 		}
 	}
@@ -149,28 +147,28 @@ public class LaputaEditDialog extends Dialog {
 	/**
 	 * @return the addAttributes
 	 */
-	public List<Attribute> getAddAttributes() {
+	public List<IAttribute> getAddAttributes() {
 		return addAttributes;
 	}
 
 	/**
 	 * @return the editAttributes
 	 */
-	public List<Attribute> getEditAttributes() {
+	public List<IAttribute> getEditAttributes() {
 		return editAttributes;
 	}
 
 	/**
 	 * @return the deleteAttributes
 	 */
-	public List<Attribute> getDeleteAttributes() {
+	public List<IAttribute> getDeleteAttributes() {
 		return deleteAttributes;
 	}
 
 	private void createEditAttributeResult() {
 
 		for (EditAttribute ea : editAttributeList) {
-			Attribute originalAttribute = ea.getOriginalAttribute();
+			IAttribute originalAttribute = ea.getOriginalAttribute();
 			if (ea.isAdded()) {
 				ea.copyToOriginal();
 				addAttributes.add(ea.getOriginalAttribute());

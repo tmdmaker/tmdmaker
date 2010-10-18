@@ -20,7 +20,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.SubsetSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditSubsetEntity;
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 
@@ -40,11 +40,11 @@ public class SubsetCreateDialog extends Dialog {
 	private SubsetSettingPanel panel;
 	private SubsetType.SubsetTypeValue subsetType;
 	private boolean exceptNull;
-	private List<Attribute> attributes;
+	private List<IAttribute> attributes;
 	private List<EditSubsetEntity> subsetEntities = new ArrayList<EditSubsetEntity>();
-	private Attribute selectedAttribute;
+	private IAttribute selectedAttribute;
 	private SubsetType.SubsetTypeValue editedSubsetType;
-	private Attribute editedPartitionAttribute;
+	private IAttribute editedPartitionAttribute;
 	private List<EditSubsetEntity> editedSubsetEntities;
 	private List<EditSubsetEntity> deletedSubsetEntities;
 	private boolean editedExceptNull;
@@ -53,18 +53,18 @@ public class SubsetCreateDialog extends Dialog {
 	 * @param parentShell 親
 	 * @param subsetType サブセットの種類（同一/相違）
 	 * @param exceptNull 形式的サブセットの判定
-	 * @param attributes 区分コードにするアトリビュートの候補
+	 * @param list 区分コードにするアトリビュートの候補
 	 * @param subsetEntities 既作成のサブセット
 	 * @param selectedAttribute 既選択の区分コードアトリビュート
 	 */
 	public SubsetCreateDialog(Shell parentShell,
 			SubsetType.SubsetTypeValue subsetType, boolean exceptNull,
-			List<Attribute> attributes, List<SubsetEntity> subsetEntities,
-			Attribute selectedAttribute) {
+			List<IAttribute> list, List<SubsetEntity> subsetEntities,
+			IAttribute selectedAttribute) {
 		super(parentShell);
 		this.subsetType = subsetType;
 		this.exceptNull = exceptNull;
-		this.attributes = attributes;
+		this.attributes = list;
 		this.selectedAttribute = selectedAttribute;
 		for (SubsetEntity se : subsetEntities) {
 			this.subsetEntities.add(new EditSubsetEntity(se));
@@ -125,7 +125,7 @@ public class SubsetCreateDialog extends Dialog {
 	/**
 	 * @return the editedPartitionAttribute
 	 */
-	public Attribute getEditedPartitionAttribute() {
+	public IAttribute getEditedPartitionAttribute() {
 		return editedPartitionAttribute;
 	}
 

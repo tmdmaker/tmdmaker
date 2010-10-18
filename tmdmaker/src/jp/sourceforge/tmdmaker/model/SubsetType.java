@@ -42,7 +42,7 @@ public class SubsetType extends ConnectableElement {
 	/** サブセットタイプ */
 	public static final String PROPERTY_TYPE = "_property_type";
 	/** 区分コードの属性 */
-	private Attribute partitionAttribute;
+	private IAttribute partitionAttribute;
 	/** NULLを排除（形式的サブセット）するか？ */
 	private boolean exceptNull;
 
@@ -81,7 +81,7 @@ public class SubsetType extends ConnectableElement {
 	/**
 	 * @return the partitionAttribute
 	 */
-	public Attribute getPartitionAttribute() {
+	public IAttribute getPartitionAttribute() {
 		return partitionAttribute;
 	}
 
@@ -89,8 +89,8 @@ public class SubsetType extends ConnectableElement {
 	 * @param partitionAttribute
 	 *            the partitionAttribute to set
 	 */
-	public void setPartitionAttribute(Attribute partitionAttribute) {
-		Attribute oldValue = this.partitionAttribute;
+	public void setPartitionAttribute(IAttribute partitionAttribute) {
+		IAttribute oldValue = this.partitionAttribute;
 		this.partitionAttribute = partitionAttribute;
 		firePropertyChange(PROPERTY_PARTITION, oldValue, partitionAttribute);
 		firePartitionChanged();

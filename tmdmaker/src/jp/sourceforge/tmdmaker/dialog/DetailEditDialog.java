@@ -23,8 +23,8 @@ import jp.sourceforge.tmdmaker.dialog.component.DetailIdentifierSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Detail;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -59,9 +59,9 @@ public class DetailEditDialog extends Dialog {
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel4;
 
-	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
-	private List<Attribute> addAttributes = new ArrayList<Attribute>();
-	private List<Attribute> editAttributes = new ArrayList<Attribute>();
+	private List<IAttribute> newAttributeOrder = new ArrayList<IAttribute>();
+	private List<IAttribute> addAttributes = new ArrayList<IAttribute>();
+	private List<IAttribute> editAttributes = new ArrayList<IAttribute>();
 
 	/**
 	 * コンストラクタ
@@ -76,7 +76,7 @@ public class DetailEditDialog extends Dialog {
 	public DetailEditDialog(Shell parentShell, Detail original) {
 		super(parentShell);
 		this.original = original;
-		for (Attribute a : this.original.getAttributes()) {
+		for (IAttribute a : this.original.getAttributes()) {
 			editAttributeList.add(new EditAttribute(a));
 		}
 	}
@@ -166,7 +166,7 @@ public class DetailEditDialog extends Dialog {
 	private void createEditAttributeResult() {
 
 		for (EditAttribute ea : editAttributeList) {
-			Attribute originalAttribute = ea.getOriginalAttribute();
+			IAttribute originalAttribute = ea.getOriginalAttribute();
 			if (ea.isAdded()) {
 				ea.copyToOriginal();
 				addAttributes.add(ea.getOriginalAttribute());

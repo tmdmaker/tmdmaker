@@ -18,8 +18,8 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 
 import jp.sourceforge.tmdmaker.figure.Entity2SubsetTypeRelationshipFigure;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.draw2d.IFigure;
 
@@ -54,7 +54,7 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 
 		// figure.createPartitionAttributeNameDecoration("test");
 
-		Attribute partitionAttribute = relationship.getPartitionAttribute();
+		IAttribute partitionAttribute = relationship.getPartitionAttribute();
 		if (partitionAttribute != null) {
 			String name = null;
 			if (relationship.isExceptNull()) {

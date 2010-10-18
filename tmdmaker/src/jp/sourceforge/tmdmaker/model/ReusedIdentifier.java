@@ -30,6 +30,7 @@ import java.util.List;
 public class ReusedIdentifier implements Serializable {
 	/** 参照元の個体指定子（またはRe-usedキー） */
 	private List<IdentifierRef> identifieres = new ArrayList<IdentifierRef>();
+	/** 参照元のサロゲートキー */
 	private List<SarogateKeyRef> sarogateKeys = new ArrayList<SarogateKeyRef>();
 
 	/**
@@ -43,35 +44,35 @@ public class ReusedIdentifier implements Serializable {
 	 * 
 	 * @param identifier
 	 *            参照元の個体指定子
-	 */
-	public ReusedIdentifier(Identifier identifier) {
-		addIdentifier(identifier);
-	}
-
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param identifier
-	 *            参照元の個体指定子
 	 * @param sarogateKey
-	 *            サロゲートキー
+	 *            参照元のサロゲートキー
 	 */
 	public ReusedIdentifier(Identifier identifier, SarogateKey sarogateKey) {
 		addIdentifier(identifier);
-		addSarogateKey(sarogateKey);
+		this.sarogateKeys.add(new SarogateKeyRef(sarogateKey));
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param identifieres
-	 *            Re-usedキー
+	 * @param sarogateKey
+	 *            参照元のサロゲートキー
 	 */
-	public ReusedIdentifier(List<Identifier> identifieres) {
-		for (Identifier i : identifieres) {
-			IdentifierRef identifierRef = new IdentifierRef(i);
-			identifieres.add(identifierRef);
-		}
+	public ReusedIdentifier(SarogateKey sarogateKey) {
+		this.sarogateKeys.add(new SarogateKeyRef(sarogateKey));
+	}
+
+	/**
+	 * コンストラクタ. 再帰表が作成される時に利用する
+	 * 
+	 * @param sarogateKey
+	 *            参照元のサロゲートキー
+	 * @param sarogateKey
+	 *            参照元のサロゲートキー
+	 */
+	public ReusedIdentifier(SarogateKey sarogateKey1, SarogateKey sarogateKey2) {
+		this.sarogateKeys.add(new SarogateKeyRef(sarogateKey1));
+		this.sarogateKeys.add(new SarogateKeyRef(sarogateKey2));
 	}
 
 	/**
@@ -83,18 +84,13 @@ public class ReusedIdentifier implements Serializable {
 		return Collections.unmodifiableList(identifieres);
 	}
 
-	// public List<IdentifierRef> getImplementIdentifires() {
-	// if (keyModels != null) {
-	// KeyModel masterKey = keyModels.getMasterKey();
-	// if (masterKey == null) {
-	// return getIdentifires();
-	// } else {
-	// masterKey.
-	// }
-	// } else {
-	// return getIdentifires();
-	// }
-	// }
+	/**
+	 * @return the sarogateKey
+	 */
+	public List<SarogateKeyRef> getSarogateKeys() {
+		return Collections.unmodifiableList(sarogateKeys);
+	}
+
 	/**
 	 * 参照元の個体指定子（またはRe-usedキー）を追加する
 	 * 
@@ -111,14 +107,16 @@ public class ReusedIdentifier implements Serializable {
 		IdentifierRef identifierRef = new IdentifierRef(identifier);
 		this.identifieres.add(identifierRef);
 	}
-	public void addSarogateKey(SarogateKey sarogateKey) {
-		SarogateKeyRef sarogateKeyRef = new SarogateKeyRef(sarogateKey);
-		this.sarogateKeys.add(sarogateKeyRef);
-	}
+
 	/**
 	 * オブジェクトを破棄する
 	 */
 	public void dispose() {
 		identifieres.clear();
+	}
+
+	public boolean isSarogateKeyEnabled() {
+		System.out.println("isSarogateKeyEnabled");
+		return sarogateKeys.get(0).isEnabled();
 	}
 }

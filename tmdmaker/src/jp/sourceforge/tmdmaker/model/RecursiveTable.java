@@ -33,7 +33,7 @@ public class RecursiveTable extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		ReusedIdentifier returnValue = new ReusedIdentifier();
+		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifieres
 				.entrySet()) {
 			returnValue.addAll(rk.getValue().getIdentifires());
@@ -49,7 +49,7 @@ public class RecursiveTable extends AbstractEntityModel {
 	 */
 	@Override
 	public void addReusedIdentifier(AbstractEntityModel source) {
-		ReusedIdentifier added = new ReusedIdentifier();
+		ReusedIdentifier added = new ReusedIdentifier(keyModels.getSarogateKey());
 		added.addAll(source.createReusedIdentifier().getIdentifires());
 		this.reusedIdentifieres.put(source, added);
 		firePropertyChange(PROPERTY_REUSED, null, added);
@@ -62,7 +62,8 @@ public class RecursiveTable extends AbstractEntityModel {
 	 *            再帰表の元
 	 */
 	public void addCreationIdentifier(AbstractEntityModel source) {
-		ReusedIdentifier added = new ReusedIdentifier();
+		SarogateKey sarogateKey = source.getKeyModels().getSarogateKey();
+		ReusedIdentifier added = new ReusedIdentifier(sarogateKey, sarogateKey);
 		added.addAll(source.createReusedIdentifier().getIdentifires());
 		added.addAll(source.createReusedIdentifier().getIdentifires());
 		this.reusedIdentifieres.put(source, added);

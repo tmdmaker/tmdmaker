@@ -41,7 +41,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public static final String PROPERTY_IDENTIFIER = "_property_identifier";
 	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
 	/** アトリビュート */
-	protected List<Attribute> attributes = new ArrayList<Attribute>();
+	protected List<IAttribute> attributes = new ArrayList<IAttribute>();
 	/** エンティティ種類 */
 	protected EntityType entityType = EntityType.RESOURCE;
 	/** 物理実装しない */
@@ -120,7 +120,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	/**
 	 * @return the attributes
 	 */
-	public List<Attribute> getAttributes() {
+	public List<IAttribute> getAttributes() {
 		return attributes;
 	}
 
@@ -128,8 +128,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param attributes
 	 *            the attributes to set
 	 */
-	public void setAttributes(List<Attribute> attributes) {
-		List<Attribute> oldValue = this.attributes;
+	public void setAttributes(List<IAttribute> attributes) {
+		List<IAttribute> oldValue = this.attributes;
 		// for (Attribute attribute : oldValue) {
 		// attribute.setParent(null);
 		// }

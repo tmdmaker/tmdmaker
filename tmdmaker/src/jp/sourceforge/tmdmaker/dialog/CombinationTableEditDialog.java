@@ -23,9 +23,9 @@ import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.CombinationTableType;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -61,9 +61,9 @@ public class CombinationTableEditDialog extends Dialog {
 	/** 対照表種別設定用 */
 	private Combo typeCombo;
 
-	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
-	private List<Attribute> addAttributes = new ArrayList<Attribute>();
-	private List<Attribute> editAttributes = new ArrayList<Attribute>();
+	private List<IAttribute> newAttributeOrder = new ArrayList<IAttribute>();
+	private List<IAttribute> addAttributes = new ArrayList<IAttribute>();
+	private List<IAttribute> editAttributes = new ArrayList<IAttribute>();
 
 	// private List<Attribute> deleteAttributes = new ArrayList<Attribute>();
 
@@ -82,7 +82,7 @@ public class CombinationTableEditDialog extends Dialog {
 		super(parentShell);
 		this.title = title;
 		this.original = original;
-		for (Attribute a : this.original.getAttributes()) {
+		for (IAttribute a : this.original.getAttributes()) {
 			editAttributeList.add(new EditAttribute(a));
 		}
 	}
@@ -186,7 +186,7 @@ public class CombinationTableEditDialog extends Dialog {
 	private void createEditAttributeResult() {
 
 		for (EditAttribute ea : editAttributeList) {
-			Attribute originalAttribute = ea.getOriginalAttribute();
+			IAttribute originalAttribute = ea.getOriginalAttribute();
 			if (ea.isAdded()) {
 				ea.copyToOriginal();
 				addAttributes.add(ea.getOriginalAttribute());

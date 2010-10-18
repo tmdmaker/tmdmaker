@@ -21,6 +21,7 @@ import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 
@@ -79,7 +80,7 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 				System.out.println("edited");
 				Attribute editedValueAttribute = new Attribute();
 				edited.copyTo(editedValueAttribute);
-				Attribute original = edited.getOriginalAttribute();
+				IAttribute original = edited.getOriginalAttribute();
 				AbstractEntityModel entity = (AbstractEntityModel) getParent()
 						.getModel();
 				AttributeEditCommand editCommand = new AttributeEditCommand(

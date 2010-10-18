@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.model.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.IdentifierRef;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.gef.commands.Command;
 
@@ -29,11 +29,11 @@ import org.eclipse.gef.commands.Command;
  */
 public class AttributeEditCommand extends Command {
 	/** 編集対象モデル */
-	private Attribute attribute;
+	private IAttribute attribute;
 	/** 編集後値 */
-	private Attribute editedValueAttribute;
+	private IAttribute editedValueAttribute;
 	/** 編集前値 */
-	private Attribute oldValueAttribute;
+	private IAttribute oldValueAttribute;
 	/** 親モデル */
 	private AbstractEntityModel entity;
 
@@ -46,32 +46,25 @@ public class AttributeEditCommand extends Command {
 	 *            編集後値
 	 */
 	public AttributeEditCommand(Attribute attribute,
-			Attribute editedValueAttribute) {
+			IAttribute editedValueAttribute) {
 		this(attribute, editedValueAttribute, null);
 	}
+
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param attribute
+	 * @param original
 	 *            編集対象モデル
 	 * @param editedValueAttribute
 	 *            編集後値
 	 * @param entity
 	 *            親モデル
 	 */
-	public AttributeEditCommand(Attribute attribute,
-			Attribute editedValueAttribute, AbstractEntityModel entity) {
-		this.attribute = attribute;
+	public AttributeEditCommand(IAttribute original,
+			IAttribute editedValueAttribute, AbstractEntityModel entity) {
+		this.attribute = original;
 		this.editedValueAttribute = editedValueAttribute;
-		this.oldValueAttribute = new Attribute();
-		oldValueAttribute.setName(attribute.getName());
-		oldValueAttribute.setDataTypeDeclaration(attribute.getDataTypeDeclaration());
-		oldValueAttribute.setDerivationRule(attribute.getDerivationRule());
-		oldValueAttribute.setDescription(attribute.getDescription());
-		oldValueAttribute.setLock(attribute.getLock());
-		oldValueAttribute.setValidationRule(attribute.getValidationRule());
-		oldValueAttribute.setImplementName(attribute.getImplementName());
-		oldValueAttribute.setNullable(attribute.isNullable());
+		this.oldValueAttribute = original.getCopy();
 		this.entity = entity;
 	}
 
@@ -82,19 +75,7 @@ public class AttributeEditCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		attribute.setDataTypeDeclaration(editedValueAttribute.getDataTypeDeclaration());
-		attribute.setDerivationRule(editedValueAttribute.getDerivationRule());
-		attribute.setDescription(editedValueAttribute.getDescription());
-		attribute.setLock(editedValueAttribute.getLock());
-		attribute.setValidationRule(editedValueAttribute.getValidationRule());
-		attribute.setDataTypeDeclaration(editedValueAttribute.getDataTypeDeclaration());
-		attribute.setImplementName(editedValueAttribute.getImplementName());
-		attribute.setNullable(editedValueAttribute.isNullable());
-		//TODO 暫定対応
-		if (attribute instanceof IdentifierRef) {
-		} else {
-			attribute.setName(editedValueAttribute.getName());
-		}
+		editedValueAttribute.copyTo(attribute);
 		if (entity != null) {
 			entity.setName(this.entity.getName());
 		}
@@ -107,19 +88,7 @@ public class AttributeEditCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		attribute.setDataTypeDeclaration(oldValueAttribute.getDataTypeDeclaration());
-		attribute.setDerivationRule(oldValueAttribute.getDerivationRule());
-		attribute.setDescription(oldValueAttribute.getDescription());
-		attribute.setLock(oldValueAttribute.getLock());
-		attribute.setValidationRule(oldValueAttribute.getValidationRule());
-		attribute.setDataTypeDeclaration(oldValueAttribute.getDataTypeDeclaration());
-		attribute.setImplementName(oldValueAttribute.getImplementName());
-		attribute.setNullable(oldValueAttribute.isNullable());
-//		attribute.setName(oldValueAttribute.getName());
-		if (attribute instanceof IdentifierRef) {
-		} else {
-			attribute.setName(oldValueAttribute.getName());
-		}
+		oldValueAttribute.copyTo(attribute);
 		if (entity != null) {
 			this.entity.setName(this.entity.getName());
 		}

@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.generate.attributelist;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 /**
  * エンティティ系モデルとアトリビュートの１：１のペアモデル
@@ -25,7 +26,7 @@ import jp.sourceforge.tmdmaker.model.Attribute;
  * 
  */
 public class EntityAttributePair {
-	private Attribute attribute;
+	private IAttribute attribute;
 	private AbstractEntityModel model;
 
 	/**
@@ -34,7 +35,7 @@ public class EntityAttributePair {
 	 * @param model
 	 * @param attribute
 	 */
-	public EntityAttributePair(AbstractEntityModel model, Attribute attribute) {
+	public EntityAttributePair(AbstractEntityModel model, IAttribute attribute) {
 		this.model = model;
 		this.attribute = attribute;
 	}
@@ -44,7 +45,7 @@ public class EntityAttributePair {
 	/**
 	 * @return the attribute
 	 */
-	public Attribute getAttribute() {
+	public IAttribute getAttribute() {
 		return attribute;
 	}
 	/**

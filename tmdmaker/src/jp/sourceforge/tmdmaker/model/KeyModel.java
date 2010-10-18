@@ -34,7 +34,7 @@ public class KeyModel implements Serializable {
 	/** マスターキー判定 */
 	private boolean masterKey;
 	/** キーのアトリビュート */
-	private List<Attribute> attributes = new ArrayList<Attribute>();
+	private List<IAttribute> attributes = new ArrayList<IAttribute>();
 	/**
 	 * @return the name
 	 */
@@ -63,13 +63,13 @@ public class KeyModel implements Serializable {
 	/**
 	 * @return the attributes
 	 */
-	public List<Attribute> getAttributes() {
+	public List<IAttribute> getAttributes() {
 		return attributes;
 	}
 	/**
 	 * @param attributes the attributes to set
 	 */
-	public void setAttributes(List<Attribute> attributes) {
+	public void setAttributes(List<IAttribute> attributes) {
 		this.attributes = attributes;
 	}
 	/**
@@ -84,15 +84,15 @@ public class KeyModel implements Serializable {
 	public boolean isMasterKey() {
 		return masterKey;
 	}
-	public boolean contains(Attribute attribute) {
+	public boolean contains(IAttribute attribute) {
 		return attributes.contains(attribute);
 	}
-	public int indexOf(Attribute attribute) {
+	public int indexOf(IAttribute attribute) {
 		return attributes.indexOf(attribute);
 	}
 	public KeyModel getCopy() {
 		KeyModel model = new KeyModel();
-		model.setAttributes(new ArrayList<Attribute>(attributes));
+		model.setAttributes(new ArrayList<IAttribute>(attributes));
 		model.setMasterKey(isMasterKey());
 		model.setUnique(isUnique());
 		model.setName(getName());

@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
@@ -177,10 +177,10 @@ public class DdlUtilsDDLGenerator implements Generator {
 		table.setName(entity.getImplementName());
 
 		// 実装対象のアトリビュートをカラムとして追加
-		List<Attribute> attributes = ImplementRule
+		List<IAttribute> attributes = ImplementRule
 				.findAllImplementAttributes(entity);
-		Map<Attribute, Column> attributeColumnMap = new HashMap<Attribute, Column>();
-		for (Attribute a : attributes) {
+		Map<IAttribute, Column> attributeColumnMap = new HashMap<IAttribute, Column>();
+		for (IAttribute a : attributes) {
 			Column column = convert(a);
 			table.addColumn(column);
 			attributeColumnMap.put(a, column);
@@ -203,7 +203,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 	 * @return DDLUtilsのインデックスモデル
 	 */
 	private Index convert(KeyModel key,
-			Map<Attribute, Column> attributeColumnMap) {
+			Map<IAttribute, Column> attributeColumnMap) {
 		Index index = null;
 		if (key.isUnique()) {
 			index = new UniqueIndex();
@@ -212,7 +212,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 		}
 		index.setName(key.getName());
 
-		for (Attribute attr : key.getAttributes()) {
+		for (IAttribute attr : key.getAttributes()) {
 			Column column = attributeColumnMap.get(attr);
 			if (column != null) {
 				IndexColumn indexColumn = new IndexColumn(column);
@@ -232,7 +232,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 	 *            TMD-Makerのアトリビュートモデル
 	 * @return DDLUtilsのカラムモデル
 	 */
-	private Column convert(Attribute attribute) {
+	private Column convert(IAttribute attribute) {
 		Column column = new Column();
 		column.setName(attribute.getImplementName());
 		DataTypeDeclaration dtd = attribute.getDataTypeDeclaration();

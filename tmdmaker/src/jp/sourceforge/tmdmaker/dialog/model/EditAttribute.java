@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.dialog.model;
 
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
 
@@ -28,7 +29,7 @@ import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
  */
 public class EditAttribute {
 	/** 編集元アトリビュート */
-	private Attribute originalAttribute;
+	private IAttribute originalAttribute;
 	/** 編集用名称 */
 	private String name = "";
 	/** 編集有無 */
@@ -65,7 +66,7 @@ public class EditAttribute {
 	 * @param original
 	 *            編集元アトリビュート
 	 */
-	public EditAttribute(Attribute original) {
+	public EditAttribute(IAttribute original) {
 		this.originalAttribute = original;
 
 		this.name = ModelEditUtils.toBlankStringIfNull(original.getName());
@@ -111,7 +112,7 @@ public class EditAttribute {
 	/**
 	 * @return the originalAttribute
 	 */
-	public Attribute getOriginalAttribute() {
+	public IAttribute getOriginalAttribute() {
 		return originalAttribute;
 	}
 
@@ -202,7 +203,7 @@ public class EditAttribute {
 	 * @param originalAttribute
 	 *            the originalAttribute to set
 	 */
-	public void setOriginalAttribute(Attribute originalAttribute) {
+	public void setOriginalAttribute(IAttribute originalAttribute) {
 		this.originalAttribute = originalAttribute;
 	}
 
@@ -288,9 +289,9 @@ public class EditAttribute {
 	/**
 	 * toへ自身のフィールド値をコピー（sharrow copy)する。
 	 * 
-	 * @param to
+	 * @param newAttribute
 	 */
-	public void copyTo(Attribute to) {
+	public void copyTo(IAttribute newAttribute) {
 		if (dataType != null) {
 			Integer size = null;
 			Integer scale = null;
@@ -310,27 +311,29 @@ public class EditAttribute {
 			}
 			DataTypeDeclaration dataTypeDeclaration = new DataTypeDeclaration(
 					dataType, size, scale);
-			to.setDataTypeDeclaration(dataTypeDeclaration);
+			newAttribute.setDataTypeDeclaration(dataTypeDeclaration);
 		} else {
-			to.setDataTypeDeclaration(null);
+			newAttribute.setDataTypeDeclaration(null);
 		}
 		if (derivationRule.length() != 0) {
-			to.setDerivationRule(derivationRule);
+			newAttribute.setDerivationRule(derivationRule);
 		}
 		if (description.length() != 0) {
-			to.setDescription(description);
+			newAttribute.setDescription(description);
 		}
 		if (lock.length() != 0) {
-			to.setLock(lock);
+			newAttribute.setLock(lock);
 		}
 		if (validationRule.length() != 0) {
-			to.setValidationRule(validationRule);
+			newAttribute.setValidationRule(validationRule);
 		}
 		if (implementName.length() != 0) {
-			to.setImplementName(implementName);
+			newAttribute.setImplementName(implementName);
+		} else {
+			newAttribute.setImplementName(null);
 		}
-		to.setNullable(nullable);
-		to.setName(name);
+		newAttribute.setNullable(nullable);
+		newAttribute.setName(name);
 	}
 
 	/**

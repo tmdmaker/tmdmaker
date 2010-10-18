@@ -22,8 +22,8 @@ import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -47,17 +47,17 @@ public class EntityEditDialog extends Dialog {
 	private AttributeSettingPanel panel2;
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel3;
-	
+
 	/** 編集用アトリビュート */
 	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
 	/** 編集元エンティティ */
 	private Entity original;
 	/** 編集結果格納用 */
 	private Entity editedValueEntity;
-	private List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
-	private List<Attribute> addAttributes = new ArrayList<Attribute>();
-	private List<Attribute> editAttributes = new ArrayList<Attribute>();
-	private List<Attribute> deleteAttributes = new ArrayList<Attribute>();
+	private List<IAttribute> newAttributeOrder = new ArrayList<IAttribute>();
+	private List<IAttribute> addAttributes = new ArrayList<IAttribute>();
+	private List<IAttribute> editAttributes = new ArrayList<IAttribute>();
+	private List<IAttribute> deleteAttributes = new ArrayList<IAttribute>();
 
 	/**
 	 * コンストラクタ
@@ -88,7 +88,7 @@ public class EntityEditDialog extends Dialog {
 	public EntityEditDialog(Shell parentShell, final Entity original) {
 		super(parentShell);
 		this.original = original;
-		for (Attribute a : this.original.getAttributes()) {
+		for (IAttribute a : this.original.getAttributes()) {
 			editAttributeList.add(new EditAttribute(a));
 		}
 	}
@@ -101,14 +101,8 @@ public class EntityEditDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("エンティティ編集");
-//		TabFolder tabFolder = new TabFolder(parent, SWT.NULL);
-//		// １つめのタブを作成
-//		TabItem item1 = new TabItem(tabFolder, SWT.NULL);
-//		item1.setText("論理設計");
 
 		Composite composite = new Composite(parent, SWT.NULL);
-//		item1.setControl(composite);
-		// composite.setLayout(new FillLayout(SWT.VERTICAL));
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
@@ -120,53 +114,18 @@ public class EntityEditDialog extends Dialog {
 		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel3.setLayoutData(gridData);
-		
-//		gridData = new GridData(GridData.FILL_HORIZONTAL);
-//		gridData.horizontalIndent = 5;
-//		notImplementCheck = new Button(composite, SWT.CHECK);
-//		notImplementCheck.setText("実装しない");
-//		notImplementCheck.setLayoutData(gridData);
-//
-//		gridData = new GridData(GridData.FILL_HORIZONTAL);
-//		gridData.horizontalIndent = 5;
-//
-////TODO 共通コンポーネント化
-//		implementNameLabel = new Label(composite, SWT.NULL);
-//		implementNameLabel.setText("実装名");
-//		implementNameText = new Text(composite, SWT.BORDER);
-//		implementNameText.setLayoutData(gridData);
-		
+
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel2 = new AttributeSettingPanel(composite, SWT.NULL);
 		panel2.setLayoutData(gridData);
 
-		// ２つめのタブを作成
-//		TabItem item2 = new TabItem(tabFolder, SWT.NULL);
-//		item2.setText("物理設計");
-		// gridData = new GridData(GridData.FILL_HORIZONTAL);
-		// panel2 = new AttributeSettingPanel(tabFolder, SWT.NULL);
-		// item2.setControl(panel2);
-		// panel2.setLayoutData(gridData);
-		// TODO 物理設計用画面作成
-		// Label label2 = new Label(tabFolder,SWT.BORDER);
-		// label2.setText("TBD");
-//		ImplementInfoEditPanel panel3 = new ImplementInfoEditPanel(tabFolder,
-//				SWT.NULL);
-//		item2.setControl(panel3);
-//		panel3.initializeData(original.getAttributes());
-//		// 3つめのタブを作成
-//		TabItem item3 = new TabItem(tabFolder, SWT.NULL);
-//		item3.setText("インデックス設計");
-
 		composite.pack();
 		initializeValue();
-		// panel1.setInitialFocus();
+
 		return composite;
 	}
 
 	private void initializeValue() {
-		// panel1.initializeValue(oldIdentifierName, oldEntityName,
-		// oldEntityType);
 		panel1.setEditIdentifier(new EditAttribute(original.getIdentifier()));
 		panel1.setIdentifierNameText(original.getIdentifier().getName());
 		panel1.setEntityNameText(original.getName());
@@ -175,9 +134,8 @@ public class EntityEditDialog extends Dialog {
 				original.getName());
 		panel1.setEntityTypeComboEnabled(original.isEntityTypeEditable());
 
-//		notImplementCheck.setSelection(original.isNotImplement());
-//		implementNameText.setText(original.getImplementName());
-		panel3.initializeValue(original.isNotImplement(), original.getImplementName());
+		panel3.initializeValue(original.isNotImplement(), original
+				.getImplementName());
 		panel2.setAttributeTableRow(editAttributeList);
 	}
 
@@ -188,9 +146,6 @@ public class EntityEditDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		// this.editIdentifierName = panel1.getIdentifierName();
-		// this.editEntityName = panel1.getEntityName();
-		// this.editEntityType = panel1.getSelectedType();
 		this.editedValueEntity = new Entity();
 		Identifier newIdentifier = new Identifier(panel1.getIdentifierName());
 		EditAttribute editIdentifier = panel1.getEditIdentifier();
@@ -198,35 +153,11 @@ public class EntityEditDialog extends Dialog {
 		this.editedValueEntity.setIdentifier(newIdentifier);
 		this.editedValueEntity.setName(panel1.getEntityName());
 		this.editedValueEntity.setEntityType(panel1.getSelectedType());
-//		this.editedValueEntity
-//				.setNotImplement(notImplementCheck.getSelection());
-//		this.editedValueEntity.setImplementName(implementNameText.getText());
 		this.editedValueEntity.setNotImplement(panel3.isNotImplement());
 		this.editedValueEntity.setImplementName(panel3.getImplementName());
 		createEditAttributeResult();
 		super.okPressed();
 	}
-
-	// /**
-	// * @return the editIdentifierName
-	// */
-	// public String getEditIdentifierName() {
-	// return editIdentifierName;
-	// }
-	//
-	// /**
-	// * @return the editEntityName
-	// */
-	// public String getEditEntityName() {
-	// return editEntityName;
-	// }
-	//
-	// /**
-	// * @return the editEntityType
-	// */
-	// public EntityType getEditEntityType() {
-	// return editEntityType;
-	// }
 
 	/**
 	 * @return the editAttributeList
@@ -245,39 +176,33 @@ public class EntityEditDialog extends Dialog {
 	/**
 	 * @return the addAttributes
 	 */
-	public List<Attribute> getAddAttributes() {
+	public List<IAttribute> getAddAttributes() {
 		return addAttributes;
 	}
 
 	/**
 	 * @return the editAttributes
 	 */
-	public List<Attribute> getEditAttributes() {
+	public List<IAttribute> getEditAttributes() {
 		return editAttributes;
 	}
 
 	/**
 	 * @return the deleteAttributes
 	 */
-	public List<Attribute> getDeleteAttributes() {
+	public List<IAttribute> getDeleteAttributes() {
 		return deleteAttributes;
 	}
 
 	private void createEditAttributeResult() {
-		// List<Attribute> newAttributeOrder = new ArrayList<Attribute>();
-		// List<Attribute> addAttributes = new ArrayList<Attribute>();
-		// List<Attribute> editAttributes = new ArrayList<Attribute>();
 
 		for (EditAttribute ea : editAttributeList) {
-			Attribute originalAttribute = ea.getOriginalAttribute();
+			IAttribute originalAttribute = ea.getOriginalAttribute();
 			if (ea.isAdded()) {
 				ea.copyToOriginal();
 				addAttributes.add(ea.getOriginalAttribute());
 			} else {
 				if (ea.isNameChanged()) {
-					// AttributeEditCommand editCommand = new
-					// AttributeEditCommand(original, ea.getName());
-					// ccommand.add(editCommand);
 					editAttributes.add(originalAttribute);
 				}
 			}

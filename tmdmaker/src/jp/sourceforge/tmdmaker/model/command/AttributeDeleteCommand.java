@@ -16,7 +16,7 @@
 package jp.sourceforge.tmdmaker.model.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.gef.commands.Command;
 
@@ -28,10 +28,10 @@ import org.eclipse.gef.commands.Command;
  */
 public class AttributeDeleteCommand extends Command {
 	private AbstractEntityModel entity;
-	private Attribute attribute;
+	private IAttribute attribute;
 
 	public AttributeDeleteCommand(AbstractEntityModel entity,
-			Attribute attribute) {
+			IAttribute attribute) {
 		this.entity = entity;
 		this.attribute = attribute;
 	}

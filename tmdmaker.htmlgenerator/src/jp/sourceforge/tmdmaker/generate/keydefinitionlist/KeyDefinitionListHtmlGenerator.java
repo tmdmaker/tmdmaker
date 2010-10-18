@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.generate.HtmlGeneratorRuntimeException;
+import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
@@ -69,7 +69,7 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 
 			for (AbstractEntityModel m : models) {
 				context.put("keys", m.getKeyModels());
-				Map<Attribute, List<KeyDefinitionMapping>> attributeKeyMap = createData(m);
+				Map<IAttribute, List<KeyDefinitionMapping>> attributeKeyMap = createData(m);
 
 				context.put("attributes", attributeKeyMap.keySet());
 				context.put("mappings", attributeKeyMap.entrySet());
@@ -85,12 +85,12 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 
 	}
 
-	private Map<Attribute, List<KeyDefinitionMapping>> createData(
+	private Map<IAttribute, List<KeyDefinitionMapping>> createData(
 			AbstractEntityModel model) {
-		List<Attribute> attributes = ImplementRule
+		List<IAttribute> attributes = ImplementRule
 				.findAllImplementAttributes(model);
-		Map<Attribute, List<KeyDefinitionMapping>> data = new LinkedHashMap<Attribute, List<KeyDefinitionMapping>>();
-		for (Attribute a : attributes) {
+		Map<IAttribute, List<KeyDefinitionMapping>> data = new LinkedHashMap<IAttribute, List<KeyDefinitionMapping>>();
+		for (IAttribute a : attributes) {
 			List<KeyDefinitionMapping> list = new ArrayList<KeyDefinitionMapping>();
 			for (KeyModel k : model.getKeyModels()) {
 				list.add(new KeyDefinitionMapping(a, k));

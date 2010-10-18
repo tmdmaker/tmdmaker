@@ -40,15 +40,17 @@ public class ModelAddCommand extends Command {
 	 * 
 	 * @param diagram
 	 *            親
-	 * @param constraint
-	 *            位置
+	 * @param x
+	 *            X座標
+	 * @param y
+	 *            Y座標
 	 */
 	public ModelAddCommand(Diagram diagram, int x, int y) {
 		this.diagram = diagram;
 		this.x = x;
 		this.y = y;
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -56,7 +58,9 @@ public class ModelAddCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		diagram.addChild(model);
+		if (model != null) {
+			diagram.addChild(model);
+		}
 	}
 
 	/**
