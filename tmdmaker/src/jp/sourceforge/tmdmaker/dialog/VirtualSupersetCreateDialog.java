@@ -23,7 +23,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -42,7 +42,7 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	private Diagram diagram;
 	private VirtualSuperset superset;
 	private VirtualSuperset editedValue;
-	private VirtualSupersetAggregator editedAggregator;
+	private VirtualSupersetType editedAggregator;
 	private List<AbstractEntityModel> notSelection;
 	private List<AbstractEntityModel> selection = new ArrayList<AbstractEntityModel>();
 	// TODO 実装名設定、同一・相違の初期値が設定されない
@@ -99,7 +99,7 @@ public class VirtualSupersetCreateDialog extends Dialog {
 		for (ModelElement m : notSelection) {
 			System.out.println("notSelection:" + m.getName());
 		}
-		editedAggregator = new VirtualSupersetAggregator();
+		editedAggregator = new VirtualSupersetType();
 		editedAggregator.setApplyAttribute(panel1.isApplyAttributeSelected());
 		
 		super.okPressed();
@@ -129,7 +129,7 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	/**
 	 * @return the editedAggregator
 	 */
-	public VirtualSupersetAggregator getEditedAggregator() {
+	public VirtualSupersetType getEditedAggregator() {
 		return editedAggregator;
 	}
 	

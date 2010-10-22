@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.log.NullLogChute;
 /**
  * HtmlGeneratorのUtilityクラス
  * 
- * @author hiro
+ * @author nakaG
  * 
  */
 public class HtmlGeneratorUtils {

@@ -32,7 +32,7 @@ import org.eclipse.core.runtime.Platform;
 /**
  * contributeされているGeneratorを提供するクラス
  * 
- * @author hiro
+ * @author nakaG
  * 
  */
 public class GeneratorProvider {

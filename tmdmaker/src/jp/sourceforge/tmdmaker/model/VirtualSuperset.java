@@ -37,6 +37,7 @@ public class VirtualSuperset extends AbstractEntityModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -47,6 +48,7 @@ public class VirtualSuperset extends AbstractEntityModel {
 	public boolean isDeletable() {
 		return true;
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -58,38 +60,45 @@ public class VirtualSuperset extends AbstractEntityModel {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	/**
+	 * みなしサブセット（みなしスーパーセットに設定されたモデル）を取得する
 	 * 
-	 * @return
+	 * @return みなしサブセットのリスト
 	 */
 	public List<AbstractEntityModel> getVirtualSubsetList() {
 		List<AbstractEntityModel> results = new ArrayList<AbstractEntityModel>();
-		for (AbstractConnectionModel con : getVirtualSupersetAggregator()
-				.getModelSourceConnections()) {
-			results.add((AbstractEntityModel) con.getTarget());
+		for (AbstractConnectionModel con : getVirtualSupersetType()
+				.getModelTargetConnections()) {
+			results.add((AbstractEntityModel) con.getSource());
 		}
 		return results;
 	}
+
 	/**
+	 * みなしスーパーセット種類とみなしサブセット間のリレーションシップを取得する
 	 * 
-	 * @return
+	 * @return みなしスーパーセット種類とみなしサブセット間のリレーションシップ
 	 */
 	public List<AbstractConnectionModel> getVirtualSubsetRelationshipList() {
 		List<AbstractConnectionModel> results = new ArrayList<AbstractConnectionModel>();
-		for (AbstractConnectionModel con : getVirtualSupersetAggregator()
-				.getModelSourceConnections()) {
+		for (AbstractConnectionModel con : getVirtualSupersetType()
+				.getModelTargetConnections()) {
 			results.add(con);
 		}
 		return results;
 	}
+
 	/**
+	 * 対応するみなしスーパーセット種類を取得する
 	 * 
-	 * @return
+	 * @return みなしスーパーセット種類
 	 */
-	public VirtualSupersetAggregator getVirtualSupersetAggregator() {
-		return (VirtualSupersetAggregator) getModelSourceConnections().get(0)
-				.getTarget();
+	public VirtualSupersetType getVirtualSupersetType() {
+		return (VirtualSupersetType) getModelTargetConnections().get(0)
+				.getSource();
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -101,5 +110,5 @@ public class VirtualSuperset extends AbstractEntityModel {
 		copyTo(copy);
 		return copy;
 	}
-	
+
 }

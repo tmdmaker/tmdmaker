@@ -18,19 +18,21 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 
 import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.Request;
 
 /**
- * みなしスーパーセットの同一(=)/相違マーク(×)のコントローラ
+ * みなしスーパーセット種類（同一(=)/相違マーク(×)）のコントローラ
  * 
  * @author nakaG
  * 
  */
-public class VirtualSupersetAggregatorEditPart extends AbstractEntityEditPart {
+public class VirtualSupersetTypeEditPart extends AbstractEntityEditPart {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -40,8 +42,9 @@ public class VirtualSupersetAggregatorEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		SubsetTypeFigure sf = (SubsetTypeFigure) figure;
-		VirtualSupersetAggregator model = (VirtualSupersetAggregator) getModel();
+		VirtualSupersetType model = (VirtualSupersetType) getModel();
 		sf.setSameType(model.isApplyAttribute());
+		sf.setOpaque(true);
 	}
 
 	/**
@@ -94,13 +97,55 @@ public class VirtualSupersetAggregatorEditPart extends AbstractEntityEditPart {
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(
+			ConnectionEditPart connection) {
+		return new CenterAnchor(getFigure());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+	 */
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		return new CenterAnchor(getFigure());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(
+			ConnectionEditPart connection) {
+		return new CenterAnchor(getFigure());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+	 */
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		return new CenterAnchor(getFigure());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
-				VirtualSupersetAggregator.PROPERTY_SUPERSET_TYPE)) {
-			refreshVisuals();
+				VirtualSupersetType.PROPERTY_SUPERSET_TYPE)) {
+			refreshVisuals();			
 		} else {
 			super.propertyChange(evt);
 		}

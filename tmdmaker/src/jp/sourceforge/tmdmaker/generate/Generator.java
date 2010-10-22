@@ -22,7 +22,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 /**
  * ダイアグラムを元に何かを生成するためのインターフェース
  * 
- * @author hiro
+ * @author nakaG
  * 
  */
 public interface Generator {

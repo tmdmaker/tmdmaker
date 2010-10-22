@@ -287,7 +287,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 			if (superset.getName() != null) {
 				virtualSupersetNameText.setText(superset.getName());
 			}
-			applyAttribute = superset.getVirtualSupersetAggregator().isApplyAttribute();
+			applyAttribute = superset.getVirtualSupersetType().isApplyAttribute();
 			sameRadioButton.setSelection(applyAttribute);
 			differentRadioButton.setSelection(!applyAttribute);
 		} else {

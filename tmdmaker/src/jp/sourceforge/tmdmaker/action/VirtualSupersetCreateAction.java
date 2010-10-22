@@ -25,11 +25,13 @@ import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.ConnectionDeleteCommand;
+import jp.sourceforge.tmdmaker.model.command.ModelDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -75,14 +77,14 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 
 		Diagram diagram = null;
 		VirtualSuperset original = null;
-		VirtualSupersetAggregator aggregator = null;
+		VirtualSupersetType aggregator = null;
 
 		Object m = getPart().getModel();
 		if (m instanceof Diagram) {
 			diagram = (Diagram) m;
 		} else if (m instanceof VirtualSuperset) {
 			original = (VirtualSuperset) m;
-			aggregator = original.getVirtualSupersetAggregator();
+			aggregator = original.getVirtualSupersetType();
 			diagram = original.getDiagram();
 		}
 		VirtualSupersetCreateDialog dialog = new VirtualSupersetCreateDialog(
@@ -99,23 +101,24 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 				}
 				Rectangle constraint = new Rectangle(pos.x, pos.y, -1, -1);
 				edited.setConstraint(constraint);
+				aggregator = dialog.getEditedAggregator();
+				edited.setReusedIdentifieres(aggregator.getReusedIdentifieres());
 				ccommand.add(new VirtualSupersetCreateCommand(diagram, edited));
 
 				// みなしスーパーセットと既存エンティティとの接点
-				aggregator = dialog.getEditedAggregator();
 				aggregator.setConstraint(constraint.getTranslated(0, 50));
-				ccommand.add(new VirtualSupersetAggregatorCreateCommand(
+				ccommand.add(new VirtualSupersetTypeCreateCommand(
 						diagram, aggregator));
 
 				ccommand.add(new ConnectionCreateCommand(
-						new RelatedRelationship(edited, aggregator), edited,
-						aggregator));
+						new RelatedRelationship(aggregator, edited), aggregator,
+						edited));
 
 				// 接点とみなしサブセットの接続
 				for (AbstractEntityModel model : selection) {
 					ccommand.add(new ConnectionCreateCommand(
-							new RelatedRelationship(aggregator, model),
-							aggregator, model));
+							new Entity2VirtualSupersetTypeRelationship(model, aggregator),
+							model, aggregator));
 				}
 			} else {
 				// みなしスーパーセット編集
@@ -133,34 +136,34 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 
 				for (AbstractConnectionModel con : original
 						.getVirtualSubsetRelationshipList()) {
-					ConnectableElement target = con.getTarget();
+					ConnectableElement source = con.getSource();
 					// 解除されたみなしサブセットとの接続を切る
-					if (notSelection.contains(target)) {
+					if (notSelection.contains(source)) {
 						ccommand.add(new ConnectionDeleteCommand(con));
 					}
 				}
 				if (selection.size() == 0) {
-					// みなしスーパーセットと接点とのコネクション削除
-					ccommand.add(new ConnectionDeleteCommand(aggregator
-							.getModelTargetConnections().get(0)));
+//					// みなしスーパーセットと接点とのコネクション削除
+//					ccommand.add(new ConnectionDeleteCommand(aggregator
+//							.getModelSourceConnections().get(0)));
 					// 接点削除
-					ccommand.add(new VirtualSupersetAggregatorDeleteCommand(
+					ccommand.add(new VirtualSupersetTypeDeleteCommand(
 							diagram, aggregator));
 					// みなしスーパーセット削除
-					ccommand.add(new VirtualSupersetDeleteCommand(diagram,
+					ccommand.add(new ModelDeleteCommand(diagram,
 							original));
 				} else {
 					// 接点編集
-					ccommand.add(new VirtualSupersetAggregatorChangeCommand(
-							original.getVirtualSupersetAggregator(), dialog
+					ccommand.add(new VirtualSupersetTypeChangeCommand(
+							original.getVirtualSupersetType(), dialog
 									.getEditedAggregator().isApplyAttribute()));
 					
 					// 未接続のみなしサブセットとの接続
 					for (AbstractEntityModel s : selection) {
 						if (!selectedList.contains(s)) {
 							ccommand.add(new ConnectionCreateCommand(
-									new RelatedRelationship(aggregator, s),
-									aggregator, s));
+									new Entity2VirtualSupersetTypeRelationship(s, aggregator),
+									s, aggregator));
 						}
 					}
 				}
@@ -242,43 +245,12 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 
 	}
 
-	private static class VirtualSupersetDeleteCommand extends Command {
+	private static class VirtualSupersetTypeCreateCommand extends Command {
 		private Diagram diagram;
-		private VirtualSuperset model;
+		private VirtualSupersetType aggregator;
 
-		public VirtualSupersetDeleteCommand(Diagram diagram,
-				VirtualSuperset model) {
-			this.diagram = diagram;
-			this.model = model;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			diagram.removeChild(model);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			diagram.addChild(model);
-		}
-	}
-
-	private static class VirtualSupersetAggregatorCreateCommand extends Command {
-		private Diagram diagram;
-		private VirtualSupersetAggregator aggregator;
-
-		public VirtualSupersetAggregatorCreateCommand(Diagram diagram,
-				VirtualSupersetAggregator aggregator) {
+		public VirtualSupersetTypeCreateCommand(Diagram diagram,
+				VirtualSupersetType aggregator) {
 			super();
 			this.diagram = diagram;
 			this.aggregator = aggregator;
@@ -306,12 +278,12 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 
 	}
 
-	private static class VirtualSupersetAggregatorDeleteCommand extends Command {
+	private static class VirtualSupersetTypeDeleteCommand extends Command {
 		private Diagram diagram;
-		private VirtualSupersetAggregator model;
+		private VirtualSupersetType model;
 
-		public VirtualSupersetAggregatorDeleteCommand(Diagram diagram,
-				VirtualSupersetAggregator model) {
+		public VirtualSupersetTypeDeleteCommand(Diagram diagram,
+				VirtualSupersetType model) {
 			this.diagram = diagram;
 			this.model = model;
 		}
@@ -339,11 +311,11 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 
 	/**
 	 * 
-	 * @author hiro
+	 * @author nakaG
 	 * 
 	 */
-	private static class VirtualSupersetAggregatorChangeCommand extends Command {
-		private VirtualSupersetAggregator model;
+	private static class VirtualSupersetTypeChangeCommand extends Command {
+		private VirtualSupersetType model;
 		private boolean oldApplyAttribute;
 		private boolean newApplyAttribute;
 
@@ -352,8 +324,8 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 		 * @param model
 		 * @param newApplyAttribute
 		 */
-		public VirtualSupersetAggregatorChangeCommand(
-				VirtualSupersetAggregator model, boolean newApplyAttribute) {
+		public VirtualSupersetTypeChangeCommand(
+				VirtualSupersetType model, boolean newApplyAttribute) {
 			this.model = model;
 			this.newApplyAttribute = newApplyAttribute;
 			this.oldApplyAttribute = model.isApplyAttribute();

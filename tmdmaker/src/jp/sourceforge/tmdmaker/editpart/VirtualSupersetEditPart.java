@@ -15,19 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.util.Map;
-
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EntityType;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
-import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
+import jp.sourceforge.tmdmaker.model.command.ModelDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
+import jp.sourceforge.tmdmaker.model.command.VirtualSupersetTypeDeleteCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -56,16 +53,17 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 		AbstractEntityModel entity = (AbstractEntityModel) getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
-		entityFigure.removeAllRelationship();
+		// みなしスーパーセットはReusedを表示させない
+		// entityFigure.removeAllRelationship();
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.VE.getLabel());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getIdentifires()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
+		// for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
+		// .getReusedIdentifieres().entrySet()) {
+		// for (Identifier i : rk.getValue().getIdentifires()) {
+		// entityFigure.addRelationship(i.getName());
+		// }
+		// }
 	}
 
 	/**
@@ -77,8 +75,8 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		AbstractEntityModel entity = (AbstractEntityModel) getModel();
-		SupersetEditDialog dialog = new SupersetEditDialog(
-				getViewer().getControl().getShell(), entity);
+		SupersetEditDialog dialog = new SupersetEditDialog(getViewer()
+				.getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
 			getViewer().getEditDomain().getCommandStack().execute(
 					new ModelEditCommand(entity, dialog.getEditedValue()));
@@ -114,7 +112,7 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 	/**
 	 * みなしスーパーセットのComponentEditPolicy
 	 * 
-	 * @author hiro
+	 * @author nakaG
 	 * 
 	 */
 	private static class VirtualSupersetComponentEditPolicy extends
@@ -129,117 +127,13 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
 			VirtualSuperset model = (VirtualSuperset) getHost().getModel();
 			Diagram diagram = model.getDiagram();
-			VirtualSupersetAggregator aggregator = model
-					.getVirtualSupersetAggregator();
+			VirtualSupersetType aggregator = model.getVirtualSupersetType();
 
 			CompoundCommand ccommand = new CompoundCommand();
-			ccommand.add(new VirtualSupersetAggregatorDeleteCommand(diagram,
+			ccommand.add(new VirtualSupersetTypeDeleteCommand(diagram,
 					aggregator));
-			ccommand.add(new VirtualSupersetDeleteCommand(diagram, model));
+			ccommand.add(new ModelDeleteCommand(diagram, model));
 			return ccommand.unwrap();
-		}
-
-	}
-
-	/**
-	 * みなしスーパーセット削除Command
-	 * 
-	 * @author hiro
-	 * 
-	 */
-	private static class VirtualSupersetDeleteCommand extends Command {
-		private Diagram diagram;
-		private VirtualSuperset model;
-
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param diagram
-		 *            ダイアグラム
-		 * @param model
-		 *            みなしスーパーセット
-		 */
-		public VirtualSupersetDeleteCommand(Diagram diagram,
-				VirtualSuperset model) {
-			this.diagram = diagram;
-			this.model = model;
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			diagram.removeChild(model);
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			diagram.addChild(model);
-		}
-
-	}
-
-	/**
-	 * みなしスーパーセットとの接点モデルの削除Command
-	 * 
-	 * @author hiro
-	 * 
-	 */
-	private static class VirtualSupersetAggregatorDeleteCommand extends
-			ConnectableElementDeleteCommand {
-		private VirtualSupersetAggregator model;
-
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param diagram
-		 *            ダイアグラム
-		 * @param model
-		 *            みなしスーパーセットとの接点
-		 */
-		public VirtualSupersetAggregatorDeleteCommand(Diagram diagram,
-				VirtualSupersetAggregator model) {
-			this.diagram = diagram;
-			this.model = model;
-			sourceConnections.addAll(model.getModelSourceConnections());
-			targetConnections.addAll(model.getModelTargetConnections());
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			// 接点と接続しているコネクションは全て削除
-			detachConnections(sourceConnections);
-			detachConnections(targetConnections);
-			diagram.removeChild(model);
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			diagram.addChild(model);
-			attathConnections(sourceConnections);
-			attathConnections(targetConnections);
 		}
 
 	}

@@ -22,6 +22,7 @@ import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
+import jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.MappingList;
@@ -35,7 +36,7 @@ import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetAggregator;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -69,6 +70,8 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new RelationshipEditPart();
 		} else if (model instanceof Entity2SubsetTypeRelationship) {
 			part = new Entity2SubsetTypeRelationshipEditPart();
+		} else if (model instanceof Entity2VirtualSupersetTypeRelationship) {
+			part = new RelatedRelationshipEditPart();
 		} else if (model instanceof RelatedRelationship) {
 			part = new RelatedRelationshipEditPart();
 		} else if (model instanceof CombinationTable) {
@@ -95,8 +98,8 @@ public class TMDEditPartFactory implements EditPartFactory {
 			part = new VirtualEntityEditPart();
 		} else if (model instanceof VirtualSuperset) {
 			part = new VirtualSupersetEditPart();
-		} else if (model instanceof VirtualSupersetAggregator) {
-			part = new VirtualSupersetAggregatorEditPart();
+		} else if (model instanceof VirtualSupersetType) {
+			part = new VirtualSupersetTypeEditPart();
 		} else if (model instanceof Laputa) {
 			part = new LaputaEditPart();
 		} else if (model instanceof Attribute) {
