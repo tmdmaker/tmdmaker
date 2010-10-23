@@ -91,8 +91,20 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            個体指定子取得元
 	 */
 	public void addReusedIdentifier(AbstractEntityModel source) {
-		ReusedIdentifier added = this.reusedIdentifieres.put(source, source
-				.createReusedIdentifier());
+		addReusedIdentifier(source, source.createReusedIdentifier());
+	}
+
+	/**
+	 * 取得元モデルからReused個体指定子を追加する
+	 * 
+	 * @param source
+	 *            個体指定子取得元
+	 * @param reused
+	 *            取得元モデルから得たReused
+	 */
+	protected void addReusedIdentifier(AbstractEntityModel source,
+			ReusedIdentifier reused) {
+		ReusedIdentifier added = this.reusedIdentifieres.put(source, reused);
 		firePropertyChange(PROPERTY_REUSED, null, added);
 	}
 
@@ -101,13 +113,12 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * 
 	 * @param source
 	 *            個体指定子取得元
+	 * @return 削除したReused個体指定子
 	 */
-	public void removeReusedIdentifier(AbstractEntityModel source) {
+	public ReusedIdentifier removeReusedIdentifier(AbstractEntityModel source) {
 		ReusedIdentifier removed = this.reusedIdentifieres.remove(source);
-		if (removed != null) {
-			removed.dispose();
-		}
 		firePropertyChange(PROPERTY_REUSED, removed, null);
+		return removed;
 	}
 
 	/**
@@ -392,10 +403,11 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @param keyModels the keyModels to set
+	 * @param keyModels
+	 *            the keyModels to set
 	 */
 	public void setKeyModels(KeyModels keyModels) {
 		this.keyModels = keyModels;
 	}
-	
+
 }

@@ -58,8 +58,20 @@ public class VirtualSupersetType extends ConnectableElement {
 	 *            個体指定子取得元
 	 */
 	public void addReusedIdentifier(AbstractEntityModel source) {
-		this.reusedIdentifieres.put(source, source
-				.createReusedIdentifier());
+		addReusedIdentifier(source, source.createReusedIdentifier());
+	}
+
+	/**
+	 * 取得元モデルからReused個体指定子を追加する
+	 * 
+	 * @param source
+	 *            個体指定子取得元
+	 * @param reused
+	 *            取得元モデルから得たReused
+	 */
+	protected void addReusedIdentifier(AbstractEntityModel source,
+			ReusedIdentifier reused) {
+		this.reusedIdentifieres.put(source, reused);
 		notifyRelationshipChanged();
 	}
 
@@ -68,18 +80,22 @@ public class VirtualSupersetType extends ConnectableElement {
 	 * 
 	 * @param source
 	 *            個体指定子取得元
+	 * @return 削除したReused
 	 */
 	public ReusedIdentifier removeReusedIdentifier(AbstractEntityModel source) {
 		ReusedIdentifier removed = this.reusedIdentifieres.remove(source);
 		notifyRelationshipChanged();
 		return removed;
 	}
+
 	/**
 	 * みなしスーパーセットにリレーションシップの変更を通知する。
 	 */
 	private void notifyRelationshipChanged() {
-		((AbstractEntityModel)getModelSourceConnections().get(0).getTarget()).fireIdentifierChanged(null);		
+		((AbstractEntityModel) getModelSourceConnections().get(0).getTarget())
+				.fireIdentifierChanged(null);
 	}
+
 	/**
 	 * @return the reusedIdentifieres
 	 */

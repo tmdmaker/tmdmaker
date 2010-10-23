@@ -25,10 +25,23 @@ import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
  */
 @SuppressWarnings("serial")
 public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship {
-	
-	public TransfarReuseKeysToTargetRelationship() {	
+	/** 移送先から削除したReused */
+	private ReusedIdentifier targetReusedIdentifier;
+
+	/**
+	 * デフォルトコンストラクタ
+	 */
+	public TransfarReuseKeysToTargetRelationship() {
 	}
-	
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param source
+	 *            from
+	 * @param target
+	 *            to
+	 */
 	public TransfarReuseKeysToTargetRelationship(AbstractEntityModel source,
 			AbstractEntityModel target) {
 		AbstractEntityModel from = null;
@@ -43,7 +56,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 		setSource(from);
 		setTarget(to);
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -53,8 +66,14 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	@Override
 	public void attachTarget() {
 		super.attachTarget();
-		((AbstractEntityModel) getTarget())
-				.addReusedIdentifier((AbstractEntityModel) getSource());
+		if (targetReusedIdentifier == null) {
+			((AbstractEntityModel) getTarget())
+					.addReusedIdentifier((AbstractEntityModel) getSource());
+		} else {
+			((AbstractEntityModel) getTarget()).addReusedIdentifier(
+					(AbstractEntityModel) getSource(), targetReusedIdentifier);
+			targetReusedIdentifier = null;
+		}
 	}
 
 	/**
@@ -65,7 +84,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	 */
 	@Override
 	public void detachTarget() {
-		((AbstractEntityModel) getTarget())
+		targetReusedIdentifier = ((AbstractEntityModel) getTarget())
 				.removeReusedIdentifier((AbstractEntityModel) getSource());
 		super.detachTarget();
 	}
@@ -77,18 +96,19 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	 */
 	@Override
 	public boolean isDeletable() {
-//		return getTarget().isDeletable();
+		// return getTarget().isDeletable();
 		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#identifierChanged()
 	 */
 	@Override
 	public void identifierChanged() {
-//		getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
+		// getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
+		// null, null);
 		getTarget().fireIdentifierChanged(this);
 	}
 }

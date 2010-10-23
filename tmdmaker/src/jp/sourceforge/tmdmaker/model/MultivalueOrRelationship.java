@@ -55,17 +55,6 @@ public class MultivalueOrRelationship extends
 		this.table = target;
 	}
 
-	// @Override
-	// public void attachTarget() {
-	// super.attachTarget();
-	// ((AbstractEntityModel)getTarget()).addReuseKey((AbstractEntityModel)getSource());
-	// }
-	// @Override
-	// public void detachTarget() {
-	// ((AbstractEntityModel)getTarget()).removeReuseKey((AbstractEntityModel)getSource());
-	// super.detachTarget();
-	// }
-
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -79,20 +68,6 @@ public class MultivalueOrRelationship extends
 		super.connect();
 	}
 
-	//
-	// private void createMultivalueOrEntity() {
-	// if (table == null) {
-	// table = new MultivalueOrEntity();
-	// }
-	// AbstractEntityModel sourceEntity = this.source;
-	// Rectangle constraint = sourceEntity.getConstraint().getTranslated(100,
-	// 100);
-	// table.setConstraint(constraint);
-	// Diagram diagram = sourceEntity.getDiagram();
-	// diagram.addChild(table);
-	// table.setDiagram(diagram);
-	// table.setName(source.getName() + "." + "種別");
-	// }
 	/**
 	 * {@inheritDoc}
 	 * 

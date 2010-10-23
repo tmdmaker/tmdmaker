@@ -24,6 +24,9 @@ package jp.sourceforge.tmdmaker.model;
 @SuppressWarnings("serial")
 public class Entity2VirtualSupersetTypeRelationship extends RelatedRelationship
 		implements IdentifierChangeListener {
+	/** 移送先から削除したReused */
+	private ReusedIdentifier targetIdentifier;
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -56,8 +59,14 @@ public class Entity2VirtualSupersetTypeRelationship extends RelatedRelationship
 	@Override
 	public void attachTarget() {
 		super.attachTarget();
-		((VirtualSupersetType) getTarget())
-				.addReusedIdentifier((AbstractEntityModel) getSource());
+		if (targetIdentifier == null) {
+			((VirtualSupersetType) getTarget())
+					.addReusedIdentifier((AbstractEntityModel) getSource());
+		} else {
+			((VirtualSupersetType) getTarget()).addReusedIdentifier(
+					(AbstractEntityModel) getSource(), targetIdentifier);
+			targetIdentifier = null;
+		}
 	}
 
 	/**
@@ -67,7 +76,7 @@ public class Entity2VirtualSupersetTypeRelationship extends RelatedRelationship
 	 */
 	@Override
 	public void detachTarget() {
-		((VirtualSupersetType) getTarget())
+		targetIdentifier = ((VirtualSupersetType) getTarget())
 				.removeReusedIdentifier((AbstractEntityModel) getSource());
 		super.detachTarget();
 	}

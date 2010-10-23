@@ -31,11 +31,13 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 */
 	private CombinationTable table;
 
-	/**
-	 * 対照表とのコネクション
-	 */
+	/** 対照表とのコネクション */
 	private RelatedRelationship combinationTableConnection;
-
+	/** ソース移送先から削除したReused */
+	private ReusedIdentifier sourceReuseIdentifier;
+	/** ターゲット移送先から削除したReused */
+	private ReusedIdentifier targetReuseIdentifier;
+	
 	/**
 	 * コンストラクタ
 	 * 
@@ -74,8 +76,18 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 		super.connect();
 		((AbstractEntityModel) getSource()).getDiagram().addChild(this.table);
 		this.combinationTableConnection.connect();
-		this.table.addReusedIdentifier((AbstractEntityModel) getSource());
-		this.table.addReusedIdentifier((AbstractEntityModel) getTarget());
+		if (sourceReuseIdentifier == null) {
+			this.table.addReusedIdentifier((AbstractEntityModel) getSource());
+		} else {
+			this.table.addReusedIdentifier((AbstractEntityModel) getSource(), sourceReuseIdentifier);
+			sourceReuseIdentifier = null;
+		}
+		if (targetReuseIdentifier == null) {
+			this.table.addReusedIdentifier((AbstractEntityModel) getTarget());
+		} else {
+			this.table.addReusedIdentifier((AbstractEntityModel) getTarget(), targetReuseIdentifier);
+			targetReuseIdentifier = null;
+		}
 	}
 
 	/**
@@ -86,8 +98,8 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void disconnect() {
-		this.table.removeReusedIdentifier((AbstractEntityModel) getSource());
-		this.table.removeReusedIdentifier((AbstractEntityModel) getTarget());
+		sourceReuseIdentifier = this.table.removeReusedIdentifier((AbstractEntityModel) getSource());
+		targetReuseIdentifier = this.table.removeReusedIdentifier((AbstractEntityModel) getTarget());
 		this.combinationTableConnection.disconnect();
 		((AbstractEntityModel) getSource()).getDiagram()
 				.removeChild(this.table);

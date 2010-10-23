@@ -35,6 +35,12 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 * 対応表とのコネクション
 	 */
 	private RelatedRelationship mappingListConnection;
+	/** 対応表のソースから削除したReused */
+	private ReusedIdentifier sourceMappingListReuseIdentifier;
+	/** 対応表のターゲットから削除したReused */
+	private ReusedIdentifier targetMappingListReuseIdentifier;
+	/** ターゲットから削除したReused */
+	private ReusedIdentifier targetReuseIdentifier;
 
 	/**
 	 * コンストラクタ
@@ -123,14 +129,19 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	private void createTargetRelationship() {
 		setCenterMark(false);
-		getTarget().addReusedIdentifier(getSource());
+		if (targetReuseIdentifier == null) {
+			getTarget().addReusedIdentifier(getSource());
+		} else {
+			getTarget().addReusedIdentifier(getSource(), targetReuseIdentifier);
+			targetReuseIdentifier = null;
+		}
 	}
 
 	/**
 	 * ターゲットからキーを削除する
 	 */
 	private void removeTargetRelationship() {
-		getTarget().removeReusedIdentifier(getSource());
+		targetReuseIdentifier = getTarget().removeReusedIdentifier(getSource());
 	}
 
 	/**
@@ -151,9 +162,18 @@ public class Event2EventRelationship extends AbstractRelationship {
 		// table.setDiagram(diagram);
 		table.setName(sourceEntity.getName() + "." + targetEntity.getName()
 				+ "." + "対応表");
-		table.addReusedIdentifier(sourceEntity);
-		table.addReusedIdentifier(targetEntity);
-
+		if (sourceMappingListReuseIdentifier == null) {
+			table.addReusedIdentifier(sourceEntity);
+		} else {
+			table.addReusedIdentifier(sourceEntity, sourceMappingListReuseIdentifier);
+			sourceMappingListReuseIdentifier = null;
+		}
+		if (targetMappingListReuseIdentifier == null) {
+			table.addReusedIdentifier(targetEntity);
+		} else {
+			table.addReusedIdentifier(targetEntity, targetMappingListReuseIdentifier);
+			targetMappingListReuseIdentifier = null;
+		}
 		mappingListConnection = new RelatedRelationship(this, table);
 		mappingListConnection.connect();
 	}
@@ -168,8 +188,8 @@ public class Event2EventRelationship extends AbstractRelationship {
 		}
 		if (table != null) {
 			AbstractEntityModel sourceEntity = getSource();
-			table.removeReusedIdentifier(sourceEntity);
-			table.removeReusedIdentifier(getTarget());
+			sourceMappingListReuseIdentifier = table.removeReusedIdentifier(sourceEntity);
+			targetMappingListReuseIdentifier = table.removeReusedIdentifier(getTarget());
 			sourceEntity.getDiagram().removeChild(table);
 		}
 	}

@@ -51,6 +51,7 @@ public class RecursiveRelationship extends AbstractRelationship {
 		table.setConstraint(source.getConstraint().getTranslated(100, 0));
 		table.setName(source.getName() + "." + source.getName() + "." + "再帰表");
 
+		table.addCreationIdentifier(source);
 	}
 
 	/**
@@ -81,8 +82,6 @@ public class RecursiveRelationship extends AbstractRelationship {
 		table.addTargetConnection(this);
 		attachSource();
 		attachTarget();
-		table.addCreationIdentifier((AbstractEntityModel) sourceEntity);
-
 	}
 
 	/**
