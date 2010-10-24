@@ -15,6 +15,10 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -29,7 +33,7 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * ダイアグラムを画像として保存するAction
@@ -40,17 +44,19 @@ import org.eclipse.ui.PlatformUI;
 public class DiagramImageSaveAction extends Action {
 	/** ビューワ */
 	private GraphicalViewer viewer;
+	private IWorkbenchPart part;
 	/** ID */
 	public static final String ID = "DiagramImageSaveAction";
-
+	
 	/**
 	 * コンストラクタ
 	 * 
 	 * @param viewer
 	 *            ビューワ
 	 */
-	public DiagramImageSaveAction(GraphicalViewer viewer) {
+	public DiagramImageSaveAction(GraphicalViewer viewer,IWorkbenchPart part) {
 		this.viewer = viewer;
+		this.part = part;
 		setText("画像として保存");
 		setId(ID);
 	}
@@ -67,9 +73,9 @@ public class DiagramImageSaveAction extends Action {
 
 		FileDialog dialog = new FileDialog(viewer.getControl().getShell(),
 				SWT.SAVE);
-		dialog.setFileName(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-				.getActivePage().getActiveEditor().getTitle()
-				+ ".jpg");
+		IFile editfile = GeneratorUtils.getEditFile(part);
+		dialog.setFileName(editfile.getLocation().toOSString() + ".jpg");
+		dialog.setFilterPath(editfile.getLocation().removeFirstSegments(1).toOSString());
 		String file = dialog.open();
 		if (file != null) {
 			IFigure figure = rootEditPart
@@ -104,9 +110,17 @@ public class DiagramImageSaveAction extends Action {
 				file = file + ".bmp";
 				loader.save(file, SWT.IMAGE_BMP);
 			}
+			TMDPlugin.showMessageDialog(getText() + " 完了");
 
+			try {
+				GeneratorUtils.refreshGenerateResource(file);
+			} catch (Exception e) {
+				TMDPlugin.showErrorDialog(e);
+			}
+			
 			image.dispose();
 			gc.dispose();
+
 
 		}
 	}

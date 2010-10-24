@@ -501,7 +501,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		// viewerを取得するためcreateActionsメソッドではなくここでアクションを登録
 		ActionRegistry registry = getActionRegistry();
 		DiagramImageSaveAction action6 = new DiagramImageSaveAction(
-				viewer);
+				viewer, this);
 		registry.registerAction(action6);
 
 		@SuppressWarnings("unchecked") 

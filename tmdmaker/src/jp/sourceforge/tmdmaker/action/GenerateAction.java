@@ -26,6 +26,7 @@ import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.generate.Generator;
+import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 
@@ -33,11 +34,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 
 /**
- * 設定されたGeneratorを実行するActoin
+ * 設定されたGeneratorを実行するAction
  * 
  * @author nakaG
  * 
@@ -92,20 +91,19 @@ public class GenerateAction extends SelectionAction {
 				diagram, selectedModels));
 		if (dialog.open() == Dialog.OK) {
 			try {
-				generator.execute(dialog.getSavePath(), dialog
-						.getSelectedModels());
+				String savePath = dialog.getSavePath();
+				generator.execute(savePath, dialog.getSelectedModels());
 				// generator.execute(dialog.getSavePath(), diagram);
 				TMDPlugin.showMessageDialog(generator.getGeneratorName()
 						+ " 完了");
+				GeneratorUtils.refreshGenerateResources(savePath);
 			} catch (Throwable t) {
 				TMDPlugin.showErrorDialog(t);
 			}
 		}
 	}
-
 	private String getSavePath() {
-		IFile file = ((IFileEditorInput) ((IEditorPart) getWorkbenchPart())
-				.getEditorInput()).getFile();
+		IFile file = GeneratorUtils.getEditFile(getWorkbenchPart());
 		return file.getLocation().removeLastSegments(1).toOSString();
 	}
 
