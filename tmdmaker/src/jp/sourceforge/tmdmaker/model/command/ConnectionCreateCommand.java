@@ -63,7 +63,7 @@ public class ConnectionCreateCommand extends Command {
 	 */
 	@Override
 	public boolean canExecute() {
-		return source != null && target != null;
+		return source != null && target != null && connection != null;
 	}
 
 	/**

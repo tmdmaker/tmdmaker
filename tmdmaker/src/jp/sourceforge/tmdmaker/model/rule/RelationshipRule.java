@@ -20,6 +20,7 @@ import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship;
+import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship;
 
 import org.slf4j.Logger;
@@ -44,15 +45,15 @@ public class RelationshipRule {
 		} else if (isR2E(source, target)) {
 			logger.debug("RESOURCE:EVENT");
 			relationship = new TransfarReuseKeysToTargetRelationship(source, target);
-		} else if (isR2R(source, target)) {
+		} else if (isR2R(source, target) && !isSameOriginal(source, target)) {
 			logger.debug("RESOURCE:RESOURCE");
 			/* 対照表作成 */
 			relationship = new Resource2ResourceRelationship(source, target);
-		} else if (isE2E(source, target)) {
+		} else if (isE2E(source, target) && !isSameOriginal(source, target)) {
 			logger.debug("EVENT:EVENT");
 			/* 通常コネクション */
 			relationship = new Event2EventRelationship(source, target);
-		} // else 対応表とのリレーションシップ
+		}
 		return relationship;
 	}
 	/**
@@ -79,7 +80,23 @@ public class RelationshipRule {
 		return EntityTypeRule.isResource(source)
 				&& EntityTypeRule.isResource(target);
 	}
-
+	/**
+	 * エンティティの関連が同じエンティティを起源としたサブセット同士かを判定する。
+	 * @param source
+	 * @param target
+	 * @return 同じエンティティを起源としたサブセット同士の場合にtrueを返す。
+	 */
+	private static boolean isSameOriginal(AbstractEntityModel source,
+			AbstractEntityModel target) {
+		if (source instanceof SubsetEntity && target instanceof SubsetEntity) {
+			SubsetEntity sourceSubset = (SubsetEntity) source;
+			SubsetEntity targetSubset = (SubsetEntity) target;
+			
+			return sourceSubset.getSuperset().equals(targetSubset.getSuperset());
+		} else {
+			return false;
+		}
+	}
 	/**
 	 * エンティティの関連がR:Eかを判定する。
 	 * 
