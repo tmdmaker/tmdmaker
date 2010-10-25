@@ -18,13 +18,15 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.dialog.model.EditImplementEntity;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -46,6 +48,7 @@ public class ImplementInfoEditPanel extends Composite {
 	private static final int COLUMN_NO_SIZE = 4;
 	private static final int COLUMN_NO_SCALE = 5;
 	private static final int COLUMN_NO_NULLABLE = 6;
+	private EditImplementEntity implementModel;//  @jve:decl-index=0:
 //	private AbstractEntityModel model;  //  @jve:decl-index=0:
 	private int tableSelectedIndex = -1;
 	private List<EditImplementAttribute> attributes;  //  @jve:decl-index=0:
@@ -54,9 +57,11 @@ public class ImplementInfoEditPanel extends Composite {
 	private Text implementNameText = null;
 	private Table columnTable = null;
 
-	public ImplementInfoEditPanel(Composite parent, int style) {
+	public ImplementInfoEditPanel(Composite parent, int style, EditImplementEntity implementModel) {
 		super(parent, style);
 		initialize();
+		this.implementModel = implementModel;
+		this.attributes = implementModel.getAttributes();
 	}
 
 	private void initialize() {
@@ -119,6 +124,13 @@ public class ImplementInfoEditPanel extends Composite {
 		implementNameLabel.setText("実装名");
 		implementNameText = new Text(this, SWT.BORDER);
 		implementNameText.setLayoutData(gridData1);
+		implementNameText.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				implementModel.setImplementName(((Text)e.widget).getText());
+			}
+		});
 		columnTable = new Table(this, SWT.SINGLE | SWT.FULL_SELECTION);
 		tableEditor = new TableEditor(columnTable);
 		tableEditor.grabHorizontal = true;
@@ -171,48 +183,6 @@ public class ImplementInfoEditPanel extends Composite {
 					}
 				}
 			}
-//				for (int i = 0;i < columnTable.getColumnCount(); i++) {
-//					System.out.println("column" + i);
-//					if (item.getBounds(i).contains(point)) {
-//						System.out.println("contains");
-//						final int columnIndex = i;
-//						TableColumn column = columnTable.getColumn(i);
-//						System.out.println(column.getText());
-//						Control control = createEditorControl(columnIndex, columnTable, item);
-//						if (control instanceof Text) {
-//	//						final Text text = new Text(columnTable, SWT.NONE);
-//							final Text text = (Text) control;
-//							text.setText(item.getText(i));
-//							text.addFocusListener(new FocusAdapter(){
-//								public void focusLost(FocusEvent e){
-//									System.out.println("focusLost " + columnIndex);
-//									TableItem item = tableEditor.getItem();
-//									System.out.println("tableEditor.getColumn() = " + tableEditor.getColumn());
-//									item.setText(tableEditor.getColumn(),text.getText());
-//									text.dispose();
-//								}
-//							});
-//							text.addModifyListener(new ModifyListener(){
-//	
-//								@Override
-//								public void modifyText(ModifyEvent e) {
-//									System.out.println("modifyText " + columnIndex);
-//									TableItem item = tableEditor.getItem();
-//									String editValue = text.getText();
-//									if (editValue == null) {
-//										editValue = "";
-//									}
-//									item.setText(tableEditor.getColumn(), editValue);
-//								}	
-//							});
-//							columnTable.setSelection(new int[0]);
-//							tableEditor.setEditor (text, item, i);
-//							text.selectAll();
-//							text.setFocus();
-//						}
-//					}
-//				}
-//			}
 		});
 		TableColumn tableColumn = new TableColumn(columnTable, SWT.NONE);
 		tableColumn.setWidth(150);
@@ -297,45 +267,8 @@ public class ImplementInfoEditPanel extends Composite {
 			});
 		}
 	}
-	public void initializeValue(AbstractEntityModel model, List<EditImplementAttribute> attributes) {
-//		TableItem item = null;
-		this.attributes = attributes;
-		implementNameText.setText(model.getImplementName());
-		updateTable();
-//		if (model instanceof Entity) {
-//			attributes.add(((Entity)model).getIdentifier());
-//		} else if (model instanceof Detail) {
-//			attributes.add(((Detail)model).getDetailIdentifier());
-//		}
-//		// Re-usedをカラムとして追加
-//		Map<AbstractEntityModel, ReusedIdentifier> reused = model
-//				.getReusedIdentifieres();
-//		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
-//				.entrySet()) {
-//			for (IdentifierRef ref : entry.getValue().getIdentifires()) {
-//				attributes.add(ref);
-//			}
-//		}
-//		attributes.addAll(model.getAttributes());
-//		for (EditAttribute a : attributes) {
-//			item = new TableItem(columnTable, SWT.NULL);
-//			item.setText(0, model.getName());
-//			item.setText(1, a.getName());
-//			item.setText(2, a.getImplementName());
-//			StandardSQLDataType type = a.getDataType();
-//			if (type != null) {
-//				item.setText(3, type.getName());
-//				item.setText(4, a.getSize());
-//				item.setText(5, a.getScale());
-//			} else {
-//				item.setText(3, "");
-//				item.setText(4, "");
-//				item.setText(5, "");
-//			}
-//			item.setText(6, "");
-//		}
-	}
-	private void updateTable() {
+	public void updateTable() {
+		implementNameText.setText(implementModel.getImplementName());
 		columnTable.removeAll();
 		for (EditImplementAttribute a : attributes) {
 			TableItem item = new TableItem(columnTable, SWT.NULL);

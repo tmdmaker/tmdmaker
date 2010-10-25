@@ -35,6 +35,7 @@ import jp.sourceforge.tmdmaker.model.SarogateKey;
 import jp.sourceforge.tmdmaker.model.SarogateKeyRef;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
+import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
 
 /**
  * エンティティ実装情報の編集用
@@ -53,7 +54,7 @@ public class EditImplementEntity {
 	private List<EditImplementAttribute> attributes = new ArrayList<EditImplementAttribute>();
 	private KeyModels keyModels = new KeyModels();
 	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
-
+	private String implementName;
 	/**
 	 * コンストラクタ
 	 * 
@@ -61,6 +62,7 @@ public class EditImplementEntity {
 	 *            実装情報編集対象モデル
 	 */
 	public EditImplementEntity(AbstractEntityModel model) {
+		implementName = ModelEditUtils.toBlankStringIfNull(model.getImplementName());
 		// 対象モデルのキーを抽出
 		KeyModels originalKeyModels = model.getKeyModels();
 		if (originalKeyModels != null) {
@@ -328,6 +330,20 @@ public class EditImplementEntity {
 	 */
 	public Map<AbstractEntityModel, List<EditImplementAttribute>> getOtherModelAttributesMap() {
 		return otherModelAttributesMap;
+	}
+
+	/**
+	 * @return the implementName
+	 */
+	public String getImplementName() {
+		return implementName;
+	}
+
+	/**
+	 * @param implementName the implementName to set
+	 */
+	public void setImplementName(String implementName) {
+		this.implementName = implementName;
 	}
 
 	/**

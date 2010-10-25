@@ -48,21 +48,21 @@ public class IndexEditDialog extends Dialog {
 	 * @param editAttributeList
 	 *            編集用アトリビュートのリスト
 	 */
-	public IndexEditDialog(Shell parentShell,
+	public IndexEditDialog(Shell parentShell, String implementEntityName,
 			List<EditImplementAttribute> editAttributeList) {
 		super(parentShell);
 		// getShell().setText("キー作成");
 		this.keyModel = new KeyModel();
 		this.attributes = convert(editAttributeList);
-		this.keyModel.setName(createKeyName(editAttributeList));
+		this.keyModel.setName(createKeyName(implementEntityName, editAttributeList));
 	}
 
-	private String createKeyName(List<EditImplementAttribute> editAttributeList) {
+	private String createKeyName(String implementEntityName, List<EditImplementAttribute> editAttributeList) {
 		String modelName = null;
 		int keyCount = 0;
 		if (editAttributeList != null && editAttributeList.size() > 0) {
 			EditImplementAttribute a = editAttributeList.get(0);
-			modelName = a.getContainerModel().getImplementName();
+			modelName = implementEntityName;
 			keyCount = a.getKeyCount();
 		} else {
 			// この処理は行われないはず

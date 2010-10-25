@@ -115,7 +115,7 @@ public class IndexSettingPanel extends Composite {
 				for (EditImplementAttribute ea : implementModel.getAttributes()) {
 					notSelectedAttributes.add(ea.getOriginalAttribute());
 				}
-				IndexEditDialog dialog = new IndexEditDialog(getShell(), implementModel.getAttributes());
+				IndexEditDialog dialog = new IndexEditDialog(getShell(), implementModel.getImplementName(), implementModel.getAttributes());
 				if (dialog.open() == Dialog.OK) {
 					KeyModel keyModel = dialog.getKeyModel();
 					implementModel.addKeyModel(keyModel);

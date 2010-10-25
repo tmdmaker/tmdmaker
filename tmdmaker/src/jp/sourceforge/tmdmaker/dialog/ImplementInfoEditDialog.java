@@ -103,8 +103,8 @@ public class ImplementInfoEditDialog extends Dialog {
 
 		Composite composite = new Composite(tabFolder, SWT.NULL);
 		composite.setLayout(gridLayout);
-		panel1 = new ImplementInfoEditPanel(composite, SWT.NULL);
-		panel1.initializeValue(model, editAttributeList);
+		panel1 = new ImplementInfoEditPanel(composite, SWT.NULL, implementModel);
+//		panel1.initializeValue(model, editAttributeList);
 		panel1.setLayoutData(gridData);
 		
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -144,7 +144,7 @@ public class ImplementInfoEditDialog extends Dialog {
 					}
 				}
 				System.out.println("update");
-				panel1.initializeValue(model, editAttributeList);
+				panel1.updateTable();
 //				panel3.initializeValue(editAttributeList, editedKeyModels);
 			}
 		});
@@ -192,15 +192,6 @@ public class ImplementInfoEditDialog extends Dialog {
 	private void createEditAttributeResult() {
 		for (EditImplementAttribute ea : implementModel.getAttributes()) {
 			if (ea.isEdited()) {
-//				System.out.println(ea);
-//				IAttribute a = ea.getOriginalAttribute();
-//				if (a instanceof Identifier) {
-//					editedValueIdentifieres.add(ea);
-//				} else if (a instanceof SarogateKeyRef) {
-//					// TODO サロゲートキー
-//				} else {
-//					editedValueAttributes.add(ea);
-//				}
 				editedValueAttributes.add(ea);
 			}
 		}
@@ -243,12 +234,12 @@ public class ImplementInfoEditDialog extends Dialog {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals(EditImplementEntity.PROPERTY_ATTRIBUTES)) {
-				panel1.initializeValue(model, editAttributeList);
+				panel1.updateTable();
 				panel3.updateTable();
 				panel4.refreshVisual();
 			} else if (evt.getPropertyName().equals(EditImplementEntity.PROPERTY_SAROGATE)) {
 				panel3.updateTable();
-				panel1.initializeValue(model, editAttributeList);
+				panel1.updateTable();
 			} else if (evt.getPropertyName().equals(EditImplementEntity.PROPERTY_KEYMODELS)) {
 				panel3.updateTable();				
 			}
