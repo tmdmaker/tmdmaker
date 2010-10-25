@@ -21,7 +21,7 @@
   </head>
   <body>
     <table border="1" cellpadding="3" cellspacing="0" >
-      <tr>
+      <tr class="TableHeadingColor">
         <th>&nbsp;</th>
 #foreach($entity in $entities)
   	    <th>$esc.html($entity.name)</th>
@@ -39,7 +39,7 @@
         <td>×</td>
       #end
     #else
-        <td></td>
+        <td>-</td>
     #end
     #if($rm.target == $mapping.key)
       #set($isWrite = false)
