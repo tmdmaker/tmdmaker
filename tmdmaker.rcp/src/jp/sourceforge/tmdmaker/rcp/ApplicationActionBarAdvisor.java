@@ -46,6 +46,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	 * @see org.eclipse.ui.application.ActionBarAdvisor#makeActions(org.eclipse.ui.IWorkbenchWindow)
 	 */
 	protected void makeActions(IWorkbenchWindow window) {
+		register(ActionFactory.DELETE.create(window));
 		register(ActionFactory.UNDO.create(window));
 		register(ActionFactory.REDO.create(window));
 		register(ActionFactory.SAVE.create(window));
