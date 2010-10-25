@@ -37,6 +37,9 @@ public class Header2DetailRelationship extends
 	private RelatedRelationship header2aggregator;
 	private RelatedRelationship detail2aggregator;
 
+	private String oldHeaderName;
+	private String newHeaderName;
+	
 	/**
 	 * コンストラクタ
 	 * 
@@ -68,7 +71,8 @@ public class Header2DetailRelationship extends
 		header2aggregator = new RelatedRelationship(header, aggregator);
 
 		detail2aggregator = new RelatedRelationship(detail, aggregator);
-
+		oldHeaderName = header.getName();
+		newHeaderName = oldHeaderName + "HDR";
 	}
 
 	/**
@@ -84,6 +88,7 @@ public class Header2DetailRelationship extends
 		superset2aggregator.connect();
 		header2aggregator.connect();
 		detail2aggregator.connect();
+		getSource().setName(newHeaderName);
 	}
 
 	/**
@@ -93,6 +98,7 @@ public class Header2DetailRelationship extends
 	 */
 	@Override
 	public void disconnect() {
+		getSource().setName(oldHeaderName);
 		detail2aggregator.disconnect();
 		header2aggregator.disconnect();
 		superset2aggregator.disconnect();
