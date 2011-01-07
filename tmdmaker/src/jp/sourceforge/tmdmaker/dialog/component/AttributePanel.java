@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Button;
 
 public class AttributePanel extends Composite {
 
@@ -49,6 +50,7 @@ public class AttributePanel extends Composite {
 	private Label sLabel = null;
 	private Label implementNameLabel = null;
 	private Text implementNameText = null;
+	private Button derivationCheckBox = null;
 	public AttributePanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
@@ -110,8 +112,11 @@ public class AttributePanel extends Composite {
 		derivationRuleLabel.setText("計算式");
 		derivationRuleTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		derivationRuleTextArea.setLayoutData(gridData7);
+		Label filler6 = new Label(this, SWT.NONE);
+		derivationCheckBox = new Button(this, SWT.CHECK);
+		derivationCheckBox.setText("ダイアグラムに(D)を表示する");
 		this.setLayout(gridLayout);
-		this.setSize(new Point(285, 400));
+		this.setSize(new Point(285, 423));
 	}
 
 	/**
@@ -158,6 +163,7 @@ public class AttributePanel extends Composite {
 		validationRuleTextArea.setText(ea.getValidationRule());
 		lockTextArea.setText(ea.getLock());
 		derivationRuleTextArea.setText(ea.getDerivationRule());
+		derivationCheckBox.setSelection(ea.isDerivation());
 		implementNameText.setText(ea.getImplementName());
 		StandardSQLDataType dt = ea.getDataType();
 		if (dt != null) {
@@ -215,6 +221,9 @@ public class AttributePanel extends Composite {
 	}
 	public String getDerivationRule() {
 		return derivationRuleTextArea.getText();
+	}
+	public boolean isDerivation() {
+		return derivationCheckBox.getSelection();
 	}
 	public String getInputName() {
 		return inputNameText.getText();

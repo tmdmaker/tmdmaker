@@ -47,10 +47,16 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 
 		Attribute model = (Attribute) getModel();
 		Label label = new Label();
-		label.setText(model.getName());
+		label.setText(createAttributeName(model));
 		return label;
 	}
-
+	private String createAttributeName(Attribute attribute) {
+		StringBuilder name = new StringBuilder(attribute.getName());
+		if (attribute.isDerivation()) {
+			name.append("(D)");
+		}
+		return name.toString();
+	}
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -118,8 +124,7 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 	protected void refreshVisuals() {
 		Attribute model = (Attribute) getModel();
 		Label f = (Label) getFigure();
-		f.setText(model.getName());
-		logger.debug(model.getName());
+		f.setText(createAttributeName(model));
 		getParent().refresh();
 	}
 
