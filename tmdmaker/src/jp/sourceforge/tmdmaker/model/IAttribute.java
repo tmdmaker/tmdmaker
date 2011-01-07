@@ -77,6 +77,15 @@ public interface IAttribute {
 	public abstract void setLock(String lock);
 
 	/**
+	 * @return the derivation
+	 */
+	public abstract boolean isDerivation();
+	
+	/**
+	 * @param the derivation
+	 */
+	public abstract void setDerivation(boolean derivation);
+	/**
 	 * @return the derivationRule
 	 */
 	public abstract String getDerivationRule();

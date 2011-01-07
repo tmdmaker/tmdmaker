@@ -47,6 +47,7 @@ public class EditAttribute {
 	/** 機密性 */
 	private String lock = "";
 	/** 計算式 */
+	private boolean derivation = false;
 	private String derivationRule = "";
 	/** 実装名 */
 	private String implementName = "";
@@ -70,17 +71,24 @@ public class EditAttribute {
 		this.originalAttribute = original;
 
 		this.name = ModelEditUtils.toBlankStringIfNull(original.getName());
-		this.description = ModelEditUtils.toBlankStringIfNull(original.getDescription());
-		this.derivationRule = ModelEditUtils.toBlankStringIfNull(original.getDerivationRule());
+		this.description = ModelEditUtils.toBlankStringIfNull(original
+				.getDescription());
+		this.derivationRule = ModelEditUtils.toBlankStringIfNull(original
+				.getDerivationRule());
+		this.derivation = original.isDerivation();
 		this.lock = ModelEditUtils.toBlankStringIfNull(original.getLock());
-		this.validationRule = ModelEditUtils.toBlankStringIfNull(original.getValidationRule());
-		this.implementName = ModelEditUtils.toBlankStringIfNull(original.getImplementName());
+		this.validationRule = ModelEditUtils.toBlankStringIfNull(original
+				.getValidationRule());
+		this.implementName = ModelEditUtils.toBlankStringIfNull(original
+				.getImplementName());
 		DataTypeDeclaration dataTypeDeclaration = original
 				.getDataTypeDeclaration();
 		if (dataTypeDeclaration != null) {
 			this.dataType = dataTypeDeclaration.getLogicalType();
-			this.size = ModelEditUtils.toBlankIfNull(dataTypeDeclaration.getSize());
-			this.scale = ModelEditUtils.toBlankIfNull(dataTypeDeclaration.getScale());
+			this.size = ModelEditUtils.toBlankIfNull(dataTypeDeclaration
+					.getSize());
+			this.scale = ModelEditUtils.toBlankIfNull(dataTypeDeclaration
+					.getScale());
 		} else {
 			this.dataType = null;
 			this.size = "";
@@ -240,6 +248,22 @@ public class EditAttribute {
 	}
 
 	/**
+	 * @return the derivation
+	 */
+	public boolean isDerivation() {
+		return derivation;
+	}
+
+	/**
+	 * @param derivation
+	 *            the derivation to set
+	 */
+	public void setDerivation(boolean derivation) {
+		this.derivation = derivation;
+		setEdited(true);
+	}
+
+	/**
 	 * @return the derivationRule
 	 */
 	public String getDerivationRule() {
@@ -263,14 +287,14 @@ public class EditAttribute {
 	}
 
 	/**
-	 * @param implementName the implementName to set
+	 * @param implementName
+	 *            the implementName to set
 	 */
 	public void setImplementName(String implementName) {
 		this.implementName = implementName;
 		setEdited(true);
 	}
 
-	
 	/**
 	 * @return the nullable
 	 */
@@ -279,7 +303,8 @@ public class EditAttribute {
 	}
 
 	/**
-	 * @param nullable the nullable to set
+	 * @param nullable
+	 *            the nullable to set
 	 */
 	public void setNullable(boolean nullable) {
 		this.nullable = nullable;
@@ -318,6 +343,7 @@ public class EditAttribute {
 		if (derivationRule.length() != 0) {
 			newAttribute.setDerivationRule(derivationRule);
 		}
+		newAttribute.setDerivation(derivation);
 		if (description.length() != 0) {
 			newAttribute.setDescription(description);
 		}

@@ -83,6 +83,7 @@ public class AttributeDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		original.setDerivationRule(panel.getDerivationRule());
+		original.setDerivation(panel.isDerivation());
 		original.setDescription(panel.getDescription());
 		original.setLock(panel.getLock());
 		original.setName(panel.getInputName());
