@@ -29,14 +29,13 @@ import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Version;
-import jp.sourceforge.tmdmaker.model.command.ModelAddCommand;
+import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
 import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
 import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
 
@@ -54,10 +53,6 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.commands.CommandStackEvent;
-import org.eclipse.gef.commands.CommandStackEventListener;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -75,7 +70,6 @@ import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -269,6 +263,8 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		CreationToolEntry creationEntry = new CreationToolEntry("エンティティ",
 				"エンティティ", new SimpleFactory(Entity.class), descriptor,
 				descriptor);
+		creationEntry.setToolClass(EntityCreationTool.class);
+		
 		drawer.add(creationEntry);
 
 		descriptor = TMDPlugin.getImageDescriptor("icons/new_relationship.gif");
@@ -516,9 +512,6 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		DatabaseSelectAction action8 = new DatabaseSelectAction(viewer);
 		registry.registerAction(action8);
 
-		getCommandStack().addCommandStackEventListener(
-				new ModelAddCommandStackEventListener());
-
 	}
 
 	/**
@@ -532,45 +525,5 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			return new TMDContentOutlinePage();
 		}
 		return super.getAdapter(type);
-	}
-
-	private class ModelAddCommandStackEventListener implements
-			CommandStackEventListener {
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.CommandStackEventListener#stackChanged(org.eclipse.gef.commands.CommandStackEvent)
-		 */
-		@Override
-		public void stackChanged(CommandStackEvent event) {
-			ModelAddCommand command = null;
-			if (isModelAddCommand(event)) {
-				command = (ModelAddCommand) event.getCommand();
-			} else {
-				return;
-			}
-
-			logger.debug(getClass().toString()
-					+ "#stackChanged():PreChangeEvent");
-			if (event.getDetail() == CommandStack.PRE_EXECUTE
-					|| event.getDetail() == CommandStack.PRE_REDO) {
-				if (!command.isModelAdded()) {
-					EntityCreateDialog dialog = new EntityCreateDialog(
-							getGraphicalViewer().getControl().getShell());
-					if (dialog.open() == Dialog.OK) {
-						logger.debug(getClass()
-								+ "#stackChanged():dialog.open() == Dialog.OK)");
-						command.setModel(dialog.getCreateModel());
-					}
-				}
-			}
-		}
-
-		private boolean isModelAddCommand(CommandStackEvent event) {
-			Command cmd = event.getCommand();
-			return cmd instanceof ModelAddCommand;
-		}
-
 	}
 }
