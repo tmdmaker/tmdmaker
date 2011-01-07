@@ -30,19 +30,15 @@ import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog;
-import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
 import jp.sourceforge.tmdmaker.model.Version;
-import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelAddCommand;
 import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
+import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -215,8 +211,8 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		Diagram diagram = null;
 		try {
-			diagram = (Diagram) XStreamSerializer.deserialize(file
-					.getContents(), this.getClass().getClassLoader());
+			diagram = (Diagram) XStreamSerializer.deserialize(
+					file.getContents(), this.getClass().getClassLoader());
 		} catch (Exception e) {
 			TMDPlugin.showErrorDialog("読み込み時にエラーが発生しました。", e);
 			diagram = new Diagram();
@@ -279,6 +275,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 		ConnectionCreationToolEntry connxCCreationEntry = new ConnectionCreationToolEntry(
 				"リレーションシップ", "リレーションシップ", null, descriptor, descriptor);
+		connxCCreationEntry.setToolClass(TMDConnectionCreationTool.class);
 		// new SimpleFactory(AbstractRelationship.class), descriptor,
 		// descriptor);
 		drawer.add(connxCCreationEntry);
@@ -347,8 +344,8 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		if (path == null) {
 			return;
 		}
-		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
-				path);
+		final IFile file = ResourcesPlugin.getWorkspace().getRoot()
+				.getFile(path);
 		try {
 			new ProgressMonitorDialog(shell).run(false, // don't fork
 					false, // not cancelable
@@ -441,7 +438,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		registry.registerAction(action6);
 		selectionActions.add(action6.getId());
 		action6.setSelectionProvider(getGraphicalViewer());
-		
+
 		IAction action = null;
 		// 水平方向の整列アクション
 		action = new AlignmentAction((IWorkbenchPart) this,
@@ -500,11 +497,11 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 
 		// viewerを取得するためcreateActionsメソッドではなくここでアクションを登録
 		ActionRegistry registry = getActionRegistry();
-		DiagramImageSaveAction action6 = new DiagramImageSaveAction(
-				viewer, this);
+		DiagramImageSaveAction action6 = new DiagramImageSaveAction(viewer,
+				this);
 		registry.registerAction(action6);
 
-		@SuppressWarnings("unchecked") 
+		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
 		for (Generator generator : GeneratorProvider.getGenerators()) {
 			SelectionAction act = new GenerateAction(this, viewer, generator);
@@ -512,60 +509,15 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 			selectionActions.add(act.getId());
 		}
 
-//		AttributeListSaveAction action7 = new AttributeListSaveAction(
-//				viewer);
-//		registry.registerAction(action7);
+		// AttributeListSaveAction action7 = new AttributeListSaveAction(
+		// viewer);
+		// registry.registerAction(action7);
 
-		DatabaseSelectAction action8 = new DatabaseSelectAction(
-				viewer);
+		DatabaseSelectAction action8 = new DatabaseSelectAction(viewer);
 		registry.registerAction(action8);
 
-		getCommandStack().addCommandStackEventListener(new ModelAddCommandStackEventListener());
 		getCommandStack().addCommandStackEventListener(
-				new CommandStackEventListener() {
-					/**
-					 * {@inheritDoc}
-					 */
-					@Override
-					public void stackChanged(CommandStackEvent event) {
-						Command cmd = event.getCommand();
-						if (cmd instanceof ConnectionCreateCommand) {
-							ConnectionCreateCommand command = (ConnectionCreateCommand) cmd;
-							AbstractConnectionModel cnt = command
-									.getConnection();
-							if (cnt instanceof Event2EventRelationship) {
-								Event2EventRelationship relationship = (Event2EventRelationship) cnt;
-								if (event.getDetail() == CommandStack.PRE_EXECUTE
-										|| event.getDetail() == CommandStack.PRE_REDO) {
-									AbstractEntityModel source = relationship
-											.getSource();
-									AbstractEntityModel target = relationship
-											.getTarget();
-									RelationshipEditDialog dialog = new RelationshipEditDialog(
-											getGraphicalViewer().getControl()
-													.getShell(), source
-													.getName(), target
-													.getName());
-									if (dialog.open() == Dialog.OK) {
-										relationship
-												.setSourceCardinality(dialog
-														.getSourceCardinality());
-										relationship.setSourceNoInstance(dialog
-												.isSourceNoInstance());
-										relationship
-												.setTargetCardinality(dialog
-														.getTargetCardinality());
-										relationship.setTargetNoInstance(dialog
-												.isTargetNoInstance());
-									}
-								}
-
-							}
-						} else {
-							return;
-						}
-					}
-				});
+				new ModelAddCommandStackEventListener());
 
 	}
 
@@ -574,15 +526,16 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#getAdapter(java.lang.Class)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public Object getAdapter(Class type) {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class type) {
 		if (type == IContentOutlinePage.class) {
 			return new TMDContentOutlinePage();
 		}
 		return super.getAdapter(type);
 	}
-	private class ModelAddCommandStackEventListener implements CommandStackEventListener {
+
+	private class ModelAddCommandStackEventListener implements
+			CommandStackEventListener {
 
 		/**
 		 * {@inheritDoc}
@@ -604,21 +557,20 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 					|| event.getDetail() == CommandStack.PRE_REDO) {
 				if (!command.isModelAdded()) {
 					EntityCreateDialog dialog = new EntityCreateDialog(
-							getGraphicalViewer().getControl()
-									.getShell());
+							getGraphicalViewer().getControl().getShell());
 					if (dialog.open() == Dialog.OK) {
-						logger
-								.debug(getClass()
-										+ "#stackChanged():dialog.open() == Dialog.OK)");
+						logger.debug(getClass()
+								+ "#stackChanged():dialog.open() == Dialog.OK)");
 						command.setModel(dialog.getCreateModel());
 					}
 				}
 			}
 		}
+
 		private boolean isModelAddCommand(CommandStackEvent event) {
 			Command cmd = event.getCommand();
 			return cmd instanceof ModelAddCommand;
 		}
-		
+
 	}
 }
