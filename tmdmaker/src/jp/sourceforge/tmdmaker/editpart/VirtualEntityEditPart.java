@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,8 +69,10 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 			ModelEditCommand command = new ModelEditCommand(entity, edited);
 
 			if (entity.isNotImplement() && !edited.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(entity);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(entity, original));
+				AbstractEntityModel original = ImplementRule
+						.findOriginalImplementModel(entity);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(entity,
+						original));
 			}
 
 			ccommand.add(command);
@@ -109,19 +111,6 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
-		return figure;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
@@ -129,27 +118,6 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new VirtualEntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
-	 */
-	@Override
-	public IFigure getContentPane() {
-		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List getModelChildren() {
-		return ((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**
@@ -170,8 +138,10 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 			VirtualEntity model = (VirtualEntity) getHost().getModel();
 			CompoundCommand ccommand = new CompoundCommand();
 			if (model.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(model);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
+				AbstractEntityModel original = ImplementRule
+						.findOriginalImplementModel(model);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(model,
+						original));
 			}
 
 			ccommand.add(new TableDeleteCommand(model, model

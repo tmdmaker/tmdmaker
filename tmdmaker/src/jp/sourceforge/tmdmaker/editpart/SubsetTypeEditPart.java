@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Collections;
+import java.util.List;
 
 import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
 import jp.sourceforge.tmdmaker.model.SubsetType;
@@ -150,5 +152,28 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return new CenterAnchor(getFigure());
 	}
-	
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getModelChildren()
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	protected List getModelChildren() {
+		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getContentPane()
+	 */
+	@Override
+	public IFigure getContentPane() {
+		return getFigure();
+	}
+
 }

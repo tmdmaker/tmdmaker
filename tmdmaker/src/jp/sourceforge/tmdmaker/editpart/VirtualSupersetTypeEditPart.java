@@ -16,6 +16,8 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Collections;
+import java.util.List;
 
 import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
@@ -145,9 +147,22 @@ public class VirtualSupersetTypeEditPart extends AbstractEntityEditPart {
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
 				VirtualSupersetType.PROPERTY_SUPERSET_TYPE)) {
-			refreshVisuals();			
+			refreshVisuals();
 		} else {
 			super.propertyChange(evt);
 		}
 	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getModelChildren()
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	protected List getModelChildren() {
+		return Collections.EMPTY_LIST;
+	}
+
 }

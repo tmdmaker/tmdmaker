@@ -19,6 +19,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
@@ -462,5 +463,40 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 				ccommand.add(editCommand);
 			}
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
+	 */
+	@Override
+	public IFigure getContentPane() {
+		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+	 */
+	@SuppressWarnings({ "rawtypes" })
+	@Override
+	protected List getModelChildren() {
+		return ((AbstractEntityModel) getModel()).getAttributes();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
+	@Override
+	protected IFigure createFigure() {
+		EntityFigure figure = new EntityFigure();
+		updateFigure(figure);
+
+		return figure;
 	}
 }

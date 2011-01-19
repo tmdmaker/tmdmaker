@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
-import java.util.ArrayList;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
@@ -23,8 +24,8 @@ import jp.sourceforge.tmdmaker.dialog.component.DetailIdentifierSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditDetail;
 import jp.sourceforge.tmdmaker.model.Detail;
-import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -41,15 +42,12 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class DetailEditDialog extends Dialog {
+public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	/** 編集対象モデル */
 	private Detail original;
 	/** 編集結果格納用 */
 	private Detail editedValue;
-	/** 編集用アトリビュートリスト */
-	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
-	// /** 実装可否設定用 */
-	// private Button notImplementCheck;
+	private EditDetail entity;
 	/** 表名設定用 */
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
@@ -58,10 +56,6 @@ public class DetailEditDialog extends Dialog {
 	private DetailIdentifierSettingPanel panel3;
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel4;
-
-	private List<IAttribute> newAttributeOrder = new ArrayList<IAttribute>();
-	private List<IAttribute> addAttributes = new ArrayList<IAttribute>();
-	private List<IAttribute> editAttributes = new ArrayList<IAttribute>();
 
 	/**
 	 * コンストラクタ
@@ -76,9 +70,36 @@ public class DetailEditDialog extends Dialog {
 	public DetailEditDialog(Shell parentShell, Detail original) {
 		super(parentShell);
 		this.original = original;
-		for (IAttribute a : this.original.getAttributes()) {
-			editAttributeList.add(new EditAttribute(a));
+		entity = new EditDetail(original);
+		entity.addPropertyChangeListener(this);
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(EditDetail.PROPERTY_ATTRIBUTES)) {
+			panel2.updateAttributeTable();
+		} else if (evt.getPropertyName().equals(EditDetail.PROPERTY_UP_IDENTIFIER)) {
+			panel3.updateValue();
+			panel2.updateAttributeTable();
 		}
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#close()
+	 */
+	@Override
+	public boolean close() {
+		entity.removePropertyChangeListener(this);
+		return super.close();
 	}
 
 	/**
@@ -100,20 +121,15 @@ public class DetailEditDialog extends Dialog {
 		panel1.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel3 = new DetailIdentifierSettingPanel(composite, SWT.NULL);
+		panel3 = new DetailIdentifierSettingPanel(composite, SWT.NULL, entity);
 		panel3.setLayoutData(gridData);
 
-		// gridData = new GridData(GridData.FILL_HORIZONTAL);
-		// gridData.horizontalIndent = 5;
-		// notImplementCheck = new Button(composite, SWT.CHECK);
-		// notImplementCheck.setText("実装しない");
-		// notImplementCheck.setLayoutData(gridData);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel4 = new ImplementInfoSettingPanel(composite, SWT.NULL);
 		panel4.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel2 = new AttributeSettingPanel(composite, SWT.NULL);
+		panel2 = new AttributeSettingPanel(composite, SWT.NULL, entity);
 		panel2.setLayoutData(gridData);
 
 		composite.pack();
@@ -128,16 +144,13 @@ public class DetailEditDialog extends Dialog {
 	 */
 	private void initializeValue() {
 		panel1.setTableName(original.getName());
-		// notImplementCheck.setSelection(original.isNotImplement());
 
-		panel2.setAttributeTableRow(editAttributeList);
+		// panel3.setEditIdentifier(new EditAttribute(original
+		// .getDetailIdentifier()));
+		// panel3.setIdentifierName(original.getDetailIdentifier().getName());
 
-		panel3.setEditIdentifier(new EditAttribute(original
-				.getDetailIdentifier()));
-		panel3.setIdentifierName(original.getDetailIdentifier().getName());
-
-		panel4.initializeValue(original.isNotImplement(), original
-				.getImplementName());
+		panel4.initializeValue(original.isNotImplement(),
+				original.getImplementName());
 	}
 
 	/**
@@ -149,46 +162,21 @@ public class DetailEditDialog extends Dialog {
 	protected void okPressed() {
 		editedValue = new Detail();
 		editedValue.setName(panel1.getTableName());
-		// editedValue.setDetailIdeitifierName(panel3.getIdentifierName());
-		Identifier newIdentifier = new Identifier(panel3.getIdentifierName());
-		EditAttribute editIdentifier = panel3.getEditIdentifier();
-		editIdentifier.copyTo(newIdentifier);
+		Identifier newIdentifier = new Identifier();
+		entity.getEditIdentifier().copyTo(newIdentifier);
 		editedValue.setDetailIdentifier(newIdentifier);
-		// editedValue.setNotImplement(notImplementCheck.getSelection());
 		editedValue.setNotImplement(panel4.isNotImplement());
 		editedValue.setImplementName(panel4.getImplementName());
-
-		createEditAttributeResult();
+		editedValue.setAttributes(entity.getAttributesOrder());
 
 		super.okPressed();
-	}
-
-	private void createEditAttributeResult() {
-
-		for (EditAttribute ea : editAttributeList) {
-			IAttribute originalAttribute = ea.getOriginalAttribute();
-			if (ea.isAdded()) {
-				ea.copyToOriginal();
-				addAttributes.add(ea.getOriginalAttribute());
-			} else {
-				if (ea.isNameChanged()) {
-					// AttributeEditCommand editCommand = new
-					// AttributeEditCommand(original, ea.getName());
-					// ccommand.add(editCommand);
-					editAttributes.add(originalAttribute);
-				}
-			}
-			newAttributeOrder.add(originalAttribute);
-		}
-		// deleteAttributes = panel2.getDeletedAttributeList();
-		editedValue.setAttributes(newAttributeOrder);
 	}
 
 	/**
 	 * @return the editAttributeList
 	 */
 	public List<EditAttribute> getEditAttributeList() {
-		return editAttributeList;
+		return entity.getAttributes();
 	}
 
 	/**
