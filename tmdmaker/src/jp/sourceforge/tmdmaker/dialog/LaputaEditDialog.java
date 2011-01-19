@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,14 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
-import java.util.ArrayList;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.model.IAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 
@@ -39,22 +40,17 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class LaputaEditDialog extends Dialog {
+public class LaputaEditDialog extends Dialog implements PropertyChangeListener {
 	/** エンティティ名、個体指定子、エンティティ種類設定用 */
 	private EntityNameAndTypeSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
-	
-	/** 編集用アトリビュート */
-	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
+
 	/** 編集元エンティティ */
 	private Laputa original;
+	private EditTable entity;
 	/** 編集結果格納用 */
 	private Laputa editedValueEntity;
-	private List<IAttribute> newAttributeOrder = new ArrayList<IAttribute>();
-	private List<IAttribute> addAttributes = new ArrayList<IAttribute>();
-	private List<IAttribute> editAttributes = new ArrayList<IAttribute>();
-	private List<IAttribute> deleteAttributes = new ArrayList<IAttribute>();
 
 	/**
 	 * コンストラクタ
@@ -67,9 +63,33 @@ public class LaputaEditDialog extends Dialog {
 	public LaputaEditDialog(Shell parentShell, final Laputa original) {
 		super(parentShell);
 		this.original = original;
-		for (IAttribute a : this.original.getAttributes()) {
-			editAttributeList.add(new EditAttribute(a));
+		entity = new EditTable(original);
+		entity.addPropertyChangeListener(this);
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(EditTable.PROPERTY_ATTRIBUTES)) {
+			panel2.updateAttributeTable();
 		}
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#close()
+	 */
+	@Override
+	public boolean close() {
+		entity.removePropertyChangeListener(this);
+		return super.close();
 	}
 
 	/**
@@ -89,9 +109,9 @@ public class LaputaEditDialog extends Dialog {
 		panel1 = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
-		
+
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel2 = new AttributeSettingPanel(composite, SWT.NULL);
+		panel2 = new AttributeSettingPanel(composite, SWT.NULL, entity);
 		panel2.setLayoutData(gridData);
 
 		composite.pack();
@@ -108,7 +128,6 @@ public class LaputaEditDialog extends Dialog {
 		panel1.selectAutoCreateCheckBox(original.getIdentifier().getName(),
 				original.getName());
 		panel1.setEntityTypeComboEnabled(original.isEntityTypeEditable());
-		panel2.setAttributeTableRow(editAttributeList);
 	}
 
 	/**
@@ -125,16 +144,16 @@ public class LaputaEditDialog extends Dialog {
 		this.editedValueEntity.setIdentifier(newIdentifier);
 		this.editedValueEntity.setName(panel1.getEntityName());
 		this.editedValueEntity.setEntityType(panel1.getSelectedType());
-		createEditAttributeResult();
+		this.editedValueEntity.setAttributes(entity.getAttributesOrder());
+
 		super.okPressed();
 	}
-
 
 	/**
 	 * @return the editAttributeList
 	 */
 	public List<EditAttribute> getEditAttributeList() {
-		return editAttributeList;
+		return entity.getAttributes();
 	}
 
 	/**
@@ -142,44 +161,5 @@ public class LaputaEditDialog extends Dialog {
 	 */
 	public Laputa getEditedValueEntity() {
 		return editedValueEntity;
-	}
-
-	/**
-	 * @return the addAttributes
-	 */
-	public List<IAttribute> getAddAttributes() {
-		return addAttributes;
-	}
-
-	/**
-	 * @return the editAttributes
-	 */
-	public List<IAttribute> getEditAttributes() {
-		return editAttributes;
-	}
-
-	/**
-	 * @return the deleteAttributes
-	 */
-	public List<IAttribute> getDeleteAttributes() {
-		return deleteAttributes;
-	}
-
-	private void createEditAttributeResult() {
-
-		for (EditAttribute ea : editAttributeList) {
-			IAttribute originalAttribute = ea.getOriginalAttribute();
-			if (ea.isAdded()) {
-				ea.copyToOriginal();
-				addAttributes.add(ea.getOriginalAttribute());
-			} else {
-				if (ea.isNameChanged()) {
-					editAttributes.add(originalAttribute);
-				}
-			}
-			newAttributeOrder.add(originalAttribute);
-		}
-		deleteAttributes = panel2.getDeletedAttributeList();
-		editedValueEntity.setAttributes(newAttributeOrder);
 	}
 }

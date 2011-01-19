@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ public class LaputaEditPart extends AbstractEntityEditPart {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		Laputa entity = (Laputa) getModel();
 		// ラピュタは実装しないが×は付けない
-//		entityFigure.setNotImplement(entity.isNotImplement());
+		// entityFigure.setNotImplement(entity.isNotImplement());
 
 		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
@@ -60,7 +60,7 @@ public class LaputaEditPart extends AbstractEntityEditPart {
 
 		entityFigure.setEntityName(entity.getName());
 		// entityFigure.setEntityType(EntityType.VE.getLabel());
-		
+
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {
@@ -79,28 +79,19 @@ public class LaputaEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		Laputa model = (Laputa) getModel();
-		LaputaEditDialog dialog = new LaputaEditDialog(getViewer().getControl().getShell(), model);
+		LaputaEditDialog dialog = new LaputaEditDialog(getViewer().getControl()
+				.getShell(), model);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 
-			List<EditAttribute> editAttributeList = dialog.getEditAttributeList();
+			List<EditAttribute> editAttributeList = dialog
+					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, model, editAttributeList);
-			ModelEditCommand command = new ModelEditCommand(model, dialog.getEditedValueEntity());
+			ModelEditCommand command = new ModelEditCommand(model,
+					dialog.getEditedValueEntity());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
-		return figure;
 	}
 
 	/**
@@ -110,30 +101,8 @@ public class LaputaEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new EntityComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE,
+				new EntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
-	 */
-	@Override
-	public IFigure getContentPane() {
-		// TODO スーパークラスへ移動可能？
-		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List getModelChildren() {
-		// TODO スーパークラスへ移動可能？
-		return ((AbstractEntityModel) getModel()).getAttributes();
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package jp.sourceforge.tmdmaker.editpart;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -68,6 +71,28 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart {
 		figure.setOpaque(false);
 		figure.setBorder(new MultivalueAndAggregatorBorder());
 		return figure;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getModelChildren()
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	protected List getModelChildren() {
+		return Collections.EMPTY_LIST;
+	}
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getContentPane()
+	 */
+	@Override
+	public IFigure getContentPane() {
+		return getFigure();
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -41,8 +42,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 public class AttributeSettingPanel extends Composite {
-
-	private List<EditAttribute> attributeList = null;  //  @jve:decl-index=0:
+	private EditTable entity;
 	private static final int EDIT_COLUMN = 0;
 	private List<IAttribute> deletedAttributes = new ArrayList<IAttribute>();  //  @jve:decl-index=0:
 	private int selectedIndex = -1;
@@ -54,9 +54,12 @@ public class AttributeSettingPanel extends Composite {
 	private Button upButton = null;
 	private Button downButton = null;
 	private Button descButton = null;
-	public AttributeSettingPanel(Composite parent, int style) {
+	private Button identifierChangeButton = null;
+	
+	public AttributeSettingPanel(Composite parent, int style, EditTable entity) {
 		super(parent, style);
-		initialize();
+		this.entity = entity;
+		initialize();		
 	}
 
 	private void initialize() {
@@ -81,13 +84,10 @@ public class AttributeSettingPanel extends Composite {
 		attributeTable
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("select");
 						selectedIndex = attributeTable.getSelectionIndex();
 						if (selectedIndex == -1) {
 							return;
 						}
-						System.out.println(selectedIndex);
-//						attributeTable.setSelection(new int[0]);
 						Control oldEditor = tableEditor.getEditor();
 						if (oldEditor != null) {
 							oldEditor.dispose();
@@ -111,7 +111,7 @@ public class AttributeSettingPanel extends Composite {
 									editValue = "";
 								}
 								item.setText(EDIT_COLUMN, editValue);
-								EditAttribute ea = attributeList.get(selectedIndex);
+								EditAttribute ea = entity.getEditAttribute(selectedIndex);
 								ea.setName(editValue);
 								text.dispose();
 							}
@@ -132,7 +132,7 @@ public class AttributeSettingPanel extends Composite {
 									editValue = "";
 								}
 								item.setText(EDIT_COLUMN, editValue);
-								EditAttribute ea = attributeList.get(selectedIndex);
+								EditAttribute ea = entity.getEditAttribute(selectedIndex);
 								ea.setName(editValue);
 							}
 							
@@ -148,7 +148,7 @@ public class AttributeSettingPanel extends Composite {
 		tableColumn.setText("アトリビュート");
 		this.setLayout(gridLayout);
 		createControlComposite();
-		this.setSize(new Point(301, 150));
+		this.setSize(new Point(323, 177));
 	}
 
 	/**
@@ -156,17 +156,28 @@ public class AttributeSettingPanel extends Composite {
 	 *
 	 */
 	private void createControlComposite() {
+		GridData gridData6 = new GridData();
+		gridData6.horizontalAlignment = GridData.FILL;
+		gridData6.verticalAlignment = GridData.CENTER;
 		GridData gridData5 = new GridData();
 		gridData5.horizontalAlignment = GridData.FILL;
 		gridData5.verticalAlignment = GridData.CENTER;
 		GridData gridData4 = new GridData();
-		gridData4.widthHint = 60;
+		gridData4.widthHint = -1;
+		gridData4.verticalAlignment = GridData.CENTER;
+		gridData4.horizontalAlignment = GridData.FILL;
 		GridData gridData3 = new GridData();
 		gridData3.widthHint = 60;
+		gridData3.verticalAlignment = GridData.CENTER;
+		gridData3.horizontalAlignment = GridData.FILL;
 		GridData gridData2 = new GridData();
 		gridData2.widthHint = 60;
+		gridData2.verticalAlignment = GridData.CENTER;
+		gridData2.horizontalAlignment = GridData.FILL;
 		GridData gridData1 = new GridData();
 		gridData1.widthHint = 60;
+		gridData1.verticalAlignment = GridData.CENTER;
+		gridData1.horizontalAlignment = GridData.FILL;
 		controlComposite = new Composite(this, SWT.NONE);
 		controlComposite.setLayout(new GridLayout());
 		newButton = new Button(controlComposite, SWT.NONE);
@@ -174,12 +185,8 @@ public class AttributeSettingPanel extends Composite {
 		newButton.setLayoutData(gridData1);
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				EditAttribute ea = new EditAttribute();
-				ea.setName("アトリビュート" + String.valueOf(attributeList.size() + 1));
-				attributeList.add(ea);
-				TableItem item = new TableItem(attributeTable, SWT.NULL);
-				item.setText(ea.getName());
-				selectedIndex = attributeList.size() - 1;
+				entity.addAttribute();
+				selectedIndex = entity.getMaxAttributeIndex();
 				updateSelection();
 			}
 		});
@@ -191,50 +198,41 @@ public class AttributeSettingPanel extends Composite {
 				if (selectedIndex == -1 || selectedIndex == 0) {
 					return;
 				}
-				EditAttribute move = attributeList.remove(selectedIndex);
+				entity.upAttribute(selectedIndex);
 				selectedIndex--;
-				attributeList.add(selectedIndex, move);
-				updateAttributeTable();
 				updateSelection();
 			}
 		});
 		downButton = new Button(controlComposite, SWT.NONE);
 		downButton.setText("下へ");
 		downButton.setLayoutData(gridData3);
+		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				if (selectedIndex == -1 || selectedIndex == entity.getMaxAttributeIndex()) {
+					return;
+				}
+				entity.downAttribute(selectedIndex);
+				selectedIndex++;
+				updateSelection();
+			}
+		});
 		descButton = new Button(controlComposite, SWT.NONE);
 		descButton.setText("詳細");
 		descButton.setLayoutData(gridData5);
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1) {
-					System.out.println("not shousai selected");
 					return;
 				}
-				EditAttribute edit = attributeList.get(selectedIndex);
+				EditAttribute edit = entity.getEditAttribute(selectedIndex);
 
-				// TODO アトリビュートリスト作成
 				AttributeDialog dialog = new AttributeDialog(getShell(), edit);
-				System.out.println("open");
 				if (dialog.open() == Dialog.OK) {
-//					EditAttribute edited = dialog.getEditedValue();
-//					attributeList.remove(selectedIndex);
-//					attributeList.add(selectedIndex, edited);
-					updateAttributeTable();
+					EditAttribute edited = dialog.getEditedValue();
+					entity.editAttribute(selectedIndex, edited);
 					updateSelection();
 				}
 
-			}
-		});
-		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				if (selectedIndex == -1 || selectedIndex == attributeList.size() - 1) {
-					return;
-				}
-				EditAttribute move = attributeList.remove(selectedIndex);
-				selectedIndex++;
-				attributeList.add(selectedIndex, move);
-				updateAttributeTable();
-				updateSelection();
 			}
 		});
 		deleteButton = new Button(controlComposite, SWT.NONE);
@@ -246,36 +244,38 @@ public class AttributeSettingPanel extends Composite {
 				if (selectedIndex == -1) {
 					return;
 				}
-				EditAttribute deleted = attributeList.remove(selectedIndex);
-				deletedAttributes.add(deleted.getOriginalAttribute());
-				if (attributeList.size() <= selectedIndex) {
+				entity.deleteAttribute(selectedIndex);
+				if (entity.getMaxAttributeIndex() <= selectedIndex) {
 					selectedIndex--;
 				}
-				updateAttributeTable();
 				updateSelection();
 			}
 		});
-	}
-	public void setAttributeTableRow(List<EditAttribute> attributeList) {
-		this.attributeList = attributeList;
+		identifierChangeButton = new Button(controlComposite, SWT.NONE);
+		identifierChangeButton.setText("個体指定子へ");
+		identifierChangeButton.setLayoutData(gridData6);
+		identifierChangeButton
+				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+						if (selectedIndex == -1) {
+							return;
+						}
+						entity.uptoIdentifier(selectedIndex);
+						updateSelection();
+					}
+				});
+		identifierChangeButton.setVisible(entity.canUpToIdentifier());
 		updateAttributeTable();
 	}
-	private void updateAttributeTable() {
+	public void updateAttributeTable() {
 		attributeTable.removeAll();
-		for (EditAttribute ea : attributeList) {
+		for (EditAttribute ea : entity.getAttributes()) {
 			TableItem item = new TableItem(attributeTable, SWT.NULL);
 			item.setText(0, ea.getName());
 		}
 	}
 	private void updateSelection() {
 		attributeTable.select(selectedIndex);
-	}
-
-	/**
-	 * @return the attributeList
-	 */
-	public List<EditAttribute> getAttributeList() {
-		return attributeList;
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@ public class MovableSelectionTool extends SelectionTool {
 	 * 
 	 * @see org.eclipse.gef.tools.SelectionTool#handleKeyDown(org.eclipse.swt.events.KeyEvent)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean handleKeyDown(KeyEvent e) {
 		int x = 0;
@@ -58,6 +57,7 @@ public class MovableSelectionTool extends SelectionTool {
 			y = -1;
 			movable = true;
 		}
+		@SuppressWarnings("rawtypes")
 		List selections = getCurrentViewer().getSelectedEditParts();
 		// カーソルキー操作の時だけモデルを移動させる
 		if (!selections.isEmpty() && movable) {

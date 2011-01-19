@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,20 +48,6 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class CombinationTableEditPart extends AbstractEntityEditPart {
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
-
-		return figure;
-	}
 
 	/**
 	 * 
@@ -124,9 +110,6 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		CombinationTable table = (CombinationTable) getModel();
-		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-		// .getShell(), table.getName(), table.getReuseKeys(), table
-		// .getAttributes());
 		CombinationTableEditDialog dialog = new CombinationTableEditDialog(
 				getViewer().getControl().getShell(), "対照表編集", table);
 		if (dialog.open() == Dialog.OK) {
@@ -136,42 +119,13 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			// CombinationTableEditCommand command = new
-			// CombinationTableEditCommand(
-			// table, (CombinationTable) dialog.getEditedValue());
-			ModelEditCommand command = new ModelEditCommand(table, dialog
-					.getEditedValue());
+			ModelEditCommand command = new ModelEditCommand(table,
+					dialog.getEditedValue());
 			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(
-					ccommand.unwrap());
-			// TableEditCommand<CombinationTable> command = new
-			// TableEditCommand<CombinationTable>(
-			// table, dialog.getEntityName(), dialog.getReuseKeys(),
-			// dialog.getAttributes());
-			// getViewer().getEditDomain().getCommandStack().execute(command);
+			getViewer().getEditDomain().getCommandStack()
+					.execute(ccommand.unwrap());
 		}
 
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
-	 */
-	@Override
-	public IFigure getContentPane() {
-		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List getModelChildren() {
-		return ((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**
@@ -189,82 +143,10 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			// CombinationTableDeleteCommand command = new
-			// CombinationTableDeleteCommand(
-			// (CombinationTable) getHost().getModel());
-			// return command;
 			CombinationTable model = (CombinationTable) getHost().getModel();
 			AbstractConnectionModel creationRelationship = (AbstractConnectionModel) model
 					.findCreationRelationship().getSource();
 			return new TableDeleteCommand(model, creationRelationship);
 		}
 	}
-
-	// /**
-	// *
-	// * @author nakaG
-	// *
-	// */
-	// private static class CombinationTableEditCommand extends Command {
-	// private String newName;
-	// // private List<Identifier> reusedIdentifieres;
-	// private List<Attribute> newAttributes;
-	// private boolean newNotImplement;
-	// private String newImplementName;
-	// private CombinationTableType newType;
-	// protected CombinationTable model;
-	// protected CombinationTable newValue;
-	//
-	// private String oldName;
-	// // private List<Identifier> oldReuseKeys = new ArrayList<Identifier>();
-	// private List<Attribute> oldAttributes;
-	// private boolean oldNotImplement;
-	// private CombinationTableType oldType;
-	// private String oldImplementName;
-	//
-	// public CombinationTableEditCommand(CombinationTable toBeEdit,
-	// CombinationTable newValue) {
-	// this.model = toBeEdit;
-	// this.newValue = newValue;
-	// this.oldName = toBeEdit.getName();
-	// this.oldAttributes = toBeEdit.getAttributes();
-	// this.oldNotImplement = toBeEdit.isNotImplement();
-	// this.oldImplementName = toBeEdit.getImplementName();
-	// this.oldType = toBeEdit.getCombinationTableType();
-	// this.newName = this.newValue.getName();
-	// this.newAttributes = this.newValue.getAttributes();
-	// this.newNotImplement = this.newValue.isNotImplement();
-	// this.newImplementName = this.newValue.getImplementName();
-	// this.newType = this.newValue.getCombinationTableType();
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#execute()
-	// */
-	// @Override
-	// public void execute() {
-	// model.setAttributes(newAttributes);
-	// model.setNotImplement(newNotImplement);
-	// model.setImplementName(newImplementName);
-	// model.setCombinationTableType(newType);
-	// model.setName(newName);
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#undo()
-	// */
-	// @Override
-	// public void undo() {
-	// model.setAttributes(oldAttributes);
-	// model.setNotImplement(oldNotImplement);
-	// model.setImplementName(oldImplementName);
-	// model.setCombinationTableType(oldType);
-	// model.setName(oldName);
-	// }
-	// }
-
 }

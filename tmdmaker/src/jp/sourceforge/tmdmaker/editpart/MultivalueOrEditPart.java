@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,9 +57,6 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		MultivalueOrEntity table = (MultivalueOrEntity) getModel();
-		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-		// .getShell(), table.getName(), table.getReuseKeys(), table
-		// .getAttributes());
 		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 				.getShell(), "多値のOR表編集", table);
 		if (dialog.open() == Dialog.OK) {
@@ -69,18 +66,10 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			// TableEditCommand<MultivalueOrEntity> command = new
-			// TableEditCommand<MultivalueOrEntity>(
-			// table, (MultivalueOrEntity) dialog.getEditedValue());
-			ModelEditCommand command = new ModelEditCommand(table, dialog
-					.getEditedValue());
+			ModelEditCommand command = new ModelEditCommand(table,
+					dialog.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
-			// TableEditCommand<MultivalueOrEntity> command = new
-			// TableEditCommand<MultivalueOrEntity>(
-			// table, dialog.getEntityName(), dialog.getReuseKeys(),
-			// dialog.getAttributes());
-			// getViewer().getEditDomain().getCommandStack().execute(command);
 		}
 	}
 
@@ -118,19 +107,6 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
-		return figure;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
@@ -140,27 +116,6 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
-	 */
-	@Override
-	public IFigure getContentPane() {
-		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List getModelChildren() {
-		return ((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**
@@ -180,68 +135,10 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
 			MultivalueOrEntity model = (MultivalueOrEntity) getHost()
 					.getModel();
-			// MultivalueOrEntityDeleteCommand command = new
-			// MultivalueOrEntityDeleteCommand(
-			// model);
-			// return command;
 			return new TableDeleteCommand(model, model
 					.getModelTargetConnections().get(0));
 		}
 
 	}
 
-	// /**
-	// *
-	// * @author nakaG
-	// *
-	// */
-	// private static class MultivalueOrEntityDeleteCommand extends Command {
-	// /** 削除対象 */
-	// private MultivalueOrEntity model;
-	// /** 元エンティティと多値のORを接続するリレーションシップ */
-	// private AbstractRelationship relationship;
-	//
-	// /**
-	// * コンストラクタ
-	// *
-	// * @param model
-	// * 削除対象
-	// */
-	// public MultivalueOrEntityDeleteCommand(MultivalueOrEntity model) {
-	// this.model = model;
-	// this.relationship = (AbstractRelationship) model
-	// .getModelTargetConnections().get(0);
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#canExecute()
-	// */
-	// @Override
-	// public boolean canExecute() {
-	// return model.isDeletable();
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#execute()
-	// */
-	// @Override
-	// public void execute() {
-	// relationship.disconnect();
-	// }
-	//
-	// /**
-	// * {@inheritDoc}
-	// *
-	// * @see org.eclipse.gef.commands.Command#undo()
-	// */
-	// @Override
-	// public void undo() {
-	// relationship.connect();
-	// }
-	//
-	// }
 }
