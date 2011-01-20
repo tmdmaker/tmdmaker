@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,8 @@ import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -79,11 +81,14 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
@@ -98,7 +103,8 @@ import org.slf4j.LoggerFactory;
  * @author nakaG
  * 
  */
-public class TMDEditor extends GraphicalEditorWithPalette {
+public class TMDEditor extends GraphicalEditorWithPalette implements
+		IResourceChangeListener {
 
 	/**
 	 * アウトラインページ
@@ -189,6 +195,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		super();
 		logger.debug("{} is instanciate.", TMDEditor.class);
 		setEditDomain(new DefaultEditDomain(this));
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
 
 	/**
@@ -214,6 +221,18 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		Version version = getPluginVersion();
 		diagram.setVersion(version.getValue());
 		viewer.setContents(diagram);
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#dispose()
+	 */
+	@Override
+	public void dispose() {
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
+		super.dispose();
 	}
 
 	private Version getPluginVersion() {
@@ -264,7 +283,7 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 				"エンティティ", new SimpleFactory(Entity.class), descriptor,
 				descriptor);
 		creationEntry.setToolClass(EntityCreationTool.class);
-		
+
 		drawer.add(creationEntry);
 
 		descriptor = TMDPlugin.getImageDescriptor("icons/new_relationship.gif");
@@ -526,4 +545,33 @@ public class TMDEditor extends GraphicalEditorWithPalette {
 		}
 		return super.getAdapter(type);
 	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
+	 */
+	@Override
+	public void resourceChanged(IResourceChangeEvent event) {
+		if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
+			final IEditorInput input = getEditorInput();
+			if (input instanceof IFileEditorInput) {
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						IFile file = ((IFileEditorInput) input).getFile();
+						if (file.exists() == false) {
+							IWorkbenchPage page = PlatformUI.getWorkbench()
+									.getActiveWorkbenchWindow().getActivePage();
+							page.closeEditor(TMDEditor.this, true);
+						} else if (getPartName().equals(file.getName()) == false) {
+							setPartName(file.getName());
+						}
+					}
+				});
+			}
+		}
+	}
+
 }
