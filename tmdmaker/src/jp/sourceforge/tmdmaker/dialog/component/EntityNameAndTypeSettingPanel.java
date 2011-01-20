@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,6 +84,8 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	 * 
 	 */
 	private void initialize() {
+        identifierLabel = new Label(this, SWT.NONE);
+        identifierLabel.setText("個体指定子");
         GridData gridData11 = new GridData();
         gridData11.horizontalAlignment = GridData.FILL;
         gridData11.verticalAlignment = GridData.CENTER;
@@ -101,6 +103,11 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         gridData.grabExcessHorizontalSpace = true;
         gridData.widthHint = -1;
         gridData.verticalAlignment = GridData.CENTER;
+        identifierText = new Text(this, SWT.BORDER);
+        identifierText.setLayoutData(gridData);
+        descButton = new Button(this, SWT.NONE);
+        descButton.setText("詳細");
+        descButton.setLayoutData(gridData11);
         nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
         nameAutoCreateCheckBox.setText("個体指定子からエンティティ名を自動生成");
         nameAutoCreateCheckBox.setLayoutData(gridData9);
@@ -123,10 +130,6 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         				}
         			}
         		});
-        identifierLabel = new Label(this, SWT.NONE);
-        identifierLabel.setText("個体指定子");
-        identifierText = new Text(this, SWT.BORDER);
-        identifierText.setLayoutData(gridData);
         identifierText
 		.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
 			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
@@ -143,9 +146,6 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 //        		typeCombo.setFocus();
         	}
         });
-        descButton = new Button(this, SWT.NONE);
-        descButton.setText("詳細");
-        descButton.setLayoutData(gridData11);
         descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
         	public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
         		System.out.println("widgetSelected()");
@@ -162,7 +162,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         gridLayout.numColumns = 3;
         gridLayout.horizontalSpacing = 5;
         this.setLayout(gridLayout);
-        this.setSize(new Point(324, 90));
+        this.setSize(new Point(358, 78));
 	}
 
 	/**
@@ -213,9 +213,6 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	public void setEntityTypeComboEnabled(boolean enabled) {
 		this.typeCombo.setEnabled(enabled);
 	}
-//	public void setInitialFocus() {
-//		this.identifierText.setFocus();
-//	}
 	/**
 	 * @return the editIdentifier
 	 */

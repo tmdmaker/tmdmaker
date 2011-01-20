@@ -15,8 +15,10 @@
  */
 package jp.sourceforge.tmdmaker.dialog.model;
 
+import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.Laputa;
 
 /**
  * エンティティの編集用
@@ -34,7 +36,9 @@ public class EditEntity extends EditTable {
 	private EntityType type;
 	/** 編集対象のエンティティ種類編集可否 */
 	private boolean entityTypeEditable;
-
+	private boolean latuta;
+	private boolean detail;
+	
 	/**
 	 * コンストラクタ
 	 * 
@@ -48,6 +52,17 @@ public class EditEntity extends EditTable {
 		this.entityTypeEditable = entity.isEntityTypeEditable();
 	}
 
+	public EditEntity(Detail entity) {
+		super(entity);
+		this.editIdentifier = new EditAttribute(entity.getDetailIdentifier());
+		this.detail = true;
+	}
+	
+	public EditEntity(Laputa entity) {
+		super(entity);
+		this.editIdentifier = new EditAttribute(entity.getIdentifier());		
+		this.latuta = true;
+	}
 	/**
 	 * 
 	 * @return the type
@@ -139,6 +154,18 @@ public class EditEntity extends EditTable {
 	 */
 	protected void setEditIdentifier(EditAttribute editIdentifier) {
 		this.editIdentifier = editIdentifier;
+	}
+
+	public boolean isLatuta() {
+		return latuta;
+	}
+
+	public boolean isDetail() {
+		return detail;
+	}
+
+	public boolean isEntity() {
+		return !latuta && !detail;
 	}
 
 }

@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.dialog.model.EditDetail;
+import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -30,13 +30,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class DetailIdentifierSettingPanel extends Composite {
-	private EditDetail entity;
+	private EditEntity entity;
 	private Label identifierLabel = null;
 	private Text identifierText = null;
 	private Button descButton = null;
 
 	public DetailIdentifierSettingPanel(Composite parent, int style,
-			EditDetail entity) {
+			EditEntity entity) {
 		super(parent, style);
 		this.entity = entity;
 		initialize();

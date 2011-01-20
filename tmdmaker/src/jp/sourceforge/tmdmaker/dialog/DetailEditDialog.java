@@ -24,7 +24,7 @@ import jp.sourceforge.tmdmaker.dialog.component.DetailIdentifierSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.dialog.model.EditDetail;
+import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Identifier;
 
@@ -47,7 +47,7 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	private Detail original;
 	/** 編集結果格納用 */
 	private Detail editedValue;
-	private EditDetail entity;
+	private EditEntity entity;
 	/** 表名設定用 */
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
@@ -70,7 +70,7 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	public DetailEditDialog(Shell parentShell, Detail original) {
 		super(parentShell);
 		this.original = original;
-		entity = new EditDetail(original);
+		entity = new EditEntity(original);
 		entity.addPropertyChangeListener(this);
 	}
 
@@ -82,9 +82,9 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(EditDetail.PROPERTY_ATTRIBUTES)) {
+		if (evt.getPropertyName().equals(EditEntity.PROPERTY_ATTRIBUTES)) {
 			panel2.updateAttributeTable();
-		} else if (evt.getPropertyName().equals(EditDetail.PROPERTY_UP_IDENTIFIER)) {
+		} else if (evt.getPropertyName().equals(EditEntity.PROPERTY_UP_IDENTIFIER)) {
 			panel3.updateValue();
 			panel2.updateAttributeTable();
 		}
