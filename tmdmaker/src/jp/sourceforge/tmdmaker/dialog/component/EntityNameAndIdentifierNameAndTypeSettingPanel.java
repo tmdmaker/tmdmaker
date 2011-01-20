@@ -191,6 +191,9 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 		});
 		typeCombo.add("リソース");
 		typeCombo.add("イベント");
+		if (entity.isLatuta()) {
+			typeCombo.add("不明");
+		}
 	}
 	/**
 	 * 

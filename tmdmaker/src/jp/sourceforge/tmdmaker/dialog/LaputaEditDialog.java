@@ -20,8 +20,9 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndTypeSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndIdentifierNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
@@ -42,13 +43,12 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class LaputaEditDialog extends Dialog implements PropertyChangeListener {
 	/** エンティティ名、個体指定子、エンティティ種類設定用 */
-	private EntityNameAndTypeSettingPanel panel1;
+	private EntityNameAndIdentifierNameAndTypeSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
 
 	/** 編集元エンティティ */
-	private Laputa original;
-	private EditTable entity;
+	private EditEntity entity;
 	/** 編集結果格納用 */
 	private Laputa editedValueEntity;
 
@@ -62,8 +62,7 @@ public class LaputaEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	public LaputaEditDialog(Shell parentShell, final Laputa original) {
 		super(parentShell);
-		this.original = original;
-		entity = new EditTable(original);
+		entity = new EditEntity(original);
 		entity.addPropertyChangeListener(this);
 	}
 
@@ -106,7 +105,8 @@ public class LaputaEditDialog extends Dialog implements PropertyChangeListener {
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
+		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite,
+				SWT.NULL, entity);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
@@ -115,19 +115,8 @@ public class LaputaEditDialog extends Dialog implements PropertyChangeListener {
 		panel2.setLayoutData(gridData);
 
 		composite.pack();
-		initializeValue();
 
 		return composite;
-	}
-
-	private void initializeValue() {
-		panel1.setEditIdentifier(new EditAttribute(original.getIdentifier()));
-		panel1.setIdentifierNameText(original.getIdentifier().getName());
-		panel1.setEntityNameText(original.getName());
-		panel1.selectEntityTypeCombo(original.getEntityType());
-		panel1.selectAutoCreateCheckBox(original.getIdentifier().getName(),
-				original.getName());
-		panel1.setEntityTypeComboEnabled(original.isEntityTypeEditable());
 	}
 
 	/**
@@ -138,12 +127,11 @@ public class LaputaEditDialog extends Dialog implements PropertyChangeListener {
 	@Override
 	protected void okPressed() {
 		this.editedValueEntity = new Laputa();
-		Identifier newIdentifier = new Identifier(panel1.getIdentifierName());
-		EditAttribute editIdentifier = panel1.getEditIdentifier();
-		editIdentifier.copyTo(newIdentifier);
+		Identifier newIdentifier = new Identifier();
+		entity.getEditIdentifier().copyTo(newIdentifier);
 		this.editedValueEntity.setIdentifier(newIdentifier);
-		this.editedValueEntity.setName(panel1.getEntityName());
-		this.editedValueEntity.setEntityType(panel1.getSelectedType());
+		this.editedValueEntity.setName(entity.getName());
+		this.editedValueEntity.setEntityType(entity.getType());
 		this.editedValueEntity.setAttributes(entity.getAttributesOrder());
 
 		super.okPressed();
