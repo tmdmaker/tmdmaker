@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,19 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.editpart.EntityEditPart;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Cardinality;
+import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
+import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
+import jp.sourceforge.tmdmaker.model.command.ConnectionDeleteCommand;
+import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
+import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -68,11 +76,34 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 	@Override
 	public void run() {
 		AbstractEntityModel model = getModel();
-
+		CompoundCommand ccommand = new CompoundCommand();
 		// Detailとスーパーセットを追加してHeaderと接続
 		HeaderDetailCreateCommand command = new HeaderDetailCreateCommand(model);
-
-		execute(command);
+		ccommand.add(command);
+		// 多値のリレーションをHeaderから削除してDetailと再接続
+		if (EntityTypeRule.isEvent(model)) {
+			for (AbstractConnectionModel con : model
+					.getModelTargetConnections()) {
+				if (con instanceof AbstractRelationship) {
+					AbstractRelationship relation = (AbstractRelationship) con;
+					if (relation.isMultiValue()) {
+						AbstractEntityModel source = relation.getSource();
+						ConnectionDeleteCommand command2 = new ConnectionDeleteCommand(
+								relation);
+						ccommand.add(command2);
+						Detail detail = (Detail) command.getRelationship()
+								.getTarget();
+						AbstractRelationship newRelation = RelationshipRule
+								.createRelationship(source, detail);
+						newRelation.setTargetCardinality(Cardinality.MANY);
+						ConnectionCreateCommand command3 = new ConnectionCreateCommand(
+								newRelation, source, detail);
+						ccommand.add(command3);
+					}
+				}
+			}
+		}
+		execute(ccommand.unwrap());
 	}
 
 	/**
@@ -111,6 +142,10 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		@Override
 		public void undo() {
 			relationship.disconnect();
+		}
+
+		public Header2DetailRelationship getRelationship() {
+			return relationship;
 		}
 
 	}

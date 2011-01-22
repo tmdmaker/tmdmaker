@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -166,7 +166,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 	public void setTarget(AbstractEntityModel target) {
 		super.setTarget(target);
 	}
-	
+
 	public int getSourceXp() {
 		return sourceXp;
 	}
@@ -176,6 +176,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 		this.sourceYp = sourceYp;
 		firePropertyChange(PROPERTY_CONNECTION, null, null);
 	}
+
 	public int getSourceYp() {
 		return sourceYp;
 	}
@@ -194,4 +195,13 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 		return targetYp;
 	}
 
+	/**
+	 * 多値のリレーションシップ判定
+	 * 
+	 * @return 多値の場合にtrueを返す
+	 */
+	public boolean isMultiValue() {
+		return getSourceCardinality().equals(Cardinality.MANY)
+				&& getTargetCardinality().equals(Cardinality.MANY);
+	}
 }
