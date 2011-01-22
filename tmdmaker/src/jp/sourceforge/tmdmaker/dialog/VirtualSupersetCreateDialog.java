@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
 import jp.sourceforge.tmdmaker.dialog.component.VirtualSupersetSettingPanel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -27,6 +28,8 @@ import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -39,27 +42,37 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class VirtualSupersetCreateDialog extends Dialog {
 	private VirtualSupersetSettingPanel panel1;
-	private Diagram diagram;
+	private ModelSelectPanel panel2;
 	private VirtualSuperset superset;
 	private VirtualSuperset editedValue;
 	private VirtualSupersetType editedAggregator;
 	private List<AbstractEntityModel> notSelection;
-	private List<AbstractEntityModel> selection = new ArrayList<AbstractEntityModel>();
-	// TODO 実装名設定、同一・相違の初期値が設定されない
+	private List<AbstractEntityModel> selection;
+
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param parentShell 親
-	 * @param diagram 対象ダイアグラム
-	 * @param superset みなしスーパーセット
+	 * @param parentShell
+	 *            親
+	 * @param diagram
+	 *            対象ダイアグラム
+	 * @param superset
+	 *            みなしスーパーセット
 	 */
 	public VirtualSupersetCreateDialog(Shell parentShell, Diagram diagram,
 			VirtualSuperset superset) {
 		super(parentShell);
-		this.diagram = diagram;
 		this.superset = superset;
+		selection = new ArrayList<AbstractEntityModel>();
 		if (this.superset != null) {
 			selection.addAll(this.superset.getVirtualSubsetList());
+		}
+		notSelection = new ArrayList<AbstractEntityModel>();
+		for (ModelElement m : diagram.getChildren()) {
+			if (m instanceof AbstractEntityModel && !m.equals(superset)
+					&& !selection.contains(m)) {
+				notSelection.add((AbstractEntityModel) m);
+			}
 		}
 	}
 
@@ -71,16 +84,22 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText("スーパーセット編集");
+
 		Composite composite = new Composite(parent, SWT.NULL);
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 1;
+		composite.setLayout(gridLayout);
+
 		panel1 = new VirtualSupersetSettingPanel(composite, SWT.NULL);
-		notSelection = new ArrayList<AbstractEntityModel>();
-		for (ModelElement m : diagram.getChildren()) {
-			if (m instanceof AbstractEntityModel && !m.equals(superset)
-					&& !selection.contains(m)) {
-				notSelection.add((AbstractEntityModel) m);
-			}
-		}
-		panel1.initializeValue(notSelection, selection, superset);
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		panel1.setLayoutData(gridData);
+
+		panel2 = new ModelSelectPanel(composite, SWT.NULL);
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		panel2.setLayoutData(gridData);
+
+		panel1.initializeValue(superset);
+		panel2.initializeValue(selection, notSelection);
 		return composite;
 	}
 
@@ -93,15 +112,9 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	protected void okPressed() {
 		editedValue = new VirtualSuperset();
 		editedValue.setName(panel1.getVirtualSupersetName());
-		for (ModelElement m : selection) {
-			System.out.println("selection:" + m.getName());
-		}
-		for (ModelElement m : notSelection) {
-			System.out.println("notSelection:" + m.getName());
-		}
 		editedAggregator = new VirtualSupersetType();
 		editedAggregator.setApplyAttribute(panel1.isApplyAttributeSelected());
-		
+
 		super.okPressed();
 	}
 
@@ -132,5 +145,5 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	public VirtualSupersetType getEditedAggregator() {
 		return editedAggregator;
 	}
-	
+
 }
