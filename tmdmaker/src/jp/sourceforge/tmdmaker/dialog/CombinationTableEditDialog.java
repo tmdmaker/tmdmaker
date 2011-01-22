@@ -187,6 +187,8 @@ public class CombinationTableEditDialog extends Dialog implements
 			editedValue.setCombinationTableType(CombinationTableType.F_TRUTH);
 		}
 		editedValue.setAttributes(entity.getAttributesOrder());
+		editedValue.setKeyModels(entity.getKeyModels());
+		editedValue.setImplementDerivationModels(entity.getImplementDerivationModels());
 
 		super.okPressed();
 	}

@@ -160,7 +160,8 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 		this.editedValueEntity.setNotImplement(panel3.isNotImplement());
 		this.editedValueEntity.setImplementName(panel3.getImplementName());
 		this.editedValueEntity.setAttributes(entity.getAttributesOrder());
-
+		this.editedValueEntity.setKeyModels(entity.getKeyModels());
+		this.editedValueEntity.setImplementDerivationModels(entity.getImplementDerivationModels());
 		super.okPressed();
 	}
 
