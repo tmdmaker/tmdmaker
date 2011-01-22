@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package jp.sourceforge.tmdmaker.dialog.component;
+
+import java.util.ArrayList;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
@@ -87,7 +89,6 @@ public class ModelSelectPanel extends Composite {
 		selectedList.setLayoutData(gridData);
 		selectedList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-				System.out.println("focusGained()"); // TODO Auto-generated Event stub focusGained()
 				selectButton.setEnabled(false);
 				removeButton.setEnabled(true);
 				selectAllButton.setEnabled(false);
@@ -101,14 +102,16 @@ public class ModelSelectPanel extends Composite {
 		selectButton
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-						int selectedIndex = candidateList.getSelectionIndex();
-						System.out.println(selectedIndex);
-						if (selectedIndex == -1) {
+						int[] selectedIndices = candidateList.getSelectionIndices();
+						if (selectedIndices.length == 0) {
 							return;
 						}
-						AbstractEntityModel selectedModel = notSelectModels.remove(selectedIndex);
-						selectModels.add(selectedModel);
+						java.util.List<AbstractEntityModel> selectedModels = new ArrayList<AbstractEntityModel>();
+						for (int i : selectedIndices) {
+							selectedModels.add(notSelectModels.get(i));
+						}
+						notSelectModels.removeAll(selectedModels);
+						selectModels.addAll(selectedModels);
 						updateList();
 					}
 				});
@@ -116,7 +119,6 @@ public class ModelSelectPanel extends Composite {
 		candidateList.setLayoutData(gridData1);
 		candidateList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-				System.out.println("focusGained()"); // TODO Auto-generated Event stub focusGained()
 				selectButton.setEnabled(true);
 				removeButton.setEnabled(false);
 				selectAllButton.setEnabled(true);
@@ -130,14 +132,16 @@ public class ModelSelectPanel extends Composite {
 		removeButton
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-						int selectedIndex = selectedList.getSelectionIndex();
-						System.out.println(selectedIndex);
-						if (selectedIndex == -1) {
+						int[] selectedIndices = selectedList.getSelectionIndices();
+						if (selectedIndices.length == 0) {
 							return;
 						}
-						AbstractEntityModel selectedModel = selectModels.remove(selectedIndex);
-						notSelectModels.add(selectedModel);
+						java.util.List<AbstractEntityModel> selectedModels = new ArrayList<AbstractEntityModel>();
+						for (int i : selectedIndices) {
+							selectedModels.add(selectModels.get(i));
+						}
+						selectModels.removeAll(selectedModels);
+						notSelectModels.addAll(selectedModels);
 						updateList();
 					}
 				});
@@ -147,7 +151,6 @@ public class ModelSelectPanel extends Composite {
 		selectAllButton
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 						selectModels.addAll(notSelectModels);
 						notSelectModels.clear();
 						updateList();
@@ -159,7 +162,6 @@ public class ModelSelectPanel extends Composite {
 		removeAllButton
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 						notSelectModels.addAll(selectModels);
 						selectModels.clear();
 						updateList();
