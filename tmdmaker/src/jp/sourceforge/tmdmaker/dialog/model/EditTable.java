@@ -22,6 +22,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.IAttribute;
+import jp.sourceforge.tmdmaker.model.KeyModels;
 
 /**
  * 表の編集用
@@ -277,4 +278,13 @@ public class EditTable {
 	public boolean canUpToIdentifier() {
 		return false;
 	}
+
+	public KeyModels getKeyModels() {
+		return entity.getKeyModels();
+	}
+
+	public List<AbstractEntityModel> getImplementDerivationModels() {
+		return entity.getImplementDerivationModels();
+	}
+	
 }

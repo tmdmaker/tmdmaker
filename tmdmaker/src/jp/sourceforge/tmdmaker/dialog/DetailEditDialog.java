@@ -168,6 +168,8 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 		editedValue.setNotImplement(panel4.isNotImplement());
 		editedValue.setImplementName(panel4.getImplementName());
 		editedValue.setAttributes(entity.getAttributesOrder());
+		editedValue.setKeyModels(entity.getKeyModels());
+		editedValue.setImplementDerivationModels(entity.getImplementDerivationModels());
 
 		super.okPressed();
 	}

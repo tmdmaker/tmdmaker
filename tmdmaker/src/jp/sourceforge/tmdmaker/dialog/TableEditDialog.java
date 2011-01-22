@@ -160,6 +160,8 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 		editedValue.setNotImplement(panel3.isNotImplement());
 		editedValue.setImplementName(panel3.getImplementName());
 		editedValue.setAttributes(entity.getAttributesOrder());
+		editedValue.setKeyModels(entity.getKeyModels());
+		editedValue.setImplementDerivationModels(entity.getImplementDerivationModels());
 
 		super.okPressed();
 	}
