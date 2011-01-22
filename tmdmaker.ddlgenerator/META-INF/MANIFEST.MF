@@ -18,10 +18,6 @@ Bundle-ClassPath: .,
  lib/dom4j-1.4.jar,
  lib/stax-api-1.0.1.jar,
  lib/wstx-asl-3.0.2.jar,
- lib/jcl-over-slf4j-1.5.8.jar,
- lib/simple-log-slf4j.jar,
- lib/simple-log.jar,
- lib/slf4j-api-1.5.8.jar,
  lib/ddlutils-1.1.jar
 Export-Package: jp.sourceforge.tmdmaker.dialect,
  jp.sourceforge.tmdmaker.generate
