@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,17 +47,21 @@ public class EditAttribute {
 	/** 機密性 */
 	private String lock = "";
 	/** 計算式 */
+	private boolean derivation = false;
 	private String derivationRule = "";
 	/** 実装名 */
 	private String implementName = "";
 	/** NULL許可 */
 	private boolean nullable = false;
+	/** 新規追加 */
+	private boolean added = false;
 
 	/**
 	 * コンストラクタ
 	 */
 	public EditAttribute() {
 		this.originalAttribute = new Attribute();
+		added = true;
 	}
 
 	/**
@@ -70,23 +74,31 @@ public class EditAttribute {
 		this.originalAttribute = original;
 
 		this.name = ModelEditUtils.toBlankStringIfNull(original.getName());
-		this.description = ModelEditUtils.toBlankStringIfNull(original.getDescription());
-		this.derivationRule = ModelEditUtils.toBlankStringIfNull(original.getDerivationRule());
+		this.description = ModelEditUtils.toBlankStringIfNull(original
+				.getDescription());
+		this.derivationRule = ModelEditUtils.toBlankStringIfNull(original
+				.getDerivationRule());
+		this.derivation = original.isDerivation();
 		this.lock = ModelEditUtils.toBlankStringIfNull(original.getLock());
-		this.validationRule = ModelEditUtils.toBlankStringIfNull(original.getValidationRule());
-		this.implementName = ModelEditUtils.toBlankStringIfNull(original.getImplementName());
+		this.validationRule = ModelEditUtils.toBlankStringIfNull(original
+				.getValidationRule());
+		this.implementName = ModelEditUtils.toBlankStringIfNull(original
+				.getImplementName());
 		DataTypeDeclaration dataTypeDeclaration = original
 				.getDataTypeDeclaration();
 		if (dataTypeDeclaration != null) {
 			this.dataType = dataTypeDeclaration.getLogicalType();
-			this.size = ModelEditUtils.toBlankIfNull(dataTypeDeclaration.getSize());
-			this.scale = ModelEditUtils.toBlankIfNull(dataTypeDeclaration.getScale());
+			this.size = ModelEditUtils.toBlankIfNull(dataTypeDeclaration
+					.getSize());
+			this.scale = ModelEditUtils.toBlankIfNull(dataTypeDeclaration
+					.getScale());
 		} else {
 			this.dataType = null;
 			this.size = "";
 			this.scale = "";
 		}
 		this.nullable = original.isNullable();
+		this.added = false;
 	}
 
 	/**
@@ -113,6 +125,9 @@ public class EditAttribute {
 	 * @return the originalAttribute
 	 */
 	public IAttribute getOriginalAttribute() {
+		if (added) {
+			copyToOriginal();
+		}
 		return originalAttribute;
 	}
 
@@ -131,8 +146,11 @@ public class EditAttribute {
 		this.edited = edited;
 	}
 
+	/**
+	 * @return the added
+	 */
 	public boolean isAdded() {
-		return originalAttribute.getName() == null;
+		return added;
 	}
 
 	/**
@@ -240,6 +258,22 @@ public class EditAttribute {
 	}
 
 	/**
+	 * @return the derivation
+	 */
+	public boolean isDerivation() {
+		return derivation;
+	}
+
+	/**
+	 * @param derivation
+	 *            the derivation to set
+	 */
+	public void setDerivation(boolean derivation) {
+		this.derivation = derivation;
+		setEdited(true);
+	}
+
+	/**
 	 * @return the derivationRule
 	 */
 	public String getDerivationRule() {
@@ -263,14 +297,14 @@ public class EditAttribute {
 	}
 
 	/**
-	 * @param implementName the implementName to set
+	 * @param implementName
+	 *            the implementName to set
 	 */
 	public void setImplementName(String implementName) {
 		this.implementName = implementName;
 		setEdited(true);
 	}
 
-	
 	/**
 	 * @return the nullable
 	 */
@@ -279,7 +313,8 @@ public class EditAttribute {
 	}
 
 	/**
-	 * @param nullable the nullable to set
+	 * @param nullable
+	 *            the nullable to set
 	 */
 	public void setNullable(boolean nullable) {
 		this.nullable = nullable;
@@ -287,9 +322,10 @@ public class EditAttribute {
 	}
 
 	/**
-	 * toへ自身のフィールド値をコピー（sharrow copy)する。
+	 * newAttributeへ自身のフィールド値をコピー（sharrow copy)する。
 	 * 
 	 * @param newAttribute
+	 *            アトリビュート
 	 */
 	public void copyTo(IAttribute newAttribute) {
 		if (dataType != null) {
@@ -318,6 +354,7 @@ public class EditAttribute {
 		if (derivationRule.length() != 0) {
 			newAttribute.setDerivationRule(derivationRule);
 		}
+		newAttribute.setDerivation(derivation);
 		if (description.length() != 0) {
 			newAttribute.setDescription(description);
 		}
@@ -337,9 +374,29 @@ public class EditAttribute {
 	}
 
 	/**
+	 * toへ自身のフィールド値をコピー（sharrow copy)する。
+	 * 
+	 * @param to
+	 *            編集用アトリビュート
+	 */
+	public void copyTo(EditAttribute to) {
+		to.setDataType(getDataType());
+		to.setDerivation(isDerivation());
+		to.setDerivationRule(getDerivationRule());
+		to.setDescription(getDescription());
+		to.setImplementName(getImplementName());
+		to.setLock(getLock());
+		to.setName(getName());
+		to.setNullable(isNullable());
+		to.setScale(getScale());
+		to.setSize(getSize());
+		to.setValidationRule(getValidationRule());
+	}
+
+	/**
 	 * 元のアトリビュートへ自身のフィールド値をコピーする。
 	 */
-	public void copyToOriginal() {
+	protected void copyToOriginal() {
 		copyTo(originalAttribute);
 	}
 

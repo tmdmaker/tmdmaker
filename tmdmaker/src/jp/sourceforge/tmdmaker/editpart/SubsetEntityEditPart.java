@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,19 +50,6 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class SubsetEntityEditPart extends AbstractEntityEditPart {
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
-		return figure;
-	}
-
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -124,36 +111,12 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
-	 */
-	@Override
-	public IFigure getContentPane() {
-		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List getModelChildren() {
-		return ((AbstractEntityModel) getModel()).getAttributes();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		SubsetEntity table = (SubsetEntity) getModel();
-		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-		// .getShell(), table.getName(), table.getReuseKeys(), table
-		// .getAttributes());
 		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 				.getShell(), "サブセット表編集", table);
 		if (dialog.open() == Dialog.OK) {
@@ -166,10 +129,12 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			AbstractEntityModel edited = dialog.getEditedValue();
 			ModelEditCommand command = new ModelEditCommand(table, edited);
 			ccommand.add(command);
-			
+
 			if (table.isNotImplement() && !edited.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(table);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(table, original));
+				AbstractEntityModel original = ImplementRule
+						.findOriginalImplementModel(table);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(table,
+						original));
 			}
 
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
@@ -198,8 +163,10 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 					diagram, model);
 			ccommand.add(command1);
 			if (model.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(model);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
+				AbstractEntityModel original = ImplementRule
+						.findOriginalImplementModel(model);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(model,
+						original));
 			}
 			SubsetType2SubsetRelationship relationship = (SubsetType2SubsetRelationship) model
 					.findRelationshipFromTargetConnections(
@@ -225,8 +192,6 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		/** サブセットタイプとのコネクション */
 		private SubsetType2SubsetRelationship subsetType2SubsetEntityRelationship;
 
-		// private SubsetType subsetType;
-
 		/**
 		 * コンストラクタ
 		 * 
@@ -242,10 +207,6 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			this.subsetType2SubsetEntityRelationship = (SubsetType2SubsetRelationship) this.model
 					.findRelationshipFromTargetConnections(
 							SubsetType2SubsetRelationship.class).get(0);
-			// findRelatedRelationship(this.model.getModelTargetConnections());
-			// this.subsetType = (SubsetType)
-			// subsetType2SubsetEntityRelationship
-			// .getSource();
 		}
 
 		/**
@@ -266,7 +227,6 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		@Override
 		public void execute() {
 			this.subsetType2SubsetEntityRelationship.disconnect();
-			// this.model.setDiagram(null);
 			this.diagram.removeChild(this.model);
 
 		}
@@ -279,7 +239,6 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		@Override
 		public void undo() {
 			this.diagram.addChild(this.model);
-			// this.model.setDiagram(this.diagram);
 			this.subsetType2SubsetEntityRelationship.connect();
 		}
 

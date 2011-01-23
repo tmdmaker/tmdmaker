@@ -111,6 +111,22 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
+	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#isDerivation()
+	 */
+	public boolean isDerivation() {
+		return editAttribute.isDerivation();
+	}
+
+	/**
+	 * @param derivation
+	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setDerivation()
+	 */
+	public void setDerivation(boolean derivation) {
+		editAttribute.setDerivation(derivation);
+	}
+
+	/**
+	 * @return
 	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getDerivationRule()
 	 */
 	public String getDerivationRule() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,6 +112,8 @@ public class SupersetEditDialog extends Dialog {
 		editedValue.setName(inputNameText.getText());
 		editedValue.setNotImplement(panel.isNotImplement());
 		editedValue.setImplementName(panel.getImplementName());
+		editedValue.setKeyModels(original.getKeyModels());
+		editedValue.setImplementDerivationModels(original.getImplementDerivationModels());
 
 		super.okPressed();
 	}

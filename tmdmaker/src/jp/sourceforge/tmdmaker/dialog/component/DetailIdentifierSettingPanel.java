@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -29,13 +30,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class DetailIdentifierSettingPanel extends Composite {
-	private EditAttribute editIdentifier = null;  //  @jve:decl-index=0:
+	private EditEntity entity;
 	private Label identifierLabel = null;
 	private Text identifierText = null;
 	private Button descButton = null;
 
-	public DetailIdentifierSettingPanel(Composite parent, int style) {
+	public DetailIdentifierSettingPanel(Composite parent, int style,
+			EditEntity entity) {
 		super(parent, style);
+		this.entity = entity;
 		initialize();
 	}
 
@@ -56,49 +59,37 @@ public class DetailIdentifierSettingPanel extends Composite {
 		identifierLabel.setText("個体指定子");
 		identifierText = new Text(this, SWT.BORDER);
 		identifierText.setLayoutData(gridData);
-		identifierText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
-			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
-				System.out.println("modifyText()"); // TODO Auto-generated Event stub modifyText()
-				editIdentifier.setName(((Text)e.widget).getText());
-			}
-		});
+		identifierText
+				.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
+					public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
+						entity.setIdentifierName(((Text) e.widget).getText());
+					}
+				});
 		descButton = new Button(this, SWT.NONE);
 		descButton.setText("詳細");
 		descButton.setLayoutData(gridData1);
-		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-				AttributeDialog dialog = new AttributeDialog(getShell(), editIdentifier);
-				if (dialog.open() == Dialog.OK) {
-					EditAttribute edited = dialog.getEditedValue();
-					if (edited.isEdited()) {
-						identifierText.setText(edited.getName());
+		descButton
+				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+					public void widgetSelected(
+							org.eclipse.swt.events.SelectionEvent e) {
+						AttributeDialog dialog = new AttributeDialog(
+								getShell(), entity.getEditIdentifier());
+						if (dialog.open() == Dialog.OK) {
+							EditAttribute edited = dialog.getEditedValue();
+							if (edited.isEdited()) {
+								entity.updateEditIdentifier(edited);
+								identifierText.setText(edited.getName());
+							}
+						}
 					}
-				}
-			}
-		});
+				});
 		this.setLayout(gridLayout);
+		updateValue();
 		setSize(new Point(321, 32));
 	}
-	public void setIdentifierName(String name) {
-		identifierText.setText(name);
-	}
-	public String getIdentifierName() {
-		return identifierText.getText();
+
+	public void updateValue() {
+		identifierText.setText(entity.getEditIdentifier().getName());
 	}
 
-	/**
-	 * @return the editIdentifier
-	 */
-	public EditAttribute getEditIdentifier() {
-		return editIdentifier;
-	}
-
-	/**
-	 * @param editIdentifier the editIdentifier to set
-	 */
-	public void setEditIdentifier(EditAttribute editIdentifier) {
-		this.editIdentifier = editIdentifier;
-	}
-	
-}  //  @jve:decl-index=0:visual-constraint="0,0"
+} // @jve:decl-index=0:visual-constraint="0,0"

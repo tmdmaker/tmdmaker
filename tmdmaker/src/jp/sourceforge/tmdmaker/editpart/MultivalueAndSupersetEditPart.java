@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,12 +50,15 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		AbstractEntityModel entity = (AbstractEntityModel) getModel();
-		SupersetEditDialog dialog = new SupersetEditDialog(
-				getViewer().getControl().getShell(), entity);
+		SupersetEditDialog dialog = new SupersetEditDialog(getViewer()
+				.getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
-			getViewer().getEditDomain().getCommandStack().execute(
-					new ModelEditCommand(entity, dialog
-							.getEditedValue()));
+			getViewer()
+					.getEditDomain()
+					.getCommandStack()
+					.execute(
+							new ModelEditCommand(entity, dialog
+									.getEditedValue()));
 		}
 	}
 
@@ -91,19 +94,6 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 		for (IAttribute a : atts) {
 			entityFigure.addAttribute(a.getName());
 		}
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
-		return figure;
 	}
 
 	/**

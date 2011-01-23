@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,19 +47,6 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
-		return figure;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
@@ -69,11 +56,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		Entity entity = (Entity) getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
-		// List<Identifier> ids = entity.getReuseKeys().;
-
-		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(entity.getEntityType().getLabel());
@@ -84,9 +67,6 @@ public class EntityEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
 	}
 
 	/**
@@ -107,27 +87,6 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
-	 */
-	@Override
-	public IFigure getContentPane() {
-		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List getModelChildren() {
-		return ((AbstractEntityModel) getModel()).getAttributes();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
 	 */
 	@Override
@@ -142,8 +101,8 @@ public class EntityEditPart extends AbstractEntityEditPart {
 			List<EditAttribute> editAttributeList = dialog
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, entity, editAttributeList);
-			ModelEditCommand command = new ModelEditCommand(entity, dialog
-					.getEditedValueEntity());
+			ModelEditCommand command = new ModelEditCommand(entity,
+					dialog.getEditedValueEntity());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}

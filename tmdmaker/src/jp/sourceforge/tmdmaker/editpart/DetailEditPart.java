@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,9 +55,6 @@ public class DetailEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		Detail table = (Detail) getModel();
-		// TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-		// .getShell(), table.getName(), table.getReusedIdentifieres(), table
-		// .getAttributes());
 		DetailEditDialog dialog = new DetailEditDialog(getViewer().getControl()
 				.getShell(), table);
 		if (dialog.open() == Dialog.OK) {
@@ -67,16 +64,10 @@ public class DetailEditPart extends AbstractEntityEditPart {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-//			DetailEditCommand command = new DetailEditCommand(table,
-//					(Detail) dialog.getEditedValue());
 			ModelEditCommand command = new ModelEditCommand(table,
 					(Detail) dialog.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
-			// TableEditCommand<Detail> command = new TableEditCommand<Detail>(
-			// table, dialog.getEntityName(), dialog.getReuseKeys(),
-			// dialog.getAttributes());
-			// getViewer().getEditDomain().getCommandStack().execute(command);
 		}
 
 	}
@@ -93,9 +84,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		Detail entity = (Detail) getModel();
 
 		entityFigure.setNotImplement(entity.isNotImplement());
-		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
 		// entityFigure.setEntityType(entity.getEntityType().toString());
@@ -124,19 +113,6 @@ public class DetailEditPart extends AbstractEntityEditPart {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
-		return figure;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
@@ -146,27 +122,6 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
-	 */
-	@Override
-	public IFigure getContentPane() {
-		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List getModelChildren() {
-		return ((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**
@@ -190,40 +145,4 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		}
 	}
 
-//	private static class DetailEditCommand extends TableEditCommand<Detail> {
-//		private String oldDetailIdentifierName;
-//
-//		/**
-//		 * 
-//		 * @param toBeEdit
-//		 * @param newValue
-//		 */
-//		public DetailEditCommand(Detail toBeEdit, Detail newValue) {
-//			super(toBeEdit, newValue);
-//			oldDetailIdentifierName = toBeEdit.getDetailIdentifier().getName();
-//		}
-//
-//		/**
-//		 * {@inheritDoc}
-//		 * 
-//		 * @see jp.sourceforge.tmdmaker.model.command.TableEditCommand#execute()
-//		 */
-//		@Override
-//		public void execute() {
-//			super.execute();
-//			model.setDetailIdentifierName(newValue.getDetailIdentifier().getName());
-//		}
-//
-//		/**
-//		 * {@inheritDoc}
-//		 * 
-//		 * @see jp.sourceforge.tmdmaker.model.command.TableEditCommand#undo()
-//		 */
-//		@Override
-//		public void undo() {
-//			super.undo();
-//			model.setDetailIdentifierName(oldDetailIdentifierName);
-//		}
-//
-//	}
 }

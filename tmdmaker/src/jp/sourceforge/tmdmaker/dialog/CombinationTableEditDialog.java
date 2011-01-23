@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,18 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
-import java.util.ArrayList;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.CombinationTableType;
-import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -42,13 +43,13 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class CombinationTableEditDialog extends Dialog {
+public class CombinationTableEditDialog extends Dialog implements
+		PropertyChangeListener {
 	/** 編集対象モデル */
 	private CombinationTable original;
+	private EditTable entity;
 	/** 編集結果格納用 */
 	private CombinationTable editedValue;
-	/** 編集用アトリビュートリスト */
-	private List<EditAttribute> editAttributeList = new ArrayList<EditAttribute>();
 	/** ダイアログタイトル */
 	private String title;
 	/** 表名設定用 */
@@ -60,12 +61,6 @@ public class CombinationTableEditDialog extends Dialog {
 
 	/** 対照表種別設定用 */
 	private Combo typeCombo;
-
-	private List<IAttribute> newAttributeOrder = new ArrayList<IAttribute>();
-	private List<IAttribute> addAttributes = new ArrayList<IAttribute>();
-	private List<IAttribute> editAttributes = new ArrayList<IAttribute>();
-
-	// private List<Attribute> deleteAttributes = new ArrayList<Attribute>();
 
 	/**
 	 * コンストラクタ
@@ -82,9 +77,33 @@ public class CombinationTableEditDialog extends Dialog {
 		super(parentShell);
 		this.title = title;
 		this.original = original;
-		for (IAttribute a : this.original.getAttributes()) {
-			editAttributeList.add(new EditAttribute(a));
+		entity = new EditTable(original);
+		entity.addPropertyChangeListener(this);
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(EditTable.PROPERTY_ATTRIBUTES)) {
+			panel2.updateAttributeTable();
 		}
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#close()
+	 */
+	@Override
+	public boolean close() {
+		entity.removePropertyChangeListener(this);
+		return super.close();
 	}
 
 	/**
@@ -109,13 +128,6 @@ public class CombinationTableEditDialog extends Dialog {
 		typeCombo.add("L-真");
 		typeCombo.add("F-真");
 
-		// gridData = new GridData(GridData.FILL_HORIZONTAL);
-		// gridData.horizontalIndent = 5;
-		// gridData.horizontalSpan = 2;
-		// notImplementCheck = new Button(composite, SWT.CHECK);
-		// notImplementCheck.setText("実装しない");
-		// notImplementCheck.setLayoutData(gridData);
-
 		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
@@ -123,7 +135,7 @@ public class CombinationTableEditDialog extends Dialog {
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
-		panel2 = new AttributeSettingPanel(composite, SWT.NULL);
+		panel2 = new AttributeSettingPanel(composite, SWT.NULL, entity);
 		panel2.setLayoutData(gridData);
 
 		composite.pack();
@@ -139,10 +151,6 @@ public class CombinationTableEditDialog extends Dialog {
 	private void initializeValue() {
 		panel1.setTableName(original.getName());
 
-		// notImplementCheck.setSelection(original.isNotImplement());
-
-		panel2.setAttributeTableRow(editAttributeList);
-
 		if (original.getCombinationTableType().equals(
 				CombinationTableType.L_TRUTH)) {
 			typeCombo.select(0);
@@ -150,8 +158,8 @@ public class CombinationTableEditDialog extends Dialog {
 			typeCombo.select(1);
 		}
 
-		panel3.initializeValue(original.isNotImplement(), original
-				.getImplementName());
+		panel3.initializeValue(original.isNotImplement(),
+				original.getImplementName());
 	}
 
 	/**
@@ -178,37 +186,18 @@ public class CombinationTableEditDialog extends Dialog {
 		} else {
 			editedValue.setCombinationTableType(CombinationTableType.F_TRUTH);
 		}
-		createEditAttributeResult();
+		editedValue.setAttributes(entity.getAttributesOrder());
+		editedValue.setKeyModels(entity.getKeyModels());
+		editedValue.setImplementDerivationModels(entity.getImplementDerivationModels());
 
 		super.okPressed();
-	}
-
-	private void createEditAttributeResult() {
-
-		for (EditAttribute ea : editAttributeList) {
-			IAttribute originalAttribute = ea.getOriginalAttribute();
-			if (ea.isAdded()) {
-				ea.copyToOriginal();
-				addAttributes.add(ea.getOriginalAttribute());
-			} else {
-				if (ea.isNameChanged()) {
-					// AttributeEditCommand editCommand = new
-					// AttributeEditCommand(original, ea.getName());
-					// ccommand.add(editCommand);
-					editAttributes.add(originalAttribute);
-				}
-			}
-			newAttributeOrder.add(originalAttribute);
-		}
-		// deleteAttributes = panel2.getDeletedAttributeList();
-		editedValue.setAttributes(newAttributeOrder);
 	}
 
 	/**
 	 * @return the editAttributeList
 	 */
 	public List<EditAttribute> getEditAttributeList() {
-		return editAttributeList;
+		return entity.getAttributes();
 	}
 
 	/**
@@ -217,5 +206,4 @@ public class CombinationTableEditDialog extends Dialog {
 	public AbstractEntityModel getEditedValue() {
 		return editedValue;
 	}
-
 }

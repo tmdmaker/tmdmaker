@@ -33,6 +33,7 @@ public class Attribute extends ModelElement implements IAttribute {
 	private String lock;
 	/** 計算式 */
 	private String derivationRule;
+	private boolean derivation;
 	/** 実装名 */
 	protected String implementName;
 	/** NULL許可 */
@@ -127,6 +128,28 @@ public class Attribute extends ModelElement implements IAttribute {
 	}
 
 	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#isDerivation()
+	 */
+	@Override
+	public boolean isDerivation() {
+		return derivation;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IAttribute#setDerivation(boolean)
+	 */
+	@Override
+	public void setDerivation(boolean derivation) {
+		this.derivation = derivation;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see jp.sourceforge.tmdmaker.model.IAttribute#getDerivationRule()
@@ -187,6 +210,7 @@ public class Attribute extends ModelElement implements IAttribute {
 	 */
 	public void copyFrom(IAttribute from) {
 		this.setDerivationRule(from.getDerivationRule());
+		this.setDerivation(from.isDerivation());
 		this.setDescription(from.getDescription());
 		this.setLock(from.getLock());
 		this.setValidationRule(from.getValidationRule());
@@ -208,6 +232,7 @@ public class Attribute extends ModelElement implements IAttribute {
 	 */
 	public void copyTo(IAttribute to) {
 		to.setDerivationRule(derivationRule);
+		to.setDerivation(derivation);
 		to.setDescription(description);
 		to.setLock(lock);
 		to.setValidationRule(validationRule);
