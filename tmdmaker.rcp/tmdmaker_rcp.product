@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.2.0" useFeatures="false" includeLaunchers="true">
+<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.2.1" useFeatures="false" includeLaunchers="true">
+
 
    <configIni use="default">
    </configIni>
@@ -12,12 +13,14 @@
 
    <windowImages/>
 
+
    <launcher name="tmdmaker">
       <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
