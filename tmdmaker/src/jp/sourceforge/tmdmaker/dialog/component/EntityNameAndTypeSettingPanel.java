@@ -125,6 +125,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         				Button b = (Button) e.widget;
         				if (b.getSelection()) {
         					nameText.setEnabled(false);
+        					nameText.setText(createEntityName(identifierText.getText()));
         				} else {
         					nameText.setEnabled(true);
         				}
