@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,11 @@
 package jp.sourceforge.tmdmaker.wizard;
 
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
-import jp.sourceforge.tmdmaker.XStreamSerializer;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.persistent.SerializationException;
+import jp.sourceforge.tmdmaker.persistent.Serializer;
+import jp.sourceforge.tmdmaker.persistent.SerializerFactory;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -119,25 +120,12 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 		protected InputStream getInitialContents() {
 			Diagram diagram = new Diagram();
 			try {
-				return XStreamSerializer.serializeStream(diagram, this
-						.getClass().getClassLoader());
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
+				Serializer serializer = SerializerFactory.getInstance();
+				return serializer.serializeStream(diagram);
+			} catch (SerializationException e) {
 				e.printStackTrace();
 				return null;
 			}
 		}
-
-		// /**
-		// * {@inheritDoc}
-		// *
-		// * @see
-		// org.eclipse.ui.dialogs.WizardNewFileCreationPage#createLinkTarget()
-		// */
-		// @Override
-		// protected void createLinkTarget() {
-		// // TODO Auto-generated method stub
-		// }
-		//		
 	}
 }
