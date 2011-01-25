@@ -15,7 +15,17 @@
  */
 package jp.sourceforge.tmdmaker.persistent;
 
-import jp.sourceforge.tmdmaker.persistent.impl.XStreamSerializer;
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.sourceforge.tmdmaker.TMDPlugin;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 
 /**
  * @author nakaG
@@ -23,6 +33,27 @@ import jp.sourceforge.tmdmaker.persistent.impl.XStreamSerializer;
  */
 public class SerializerFactory {
 	public static Serializer getInstance() {
-		return new XStreamSerializer();
+//		return new XStreamSerializer();
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint point = registry.getExtensionPoint(TMDPlugin.PLUGIN_ID
+				+ ".persisitent.serializer");
+		IExtension[] extensions = point.getExtensions();
+
+		List<Serializer> serializerList = new ArrayList<Serializer>();
+		for (IExtension ex : extensions) {
+			for (IConfigurationElement ce : ex.getConfigurationElements()) {
+				try {
+					serializerList.add((Serializer) ce.createExecutableExtension("class"));
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		if (serializerList.size() > 0) {
+			return serializerList.get(0);
+		} else {
+			throw new SerializationException("シリアライザプラグインが取得できませんでした。");
+		}
 	}
 }

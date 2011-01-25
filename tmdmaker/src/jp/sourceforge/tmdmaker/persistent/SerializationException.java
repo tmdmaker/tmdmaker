@@ -29,4 +29,11 @@ public class SerializationException extends RuntimeException {
 		super(t);
 	}
 
+	/**
+	 * @param message
+	 */
+	public SerializationException(String message) {
+		super(message);
+	}
+
 }
