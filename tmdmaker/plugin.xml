@@ -30,12 +30,5 @@
             name="%wizard.name.0">
       </wizard>
    </extension>
-   <extension
-         point="tmdmaker.persisitent.serializer">
-      <serializer
-            class="jp.sourceforge.tmdmaker.persistent.impl.XStreamSerializer"
-            name="Default Serializer">
-      </serializer>
-   </extension>
 
 </plugin>

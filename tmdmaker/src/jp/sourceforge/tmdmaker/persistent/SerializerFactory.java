@@ -35,6 +35,7 @@ public class SerializerFactory {
 	public static Serializer getInstance() {
 //		return new XStreamSerializer();
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
+
 		IExtensionPoint point = registry.getExtensionPoint(TMDPlugin.PLUGIN_ID
 				+ ".persisitent.serializer");
 		IExtension[] extensions = point.getExtensions();
