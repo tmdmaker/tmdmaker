@@ -34,9 +34,9 @@ import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Version;
-import jp.sourceforge.tmdmaker.persistent.SerializationException;
-import jp.sourceforge.tmdmaker.persistent.Serializer;
-import jp.sourceforge.tmdmaker.persistent.SerializerFactory;
+import jp.sourceforge.tmdmaker.persistence.SerializationException;
+import jp.sourceforge.tmdmaker.persistence.Serializer;
+import jp.sourceforge.tmdmaker.persistence.SerializerFactory;
 import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
 import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
 import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
@@ -215,7 +215,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		Diagram diagram = null;
 		try {
 			Serializer serializer = SerializerFactory.getInstance();
-			diagram = (Diagram) serializer.deserialize(file.getContents());
+			diagram = serializer.deserialize(file.getContents());
 		} catch (Exception e) {
 			TMDPlugin.showErrorDialog("読み込み時にエラーが発生しました。", e);
 			diagram = new Diagram();
@@ -324,7 +324,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		}
 		try {
 			Serializer serializer = SerializerFactory.getInstance();
-			file.setContents(serializer.serializeStream(diagram), true, true,
+			file.setContents(serializer.serialize(diagram), true, true,
 					monitor);
 		} catch (SerializationException e) {
 			TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
@@ -377,7 +377,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 								Serializer serializer = SerializerFactory
 										.getInstance();
 								file.create(
-										serializer.serializeStream(diagram),
+										serializer.serialize(diagram),
 										true, monitor);
 							} catch (SerializationException e) {
 								TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);

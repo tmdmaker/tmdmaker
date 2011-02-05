@@ -2,10 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="tmdmaker.persisitent.serializer">
+         point="tmdmaker.persisitence.serializer">
       <serializer
-            class="jp.sourceforge.tmdmaker.persistent.XStreamSerializer"
-            name="DefaultSerializer">
+            class="jp.sourceforge.tmdmaker.persistence.XStreamSerializer"
+            name="Default Serializer">
       </serializer>
    </extension>
 

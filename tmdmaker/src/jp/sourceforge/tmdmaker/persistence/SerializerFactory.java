@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.persistent;
+package jp.sourceforge.tmdmaker.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,26 +28,32 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 /**
+ * シリアライザのファクトリクラス
+ * 
  * @author nakaG
  * 
  */
 public class SerializerFactory {
+	/**
+	 * シリアライザを取得する
+	 * 
+	 * @return シリアライザのインスタンス
+	 */
 	public static Serializer getInstance() {
-//		return new XStreamSerializer();
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 
 		IExtensionPoint point = registry.getExtensionPoint(TMDPlugin.PLUGIN_ID
-				+ ".persisitent.serializer");
+				+ ".persisitence.serializer");
 		IExtension[] extensions = point.getExtensions();
 
 		List<Serializer> serializerList = new ArrayList<Serializer>();
 		for (IExtension ex : extensions) {
 			for (IConfigurationElement ce : ex.getConfigurationElements()) {
 				try {
-					serializerList.add((Serializer) ce.createExecutableExtension("class"));
+					serializerList.add((Serializer) ce
+							.createExecutableExtension("class"));
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					throw new SerializationException(e);
 				}
 			}
 		}

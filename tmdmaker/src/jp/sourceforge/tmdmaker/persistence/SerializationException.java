@@ -13,16 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.persistent;
-
-import java.io.InputStream;
+package jp.sourceforge.tmdmaker.persistence;
 
 /**
+ * シリアライズ時に発生した例外のラッパークラス
+ * 
  * @author nakaG
- *
+ * 
  */
-public interface Serializer {
-	String serialize(Object obj);
-	InputStream serializeStream(Object obj);
-	Object deserialize(InputStream in);
+@SuppressWarnings("serial")
+public class SerializationException extends RuntimeException {
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param t
+	 */
+	public SerializationException(Throwable t) {
+		super(t);
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param message
+	 */
+	public SerializationException(String message) {
+		super(message);
+	}
+
 }

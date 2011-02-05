@@ -13,27 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.persistent;
+package jp.sourceforge.tmdmaker.persistence;
+
+import java.io.InputStream;
+
+import jp.sourceforge.tmdmaker.model.Diagram;
 
 /**
+ * TMDのシリアライズクラスのインターフェース
+ * 
  * @author nakaG
  * 
  */
-@SuppressWarnings("serial")
-public class SerializationException extends RuntimeException {
+public interface Serializer {
+	/**
+	 * TMDをシリアライズする
+	 * 
+	 * @param obj
+	 *            TMD
+	 * @return TMD入力ストリーム
+	 */
+	InputStream serialize(Diagram obj);
 
 	/**
-	 * @param t
+	 * TMDをデシリアライズする
+	 * 
+	 * @param in
+	 *            TMD入力ストリーム
+	 * @return TMD
 	 */
-	public SerializationException(Throwable t) {
-		super(t);
-	}
-
-	/**
-	 * @param message
-	 */
-	public SerializationException(String message) {
-		super(message);
-	}
-
+	Diagram deserialize(InputStream in);
 }

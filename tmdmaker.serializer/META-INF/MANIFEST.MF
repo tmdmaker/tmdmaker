@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Serializer
 Bundle-SymbolicName: tmdmaker.serializer;singleton:=true
 Bundle-Version: 0.2.1.qualifier
-Bundle-Activator: jp.sourceforge.tmdmaker.persistent.Activator
+Bundle-Activator: jp.sourceforge.tmdmaker.persistence.Activator
 Require-Bundle: org.eclipse.core.runtime,
  tmdmaker;bundle-version="0.2.0"
 Bundle-ActivationPolicy: lazy

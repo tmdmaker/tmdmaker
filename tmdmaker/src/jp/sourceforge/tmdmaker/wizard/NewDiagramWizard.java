@@ -18,9 +18,9 @@ package jp.sourceforge.tmdmaker.wizard;
 import java.io.InputStream;
 
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.persistent.SerializationException;
-import jp.sourceforge.tmdmaker.persistent.Serializer;
-import jp.sourceforge.tmdmaker.persistent.SerializerFactory;
+import jp.sourceforge.tmdmaker.persistence.SerializationException;
+import jp.sourceforge.tmdmaker.persistence.Serializer;
+import jp.sourceforge.tmdmaker.persistence.SerializerFactory;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -121,7 +121,7 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 			Diagram diagram = new Diagram();
 			try {
 				Serializer serializer = SerializerFactory.getInstance();
-				return serializer.serializeStream(diagram);
+				return serializer.serialize(diagram);
 			} catch (SerializationException e) {
 				e.printStackTrace();
 				return null;
