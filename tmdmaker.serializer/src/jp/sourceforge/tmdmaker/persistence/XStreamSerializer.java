@@ -16,11 +16,14 @@
 package jp.sourceforge.tmdmaker.persistence;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.persistence.converter.PluginExtensionPointFactory;
+import jp.sourceforge.tmdmaker.persistence.converter.SerializerConverter;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -31,11 +34,14 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class XStreamSerializer implements Serializer {
+	PluginExtensionPointFactory<SerializerConverter> factory = new PluginExtensionPointFactory<SerializerConverter>(
+			Activator.PLUGIN_ID + ".converter");
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.persistent.Serializer#serializeStream(jp.sourceforge.tmdmaker.model.Diagram obj)
+	 * @see jp.sourceforge.tmdmaker.persistent.Serializer#serializeStream(jp.sourceforge.tmdmaker.model.Diagram
+	 *      obj)
 	 */
 	@Override
 	public InputStream serialize(Diagram obj) {
@@ -89,7 +95,11 @@ public class XStreamSerializer implements Serializer {
 	@Override
 	public Diagram deserialize(InputStream in) {
 		try {
-			return (Diagram) deserialize(in, this.getClass().getClassLoader());
+			String xml = loadStream(in, "UTF-8");
+			System.out.println(xml.indexOf("<version>"));
+			System.out.println(xml.indexOf("</version>"));
+			System.out.println(xml.substring(xml.indexOf("<version>") + "<version>".length(), xml.indexOf("</version>")));
+			return (Diagram) deserialize(new ByteArrayInputStream(xml.getBytes("UTF-8")), this.getClass().getClassLoader());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			throw new SerializationException(e);
@@ -110,6 +120,25 @@ public class XStreamSerializer implements Serializer {
 			throws UnsupportedEncodingException {
 		XStream xstream = new XStream();
 		xstream.setClassLoader(loader);
+
 		return xstream.fromXML(new InputStreamReader(in, "UTF-8"));
+	}
+
+	private String loadStream(InputStream in, String encoding) {
+		try {
+			byte[] buf;
+			buf = new byte[in.available()];
+			in.read(buf);
+			return new String(buf, encoding);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new SerializationException(e);
+		} finally {
+			try {
+				in.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
