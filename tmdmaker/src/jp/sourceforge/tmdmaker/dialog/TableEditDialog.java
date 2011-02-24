@@ -27,9 +27,11 @@ import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -84,6 +86,11 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 		if (evt.getPropertyName().equals(EditTable.PROPERTY_ATTRIBUTES)) {
 			panel2.updateAttributeTable();
 		}
+		Button okButton = getButton(IDialogConstants.OK_ID);
+		if (okButton != null) {
+			okButton.setEnabled(entity.isValid());
+		}
+
 	}
 
 	/**
@@ -111,7 +118,7 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new TableNameSettingPanel(composite, SWT.NULL);
+		panel1 = new TableNameSettingPanel(composite, SWT.NULL, entity);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
@@ -134,7 +141,7 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 	 * ダイアログへ初期値を設定する
 	 */
 	private void initializeValue() {
-		panel1.setTableName(original.getName());
+		// panel1.setTableName(original.getName());
 
 		panel3.initializeValue(original.isNotImplement(),
 				original.getImplementName());
@@ -156,12 +163,13 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		editedValue.setName(panel1.getTableName());
+		editedValue.setName(entity.getName());
 		editedValue.setNotImplement(panel3.isNotImplement());
 		editedValue.setImplementName(panel3.getImplementName());
 		editedValue.setAttributes(entity.getAttributesOrder());
 		editedValue.setKeyModels(entity.getKeyModels());
-		editedValue.setImplementDerivationModels(entity.getImplementDerivationModels());
+		editedValue.setImplementDerivationModels(entity
+				.getImplementDerivationModels());
 
 		super.okPressed();
 	}

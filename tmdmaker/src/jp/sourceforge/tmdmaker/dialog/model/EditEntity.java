@@ -38,7 +38,7 @@ public class EditEntity extends EditTable {
 	private boolean entityTypeEditable;
 	private boolean latuta;
 	private boolean detail;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -57,12 +57,13 @@ public class EditEntity extends EditTable {
 		this.editIdentifier = new EditAttribute(entity.getDetailIdentifier());
 		this.detail = true;
 	}
-	
+
 	public EditEntity(Laputa entity) {
 		super(entity);
-		this.editIdentifier = new EditAttribute(entity.getIdentifier());		
+		this.editIdentifier = new EditAttribute(entity.getIdentifier());
 		this.latuta = true;
 	}
+
 	/**
 	 * 
 	 * @return the type
@@ -166,6 +167,18 @@ public class EditEntity extends EditTable {
 
 	public boolean isEntity() {
 		return !latuta && !detail;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.dialog.model.EditTable#isValid()
+	 */
+	@Override
+	public boolean isValid() {
+		return super.isValid()
+				&& this.getEditIdentifier().getName().length() > 0;
 	}
 
 }
