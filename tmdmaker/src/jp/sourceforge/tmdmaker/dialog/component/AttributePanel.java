@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -133,18 +134,8 @@ public class AttributePanel extends Composite {
 		dataCombo.setLayoutData(gridData1);
 		dataCombo.addSelectionListener(new org.eclipse.swt.events.SelectionListener() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 				int index = ((Combo) e.getSource()).getSelectionIndex();
 				fireDataTypeChanged(index);
-//				if (index > 0) {
-//					StandardSQLDataType dataType = StandardSQLDataType.values()[index - 1];
-//					System.out.println(dataType);
-//					precisionText.setEnabled(dataType.isSupportSize());
-//					scaleText.setEnabled(dataType.isSupportScale());
-//				} else {
-//					precisionText.setEnabled(true);
-//					scaleText.setEnabled(true);					
-//				}
 			}
 			public void widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent e) {
 			}
@@ -155,11 +146,8 @@ public class AttributePanel extends Composite {
 		}
 	}
 	public void initializeValue(EditAttribute ea) {
-		System.out.println("name = " + ea.getName());
 		inputNameText.setText(ea.getName());
-//		readOnlyNameText.setEnabled(false);
 		descriptionTextArea.setText(ea.getDescription());
-//		dataCombo
 		validationRuleTextArea.setText(ea.getValidationRule());
 		lockTextArea.setText(ea.getLock());
 		derivationRuleTextArea.setText(ea.getDerivationRule());
@@ -180,7 +168,6 @@ public class AttributePanel extends Composite {
 	private void fireDataTypeChanged(int index) {
 		if (index > 0) {
 			StandardSQLDataType dataType = StandardSQLDataType.values()[index - 1];
-			System.out.println(dataType);
 			precisionText.setEnabled(dataType.isSupportSize());
 			scaleText.setEnabled(dataType.isSupportScale());
 		} else {
@@ -261,5 +248,11 @@ public class AttributePanel extends Composite {
 		sLabel.setText("位取り");
 		scaleText = new Text(dataTypeComposite, SWT.BORDER);
 		scaleText.setLayoutData(gridData4);
+	}
+	public void addNameModifyListener(ModifyListener listener) {
+		inputNameText.addModifyListener(listener);
+	}
+	public void removeNameModifyListener(ModifyListener listener) {
+		inputNameText.removeModifyListener(listener);
 	}
 }  //  @jve:decl-index=0:visual-constraint="-60,-10"
