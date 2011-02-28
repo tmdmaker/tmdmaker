@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,15 @@ import jp.sourceforge.tmdmaker.dialog.component.AttributePanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * アトリビュート編集ダイアログ
@@ -32,18 +37,19 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class AttributeDialog extends Dialog {
 	private EditAttribute original;
-	// private EditAttribute editedValue;
 	private AttributePanel panel;
+	private ModifyListener listener = new ModifyListener() {
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param parentShell
-	 *            親
-	 */
-	public AttributeDialog(Shell parentShell) {
-		super(parentShell);
-	}
+		@Override
+		public void modifyText(ModifyEvent e) {
+			Text t = (Text) e.getSource();
+			String name = t.getText();
+			Button okButton = getButton(IDialogConstants.OK_ID);
+			if (okButton != null) {
+				okButton.setEnabled(name.length() != 0);
+			}
+		}
+	};
 
 	/**
 	 * コンストラクタ
@@ -69,8 +75,8 @@ public class AttributeDialog extends Dialog {
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new AttributePanel(composite, SWT.NULL);
 		panel.initializeValue(original);
+		panel.addNameModifyListener(listener);
 
-		// composite.setSize(260, 480);
 		composite.pack();
 		return composite;
 	}
@@ -93,6 +99,12 @@ public class AttributeDialog extends Dialog {
 		original.setSize(panel.getPresition());
 		original.setScale(panel.getScale());
 		super.okPressed();
+	}
+
+	@Override
+	public boolean close() {
+		panel.removeNameModifyListener(listener);
+		return super.close();
 	}
 
 	/**

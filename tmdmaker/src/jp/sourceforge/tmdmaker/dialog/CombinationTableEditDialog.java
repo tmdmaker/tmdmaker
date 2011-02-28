@@ -29,9 +29,11 @@ import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.CombinationTableType;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -92,6 +94,10 @@ public class CombinationTableEditDialog extends Dialog implements
 		if (evt.getPropertyName().equals(EditTable.PROPERTY_ATTRIBUTES)) {
 			panel2.updateAttributeTable();
 		}
+		Button okButton = getButton(IDialogConstants.OK_ID);
+		if (okButton != null) {
+			okButton.setEnabled(entity.isValid());
+		}
 	}
 
 	/**
@@ -120,7 +126,7 @@ public class CombinationTableEditDialog extends Dialog implements
 		gridLayout.numColumns = 2;
 		composite.setLayout(gridLayout);
 
-		panel1 = new TableNameSettingPanel(composite, SWT.NULL);
+		panel1 = new TableNameSettingPanel(composite, SWT.NULL, entity);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
@@ -149,8 +155,6 @@ public class CombinationTableEditDialog extends Dialog implements
 	 * ダイアログへ初期値を設定する
 	 */
 	private void initializeValue() {
-		panel1.setTableName(original.getName());
-
 		if (original.getCombinationTableType().equals(
 				CombinationTableType.L_TRUTH)) {
 			typeCombo.select(0);
@@ -178,7 +182,7 @@ public class CombinationTableEditDialog extends Dialog implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		editedValue.setName(panel1.getTableName());
+		editedValue.setName(entity.getName());
 		editedValue.setNotImplement(panel3.isNotImplement());
 		editedValue.setImplementName(panel3.getImplementName());
 		if (typeCombo.getSelectionIndex() == 0) {
@@ -188,7 +192,8 @@ public class CombinationTableEditDialog extends Dialog implements
 		}
 		editedValue.setAttributes(entity.getAttributesOrder());
 		editedValue.setKeyModels(entity.getKeyModels());
-		editedValue.setImplementDerivationModels(entity.getImplementDerivationModels());
+		editedValue.setImplementDerivationModels(entity
+				.getImplementDerivationModels());
 
 		super.okPressed();
 	}

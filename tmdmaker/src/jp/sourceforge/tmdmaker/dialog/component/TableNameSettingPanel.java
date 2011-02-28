@@ -15,21 +15,24 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
-import org.eclipse.swt.layout.GridLayout;
+import jp.sourceforge.tmdmaker.dialog.model.EditTable;
+
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.layout.GridData;
 
 public class TableNameSettingPanel extends Composite {
-
+	private EditTable entity;
 	private Label nameLabel = null;
 	private Text nameText = null;
 
-	public TableNameSettingPanel(Composite parent, int style) {
+	public TableNameSettingPanel(Composite parent, int style, EditTable entity) {
 		super(parent, style);
+		this.entity = entity;
 		initialize();
 	}
 
@@ -44,14 +47,14 @@ public class TableNameSettingPanel extends Composite {
 		nameLabel.setText("名称");
 		nameText = new Text(this, SWT.BORDER);
 		nameText.setLayoutData(gridData);
+		nameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
+			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
+				Text t = (Text) e.widget;
+				entity.setName(t.getText());
+			}
+		});
 		this.setLayout(gridLayout);
+		this.nameText.setText(entity.getName());
 		setSize(new Point(315, 30));
-	}
-
-	public String getTableName() {
-		return this.nameText.getText();
-	}
-	public void setTableName(String tableName) {
-		this.nameText.setText(tableName);
 	}
 }  //  @jve:decl-index=0:visual-constraint="0,0"

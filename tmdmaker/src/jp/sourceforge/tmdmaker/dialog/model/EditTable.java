@@ -286,5 +286,14 @@ public class EditTable {
 	public List<AbstractEntityModel> getImplementDerivationModels() {
 		return entity.getImplementDerivationModels();
 	}
-	
+
+	/**
+	 * 編集内容の妥当性検証
+	 * 
+	 * @return 編集内容が適切な場合にtrueを返す
+	 */
+	public boolean isValid() {
+		return (name != null) && (name.length() > 0);
+	}
+
 }

@@ -28,9 +28,11 @@ import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -94,6 +96,10 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 				EditEntity.PROPERTY_UP_IDENTIFIER)) {
 			panel1.updateValue();
 			panel2.updateAttributeTable();
+		}
+		Button okButton = getButton(IDialogConstants.OK_ID);
+		if (okButton != null) {
+			okButton.setEnabled(entity.isValid());
 		}
 	}
 

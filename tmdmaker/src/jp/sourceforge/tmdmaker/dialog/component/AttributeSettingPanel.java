@@ -97,6 +97,21 @@ public class AttributeSettingPanel extends Composite {
 						final Text text = new Text(attributeTable, SWT.NONE);
 						text.setText(item.getText(EDIT_COLUMN));
 						text.addFocusListener(new FocusAdapter(){
+							private String beforeName;
+							/**
+							 * 
+							 * {@inheritDoc}
+							 * 
+							 * @see org.eclipse.swt.events.FocusAdapter#focusGained(org.eclipse.swt.events.FocusEvent)
+							 */
+							@Override
+							public void focusGained(FocusEvent e) {
+								beforeName = text.getText();
+								if (beforeName == null) {
+									beforeName = "";
+								}
+								super.focusGained(e);
+							}
 
 							/**
 							 * {@inheritDoc}
@@ -109,6 +124,9 @@ public class AttributeSettingPanel extends Composite {
 								String editValue = text.getText();
 								if (editValue == null) {
 									editValue = "";
+								}
+								if (editValue.length() == 0) {					
+									editValue = beforeName;
 								}
 								item.setText(EDIT_COLUMN, editValue);
 								EditAttribute ea = entity.getEditAttribute(selectedIndex);
