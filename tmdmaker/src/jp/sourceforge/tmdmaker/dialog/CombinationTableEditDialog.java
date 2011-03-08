@@ -94,6 +94,7 @@ public class CombinationTableEditDialog extends Dialog implements
 		if (evt.getPropertyName().equals(EditTable.PROPERTY_ATTRIBUTES)) {
 			panel2.updateAttributeTable();
 		}
+		// panel3.updateValue();
 		Button okButton = getButton(IDialogConstants.OK_ID);
 		if (okButton != null) {
 			okButton.setEnabled(entity.isValid());
@@ -134,7 +135,7 @@ public class CombinationTableEditDialog extends Dialog implements
 		typeCombo.add("L-真");
 		typeCombo.add("F-真");
 
-		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL);
+		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 		panel3.setLayoutData(gridData);
@@ -162,8 +163,8 @@ public class CombinationTableEditDialog extends Dialog implements
 			typeCombo.select(1);
 		}
 
-		panel3.initializeValue(original.isNotImplement(),
-				original.getImplementName());
+		// panel3.initializeValue(original.isNotImplement(),
+		// original.getImplementName());
 	}
 
 	/**
@@ -183,8 +184,8 @@ public class CombinationTableEditDialog extends Dialog implements
 			e.printStackTrace();
 		}
 		editedValue.setName(entity.getName());
-		editedValue.setNotImplement(panel3.isNotImplement());
-		editedValue.setImplementName(panel3.getImplementName());
+		editedValue.setNotImplement(entity.isNotImplement());
+		editedValue.setImplementName(entity.getImplementName());
 		if (typeCombo.getSelectionIndex() == 0) {
 			editedValue.setCombinationTableType(CombinationTableType.L_TRUTH);
 		} else {

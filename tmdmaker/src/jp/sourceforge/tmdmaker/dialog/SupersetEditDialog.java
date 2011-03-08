@@ -15,11 +15,17 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -34,11 +40,13 @@ import org.eclipse.swt.widgets.Text;
  * @author nakaG
  * 
  */
-public class SupersetEditDialog extends Dialog {
+public class SupersetEditDialog extends Dialog implements
+		PropertyChangeListener {
 	/** 名称入力欄 */
 	private Text inputNameText;
 	/** 編集対象モデル */
 	private AbstractEntityModel original;
+	private EditTable entity;
 	/** 編集結果格納用 */
 	private AbstractEntityModel editedValue;
 	/** 実装可否設定用 */
@@ -52,10 +60,22 @@ public class SupersetEditDialog extends Dialog {
 	 * @param original
 	 *            編集元モデル
 	 */
-	public SupersetEditDialog(Shell parentShell,
-			AbstractEntityModel original) {
+	public SupersetEditDialog(Shell parentShell, AbstractEntityModel original) {
 		super(parentShell);
 		this.original = original;
+		entity = new EditTable(original);
+		entity.addPropertyChangeListener(this);
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent arg0) {
+		// panel.updateValue();
 	}
 
 	/**
@@ -74,23 +94,23 @@ public class SupersetEditDialog extends Dialog {
 		Label label = new Label(composite, SWT.NULL);
 		label.setText("名称");
 		inputNameText = new Text(composite, SWT.BORDER);
+		inputNameText.setText(entity.getName());
+		inputNameText.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				entity.setName(inputNameText.getText());
+			}
+		});
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.widthHint = 100;
 		inputNameText.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
-		panel = new ImplementInfoSettingPanel(composite, SWT.NULL);
+		panel = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		panel.setLayoutData(gridData);
 
-		initializeValue();
 		return composite;
-	}
-
-	private void initializeValue() {
-		inputNameText.setText(original.getName());
-		panel.initializeValue(original.isNotImplement(), original
-				.getImplementName());
 	}
 
 	/**
@@ -109,11 +129,12 @@ public class SupersetEditDialog extends Dialog {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		editedValue.setName(inputNameText.getText());
-		editedValue.setNotImplement(panel.isNotImplement());
-		editedValue.setImplementName(panel.getImplementName());
-		editedValue.setKeyModels(original.getKeyModels());
-		editedValue.setImplementDerivationModels(original.getImplementDerivationModels());
+		editedValue.setName(entity.getName());
+		editedValue.setNotImplement(entity.isNotImplement());
+		editedValue.setImplementName(entity.getImplementName());
+		editedValue.setKeyModels(entity.getKeyModels());
+		editedValue.setImplementDerivationModels(entity
+				.getImplementDerivationModels());
 
 		super.okPressed();
 	}

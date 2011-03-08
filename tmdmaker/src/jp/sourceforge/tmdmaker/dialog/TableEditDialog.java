@@ -86,6 +86,8 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 		if (evt.getPropertyName().equals(EditTable.PROPERTY_ATTRIBUTES)) {
 			panel2.updateAttributeTable();
 		}
+		// panel3.updateValue();
+
 		Button okButton = getButton(IDialogConstants.OK_ID);
 		if (okButton != null) {
 			okButton.setEnabled(entity.isValid());
@@ -123,7 +125,7 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 		panel1.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL);
+		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		panel3.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -132,19 +134,7 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 
 		composite.pack();
 
-		initializeValue();
-
 		return composite;
-	}
-
-	/**
-	 * ダイアログへ初期値を設定する
-	 */
-	private void initializeValue() {
-		// panel1.setTableName(original.getName());
-
-		panel3.initializeValue(original.isNotImplement(),
-				original.getImplementName());
 	}
 
 	/**
@@ -164,8 +154,8 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 			e.printStackTrace();
 		}
 		editedValue.setName(entity.getName());
-		editedValue.setNotImplement(panel3.isNotImplement());
-		editedValue.setImplementName(panel3.getImplementName());
+		editedValue.setNotImplement(entity.isNotImplement());
+		editedValue.setImplementName(entity.getImplementName());
 		editedValue.setAttributes(entity.getAttributesOrder());
 		editedValue.setKeyModels(entity.getKeyModels());
 		editedValue.setImplementDerivationModels(entity
