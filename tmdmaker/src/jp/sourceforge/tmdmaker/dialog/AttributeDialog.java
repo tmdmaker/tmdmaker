@@ -114,6 +114,12 @@ public class AttributeDialog extends Dialog {
 		super.okPressed();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#close()
+	 */
 	@Override
 	public boolean close() {
 		panel.removeNameModifyListener(listener);
