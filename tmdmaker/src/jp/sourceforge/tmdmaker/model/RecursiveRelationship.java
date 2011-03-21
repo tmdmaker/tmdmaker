@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,19 +52,6 @@ public class RecursiveRelationship extends AbstractRelationship {
 		table.setName(source.getName() + "." + source.getName() + "." + "再帰表");
 
 		table.addCreationIdentifier(source);
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see tm.tmdiagram.tmdeditor.model.AbstractConnectionModel#setTarget(tm.tmdiagram
-	 *      .tmdeditor.model.ConnectableElement)
-	 */
-	@Override
-	public void setTarget(AbstractEntityModel target) {
-		// source == targetのため設定しない
-		super.setTarget(target);
 	}
 
 	/**

@@ -159,14 +159,6 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 		return (AbstractEntityModel) super.getTarget();
 	}
 
-	public void setSource(AbstractEntityModel source) {
-		super.setSource(source);
-	}
-
-	public void setTarget(AbstractEntityModel target) {
-		super.setTarget(target);
-	}
-
 	public int getSourceXp() {
 		return sourceXp;
 	}

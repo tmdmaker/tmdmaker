@@ -23,6 +23,7 @@ import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditCombinationTable;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
@@ -48,8 +49,7 @@ import org.eclipse.swt.widgets.Shell;
 public class CombinationTableEditDialog extends Dialog implements
 		PropertyChangeListener {
 	/** 編集対象モデル */
-	private CombinationTable original;
-	private EditTable entity;
+	private EditCombinationTable entity;
 	/** 編集結果格納用 */
 	private CombinationTable editedValue;
 	/** ダイアログタイトル */
@@ -78,8 +78,7 @@ public class CombinationTableEditDialog extends Dialog implements
 			CombinationTable original) {
 		super(parentShell);
 		this.title = title;
-		this.original = original;
-		entity = new EditTable(original);
+		entity = new EditCombinationTable(original);
 		entity.addPropertyChangeListener(this);
 	}
 
@@ -147,7 +146,7 @@ public class CombinationTableEditDialog extends Dialog implements
 
 		composite.pack();
 
-		initializeValue();
+		initializeTypeCombo();
 
 		return composite;
 	}
@@ -155,16 +154,13 @@ public class CombinationTableEditDialog extends Dialog implements
 	/**
 	 * ダイアログへ初期値を設定する
 	 */
-	private void initializeValue() {
-		if (original.getCombinationTableType().equals(
+	private void initializeTypeCombo() {
+		if (entity.getCombinationTableType().equals(
 				CombinationTableType.L_TRUTH)) {
 			typeCombo.select(0);
 		} else {
 			typeCombo.select(1);
 		}
-
-		// panel3.initializeValue(original.isNotImplement(),
-		// original.getImplementName());
 	}
 
 	/**
@@ -174,15 +170,7 @@ public class CombinationTableEditDialog extends Dialog implements
 	 */
 	@Override
 	protected void okPressed() {
-		try {
-			editedValue = original.getClass().newInstance();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		editedValue = entity.createNewInstance();
 		editedValue.setName(entity.getName());
 		editedValue.setNotImplement(entity.isNotImplement());
 		editedValue.setImplementName(entity.getImplementName());

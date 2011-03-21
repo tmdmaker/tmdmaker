@@ -45,7 +45,6 @@ public class SupersetEditDialog extends Dialog implements
 	/** 名称入力欄 */
 	private Text inputNameText;
 	/** 編集対象モデル */
-	private AbstractEntityModel original;
 	private EditTable entity;
 	/** 編集結果格納用 */
 	private AbstractEntityModel editedValue;
@@ -62,7 +61,6 @@ public class SupersetEditDialog extends Dialog implements
 	 */
 	public SupersetEditDialog(Shell parentShell, AbstractEntityModel original) {
 		super(parentShell);
-		this.original = original;
 		entity = new EditTable(original);
 		entity.addPropertyChangeListener(this);
 	}
@@ -120,15 +118,7 @@ public class SupersetEditDialog extends Dialog implements
 	 */
 	@Override
 	protected void okPressed() {
-		try {
-			editedValue = original.getClass().newInstance();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		editedValue = entity.createNewInstance();
 		editedValue.setName(entity.getName());
 		editedValue.setNotImplement(entity.isNotImplement());
 		editedValue.setImplementName(entity.getImplementName());

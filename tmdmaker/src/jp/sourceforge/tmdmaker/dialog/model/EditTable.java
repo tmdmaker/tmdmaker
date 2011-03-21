@@ -296,4 +296,22 @@ public class EditTable {
 		return (name != null) && (name.length() > 0);
 	}
 
+	/**
+	 * 編集対象のモデルのインスタンスを作成する
+	 * 
+	 * @param <T>
+	 *            編集対象のモデルの型
+	 * @return 編集対象モデルのインスタンス
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends AbstractEntityModel> T createNewInstance() {
+		try {
+			return (T) entity.getClass().newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

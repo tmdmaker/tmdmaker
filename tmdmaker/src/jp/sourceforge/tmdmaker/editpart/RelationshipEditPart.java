@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -132,8 +132,8 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	 */
 	protected void onDoubleClicked() {
 		AbstractRelationship model = (AbstractRelationship) getModel();
-		AbstractEntityModel source = (AbstractEntityModel) model.getSource();
-		AbstractEntityModel target = (AbstractEntityModel) model.getTarget();
+		AbstractEntityModel source = model.getSource();
+		AbstractEntityModel target = model.getTarget();
 		RelationshipEditDialog dialog = new RelationshipEditDialog(getViewer()
 				.getControl().getShell(), source.getName(), target.getName(),
 				model.getSourceCardinality(), model.getTargetCardinality(),

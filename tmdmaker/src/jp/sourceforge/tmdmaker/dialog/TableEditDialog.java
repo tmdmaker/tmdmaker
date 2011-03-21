@@ -44,7 +44,6 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class TableEditDialog extends Dialog implements PropertyChangeListener {
 	/** 編集対象モデル */
-	private AbstractEntityModel original;
 	private EditTable entity;
 	/** 編集結果格納用 */
 	private AbstractEntityModel editedValue;
@@ -71,7 +70,6 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 			AbstractEntityModel original) {
 		super(parentShell);
 		this.title = title;
-		this.original = original;
 		entity = new EditTable(original);
 		entity.addPropertyChangeListener(this);
 	}
@@ -144,15 +142,7 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	@Override
 	protected void okPressed() {
-		try {
-			editedValue = original.getClass().newInstance();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		editedValue = entity.createNewInstance();
 		editedValue.setName(entity.getName());
 		editedValue.setNotImplement(entity.isNotImplement());
 		editedValue.setImplementName(entity.getImplementName());

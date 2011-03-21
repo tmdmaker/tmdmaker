@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -111,6 +111,37 @@ public class EditSarogateKey extends EditImplementAttribute {
 	public void copyToOriginal() {
 		super.copyToOriginal();
 		((SarogateKey) getOriginalAttribute()).setEnabled(enabled);
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof EditSarogateKey) {
+			EditSarogateKey other = (EditSarogateKey) obj;
+			return super.equals(other) &&
+					getEditAttribute().equals(other.getEditAttribute());
+		}
+		return false;
+
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return getEditAttribute().hashCode();
 	}
 
 }

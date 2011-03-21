@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,11 +67,10 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	public void attachTarget() {
 		super.attachTarget();
 		if (targetReusedIdentifier == null) {
-			((AbstractEntityModel) getTarget())
-					.addReusedIdentifier((AbstractEntityModel) getSource());
+			getTarget().addReusedIdentifier(getSource());
 		} else {
-			((AbstractEntityModel) getTarget()).addReusedIdentifier(
-					(AbstractEntityModel) getSource(), targetReusedIdentifier);
+			getTarget()
+					.addReusedIdentifier(getSource(), targetReusedIdentifier);
 			targetReusedIdentifier = null;
 		}
 	}
@@ -84,8 +83,8 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	 */
 	@Override
 	public void detachTarget() {
-		targetReusedIdentifier = ((AbstractEntityModel) getTarget())
-				.removeReusedIdentifier((AbstractEntityModel) getSource());
+		targetReusedIdentifier = getTarget()
+				.removeReusedIdentifier(getSource());
 		super.detachTarget();
 	}
 
