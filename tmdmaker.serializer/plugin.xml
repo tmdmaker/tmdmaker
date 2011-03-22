@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="tmdmaker.serializer.converter" name="TMD-Maker&apos;s File Converter" schema="schema/tmdmaker.serializer.converter.exsd"/>
    <extension
          point="tmdmaker.persisitence.serializer">
       <serializer

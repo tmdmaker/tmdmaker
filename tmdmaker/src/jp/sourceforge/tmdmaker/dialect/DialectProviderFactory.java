@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,11 @@
  */
 package jp.sourceforge.tmdmaker.dialect;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
+import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 
 /**
  * DialectProviderを取得するためのFactory
@@ -35,35 +28,18 @@ import org.eclipse.core.runtime.Platform;
  * 
  */
 public class DialectProviderFactory {
+	private static PluginExtensionPointFactory<DialectProvider> factory = new PluginExtensionPointFactory<DialectProvider>(
+			TMDPlugin.PLUGIN_ID + ".dialect.provider");
+
 	/**
 	 * DialectProviderを取得する。
 	 * 
 	 * @return 取得したDialectProvider
 	 */
 	public static DialectProvider getDialectProvider() {
-		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		IExtensionPoint point = registry.getExtensionPoint(TMDPlugin.PLUGIN_ID
-				+ ".dialect.provider");
-		IExtension[] extensions = point.getExtensions();
-
-		List<DialectProvider> list = new ArrayList<DialectProvider>();
-		for (IExtension ex : extensions) {
-			for (IConfigurationElement ce : ex.getConfigurationElements()) {
-				try {
-					list.add((DialectProvider) ce
-							.createExecutableExtension("class"));
-				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-
-		if (list.size() > 0) {
-			return list.get(0);
-		} else {
-			// DialectProviderが取得できない場合の空クラス
-			return new DialectProvider() {
+		DialectProvider provider = factory.getInstance();
+		if (provider == null) {
+			provider = new DialectProvider() {
 
 				/**
 				 * {@inheritDoc}
@@ -75,6 +51,8 @@ public class DialectProviderFactory {
 					return Arrays.asList("");
 				}
 			};
+
 		}
+		return provider;
 	}
 }

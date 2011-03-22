@@ -21,6 +21,7 @@ Bundle-Localization: plugin
 Bundle-Vendor: %Provider
 Export-Package: jp.sourceforge.tmdmaker,
  jp.sourceforge.tmdmaker.dialect,
+ jp.sourceforge.tmdmaker.extension,
  jp.sourceforge.tmdmaker.generate,
  jp.sourceforge.tmdmaker.model,
  jp.sourceforge.tmdmaker.model.rule,

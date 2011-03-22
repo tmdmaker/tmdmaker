@@ -13,27 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.persistence;
-
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
+package jp.sourceforge.tmdmaker.extension;
 
 /**
- * シリアライザのファクトリクラス
+ * TMD-Makerのプラグイン拡張取得時の例外
  * 
  * @author nakaG
  * 
  */
-public class SerializerFactory {
-	private static PluginExtensionPointFactory<Serializer> factory = new PluginExtensionPointFactory<Serializer>(
-			TMDPlugin.PLUGIN_ID + ".persisitence.serializer");
+public class PluginExtensionPointRuntimeException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * シリアライザを取得する
+	 * コンストラクタ
 	 * 
-	 * @return シリアライザのインスタンス
+	 * @param message
+	 *            例外メッセージ
 	 */
-	public static Serializer getInstance() {
-		return factory.getInstance();
+	public PluginExtensionPointRuntimeException(String message) {
+		super(message);
 	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param t
+	 *            例外
+	 */
+	public PluginExtensionPointRuntimeException(Throwable t) {
+		super(t);
+	}
+
 }
