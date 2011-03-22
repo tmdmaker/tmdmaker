@@ -21,8 +21,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
+import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.persistence.converter.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.persistence.converter.SerializerConverter;
 
 import com.thoughtworks.xstream.XStream;
@@ -96,16 +96,19 @@ public class XStreamSerializer implements Serializer {
 	public Diagram deserialize(InputStream in) {
 		try {
 			String xml = loadStream(in, "UTF-8");
-			System.out.println(xml.indexOf("<version>"));
-			System.out.println(xml.indexOf("</version>"));
-			System.out.println(xml.substring(xml.indexOf("<version>") + "<version>".length(), xml.indexOf("</version>")));
+			System.out.println(getVersionFromXml(xml));
 			return (Diagram) deserialize(new ByteArrayInputStream(xml.getBytes("UTF-8")), this.getClass().getClassLoader());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			throw new SerializationException(e);
 		}
 	}
-
+	private String getVersionFromXml(String xml) {
+		final String VERSION_START_TAG = "<version>";
+		final String VERSION_END_TAG = "</version>";
+		
+		return xml.substring(xml.indexOf(VERSION_START_TAG) + VERSION_START_TAG.length(), xml.indexOf(VERSION_END_TAG));
+	}
 	/**
 	 * TMDデシリアライズ
 	 * 
