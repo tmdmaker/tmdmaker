@@ -12,9 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.views
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: lib/xpp3_min-1.1.4c.jar,
- lib/xstream-1.3.1.jar,
- lib/simple-log-slf4j.jar,
+Bundle-ClassPath: lib/simple-log-slf4j.jar,
  lib/simple-log.jar,
  lib/jcl-over-slf4j-1.6.1.jar,
  lib/slf4j-api-1.6.1.jar,
@@ -23,9 +21,11 @@ Bundle-Localization: plugin
 Bundle-Vendor: %Provider
 Export-Package: jp.sourceforge.tmdmaker,
  jp.sourceforge.tmdmaker.dialect,
+ jp.sourceforge.tmdmaker.extension,
  jp.sourceforge.tmdmaker.generate,
  jp.sourceforge.tmdmaker.model,
  jp.sourceforge.tmdmaker.model.rule,
+ jp.sourceforge.tmdmaker.persistence,
  org.apache.commons.logging,
  org.apache.commons.logging.impl,
  org.grlea.log,
