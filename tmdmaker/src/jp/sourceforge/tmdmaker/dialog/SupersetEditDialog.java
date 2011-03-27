@@ -118,13 +118,7 @@ public class SupersetEditDialog extends Dialog implements
 	 */
 	@Override
 	protected void okPressed() {
-		editedValue = entity.createNewInstance();
-		editedValue.setName(entity.getName());
-		editedValue.setNotImplement(entity.isNotImplement());
-		editedValue.setImplementName(entity.getImplementName());
-		editedValue.setKeyModels(entity.getKeyModels());
-		editedValue.setImplementDerivationModels(entity
-				.getImplementDerivationModels());
+		editedValue = entity.createEditedModel();
 
 		super.okPressed();
 	}

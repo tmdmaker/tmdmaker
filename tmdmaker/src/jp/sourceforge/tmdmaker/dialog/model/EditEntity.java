@@ -15,9 +15,10 @@
  */
 package jp.sourceforge.tmdmaker.dialog.model;
 
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 
 /**
@@ -29,13 +30,8 @@ import jp.sourceforge.tmdmaker.model.Laputa;
 public class EditEntity extends EditTable {
 	public static final String PROPERTY_IDENTIFIER = "_edit_property_identifier";
 	public static final String PROPERTY_UP_IDENTIFIER = "_edit_property_up_identifier";
-	public static final String PROPERTY_TYPE = "_edit_property_type";
 	/** 編集対象の個体指定子 */
-	private EditAttribute editIdentifier;
-	/** 編集対象のエンティティ種類 */
-	private EntityType type;
-	/** 編集対象のエンティティ種類編集可否 */
-	private boolean entityTypeEditable;
+	protected EditAttribute editIdentifier;
 	private boolean latuta;
 	private boolean detail;
 
@@ -48,8 +44,6 @@ public class EditEntity extends EditTable {
 	public EditEntity(Entity entity) {
 		super(entity);
 		this.editIdentifier = new EditAttribute(entity.getIdentifier());
-		this.type = entity.getEntityType();
-		this.entityTypeEditable = entity.isEntityTypeEditable();
 	}
 
 	public EditEntity(Detail entity) {
@@ -64,24 +58,6 @@ public class EditEntity extends EditTable {
 		this.latuta = true;
 	}
 
-	/**
-	 * 
-	 * @return the type
-	 */
-	public EntityType getType() {
-		return type;
-	}
-
-	/**
-	 * 
-	 * @param type
-	 *            the type
-	 */
-	public void setType(EntityType type) {
-		EntityType oldValue = this.type;
-		this.type = type;
-		firePropertyChange(PROPERTY_TYPE, oldValue, type);
-	}
 
 	/**
 	 * 
@@ -130,15 +106,6 @@ public class EditEntity extends EditTable {
 	}
 
 	/**
-	 * エンティティ種類が更新可能か
-	 * 
-	 * @return 更新可能な場合にtrueを返す
-	 */
-	public boolean isEntityTypeEditable() {
-		return entityTypeEditable;
-	}
-
-	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
@@ -179,6 +146,29 @@ public class EditEntity extends EditTable {
 	public boolean isValid() {
 		return super.isValid()
 				&& this.getEditIdentifier().getName().length() > 0;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.dialog.model.EditTable#copySpecialTo(jp.sourceforge.tmdmaker.model.AbstractEntityModel)
+	 */
+	@Override
+	protected void copySpecialTo(AbstractEntityModel to) {
+		if (isEntity()) {
+			Entity edited = (Entity) to;
+			Identifier newIdentifier = new Identifier();
+			getEditIdentifier().copyTo(newIdentifier);
+			edited.setIdentifier(newIdentifier);
+		}
+		if (isDetail()) {
+			Detail edited = (Detail) to;
+			Identifier newIdentifier = new Identifier();
+			getEditIdentifier().copyTo(newIdentifier);
+			edited.setDetailIdentifier(newIdentifier);
+			edited.setEntityType(getType());			
+		}
 	}
 
 }

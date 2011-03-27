@@ -126,13 +126,11 @@ public class LaputaEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	@Override
 	protected void okPressed() {
-		this.editedValueEntity = new Laputa();
+		this.editedValueEntity = entity.createEditedModel();
 		Identifier newIdentifier = new Identifier();
 		entity.getEditIdentifier().copyTo(newIdentifier);
-		this.editedValueEntity.setIdentifier(newIdentifier);
-		this.editedValueEntity.setName(entity.getName());
 		this.editedValueEntity.setEntityType(entity.getType());
-		this.editedValueEntity.setAttributes(entity.getAttributesOrder());
+		this.editedValueEntity.setIdentifier(newIdentifier);
 
 		super.okPressed();
 	}

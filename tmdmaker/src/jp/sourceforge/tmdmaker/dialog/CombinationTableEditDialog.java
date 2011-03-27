@@ -170,19 +170,13 @@ public class CombinationTableEditDialog extends Dialog implements
 	 */
 	@Override
 	protected void okPressed() {
-		editedValue = entity.createNewInstance();
-		editedValue.setName(entity.getName());
-		editedValue.setNotImplement(entity.isNotImplement());
-		editedValue.setImplementName(entity.getImplementName());
+		editedValue = entity.createEditedModel();
+
 		if (typeCombo.getSelectionIndex() == 0) {
 			editedValue.setCombinationTableType(CombinationTableType.L_TRUTH);
 		} else {
 			editedValue.setCombinationTableType(CombinationTableType.F_TRUTH);
 		}
-		editedValue.setAttributes(entity.getAttributesOrder());
-		editedValue.setKeyModels(entity.getKeyModels());
-		editedValue.setImplementDerivationModels(entity
-				.getImplementDerivationModels());
 
 		super.okPressed();
 	}

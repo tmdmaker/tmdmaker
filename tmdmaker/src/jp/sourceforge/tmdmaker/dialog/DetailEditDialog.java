@@ -26,7 +26,6 @@ import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.model.Detail;
-import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -151,17 +150,10 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	@Override
 	protected void okPressed() {
-		editedValue = new Detail();
-		editedValue.setName(entity.getName());
-		Identifier newIdentifier = new Identifier();
-		entity.getEditIdentifier().copyTo(newIdentifier);
-		editedValue.setDetailIdentifier(newIdentifier);
-		editedValue.setNotImplement(entity.isNotImplement());
-		editedValue.setImplementName(entity.getImplementName());
-		editedValue.setAttributes(entity.getAttributesOrder());
-		editedValue.setKeyModels(entity.getKeyModels());
-		editedValue.setImplementDerivationModels(entity
-				.getImplementDerivationModels());
+		editedValue = entity.createEditedModel();
+		// Identifier newIdentifier = new Identifier();
+		// entity.getEditIdentifier().copyTo(newIdentifier);
+		// editedValue.setDetailIdentifier(newIdentifier);
 
 		super.okPressed();
 	}

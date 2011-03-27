@@ -25,7 +25,6 @@ import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -143,18 +142,12 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	@Override
 	protected void okPressed() {
-		this.editedValueEntity = new Entity();
-		Identifier newIdentifier = new Identifier();
-		entity.getEditIdentifier().copyTo(newIdentifier);
-		this.editedValueEntity.setIdentifier(newIdentifier);
-		this.editedValueEntity.setName(entity.getName());
-		this.editedValueEntity.setEntityType(entity.getType());
-		this.editedValueEntity.setNotImplement(entity.isNotImplement());
-		this.editedValueEntity.setImplementName(entity.getImplementName());
-		this.editedValueEntity.setAttributes(entity.getAttributesOrder());
-		this.editedValueEntity.setKeyModels(entity.getKeyModels());
-		this.editedValueEntity.setImplementDerivationModels(entity
-				.getImplementDerivationModels());
+		this.editedValueEntity = entity.createEditedModel();
+		// Identifier newIdentifier = new Identifier();
+		// entity.getEditIdentifier().copyTo(newIdentifier);
+		// this.editedValueEntity.setIdentifier(newIdentifier);
+		// this.editedValueEntity.setEntityType(entity.getType());
+
 		super.okPressed();
 	}
 
