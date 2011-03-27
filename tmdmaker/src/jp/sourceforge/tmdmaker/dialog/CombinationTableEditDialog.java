@@ -32,6 +32,8 @@ import jp.sourceforge.tmdmaker.model.CombinationTableType;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -133,6 +135,18 @@ public class CombinationTableEditDialog extends Dialog implements
 		typeCombo = new Combo(composite, SWT.READ_ONLY);
 		typeCombo.add("L-真");
 		typeCombo.add("F-真");
+		typeCombo.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (typeCombo.getSelectionIndex() == 0) {
+					entity.setCombinationTableType(CombinationTableType.L_TRUTH);
+				} else {
+					entity.setCombinationTableType(CombinationTableType.F_TRUTH);
+				}
+			}
+
+		});
 
 		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -171,12 +185,6 @@ public class CombinationTableEditDialog extends Dialog implements
 	@Override
 	protected void okPressed() {
 		editedValue = entity.createEditedModel();
-
-		if (typeCombo.getSelectionIndex() == 0) {
-			editedValue.setCombinationTableType(CombinationTableType.L_TRUTH);
-		} else {
-			editedValue.setCombinationTableType(CombinationTableType.F_TRUTH);
-		}
 
 		super.okPressed();
 	}

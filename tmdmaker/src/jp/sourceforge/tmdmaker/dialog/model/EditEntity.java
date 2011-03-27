@@ -58,7 +58,6 @@ public class EditEntity extends EditTable {
 		this.latuta = true;
 	}
 
-
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -167,7 +166,7 @@ public class EditEntity extends EditTable {
 			Identifier newIdentifier = new Identifier();
 			getEditIdentifier().copyTo(newIdentifier);
 			edited.setDetailIdentifier(newIdentifier);
-			edited.setEntityType(getType());			
+			edited.setEntityType(getType());
 		}
 	}
 

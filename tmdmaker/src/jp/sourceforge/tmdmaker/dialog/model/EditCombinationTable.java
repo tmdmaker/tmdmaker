@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.model;
 
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.CombinationTableType;
 
@@ -53,6 +54,18 @@ public class EditCombinationTable extends EditTable {
 	public void setCombinationTableType(
 			CombinationTableType combinationTableType) {
 		this.combinationTableType = combinationTableType;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.dialog.model.EditTable#copySpecialTo(jp.sourceforge.tmdmaker.model.AbstractEntityModel)
+	 */
+	@Override
+	protected void copySpecialTo(AbstractEntityModel to) {
+		CombinationTable edited = (CombinationTable) to;
+		edited.setCombinationTableType(getCombinationTableType());
 	}
 
 }

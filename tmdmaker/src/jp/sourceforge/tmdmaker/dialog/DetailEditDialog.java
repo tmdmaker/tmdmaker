@@ -151,9 +151,6 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	@Override
 	protected void okPressed() {
 		editedValue = entity.createEditedModel();
-		// Identifier newIdentifier = new Identifier();
-		// entity.getEditIdentifier().copyTo(newIdentifier);
-		// editedValue.setDetailIdentifier(newIdentifier);
 
 		super.okPressed();
 	}
