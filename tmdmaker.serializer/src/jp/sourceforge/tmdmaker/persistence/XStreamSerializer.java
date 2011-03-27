@@ -107,6 +107,12 @@ public class XStreamSerializer implements Serializer {
 		final String VERSION_START_TAG = "<version>";
 		final String VERSION_END_TAG = "</version>";
 		
+		if (xml == null || xml.length() == 0) {
+			return "";
+		}
+		if (xml.indexOf(VERSION_START_TAG) == -1) {
+			return "";
+		}
 		return xml.substring(xml.indexOf(VERSION_START_TAG) + VERSION_START_TAG.length(), xml.indexOf(VERSION_END_TAG));
 	}
 	/**
