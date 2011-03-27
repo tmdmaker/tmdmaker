@@ -27,12 +27,17 @@ import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * みなしスーパーセット作成ダイアログ
@@ -48,6 +53,18 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	private VirtualSupersetType editedAggregator;
 	private List<AbstractEntityModel> notSelection;
 	private List<AbstractEntityModel> selection;
+	private ModifyListener listener = new ModifyListener() {
+
+		@Override
+		public void modifyText(ModifyEvent e) {
+			Text t = (Text) e.getSource();
+			String name = t.getText();
+			Button okButton = getButton(IDialogConstants.OK_ID);
+			if (okButton != null) {
+				okButton.setEnabled(name.length() != 0);
+			}
+		}
+	};
 
 	/**
 	 * コンストラクタ
@@ -93,6 +110,7 @@ public class VirtualSupersetCreateDialog extends Dialog {
 		panel1 = new VirtualSupersetSettingPanel(composite, SWT.NULL);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
+		panel1.addNameModifyListener(listener);
 
 		panel2 = new ModelSelectPanel(composite, SWT.NULL);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -116,6 +134,31 @@ public class VirtualSupersetCreateDialog extends Dialog {
 		editedAggregator.setApplyAttribute(panel1.isApplyAttributeSelected());
 
 		super.okPressed();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#close()
+	 */
+	@Override
+	public boolean close() {
+		panel1.removeNameModifyListener(listener);
+		return super.close();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		super.createButtonsForButtonBar(parent);
+		Button okButton = getButton(IDialogConstants.OK_ID);
+		okButton.setEnabled(false);
 	}
 
 	/**

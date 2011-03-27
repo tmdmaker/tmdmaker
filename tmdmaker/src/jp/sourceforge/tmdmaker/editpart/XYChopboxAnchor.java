@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,10 @@ public class XYChopboxAnchor extends ChopboxAnchor {
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.draw2d.ChopboxAnchor#getLocation(org.eclipse.draw2d.geometry.Point)
 	 */
 	@Override
 	public Point getLocation(Point reference) {
@@ -63,7 +66,10 @@ public class XYChopboxAnchor extends ChopboxAnchor {
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.draw2d.ChopboxAnchor#getReferencePoint()
 	 */
 	@Override
 	public Point getReferencePoint() {
@@ -85,11 +91,15 @@ public class XYChopboxAnchor extends ChopboxAnchor {
 	 */
 	@Override
 	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
 		if (obj instanceof XYChopboxAnchor) {
 			XYChopboxAnchor other = (XYChopboxAnchor) obj;
 			return other.getOwner() == getOwner()
 					&& other.getBox().equals(getBox()) && other.xp == xp
-					&& other.yp == yp && super.equals(other);
+					&& other.yp == yp && super.equals(other)
+					&& hashCode() == other.hashCode();
 		}
 		return false;
 	}

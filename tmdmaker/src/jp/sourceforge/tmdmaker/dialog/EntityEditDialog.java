@@ -25,12 +25,13 @@ import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -95,6 +96,11 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 			panel1.updateValue();
 			panel2.updateAttributeTable();
 		}
+		// panel3.updateValue();
+		Button okButton = getButton(IDialogConstants.OK_ID);
+		if (okButton != null) {
+			okButton.setEnabled(entity.isValid());
+		}
 	}
 
 	/**
@@ -116,7 +122,7 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
-		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL);
+		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel3.setLayoutData(gridData);
 
@@ -125,23 +131,8 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 		panel2.setLayoutData(gridData);
 
 		composite.pack();
-		initializeValue();
 
 		return composite;
-	}
-
-	private void initializeValue() {
-		// panel1.setEditIdentifier(new
-		// EditAttribute(original.getIdentifier()));
-		// panel1.setIdentifierNameText(original.getIdentifier().getName());
-		// panel1.setEntityNameText(original.getName());
-		// panel1.selectEntityTypeCombo(original.getEntityType());
-		// panel1.selectAutoCreateCheckBox(original.getIdentifier().getName(),
-		// original.getName());
-		// panel1.setEntityTypeComboEnabled(original.isEntityTypeEditable());
-		// TODO panel側で値の設定を出来るように修正予定
-		panel3.initializeValue(entity.isNotImplement(),
-				entity.getImplementName());
 	}
 
 	/**
@@ -151,17 +142,12 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	@Override
 	protected void okPressed() {
-		this.editedValueEntity = new Entity();
-		Identifier newIdentifier = new Identifier();
-		entity.getEditIdentifier().copyTo(newIdentifier);
-		this.editedValueEntity.setIdentifier(newIdentifier);
-		this.editedValueEntity.setName(entity.getName());
-		this.editedValueEntity.setEntityType(entity.getType());
-		this.editedValueEntity.setNotImplement(panel3.isNotImplement());
-		this.editedValueEntity.setImplementName(panel3.getImplementName());
-		this.editedValueEntity.setAttributes(entity.getAttributesOrder());
-		this.editedValueEntity.setKeyModels(entity.getKeyModels());
-		this.editedValueEntity.setImplementDerivationModels(entity.getImplementDerivationModels());
+		this.editedValueEntity = entity.createEditedModel();
+		// Identifier newIdentifier = new Identifier();
+		// entity.getEditIdentifier().copyTo(newIdentifier);
+		// this.editedValueEntity.setIdentifier(newIdentifier);
+		// this.editedValueEntity.setEntityType(entity.getType());
+
 		super.okPressed();
 	}
 

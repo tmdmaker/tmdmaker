@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -188,7 +188,6 @@ public class RelationshipEditDialog extends Dialog {
 	protected void okPressed() {
 		this.sourceCardinality = getSelectedCardinality(sourceCardinalityCombo);
 		this.targetCardinality = getSelectedCardinality(targetCardinalityCombo);
-		;
 		super.okPressed();
 	}
 

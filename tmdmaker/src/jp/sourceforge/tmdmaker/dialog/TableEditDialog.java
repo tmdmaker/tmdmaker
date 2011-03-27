@@ -27,9 +27,11 @@ import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -42,7 +44,6 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class TableEditDialog extends Dialog implements PropertyChangeListener {
 	/** 編集対象モデル */
-	private AbstractEntityModel original;
 	private EditTable entity;
 	/** 編集結果格納用 */
 	private AbstractEntityModel editedValue;
@@ -69,7 +70,6 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 			AbstractEntityModel original) {
 		super(parentShell);
 		this.title = title;
-		this.original = original;
 		entity = new EditTable(original);
 		entity.addPropertyChangeListener(this);
 	}
@@ -84,6 +84,13 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 		if (evt.getPropertyName().equals(EditTable.PROPERTY_ATTRIBUTES)) {
 			panel2.updateAttributeTable();
 		}
+		// panel3.updateValue();
+
+		Button okButton = getButton(IDialogConstants.OK_ID);
+		if (okButton != null) {
+			okButton.setEnabled(entity.isValid());
+		}
+
 	}
 
 	/**
@@ -111,12 +118,12 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new TableNameSettingPanel(composite, SWT.NULL);
+		panel1 = new TableNameSettingPanel(composite, SWT.NULL, entity);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL);
+		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		panel3.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -125,19 +132,7 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 
 		composite.pack();
 
-		initializeValue();
-
 		return composite;
-	}
-
-	/**
-	 * ダイアログへ初期値を設定する
-	 */
-	private void initializeValue() {
-		panel1.setTableName(original.getName());
-
-		panel3.initializeValue(original.isNotImplement(),
-				original.getImplementName());
 	}
 
 	/**
@@ -147,21 +142,14 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	@Override
 	protected void okPressed() {
-		try {
-			editedValue = original.getClass().newInstance();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		editedValue.setName(panel1.getTableName());
-		editedValue.setNotImplement(panel3.isNotImplement());
-		editedValue.setImplementName(panel3.getImplementName());
-		editedValue.setAttributes(entity.getAttributesOrder());
-		editedValue.setKeyModels(entity.getKeyModels());
-		editedValue.setImplementDerivationModels(entity.getImplementDerivationModels());
+		editedValue = entity.createEditedModel();
+//		editedValue.setName(entity.getName());
+//		editedValue.setNotImplement(entity.isNotImplement());
+//		editedValue.setImplementName(entity.getImplementName());
+//		editedValue.setAttributes(entity.getAttributesOrder());
+//		editedValue.setKeyModels(entity.getKeyModels());
+//		editedValue.setImplementDerivationModels(entity
+//				.getImplementDerivationModels());
 
 		super.okPressed();
 	}

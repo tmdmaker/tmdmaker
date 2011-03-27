@@ -63,8 +63,8 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
-//		imageRegistryの後片付けはsuper.stop()で実施
-//		getImageRegistry().dispose();
+		// imageRegistryの後片付けはsuper.stop()で実施
+		// getImageRegistry().dispose();
 		plugin = null;
 	}
 
@@ -94,8 +94,8 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 *            発生した例外
 	 */
 	public static void log(Throwable t) {
-		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, t
-				.getMessage(), t);
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR,
+				t.getMessage(), t);
 		getDefault().getLog().log(status);
 		t.printStackTrace();
 	}
@@ -146,7 +146,7 @@ public class TMDPlugin extends AbstractUIPlugin {
 	public static Image getImage(String path) {
 		ImageRegistry images = getDefault().getImageRegistry();
 		Image image = images.get(path);
-		if(image == null){
+		if (image == null) {
 			image = getImageDescriptor(path).createImage();
 			images.put(path, image);
 		}

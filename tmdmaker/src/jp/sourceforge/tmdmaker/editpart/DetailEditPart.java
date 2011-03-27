@@ -65,7 +65,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
 			ModelEditCommand command = new ModelEditCommand(table,
-					(Detail) dialog.getEditedValue());
+					dialog.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}

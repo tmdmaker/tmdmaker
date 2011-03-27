@@ -15,7 +15,6 @@
  */
 package jp.sourceforge.tmdmaker;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EventObject;
 import java.util.List;
@@ -35,6 +34,9 @@ import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Version;
+import jp.sourceforge.tmdmaker.persistence.SerializationException;
+import jp.sourceforge.tmdmaker.persistence.Serializer;
+import jp.sourceforge.tmdmaker.persistence.SerializerFactory;
 import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
 import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
 import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
@@ -212,8 +214,8 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		Diagram diagram = null;
 		try {
-			diagram = (Diagram) XStreamSerializer.deserialize(
-					file.getContents(), this.getClass().getClassLoader());
+			Serializer serializer = SerializerFactory.getInstance();
+			diagram = serializer.deserialize(file.getContents());
 		} catch (Exception e) {
 			TMDPlugin.showErrorDialog("読み込み時にエラーが発生しました。", e);
 			diagram = new Diagram();
@@ -321,9 +323,10 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 			logger.warn("IFile#deleteMarkers()." + e);
 		}
 		try {
-			file.setContents(XStreamSerializer.serializeStream(diagram, this
-					.getClass().getClassLoader()), true, true, monitor);
-		} catch (UnsupportedEncodingException e) {
+			Serializer serializer = SerializerFactory.getInstance();
+			file.setContents(serializer.serialize(diagram), true, true,
+					monitor);
+		} catch (SerializationException e) {
 			TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
 			logger.warn("IFile#setContents().", e);
 		} catch (CoreException e) {
@@ -371,11 +374,12 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 							Diagram diagram = (Diagram) getGraphicalViewer()
 									.getContents().getModel();
 							try {
-								file.create(XStreamSerializer.serializeStream(
-										diagram, this.getClass()
-												.getClassLoader()), true,
-										monitor);
-							} catch (UnsupportedEncodingException e) {
+								Serializer serializer = SerializerFactory
+										.getInstance();
+								file.create(
+										serializer.serialize(diagram),
+										true, monitor);
+							} catch (SerializationException e) {
 								TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
 								logger.warn("IFile#setContents().", e);
 							} catch (CoreException e) {
@@ -561,11 +565,11 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 					@Override
 					public void run() {
 						IFile file = ((IFileEditorInput) input).getFile();
-						if (file.exists() == false) {
+						if (!file.exists()) {
 							IWorkbenchPage page = PlatformUI.getWorkbench()
 									.getActiveWorkbenchWindow().getActivePage();
 							page.closeEditor(TMDEditor.this, true);
-						} else if (getPartName().equals(file.getName()) == false) {
+						} else if (!getPartName().equals(file.getName())) {
 							setPartName(file.getName());
 						}
 					}
