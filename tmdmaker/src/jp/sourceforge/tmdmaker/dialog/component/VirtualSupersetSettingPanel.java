@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -124,5 +125,11 @@ public class VirtualSupersetSettingPanel extends Composite {
 	public boolean isApplyAttributeSelected() {
 		return applyAttribute;
 	}
-	
+	public void addNameModifyListener(ModifyListener listener) {
+		virtualSupersetNameText.addModifyListener(listener);
+	}
+	public void removeNameModifyListener(ModifyListener listener) {
+		virtualSupersetNameText.removeModifyListener(listener);
+	}
+
 }  //  @jve:decl-index=0:visual-constraint="10,10"

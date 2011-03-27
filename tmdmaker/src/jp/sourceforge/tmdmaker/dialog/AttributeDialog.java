@@ -82,6 +82,19 @@ public class AttributeDialog extends Dialog {
 	}
 
 	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		super.createButtonsForButtonBar(parent);
+		Button okButton = getButton(IDialogConstants.OK_ID);
+		okButton.setEnabled(original.getName().length() != 0);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
@@ -101,6 +114,12 @@ public class AttributeDialog extends Dialog {
 		super.okPressed();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#close()
+	 */
 	@Override
 	public boolean close() {
 		panel.removeNameModifyListener(listener);

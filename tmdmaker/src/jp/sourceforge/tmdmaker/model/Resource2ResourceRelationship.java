@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	private ReusedIdentifier sourceReuseIdentifier;
 	/** ターゲット移送先から削除したReused */
 	private ReusedIdentifier targetReuseIdentifier;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -61,7 +61,8 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 				+ target.getName().replace(
 						CombinationTable.COMBINATION_TABLE_SUFFIX, "")
 				+ CombinationTable.COMBINATION_TABLE_SUFFIX);
-		this.combinationTableConnection = new RelatedRelationship(this, this.table);
+		this.combinationTableConnection = new RelatedRelationship(this,
+				this.table);
 		this.setCenterMark(true);
 	}
 
@@ -74,18 +75,18 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	@Override
 	public void connect() {
 		super.connect();
-		((AbstractEntityModel) getSource()).getDiagram().addChild(this.table);
+		getSource().getDiagram().addChild(this.table);
 		this.combinationTableConnection.connect();
 		if (sourceReuseIdentifier == null) {
-			this.table.addReusedIdentifier((AbstractEntityModel) getSource());
+			this.table.addReusedIdentifier(getSource());
 		} else {
-			this.table.addReusedIdentifier((AbstractEntityModel) getSource(), sourceReuseIdentifier);
+			this.table.addReusedIdentifier(getSource(), sourceReuseIdentifier);
 			sourceReuseIdentifier = null;
 		}
 		if (targetReuseIdentifier == null) {
-			this.table.addReusedIdentifier((AbstractEntityModel) getTarget());
+			this.table.addReusedIdentifier(getTarget());
 		} else {
-			this.table.addReusedIdentifier((AbstractEntityModel) getTarget(), targetReuseIdentifier);
+			this.table.addReusedIdentifier(getTarget(), targetReuseIdentifier);
 			targetReuseIdentifier = null;
 		}
 	}
@@ -98,11 +99,10 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void disconnect() {
-		sourceReuseIdentifier = this.table.removeReusedIdentifier((AbstractEntityModel) getSource());
-		targetReuseIdentifier = this.table.removeReusedIdentifier((AbstractEntityModel) getTarget());
+		sourceReuseIdentifier = this.table.removeReusedIdentifier(getSource());
+		targetReuseIdentifier = this.table.removeReusedIdentifier(getTarget());
 		this.combinationTableConnection.disconnect();
-		((AbstractEntityModel) getSource()).getDiagram()
-				.removeChild(this.table);
+		getSource().getDiagram().removeChild(this.table);
 		super.disconnect();
 	}
 

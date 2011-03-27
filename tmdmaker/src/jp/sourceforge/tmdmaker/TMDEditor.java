@@ -565,11 +565,11 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 					@Override
 					public void run() {
 						IFile file = ((IFileEditorInput) input).getFile();
-						if (file.exists() == false) {
+						if (!file.exists()) {
 							IWorkbenchPage page = PlatformUI.getWorkbench()
 									.getActiveWorkbenchWindow().getActivePage();
 							page.closeEditor(TMDEditor.this, true);
-						} else if (getPartName().equals(file.getName()) == false) {
+						} else if (!getPartName().equals(file.getName())) {
 							setPartName(file.getName());
 						}
 					}

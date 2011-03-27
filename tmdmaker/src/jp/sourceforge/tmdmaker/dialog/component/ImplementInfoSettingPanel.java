@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.dialog.model.EditTable;
+
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -29,13 +31,15 @@ import org.eclipse.swt.layout.GridData;
  *
  */
 public class ImplementInfoSettingPanel extends Composite {
+	private EditTable entity;
 
 	private Button notImplementCheckBox = null;
 	private Label implementNameLabel = null;
 	private Text implementNameText = null;
 
-	public ImplementInfoSettingPanel(Composite parent, int style) {
+	public ImplementInfoSettingPanel(Composite parent, int style, EditTable entity) {
 		super(parent, style);
+		this.entity = entity;
 		initialize();
 	}
 
@@ -56,27 +60,28 @@ public class ImplementInfoSettingPanel extends Composite {
 		notImplementCheckBox
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 						implementNameText.setEnabled(!implementNameText.getEnabled());
-						System.out.println(isNotImplement());
+						entity.setNotImplement(notImplementCheckBox.getSelection());
 					}
 				});
 		implementNameLabel = new Label(this, SWT.NONE);
 		implementNameLabel.setText("実装名");
 		implementNameText = new Text(this, SWT.BORDER);
 		implementNameText.setLayoutData(gridData1);
+		implementNameText
+				.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
+					public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
+						entity.setImplementName(implementNameText.getText());
+					}
+				});
 		this.setLayout(gridLayout);
 		this.setSize(new Point(134, 49));
+		updateValue();
 	}
-	public boolean isNotImplement() {
-		return notImplementCheckBox.getSelection();
-	}
-	public String getImplementName() {
-		return implementNameText.getText();
-	}
-	public void initializeValue(boolean notImplement, String implementName) {
+	private void updateValue() {
+		boolean notImplement = entity.isNotImplement();
 		notImplementCheckBox.setSelection(notImplement);
-		implementNameText.setText(implementName);
+		implementNameText.setText(entity.getImplementName());
 		implementNameText.setEnabled(!notImplement);
 	}
 }  //  @jve:decl-index=0:visual-constraint="0,0"

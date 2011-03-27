@@ -26,7 +26,6 @@ import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.model.Detail;
-import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -46,10 +45,9 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	/** 編集対象モデル */
-	private Detail original;
+	private EditEntity entity;
 	/** 編集結果格納用 */
 	private Detail editedValue;
-	private EditEntity entity;
 	/** 表名設定用 */
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
@@ -71,7 +69,6 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	public DetailEditDialog(Shell parentShell, Detail original) {
 		super(parentShell);
-		this.original = original;
 		entity = new EditEntity(original);
 		entity.addPropertyChangeListener(this);
 	}
@@ -91,6 +88,7 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 			panel3.updateValue();
 			panel2.updateAttributeTable();
 		}
+		// panel4.updateValue();
 		Button okButton = getButton(IDialogConstants.OK_ID);
 		if (okButton != null) {
 			okButton.setEnabled(entity.isValid());
@@ -133,7 +131,7 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 		panel3.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel4 = new ImplementInfoSettingPanel(composite, SWT.NULL);
+		panel4 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		panel4.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -142,23 +140,7 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 
 		composite.pack();
 
-		initializeValue();
-
 		return composite;
-	}
-
-	/**
-	 * ダイアログへ初期値を設定する
-	 */
-	private void initializeValue() {
-		// panel1.setTableName(original.getName());
-
-		// panel3.setEditIdentifier(new EditAttribute(original
-		// .getDetailIdentifier()));
-		// panel3.setIdentifierName(original.getDetailIdentifier().getName());
-
-		panel4.initializeValue(original.isNotImplement(),
-				original.getImplementName());
 	}
 
 	/**
@@ -168,17 +150,7 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	@Override
 	protected void okPressed() {
-		editedValue = new Detail();
-		editedValue.setName(entity.getName());
-		Identifier newIdentifier = new Identifier();
-		entity.getEditIdentifier().copyTo(newIdentifier);
-		editedValue.setDetailIdentifier(newIdentifier);
-		editedValue.setNotImplement(panel4.isNotImplement());
-		editedValue.setImplementName(panel4.getImplementName());
-		editedValue.setAttributes(entity.getAttributesOrder());
-		editedValue.setKeyModels(entity.getKeyModels());
-		editedValue.setImplementDerivationModels(entity
-				.getImplementDerivationModels());
+		editedValue = entity.createEditedModel();
 
 		super.okPressed();
 	}

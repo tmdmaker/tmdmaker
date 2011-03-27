@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,13 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -35,6 +39,18 @@ public class VirtualEntityCreateDialog extends Dialog {
 	/** VE名入力欄 */
 	private Text virtualEntityName;
 	private String inputVirtualEntityName;
+	private ModifyListener listener = new ModifyListener() {
+
+		@Override
+		public void modifyText(ModifyEvent e) {
+			Text t = (Text) e.getSource();
+			String name = t.getText();
+			Button okButton = getButton(IDialogConstants.OK_ID);
+			if (okButton != null) {
+				okButton.setEnabled(name.length() != 0);
+			}
+		}
+	};
 
 	/**
 	 * コンストラクタ
@@ -65,7 +81,21 @@ public class VirtualEntityCreateDialog extends Dialog {
 		gridData.widthHint = 100;
 		virtualEntityName = new Text(composite, SWT.BORDER);
 		virtualEntityName.setLayoutData(gridData);
+		virtualEntityName.addModifyListener(listener);
 		return composite;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		super.createButtonsForButtonBar(parent);
+		Button okButton = getButton(IDialogConstants.OK_ID);
+		okButton.setEnabled(false);
 	}
 
 	/**
@@ -77,6 +107,18 @@ public class VirtualEntityCreateDialog extends Dialog {
 	protected void okPressed() {
 		inputVirtualEntityName = virtualEntityName.getText();
 		super.okPressed();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#close()
+	 */
+	@Override
+	public boolean close() {
+		virtualEntityName.removeModifyListener(listener);
+		return super.close();
 	}
 
 	public String getInputVirtualEntityName() {

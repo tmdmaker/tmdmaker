@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModels;
 
@@ -36,6 +37,7 @@ public class EditTable {
 	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 	public static final String PROPERTY_NAME = "_edit_property_name";
 	public static final String PROPERTY_ATTRIBUTES = "_edit_property_attributes";
+	public static final String PROPERTY_TYPE = "_edit_property_type";
 
 	/** 編集対象のエンティティ */
 	protected AbstractEntityModel entity;
@@ -45,6 +47,10 @@ public class EditTable {
 	protected boolean notImplement = false;
 	/** 実装名 */
 	protected String implementName = "";
+	/** エンティティ種類 */
+	private EntityType type;
+	/** 編集対象のエンティティ種類編集可否 */
+	private boolean entityTypeEditable;
 
 	/** 編集対象のアトリビュート */
 	protected List<EditAttribute> attributes = new ArrayList<EditAttribute>();
@@ -62,9 +68,11 @@ public class EditTable {
 		this.name = model.getName();
 		this.notImplement = model.isNotImplement();
 		this.implementName = model.getImplementName();
+		this.type = entity.getEntityType();
 		for (IAttribute a : this.entity.getAttributes()) {
 			attributes.add(new EditAttribute(a));
 		}
+		this.entityTypeEditable = entity.isEntityTypeEditable();
 	}
 
 	/**
@@ -269,6 +277,24 @@ public class EditTable {
 	public void setImplementName(String implementName) {
 		this.implementName = implementName;
 	}
+	/**
+	 * 
+	 * @return the type
+	 */
+	public EntityType getType() {
+		return type;
+	}
+
+	/**
+	 * 
+	 * @param type
+	 *            the type
+	 */
+	public void setType(EntityType type) {
+		EntityType oldValue = this.type;
+		this.type = type;
+		firePropertyChange(PROPERTY_TYPE, oldValue, type);
+	}
 
 	/**
 	 * アトリビュートを個体指定子と入替可能か？
@@ -288,6 +314,15 @@ public class EditTable {
 	}
 
 	/**
+	 * エンティティ種類が更新可能か
+	 * 
+	 * @return 更新可能な場合にtrueを返す
+	 */
+	public boolean isEntityTypeEditable() {
+		return entityTypeEditable;
+	}
+
+	/**
 	 * 編集内容の妥当性検証
 	 * 
 	 * @return 編集内容が適切な場合にtrueを返す
@@ -296,4 +331,41 @@ public class EditTable {
 		return (name != null) && (name.length() > 0);
 	}
 
+	/**
+	 * 編集対象のモデルのインスタンスを作成する
+	 * 
+	 * @param <T>
+	 *            編集対象のモデルの型
+	 * @return 編集対象モデルのインスタンス
+	 */
+	public <T extends AbstractEntityModel> T createEditedModel() {
+		T edited = createInstance();
+		copyTo(edited);
+		copySpecialTo(edited);
+		return edited;
+	}
+	@SuppressWarnings("unchecked")
+	protected <T extends AbstractEntityModel> T createInstance() {
+		try {
+			T edited = (T) entity.getClass().newInstance();
+			return edited;
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;	
+	}
+	protected void copyTo(AbstractEntityModel to) {
+		to.setName(getName());
+		to.setNotImplement(isNotImplement());
+		to.setImplementName(getImplementName());
+		to.setAttributes(getAttributesOrder());
+		to.setKeyModels(getKeyModels());
+		to.setImplementDerivationModels(getImplementDerivationModels());
+		to.setEntityType(getType());
+	}
+	protected void copySpecialTo(AbstractEntityModel to) {
+	}
+	
 }

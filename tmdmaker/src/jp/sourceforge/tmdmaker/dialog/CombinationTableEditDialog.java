@@ -23,6 +23,7 @@ import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditCombinationTable;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
@@ -31,6 +32,8 @@ import jp.sourceforge.tmdmaker.model.CombinationTableType;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -48,8 +51,7 @@ import org.eclipse.swt.widgets.Shell;
 public class CombinationTableEditDialog extends Dialog implements
 		PropertyChangeListener {
 	/** 編集対象モデル */
-	private CombinationTable original;
-	private EditTable entity;
+	private EditCombinationTable entity;
 	/** 編集結果格納用 */
 	private CombinationTable editedValue;
 	/** ダイアログタイトル */
@@ -78,8 +80,7 @@ public class CombinationTableEditDialog extends Dialog implements
 			CombinationTable original) {
 		super(parentShell);
 		this.title = title;
-		this.original = original;
-		entity = new EditTable(original);
+		entity = new EditCombinationTable(original);
 		entity.addPropertyChangeListener(this);
 	}
 
@@ -94,6 +95,7 @@ public class CombinationTableEditDialog extends Dialog implements
 		if (evt.getPropertyName().equals(EditTable.PROPERTY_ATTRIBUTES)) {
 			panel2.updateAttributeTable();
 		}
+		// panel3.updateValue();
 		Button okButton = getButton(IDialogConstants.OK_ID);
 		if (okButton != null) {
 			okButton.setEnabled(entity.isValid());
@@ -133,8 +135,20 @@ public class CombinationTableEditDialog extends Dialog implements
 		typeCombo = new Combo(composite, SWT.READ_ONLY);
 		typeCombo.add("L-真");
 		typeCombo.add("F-真");
+		typeCombo.addSelectionListener(new SelectionAdapter() {
 
-		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL);
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (typeCombo.getSelectionIndex() == 0) {
+					entity.setCombinationTableType(CombinationTableType.L_TRUTH);
+				} else {
+					entity.setCombinationTableType(CombinationTableType.F_TRUTH);
+				}
+			}
+
+		});
+
+		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 		panel3.setLayoutData(gridData);
@@ -146,7 +160,7 @@ public class CombinationTableEditDialog extends Dialog implements
 
 		composite.pack();
 
-		initializeValue();
+		initializeTypeCombo();
 
 		return composite;
 	}
@@ -154,16 +168,13 @@ public class CombinationTableEditDialog extends Dialog implements
 	/**
 	 * ダイアログへ初期値を設定する
 	 */
-	private void initializeValue() {
-		if (original.getCombinationTableType().equals(
+	private void initializeTypeCombo() {
+		if (entity.getCombinationTableType().equals(
 				CombinationTableType.L_TRUTH)) {
 			typeCombo.select(0);
 		} else {
 			typeCombo.select(1);
 		}
-
-		panel3.initializeValue(original.isNotImplement(),
-				original.getImplementName());
 	}
 
 	/**
@@ -173,27 +184,7 @@ public class CombinationTableEditDialog extends Dialog implements
 	 */
 	@Override
 	protected void okPressed() {
-		try {
-			editedValue = original.getClass().newInstance();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		editedValue.setName(entity.getName());
-		editedValue.setNotImplement(panel3.isNotImplement());
-		editedValue.setImplementName(panel3.getImplementName());
-		if (typeCombo.getSelectionIndex() == 0) {
-			editedValue.setCombinationTableType(CombinationTableType.L_TRUTH);
-		} else {
-			editedValue.setCombinationTableType(CombinationTableType.F_TRUTH);
-		}
-		editedValue.setAttributes(entity.getAttributesOrder());
-		editedValue.setKeyModels(entity.getKeyModels());
-		editedValue.setImplementDerivationModels(entity
-				.getImplementDerivationModels());
+		editedValue = entity.createEditedModel();
 
 		super.okPressed();
 	}
