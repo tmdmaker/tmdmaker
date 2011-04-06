@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,9 @@ public class Diagram extends ModelElement {
 	private List<ModelElement> children = new ArrayList<ModelElement>();
 	/** 子モデルプロパティ定数 */
 	public static final String PROPERTY_CHILDREN = "_property_children";
+
+	/** 全モデル共通のアトリビュート（実装時のみ） */
+	private List<IAttribute> commonAttributes = new ArrayList<IAttribute>();
 
 	/**
 	 * 子モデル追加
@@ -134,10 +137,30 @@ public class Diagram extends ModelElement {
 	}
 
 	/**
-	 * @param databaseName the databaseName to set
+	 * @param databaseName
+	 *            the databaseName to set
 	 */
 	public void setDatabaseName(String databaseName) {
 		this.databaseName = databaseName;
 	}
-	
+
+	/**
+	 * 共通アトリビュートを取得する
+	 * 
+	 * @return　共通アトリビュート
+	 */
+	public List<IAttribute> getCommonAttributes() {
+		return commonAttributes;
+	}
+
+	/**
+	 * 共通アトリビュートを設定する
+	 * 
+	 * @param commonAttributes
+	 *            共通アトリビュート
+	 */
+	public void setCommonAttributes(List<IAttribute> commonAttributes) {
+		this.commonAttributes = commonAttributes;
+	}
+
 }

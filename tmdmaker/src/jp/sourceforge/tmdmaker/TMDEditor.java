@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.EventObject;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.GenerateAction;
@@ -535,6 +536,8 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		DatabaseSelectAction action8 = new DatabaseSelectAction(viewer);
 		registry.registerAction(action8);
 
+		CommonAttributeSettingAction acton9 = new CommonAttributeSettingAction(viewer);
+		registry.registerAction(acton9);
 	}
 
 	/**

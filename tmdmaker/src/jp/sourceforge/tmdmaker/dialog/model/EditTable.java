@@ -76,6 +76,12 @@ public class EditTable {
 	}
 
 	/**
+	 * コンストラクタ（拡張用）
+	 */
+	protected EditTable() {
+	}
+
+	/**
 	 * プロパティ変更通知先追加
 	 * 
 	 * @param listener
@@ -277,6 +283,7 @@ public class EditTable {
 	public void setImplementName(String implementName) {
 		this.implementName = implementName;
 	}
+
 	/**
 	 * 
 	 * @return the type
@@ -344,6 +351,7 @@ public class EditTable {
 		copySpecialTo(edited);
 		return edited;
 	}
+
 	@SuppressWarnings("unchecked")
 	protected <T extends AbstractEntityModel> T createInstance() {
 		try {
@@ -354,8 +362,9 @@ public class EditTable {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		return null;	
+		return null;
 	}
+
 	protected void copyTo(AbstractEntityModel to) {
 		to.setName(getName());
 		to.setNotImplement(isNotImplement());
@@ -365,7 +374,8 @@ public class EditTable {
 		to.setImplementDerivationModels(getImplementDerivationModels());
 		to.setEntityType(getType());
 	}
+
 	protected void copySpecialTo(AbstractEntityModel to) {
 	}
-	
+
 }
