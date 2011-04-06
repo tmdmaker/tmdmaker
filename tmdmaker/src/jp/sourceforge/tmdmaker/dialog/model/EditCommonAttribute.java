@@ -13,21 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.generate;
+package jp.sourceforge.tmdmaker.dialog.model;
+
+import java.util.List;
+
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 /**
- * 対象データベースが選択されていない場合に発生する例外
+ * 共通属性編集用のモデル
  * 
  * @author nakaG
  * 
  */
-@SuppressWarnings("serial")
-public class DatabaseNotSelectRuntimeException extends
-		GeneratorRuntimeException {
+public class EditCommonAttribute extends EditTable {
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param originLAttributes
+	 *            共通属性のリスト
 	 */
-	public DatabaseNotSelectRuntimeException() {
-		super("対象データベースが選択されていません。");
+	public EditCommonAttribute(List<IAttribute> originLAttributes) {
+		if (originLAttributes != null) {
+			for (IAttribute a : originLAttributes) {
+				attributes.add(new EditAttribute(a));
+			}
+		}
 	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.dialog.model.EditTable#isValid()
+	 */
+	@Override
+	public boolean isValid() {
+		return true;
+	}
+
 }

@@ -16,18 +16,31 @@
 package jp.sourceforge.tmdmaker.generate;
 
 /**
- * 対象データベースが選択されていない場合に発生する例外
+ * Generatorで発生した例外用
  * 
  * @author nakaG
  * 
  */
 @SuppressWarnings("serial")
-public class DatabaseNotSelectRuntimeException extends
-		GeneratorRuntimeException {
+public class GeneratorRuntimeException extends RuntimeException {
+
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param t
+	 *            例外
 	 */
-	public DatabaseNotSelectRuntimeException() {
-		super("対象データベースが選択されていません。");
+	public GeneratorRuntimeException(Throwable t) {
+		super(t);
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param message
+	 *            メッセージ
+	 */
+	public GeneratorRuntimeException(String message) {
+		super(message);
 	}
 }
