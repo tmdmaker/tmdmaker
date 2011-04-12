@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -130,4 +130,17 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	 */
 	public abstract boolean isDeletable();
 
+	/**
+	 * 接続元モデル名を取得する
+	 * 
+	 * @return 接続元モデル名
+	 */
+	public abstract String getSourceName();
+
+	/**
+	 * 接続先モデル名を取得する
+	 * 
+	 * @return 接続先モデル名
+	 */
+	public abstract String getTargetName();
 }

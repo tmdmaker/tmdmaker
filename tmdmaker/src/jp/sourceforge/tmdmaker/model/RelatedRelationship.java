@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,16 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class RelatedRelationship extends AbstractConnectionModel {
+	/** ファクトリーは今のところ永続化対象外 */
+	private transient RelationHelperFactory factory = null;
+
+	private RelationHelperFactory getRelationHelperFactory() {
+		if (factory == null) {
+			factory = new RelationHelperFactory();
+		}
+		return factory;
+	}
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -44,8 +54,153 @@ public class RelatedRelationship extends AbstractConnectionModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#getSourceName()
+	 */
+	@Override
+	public String getSourceName() {
+		return getRelationHelperFactory().getRelationHelper().getSourceName();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#getTargetName()
+	 */
+	@Override
+	public String getTargetName() {
+		return getRelationHelperFactory().getRelationHelper().getTargetName();
+	}
+
+	/**
+	 * 対照表や対応表のリレーションのヘルパークラス
+	 */
+	private class TableRelationHelper extends RelationHelper {
+		/**
+		 * 表の作成元のリレーションを取得する
+		 * 
+		 * @return 作成元のリレーション
+		 */
+		private AbstractConnectionModel getConnection() {
+			return (AbstractConnectionModel) getSource();
+		}
+
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship.RelationHelper#getSourceName()
+		 */
+		@Override
+		public String getSourceName() {
+			return getConnection().getSourceName();
+		}
+
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship.RelationHelper#getTargetName()
+		 */
+		@Override
+		public String getTargetName() {
+			return getConnection().getTargetName();
+		}
+
+	}
+
+	/**
+	 * 多値のANDのヘッダーディテールと相違マークとのリレーションのヘルパークラス
+	 */
+	private class MultivalueAnd2AggregatorRelationHelper extends RelationHelper {
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship.RelationHelper#getTargetName()
+		 */
+		@Override
+		public String getTargetName() {
+			return getTarget().getModelTargetConnections().get(0)
+					.getSourceName();
+		}
+
+	}
+
+	/**
+	 * 多値のANDのスーパーセットと相違マークとのリレーションのヘルパークラス
+	 */
+	private class MultivalueAndSuperset2AggregatorRelationHelper extends
+			RelationHelper {
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship.RelationHelper#getTargetName()
+		 */
+		@Override
+		public String getTargetName() {
+			AbstractConnectionModel h2a = getTarget()
+					.getModelTargetConnections().get(1);
+			AbstractConnectionModel d2a = getTarget()
+					.getModelTargetConnections().get(2);
+			return h2a.getSourceName() + "," + d2a.getSourceName();
+		}
+
+	}
+
+	/**
+	 * リレーションのデフォルトヘルパークラス
+	 */
+	private class RelationHelper {
+		/**
+		 * 接続元のモデル名を取得する
+		 * 
+		 * @return 接続元のモデル名
+		 */
+		public String getSourceName() {
+			return getSource().getName();
+		}
+
+		/**
+		 * 接続先のモデル名を取得する
+		 * 
+		 * @return 接続先のモデル名
+		 */
+		public String getTargetName() {
+			return getTarget().getName();
+		}
+	}
+
+	/**
+	 * リレーションのヘルパークラスのファクトリ
+	 */
+	private class RelationHelperFactory {
+
+		public RelationHelper getRelationHelper() {
+			ConnectableElement model = getSource();
+
+			// 対照表・対応表
+			if (model instanceof AbstractConnectionModel) {
+				return new TableRelationHelper();
+			}
+			// 多値のANDのスーパーセット
+			if (model instanceof MultivalueAndSuperset) {
+				return new MultivalueAndSuperset2AggregatorRelationHelper();
+			}
+			model = getTarget();
+			// 多値のAND
+			if (model instanceof MultivalueAndAggregator) {
+				return new MultivalueAnd2AggregatorRelationHelper();
+			}
+			return new RelationHelper();
+		}
+	}
 }

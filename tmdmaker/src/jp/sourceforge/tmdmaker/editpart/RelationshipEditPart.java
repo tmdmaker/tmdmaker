@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.RelationshipEditPolicy;
 import jp.sourceforge.tmdmaker.figure.RelationshipFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -32,7 +33,6 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
@@ -116,9 +116,8 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
 				new ConnectionEndpointEditPolicy());
-
 		installEditPolicy(EditPolicy.CONNECTION_ROLE,
-				new ConnectionEditPolicy() {
+				new RelationshipEditPolicy() {
 					protected Command getDeleteCommand(GroupRequest request) {
 						ConnectionDeleteCommand cmd = new ConnectionDeleteCommand(
 								(AbstractConnectionModel) getModel());
