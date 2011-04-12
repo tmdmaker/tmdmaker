@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	public void setSourceCardinality(Cardinality sourceCardinality) {
 		Cardinality oldValue = getSourceCardinality();
 		super.setSourceCardinality(sourceCardinality);
-		if (sourceCardinality.equals(Cardinality.MANY)) {
+		if (hasMappingList()) {
 			setCenterMark(true);
 		} else {
 			setCenterMark(false);
@@ -98,7 +98,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 * </ul>
 	 */
 	private void createRelationship() {
-		if (getSourceCardinality().equals(Cardinality.MANY)) {
+		if (hasMappingList()) {
 			removeTargetRelationship();
 			createMappingList();
 		} else {
@@ -115,7 +115,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void disconnect() {
-		if (getSourceCardinality().equals(Cardinality.MANY)) {
+		if (hasMappingList()) {
 			removeMappingList();
 		} else {
 			removeTargetRelationship();
@@ -201,7 +201,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public boolean isDeletable() {
-		if (getSourceCardinality().equals(Cardinality.MANY)) {
+		if (hasMappingList()) {
 			return table.isDeletable();
 		} else {
 			return true;
@@ -216,14 +216,13 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void identifierChanged() {
-		if (getSourceCardinality().equals(Cardinality.MANY)) {
+		if (hasMappingList()) {
 			table.fireIdentifierChanged(this);
-			// table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
-			// null, null);
 		} else {
 			getTarget().fireIdentifierChanged(this);
-			// getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
-			// null, null);
 		}
 	}
+	private boolean hasMappingList() {
+		return getSourceCardinality().equals(Cardinality.MANY);
+	}	
 }

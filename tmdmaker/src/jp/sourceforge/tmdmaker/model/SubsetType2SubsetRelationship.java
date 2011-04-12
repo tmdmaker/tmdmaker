@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,4 +47,32 @@ public class SubsetType2SubsetRelationship extends RelatedRelationship
 	public void identifierChanged() {
 		((AbstractEntityModel) getTarget()).fireIdentifierChanged(this);
 	}
+
+	private AbstractEntityModel getOriginal() {
+		return (AbstractEntityModel) getSource().getModelTargetConnections()
+				.get(0).getSource();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship#getSourceName()
+	 */
+	@Override
+	public String getSourceName() {
+		return getOriginal().getName();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship#getTargetName()
+	 */
+	@Override
+	public String getTargetName() {
+		return getTarget().getName();
+	}
+
 }

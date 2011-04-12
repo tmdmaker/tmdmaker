@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,4 +87,39 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	public void firePartitionChanged() {
 		firePropertyChange(PROPERTY_PARTITION, null, null);
 	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#getSourceName()
+	 */
+	@Override
+	public String getSourceName() {
+		return getSource().getName();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#getTargetName()
+	 */
+	@Override
+	public String getTargetName() {
+		StringBuilder builder = new StringBuilder();
+		boolean first = true;
+		for (AbstractConnectionModel c : getTarget()
+				.getModelSourceConnections()) {
+			if (first) {
+
+			} else {
+				first = false;
+				builder.append(",");
+			}
+			builder.append(c.getTarget().getName());
+		}
+		return builder.toString();
+	}
+
 }

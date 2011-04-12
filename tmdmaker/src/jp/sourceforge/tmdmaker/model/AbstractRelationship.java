@@ -196,4 +196,27 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 		return getSourceCardinality().equals(Cardinality.MANY)
 				&& getTargetCardinality().equals(Cardinality.MANY);
 	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#getSourceName()
+	 */
+	@Override
+	public String getSourceName() {
+		return getSource().getName();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#getTargetName()
+	 */
+	@Override
+	public String getTargetName() {
+		return getTarget().getName();
+	}
+
 }
