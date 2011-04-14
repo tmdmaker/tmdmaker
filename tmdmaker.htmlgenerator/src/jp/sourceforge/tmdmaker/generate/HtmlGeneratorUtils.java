@@ -28,6 +28,8 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.log.NullLogChute;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * HtmlGeneratorのUtilityクラス
@@ -36,6 +38,10 @@ import org.apache.velocity.runtime.log.NullLogChute;
  * 
  */
 public class HtmlGeneratorUtils {
+	/** logging */
+	private static Logger logger = LoggerFactory
+			.getLogger(HtmlGeneratorUtils.class);
+
 	/**
 	 * テンプレートを適用する。
 	 * 
@@ -54,8 +60,8 @@ public class HtmlGeneratorUtils {
 			File output, VelocityContext context) throws Exception {
 		StringWriter writer = new StringWriter();
 
-		InputStreamReader reader = new InputStreamReader(clazz
-				.getResourceAsStream(templateName), "UTF-8");
+		InputStreamReader reader = new InputStreamReader(
+				clazz.getResourceAsStream(templateName), "UTF-8");
 		Velocity.evaluate(context, writer, templateName, reader);
 
 		FileOutputStream out = new FileOutputStream(output);
@@ -80,8 +86,9 @@ public class HtmlGeneratorUtils {
 			byte[] buf = new byte[in.available()];
 			in.read(buf);
 			out.write(buf);
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new GeneratorRuntimeException(e);
 		} finally {
 			close(in);
 			close(out);
@@ -98,8 +105,8 @@ public class HtmlGeneratorUtils {
 		if (closeable != null) {
 			try {
 				closeable.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			} catch (Exception e) {
+				logger.warn(e.getMessage());
 			}
 		}
 	}
@@ -115,10 +122,9 @@ public class HtmlGeneratorUtils {
 		try {
 			Velocity.init();
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new HtmlGeneratorRuntimeException(e);
+			logger.error(e.getMessage());
+			throw new GeneratorRuntimeException(e);
 		}
-		System.out.println("init");
 		VelocityContext context = new VelocityContext();
 		context.put("esc", new EscapeTool());
 		return context;
@@ -131,9 +137,9 @@ public class HtmlGeneratorUtils {
 	 * @throws IOException
 	 */
 	public static void outputCSS(String rootDir) throws IOException {
-		HtmlGeneratorUtils.copyStream(Activator.class
-				.getResourceAsStream("stylesheet.css"), new FileOutputStream(
-				new File(rootDir, "stylesheet.css")));
+		HtmlGeneratorUtils.copyStream(
+				Activator.class.getResourceAsStream("stylesheet.css"),
+				new FileOutputStream(new File(rootDir, "stylesheet.css")));
 	}
 
 }
