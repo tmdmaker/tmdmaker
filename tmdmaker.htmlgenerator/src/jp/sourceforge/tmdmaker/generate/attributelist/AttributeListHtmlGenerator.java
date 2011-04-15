@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.HtmlGeneratorRuntimeException;
+import jp.sourceforge.tmdmaker.generate.GeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Detail;
@@ -32,6 +32,8 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 
 import org.apache.velocity.VelocityContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * アトリビュートリストをHTMLで出力するクラス
@@ -40,6 +42,9 @@ import org.apache.velocity.VelocityContext;
  * 
  */
 public class AttributeListHtmlGenerator implements Generator {
+	/** logging */
+	private static Logger logger = LoggerFactory
+			.getLogger(AttributeListHtmlGenerator.class);
 
 	/**
 	 * {@inheritDoc}
@@ -69,8 +74,6 @@ public class AttributeListHtmlGenerator implements Generator {
 	 */
 	@Override
 	public void execute(String rootDir, List<AbstractEntityModel> models) {
-		System.out.println("generate");
-
 		VelocityContext context = HtmlGeneratorUtils.getVecityContext();
 
 		try {
@@ -103,15 +106,15 @@ public class AttributeListHtmlGenerator implements Generator {
 				} else {
 					context.remove("entityType");
 				}
-				HtmlGeneratorUtils.applyTemplate("attribute.html", this.getClass(),
+				HtmlGeneratorUtils.applyTemplate("attribute.html",
+						this.getClass(),
 						new File(attributesDir, entry.getValue()
-								.createAttributeFileKey()
-								+ ".html"), context);
+								.createAttributeFileKey() + ".html"), context);
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new HtmlGeneratorRuntimeException(e);
+			logger.error(e.getMessage());
+			throw new GeneratorRuntimeException(e);
 		}
 	}
 
