@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.model.rule.MultivalueRule;
+
 /**
  * エンティティ系モデルと多値のORとのリレーションシップ
  * 
@@ -27,9 +29,6 @@ public class MultivalueOrRelationship extends
 	/** MO */
 	private MultivalueOrEntity table;
 
-	// /** 接続しているか */
-	// private boolean connected = false;
-
 	/**
 	 * コンストラクタ
 	 * 
@@ -41,13 +40,8 @@ public class MultivalueOrRelationship extends
 	public MultivalueOrRelationship(AbstractEntityModel source, String typeName) {
 		setSource(source);
 
-		MultivalueOrEntity target = new MultivalueOrEntity();
-		target.setConstraint(source.getConstraint().getTranslated(50, 0));
-		target.setName(source.getName() + "." + typeName);
-		Attribute attribute = new Attribute();
-		attribute.setName(typeName + "コード");
-		target.addAttribute(attribute);
-		target.setEntityType(source.getEntityType());
+		MultivalueOrEntity target = MultivalueRule.createMultivalueOrEntity(
+				getSource(), typeName);
 
 		setTargetCardinality(Cardinality.MANY);
 
@@ -64,7 +58,6 @@ public class MultivalueOrRelationship extends
 	public void connect() {
 		Diagram diagram = getSource().getDiagram();
 		diagram.addChild(getTarget());
-		// target.setDiagram(diagram);
 		super.connect();
 	}
 
@@ -77,7 +70,6 @@ public class MultivalueOrRelationship extends
 	public void disconnect() {
 		super.disconnect();
 		getSource().getDiagram().removeChild(table);
-		// target.setDiagram(null);
 	}
 
 	/**

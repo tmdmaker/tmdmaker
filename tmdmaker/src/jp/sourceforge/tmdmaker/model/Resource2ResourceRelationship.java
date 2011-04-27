@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
-import org.eclipse.draw2d.geometry.Rectangle;
+import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
 
 /**
  * リソース系エンティティとリソース系エンティティとのリレーションシップ
@@ -50,17 +50,11 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 			AbstractEntityModel target) {
 		setSource(source);
 		setTarget(target);
-		this.table = new CombinationTable();
-		Rectangle constraint = source.getConstraint().getTranslated(100, 100);
-		this.table.setConstraint(constraint);
-		this.table.setEntityType(EntityType.RESOURCE);
-		this.table.setConstraint(constraint);
-		this.table.setName(source.getName().replace(
-				CombinationTable.COMBINATION_TABLE_SUFFIX, "")
-				+ "."
-				+ target.getName().replace(
-						CombinationTable.COMBINATION_TABLE_SUFFIX, "")
-				+ CombinationTable.COMBINATION_TABLE_SUFFIX);
+
+		this.table = RelationshipRule.createCombinationTable(source, target);
+		this.table
+				.setConstraint(source.getConstraint().getTranslated(100, 100));
+
 		this.combinationTableConnection = new RelatedRelationship(this,
 				this.table);
 		this.setCenterMark(true);
@@ -124,8 +118,6 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void identifierChanged() {
-		// table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null,
-		// null);
 		table.fireIdentifierChanged(this);
 	}
 }

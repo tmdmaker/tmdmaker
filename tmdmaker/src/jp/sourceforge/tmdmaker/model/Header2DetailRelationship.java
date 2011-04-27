@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package jp.sourceforge.tmdmaker.model;
+
+import jp.sourceforge.tmdmaker.model.rule.MultivalueRule;
 
 /**
  * 多値のANDのヘッダとディテールとのリレーションシップ
@@ -39,7 +41,7 @@ public class Header2DetailRelationship extends
 
 	private String oldHeaderName;
 	private String newHeaderName;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -48,19 +50,10 @@ public class Header2DetailRelationship extends
 	 */
 	public Header2DetailRelationship(AbstractEntityModel header) {
 		setSource(header);
-		detail = new Detail();
-		detail.setName(header.getName() + "DTL");
-		detail.setEntityType(header.getEntityType());
-		detail.setConstraint(header.getConstraint().getTranslated(100, 0));
-		detail.setOriginalReusedIdentifier(header.createReusedIdentifier());
-		detail.setDetailIdentifierName(header.getName() + "明細番号");
+		detail = MultivalueRule.createDetail(header);
 		setTarget(detail);
 
-		superset = new MultivalueAndSuperset();
-		superset.setEntityType(header.getEntityType());
-		superset.setConstraint(header.getConstraint().getTranslated(64, -80));
-		superset.setName(header.getName());
-		superset.addReusedIdentifier(header);
+		superset = MultivalueRule.createMultivalueAndSuperset(header);
 		superset.setDetail(detail);
 
 		aggregator = new MultivalueAndAggregator();
@@ -72,7 +65,7 @@ public class Header2DetailRelationship extends
 
 		detail2aggregator = new RelatedRelationship(detail, aggregator);
 		oldHeaderName = header.getName();
-		newHeaderName = oldHeaderName + "HDR";
+		newHeaderName = MultivalueRule.createHeaderName(header);
 	}
 
 	/**

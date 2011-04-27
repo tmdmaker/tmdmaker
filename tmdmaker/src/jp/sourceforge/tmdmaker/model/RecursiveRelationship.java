@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
-import org.eclipse.draw2d.geometry.Rectangle;
+import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
 
 /**
  * エンティティ系モデルと再帰表とのリレーションシップ
@@ -38,20 +38,10 @@ public class RecursiveRelationship extends AbstractRelationship {
 	 */
 	public RecursiveRelationship(AbstractEntityModel source) {
 		setSource(source);
-		// this.connection = new RecursiveMarkConnection();
-		this.table = new RecursiveTable();
-		Rectangle constraint = source.getConstraint().getTranslated(100, 0);
-		this.table.setConstraint(constraint);
-		setTarget(table);
 		this.diagram = getSource().getDiagram();
-		// this.connection.setSource(this);
-		// this.connection.setTarget(source);
-		// 再帰表の類別は元エンティティを引き継ぐ
-		table.setEntityType(source.getEntityType());
+		this.table = RelationshipRule.createRecursiveTable(source);
 		table.setConstraint(source.getConstraint().getTranslated(100, 0));
-		table.setName(source.getName() + "." + source.getName() + "." + "再帰表");
-
-		table.addCreationIdentifier(source);
+		setTarget(table);
 	}
 
 	/**
@@ -80,7 +70,6 @@ public class RecursiveRelationship extends AbstractRelationship {
 	public void disconnect() {
 		getSource().removeSourceConnection(this);
 		table.removeTargetConnection(this);
-		// table.setDiagram(null);
 		diagram.removeChild(table);
 	}
 
@@ -101,9 +90,6 @@ public class RecursiveRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void identifierChanged() {
-		// table.firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null,
-		// null);
 		table.fireIdentifierChanged(this);
 	}
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,12 @@ package jp.sourceforge.tmdmaker.model.rule;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
+import jp.sourceforge.tmdmaker.model.CombinationTable;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
+import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
+import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship;
@@ -34,9 +38,11 @@ import org.slf4j.LoggerFactory;
  */
 public class RelationshipRule {
 	/** logging */
-	private static Logger logger = LoggerFactory.getLogger(RelationshipRule.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(RelationshipRule.class);
 
-	public static AbstractRelationship createRelationship(AbstractEntityModel source, AbstractEntityModel target) {
+	public static AbstractRelationship createRelationship(
+			AbstractEntityModel source, AbstractEntityModel target) {
 		AbstractRelationship relationship = null;
 		// 再帰
 		if (isRecursive(source, target)) {
@@ -44,7 +50,8 @@ public class RelationshipRule {
 			relationship = new RecursiveRelationship(source);
 		} else if (isR2E(source, target)) {
 			logger.debug("RESOURCE:EVENT");
-			relationship = new TransfarReuseKeysToTargetRelationship(source, target);
+			relationship = new TransfarReuseKeysToTargetRelationship(source,
+					target);
 		} else if (isR2R(source, target) && !isSameOriginal(source, target)) {
 			logger.debug("RESOURCE:RESOURCE");
 			/* 対照表作成 */
@@ -56,6 +63,7 @@ public class RelationshipRule {
 		}
 		return relationship;
 	}
+
 	/**
 	 * エンティティの関連が再帰かを判定する。
 	 * 
@@ -80,8 +88,10 @@ public class RelationshipRule {
 		return EntityTypeRule.isResource(source)
 				&& EntityTypeRule.isResource(target);
 	}
+
 	/**
 	 * エンティティの関連が同じエンティティを起源としたサブセット同士かを判定する。
+	 * 
 	 * @param source
 	 * @param target
 	 * @return 同じエンティティを起源としたサブセット同士の場合にtrueを返す。
@@ -91,12 +101,14 @@ public class RelationshipRule {
 		if (source instanceof SubsetEntity && target instanceof SubsetEntity) {
 			SubsetEntity sourceSubset = (SubsetEntity) source;
 			SubsetEntity targetSubset = (SubsetEntity) target;
-			
-			return sourceSubset.getSuperset().equals(targetSubset.getSuperset());
+
+			return sourceSubset.getSuperset()
+					.equals(targetSubset.getSuperset());
 		} else {
 			return false;
 		}
 	}
+
 	/**
 	 * エンティティの関連がR:Eかを判定する。
 	 * 
@@ -124,4 +136,103 @@ public class RelationshipRule {
 		return EntityTypeRule.isEvent(source) && EntityTypeRule.isEvent(target);
 	}
 
+	/**
+	 * 対照表を作成する
+	 * 
+	 * @param source
+	 *            接続元
+	 * @param target
+	 *            接続先
+	 * @return 対照表
+	 */
+	public static CombinationTable createCombinationTable(
+			AbstractEntityModel source, AbstractEntityModel target) {
+		CombinationTable table = new CombinationTable();
+		table.setEntityType(EntityType.RESOURCE);
+		table.setName(createCombinationTableName(source, target));
+		ImplementRule.setModelDefaultValue(table);
+
+		return table;
+	}
+
+	/**
+	 * 対照表の名前を作成する。
+	 * 
+	 * @param source
+	 *            接続元
+	 * @param target
+	 *            接続先
+	 * @return 対照表名
+	 */
+	private static String createCombinationTableName(
+			AbstractEntityModel source, AbstractEntityModel target) {
+		return source.getName().replace(
+				CombinationTable.COMBINATION_TABLE_SUFFIX, "")
+				+ "."
+				+ target.getName().replace(
+						CombinationTable.COMBINATION_TABLE_SUFFIX, "")
+				+ CombinationTable.COMBINATION_TABLE_SUFFIX;
+
+	}
+
+	/**
+	 * 対応表を作成する。
+	 * 
+	 * @param source
+	 *            接続元
+	 * @param target
+	 *            接続先
+	 * @return 対応表
+	 */
+	public static MappingList createMappingList(AbstractEntityModel source,
+			AbstractEntityModel target) {
+		MappingList table = new MappingList();
+		table.setName(createMappingListName(source, target));
+		ImplementRule.setModelDefaultValue(table);
+
+		return table;
+	}
+
+	/**
+	 * 対応表の名前を作成する。
+	 * 
+	 * @param source
+	 *            接続元
+	 * @param target
+	 *            接続先
+	 * @return 対応表名
+	 */
+	private static String createMappingListName(AbstractEntityModel source,
+			AbstractEntityModel target) {
+		return source.getName() + "." + target.getName() + "." + "対応表";
+	}
+
+	/**
+	 * 再帰表を作成する
+	 * 
+	 * @param model
+	 *            再帰元モデル
+	 * @return 再帰表
+	 */
+	public static RecursiveTable createRecursiveTable(AbstractEntityModel model) {
+		RecursiveTable table = new RecursiveTable();
+		table.setEntityType(model.getEntityType());
+		table.setName(createRecursiveTableName(model));
+		ImplementRule.setModelDefaultValue(table);
+		table.addCreationIdentifier(model);
+
+		return table;
+	}
+
+	/**
+	 * 再帰表の名称を作成する
+	 * 
+	 * @param model
+	 *            再帰元モデル
+	 * @return 再帰表名
+	 */
+	private static String createRecursiveTableName(AbstractEntityModel model) {
+		String name = model.getName();
+		return name + "." + name + "." + "再帰表";
+	}
 }
