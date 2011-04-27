@@ -25,6 +25,7 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
+import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -128,8 +129,8 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		editedValue = new VirtualSuperset();
-		editedValue.setName(panel1.getVirtualSupersetName());
+		editedValue = VirtualEntityRule.createVirtualSuperset(panel1.getVirtualSupersetName());
+//		editedValue.setName(panel1.getVirtualSupersetName());
 		editedAggregator = new VirtualSupersetType();
 		editedAggregator.setApplyAttribute(panel1.isApplyAttributeSelected());
 
