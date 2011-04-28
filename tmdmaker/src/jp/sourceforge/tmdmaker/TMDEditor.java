@@ -71,6 +71,7 @@ import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.gef.ui.actions.ToggleGridAction;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.gef.ui.parts.TreeViewer;
@@ -538,8 +539,17 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 		CommonAttributeSettingAction acton9 = new CommonAttributeSettingAction(viewer);
 		registry.registerAction(acton9);
+
+		IAction action = new ToggleGridAction(viewer);
+		registry.registerAction(action);
+		
+		loadProperties();
 	}
 
+	private void loadProperties() {
+//		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, true);
+//		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
+	}
 	/**
 	 * {@inheritDoc}
 	 * 

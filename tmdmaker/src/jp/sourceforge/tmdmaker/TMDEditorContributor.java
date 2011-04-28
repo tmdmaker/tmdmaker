@@ -22,9 +22,12 @@ import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.RetargetAction;
 
 /**
  * TMDiagramエディターのActionBarContributor
@@ -59,6 +62,13 @@ public class TMDEditorContributor extends ActionBarContributor {
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.TOP));
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.MIDDLE));
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.BOTTOM));
+		RetargetAction gridAction = new RetargetAction(
+				GEFActionConstants.TOGGLE_GRID_VISIBILITY, "&Grid",
+				IAction.AS_CHECK_BOX);
+		gridAction.setImageDescriptor(TMDPlugin
+				.getImageDescriptor("icons/grid.gif"));
+
+		addRetargetAction(gridAction);
 	}
 
 	/**
@@ -105,5 +115,15 @@ public class TMDEditorContributor extends ActionBarContributor {
 		toolBarManager.add(getActionRegistry().getAction(
 				GEFActionConstants.ALIGN_BOTTOM));
 
+		toolBarManager.add(new Separator());
+		toolBarManager.add(getActionRegistry().getAction(
+				GEFActionConstants.TOGGLE_GRID_VISIBILITY));
 	}
+
+	@Override
+	public void contributeToMenu(IMenuManager menuManager) {
+		// TODO Auto-generated method stub
+		super.contributeToMenu(menuManager);
+	}
+
 }
