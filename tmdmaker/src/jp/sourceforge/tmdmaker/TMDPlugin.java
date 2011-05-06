@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 * @return ImageDescriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, path);
+		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 
 	/**
@@ -143,6 +143,13 @@ public class TMDPlugin extends AbstractUIPlugin {
 				.getActiveWorkbenchWindow().getShell(), "エラー", message, status);
 	}
 
+	/**
+	 * イメージを取得する
+	 * 
+	 * @param path
+	 *            イメージファイルへのパス
+	 * @return イメージ
+	 */
 	public static Image getImage(String path) {
 		ImageRegistry images = getDefault().getImageRegistry();
 		Image image = images.get(path);

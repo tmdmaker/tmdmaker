@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
@@ -35,12 +34,12 @@ import org.eclipse.ui.actions.RetargetAction;
  * @author nakaG
  * 
  */
-public class TMDEditorContributor extends ActionBarContributor {
+public class TMDEditorActionBarContributor extends ActionBarContributor {
 
 	/**
 	 * コンストラクタ
 	 */
-	public TMDEditorContributor() {
+	public TMDEditorActionBarContributor() {
 		super();
 	}
 
@@ -67,8 +66,19 @@ public class TMDEditorContributor extends ActionBarContributor {
 				IAction.AS_CHECK_BOX);
 		gridAction.setImageDescriptor(TMDPlugin
 				.getImageDescriptor("icons/grid.gif"));
-
 		addRetargetAction(gridAction);
+
+		RetargetAction rulerAction = new RetargetAction(
+				GEFActionConstants.TOGGLE_RULER_VISIBILITY, "&Rulers",
+				IAction.AS_CHECK_BOX);
+		rulerAction.setImageDescriptor(TMDPlugin
+				.getImageDescriptor("icons/ruler.gif"));
+		addRetargetAction(rulerAction);
+
+		addRetargetAction(new RetargetAction(
+				GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY,
+				"Snap to Geo&metry", IAction.AS_CHECK_BOX));
+
 	}
 
 	/**
@@ -118,12 +128,12 @@ public class TMDEditorContributor extends ActionBarContributor {
 		toolBarManager.add(new Separator());
 		toolBarManager.add(getActionRegistry().getAction(
 				GEFActionConstants.TOGGLE_GRID_VISIBILITY));
-	}
 
-	@Override
-	public void contributeToMenu(IMenuManager menuManager) {
-		// TODO Auto-generated method stub
-		super.contributeToMenu(menuManager);
+		toolBarManager.add(getActionRegistry().getAction(
+				GEFActionConstants.TOGGLE_RULER_VISIBILITY));
+
+//		toolBarManager.add(getActionRegistry().getAction(
+//				GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
 	}
 
 }
