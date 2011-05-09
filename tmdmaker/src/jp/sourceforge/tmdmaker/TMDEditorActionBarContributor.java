@@ -75,10 +75,12 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 				.getImageDescriptor("icons/ruler.gif"));
 		addRetargetAction(rulerAction);
 
-		addRetargetAction(new RetargetAction(
+		RetargetAction snapAction = new RetargetAction(
 				GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY,
-				"Snap to Geo&metry", IAction.AS_CHECK_BOX));
-
+				"Snap to Geo&metry", IAction.AS_CHECK_BOX);
+		snapAction.setImageDescriptor(TMDPlugin
+				.getImageDescriptor("icons/snap.gif"));
+		addRetargetAction(snapAction);
 	}
 
 	/**
@@ -132,8 +134,8 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 		toolBarManager.add(getActionRegistry().getAction(
 				GEFActionConstants.TOGGLE_RULER_VISIBILITY));
 
-//		toolBarManager.add(getActionRegistry().getAction(
-//				GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
+		toolBarManager.add(getActionRegistry().getAction(
+				GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
 	}
 
 }

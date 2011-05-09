@@ -44,18 +44,20 @@ public class TMDRulerProvider extends RulerProvider {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals(RulerModel.PROPERTY_CHILDREN)) {
-				GuideModel guide = (GuideModel) evt.getNewValue();
-				handleGuideListener(guide);
+				GuideModel guide = getGuide(evt);
 				handleChildrenChanged(guide);
 			}
 		}
 
-		private void handleGuideListener(GuideModel guide) {
+		private GuideModel getGuide(PropertyChangeEvent evt) {
+			GuideModel guide = (GuideModel) evt.getNewValue();
 			if (getGuides().contains(guide)) {
 				guide.addPropertyChangeListener(guideListener);
 			} else {
+				guide = (GuideModel) evt.getOldValue();
 				guide.removePropertyChangeListener(guideListener);
 			}
+			return guide;
 		}
 
 		private void handleChildrenChanged(GuideModel guide) {

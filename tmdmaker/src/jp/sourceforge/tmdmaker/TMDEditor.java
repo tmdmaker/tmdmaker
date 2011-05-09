@@ -60,6 +60,7 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -584,16 +585,21 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		// true);
 		// getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,
 		// true);
+
+		// ルーラーは垂直と水平位置に表示させる。
 		TMDRulerProvider provider = new TMDRulerProvider(new RulerModel());
 		getGraphicalViewer().setProperty(
 				RulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
 		provider = new TMDRulerProvider(new RulerModel());
 		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_VERTICAL_RULER,
 				provider);
+		// ルーラーは初期表示しない。
 		getGraphicalViewer().setProperty(
 				RulerProvider.PROPERTY_RULER_VISIBILITY, Boolean.FALSE);
-		// getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED,
-		// true);
+
+		// スナップ機能はデフォルトでは無効とする。
+		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED,
+				Boolean.FALSE);
 
 	}
 

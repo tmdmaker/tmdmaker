@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -29,12 +30,19 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.CompoundSnapToHelper;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.SnapToGeometry;
+import org.eclipse.gef.SnapToGrid;
+import org.eclipse.gef.SnapToGuides;
+import org.eclipse.gef.SnapToHelper;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
+import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.gef.rulers.RulerProvider;
 
 /**
  * Diagramのコントローラ
@@ -65,6 +73,7 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramEditPolicy());
+		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy());
 	}
 
 	/**
@@ -149,10 +158,46 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 			Rectangle constraint = (Rectangle) getConstraintFor(request);
 			constraint.width = -1;
 			constraint.height = -1;
-			Entity entity = (Entity) request
-					.getNewObject();
+			Entity entity = (Entity) request.getNewObject();
 			entity.setConstraint(constraint);
-			return new ModelAddCommand((Diagram) getModel(), constraint.x, constraint.y);
+			return new ModelAddCommand((Diagram) getModel(), constraint.x,
+					constraint.y);
 		}
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Class key) {
+		if (key == SnapToHelper.class) {
+			List<SnapToHelper> snapStrategies = new ArrayList<SnapToHelper>();
+			Boolean val = (Boolean) getViewer().getProperty(
+					RulerProvider.PROPERTY_RULER_VISIBILITY);
+			if (val != null && val.booleanValue())
+				snapStrategies.add(new SnapToGuides(this));
+			val = (Boolean) getViewer().getProperty(
+					SnapToGeometry.PROPERTY_SNAP_ENABLED);
+			if (val != null && val.booleanValue())
+				snapStrategies.add(new SnapToGeometry(this));
+			val = (Boolean) getViewer().getProperty(
+					SnapToGrid.PROPERTY_GRID_ENABLED);
+			if (val != null && val.booleanValue())
+				snapStrategies.add(new SnapToGrid(this));
+
+			if (snapStrategies.size() == 0)
+				return null;
+			if (snapStrategies.size() == 1)
+				return snapStrategies.get(0);
+
+			SnapToHelper ss[] = new SnapToHelper[snapStrategies.size()];
+			ss = snapStrategies.toArray(ss);
+			return new CompoundSnapToHelper(ss);
+		}
+		return super.getAdapter(key);
 	}
 }
