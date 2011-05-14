@@ -38,6 +38,8 @@ import jp.sourceforge.tmdmaker.model.Version;
 import jp.sourceforge.tmdmaker.persistence.SerializationException;
 import jp.sourceforge.tmdmaker.persistence.Serializer;
 import jp.sourceforge.tmdmaker.persistence.SerializerFactory;
+import jp.sourceforge.tmdmaker.ruler.TMDRulerProvider;
+import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
 import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
 import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
 import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
@@ -58,7 +60,9 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -68,12 +72,18 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
+import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.gef.ui.actions.ToggleGridAction;
+import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
+import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.gef.ui.rulers.RulerComposite;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -190,6 +200,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
+	private RulerComposite rulerComp;
 
 	/**
 	 * Default Constructor
@@ -200,6 +211,25 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		setEditDomain(new DefaultEditDomain(this));
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createGraphicalViewer(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	protected void createGraphicalViewer(Composite parent) {
+		rulerComp = new RulerComposite(parent, SWT.NONE);
+		super.createGraphicalViewer(rulerComp);
+		rulerComp
+				.setGraphicalViewer((ScrollingGraphicalViewer) getGraphicalViewer());
+	}
+
+	// @Override
+	// protected Control getGraphicalControl() {
+	// return rulerComp;
+	// }
 
 	/**
 	 * 
@@ -325,8 +355,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		}
 		try {
 			Serializer serializer = SerializerFactory.getInstance();
-			file.setContents(serializer.serialize(diagram), true, true,
-					monitor);
+			file.setContents(serializer.serialize(diagram), true, true, monitor);
 		} catch (SerializationException e) {
 			TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
 			logger.warn("IFile#setContents().", e);
@@ -377,8 +406,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 							try {
 								Serializer serializer = SerializerFactory
 										.getInstance();
-								file.create(
-										serializer.serialize(diagram),
+								file.create(serializer.serialize(diagram),
 										true, monitor);
 							} catch (SerializationException e) {
 								TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
@@ -505,7 +533,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		logger.debug("configureGraphicalViewer() called");
 		super.configureGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setRootEditPart(new FreeformGraphicalRootEditPart());
+		viewer.setRootEditPart(new ScalableFreeformRootEditPart());
 		viewer.setEditPartFactory(new TMDEditPartFactory());
 
 		ContextMenuProvider provider = new TMDContextMenuProvider(viewer,
@@ -536,8 +564,43 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		DatabaseSelectAction action8 = new DatabaseSelectAction(viewer);
 		registry.registerAction(action8);
 
-		CommonAttributeSettingAction acton9 = new CommonAttributeSettingAction(viewer);
+		CommonAttributeSettingAction acton9 = new CommonAttributeSettingAction(
+				viewer);
 		registry.registerAction(acton9);
+
+		IAction action = new ToggleGridAction(viewer);
+		registry.registerAction(action);
+
+		IAction showRulers = new ToggleRulerVisibilityAction(viewer);
+		getActionRegistry().registerAction(showRulers);
+
+		IAction snapAction = new ToggleSnapToGeometryAction(viewer);
+		getActionRegistry().registerAction(snapAction);
+
+		loadProperties();
+	}
+
+	private void loadProperties() {
+		// getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED,
+		// true);
+		// getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,
+		// true);
+
+		// ルーラーは垂直と水平位置に表示させる。
+		TMDRulerProvider provider = new TMDRulerProvider(new RulerModel());
+		getGraphicalViewer().setProperty(
+				RulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
+		provider = new TMDRulerProvider(new RulerModel());
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_VERTICAL_RULER,
+				provider);
+		// ルーラーは初期表示しない。
+		getGraphicalViewer().setProperty(
+				RulerProvider.PROPERTY_RULER_VISIBILITY, Boolean.FALSE);
+
+		// スナップ機能はデフォルトでは無効とする。
+		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED,
+				Boolean.FALSE);
+
 	}
 
 	/**

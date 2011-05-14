@@ -8,7 +8,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="jp.sourceforge.tmdmaker.TMDEditor"
-            contributorClass="jp.sourceforge.tmdmaker.TMDEditorContributor"
+            contributorClass="jp.sourceforge.tmdmaker.TMDEditorActionBarContributor"
             default="true"
             extensions="tmd"
             icon="icons/entity.gif"

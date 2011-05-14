@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,14 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractTMDEditPart extends AbstractGraphicalEditPart
 		implements PropertyChangeListener {
 	/** logging */
-	protected static Logger logger = LoggerFactory
-			.getLogger(AbstractEntityEditPart.class);
+	protected static Logger logger;
+
+	/**
+	 * コンストラクタ
+	 */
+	public AbstractTMDEditPart() {
+		logger = LoggerFactory.getLogger(getClass());
+	}
 
 	/**
 	 * 
