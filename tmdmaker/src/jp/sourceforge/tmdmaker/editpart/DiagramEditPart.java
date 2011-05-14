@@ -29,6 +29,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.CompoundSnapToHelper;
 import org.eclipse.gef.EditPart;
@@ -38,9 +39,10 @@ import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.SnapToGuides;
 import org.eclipse.gef.SnapToHelper;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
+import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
+import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.rulers.RulerProvider;
 
@@ -73,6 +75,8 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramEditPolicy());
+		// installEditPolicy(EditPolicy.LAYOUT_ROLE, new
+		// DiagramEditPolicy((XYLayout) getContentPane().getLayoutManager()));
 		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy());
 	}
 
@@ -118,6 +122,14 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 	 */
 	private class DiagramEditPolicy extends XYLayoutEditPolicy {
 
+		// /**
+		// *
+		// */
+		// public DiagramEditPolicy(XYLayout layout) {
+		// super();
+		// setXyLayout(layout);
+		// }
+
 		/**
 		 * 
 		 * {@inheritDoc}
@@ -127,7 +139,8 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 		@Override
 		protected EditPolicy createChildEditPolicy(EditPart child) {
 			logger.debug(getClass() + "#createChildEditPolicy()");
-			return new NonResizableEditPolicy();
+			// return new NonResizableEditPolicy();
+			return new ResizableEditPolicy();
 		}
 
 		/**
@@ -144,6 +157,17 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 			ModelConstraintChangeCommand command = new ModelConstraintChangeCommand(
 					(ModelElement) child.getModel(), (Rectangle) constraint);
 			return command;
+		}
+
+		@Override
+		protected Command createChangeConstraintCommand(
+				ChangeBoundsRequest request, EditPart child, Object constraint) {
+			logger.debug("resizedirection:" + request.getResizeDirection());
+			logger.debug("NORTH_SOUTH/EAST_WEST:"
+					+ PositionConstants.NORTH_SOUTH + "/"
+					+ PositionConstants.EAST_WEST);
+			return super.createChangeConstraintCommand(request, child,
+					constraint);
 		}
 
 		/**
