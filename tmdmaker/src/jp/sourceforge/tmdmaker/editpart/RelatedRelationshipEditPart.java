@@ -15,12 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import java.beans.PropertyChangeEvent;
+
 import jp.sourceforge.tmdmaker.editpolicy.RelationshipEditPolicy;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
 /**
  * リレーションシップを表すコネクションとのリレーションシップのコントローラ
@@ -52,6 +56,8 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
+				new ConnectionEndpointEditPolicy());
 		installEditPolicy(EditPolicy.CONNECTION_ROLE,
 				new RelationshipEditPolicy());
 	}
@@ -63,9 +69,9 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 	 */
 	@Override
 	protected void refreshVisuals() {
-		IFigure figure = getFigure();
-		updateFigure(figure);
 		super.refreshVisuals();
+		calculateAnchorLocation();
+		updateFigure(getFigure());
 	}
 
 	/**
@@ -75,6 +81,16 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 	private void updateFigure(IFigure figure) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(
+				AbstractConnectionModel.PROPERTY_CONNECTION)) {
+			refreshVisuals();
+		} else {
+			super.propertyChange(evt);
+		}
 	}
 
 }

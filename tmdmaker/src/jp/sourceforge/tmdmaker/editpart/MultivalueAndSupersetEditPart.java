@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
@@ -106,6 +107,8 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new SupersetComponentEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
+				new ReconnectableNodeEditPolicy());
 
 	}
 

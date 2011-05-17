@@ -21,7 +21,6 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 
@@ -190,7 +189,7 @@ public abstract class AbstractRelationshipEditPart extends
 	}
 
 	protected void calculateAnchorLocation() {
-		AbstractRelationship relationship = (AbstractRelationship) getModel();
+		AbstractConnectionModel relationship = (AbstractConnectionModel) getModel();
 
 		ConnectionAnchor sourceAnchor = this.getConnectionFigure()
 				.getSourceAnchor();
