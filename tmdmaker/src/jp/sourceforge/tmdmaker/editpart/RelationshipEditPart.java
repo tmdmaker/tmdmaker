@@ -102,7 +102,7 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	@Override
 	protected void refreshVisuals() {
 		super.refreshVisuals();
-		this.calculateAnchorLocation();
+		calculateAnchorLocation();
 		updateFigure((RelationshipFigure) getFigure());
 	}
 
@@ -158,13 +158,13 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
-				AbstractRelationship.PROPERTY_SOURCE_CARDINALITY)) {
+				AbstractConnectionModel.PROPERTY_SOURCE_CARDINALITY)) {
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(
-				AbstractRelationship.PROPERTY_TARGET_CARDINALITY)) {
+				AbstractConnectionModel.PROPERTY_TARGET_CARDINALITY)) {
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(
-				AbstractRelationship.PROPERTY_CONNECTION)) {
+				AbstractConnectionModel.PROPERTY_CONNECTION)) {
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);

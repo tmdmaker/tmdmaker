@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,12 @@ import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 
-import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -108,10 +106,10 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
-		if (!(connection instanceof RelationshipEditPart)) {
-			return new ChopboxAnchor(this.getFigure());
-		}
-		AbstractRelationship relationship = (AbstractRelationship) connection
+		// if (!(connection instanceof RelationshipEditPart)) {
+		// return new ChopboxAnchor(this.getFigure());
+		// }
+		AbstractConnectionModel relationship = (AbstractConnectionModel) connection
 				.getModel();
 
 		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
@@ -133,10 +131,10 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 			ConnectionEditPart connectionEditPart = reconnectRequest
 					.getConnectionEditPart();
 
-			if (!(connectionEditPart instanceof RelationshipEditPart)) {
-				return new ChopboxAnchor(this.getFigure());
-			}
-			AbstractRelationship relationship = (AbstractRelationship) connectionEditPart
+			// if (!(connectionEditPart instanceof RelationshipEditPart)) {
+			// return new ChopboxAnchor(this.getFigure());
+			// }
+			AbstractConnectionModel relationship = (AbstractConnectionModel) connectionEditPart
 					.getModel();
 			if (relationship.getSource() == relationship.getTarget()) {
 				return new XYChopboxAnchor(this.getFigure());
@@ -181,10 +179,10 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
-		if (!(connection instanceof RelationshipEditPart)) {
-			return new ChopboxAnchor(this.getFigure());
-		}
-		AbstractRelationship relationship = (AbstractRelationship) connection
+		// if (!(connection instanceof RelationshipEditPart)) {
+		// return new ChopboxAnchor(this.getFigure());
+		// }
+		AbstractConnectionModel relationship = (AbstractConnectionModel) connection
 				.getModel();
 		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
 				relationship.getTargetXp(), relationship.getTargetYp());
@@ -210,10 +208,10 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 			ConnectionEditPart connectionEditPart = reconnectRequest
 					.getConnectionEditPart();
 
-			if (!(connectionEditPart instanceof RelationshipEditPart)) {
-				return new ChopboxAnchor(this.getFigure());
-			}
-			AbstractRelationship relationship = (AbstractRelationship) connectionEditPart
+			// if (!(connectionEditPart instanceof RelationshipEditPart)) {
+			// return new ChopboxAnchor(this.getFigure());
+			// }
+			AbstractConnectionModel relationship = (AbstractConnectionModel) connectionEditPart
 					.getModel();
 			if (relationship.getSource() == relationship.getTarget()) {
 				return new XYChopboxAnchor(this.getFigure());

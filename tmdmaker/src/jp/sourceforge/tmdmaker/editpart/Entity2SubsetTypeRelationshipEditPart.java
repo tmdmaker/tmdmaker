@@ -19,11 +19,13 @@ import java.beans.PropertyChangeEvent;
 
 import jp.sourceforge.tmdmaker.editpolicy.RelationshipEditPolicy;
 import jp.sourceforge.tmdmaker.figure.Entity2SubsetTypeRelationshipFigure;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
 /**
  * エンティティ系モデルとサブセット種類とのリレーションシップのコントローラ
@@ -78,6 +80,8 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 	 */
 	@Override
 	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
+				new ConnectionEndpointEditPolicy());
 		installEditPolicy(EditPolicy.CONNECTION_ROLE,
 				new RelationshipEditPolicy());
 
@@ -90,9 +94,9 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 	 */
 	@Override
 	protected void refreshVisuals() {
-		Entity2SubsetTypeRelationshipFigure figure = (Entity2SubsetTypeRelationshipFigure) getFigure();
-		updateFigure(figure);
 		super.refreshVisuals();
+		updateFigure((Entity2SubsetTypeRelationshipFigure) getFigure());
+		calculateAnchorLocation();
 	}
 
 	/**
@@ -104,6 +108,9 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
 				Entity2SubsetTypeRelationship.PROPERTY_PARTITION)) {
+			refreshVisuals();
+		} else if (evt.getPropertyName().equals(
+				AbstractConnectionModel.PROPERTY_CONNECTION)) {
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);
