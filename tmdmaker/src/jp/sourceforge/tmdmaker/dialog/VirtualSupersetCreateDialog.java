@@ -115,10 +115,12 @@ public class VirtualSupersetCreateDialog extends Dialog {
 
 		panel2 = new ModelSelectPanel(composite, SWT.NULL);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
+
 		panel2.setLayoutData(gridData);
 
 		panel1.initializeValue(superset);
 		panel2.initializeValue(selection, notSelection);
+		
 		return composite;
 	}
 
