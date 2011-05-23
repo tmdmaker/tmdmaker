@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.EventObject;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
 import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
@@ -520,6 +521,9 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
 
+		action = new AutoSizeSettingAction(this);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
 	}
 
 	/**
