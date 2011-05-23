@@ -15,8 +15,11 @@
  */
 package jp.sourceforge.tmdmaker;
 
+import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
+
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentRetargetAction;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
@@ -81,6 +84,12 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 		snapAction.setImageDescriptor(TMDPlugin
 				.getImageDescriptor("icons/snap.gif"));
 		addRetargetAction(snapAction);
+
+		RetargetAction autoSizeAction = new RetargetAction(
+				AutoSizeSettingAction.ID, "&AutoSize");
+		autoSizeAction.setImageDescriptor(TMDPlugin
+				.getImageDescriptor("icons/autosize.gif"));
+		addRetargetAction(autoSizeAction);
 	}
 
 	/**
@@ -103,39 +112,33 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 	 */
 	@Override
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
-		toolBarManager.add(getActionRegistry().getAction(
-				ActionFactory.DELETE.getId()));
-		toolBarManager.add(getActionRegistry().getAction(
-				ActionFactory.UNDO.getId()));
-		toolBarManager.add(getActionRegistry().getAction(
-				ActionFactory.REDO.getId()));
+		ActionRegistry registry = getActionRegistry();
+		toolBarManager.add(registry.getAction(ActionFactory.DELETE.getId()));
+		toolBarManager.add(registry.getAction(ActionFactory.UNDO.getId()));
+		toolBarManager.add(registry.getAction(ActionFactory.REDO.getId()));
 
 		toolBarManager.add(new Separator());
 		// 水平方向の整列アクションの追加
-		toolBarManager.add(getActionRegistry().getAction(
-				GEFActionConstants.ALIGN_LEFT));
-		toolBarManager.add(getActionRegistry().getAction(
-				GEFActionConstants.ALIGN_CENTER));
-		toolBarManager.add(getActionRegistry().getAction(
-				GEFActionConstants.ALIGN_RIGHT));
+		toolBarManager.add(registry.getAction(GEFActionConstants.ALIGN_LEFT));
+		toolBarManager.add(registry.getAction(GEFActionConstants.ALIGN_CENTER));
+		toolBarManager.add(registry.getAction(GEFActionConstants.ALIGN_RIGHT));
 		toolBarManager.add(new Separator());
 		// 垂直方向の整列アクションの追加
-		toolBarManager.add(getActionRegistry().getAction(
-				GEFActionConstants.ALIGN_TOP));
-		toolBarManager.add(getActionRegistry().getAction(
-				GEFActionConstants.ALIGN_MIDDLE));
-		toolBarManager.add(getActionRegistry().getAction(
-				GEFActionConstants.ALIGN_BOTTOM));
+		toolBarManager.add(registry.getAction(GEFActionConstants.ALIGN_TOP));
+		toolBarManager.add(registry.getAction(GEFActionConstants.ALIGN_MIDDLE));
+		toolBarManager.add(registry.getAction(GEFActionConstants.ALIGN_BOTTOM));
 
 		toolBarManager.add(new Separator());
-		toolBarManager.add(getActionRegistry().getAction(
-				GEFActionConstants.TOGGLE_GRID_VISIBILITY));
+		toolBarManager.add(registry
+				.getAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY));
 
-		toolBarManager.add(getActionRegistry().getAction(
-				GEFActionConstants.TOGGLE_RULER_VISIBILITY));
+		toolBarManager.add(registry
+				.getAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY));
 
-		toolBarManager.add(getActionRegistry().getAction(
-				GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
+		toolBarManager.add(registry
+				.getAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
+
+		toolBarManager.add(registry.getAction(AutoSizeSettingAction.ID));
 	}
 
 }
