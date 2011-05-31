@@ -23,9 +23,20 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.eclipse.ui.IWorkbenchPart;
 
+/**
+ * 複数モデルを選択可能なSelectionAction系クラスの基底クラス
+ * 
+ * @author nakaG
+ * 
+ */
 public abstract class AbstractMultipleSelectionAction extends
 		AbstractEntitySelectionAction {
-
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param part
+	 *            エディター
+	 */
 	public AbstractMultipleSelectionAction(IWorkbenchPart part) {
 		super(part);
 	}
@@ -41,6 +52,11 @@ public abstract class AbstractMultipleSelectionAction extends
 		return getSelectedModelList().size() >= 1;
 	}
 
+	/**
+	 * 選択したエンティティ系モデルを取得する
+	 * 
+	 * @return 選択したエンティティ系モデルのリスト。未選択の場合は空のリストを返す。
+	 */
 	protected List<AbstractEntityModel> getSelectedModelList() {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Object selection : getSelectedObjects()) {
@@ -53,6 +69,13 @@ public abstract class AbstractMultipleSelectionAction extends
 		return list;
 	}
 
+	/**
+	 * 選択したEditPartから対象を制限する
+	 * 
+	 * @param selection
+	 *            選択したEditPart
+	 * @return 本Actionで使用する対象の場合にtrueを返す
+	 */
 	protected boolean isTargetModel(Object selection) {
 		return selection instanceof AbstractEntityEditPart;
 	}
