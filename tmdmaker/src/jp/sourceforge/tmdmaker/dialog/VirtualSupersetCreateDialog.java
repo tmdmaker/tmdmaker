@@ -77,14 +77,45 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	 * @param superset
 	 *            みなしスーパーセット
 	 */
+	// public VirtualSupersetCreateDialog(Shell parentShell, Diagram diagram,
+	// VirtualSuperset superset) {
+	// super(parentShell);
+	// this.superset = superset;
+	// selection = new ArrayList<AbstractEntityModel>();
+	// if (this.superset != null) {
+	// selection.addAll(this.superset.getVirtualSubsetList());
+	// }
+	// notSelection = new ArrayList<AbstractEntityModel>();
+	// for (ModelElement m : diagram.getChildren()) {
+	// if (m instanceof AbstractEntityModel && !m.equals(superset)
+	// && !selection.contains(m)) {
+	// notSelection.add((AbstractEntityModel) m);
+	// }
+	// }
+	// }
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param parentShell
+	 *            親
+	 * @param diagram
+	 *            対象ダイアグラム
+	 * @param superset
+	 *            みなしスーパーセット
+	 * @param selectedList
+	 *            選択しているエンティティ系モデルのリスト
+	 */
 	public VirtualSupersetCreateDialog(Shell parentShell, Diagram diagram,
-			VirtualSuperset superset) {
+			VirtualSuperset superset, List<AbstractEntityModel> selectedList) {
 		super(parentShell);
 		this.superset = superset;
 		selection = new ArrayList<AbstractEntityModel>();
 		if (this.superset != null) {
 			selection.addAll(this.superset.getVirtualSubsetList());
 		}
+		selection.addAll(selectedList);
+
 		notSelection = new ArrayList<AbstractEntityModel>();
 		for (ModelElement m : diagram.getChildren()) {
 			if (m instanceof AbstractEntityModel && !m.equals(superset)
@@ -120,7 +151,7 @@ public class VirtualSupersetCreateDialog extends Dialog {
 
 		panel1.initializeValue(superset);
 		panel2.initializeValue(selection, notSelection);
-		
+
 		return composite;
 	}
 
@@ -131,8 +162,9 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		editedValue = VirtualEntityRule.createVirtualSuperset(panel1.getVirtualSupersetName());
-//		editedValue.setName(panel1.getVirtualSupersetName());
+		editedValue = VirtualEntityRule.createVirtualSuperset(panel1
+				.getVirtualSupersetName());
+		// editedValue.setName(panel1.getVirtualSupersetName());
 		editedAggregator = new VirtualSupersetType();
 		editedAggregator.setApplyAttribute(panel1.isApplyAttributeSelected());
 

@@ -18,9 +18,8 @@ package jp.sourceforge.tmdmaker.action;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.VirtualSupersetCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
-import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
@@ -37,7 +36,7 @@ import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
@@ -49,7 +48,8 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author nakaG
  * 
  */
-public class VirtualSupersetCreateAction extends SelectionAction {
+public class VirtualSupersetCreateAction extends
+		AbstractMultipleSelectionAction {
 	/** みなしスーパーセット作成アクションを表す定数 */
 	public static final String ID = "_VS";
 
@@ -74,22 +74,24 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 	public void run() {
 		// アクション呼び出し時のマウスカーソル位置を取得。位置の微調整必要かも
 		Point pos = getControlCursorLocation();
+		List<AbstractEntityModel> selectedModels = getSelectedModelList();
 
 		Diagram diagram = null;
 		VirtualSuperset original = null;
 		VirtualSupersetType aggregator = null;
-
-		Object m = getPart().getModel();
-		if (m instanceof Diagram) {
-			diagram = (Diagram) m;
-		} else if (m instanceof VirtualSuperset) {
-			original = (VirtualSuperset) m;
-			aggregator = original.getVirtualSupersetType();
-			diagram = original.getDiagram();
+		if (selectedModels.size() == 0) {
+			diagram = getDiagram();
+		} else {
+			diagram = selectedModels.get(0).getDiagram();
+			original = getVirtualSuperset();
+			if (original != null) {
+				selectedModels.remove(original);
+				aggregator = original.getVirtualSupersetType();
+			}
 		}
+
 		VirtualSupersetCreateDialog dialog = new VirtualSupersetCreateDialog(
-				getPart().getViewer().getControl().getShell(), diagram,
-				original);
+				getControl().getShell(), diagram, original, selectedModels);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 			VirtualSuperset edited = dialog.getEditedValue();
@@ -107,25 +109,24 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 
 				// みなしスーパーセットと既存エンティティとの接点
 				aggregator.setConstraint(constraint.getTranslated(0, 50));
-				ccommand.add(new VirtualSupersetTypeCreateCommand(
-						diagram, aggregator));
+				ccommand.add(new VirtualSupersetTypeCreateCommand(diagram,
+						aggregator));
 
 				ccommand.add(new ConnectionCreateCommand(
-						new RelatedRelationship(aggregator, edited), aggregator,
-						edited));
+						new RelatedRelationship(aggregator, edited),
+						aggregator, edited));
 
 				// 接点とみなしサブセットの接続
 				for (AbstractEntityModel model : selection) {
 					ccommand.add(new ConnectionCreateCommand(
-							new Entity2VirtualSupersetTypeRelationship(model, aggregator),
-							model, aggregator));
+							new Entity2VirtualSupersetTypeRelationship(model,
+									aggregator), model, aggregator));
 				}
 			} else {
 				// みなしスーパーセット編集
-//				ccommand.add(new TableEditCommand<VirtualSuperset>(original,
-//						edited));
-				ccommand.add(new ModelEditCommand(original,
-						edited));
+				// ccommand.add(new TableEditCommand<VirtualSuperset>(original,
+				// edited));
+				ccommand.add(new ModelEditCommand(original, edited));
 
 				// 接点との接続
 				List<AbstractEntityModel> notSelection = dialog
@@ -143,27 +144,26 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 					}
 				}
 				if (selection.size() == 0) {
-//					// みなしスーパーセットと接点とのコネクション削除
-//					ccommand.add(new ConnectionDeleteCommand(aggregator
-//							.getModelSourceConnections().get(0)));
+					// // みなしスーパーセットと接点とのコネクション削除
+					// ccommand.add(new ConnectionDeleteCommand(aggregator
+					// .getModelSourceConnections().get(0)));
 					// 接点削除
-					ccommand.add(new VirtualSupersetTypeDeleteCommand(
-							diagram, aggregator));
+					ccommand.add(new VirtualSupersetTypeDeleteCommand(diagram,
+							aggregator));
 					// みなしスーパーセット削除
-					ccommand.add(new ModelDeleteCommand(diagram,
-							original));
+					ccommand.add(new ModelDeleteCommand(diagram, original));
 				} else {
 					// 接点編集
-					ccommand.add(new VirtualSupersetTypeChangeCommand(
-							original.getVirtualSupersetType(), dialog
-									.getEditedAggregator().isApplyAttribute()));
-					
+					ccommand.add(new VirtualSupersetTypeChangeCommand(original
+							.getVirtualSupersetType(), dialog
+							.getEditedAggregator().isApplyAttribute()));
+
 					// 未接続のみなしサブセットとの接続
 					for (AbstractEntityModel s : selection) {
 						if (!selectedList.contains(s)) {
 							ccommand.add(new ConnectionCreateCommand(
-									new Entity2VirtualSupersetTypeRelationship(s, aggregator),
-									s, aggregator));
+									new Entity2VirtualSupersetTypeRelationship(
+											s, aggregator), s, aggregator));
 						}
 					}
 				}
@@ -172,8 +172,13 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 		}
 	}
 
+	private Control getControl() {
+		return ((AbstractEditPart) getSelectedObjects().get(0)).getViewer()
+				.getControl();
+	}
+
 	private Point getControlCursorLocation() {
-		Control control = getPart().getViewer().getControl();
+		Control control = getControl();
 		Point pos = control.getDisplay().getCursorLocation();
 		System.out.println(pos);
 		pos = control.toControl(pos);
@@ -181,6 +186,36 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 		pos.x = pos.x - 200;
 		pos.y = pos.y - 100;
 		return pos;
+	}
+
+	private Diagram getDiagram() {
+		for (Object o : getSelectedObjects()) {
+			if (o instanceof DiagramEditPart) {
+				return (Diagram) ((DiagramEditPart) o).getModel();
+			} else if (o instanceof AbstractEntityEditPart) {
+				return (Diagram) (((AbstractEntityEditPart) o).getParent())
+						.getModel();
+			}
+		}
+		return null;
+	}
+
+	private VirtualSuperset getVirtualSuperset() {
+		// 選択したモデルからスーパーセット検索
+		List<AbstractEntityModel> list = getSelectedModelList();
+		for (AbstractEntityModel o : list) {
+			if (o instanceof VirtualSuperset) {
+				return (VirtualSuperset) o;
+			}
+		}
+		// 選択したモデルが接続しているスーパーセットを検索
+		for (AbstractEntityModel o : list) {
+			VirtualSupersetType type = o.findVirtualSupersetType();
+			if (type != null) {
+				return (VirtualSuperset)type.getModelSourceConnections().get(0).getTarget();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -191,21 +226,12 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 	 */
 	@Override
 	protected boolean calculateEnabled() {
-		if (getSelectedObjects().size() == 1) {
-			Object selection = getSelectedObjects().get(0);
-			return selection instanceof DiagramEditPart
-					|| selection instanceof VirtualSupersetEditPart;
-		} else {
-			return false;
+		if (getSelectedModelList().size() >= 1) {
+			return true;
+		} else if (getDiagram() != null) {
+			return true;
 		}
-	}
-
-	/**
-	 * 
-	 * @return コントローラ(EditPart)
-	 */
-	protected AbstractTMDEditPart getPart() {
-		return (AbstractTMDEditPart) getSelectedObjects().get(0);
+		return false;
 	}
 
 	/**
@@ -324,8 +350,8 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 		 * @param model
 		 * @param newApplyAttribute
 		 */
-		public VirtualSupersetTypeChangeCommand(
-				VirtualSupersetType model, boolean newApplyAttribute) {
+		public VirtualSupersetTypeChangeCommand(VirtualSupersetType model,
+				boolean newApplyAttribute) {
 			this.model = model;
 			this.newApplyAttribute = newApplyAttribute;
 			this.oldApplyAttribute = model.isApplyAttribute();
@@ -350,6 +376,5 @@ public class VirtualSupersetCreateAction extends SelectionAction {
 		public void undo() {
 			this.model.setApplyAttribute(oldApplyAttribute);
 		}
-
 	}
 }

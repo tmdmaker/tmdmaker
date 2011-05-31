@@ -157,6 +157,46 @@ public class RelatedRelationship extends AbstractConnectionModel {
 	}
 
 	/**
+	 * スーパーセットタイプとスーパーセットのリレーションのヘルパークラス
+	 */
+	private class VirtualSupersetType2VirtualSupersetRelationHelper extends
+			RelationHelper {
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship.RelationHelper#getSourceName()
+		 */
+		@Override
+		public String getSourceName() {
+			return getTarget().getName();
+		}
+
+		/**
+		 * 
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship.RelationHelper#getTargetName()
+		 */
+		@Override
+		public String getTargetName() {
+			StringBuilder builder = new StringBuilder();
+			boolean first = true;
+			for (AbstractConnectionModel c : getSource()
+					.getModelTargetConnections()) {
+				if (first) {
+					first = false;
+				} else {
+					builder.append(',');
+				}
+				builder.append(c.getSource().getName());
+			}
+			return builder.toString();
+		}
+
+	}
+
+	/**
 	 * リレーションのデフォルトヘルパークラス
 	 */
 	private class RelationHelper {
@@ -199,6 +239,10 @@ public class RelatedRelationship extends AbstractConnectionModel {
 			// 多値のAND
 			if (model instanceof MultivalueAndAggregator) {
 				return new MultivalueAnd2AggregatorRelationHelper();
+			}
+			// スーパーセット
+			if (model instanceof VirtualSuperset) {
+				return new VirtualSupersetType2VirtualSupersetRelationHelper();
 			}
 			return new RelationHelper();
 		}
