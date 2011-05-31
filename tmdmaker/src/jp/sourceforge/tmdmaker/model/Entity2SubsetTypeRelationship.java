@@ -112,9 +112,8 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 		for (AbstractConnectionModel c : getTarget()
 				.getModelSourceConnections()) {
 			if (first) {
-
-			} else {
 				first = false;
+			} else {
 				builder.append(',');
 			}
 			builder.append(c.getTarget().getName());

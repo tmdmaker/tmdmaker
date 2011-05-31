@@ -15,10 +15,6 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
@@ -35,7 +31,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author nakaG
  * 
  */
-public class AutoSizeSettingAction extends AbstractEntitySelectionAction {
+public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 	public static final String ID = "AutoSizeSettingAction";
 
 	/**
@@ -70,29 +66,15 @@ public class AutoSizeSettingAction extends AbstractEntitySelectionAction {
 		}
 	}
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.action.AbstractEntitySelectionAction#calculateEnabled()
-	 */
 	@Override
-	protected boolean calculateEnabled() {
-		return getSelectedModelList().size() >= 1;
+	protected boolean isTargetModel(Object selection) {
+		if (super.isTargetModel(selection)) {
+			return !(selection instanceof SubsetTypeEditPart)
+					&& !(selection instanceof MultivalueAndAggregatorEditPart)
+					&& !(selection instanceof LaputaEditPart);
+		} else {
+			return false;
+		}
 	}
 
-	private List<AbstractEntityModel> getSelectedModelList() {
-		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
-		for (Object selection : getSelectedObjects()) {
-			if (selection instanceof AbstractEntityEditPart
-					&& !(selection instanceof SubsetTypeEditPart)
-					&& !(selection instanceof MultivalueAndAggregatorEditPart)
-					&& !(selection instanceof LaputaEditPart)) {
-				AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart) selection)
-						.getModel();
-				list.add(model);
-			}
-		}
-		return list;
-	}
 }
