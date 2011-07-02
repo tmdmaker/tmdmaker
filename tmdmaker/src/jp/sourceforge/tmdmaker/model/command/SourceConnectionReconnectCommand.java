@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.model.command;
 
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 
 import org.eclipse.gef.commands.Command;
 
@@ -27,7 +27,7 @@ import org.eclipse.gef.commands.Command;
  */
 public class SourceConnectionReconnectCommand extends Command {
 	/** 再接続対象 */
-	private AbstractRelationship relationship;
+	private AbstractConnectionModel relationship;
 	/** x位置 */
 	private int xp;
 	/** y位置 */
@@ -47,8 +47,8 @@ public class SourceConnectionReconnectCommand extends Command {
 	 * @param yp
 	 *            y位置
 	 */
-	public SourceConnectionReconnectCommand(AbstractRelationship relationship,
-			int xp, int yp) {
+	public SourceConnectionReconnectCommand(
+			AbstractConnectionModel relationship, int xp, int yp) {
 		this.relationship = relationship;
 		this.xp = xp;
 		this.yp = yp;

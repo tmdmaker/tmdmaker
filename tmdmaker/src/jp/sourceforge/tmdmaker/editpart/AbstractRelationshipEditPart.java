@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 
@@ -190,22 +189,22 @@ public abstract class AbstractRelationshipEditPart extends
 	}
 
 	protected void calculateAnchorLocation() {
-		AbstractRelationship relationship = (AbstractRelationship) getModel();
+		AbstractConnectionModel relationship = (AbstractConnectionModel) getModel();
 
 		ConnectionAnchor sourceAnchor = this.getConnectionFigure()
 				.getSourceAnchor();
 
 		if (sourceAnchor instanceof XYChopboxAnchor) {
-			((XYChopboxAnchor) sourceAnchor).setLocation(relationship
-					.getSourceXp(), relationship.getSourceYp());
+			((XYChopboxAnchor) sourceAnchor).setLocation(
+					relationship.getSourceXp(), relationship.getSourceYp());
 		}
 
 		ConnectionAnchor targetAnchor = this.getConnectionFigure()
 				.getTargetAnchor();
 
 		if (targetAnchor instanceof XYChopboxAnchor) {
-			((XYChopboxAnchor) targetAnchor).setLocation(relationship
-					.getTargetXp(), relationship.getTargetYp());
+			((XYChopboxAnchor) targetAnchor).setLocation(
+					relationship.getTargetXp(), relationship.getTargetYp());
 		}
 
 	}

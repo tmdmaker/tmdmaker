@@ -13,16 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.persistence.converter;
-
-import jp.sourceforge.tmdmaker.model.Diagram;
+package jp.sourceforge.tmdmaker.generate;
 
 /**
+ * Generatorで発生した例外用
+ * 
  * @author nakaG
- *
+ * 
  */
-public interface SerializerConverter {
-	String beforeDeserialize(String in);
-	Diagram afterDeserialize(Diagram in);
-	Diagram beforeSerialize(Diagram diagram);
+@SuppressWarnings("serial")
+public class GeneratorRuntimeException extends RuntimeException {
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param t
+	 *            例外
+	 */
+	public GeneratorRuntimeException(Throwable t) {
+		super(t);
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param message
+	 *            メッセージ
+	 */
+	public GeneratorRuntimeException(String message) {
+		super(message);
+	}
 }

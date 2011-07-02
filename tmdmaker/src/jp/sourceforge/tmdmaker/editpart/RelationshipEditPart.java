@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.RelationshipEditPolicy;
 import jp.sourceforge.tmdmaker.figure.RelationshipFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -32,7 +33,6 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
@@ -102,7 +102,7 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	@Override
 	protected void refreshVisuals() {
 		super.refreshVisuals();
-		this.calculateAnchorLocation();
+		calculateAnchorLocation();
 		updateFigure((RelationshipFigure) getFigure());
 	}
 
@@ -116,9 +116,8 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
 				new ConnectionEndpointEditPolicy());
-
 		installEditPolicy(EditPolicy.CONNECTION_ROLE,
-				new ConnectionEditPolicy() {
+				new RelationshipEditPolicy() {
 					protected Command getDeleteCommand(GroupRequest request) {
 						ConnectionDeleteCommand cmd = new ConnectionDeleteCommand(
 								(AbstractConnectionModel) getModel());
@@ -159,13 +158,13 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
-				AbstractRelationship.PROPERTY_SOURCE_CARDINALITY)) {
+				AbstractConnectionModel.PROPERTY_SOURCE_CARDINALITY)) {
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(
-				AbstractRelationship.PROPERTY_TARGET_CARDINALITY)) {
+				AbstractConnectionModel.PROPERTY_TARGET_CARDINALITY)) {
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(
-				AbstractRelationship.PROPERTY_CONNECTION)) {
+				AbstractConnectionModel.PROPERTY_CONNECTION)) {
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);

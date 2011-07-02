@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import java.beans.PropertyChangeEvent;
+
+import jp.sourceforge.tmdmaker.editpolicy.RelationshipEditPolicy;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.PolylineConnection;
-
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
 /**
  * リレーションシップを表すコネクションとのリレーションシップのコントローラ
@@ -39,15 +45,6 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 		PolylineConnection connection = new PolylineConnection();
 		ManhattanConnectionRouter router = new ManhattanConnectionRouter();
 		connection.setConnectionRouter(router);
-
-		// Ellipse figure = new Ellipse();
-		// figure.setFill(false);
-		// figure.setBounds(new Rectangle(-1, -1, 16, 16));
-		// ConnectionEndpointLocator locator = new
-		// ConnectionEndpointLocator(connection,false);
-		// locator.setUDistance(-8);
-		// locator.setVDistance(0);
-		// connection.add(figure, locator);
 		return connection;
 	}
 
@@ -59,8 +56,10 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
-
+		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
+				new ConnectionEndpointEditPolicy());
+		installEditPolicy(EditPolicy.CONNECTION_ROLE,
+				new RelationshipEditPolicy());
 	}
 
 	/**
@@ -70,9 +69,9 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 	 */
 	@Override
 	protected void refreshVisuals() {
-		IFigure figure = getFigure();
-		updateFigure(figure);
 		super.refreshVisuals();
+		calculateAnchorLocation();
+		updateFigure(getFigure());
 	}
 
 	/**
@@ -82,6 +81,16 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 	private void updateFigure(IFigure figure) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(
+				AbstractConnectionModel.PROPERTY_CONNECTION)) {
+			refreshVisuals();
+		} else {
+			super.propertyChange(evt);
+		}
 	}
 
 }

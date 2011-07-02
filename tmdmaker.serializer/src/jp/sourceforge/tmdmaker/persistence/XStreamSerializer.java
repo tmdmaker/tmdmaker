@@ -23,7 +23,7 @@ import java.io.UnsupportedEncodingException;
 
 import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.persistence.converter.SerializerConverter;
+import jp.sourceforge.tmdmaker.persistence.converter.SerializerHandler;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -34,7 +34,7 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class XStreamSerializer implements Serializer {
-	PluginExtensionPointFactory<SerializerConverter> factory = new PluginExtensionPointFactory<SerializerConverter>(
+	PluginExtensionPointFactory<SerializerHandler> factory = new PluginExtensionPointFactory<SerializerHandler>(
 			Activator.PLUGIN_ID + ".converter");
 
 	/**
@@ -97,10 +97,27 @@ public class XStreamSerializer implements Serializer {
 		try {
 			String xml = loadStream(in, "UTF-8");
 			System.out.println(getVersionFromXml(xml));
-			return (Diagram) deserialize(new ByteArrayInputStream(xml.getBytes("UTF-8")), this.getClass().getClassLoader());
+
+			String converted = fireBeforeDeserialize(xml);
+			Diagram diagram = (Diagram) deserialize(new ByteArrayInputStream(converted.getBytes("UTF-8")), this.getClass().getClassLoader());
+			fireAfterDeserialize(diagram);
+
+			return diagram;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			throw new SerializationException(e);
+		}
+	}
+	private String fireBeforeDeserialize(String xml) {
+		String converted = xml;
+		for (SerializerHandler c : factory.getInstances()) {
+			converted = c.handleBeforeDeserialize(converted);
+		}
+		return converted;
+	}
+	private void fireAfterDeserialize(Diagram diagram) {
+		for (SerializerHandler c : factory.getInstances()) {
+			c.handleAfterDeserialize(diagram);
 		}
 	}
 	private String getVersionFromXml(String xml) {

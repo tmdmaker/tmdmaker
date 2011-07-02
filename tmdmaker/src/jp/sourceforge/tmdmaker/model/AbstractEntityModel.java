@@ -216,6 +216,25 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
+	 * みなしスーパーセット種類を取得する
+	 * 
+	 * @return VirtualSupersetType。存在しない場合はnullを返す。
+	 */
+	public VirtualSupersetType findVirtualSupersetType() {
+		List<AbstractConnectionModel> results = findRelationshipFromSourceConnections(Entity2VirtualSupersetTypeRelationship.class);
+		if (results.size() != 0) {
+			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results
+					.get(0)).getTarget();
+		}
+		results = findRelationshipFromTargetConnections(Entity2VirtualSupersetTypeRelationship.class);
+		if (results.size() != 0) {
+			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results
+					.get(0)).getTarget();
+		}
+		return null;
+	}
+
+	/**
 	 * 指定したクラスのリレーションシップを取得する
 	 * 
 	 * @param connections
@@ -272,7 +291,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 					callConnection);
 			// for (AbstractConnectionModel<?> con :
 			// getModelTargetConnections()) {
-			//	
+			//
 			// if (con instanceof IdentifierChangeListener && con !=
 			// callConnection ) {
 			// ((IdentifierChangeListener) con).awareReUseKeysChanged();

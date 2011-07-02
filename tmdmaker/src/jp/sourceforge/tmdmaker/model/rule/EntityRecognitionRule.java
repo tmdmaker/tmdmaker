@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,8 +51,8 @@ public class EntityRecognitionRule {
 		String[] suffixes = { "コード", "ID", "ＩＤ", "id", "ｉｄ", "番号", "No" };
 		for (String suffix : suffixes) {
 			if (identifierName.endsWith(suffix)) {
-				return identifierName.substring(0, identifierName
-						.lastIndexOf(suffix));
+				return identifierName.substring(0,
+						identifierName.lastIndexOf(suffix));
 			}
 		}
 		return identifierName;
@@ -69,8 +69,8 @@ public class EntityRecognitionRule {
 		String[] reportSuffixes = { "伝票", "報告書", "書", "レポート" };
 		for (String reportSuffix : reportSuffixes) {
 			if (entityName.endsWith(reportSuffix)) {
-				return entityName.substring(0, entityName
-						.lastIndexOf(reportSuffix));
+				return entityName.substring(0,
+						entityName.lastIndexOf(reportSuffix));
 			}
 		}
 		return entityName;
@@ -94,6 +94,8 @@ public class EntityRecognitionRule {
 		entity.setEntityType(entityType);
 		entity.setIdentifier(identifier);
 		EntityTypeRule.addDefaultAttribute(entity);
+		ImplementRule.setModelDefaultValue(entity);
+		ImplementRule.setIdentifierDefaultValue(entity.getIdentifier());
 
 		return entity;
 	}

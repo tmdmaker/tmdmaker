@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,11 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	private ConnectableElement source;
 	/** 接続先モデル */
 	private ConnectableElement target;
+	/** 接続 */
+	protected int sourceXp = -1;
+	protected int sourceYp = -1;
+	protected int targetXp = -1;
+	protected int targetYp = -1;
 	/** 接続元多重度プロパティ定数 */
 	public static final String PROPERTY_SOURCE_CARDINALITY = "_property_source_cardinality";
 	/** 接続先多重度プロパティ定数 */
@@ -130,4 +135,45 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	 */
 	public abstract boolean isDeletable();
 
+	/**
+	 * 接続元モデル名を取得する
+	 * 
+	 * @return 接続元モデル名
+	 */
+	public abstract String getSourceName();
+
+	/**
+	 * 接続先モデル名を取得する
+	 * 
+	 * @return 接続先モデル名
+	 */
+	public abstract String getTargetName();
+
+	public int getSourceXp() {
+		return sourceXp;
+	}
+
+	public int getSourceYp() {
+		return sourceYp;
+	}
+
+	public int getTargetXp() {
+		return targetXp;
+	}
+
+	public int getTargetYp() {
+		return targetYp;
+	}
+
+	public void setSourceLocationp(int sourceXp, int sourceYp) {
+		this.sourceXp = sourceXp;
+		this.sourceYp = sourceYp;
+		firePropertyChange(PROPERTY_CONNECTION, null, null);
+	}
+
+	public void setTargetLocationp(int targetXp, int targetYp) {
+		this.targetXp = targetXp;
+		this.targetYp = targetYp;
+		firePropertyChange(PROPERTY_CONNECTION, null, null);
+	}
 }

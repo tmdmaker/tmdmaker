@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,28 +19,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.IAttribute;
-import jp.sourceforge.tmdmaker.model.KeyModel;
-import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
-import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.ddlutils.Platform;
 import org.apache.ddlutils.PlatformFactory;
-import org.apache.ddlutils.model.Column;
 import org.apache.ddlutils.model.Database;
-import org.apache.ddlutils.model.Index;
-import org.apache.ddlutils.model.IndexColumn;
-import org.apache.ddlutils.model.NonUniqueIndex;
-import org.apache.ddlutils.model.Table;
-import org.apache.ddlutils.model.UniqueIndex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * DdlUtilsを使ったDDLGenerator
@@ -49,7 +37,12 @@ import org.apache.ddlutils.model.UniqueIndex;
  * 
  */
 public class DdlUtilsDDLGenerator implements Generator {
-
+	/** logging */
+	private static Logger logger = LoggerFactory
+			.getLogger(DdlUtilsDDLGenerator.class);
+	/** モデル変換用 */
+	private DdlUtilsConverter converter = new DdlUtilsConverter();
+	
 	/**
 	 * コンストラクタ
 	 */
@@ -71,33 +64,51 @@ public class DdlUtilsDDLGenerator implements Generator {
 		if (databaseName == null || databaseName.length() == 0) {
 			throw new DatabaseNotSelectRuntimeException();
 		}
-		Database database = convert(diagram, models);
+		Database database = converter.convert(diagram, models);
+		converter.addCommonColumns(database, diagram.getCommonAttributes());
+
 		Platform platform = PlatformFactory
 				.createNewPlatformInstance(databaseName);
 		String sql = platform.getCreateModelSql(database, true, true);
-		System.out.println(sql);
-		File file = new File(rootDir, "ddl.sql");
+		logger.debug(sql);
+
+		writeSqlFile(rootDir, "ddl.sql", sql);
+
+	}
+
+	/**
+	 * SQLをファイルへ出力する。
+	 * 
+	 * @param rootDir
+	 *            出力先ディレクトリ
+	 * @param fileName
+	 *            出力ファイル名
+	 * @param sql
+	 *            出力するSQL
+	 */
+	private void writeSqlFile(String rootDir, String fileName, String sql) {
+		File file = new File(rootDir, fileName);
 		FileOutputStream out = null;
 		try {
 			out = new FileOutputStream(file);
 			out.write(sql.getBytes("UTF-8"));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("ファイルが見つかりません。", e);
+			throw new GeneratorRuntimeException(e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("ファイル出力時にエラーが発生しました。", e);
+			throw new GeneratorRuntimeException(e);
 		} finally {
 			try {
 				if (out != null) {
 					out.close();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(), e);
 			}
 		}
-
 	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -130,123 +141,4 @@ public class DdlUtilsDDLGenerator implements Generator {
 		return true;
 	}
 
-	/**
-	 * TMD-MakerのモデルをDDLUtilsのデータベースモデルへ変換する
-	 * 
-	 * @param diagram
-	 *            TMD-Makerのルートモデル
-	 * @return DDLUtilsのルートモデル
-	 */
-	private Database convert(Diagram diagram, List<AbstractEntityModel> models) {
-		Database database = new Database();
-		database.setName(diagram.getName());
-
-		for (AbstractEntityModel model : models) {
-			addModel(database, model);
-		}
-		return database;
-	}
-
-	/**
-	 * TMD-MakerのモデルをDDLUtilsのテーブルモデルとして追加する
-	 * 
-	 * @param database
-	 *            DDLUtilsのルートモデル
-	 * @param model
-	 *            TMD-Makerのモデル
-	 */
-	private void addModel(Database database, ModelElement model) {
-		if (model instanceof AbstractEntityModel) {
-			AbstractEntityModel entity = (AbstractEntityModel) model;
-			if (!entity.isNotImplement()) {
-				database.addTable(convert(entity));
-			}
-		}
-	}
-
-	/**
-	 * TMD-MakerのモデルをDDLUtilsのテーブルモデルへ変換する
-	 * 
-	 * @param entity
-	 *            TMD-Makerのモデル
-	 * @return DDLUtilsのテーブルモデル
-	 */
-	private Table convert(AbstractEntityModel entity) {
-		// テーブル名を指定
-		Table table = new Table();
-		table.setName(entity.getImplementName());
-
-		// 実装対象のアトリビュートをカラムとして追加
-		List<IAttribute> attributes = ImplementRule
-				.findAllImplementAttributes(entity);
-		Map<IAttribute, Column> attributeColumnMap = new HashMap<IAttribute, Column>();
-		for (IAttribute a : attributes) {
-			Column column = convert(a);
-			table.addColumn(column);
-			attributeColumnMap.put(a, column);
-		}
-
-		// キーをインデックスとして追加
-		for (KeyModel idx : entity.getKeyModels()) {
-			table.addIndex(convert(idx, attributeColumnMap));
-		}
-
-		return table;
-
-	}
-
-	/**
-	 * TMD-MakerのキーモデルをDDLUtilsのインデックスモデルへ変換する
-	 * 
-	 * @param key
-	 *            TMD-Makerのアトリビュートモデル
-	 * @return DDLUtilsのインデックスモデル
-	 */
-	private Index convert(KeyModel key,
-			Map<IAttribute, Column> attributeColumnMap) {
-		Index index = null;
-		if (key.isUnique()) {
-			index = new UniqueIndex();
-		} else {
-			index = new NonUniqueIndex();
-		}
-		index.setName(key.getName());
-
-		for (IAttribute attr : key.getAttributes()) {
-			Column column = attributeColumnMap.get(attr);
-			if (column != null) {
-				IndexColumn indexColumn = new IndexColumn(column);
-				index.addColumn(indexColumn);
-			} else {
-				System.err.println("column not found." + attr.getName());
-			}
-		}
-
-		return index;
-	}
-
-	/**
-	 * TMD-MakerのアトリビュートモデルをDDLUtilsのカラムモデルへ変換する
-	 * 
-	 * @param entity
-	 *            TMD-Makerのアトリビュートモデル
-	 * @return DDLUtilsのカラムモデル
-	 */
-	private Column convert(IAttribute attribute) {
-		Column column = new Column();
-		column.setName(attribute.getImplementName());
-		DataTypeDeclaration dtd = attribute.getDataTypeDeclaration();
-		if (dtd != null) {
-			StandardSQLDataType dataType = dtd.getLogicalType();
-			column.setTypeCode(dataType.getSqlType());
-			if (dataType.isSupportSize() && dtd.getSize() != null) {
-				column.setSize(dtd.getSize().toString());
-			}
-			if (dataType.isSupportScale() && dtd.getScale() != null) {
-				column.setScale(dtd.getScale().intValue());
-			}
-		}
-		column.setRequired(!attribute.isNullable());
-		return column;
-	}
 }

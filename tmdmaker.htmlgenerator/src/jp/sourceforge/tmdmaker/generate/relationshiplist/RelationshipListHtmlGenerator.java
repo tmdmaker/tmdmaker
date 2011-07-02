@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,13 @@ import java.util.Map;
 
 import jp.sourceforge.tmdmaker.generate.Activator;
 import jp.sourceforge.tmdmaker.generate.Generator;
+import jp.sourceforge.tmdmaker.generate.GeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
-import jp.sourceforge.tmdmaker.generate.HtmlGeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.apache.velocity.VelocityContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 関係の検証表をHTML形式で生成するクラス
@@ -38,6 +40,9 @@ import org.apache.velocity.VelocityContext;
  * 
  */
 public class RelationshipListHtmlGenerator implements Generator {
+	/** logging */
+	private static Logger logger = LoggerFactory
+			.getLogger(RelationshipListHtmlGenerator.class);
 
 	/**
 	 * コンストラクタ
@@ -82,20 +87,20 @@ public class RelationshipListHtmlGenerator implements Generator {
 		context.put("mappings", relationshipMappingMap.entrySet());
 		try {
 			HtmlGeneratorUtils.outputCSS(rootDir);
-			HtmlGeneratorUtils.applyTemplate("relationship_list.html", this
-					.getClass(), new File(rootDir, "relationship_list.html"),
-					context);
+			HtmlGeneratorUtils.applyTemplate("relationship_list.html",
+					this.getClass(),
+					new File(rootDir, "relationship_list.html"), context);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new HtmlGeneratorRuntimeException(e);
+			logger.error(e.getMessage());
+			throw new GeneratorRuntimeException(e);
 		}
 		try {
-			HtmlGeneratorUtils.copyStream(Activator.class
-					.getResourceAsStream("stylesheet.css"),
+			HtmlGeneratorUtils.copyStream(
+					Activator.class.getResourceAsStream("stylesheet.css"),
 					new FileOutputStream(new File(rootDir, "stylesheet.css")));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new HtmlGeneratorRuntimeException(e);
+			logger.error(e.getMessage());
+			throw new GeneratorRuntimeException(e);
 		}
 
 	}

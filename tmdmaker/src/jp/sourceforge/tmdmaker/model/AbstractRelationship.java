@@ -31,15 +31,6 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 	private boolean sourceNoInstance = false;
 	private boolean targetNoInstance = false;
 	private boolean centerMark = false;
-	/** 接続 */
-	private int sourceXp = -1;
-
-	private int sourceYp = -1;
-
-	private int targetXp = -1;
-
-	private int targetYp = -1;
-
 	/**
 	 * @return the sourceCardinality
 	 */
@@ -159,34 +150,6 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 		return (AbstractEntityModel) super.getTarget();
 	}
 
-	public int getSourceXp() {
-		return sourceXp;
-	}
-
-	public void setSourceLocationp(int sourceXp, int sourceYp) {
-		this.sourceXp = sourceXp;
-		this.sourceYp = sourceYp;
-		firePropertyChange(PROPERTY_CONNECTION, null, null);
-	}
-
-	public int getSourceYp() {
-		return sourceYp;
-	}
-
-	public int getTargetXp() {
-		return targetXp;
-	}
-
-	public void setTargetLocationp(int targetXp, int targetYp) {
-		this.targetXp = targetXp;
-		this.targetYp = targetYp;
-		firePropertyChange(PROPERTY_CONNECTION, null, null);
-	}
-
-	public int getTargetYp() {
-		return targetYp;
-	}
-
 	/**
 	 * 多値のリレーションシップ判定
 	 * 
@@ -196,4 +159,27 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 		return getSourceCardinality().equals(Cardinality.MANY)
 				&& getTargetCardinality().equals(Cardinality.MANY);
 	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#getSourceName()
+	 */
+	@Override
+	public String getSourceName() {
+		return getSource().getName();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#getTargetName()
+	 */
+	@Override
+	public String getTargetName() {
+		return getTarget().getName();
+	}
+
 }

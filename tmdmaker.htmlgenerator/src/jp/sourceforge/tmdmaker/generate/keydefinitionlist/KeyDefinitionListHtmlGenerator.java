@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.HtmlGeneratorRuntimeException;
+import jp.sourceforge.tmdmaker.generate.GeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.IAttribute;
@@ -31,6 +31,8 @@ import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.velocity.VelocityContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * キー定義書をHTMLで出力するクラス
@@ -39,6 +41,9 @@ import org.apache.velocity.VelocityContext;
  * 
  */
 public class KeyDefinitionListHtmlGenerator implements Generator {
+	/** logging */
+	private static Logger logger = LoggerFactory
+			.getLogger(KeyDefinitionListHtmlGenerator.class);
 
 	/**
 	 * {@inheritDoc}
@@ -48,7 +53,6 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 	 */
 	@Override
 	public void execute(String rootDir, List<AbstractEntityModel> models) {
-		System.out.println("generate");
 		VelocityContext context = HtmlGeneratorUtils.getVecityContext();
 
 		try {
@@ -79,8 +83,8 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new HtmlGeneratorRuntimeException(e);
+			logger.error(e.getMessage());
+			throw new GeneratorRuntimeException(e);
 		}
 
 	}

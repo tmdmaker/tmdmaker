@@ -23,6 +23,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -40,6 +41,7 @@ public class ModelSelectPanel extends Composite {
 	private List candidateList = null;
 	private Label selectedLabel = null;
 	private Label candidateLabel = null;
+	private Composite buttonsComposite = null;
 	private Button selectButton = null;
 	private Button removeButton = null;
 	private Button selectAllButton = null;
@@ -51,32 +53,19 @@ public class ModelSelectPanel extends Composite {
 	}
 
 	private void initialize() {
-		GridData gridData5 = new GridData();
-		gridData5.horizontalAlignment = GridData.CENTER;
-		gridData5.widthHint = 30;
-		gridData5.verticalAlignment = GridData.CENTER;
-		GridData gridData4 = new GridData();
-		gridData4.widthHint = 30;
-		gridData4.verticalAlignment = GridData.CENTER;
-		gridData4.horizontalAlignment = GridData.CENTER;
-		GridData gridData3 = new GridData();
-		gridData3.widthHint = 30;
-		gridData3.verticalAlignment = GridData.CENTER;
-		gridData3.horizontalAlignment = GridData.CENTER;
-		GridData gridData2 = new GridData();
-		gridData2.widthHint = 30;
-		gridData2.verticalAlignment = GridData.CENTER;
-		gridData2.horizontalAlignment = GridData.CENTER;
 		GridData gridData1 = new GridData();
 		gridData1.verticalSpan = 4;
 		gridData1.verticalAlignment = GridData.FILL;
 		gridData1.widthHint = 150;
+		gridData1.grabExcessVerticalSpace = false;
+		gridData1.heightHint = 100;
 		gridData1.horizontalAlignment = GridData.BEGINNING;
 		GridData gridData = new GridData();
 		gridData.grabExcessVerticalSpace = false;
 		gridData.horizontalAlignment = GridData.BEGINNING;
 		gridData.verticalAlignment = GridData.FILL;
 		gridData.widthHint = 150;
+		gridData.heightHint = 100;
 		gridData.verticalSpan = 4;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
@@ -85,7 +74,7 @@ public class ModelSelectPanel extends Composite {
 		Label filler = new Label(this, SWT.NONE);
 		candidateLabel = new Label(this, SWT.NONE);
 		candidateLabel.setText("未選択");
-		selectedList = new List(this, SWT.MULTI|SWT.BORDER|SWT.V_SCROLL);
+		selectedList = new List(this, SWT.MULTI|SWT.BORDER|SWT.V_SCROLL|SWT.H_SCROLL);
 		selectedList.setLayoutData(gridData);
 		selectedList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
@@ -96,26 +85,8 @@ public class ModelSelectPanel extends Composite {
 				candidateList.setSelection(new int[0]);
 			}
 		});
-		selectButton = new Button(this, SWT.NONE);
-		selectButton.setText("<");
-		selectButton.setLayoutData(gridData2);
-		selectButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						int[] selectedIndices = candidateList.getSelectionIndices();
-						if (selectedIndices.length == 0) {
-							return;
-						}
-						java.util.List<AbstractEntityModel> selectedModels = new ArrayList<AbstractEntityModel>();
-						for (int i : selectedIndices) {
-							selectedModels.add(notSelectModels.get(i));
-						}
-						notSelectModels.removeAll(selectedModels);
-						selectModels.addAll(selectedModels);
-						updateList();
-					}
-				});
-		candidateList = new List(this, SWT.MULTI|SWT.BORDER|SWT.V_SCROLL);
+		createButtonsComposite();
+		candidateList = new List(this, SWT.MULTI|SWT.BORDER|SWT.V_SCROLL|SWT.H_SCROLL);
 		candidateList.setLayoutData(gridData1);
 		candidateList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
@@ -126,49 +97,8 @@ public class ModelSelectPanel extends Composite {
 				selectedList.setSelection(new int[0]);
 			}
 		});
-		removeButton = new Button(this, SWT.NONE);
-		removeButton.setText(">");
-		removeButton.setLayoutData(gridData3);
-		removeButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						int[] selectedIndices = selectedList.getSelectionIndices();
-						if (selectedIndices.length == 0) {
-							return;
-						}
-						java.util.List<AbstractEntityModel> selectedModels = new ArrayList<AbstractEntityModel>();
-						for (int i : selectedIndices) {
-							selectedModels.add(selectModels.get(i));
-						}
-						selectModels.removeAll(selectedModels);
-						notSelectModels.addAll(selectedModels);
-						updateList();
-					}
-				});
-		selectAllButton = new Button(this, SWT.NONE);
-		selectAllButton.setText("<<");
-		selectAllButton.setLayoutData(gridData4);
-		selectAllButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						selectModels.addAll(notSelectModels);
-						notSelectModels.clear();
-						updateList();
-					}
-				});
-		removeAllButton = new Button(this, SWT.NONE);
-		removeAllButton.setText(">>");
-		removeAllButton.setLayoutData(gridData5);
-		removeAllButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						notSelectModels.addAll(selectModels);
-						selectModels.clear();
-						updateList();
-					}
-				});
 		this.setLayout(gridLayout);
-		this.setSize(new Point(396, 130));
+		this.setSize(new Point(396, 147));
 	}
 	public void initializeValue(java.util.List<AbstractEntityModel> selectModels, java.util.List<AbstractEntityModel> notSelectModels) {
 		this.selectModels = selectModels;
@@ -198,6 +128,81 @@ public class ModelSelectPanel extends Composite {
 	 */
 	public java.util.List<AbstractEntityModel> getNotSelectModels() {
 		return notSelectModels;
+	}
+
+	/**
+	 * This method initializes buttonsComposite	
+	 *
+	 */
+	private void createButtonsComposite() {
+		RowLayout rowLayout = new RowLayout();
+		rowLayout.type = org.eclipse.swt.SWT.VERTICAL;
+		rowLayout.justify = false;
+		rowLayout.spacing = 3;
+		rowLayout.fill = true;
+		GridData gridData6 = new GridData();
+		gridData6.horizontalAlignment = GridData.FILL;
+		gridData6.verticalSpan = 4;
+		gridData6.verticalAlignment = GridData.FILL;
+		buttonsComposite = new Composite(this, SWT.NONE);
+		buttonsComposite.setLayoutData(gridData6);
+		buttonsComposite.setLayout(rowLayout);
+		selectButton = new Button(buttonsComposite, SWT.NONE);
+		selectButton.setText("<");
+		selectButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				int[] selectedIndices = candidateList.getSelectionIndices();
+				if (selectedIndices.length == 0) {
+					return;
+				}
+				java.util.List<AbstractEntityModel> selectedModels = new ArrayList<AbstractEntityModel>();
+				for (int i : selectedIndices) {
+					selectedModels.add(notSelectModels.get(i));
+				}
+				notSelectModels.removeAll(selectedModels);
+				selectModels.addAll(selectedModels);
+				updateList();
+			}
+		});
+
+		removeButton = new Button(buttonsComposite, SWT.NONE);
+		removeButton.setText(">");
+		removeButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				int[] selectedIndices = selectedList.getSelectionIndices();
+				if (selectedIndices.length == 0) {
+					return;
+				}
+				java.util.List<AbstractEntityModel> selectedModels = new ArrayList<AbstractEntityModel>();
+				for (int i : selectedIndices) {
+					selectedModels.add(selectModels.get(i));
+				}
+				selectModels.removeAll(selectedModels);
+				notSelectModels.addAll(selectedModels);
+				updateList();
+			}
+		});
+
+		selectAllButton = new Button(buttonsComposite, SWT.NONE);
+		selectAllButton.setText("<<");
+		selectAllButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				selectModels.addAll(notSelectModels);
+				notSelectModels.clear();
+				updateList();
+			}
+		});
+
+		removeAllButton = new Button(buttonsComposite, SWT.NONE);
+		removeAllButton.setText(">>");
+		removeAllButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				notSelectModels.addAll(selectModels);
+				selectModels.clear();
+				updateList();
+			}
+		});
+
 	}
 	
 }  //  @jve:decl-index=0:visual-constraint="64,37"

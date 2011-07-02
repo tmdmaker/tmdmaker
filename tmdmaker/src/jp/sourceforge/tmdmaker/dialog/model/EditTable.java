@@ -24,6 +24,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModels;
+import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
 /**
  * 表の編集用
@@ -73,6 +74,12 @@ public class EditTable {
 			attributes.add(new EditAttribute(a));
 		}
 		this.entityTypeEditable = entity.isEntityTypeEditable();
+	}
+
+	/**
+	 * コンストラクタ（拡張用）
+	 */
+	protected EditTable() {
 	}
 
 	/**
@@ -143,10 +150,23 @@ public class EditTable {
 	 */
 	public void addAttribute() {
 		EditAttribute ea = new EditAttribute();
-		ea.setName("アトリビュート" + String.valueOf(attributes.size() + 1));
+		setDefaultValue(ea);
 		attributes.add(ea);
 		newAttributes.add(ea);
 		firePropertyChange(PROPERTY_ATTRIBUTES, null, ea);
+	}
+
+	/**
+	 * アトリビュートに初期値を設定する
+	 * 
+	 * @param attribute
+	 *            編集用アトリビュート
+	 */
+	protected void setDefaultValue(EditAttribute attribute) {
+		attribute.setName("アトリビュート" + String.valueOf(attributes.size() + 1));
+		attribute.setDataType(StandardSQLDataType.CHARACTER_VARYING);
+		attribute.setImplementName(attribute.getName());
+		attribute.setSize("10");
 	}
 
 	/**
@@ -277,6 +297,7 @@ public class EditTable {
 	public void setImplementName(String implementName) {
 		this.implementName = implementName;
 	}
+
 	/**
 	 * 
 	 * @return the type
@@ -344,6 +365,7 @@ public class EditTable {
 		copySpecialTo(edited);
 		return edited;
 	}
+
 	@SuppressWarnings("unchecked")
 	protected <T extends AbstractEntityModel> T createInstance() {
 		try {
@@ -354,8 +376,9 @@ public class EditTable {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		return null;	
+		return null;
 	}
+
 	protected void copyTo(AbstractEntityModel to) {
 		to.setName(getName());
 		to.setNotImplement(isNotImplement());
@@ -365,7 +388,8 @@ public class EditTable {
 		to.setImplementDerivationModels(getImplementDerivationModels());
 		to.setEntityType(getType());
 	}
+
 	protected void copySpecialTo(AbstractEntityModel to) {
 	}
-	
+
 }

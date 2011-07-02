@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,8 @@ import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
@@ -48,6 +50,8 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 		Attribute model = (Attribute) getModel();
 		Label label = new Label();
 		label.setText(createAttributeName(model));
+		label.setBorder(new MarginBorder(2, 2, 2, 2));
+		label.setLabelAlignment(PositionConstants.LEFT);
 		return label;
 	}
 	private String createAttributeName(Attribute attribute) {

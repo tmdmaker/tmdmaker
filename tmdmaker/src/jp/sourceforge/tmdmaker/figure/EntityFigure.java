@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,15 @@ import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * エンティティ（表）Figure
@@ -56,7 +58,6 @@ public class EntityFigure extends Figure {
 	 */
 	public EntityFigure(boolean notImplement) {
 		this.name = new Label();
-		this.name.setBorder(new MarginBorder(2, 2, 2, 2));
 		this.type = new Label();
 		this.titleCompartmentFigure = new EntityTitleCompartmentFigure();
 		this.compartmentFigure = new EntityLayoutCompartmentFigure();
@@ -65,7 +66,6 @@ public class EntityFigure extends Figure {
 
 		ToolbarLayout layout = new ToolbarLayout();
 		setLayoutManager(layout);
-		// setBorder(new LineBorder(ColorConstants.black, 1));
 		setBorder(new EntityFigureBorder(notImplement));
 		setOpaque(true);
 
@@ -73,21 +73,10 @@ public class EntityFigure extends Figure {
 		this.titleCompartmentFigure.setEntityType(type);
 		add(this.titleCompartmentFigure);
 		add(this.compartmentFigure);
-		this.identifierCompartmentFigure
-				.setBorder(new IdentifierCompartmentFigureBorder());
-		this.attributeCompartmentFigure
-				.setBorder(new AttributeCompartmentFigureBorder());
-		// TODO
-		this.attributeCompartmentFigure.setLayoutManager(new GridLayout());
+		this.attributeCompartmentFigure.setBorder(new MarginBorder(2, 2, 2, 2));
 
 		this.compartmentFigure.add(identifierCompartmentFigure);
 		this.compartmentFigure.add(attributeCompartmentFigure);
-		// Label tmp = new Label("日本語");
-		// tmp.setBorder(new MarginBorder(2, 2, 0, 2));
-		// attributeCompartmentFigure.add(tmp);
-		// tmp = new Label("attribute2");
-		// tmp.setBorder(new MarginBorder(2, 2, 0, 2));
-		// attributeCompartmentFigure.add(tmp);
 	}
 
 	/**
@@ -103,20 +92,12 @@ public class EntityFigure extends Figure {
 
 	public void setEntityType(String entityType) {
 		this.type.setText(entityType);
-		// setColor(entityType);
 	}
 
-	// private void setColor(String entityType) {
-	// if (entityType.equals("RESOURCE")) {
-	// setBackgroundColor(ColorConstants.lightBlue);
-	// } else if (entityType.equals("EVENT")) {
-	// setBackgroundColor(ColorConstants.red);
-	// }
-	// }
 	private Label createAttributeLabel(String name) {
 		Label tmp = new Label(name);
 		tmp.setBorder(new MarginBorder(2, 2, 2, 2));
-
+		tmp.setLabelAlignment(PositionConstants.LEFT);
 		return tmp;
 	}
 
@@ -153,6 +134,7 @@ public class EntityFigure extends Figure {
 	private static class EntityTitleCompartmentFigure extends Figure {
 		public EntityTitleCompartmentFigure() {
 			setLayoutManager(new BorderLayout());
+			setBorder(new MarginBorder(2, 2, 2, 2));
 		}
 
 		public void setEntityName(Figure name) {
@@ -166,21 +148,13 @@ public class EntityFigure extends Figure {
 		}
 	}
 
-	private static class EntityFigureBorder extends LineBorder {
+	private class EntityFigureBorder extends LineBorder {
 		private boolean notImplement;
 
 		public EntityFigureBorder(boolean notImplement) {
 			super();
 			this.notImplement = notImplement;
 		}
-
-//		/**
-//		 * @param notImplement
-//		 *            the notImplement to set
-//		 */
-//		public void setNotImplement(boolean notImplement) {
-//			this.notImplement = notImplement;
-//		}
 
 		/**
 		 * {@inheritDoc}
@@ -191,6 +165,14 @@ public class EntityFigure extends Figure {
 		@Override
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
 			super.paint(figure, graphics, insets);
+			Rectangle rect1 = titleCompartmentFigure.getBounds();
+			Rectangle rect2 = identifierCompartmentFigure.getBounds();
+			Point p = tempRect.getTopLeft().getCopy();
+			p.x = p.x + rect2.width + 2;
+			p.y = p.y + rect1.height + 2;
+			Point p2 = tempRect.getBottomLeft().getCopy();
+			p2.x = p2.x + rect2.width + 2;
+			graphics.drawLine(p, p2);
 			if (notImplement) {
 				graphics.drawLine(tempRect.getTopLeft(), tempRect
 						.getBottomRight());
@@ -229,40 +211,10 @@ public class EntityFigure extends Figure {
 		public CompartmentFigure() {
 			ToolbarLayout layout = new ToolbarLayout();
 			layout.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
-			layout.setStretchMinorAxis(false);
+			layout.setStretchMinorAxis(true);
 			layout.setSpacing(0);
 			setLayoutManager(layout);
 		}
 
 	}
-
-	private static class IdentifierCompartmentFigureBorder extends
-			AbstractBorder {
-		public Insets getInsets(IFigure figure) {
-			return new Insets(0, 1, 0, 1);
-		}
-
-		public void paint(IFigure figure, Graphics graphics, Insets insets) {
-			graphics.drawLine(getPaintRectangle(figure, insets).getTopRight(),
-					tempRect.getBottomRight());
-			// graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(),
-			// tempRect.getBottomRight());
-			// graphics.drawRectangle(getPaintRectangle(figure, insets));
-		}
-	}
-
-	private static class AttributeCompartmentFigureBorder extends
-			AbstractBorder {
-
-		public Insets getInsets(IFigure figure) {
-			return new Insets(0, 1, 0, 1);
-		}
-
-		public void paint(IFigure figure, Graphics graphics, Insets insets) {
-			graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(),
-					tempRect.getBottomLeft());
-		}
-
-	}
-
 }

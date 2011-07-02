@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker;
 
+import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
 import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
@@ -100,7 +101,8 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		menu.add(new Separator("implement"));
 		menu.add(getActionRegistry().getAction(DatabaseSelectAction.ID));
 		menu.add(getActionRegistry().getAction(ImplementInfoEditAction.ID));
-
+		menu.add(getActionRegistry().getAction(CommonAttributeSettingAction.ID));
+		
 		menu.add(new Separator("generate"));
 		menu.add(getActionRegistry().getAction(DiagramImageSaveAction.ID));
 		

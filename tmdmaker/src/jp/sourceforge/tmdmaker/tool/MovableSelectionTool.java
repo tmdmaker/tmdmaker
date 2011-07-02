@@ -15,12 +15,11 @@
  */
 package jp.sourceforge.tmdmaker.tool;
 
-import java.util.List;
-
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.SelectionTool;
 import org.eclipse.swt.SWT;
@@ -41,38 +40,49 @@ public class MovableSelectionTool extends SelectionTool {
 	 */
 	@Override
 	protected boolean handleKeyDown(KeyEvent e) {
-		int x = 0;
-		int y = 0;
-		boolean movable = false;
-		if (e.keyCode == SWT.ARROW_DOWN) {
-			y = 1;
-			movable = true;
-		} else if (e.keyCode == SWT.ARROW_LEFT) {
-			x = -1;
-			movable = true;
-		} else if (e.keyCode == SWT.ARROW_RIGHT) {
-			x = 1;
-			movable = true;
-		} else if (e.keyCode == SWT.ARROW_UP) {
-			y = -1;
-			movable = true;
-		}
-		@SuppressWarnings("rawtypes")
-		List selections = getCurrentViewer().getSelectedEditParts();
-		// カーソルキー操作の時だけモデルを移動させる
-		if (!selections.isEmpty() && movable) {
-			CompoundCommand command = new CompoundCommand();
-			for (Object selection : selections) {
-				if (selection instanceof AbstractEntityEditPart) {
-					AbstractEntityEditPart part = (AbstractEntityEditPart) selection;
-					command.add(new ModelConstraintChangeCommand(
-							(ModelElement) part.getModel(), x, y));
-				}
-			}
-
-			executeCommand(command.unwrap());
+		Point p = calcMovePoint(e.keyCode);
+		if (hasMoved(p)) {
+			// カーソルキー操作の時だけモデルを移動させる
+			doMove(p);
 		}
 		return super.handleKeyDown(e);
 	}
 
+	private Point calcMovePoint(int keyCode) {
+		Point p = new Point(0, 0);
+		switch (keyCode) {
+		case SWT.ARROW_DOWN:
+			p.y = 1;
+			break;
+		case SWT.ARROW_LEFT:
+			p.x = -1;
+			break;
+		case SWT.ARROW_RIGHT:
+			p.x = 1;
+			break;
+		case SWT.ARROW_UP:
+			p.y = -1;
+			break;
+		}
+		return p;
+	}
+
+	private void doMove(Point p) {
+		CompoundCommand command = new CompoundCommand();
+
+		for (Object selection : getCurrentViewer().getSelectedEditParts()) {
+			if (selection instanceof AbstractEntityEditPart) {
+				AbstractEntityEditPart part = (AbstractEntityEditPart) selection;
+				command.add(new ModelConstraintChangeCommand(
+						(ModelElement) part.getModel(), p.x, p.y));
+			}
+		}
+		if (!command.isEmpty()) {
+			executeCommand(command.unwrap());
+		}
+	}
+
+	private boolean hasMoved(Point p) {
+		return p.x != 0 || p.y != 0;
+	}
 }
