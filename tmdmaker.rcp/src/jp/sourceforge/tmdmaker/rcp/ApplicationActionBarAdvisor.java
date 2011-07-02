@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.rcp;
 
-import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.ToolBarContributionItem;
-import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
@@ -52,6 +48,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(ActionFactory.SAVE.create(window));
 		register(ActionFactory.NEW.create(window));
 		register(ActionFactory.SAVE_AS.create(window));
+		register(ActionFactory.COPY.create(window));
+		register(ActionFactory.PASTE.create(window));
 	}
 
 	/**
@@ -63,12 +61,4 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	protected void fillMenuBar(IMenuManager menuBar) {
 	}
 
-	@Override
-	protected void fillCoolBar(ICoolBarManager coolBar) {
-		ToolBarManager toolBar = new ToolBarManager(SWT.FLAT);
-		// アクションの追加
-		toolBar.add(getAction(ActionFactory.NEW.getId()));
-		toolBar.add(getAction(ActionFactory.SAVE.getId()));
-		coolBar.add(new ToolBarContributionItem(toolBar, "main"));
-	}
 }
