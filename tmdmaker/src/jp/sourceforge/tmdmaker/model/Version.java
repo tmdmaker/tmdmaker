@@ -46,12 +46,14 @@ public class Version {
 	}
 
 	private void setupVersionNo() {
-		String[] values = split(value);
-		if (values.length == 4) {
-			majorVersion = Integer.parseInt(values[0]);
-			minorVersion = Integer.parseInt(values[1]);
-			serviceNo = Integer.parseInt(values[2]);
-			qualifier = values[3];
+		if (value != null) {
+			String[] values = split(value);
+			if (values.length == 4) {
+				majorVersion = Integer.parseInt(values[0]);
+				minorVersion = Integer.parseInt(values[1]);
+				serviceNo = Integer.parseInt(values[2]);
+				qualifier = values[3];
+			}
 		}
 	}
 	private String[] split(String value) {
