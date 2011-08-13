@@ -12,10 +12,7 @@ Require-Bundle: org.eclipse.ui,
  tmdmaker;bundle-version="0.2.3",
  tmdmaker.ddlgenerator;bundle-version="0.2.3",
  tmdmaker.htmlgenerator;bundle-version="0.2.3",
- tmdmaker.serializer.converter.up0.2.0to0.2.3;bundle-version="0.2.3";resolution:=optional,
- tmdmaker.serializer;bundle-version="0.2.3",
- org.eclipse.equinox.p2.reconciler.dropins;bundle-version="1.1.2",
- org.eclipse.equinox.ds;bundle-version="1.2.1"
+ tmdmaker.serializer;bundle-version="0.2.3"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
