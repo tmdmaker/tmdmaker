@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/opencsv-2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jcl-over-slf4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/simple-log-slf4j.jar"/>

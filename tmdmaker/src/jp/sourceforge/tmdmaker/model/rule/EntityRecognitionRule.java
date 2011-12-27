@@ -124,4 +124,14 @@ public class EntityRecognitionRule {
 		laputa.setEntityType(EntityType.LAPUTA);
 		return laputa;
 	}
+	/**
+	 * ラピュタのモデルを作成する
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @return 新規ラピュタモデル
+	 */
+	public static Laputa createLaputa(String entityName) {
+		return createLaputa(entityName, null);
+	}
 }

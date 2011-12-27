@@ -19,6 +19,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.IAttribute;
 
 /**
  * 個体の性質・関係の性質に関するルールをまとめたクラス
@@ -27,6 +28,8 @@ import jp.sourceforge.tmdmaker.model.EntityType;
  * 
  */
 public class EntityTypeRule {
+	private static final String EVENT_DATE_LITERAL = "日";
+
 	/**
 	 * エンティティ系モデルの種類がリソースかを判定する
 	 * 
@@ -56,7 +59,7 @@ public class EntityTypeRule {
 	public static void addDefaultAttribute(Entity model) {
 		Attribute defaultAttribute = new Attribute();
 		if (isEvent(model)) {
-			defaultAttribute.setName(model.getName() + "日");
+			defaultAttribute.setName(model.getName() + EVENT_DATE_LITERAL);
 			ImplementRule.setEventDefaultAttributeValue(defaultAttribute);
 		} else {
 			defaultAttribute.setName(model.getName() + "名称");
@@ -74,5 +77,21 @@ public class EntityTypeRule {
 	 */
 	public static boolean hasDefaultAttributeAlreadyAdded(Entity model) {
 		return model.getAttributes().size() > 0;
+	}
+
+	/**
+	 * エンティティ系モデルがイベントを表すアトリビュートを持っているか
+	 * 
+	 * @param model
+	 *            チェック対象エンティティ
+	 * @return エンティティ系モデルがイベントを表すアトリビュートを持っている場合にtrueを返す
+	 */
+	public static boolean hasEventAttribute(AbstractEntityModel model) {
+		for (IAttribute a : model.getAttributes()) {
+			if (a.getName().endsWith(EVENT_DATE_LITERAL)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

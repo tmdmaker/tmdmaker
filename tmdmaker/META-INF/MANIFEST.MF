@@ -16,6 +16,7 @@ Bundle-ClassPath: lib/simple-log-slf4j.jar,
  lib/simple-log.jar,
  lib/jcl-over-slf4j-1.6.1.jar,
  lib/slf4j-api-1.6.1.jar,
+ lib/opencsv-2.3.jar,
  .
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider

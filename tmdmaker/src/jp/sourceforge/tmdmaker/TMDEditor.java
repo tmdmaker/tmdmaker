@@ -23,6 +23,7 @@ import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
 import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
+import jp.sourceforge.tmdmaker.action.FileImportAction;
 import jp.sourceforge.tmdmaker.action.GenerateAction;
 import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
@@ -572,6 +573,9 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 				viewer);
 		registry.registerAction(acton9);
 
+		FileImportAction action10 = new FileImportAction(viewer);
+		registry.registerAction(action10);
+		
 		IAction action = new ToggleGridAction(viewer);
 		registry.registerAction(action);
 
