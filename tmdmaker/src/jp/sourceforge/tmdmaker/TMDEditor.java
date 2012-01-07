@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,8 @@ import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
+import jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter;
+import jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Version;
@@ -458,36 +460,24 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
 
-		SubsetCreateAction action1 = new SubsetCreateAction(this);
-		registry.registerAction(action1);
-		selectionActions.add(action1.getId());
-		action1.setSelectionProvider(getGraphicalViewer());
+		SelectionAction selectionAction = new SubsetCreateAction(this);
+		setupSelectionAction(registry, selectionActions, selectionAction);
 
-		MultivalueOrCreateAction action2 = new MultivalueOrCreateAction(this);
-		registry.registerAction(action2);
-		selectionActions.add(action2.getId());
-		action2.setSelectionProvider(getGraphicalViewer());
+		selectionAction = new MultivalueOrCreateAction(this);
+		setupSelectionAction(registry, selectionActions, selectionAction);
 
-		MultivalueAndCreateAction action3 = new MultivalueAndCreateAction(this);
-		registry.registerAction(action3);
-		selectionActions.add(action3.getId());
-		action3.setSelectionProvider(getGraphicalViewer());
+		selectionAction = new MultivalueAndCreateAction(this);
+		setupSelectionAction(registry, selectionActions, selectionAction);
 
-		VirtualEntityCreateAction action4 = new VirtualEntityCreateAction(this);
-		registry.registerAction(action4);
-		selectionActions.add(action4.getId());
-		action4.setSelectionProvider(getGraphicalViewer());
+		selectionAction = new VirtualEntityCreateAction(this);
+		setupSelectionAction(registry, selectionActions, selectionAction);
 
-		VirtualSupersetCreateAction action5 = new VirtualSupersetCreateAction(
+		selectionAction = new VirtualSupersetCreateAction(
 				this);
-		registry.registerAction(action5);
-		selectionActions.add(action5.getId());
-		action5.setSelectionProvider(getGraphicalViewer());
+		setupSelectionAction(registry, selectionActions, selectionAction);
 
-		ImplementInfoEditAction action6 = new ImplementInfoEditAction(this);
-		registry.registerAction(action6);
-		selectionActions.add(action6.getId());
-		action6.setSelectionProvider(getGraphicalViewer());
+		selectionAction = new ImplementInfoEditAction(this);
+		setupSelectionAction(registry, selectionActions, selectionAction);
 
 		IAction action = null;
 		// 水平方向の整列アクション
@@ -527,6 +517,13 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		selectionActions.add(action.getId());
 	}
 
+	private void setupSelectionAction(ActionRegistry registry,
+			List<String> selectionActions, SelectionAction selectionAction) {
+		registry.registerAction(selectionAction);
+		selectionActions.add(selectionAction.getId());
+		selectionAction.setSelectionProvider(getGraphicalViewer());
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -562,28 +559,27 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 			selectionActions.add(act.getId());
 		}
 
-		// AttributeListSaveAction action7 = new AttributeListSaveAction(
-		// viewer);
-		// registry.registerAction(action7);
-
-		DatabaseSelectAction action8 = new DatabaseSelectAction(viewer);
-		registry.registerAction(action8);
-
-		CommonAttributeSettingAction acton9 = new CommonAttributeSettingAction(
-				viewer);
-		registry.registerAction(acton9);
-
-		FileImportAction action10 = new FileImportAction(viewer);
-		registry.registerAction(action10);
-		
-		IAction action = new ToggleGridAction(viewer);
+		IAction action = new DatabaseSelectAction(viewer);
 		registry.registerAction(action);
 
-		IAction showRulers = new ToggleRulerVisibilityAction(viewer);
-		getActionRegistry().registerAction(showRulers);
+		action = new CommonAttributeSettingAction(
+				viewer);
+		registry.registerAction(action);
 
-		IAction snapAction = new ToggleSnapToGeometryAction(viewer);
-		getActionRegistry().registerAction(snapAction);
+		action = new FileImportAction(viewer, new EntityFileImporter());
+		registry.registerAction(action);
+
+		action = new FileImportAction(viewer, new AttributeFileImporter());
+		registry.registerAction(action);
+
+		action = new ToggleGridAction(viewer);
+		registry.registerAction(action);
+
+		action = new ToggleRulerVisibilityAction(viewer);
+		getActionRegistry().registerAction(action);
+
+		action = new ToggleSnapToGeometryAction(viewer);
+		getActionRegistry().registerAction(action);
 
 		loadProperties();
 	}
