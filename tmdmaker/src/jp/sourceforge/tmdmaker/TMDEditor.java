@@ -387,6 +387,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	 */
 	@Override
 	public void doSaveAs() {
+		logger.debug("doSaveAs() called");
 		Shell shell = getSite().getWorkbenchWindow().getShell();
 		SaveAsDialog dialog = new SaveAsDialog(shell);
 		dialog.setOriginalFile(((IFileEditorInput) getEditorInput()).getFile());
@@ -420,11 +421,12 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 								logger.warn("IFile#setContents().", e);
 							}
 							getCommandStack().markSaveLocation();
+							setInput(new FileEditorInput(file));
 
 						}
 					});
 
-			setInput(new FileEditorInput(file));
+			// setInput(new FileEditorInput(file));
 		} catch (InterruptedException e) {
 			logger.warn("ProgressMonitorDialog#run().", e);
 		} catch (InvocationTargetException e) {
@@ -472,8 +474,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		selectionAction = new VirtualEntityCreateAction(this);
 		setupSelectionAction(registry, selectionActions, selectionAction);
 
-		selectionAction = new VirtualSupersetCreateAction(
-				this);
+		selectionAction = new VirtualSupersetCreateAction(this);
 		setupSelectionAction(registry, selectionActions, selectionAction);
 
 		selectionAction = new ImplementInfoEditAction(this);
@@ -562,8 +563,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		IAction action = new DatabaseSelectAction(viewer);
 		registry.registerAction(action);
 
-		action = new CommonAttributeSettingAction(
-				viewer);
+		action = new CommonAttributeSettingAction(viewer);
 		registry.registerAction(action);
 
 		action = new FileImportAction(viewer, new EntityFileImporter());
