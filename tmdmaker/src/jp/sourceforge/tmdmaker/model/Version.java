@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,11 +48,15 @@ public class Version {
 	private void setupVersionNo() {
 		if (value != null) {
 			String[] values = split(value);
-			if (values.length == 4) {
+			if (values.length >= 3) {
 				majorVersion = Integer.parseInt(values[0]);
 				minorVersion = Integer.parseInt(values[1]);
 				serviceNo = Integer.parseInt(values[2]);
-				qualifier = values[3];
+			}
+			if (value.length() == 4) {
+				qualifier = values[3];				
+			} else {
+				qualifier = "";
 			}
 		}
 	}
