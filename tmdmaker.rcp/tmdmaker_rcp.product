@@ -231,6 +231,10 @@
 
    <plugins>
       <plugin id="com.ibm.icu"/>
+      <plugin id="com.instantiations.assist.eclipse.fragment.swt" fragment="true"/>
+      <plugin id="com.instantiations.assist.eclipse.fragment.ui.ide" fragment="true"/>
+      <plugin id="com.instantiations.assist.eclipse.fragment.ui.workbench" fragment="true"/>
+      <plugin id="com.instantiations.assist.eclipse.fragment.ui.workbench.texteditor" fragment="true"/>
       <plugin id="javax.transaction" fragment="true"/>
       <plugin id="org.eclipse.compare"/>
       <plugin id="org.eclipse.compare.core"/>
