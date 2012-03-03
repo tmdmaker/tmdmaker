@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,4 +124,25 @@ public class EntityRecognitionRule {
 		laputa.setEntityType(EntityType.LAPUTA);
 		return laputa;
 	}
+
+	/**
+	 * ラピュタのモデルを作成する
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @return 新規ラピュタモデル
+	 */
+	public static Laputa createLaputa(String entityName) {
+		return createLaputa(entityName, null);
+	}
+
+	/**
+	 * ラピュタのモデルを作成する
+	 * 
+	 * @return 新規ラピュタモデル
+	 */
+	public static Laputa createLaputa() {
+		return createLaputa(null, null);
+	}
+
 }

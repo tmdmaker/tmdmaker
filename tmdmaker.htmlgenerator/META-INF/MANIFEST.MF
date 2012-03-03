@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker's HTMLGenerator with Velocity
 Bundle-SymbolicName: tmdmaker.htmlgenerator;singleton:=true
-Bundle-Version: 0.2.3.qualifier
+Bundle-Version: 0.2.4.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  tmdmaker;bundle-version="0.2.0"
 Bundle-ActivationPolicy: lazy
@@ -12,8 +12,8 @@ Bundle-ClassPath: .,
  lib/commons-collections-3.2.1.jar,
  lib/commons-lang-2.4.jar,
  lib/velocity-1.7.jar,
- lib/jcl-over-slf4j-1.6.1.jar,
  lib/simple-log-slf4j.jar,
  lib/simple-log.jar,
- lib/slf4j-api-1.6.1.jar
+ lib/jcl-over-slf4j-1.6.4.jar,
+ lib/slf4j-api-1.6.4.jar
 Bundle-Vendor: TMD-Maker Project

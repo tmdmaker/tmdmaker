@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,9 @@ public class TMDConnectionCreationTool extends ConnectionCreationTool {
 		Command endCommand = getCommand();
 
 		ConnectionCreateCommand command = (ConnectionCreateCommand) endCommand;
+		if (command == null) {
+			return false;
+		}
 		AbstractConnectionModel connection = command.getConnection();
 		if (connection instanceof Event2EventRelationship) {
 			Event2EventRelationship relationship = (Event2EventRelationship) connection;

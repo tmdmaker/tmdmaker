@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
+import jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter;
+import jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -82,34 +84,38 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 	public void buildContextMenu(IMenuManager menu) {
 
 		// GEFActionConstants.addStandardActionGroups(menu);
-		menu.add(getActionRegistry().getAction(SubsetCreateAction.ID));
+		ActionRegistry registry = getActionRegistry();
+		menu.add(registry.getAction(SubsetCreateAction.ID));
 
 		MenuManager multivalueMenu = new MenuManager("データ の多値");
-		multivalueMenu.add(getActionRegistry().getAction(
+		multivalueMenu.add(registry.getAction(
 				MultivalueOrCreateAction.ID));
-		multivalueMenu.add(getActionRegistry().getAction(
+		multivalueMenu.add(registry.getAction(
 				MultivalueAndCreateAction.ID));
 		menu.add(multivalueMenu);
 
 		MenuManager tmdashMenu = new MenuManager("みなし概念(TM')");
-		tmdashMenu.add(getActionRegistry().getAction(
+		tmdashMenu.add(registry.getAction(
 				VirtualEntityCreateAction.ID));
-		tmdashMenu.add(getActionRegistry().getAction(
+		tmdashMenu.add(registry.getAction(
 				VirtualSupersetCreateAction.ID));
 		menu.add(tmdashMenu);
 
 		menu.add(new Separator("implement"));
-		menu.add(getActionRegistry().getAction(DatabaseSelectAction.ID));
-		menu.add(getActionRegistry().getAction(ImplementInfoEditAction.ID));
-		menu.add(getActionRegistry().getAction(CommonAttributeSettingAction.ID));
+		menu.add(registry.getAction(DatabaseSelectAction.ID));
+		menu.add(registry.getAction(ImplementInfoEditAction.ID));
+		menu.add(registry.getAction(CommonAttributeSettingAction.ID));
 		
 		menu.add(new Separator("generate"));
-		menu.add(getActionRegistry().getAction(DiagramImageSaveAction.ID));
+		menu.add(registry.getAction(DiagramImageSaveAction.ID));
 		
 		for (Generator generator : GeneratorProvider.getGenerators()) {
-			menu.add(getActionRegistry().getAction(generator.getClass().getName()));
+			menu.add(registry.getAction(generator.getClass().getName()));
 		}
 
+		menu.add(new Separator("importer"));
+		menu.add(registry.getAction(EntityFileImporter.class.getName()));
+		menu.add(registry.getAction(AttributeFileImporter.class.getName()));
 	}
 
 }
