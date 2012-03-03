@@ -1,18 +1,18 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: TMD-Maker for Rcp
+Bundle-Name: TMD-Maker for RCP
 Bundle-SymbolicName: tmdmaker.rcp; singleton:=true
-Bundle-Version: 0.2.3.qualifier
+Bundle-Version: 0.2.4.qualifier
 Bundle-Activator: jp.sourceforge.tmdmaker.rcp.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide;bundle-version="3.5.1",
  org.eclipse.core.resources;bundle-version="3.5.1",
  org.eclipse.ui.navigator.resources;bundle-version="3.4.1",
- tmdmaker;bundle-version="0.2.3",
- tmdmaker.ddlgenerator;bundle-version="0.2.3",
- tmdmaker.htmlgenerator;bundle-version="0.2.3",
- tmdmaker.serializer;bundle-version="0.2.3"
+ tmdmaker;bundle-version="0.2.4",
+ tmdmaker.ddlgenerator;bundle-version="0.2.4",
+ tmdmaker.htmlgenerator;bundle-version="0.2.4",
+ tmdmaker.serializer;bundle-version="0.2.4"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
