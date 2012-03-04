@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,9 +61,10 @@ public abstract class AbstractMultipleSelectionAction extends
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Object selection : getSelectedObjects()) {
 			if (isTargetModel(selection)) {
-				AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart) selection)
-						.getModel();
-				list.add(model);
+				Object model = ((AbstractEntityEditPart) selection).getModel();
+				if (model instanceof AbstractEntityModel) {
+					list.add((AbstractEntityModel) model);
+				}
 			}
 		}
 		return list;
