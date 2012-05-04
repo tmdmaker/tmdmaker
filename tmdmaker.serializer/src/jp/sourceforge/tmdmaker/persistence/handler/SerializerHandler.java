@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.persistence.converter;
+package jp.sourceforge.tmdmaker.persistence.handler;
 
 import jp.sourceforge.tmdmaker.model.Diagram;
 
@@ -28,28 +28,35 @@ public interface SerializerHandler {
 	 * ファイルから読み込んだ文字列データをデシリアライズ前に操作する。
 	 * 
 	 * @param in
-	 *            返還前文字列
+	 *            変換前文字列
 	 * @return 変換後文字列
 	 */
 	String handleBeforeDeserialize(String in);
 
 	/**
 	 * デシリアライズ後のダイアグラムオブジェクトを操作する。
+	 * 
+	 * @param diagram
+	 *            変換前ダイアグラム
+	 * @return 変換後ダイアグラム
 	 */
-	Diagram handleAfterDeserialize(Diagram in);
+	Diagram handleAfterDeserialize(Diagram diagram);
 
 	/**
 	 * シリアライズ前のダイアグラムオブジェクトを操作する。
 	 * 
 	 * @param diagram
-	 * @return
+	 *            変換前ダイアグラム
+	 * @return 変換後ダイアグラム
 	 */
 	Diagram handleBeforeSerialize(Diagram diagram);
-	
+
 	/**
+	 * ファイルから読み込んだ文字列データをデシリアライズ後に操作する。
 	 * 
 	 * @param in
-	 * @return
+	 *            変換前文字列
+	 * @return 変換後文字列
 	 */
 	String handleAfterSerialize(String in);
 }
