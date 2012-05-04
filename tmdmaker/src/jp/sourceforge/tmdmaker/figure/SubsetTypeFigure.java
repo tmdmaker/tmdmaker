@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,12 +28,14 @@ import org.eclipse.draw2d.geometry.Insets;
  * 
  */
 public class SubsetTypeFigure extends Figure {
+	/** ビューの向き（縦） */
+	private boolean vertical = false;
 
 	/**
 	 * コンストラクタ
 	 */
 	public SubsetTypeFigure() {
-		this(true);
+		this(true, false);
 	}
 
 	/**
@@ -42,10 +44,11 @@ public class SubsetTypeFigure extends Figure {
 	 * @param subsetTypeValue
 	 *            サブセットタイプ
 	 */
-	public SubsetTypeFigure(boolean sameType) {
+	public SubsetTypeFigure(boolean sameType, boolean vertical) {
 		super();
-		setBorder(new SubsetBorder(sameType));
 		setOpaque(false);
+		this.vertical = vertical;
+		setBorder(new SubsetBorder(sameType, this.vertical));
 	}
 
 	/**
@@ -56,11 +59,32 @@ public class SubsetTypeFigure extends Figure {
 	 */
 	public void setSameType(boolean sameType) {
 		if (sameType) {
-			setSize(30, 5);
+			if (vertical) {
+				setSize(5, 30);
+			} else {
+				setSize(30, 5);
+			}
 		} else {
-			setSize(30, 10);
+			if (vertical) {
+				setSize(10, 30);
+			} else {
+				setSize(30, 10);
+			}
 		}
-		((SubsetBorder)getBorder()).setSameType(sameType);
+		((SubsetBorder) getBorder()).setSameType(sameType);
+		repaint();
+	}
+
+	/**
+	 * 向きを設定する
+	 * 
+	 * @param vertical
+	 *            向き（縦）
+	 */
+	public void setVertical(boolean vertical) {
+		this.vertical = vertical;
+		((SubsetBorder) getBorder()).setVertical(vertical);
+		repaint();
 	}
 
 	/**
@@ -72,8 +96,10 @@ public class SubsetTypeFigure extends Figure {
 	private static class SubsetBorder extends AbstractBorder {
 		/** Figureの長さ */
 		private int width = 1;
-		/** 同一タイプか？ */
-		private boolean sameType;
+		/** サブセットタイプ(同一：true/相違) */
+		private boolean sameType = true;
+		/** ビューの向き（縦） */
+		private boolean vertical = false;
 
 		/**
 		 * コンストラクタ
@@ -81,9 +107,10 @@ public class SubsetTypeFigure extends Figure {
 		 * @param subsetType
 		 *            サブセットタイプ値
 		 */
-		public SubsetBorder(boolean sameType) {
+		public SubsetBorder(boolean sameType, boolean vertical) {
 			super();
 			this.sameType = sameType;
+			this.vertical = vertical;
 		}
 
 		/**
@@ -141,11 +168,20 @@ public class SubsetTypeFigure extends Figure {
 			graphics.setLineWidth(getWidth());
 
 			// 同一サブセット
-			graphics.drawLine(tempRect.getTopLeft(), tempRect.getTopRight());
-			graphics.drawLine(tempRect.getBottomLeft(), tempRect
-					.getBottomRight());
-			graphics.drawLine(getPaintRectangle(figure, insets).getTop(),
-					tempRect.getCenter());
+			if (vertical) {
+				graphics.drawLine(tempRect.getTopLeft(),
+						tempRect.getBottomLeft());
+				graphics.drawLine(tempRect.getTopRight(),
+						tempRect.getBottomRight());
+				graphics.drawLine(getPaintRectangle(figure, insets).getLeft(),
+						tempRect.getCenter());
+			} else {
+				graphics.drawLine(tempRect.getTopLeft(), tempRect.getTopRight());
+				graphics.drawLine(tempRect.getBottomLeft(),
+						tempRect.getBottomRight());
+				graphics.drawLine(getPaintRectangle(figure, insets).getTop(),
+						tempRect.getCenter());
+			}
 		}
 
 		/**
@@ -167,11 +203,19 @@ public class SubsetTypeFigure extends Figure {
 		}
 
 		/**
-		 * @param sameType the sameType to set
+		 * @param sameType
+		 *            the sameType to set
 		 */
 		public void setSameType(boolean sameType) {
 			this.sameType = sameType;
 		}
-		
+
+		/**
+		 * @param vertical
+		 *            the vertical to set
+		 */
+		public void setVertical(boolean vertical) {
+			this.vertical = vertical;
+		}
 	}
 }

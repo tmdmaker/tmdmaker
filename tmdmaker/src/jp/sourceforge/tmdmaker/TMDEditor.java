@@ -29,6 +29,7 @@ import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
+import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
@@ -465,6 +466,9 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		SelectionAction selectionAction = new SubsetCreateAction(this);
 		setupSelectionAction(registry, selectionActions, selectionAction);
 
+		selectionAction = new SubsetTypeTurnAction(this);
+		setupSelectionAction(registry, selectionActions, selectionAction);
+		
 		selectionAction = new MultivalueOrCreateAction(this);
 		setupSelectionAction(registry, selectionActions, selectionAction);
 
