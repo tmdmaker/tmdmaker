@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,6 +59,7 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	protected void updateFigure(IFigure figure) {
 		SubsetTypeFigure sf = (SubsetTypeFigure) figure;
 		SubsetType model = (SubsetType) getModel();
+		sf.setVertical(model.isVertical());
 		sf.setSameType(model.isSameType());
 	}
 
@@ -94,6 +95,8 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 		if (evt.getPropertyName().equals(SubsetType.PROPERTY_TYPE)) {
 			refreshVisuals();
 		} else if (evt.getPropertyName().equals(SubsetType.PROPERTY_PARTITION)) {
+			refreshVisuals();
+		} else if (evt.getPropertyName().equals(SubsetType.PROPERTY_DIRECTION)) {
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);

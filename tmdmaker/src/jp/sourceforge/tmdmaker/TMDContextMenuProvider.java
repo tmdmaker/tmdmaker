@@ -22,6 +22,7 @@ import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
+import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.generate.Generator;
@@ -85,30 +86,29 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 
 		// GEFActionConstants.addStandardActionGroups(menu);
 		ActionRegistry registry = getActionRegistry();
-		menu.add(registry.getAction(SubsetCreateAction.ID));
+		MenuManager subsetMenu = new MenuManager("サブセット");
+		subsetMenu.add(registry.getAction(SubsetCreateAction.ID));
+		subsetMenu.add(registry.getAction(SubsetTypeTurnAction.ID));
+		menu.add(subsetMenu);
 
 		MenuManager multivalueMenu = new MenuManager("データ の多値");
-		multivalueMenu.add(registry.getAction(
-				MultivalueOrCreateAction.ID));
-		multivalueMenu.add(registry.getAction(
-				MultivalueAndCreateAction.ID));
+		multivalueMenu.add(registry.getAction(MultivalueOrCreateAction.ID));
+		multivalueMenu.add(registry.getAction(MultivalueAndCreateAction.ID));
 		menu.add(multivalueMenu);
 
 		MenuManager tmdashMenu = new MenuManager("みなし概念(TM')");
-		tmdashMenu.add(registry.getAction(
-				VirtualEntityCreateAction.ID));
-		tmdashMenu.add(registry.getAction(
-				VirtualSupersetCreateAction.ID));
+		tmdashMenu.add(registry.getAction(VirtualEntityCreateAction.ID));
+		tmdashMenu.add(registry.getAction(VirtualSupersetCreateAction.ID));
 		menu.add(tmdashMenu);
 
 		menu.add(new Separator("implement"));
 		menu.add(registry.getAction(DatabaseSelectAction.ID));
 		menu.add(registry.getAction(ImplementInfoEditAction.ID));
 		menu.add(registry.getAction(CommonAttributeSettingAction.ID));
-		
+
 		menu.add(new Separator("generate"));
 		menu.add(registry.getAction(DiagramImageSaveAction.ID));
-		
+
 		for (Generator generator : GeneratorProvider.getGenerators()) {
 			menu.add(registry.getAction(generator.getClass().getName()));
 		}

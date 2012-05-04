@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,10 +41,16 @@ public class SubsetType extends ConnectableElement {
 	public static final String PROPERTY_PARTITION = "_property_partition";
 	/** サブセットタイプ */
 	public static final String PROPERTY_TYPE = "_property_type";
+	/** サブセットタイプの向き */
+	public static final String PROPERTY_DIRECTION = "_property_direction";
+
 	/** 区分コードの属性 */
 	private IAttribute partitionAttribute;
 	/** NULLを排除（形式的サブセット）するか？ */
 	private boolean exceptNull;
+
+	/** モデルの向き（縦） */
+	private boolean vertical = false;
 
 	/**
 	 * サブセットエンティティ取得
@@ -140,4 +146,22 @@ public class SubsetType extends ConnectableElement {
 		// TODO 必要な処理を記述
 	}
 
+	/**
+	 * 向き（縦）
+	 * @return
+	 */
+	public boolean isVertical() {
+		return vertical;
+	}
+
+	/**
+	 * 向き（縦）
+	 * 
+	 * @param vertical
+	 */
+	public void setVertical(boolean vertical) {
+		boolean oldValue = this.vertical;
+		this.vertical = vertical;
+		firePropertyChange(PROPERTY_DIRECTION, oldValue, this.vertical);
+	}
 }
