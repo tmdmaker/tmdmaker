@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -179,7 +179,9 @@ public class DdlUtilsConverter {
 	 */
 	public void addCommonColumns(Database database,
 			List<IAttribute> commonAttributes) {
-
+		if (commonAttributes == null) {
+			return;
+		}
 		for (Table t : database.getTables()) {
 			addCommonColumns(t, commonAttributes);
 		}
