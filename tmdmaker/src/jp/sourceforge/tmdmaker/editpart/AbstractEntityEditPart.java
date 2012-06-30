@@ -420,7 +420,9 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		updateFigure(getFigure());
 		refreshChildren();
 	}
-
+	public void updateAppearance() {
+		refreshVisuals();
+	}
 	protected void refleshConnections() {
 		for (AbstractConnectionModel connection : getModelSourceConnections()) {
 			connection.fireParentMoved();

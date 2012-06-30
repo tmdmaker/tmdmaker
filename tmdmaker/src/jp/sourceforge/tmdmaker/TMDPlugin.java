@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,23 @@
  */
 package jp.sourceforge.tmdmaker;
 
+import jp.sourceforge.tmdmaker.ui.preferences.IPreferenceListener;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearancePreferenceListener;
+import jp.sourceforge.tmdmaker.ui.preferences.rule.RulePreferenceListener;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -37,6 +46,9 @@ public class TMDPlugin extends AbstractUIPlugin {
 
 	/** The shared instance */
 	private static TMDPlugin plugin;
+
+	/** preferences変更リスナー */
+	private IPropertyChangeListener[] listeners = {new AppearancePreferenceListener(), new RulePreferenceListener()};
 
 	/**
 	 * The constructor
@@ -53,6 +65,15 @@ public class TMDPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		IPreferenceStore store = plugin.getPreferenceStore();
+
+		for (IPropertyChangeListener listener : listeners) {
+			if (listener instanceof IPreferenceListener) {
+				((IPreferenceListener) listener).preferenceStart(store);
+			}
+			store.addPropertyChangeListener(listener);
+		}
+		update();
 	}
 
 	/**
@@ -62,6 +83,12 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		IPreferenceStore store = plugin.getPreferenceStore();
+
+		for (IPropertyChangeListener listener : listeners) {
+			store.removePropertyChangeListener(listener);
+		}
+
 		super.stop(context);
 		// imageRegistryの後片付けはsuper.stop()で実施
 		// getImageRegistry().dispose();
@@ -158,5 +185,20 @@ public class TMDPlugin extends AbstractUIPlugin {
 			images.put(path, image);
 		}
 		return image;
+	}
+
+	public void update() {
+		for (IWorkbenchWindow w : PlatformUI.getWorkbench()
+				.getWorkbenchWindows()) {
+
+			for (IWorkbenchPage page : w.getPages()) {
+				for (IEditorPart part : page.getEditors()) {
+					if (part instanceof TMDEditor) {
+						((TMDEditor) part).updateVisuals();
+					}
+				}
+			}
+		}
+
 	}
 }

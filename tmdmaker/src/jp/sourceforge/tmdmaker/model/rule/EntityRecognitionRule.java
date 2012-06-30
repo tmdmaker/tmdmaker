@@ -27,6 +27,34 @@ import jp.sourceforge.tmdmaker.model.Laputa;
  * 
  */
 public class EntityRecognitionRule {
+	/** デフォルトインスタンス */
+	private static EntityRecognitionRule rule;
+	/** 個体指定子サフィックスのデフォルト値 */
+	public static final String[] DEFAULT_IDENTIFIER_SUFFIXES = { "ID", "ＩＤ",
+			"id", "ｉｄ", "コード", "CD", "cd", "番号", "No", "NO", "no", "NUM",
+			"Num", "num" };
+	/** 帳票名サフィックスのデフォルト値 */
+	public static final String[] DEFAULT_REPORT_SUFFIXES = { "伝票", "報告書", "書",
+			"レポート" };
+	/** サフィックスの区切り文字 */
+	private static final String SEPARATOR = ",";
+	/** 個体指定子サフィックスの配列 */
+	private String[] identifierSuffixes = DEFAULT_IDENTIFIER_SUFFIXES;
+	/** 帳票名サフィックスの配列 */
+	private String[] reportSuffixes = DEFAULT_REPORT_SUFFIXES;
+
+	/**
+	 * ルールインスタンス取得
+	 * 
+	 * @return ルールインスタンス
+	 */
+	public static EntityRecognitionRule getInstance() {
+		if (rule == null) {
+			rule = new EntityRecognitionRule();
+		}
+		return rule;
+	}
+
 	/**
 	 * 個体指定子の名称からエンティティの名称を生成する
 	 * 
@@ -34,7 +62,7 @@ public class EntityRecognitionRule {
 	 *            個体指定子名称
 	 * @return 生成したエンティティ名称
 	 */
-	public static String generateEntityNameFromIdentifier(String identifierName) {
+	public String generateEntityNameFromIdentifier(String identifierName) {
 		String entityName = removeIdentifierSuffixFromIdentifierName(identifierName);
 		return removeReportNameSuffixFromEntityName(entityName);
 	}
@@ -46,10 +74,9 @@ public class EntityRecognitionRule {
 	 *            個体指定子名
 	 * @return 編集後個体指定子名
 	 */
-	private static String removeIdentifierSuffixFromIdentifierName(
+	private String removeIdentifierSuffixFromIdentifierName(
 			String identifierName) {
-		String[] suffixes = { "コード", "ID", "ＩＤ", "id", "ｉｄ", "番号", "No" };
-		for (String suffix : suffixes) {
+		for (String suffix : identifierSuffixes) {
 			if (identifierName.endsWith(suffix)) {
 				return identifierName.substring(0,
 						identifierName.lastIndexOf(suffix));
@@ -65,8 +92,7 @@ public class EntityRecognitionRule {
 	 *            エンティティ名
 	 * @return 編集後エンティティ名
 	 */
-	private static String removeReportNameSuffixFromEntityName(String entityName) {
-		String[] reportSuffixes = { "伝票", "報告書", "書", "レポート" };
+	private String removeReportNameSuffixFromEntityName(String entityName) {
 		for (String reportSuffix : reportSuffixes) {
 			if (entityName.endsWith(reportSuffix)) {
 				return entityName.substring(0,
@@ -87,7 +113,7 @@ public class EntityRecognitionRule {
 	 *            エンティティ種類
 	 * @return 新規エンティティモデル
 	 */
-	public static Entity createEntity(String entityName, Identifier identifier,
+	public Entity createEntity(String entityName, Identifier identifier,
 			EntityType entityType) {
 		Entity entity = new Entity();
 		entity.setName(entityName);
@@ -109,7 +135,7 @@ public class EntityRecognitionRule {
 	 *            個体指定子
 	 * @return 新規ラピュタモデル
 	 */
-	public static Laputa createLaputa(String entityName, Identifier identifier) {
+	public Laputa createLaputa(String entityName, Identifier identifier) {
 		Laputa laputa = new Laputa();
 		if (entityName != null && entityName.length() > 0) {
 			laputa.setName(entityName);
@@ -132,7 +158,7 @@ public class EntityRecognitionRule {
 	 *            エンティティ名
 	 * @return 新規ラピュタモデル
 	 */
-	public static Laputa createLaputa(String entityName) {
+	public Laputa createLaputa(String entityName) {
 		return createLaputa(entityName, null);
 	}
 
@@ -141,8 +167,75 @@ public class EntityRecognitionRule {
 	 * 
 	 * @return 新規ラピュタモデル
 	 */
-	public static Laputa createLaputa() {
+	public Laputa createLaputa() {
 		return createLaputa(null, null);
 	}
 
+	/**
+	 * @param suffixes
+	 *            the suffixes to set
+	 */
+	public void setIdentifierSuffixes(String[] suffixes) {
+		this.identifierSuffixes = suffixes;
+	}
+
+	/**
+	 * @param reportSuffixes
+	 *            the reportSuffixes to set
+	 */
+	public void setReportSuffixes(String[] reportSuffixes) {
+		this.reportSuffixes = reportSuffixes;
+	}
+
+	/**
+	 * 個体指定子サフィックスを文字列（区切り文字つき）で返す
+	 * 
+	 * @return 個体指定子サフィックスの文字列
+	 */
+	public String getIdentifierSuffixesString() {
+		StringBuffer buf = new StringBuffer();
+		for (String str : identifierSuffixes) {
+			if (buf.length() > 0) {
+				buf.append(SEPARATOR);
+			}
+			buf.append(str);
+		}
+		return buf.toString();
+	}
+
+	/**
+	 * 個体指定子サフィックスを文字列（区切り文字つき）を設定する
+	 * 
+	 * @param suffixes
+	 *            　個体指定子サフィックスの文字列
+	 */
+	public void setIdentifierSuffixesString(String suffixes) {
+		setIdentifierSuffixes(suffixes.split(SEPARATOR));
+	}
+
+	/**
+	 * 帳票名サフィックスを文字列（区切り文字つき）で返す
+	 * 
+	 * @return 帳票名サフィックスの文字列
+	 */
+	public String getReportSuffixesString() {
+		StringBuffer buf = new StringBuffer();
+		for (String str : reportSuffixes) {
+			if (buf.length() > 0) {
+				buf.append(SEPARATOR);
+			}
+			buf.append(str);
+		}
+		return buf.toString();
+	}
+
+	/**
+	 * 帳票名サフィックスを文字列（区切り文字つき）を設定する
+	 * 
+	 * @param suffixes
+	 *            　帳票名サフィックスの文字列
+	 */
+	public void setReportSuffixesString(String suffixes) {
+		setReportSuffixes(suffixes.split(SEPARATOR));
+	}
 }
