@@ -102,7 +102,7 @@ public class EntityFileImporter implements FileImporter {
 		List<IAttribute> identifierCandidates = new ArrayList<IAttribute>();
 
 		for (IAttribute a : model.getAttributes()) {
-			String generateName = EntityRecognitionRule
+			String generateName = EntityRecognitionRule.getInstance()
 					.generateEntityNameFromIdentifier(a.getName());
 			if (entityName.equals(generateName)) {
 				identifierCandidates.add(a);
@@ -127,7 +127,7 @@ public class EntityFileImporter implements FileImporter {
 
 	private Laputa createLaputa(Map<String, AbstractEntityModel> s,
 			String entityName) {
-		Laputa l = EntityRecognitionRule.createLaputa(entityName);
+		Laputa l = EntityRecognitionRule.getInstance().createLaputa(entityName);
 		// EntityRecognitionRule.createEntity(entityName, identifier,
 		// entityType)
 		l.setConstraint(new Rectangle());

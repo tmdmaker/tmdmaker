@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -138,10 +138,11 @@ public class EntityCreateDialog extends Dialog {
 		return inputIdentifier;
 	}
 	public AbstractEntityModel getCreateModel() {
+		EntityRecognitionRule rule = EntityRecognitionRule.getInstance();
 		if (isLaputa()) {
-			return EntityRecognitionRule.createLaputa(getInputEntityName(), getInputIdentifier());
+			return rule.createLaputa(getInputEntityName(), getInputIdentifier());
 		} else {
-			return EntityRecognitionRule.createEntity(getInputEntityName(), getInputIdentifier(), getInputEntityType());
+			return rule.createEntity(getInputEntityName(), getInputIdentifier(), getInputEntityType());
 		}
 	}
 }

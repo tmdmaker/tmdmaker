@@ -48,8 +48,9 @@ public class AttributeFileImporter implements FileImporter {
 		CSVReader reader = new CSVReader(new BufferedReader(new FileReader(
 				filePath)));
 		String[] nextLine;
-		AbstractEntityModel l = EntityRecognitionRule.createLaputa();
-		
+		AbstractEntityModel l = EntityRecognitionRule.getInstance()
+				.createLaputa();
+
 		while ((nextLine = reader.readNext()) != null) {
 			String attributeName = nextLine[0];
 			l.addAttribute(new Attribute(attributeName));

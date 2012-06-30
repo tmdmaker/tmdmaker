@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,11 +28,14 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
+import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * ラピュタのコントローラ
@@ -67,6 +70,12 @@ public class LaputaEditPart extends AbstractEntityEditPart {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}
+		}
+		if (AppearanceSetting.getInstance().isColorEnabled()) {
+			entityFigure.setBackgroundColor(new Color(null, AppearanceSetting
+					.getInstance().getLaputaRGB()));
+		} else {
+			entityFigure.setBackgroundColor(ColorConstants.white);
 		}
 	}
 

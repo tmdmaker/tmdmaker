@@ -32,6 +32,8 @@ import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
+import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
@@ -652,4 +654,20 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		}
 	}
 
+	public void updateVisuals() {
+		List editParts = getGraphicalViewer().getRootEditPart().getChildren();
+		
+		for (Object o: editParts) {
+			System.out.println(o.getClass());
+			if (o instanceof AbstractEntityEditPart) {
+				((AbstractEntityEditPart)o).updateAppearance();
+			} else if (o instanceof DiagramEditPart) {
+				for (Object ob : ((DiagramEditPart)o).getChildren()) {
+					if (ob instanceof AbstractEntityEditPart) {
+						((AbstractEntityEditPart)ob).updateAppearance();
+					}		
+				}
+			}
+		}
+	}
 }

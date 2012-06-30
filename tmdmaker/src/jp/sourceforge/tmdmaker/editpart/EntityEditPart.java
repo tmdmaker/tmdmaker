@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,14 +26,18 @@ import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
+import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * エンティティのコントローラ
@@ -60,6 +64,17 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(entity.getEntityType().getLabel());
+		if (AppearanceSetting.getInstance().isColorEnabled()) {
+			if (entity.getEntityType().equals(EntityType.RESOURCE)) {
+				entityFigure.setBackgroundColor(new Color(null,
+						AppearanceSetting.getInstance().getResorceRGB()));
+			} else if (entity.getEntityType().equals(EntityType.EVENT)) {
+				entityFigure.setBackgroundColor(new Color(null,
+						AppearanceSetting.getInstance().getEventRGB()));
+			}
+		} else {
+			entityFigure.setBackgroundColor(ColorConstants.white);
+		}
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {
