@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
 
 /**
  * 実装に関するルールをまとめたクラス
@@ -183,7 +184,9 @@ public class ImplementRule {
 	 *            エンティティ系モデル
 	 */
 	public static void setModelDefaultValue(AbstractEntityModel model) {
-		model.setImplementName(model.getName());
+		if (ModelEditUtils.isEmpty(model.getImplementName())) {
+			model.setImplementName(model.getName());
+		}
 	}
 
 	/**
@@ -193,9 +196,13 @@ public class ImplementRule {
 	 *            個体指定子
 	 */
 	public static void setIdentifierDefaultValue(Identifier identifier) {
-		identifier.setImplementName(identifier.getName());
-		identifier.setDataTypeDeclaration(new DataTypeDeclaration(
-				StandardSQLDataType.NUMERIC, 10, 0));
+		if (ModelEditUtils.isEmpty(identifier.getImplementName())) {
+			identifier.setImplementName(identifier.getName());
+		}
+		if (identifier.getDataTypeDeclaration() == null) {
+			identifier.setDataTypeDeclaration(new DataTypeDeclaration(
+					StandardSQLDataType.NUMERIC, 10, 0));
+		}
 	}
 
 	/**

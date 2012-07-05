@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,4 +61,14 @@ public class ModelEditUtils {
 		return value == null ? "" : value;
 	}
 
+	/**
+	 * 文字列が空から判定する。
+	 * 
+	 * @param value
+	 *            文字列
+	 * @return NULLか空文字の場合にtrueを返す
+	 */
+	public static boolean isEmpty(String value) {
+		return value == null || value.length() == 0;
+	}
 }
