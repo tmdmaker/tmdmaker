@@ -116,6 +116,14 @@
                   style="push">
             </command>
          </menu>
+         <menu
+               label="&amp;Window">
+            <command
+                  commandId="org.eclipse.ui.window.preferences"
+                  label="&amp;Preferences"
+                  style="push">
+            </command>
+         </menu>
       </menuContribution>
       <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar">
