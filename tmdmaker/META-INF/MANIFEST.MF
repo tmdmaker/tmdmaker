@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: tmdmaker;singleton:=true
-Bundle-Version: 0.2.4.qualifier
+Bundle-Version: 0.2.5.qualifier
 Bundle-Activator: jp.sourceforge.tmdmaker.TMDPlugin
-Require-Bundle: org.eclipse.ui,	
+Require-Bundle: org.eclipse.ui,
  org.eclipse.gef,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide,
@@ -26,4 +26,5 @@ Export-Package: jp.sourceforge.tmdmaker,
  jp.sourceforge.tmdmaker.generate,
  jp.sourceforge.tmdmaker.model,
  jp.sourceforge.tmdmaker.model.rule,
- jp.sourceforge.tmdmaker.persistence
+ jp.sourceforge.tmdmaker.persistence,
+ jp.sourceforge.tmdmaker.ui.setting

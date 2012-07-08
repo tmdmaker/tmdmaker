@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -202,7 +202,7 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 	 * @return
 	 */
 	private String createEntityName(String identifierName) {
-		return EntityRecognitionRule.generateEntityNameFromIdentifier(identifierName);
+		return EntityRecognitionRule.getInstance().generateEntityNameFromIdentifier(identifierName);
 	}
 	/**
 	 * 

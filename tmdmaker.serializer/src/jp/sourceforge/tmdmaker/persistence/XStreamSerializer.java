@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import java.io.UnsupportedEncodingException;
 
 import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.persistence.converter.SerializerHandler;
+import jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -34,8 +34,12 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class XStreamSerializer implements Serializer {
-	PluginExtensionPointFactory<SerializerHandler> factory = new PluginExtensionPointFactory<SerializerHandler>(
-			Activator.PLUGIN_ID + ".converter");
+	/** ファイルのエンコーディング */
+	private static final String ENCODING = "UTF-8";
+
+	/** handlerを取得するためのfactory */
+	private PluginExtensionPointFactory<SerializerHandler> factory = new PluginExtensionPointFactory<SerializerHandler>(
+			Activator.PLUGIN_ID + ".handler");
 
 	/**
 	 * {@inheritDoc}
@@ -46,7 +50,8 @@ public class XStreamSerializer implements Serializer {
 	@Override
 	public InputStream serialize(Diagram obj) {
 		try {
-			return serializeAsStream(obj, obj.getClass().getClassLoader());
+			Diagram before = fireBeforeSerialize(obj);
+			return serializeAsStream(before, before.getClass().getClassLoader());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			throw new SerializationException(e);
@@ -66,7 +71,7 @@ public class XStreamSerializer implements Serializer {
 	private InputStream serializeAsStream(Object obj, ClassLoader loader)
 			throws UnsupportedEncodingException {
 		String xml = serializeAsString(obj, loader);
-		return new ByteArrayInputStream(xml.getBytes("UTF-8"));
+		return new ByteArrayInputStream(xml.getBytes(ENCODING));
 	}
 
 	/**
@@ -82,8 +87,10 @@ public class XStreamSerializer implements Serializer {
 	private String serializeAsString(Object obj, ClassLoader loader) {
 		XStream xstream = new XStream();
 		xstream.setClassLoader(loader);
-		return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-				+ xstream.toXML(obj);
+		String result = "<?xml version=\"1.0\" encoding=\"" + ENCODING
+				+ "\"?>\n" + xstream.toXML(obj);
+
+		return fireAfterSerialize(result);
 	}
 
 	/**
@@ -95,11 +102,13 @@ public class XStreamSerializer implements Serializer {
 	@Override
 	public Diagram deserialize(InputStream in) {
 		try {
-			String xml = loadStream(in, "UTF-8");
+			String xml = loadStream(in, ENCODING);
 			System.out.println(getVersionFromXml(xml));
 
 			String converted = fireBeforeDeserialize(xml);
-			Diagram diagram = (Diagram) deserialize(new ByteArrayInputStream(converted.getBytes("UTF-8")), this.getClass().getClassLoader());
+			Diagram diagram = (Diagram) deserialize(new ByteArrayInputStream(
+					converted.getBytes(ENCODING)), this.getClass()
+					.getClassLoader());
 			fireAfterDeserialize(diagram);
 
 			return diagram;
@@ -108,6 +117,23 @@ public class XStreamSerializer implements Serializer {
 			throw new SerializationException(e);
 		}
 	}
+
+	private Diagram fireBeforeSerialize(Diagram diagram) {
+		for (SerializerHandler c : factory.getInstances()) {
+			c.handleBeforeSerialize(diagram);
+		}
+		return diagram;
+	}
+
+	private String fireAfterSerialize(String in) {
+		String converted = in;
+		for (SerializerHandler c : factory.getInstances()) {
+			converted = c.handleAfterSerialize(converted);
+		}
+		return converted;
+
+	}
+
 	private String fireBeforeDeserialize(String xml) {
 		String converted = xml;
 		for (SerializerHandler c : factory.getInstances()) {
@@ -115,23 +141,28 @@ public class XStreamSerializer implements Serializer {
 		}
 		return converted;
 	}
+
 	private void fireAfterDeserialize(Diagram diagram) {
 		for (SerializerHandler c : factory.getInstances()) {
 			c.handleAfterDeserialize(diagram);
 		}
 	}
+
 	private String getVersionFromXml(String xml) {
 		final String VERSION_START_TAG = "<version>";
 		final String VERSION_END_TAG = "</version>";
-		
+
 		if (xml == null || xml.length() == 0) {
 			return "";
 		}
 		if (xml.indexOf(VERSION_START_TAG) == -1) {
 			return "";
 		}
-		return xml.substring(xml.indexOf(VERSION_START_TAG) + VERSION_START_TAG.length(), xml.indexOf(VERSION_END_TAG));
+		return xml.substring(
+				xml.indexOf(VERSION_START_TAG) + VERSION_START_TAG.length(),
+				xml.indexOf(VERSION_END_TAG));
 	}
+
 	/**
 	 * TMDデシリアライズ
 	 * 
@@ -147,7 +178,7 @@ public class XStreamSerializer implements Serializer {
 		XStream xstream = new XStream();
 		xstream.setClassLoader(loader);
 
-		return xstream.fromXML(new InputStreamReader(in, "UTF-8"));
+		return xstream.fromXML(new InputStreamReader(in, ENCODING));
 	}
 
 	private String loadStream(InputStream in, String encoding) {

@@ -30,5 +30,34 @@
             name="%wizard.name.0">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage"
+            id="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage"
+            name="TMD-Maker">
+      </page>
+      <page
+            category="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage"
+            class="jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearancePreferencePage"
+            id="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance"
+            name="Appearance">
+      </page>
+      <page
+            category="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage"
+            class="jp.sourceforge.tmdmaker.ui.preferences.rule.RulePreferencePage"
+            id="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage.rule"
+            name="Rule">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearancePreferenceInitializer">
+      </initializer>
+      <initializer
+            class="jp.sourceforge.tmdmaker.ui.preferences.rule.RulePreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>

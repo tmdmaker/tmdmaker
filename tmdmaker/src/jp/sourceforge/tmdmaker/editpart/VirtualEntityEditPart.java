@@ -32,7 +32,9 @@ import jp.sourceforge.tmdmaker.model.command.ImplementDerivationModelsDeleteComm
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
+import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -40,6 +42,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * みなしエンティティのコントローラ
@@ -105,6 +108,12 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 			for (Identifier i : rk.getValue().getIdentifires()) {
 				entityFigure.addRelationship(i.getName());
 			}
+		}
+		if (AppearanceSetting.getInstance().isColorEnabled()) {
+			entityFigure.setBackgroundColor(new Color(null, AppearanceSetting
+					.getInstance().getVirtualEntityRGB()));
+		} else {
+			entityFigure.setBackgroundColor(ColorConstants.white);
 		}
 	}
 
