@@ -23,6 +23,7 @@ import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
 import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
+import jp.sourceforge.tmdmaker.action.DiagramSVGImageGenerateAction;
 import jp.sourceforge.tmdmaker.action.FileImportAction;
 import jp.sourceforge.tmdmaker.action.GenerateAction;
 import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
@@ -557,7 +558,9 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		DiagramImageSaveAction action6 = new DiagramImageSaveAction(viewer,
 				this);
 		registry.registerAction(action6);
-
+		DiagramSVGImageGenerateAction action66 = new DiagramSVGImageGenerateAction(viewer, this);
+		registry.registerAction(action66);
+		
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
 		for (Generator generator : GeneratorProvider.getGenerators()) {

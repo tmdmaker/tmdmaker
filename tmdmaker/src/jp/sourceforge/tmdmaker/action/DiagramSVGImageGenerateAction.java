@@ -16,22 +16,17 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
+import jp.sourceforge.tmdmaker.generate.ImageGenerator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.SWTGraphics;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -41,23 +36,25 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author nakaG
  * 
  */
-public class DiagramImageSaveAction extends Action {
+public class DiagramSVGImageGenerateAction extends Action {
 	/** ビューワ */
 	private GraphicalViewer viewer;
 	private IWorkbenchPart part;
+	ImageGenerator generator;
 	/** ID */
-	public static final String ID = "DiagramImageSaveAction";
-	
+	public static final String ID = "DiagramSVGImageGenerateAction";
+
 	/**
 	 * コンストラクタ
 	 * 
 	 * @param viewer
 	 *            ビューワ
 	 */
-	public DiagramImageSaveAction(GraphicalViewer viewer,IWorkbenchPart part) {
+	public DiagramSVGImageGenerateAction(GraphicalViewer viewer,
+			IWorkbenchPart part) {
 		this.viewer = viewer;
 		this.part = part;
-		setText("画像として保存");
+		setText("SVG形式で保存");
 		setId(ID);
 	}
 
@@ -70,49 +67,32 @@ public class DiagramImageSaveAction extends Action {
 	public void run() {
 		FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) getViewer()
 				.getRootEditPart();
+		PluginExtensionPointFactory<ImageGenerator> factory = new PluginExtensionPointFactory<ImageGenerator>(
+				TMDPlugin.PLUGIN_ID + ".image.generators");
+		ImageGenerator generator = factory.getInstance();
 
 		FileDialog dialog = new FileDialog(viewer.getControl().getShell(),
 				SWT.SAVE);
-		dialog.setFilterExtensions(new String[]{"jpeg","png","gif","tiff","bmp"});
 		IFile editfile = GeneratorUtils.getEditFile(part);
-		dialog.setFileName(editfile.getLocation().toOSString());
-		dialog.setFilterPath(editfile.getLocation().removeFirstSegments(1).toOSString());
-		String file = dialog.open();
+		dialog.setFileName(editfile.getLocation().removeFileExtension().toOSString());
+		dialog.setFilterPath(editfile.getLocation().removeFirstSegments(1)
+				.toOSString());
+		String[] extensions = generator.getExtensions();
+		dialog.setFilterExtensions(extensions);
 		
+		String file = dialog.open();
 		if (file != null) {
+			StringBuffer filePath = new StringBuffer(file);
+			String extension = extensions[dialog.getFilterIndex()];
+			if (!file.endsWith(extension)) {
+				filePath.append(".");
+				filePath.append(extension);
+			}
 			IFigure figure = rootEditPart
 					.getLayer(LayerConstants.PRINTABLE_LAYERS);
-			Rectangle rectangle = figure.getBounds();
 
-			Image image = new Image(Display.getDefault(), rectangle.width + 50,
-					rectangle.height + 50);
-			GC gc = new GC(image);
-			SWTGraphics graphics = new SWTGraphics(gc);
-			// 一部画像が表示されないための対策。何故この処理なのかは良く分かっていない・・・
-			// 参照URL
-			// http://www.eclipse.org/forums/index.php?t=msg&th=168154&start=0&
-			graphics.translate(rectangle.getLocation().negate());
-//			graphics.translate(rectangle.x * -1, rectangle.y * -1);
+			generator.execute(filePath.toString(), figure, extension);
 
-			figure.paint(graphics);
-
-			ImageLoader loader = new ImageLoader();
-			loader.data = new ImageData[] { image.getImageData() };
-
-			if (file.endsWith(".bmp")) {
-				loader.save(file, SWT.IMAGE_BMP);
-			} else if (file.endsWith(".gif")) {
-				loader.save(file, SWT.IMAGE_GIF);
-			} else if (file.endsWith(".jpg") || file.endsWith(".jpeg")) {
-				loader.save(file, SWT.IMAGE_JPEG);
-			} else if (file.endsWith(".png")) {
-				loader.save(file, SWT.IMAGE_PNG);
-			} else if (file.endsWith(".tiff")) {
-				loader.save(file, SWT.IMAGE_TIFF);
-			} else {
-				file = file + ".bmp";
-				loader.save(file, SWT.IMAGE_BMP);
-			}
 			TMDPlugin.showMessageDialog(getText() + " 完了");
 
 			try {
@@ -120,11 +100,6 @@ public class DiagramImageSaveAction extends Action {
 			} catch (Exception e) {
 				TMDPlugin.showErrorDialog(e);
 			}
-			
-			image.dispose();
-			gc.dispose();
-
-
 		}
 	}
 
