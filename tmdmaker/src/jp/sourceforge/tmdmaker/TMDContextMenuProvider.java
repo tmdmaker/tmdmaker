@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker;
 
 import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
-import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
+import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
 import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
@@ -107,8 +107,8 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		menu.add(registry.getAction(CommonAttributeSettingAction.ID));
 
 		menu.add(new Separator("generate"));
-		menu.add(registry.getAction(DiagramImageSaveAction.ID));
-
+		menu.add(registry.getAction(DiagramImageGenerateAction.ID));
+		
 		for (Generator generator : GeneratorProvider.getGenerators()) {
 			menu.add(registry.getAction(generator.getClass().getName()));
 		}
