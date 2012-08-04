@@ -11,6 +11,8 @@
 
 package org.eclipse.gmf.runtime.draw2d.ui.render.internal;
 
+import jp.sourceforge.tmdmaker.imagegenerator.Activator;
+
 /**
  * A list of debug options for this plug-in.
  * 
@@ -29,7 +31,7 @@ public final class Draw2dRenderDebugOptions {
 		// empty constructor
 	}
 
-	public static final String DEBUG = Draw2dRenderPlugin.getPluginId() + "/debug"; //$NON-NLS-1$
+	public static final String DEBUG = Activator.PLUGIN_ID + "/debug"; //$NON-NLS-1$
 
 	public static final String EXCEPTIONS_CATCHING = DEBUG + "/exceptions/catching"; //$NON-NLS-1$
 	public static final String EXCEPTIONS_THROWING = DEBUG + "/exceptions/throwing"; //$NON-NLS-1$

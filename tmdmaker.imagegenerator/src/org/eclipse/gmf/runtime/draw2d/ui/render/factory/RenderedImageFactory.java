@@ -27,15 +27,13 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
-//import org.eclipse.gmf.runtime.common.core.util.Trace;
 import org.eclipse.gmf.runtime.draw2d.ui.render.RenderInfo;
 import org.eclipse.gmf.runtime.draw2d.ui.render.RenderedImage;
 import org.eclipse.gmf.runtime.draw2d.ui.render.internal.AbstractRenderedImage;
-import org.eclipse.gmf.runtime.draw2d.ui.render.internal.Draw2dRenderDebugOptions;
-import org.eclipse.gmf.runtime.draw2d.ui.render.internal.Draw2dRenderPlugin;
 import org.eclipse.gmf.runtime.draw2d.ui.render.internal.factory.RenderedImageKey;
 import org.eclipse.gmf.runtime.draw2d.ui.render.internal.image.ImageRenderedImage;
 import org.eclipse.swt.graphics.RGB;
+//import org.eclipse.gmf.runtime.common.core.util.Trace;
 
 /**
  * @author sshaw

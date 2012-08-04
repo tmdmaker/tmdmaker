@@ -15,11 +15,8 @@ package org.eclipse.gmf.runtime.draw2d.ui.render.internal.image;
 import java.io.ByteArrayInputStream;
 import java.security.InvalidParameterException;
 
-//import org.eclipse.gmf.runtime.common.core.util.Trace;
 import org.eclipse.gmf.runtime.common.ui.util.DisplayUtils;
 import org.eclipse.gmf.runtime.draw2d.ui.render.internal.AbstractRenderedImage;
-import org.eclipse.gmf.runtime.draw2d.ui.render.internal.Draw2dRenderDebugOptions;
-import org.eclipse.gmf.runtime.draw2d.ui.render.internal.Draw2dRenderPlugin;
 import org.eclipse.gmf.runtime.draw2d.ui.render.internal.factory.RenderedImageKey;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -29,6 +26,7 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
+//import org.eclipse.gmf.runtime.common.core.util.Trace;
 
 /**
 * Class that represents a Image image. This is a useful abstraction so that it

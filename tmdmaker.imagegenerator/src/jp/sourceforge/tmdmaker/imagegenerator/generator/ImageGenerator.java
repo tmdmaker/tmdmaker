@@ -13,23 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.generate;
+package jp.sourceforge.tmdmaker.imagegenerator.generator;
 
 import org.eclipse.draw2d.IFigure;
 
 /**
+ * 画像生成用インターフェース
+ * 
  * @author nakaG
- *
+ * 
  */
 public interface ImageGenerator {
 	/**
-	 * 生成処理実行
+	 * 画像生成実行
 	 * 
-	 * @param rootDir
-	 *            生成先ディレクトリ
-	 * @param figure
-	 *            対象モデル
+	 * @param rootFigure
+	 *            draw2dのfigure
+	 * @param file
+	 *            出力先
+	 * @param imageType
+	 *            　画像種類の定数
 	 */
-	void execute(String file, IFigure figure, String extention);
-	String[] getExtensions();
+	void execute(IFigure rootFigure, String file, int imageType);
 }

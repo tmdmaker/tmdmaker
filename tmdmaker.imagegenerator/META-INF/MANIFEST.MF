@@ -6,8 +6,7 @@ Bundle-Version: 0.2.6.qualifier
 Bundle-Activator: jp.sourceforge.tmdmaker.imagegenerator.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.draw2d,
- tmdmaker
+ org.eclipse.draw2d
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
@@ -31,3 +30,4 @@ Bundle-ClassPath: lib/batik-rasterizer.jar,
  lib/xml-apis.jar,
  lib/pdf-transcoder.jar,
  .
+Export-Package: jp.sourceforge.tmdmaker.imagegenerator

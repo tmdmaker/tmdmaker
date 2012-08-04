@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,33 +16,35 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
-import jp.sourceforge.tmdmaker.generate.ImageGenerator;
+import jp.sourceforge.tmdmaker.imagegenerator.Draw2dToImageConverter;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 /**
- * ダイアグラムを画像として保存するAction
+ * ダイアグラムから画像を出力して保存するAction
  * 
  * @author nakaG
  * 
  */
-public class DiagramSVGImageGenerateAction extends Action {
+public class DiagramImageGenerateAction extends Action {
 	/** ビューワ */
 	private GraphicalViewer viewer;
 	private IWorkbenchPart part;
-	ImageGenerator generator;
+	private Draw2dToImageConverter converter;
 	/** ID */
-	public static final String ID = "DiagramSVGImageGenerateAction";
+	public static final String ID = "DiagramImageGenerateAction";
 
 	/**
 	 * コンストラクタ
@@ -50,12 +52,13 @@ public class DiagramSVGImageGenerateAction extends Action {
 	 * @param viewer
 	 *            ビューワ
 	 */
-	public DiagramSVGImageGenerateAction(GraphicalViewer viewer,
+	public DiagramImageGenerateAction(GraphicalViewer viewer,
 			IWorkbenchPart part) {
 		this.viewer = viewer;
 		this.part = part;
-		setText("SVG形式で保存");
+		setText("ダイアグラムから画像を生成");
 		setId(ID);
+		converter = new Draw2dToImageConverter();
 	}
 
 	/**
@@ -65,38 +68,53 @@ public class DiagramSVGImageGenerateAction extends Action {
 	 */
 	@Override
 	public void run() {
-		FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) getViewer()
-				.getRootEditPart();
-		PluginExtensionPointFactory<ImageGenerator> factory = new PluginExtensionPointFactory<ImageGenerator>(
-				TMDPlugin.PLUGIN_ID + ".image.generators");
-		ImageGenerator generator = factory.getInstance();
 
 		FileDialog dialog = new FileDialog(viewer.getControl().getShell(),
 				SWT.SAVE);
 		IFile editfile = GeneratorUtils.getEditFile(part);
-		dialog.setFileName(editfile.getLocation().removeFileExtension().toOSString());
+		dialog.setFileName(editfile.getLocation().removeFileExtension()
+				.toOSString());
 		dialog.setFilterPath(editfile.getLocation().removeFirstSegments(1)
 				.toOSString());
-		String[] extensions = generator.getExtensions();
+		String[] extensions = converter.getExtensions();
 		dialog.setFilterExtensions(extensions);
-		
+
 		String file = dialog.open();
 		if (file != null) {
-			StringBuffer filePath = new StringBuffer(file);
-			String extension = extensions[dialog.getFilterIndex()];
+			final StringBuffer filePath = new StringBuffer(file);
+			final String extension = extensions[dialog.getFilterIndex()];
 			if (!file.endsWith(extension)) {
 				filePath.append(".");
 				filePath.append(extension);
 			}
-			IFigure figure = rootEditPart
+			FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) getViewer()
+					.getRootEditPart();
+			final IFigure figure = rootEditPart
 					.getLayer(LayerConstants.PRINTABLE_LAYERS);
+			try {
+				new ProgressMonitorDialog(getViewer().getControl().getShell())
+						.run(false, // don't fork
+								false, // not cancelable
+								new WorkspaceModifyOperation() { // run this
+									// operation
 
-			generator.execute(filePath.toString(), figure, extension);
+									@Override
+									public void execute(IProgressMonitor monitor) {
+										monitor.beginTask("生成", 1);
+										converter.execute(figure,
+												filePath.toString(), extension);
+										monitor.worked(1);
+										monitor.done();
+									}
+								});
+			} catch (Exception e) {
+				TMDPlugin.showErrorDialog(e);
+			}
 
 			TMDPlugin.showMessageDialog(getText() + " 完了");
 
 			try {
-				GeneratorUtils.refreshGenerateResource(file);
+				GeneratorUtils.refreshGenerateResource(filePath.toString());
 			} catch (Exception e) {
 				TMDPlugin.showErrorDialog(e);
 			}
