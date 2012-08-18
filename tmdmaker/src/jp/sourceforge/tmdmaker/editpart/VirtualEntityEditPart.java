@@ -18,7 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.dialog.VirtualEntityEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
@@ -59,9 +59,9 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		AbstractEntityModel entity = (AbstractEntityModel) getModel();
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-				.getShell(), "みなしエンティティ編集", entity);
+		VirtualEntity entity = (VirtualEntity) getModel();
+		VirtualEntityEditDialog dialog = new VirtualEntityEditDialog(
+				getViewer().getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 
