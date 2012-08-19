@@ -65,6 +65,12 @@ public class AppearancePreferenceListener implements IPreferenceListener {
 				AppearancePreferenceConstants.P_VIRTUAL_ENTITY_COLOR)) {
 			config.setVirtualEntityRGB(convertRGBIfNeed(event.getNewValue()));
 		} else if (event.getProperty().equals(
+				AppearancePreferenceConstants.P_RESOURCE_VIRTUAL_ENTITY_COLOR)) {
+			config.setResourceVirtualEntityRGB(convertRGBIfNeed(event.getNewValue()));
+		} else if (event.getProperty().equals(
+				AppearancePreferenceConstants.P_EVENT_VIRTUAL_ENTITY_COLOR)) {
+			config.setEventVirtualEntityRGB(convertRGBIfNeed(event.getNewValue()));
+		} else if (event.getProperty().equals(
 				AppearancePreferenceConstants.P_SUPERSET_COLOR)) {
 			config.setSupersetRGB(convertRGBIfNeed(event.getNewValue()));
 		} else if (event.getProperty().equals(

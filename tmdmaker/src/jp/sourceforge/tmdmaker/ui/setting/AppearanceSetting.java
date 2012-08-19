@@ -69,6 +69,14 @@ public class AppearanceSetting {
 	public static final RGB VIRTUAL_ENTITY_RGB = new RGB(255, 255, 255);
 	private RGB virtualEntityRGB = VIRTUAL_ENTITY_RGB;
 
+	// Resource VE
+	public static final RGB RESOURCE_VIRTUAL_ENTITY_RGB = new RGB(204,204,255);
+	private RGB resourceVirtualEntityRGB = RESOURCE_VIRTUAL_ENTITY_RGB;
+
+	// Event VE
+	public static final RGB EVENT_VIRTUAL_ENTITY_RGB = new RGB(255,204,255);
+	private RGB eventVirtualEntityRGB = EVENT_VIRTUAL_ENTITY_RGB;
+
 	// ラピュタ
 	public static final RGB LAPUTA_RGB = new RGB(255, 255, 255);
 	private RGB laputaRGB = LAPUTA_RGB;
@@ -270,6 +278,35 @@ public class AppearanceSetting {
 		this.eventSubsetRGB = eventSubsetRGB;
 		apply();
 	}
+	
+	/**
+	 * @return the resourceVirtualEntityRGB
+	 */
+	public RGB getResourceVirtualEntityRGB() {
+		return resourceVirtualEntityRGB;
+	}
+
+	/**
+	 * @param resourceVirtualEntityRGB the resourceVirtualEntityRGB to set
+	 */
+	public void setResourceVirtualEntityRGB(RGB resourceVirtualEntityRGB) {
+		this.resourceVirtualEntityRGB = resourceVirtualEntityRGB;
+	}
+
+	/**
+	 * @return the eventVirtualEntityRGB
+	 */
+	public RGB getEventVirtualEntityRGB() {
+		return eventVirtualEntityRGB;
+	}
+
+	/**
+	 * @param eventVirtualEntityRGB the eventVirtualEntityRGB to set
+	 */
+	public void setEventVirtualEntityRGB(RGB eventVirtualEntityRGB) {
+		this.eventVirtualEntityRGB = eventVirtualEntityRGB;
+	}
+
 	private void apply() {
 		TMDPlugin.getDefault().update();
 	}

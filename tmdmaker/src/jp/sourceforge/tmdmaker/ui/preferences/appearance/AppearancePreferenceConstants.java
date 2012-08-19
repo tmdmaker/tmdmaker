@@ -33,6 +33,8 @@ public class AppearancePreferenceConstants {
 	public static final String P_RECURSIVE_TABLE_COLOR = "recursiveTableColorPreference";
 	public static final String P_MULTIVALUE_OR_COLOR = "multivalueOrColorPreference";
 	public static final String P_VIRTUAL_ENTITY_COLOR = "virtualEntityColorPreference";
+	public static final String P_RESOURCE_VIRTUAL_ENTITY_COLOR = "resourceVirtualEntityColorPreference";
+	public static final String P_EVENT_VIRTUAL_ENTITY_COLOR = "eventVirtualEntityColorPreference";
 	public static final String P_SUPERSET_COLOR = "supersetColorPreference";
 	public static final String P_LAPUTA_COLOR = "laputaColorPreference";
 }

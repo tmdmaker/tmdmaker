@@ -114,8 +114,16 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage
 		addField(editor);
 		colorFields = new Composite(colorGroup, SWT.NONE);
 		new Label(colorFields, SWT.NONE);
+		// colorFields.setLayout(new GridLayout(3, true));
+		// GridData colorFontGd = new GridData(GridData.FILL_BOTH);
+		// colorFontGd.horizontalSpan = 3;
+		// colorFields.setLayoutData(colorFontGd);
+
 		Label l = new Label(colorFields, SWT.NONE);
 		l.setText("背景色");
+		// l = new Label(colorFields, SWT.NONE);
+		// l.setText("フォント");
+		// new Label(colorFields, SWT.NONE);
 
 		colorFieldEditors.add(new ColorFieldEditor(
 				AppearancePreferenceConstants.P_RESOURCE_ENTITY_COLOR,
@@ -147,6 +155,12 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage
 				AppearancePreferenceConstants.P_VIRTUAL_ENTITY_COLOR,
 				"みなしエンティティ :", colorFields));
 		colorFieldEditors.add(new ColorFieldEditor(
+				AppearancePreferenceConstants.P_RESOURCE_VIRTUAL_ENTITY_COLOR,
+				"みなしエンティティ（リソース） :", colorFields));
+		colorFieldEditors.add(new ColorFieldEditor(
+				AppearancePreferenceConstants.P_EVENT_VIRTUAL_ENTITY_COLOR,
+				"みなしエンティティ（イベント） :", colorFields));
+		colorFieldEditors.add(new ColorFieldEditor(
 				AppearancePreferenceConstants.P_SUPERSET_COLOR, "みなしスーパーセット:",
 				colorFields));
 		colorFieldEditors.add(new ColorFieldEditor(
@@ -155,7 +169,6 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage
 		for (ColorFieldEditor e : colorFieldEditors) {
 			addField(e);
 		}
-
 	}
 
 	private void setColorFieldsEnabled(boolean enabled) {

@@ -58,6 +58,10 @@ public class AppearancePreferenceInitializer extends
 				StringConverter.asString(AppearanceSetting.EVENT_SUBSET_RGB));
 		store.setDefault(AppearancePreferenceConstants.P_VIRTUAL_ENTITY_COLOR,
 				StringConverter.asString(AppearanceSetting.VIRTUAL_ENTITY_RGB));
+		store.setDefault(AppearancePreferenceConstants.P_RESOURCE_VIRTUAL_ENTITY_COLOR,
+				StringConverter.asString(AppearanceSetting.RESOURCE_VIRTUAL_ENTITY_RGB));
+		store.setDefault(AppearancePreferenceConstants.P_EVENT_VIRTUAL_ENTITY_COLOR,
+				StringConverter.asString(AppearanceSetting.EVENT_VIRTUAL_ENTITY_RGB));
 		store.setDefault(AppearancePreferenceConstants.P_MULTIVALUE_OR_COLOR,
 				StringConverter.asString(AppearanceSetting.MULTIVALUE_OR_RGB));
 		store.setDefault(AppearancePreferenceConstants.P_SUPERSET_COLOR,

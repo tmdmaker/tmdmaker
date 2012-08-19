@@ -28,6 +28,7 @@ import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 import jp.sourceforge.tmdmaker.model.command.ImplementDerivationModelsDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
@@ -93,7 +94,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		AbstractEntityModel entity = (AbstractEntityModel) getModel();
+		VirtualEntity entity = (VirtualEntity) getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		// List<Attribute> atts = entity.getAttributes();
@@ -110,8 +111,20 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 			}
 		}
 		if (AppearanceSetting.getInstance().isColorEnabled()) {
-			entityFigure.setBackgroundColor(new Color(null, AppearanceSetting
-					.getInstance().getVirtualEntityRGB()));
+			if (entity.getVirtualEntityType()
+					.equals(VirtualEntityType.RESOURCE)) {
+				entityFigure.setBackgroundColor(new Color(null,
+						AppearanceSetting.getInstance()
+								.getResourceVirtualEntityRGB()));
+			} else if (entity.getVirtualEntityType().equals(
+					VirtualEntityType.EVENT)) {
+				entityFigure.setBackgroundColor(new Color(null,
+						AppearanceSetting.getInstance()
+								.getEventVirtualEntityRGB()));
+			} else {
+				entityFigure.setBackgroundColor(new Color(null,
+						AppearanceSetting.getInstance().getVirtualEntityRGB()));
+			}
 		} else {
 			entityFigure.setBackgroundColor(ColorConstants.white);
 		}
