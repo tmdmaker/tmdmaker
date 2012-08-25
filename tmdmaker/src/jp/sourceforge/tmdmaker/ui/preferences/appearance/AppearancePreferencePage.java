@@ -44,6 +44,7 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage
 	private Composite colorFields;
 	private BooleanFieldEditor editor;
 	private List<ColorFieldEditor> colorFieldEditors = new ArrayList<ColorFieldEditor>();
+	private List<ColorFieldEditor> fontFieldEditors = new ArrayList<ColorFieldEditor>();
 
 	/**
 	 * @param title
@@ -114,65 +115,38 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage
 		addField(editor);
 		colorFields = new Composite(colorGroup, SWT.NONE);
 		new Label(colorFields, SWT.NONE);
-		// colorFields.setLayout(new GridLayout(3, true));
-		// GridData colorFontGd = new GridData(GridData.FILL_BOTH);
-		// colorFontGd.horizontalSpan = 3;
-		// colorFields.setLayoutData(colorFontGd);
-
 		Label l = new Label(colorFields, SWT.NONE);
 		l.setText("背景色");
-		// l = new Label(colorFields, SWT.NONE);
-		// l.setText("フォント");
-		// new Label(colorFields, SWT.NONE);
 
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_RESOURCE_ENTITY_COLOR,
-				"リソース :", colorFields));
+		for (ModelAppearance a : ModelAppearance.values()) {
+			colorFieldEditors.add(new ColorFieldEditor(a
+					.getBackgroundColorPropertyName(), a.getLabel(),
+					colorFields));
+		}
 
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_EVENT_ENTITY_COLOR, "イベント :",
-				colorFields));
-
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_COMBINATION_TABLE_COLOR,
-				"対照表 :", colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_MAPPING_LIST_COLOR, "対応表 :",
-				colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_RECURSIVE_TABLE_COLOR, "再帰表 :",
-				colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_RESOURCE_SUBSET_COLOR,
-				"サブセット（リソース） :", colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_EVENT_SUBSET_COLOR,
-				"サブセット（イベント） :", colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_MULTIVALUE_OR_COLOR, "多値のOR :",
-				colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_VIRTUAL_ENTITY_COLOR,
-				"みなしエンティティ :", colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_RESOURCE_VIRTUAL_ENTITY_COLOR,
-				"みなしエンティティ（リソース） :", colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_EVENT_VIRTUAL_ENTITY_COLOR,
-				"みなしエンティティ（イベント） :", colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_SUPERSET_COLOR, "みなしスーパーセット:",
-				colorFields));
-		colorFieldEditors.add(new ColorFieldEditor(
-				AppearancePreferenceConstants.P_LAPUTA_COLOR, "ラピュタ:",
-				colorFields));
 		for (ColorFieldEditor e : colorFieldEditors) {
 			addField(e);
 		}
+		new Label(colorFields, SWT.NONE);
+		l = new Label(colorFields, SWT.NONE);
+		l.setText("罫線・フォント");
+
+		for (ModelAppearance a : ModelAppearance.values()) {
+			fontFieldEditors.add(new ColorFieldEditor(a
+					.getFontColorPropertyName(), a.getLabel(), colorFields));
+		}
+
+		for (ColorFieldEditor e : fontFieldEditors) {
+			addField(e);
+		}
+
 	}
 
 	private void setColorFieldsEnabled(boolean enabled) {
 		for (ColorFieldEditor e : colorFieldEditors) {
+			e.setEnabled(enabled, colorFields);
+		}
+		for (ColorFieldEditor e : fontFieldEditors) {
 			e.setEnabled(enabled, colorFields);
 		}
 

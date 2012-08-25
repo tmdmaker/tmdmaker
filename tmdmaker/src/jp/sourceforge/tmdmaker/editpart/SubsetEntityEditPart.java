@@ -35,9 +35,8 @@ import jp.sourceforge.tmdmaker.model.command.ImplementDerivationModelsDeleteComm
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
-import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -45,7 +44,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * サブセットのコントローラ
@@ -92,22 +90,16 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
+		ModelAppearance appearance = null;
+		if (entity.getEntityType().equals(EntityType.RESOURCE)) {
+			appearance = ModelAppearance.RESOURCE_SUBSET;
+		} else if (entity.getEntityType().equals(EntityType.EVENT)) {
+			appearance = ModelAppearance.EVENT_SUBSET;
+		}
+		setupColor(entityFigure, appearance);
 		// for (Attribute a : atts) {
 		// entityFigure.addAttribute(a.getName());
 		// }
-
-		if (AppearanceSetting.getInstance().isColorEnabled()) {
-			if (entity.getEntityType().equals(EntityType.RESOURCE)) {
-				entityFigure
-						.setBackgroundColor(new Color(null, AppearanceSetting
-								.getInstance().getResourceSubsetRGB()));
-			} else if (entity.getEntityType().equals(EntityType.EVENT)) {
-				entityFigure.setBackgroundColor(new Color(null,
-						AppearanceSetting.getInstance().getEventSubsetRGB()));
-			}
-		} else {
-			entityFigure.setBackgroundColor(ColorConstants.white);
-		}
 	}
 
 	/**

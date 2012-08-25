@@ -30,14 +30,12 @@ import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * エンティティのコントローラ
@@ -64,17 +62,15 @@ public class EntityEditPart extends AbstractEntityEditPart {
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(entity.getEntityType().getLabel());
-		if (AppearanceSetting.getInstance().isColorEnabled()) {
-			if (entity.getEntityType().equals(EntityType.RESOURCE)) {
-				entityFigure.setBackgroundColor(new Color(null,
-						AppearanceSetting.getInstance().getResorceRGB()));
-			} else if (entity.getEntityType().equals(EntityType.EVENT)) {
-				entityFigure.setBackgroundColor(new Color(null,
-						AppearanceSetting.getInstance().getEventRGB()));
-			}
-		} else {
-			entityFigure.setBackgroundColor(ColorConstants.white);
+
+		ModelAppearance appearance = null;
+		if (entity.getEntityType().equals(EntityType.RESOURCE)) {
+			appearance = ModelAppearance.RESOURCE;
+		} else if (entity.getEntityType().equals(EntityType.EVENT)) {
+			appearance = ModelAppearance.EVENT;
 		}
+		setupColor(entityFigure, appearance);
+
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {

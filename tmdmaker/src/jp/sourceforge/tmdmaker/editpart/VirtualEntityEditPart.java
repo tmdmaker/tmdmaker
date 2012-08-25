@@ -33,9 +33,8 @@ import jp.sourceforge.tmdmaker.model.command.ImplementDerivationModelsDeleteComm
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
-import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -43,7 +42,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * みなしエンティティのコントローラ
@@ -110,24 +108,16 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-		if (AppearanceSetting.getInstance().isColorEnabled()) {
-			if (entity.getVirtualEntityType()
-					.equals(VirtualEntityType.RESOURCE)) {
-				entityFigure.setBackgroundColor(new Color(null,
-						AppearanceSetting.getInstance()
-								.getResourceVirtualEntityRGB()));
-			} else if (entity.getVirtualEntityType().equals(
-					VirtualEntityType.EVENT)) {
-				entityFigure.setBackgroundColor(new Color(null,
-						AppearanceSetting.getInstance()
-								.getEventVirtualEntityRGB()));
-			} else {
-				entityFigure.setBackgroundColor(new Color(null,
-						AppearanceSetting.getInstance().getVirtualEntityRGB()));
-			}
+		ModelAppearance appearance = null;
+		if (entity.getVirtualEntityType().equals(VirtualEntityType.RESOURCE)) {
+			appearance = ModelAppearance.RESOURCE_VIRTUAL_ENTITY;
+		} else if (entity.getVirtualEntityType()
+				.equals(VirtualEntityType.EVENT)) {
+			appearance = ModelAppearance.EVENT_SUBSET;
 		} else {
-			entityFigure.setBackgroundColor(ColorConstants.white);
+			appearance = ModelAppearance.VIRTUAL_ENTITY;
 		}
+		setupColor(entityFigure, appearance);
 	}
 
 	/**

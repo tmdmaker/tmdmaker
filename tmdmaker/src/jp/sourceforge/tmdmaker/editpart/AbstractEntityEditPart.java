@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,10 @@ import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
+import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -39,6 +42,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * エンティティ系モデルのコントローラの基底クラス
@@ -420,9 +424,11 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		updateFigure(getFigure());
 		refreshChildren();
 	}
+
 	public void updateAppearance() {
 		refreshVisuals();
 	}
+
 	protected void refleshConnections() {
 		for (AbstractConnectionModel connection : getModelSourceConnections()) {
 			connection.fireParentMoved();
@@ -498,5 +504,36 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart
 		updateFigure(figure);
 
 		return figure;
+	}
+
+	/**
+	 * モデルの色を設定する
+	 * 
+	 * @param entityFigure
+	 *            モデル
+	 * @param appearance
+	 *            モデル外観
+	 */
+	protected void setupColor(IFigure entityFigure, ModelAppearance appearance) {
+		entityFigure.setBackgroundColor(createBackgroundColor(appearance));
+		entityFigure.setForegroundColor(createForegroundColor(appearance));
+	}
+
+	private Color createBackgroundColor(ModelAppearance appearance) {
+		AppearanceSetting config = AppearanceSetting.getInstance();
+		if (config.isColorEnabled()) {
+			return new Color(null, config.getBackground(appearance));
+		} else {
+			return ColorConstants.white;
+		}
+	}
+
+	private Color createForegroundColor(ModelAppearance appearance) {
+		AppearanceSetting config = AppearanceSetting.getInstance();
+		if (config.isColorEnabled()) {
+			return new Color(null, config.getFont(appearance));
+		} else {
+			return ColorConstants.black;
+		}
 	}
 }
