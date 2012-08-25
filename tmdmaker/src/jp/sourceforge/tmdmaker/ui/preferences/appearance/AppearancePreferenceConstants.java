@@ -23,16 +23,4 @@ package jp.sourceforge.tmdmaker.ui.preferences.appearance;
  */
 public class AppearancePreferenceConstants {
 	public static final String P_ENTITY_COLOR_ENABLED = "entityColorEnablePreference";
-	// Appearance
-	public static final String P_RESOURCE_ENTITY_COLOR = "resourceEntityColorPreference";
-	public static final String P_EVENT_ENTITY_COLOR = "eventEntityColorPreference";
-	public static final String P_COMBINATION_TABLE_COLOR = "combinationTableColorPreference";
-	public static final String P_MAPPING_LIST_COLOR = "mappingListColorPreference";
-	public static final String P_RESOURCE_SUBSET_COLOR = "resourceSubsetColorPreference";
-	public static final String P_EVENT_SUBSET_COLOR = "eventSubsetColorPreference";
-	public static final String P_RECURSIVE_TABLE_COLOR = "recursiveTableColorPreference";
-	public static final String P_MULTIVALUE_OR_COLOR = "multivalueOrColorPreference";
-	public static final String P_VIRTUAL_ENTITY_COLOR = "virtualEntityColorPreference";
-	public static final String P_SUPERSET_COLOR = "supersetColorPreference";
-	public static final String P_LAPUTA_COLOR = "laputaColorPreference";
 }

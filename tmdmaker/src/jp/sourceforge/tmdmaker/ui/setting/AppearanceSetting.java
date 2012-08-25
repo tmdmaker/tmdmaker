@@ -15,7 +15,10 @@
  */
 package jp.sourceforge.tmdmaker.ui.setting;
 
-import jp.sourceforge.tmdmaker.TMDPlugin;
+import java.util.HashMap;
+import java.util.Map;
+
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.swt.graphics.RGB;
 
@@ -29,49 +32,6 @@ public class AppearanceSetting {
 
 	public static final boolean ENABLE_COLOR = false;
 	private boolean colorEnabled = ENABLE_COLOR;
-
-	// リソース
-	public static final RGB RESOURCE_RGB = new RGB(0, 255, 255);
-	private RGB resorceRGB = RESOURCE_RGB;
-
-	// イベント
-	public static final RGB EVENT_RGB = new RGB(255, 204, 204);
-	private RGB eventRGB = EVENT_RGB;
-
-	// 対照表
-	public static final RGB COMBINATION_TABLE_RGB = new RGB(153, 255, 153);
-	private RGB combinationTableRGB = COMBINATION_TABLE_RGB;
-
-	// 対応表
-	public static final RGB MAPPING_LIST_RGB = new RGB(0, 102, 204);
-	private RGB mappingListRGB = MAPPING_LIST_RGB;
-
-	// 再帰表
-	public static final RGB RECURSIVE_TABLE_RGB = new RGB(255, 153, 51);
-	private RGB recursiveTableRGB = RECURSIVE_TABLE_RGB;
-
-	// サブセット
-	public static final RGB RESOURCE_SUBSET_RGB = new RGB(0, 204, 204);
-	private RGB resourceSubsetRGB = RESOURCE_SUBSET_RGB;
-
-	public static final RGB EVENT_SUBSET_RGB = new RGB(255, 153, 153);
-	private RGB eventSubsetRGB = EVENT_SUBSET_RGB;
-
-	// MO
-	public static final RGB MULTIVALUE_OR_RGB = new RGB(255, 255, 102);
-	private RGB multivalueOrRGB = MULTIVALUE_OR_RGB;
-
-	// スーパーセット
-	public static final RGB SUPERSET_RGB = new RGB(255, 255, 255);
-	private RGB supersetRGB = SUPERSET_RGB;
-
-	// Normal VE
-	public static final RGB VIRTUAL_ENTITY_RGB = new RGB(255, 255, 255);
-	private RGB virtualEntityRGB = VIRTUAL_ENTITY_RGB;
-
-	// ラピュタ
-	public static final RGB LAPUTA_RGB = new RGB(255, 255, 255);
-	private RGB laputaRGB = LAPUTA_RGB;
 
 	public static AppearanceSetting getInstance() {
 		if (setting == null) {
@@ -94,183 +54,57 @@ public class AppearanceSetting {
 	public void setColorEnabled(boolean colorEnabled) {
 		this.colorEnabled = colorEnabled;
 		System.out.println("setColorEnabled = " + colorEnabled);
-		apply();
 	}
 
-	/**
-	 * @return the resorceRGB
-	 */
-	public RGB getResorceRGB() {
-		return resorceRGB;
+	private Map<ModelAppearance, Colors> colorMap = new HashMap<ModelAppearance, Colors>();
+
+	public void setColors(ModelAppearance appearance, RGB background, RGB font) {
+		Colors value = colorMap.get(appearance);
+		if (value == null) {
+			value = new Colors();
+		}
+		value.background = background;
+		value.font = font;
+		colorMap.put(appearance, value);
 	}
 
-	/**
-	 * @param resorceRGB
-	 *            the resorceRGB to set
-	 */
-	public void setResorceRGB(RGB resorceRGB) {
-		this.resorceRGB = resorceRGB;
-		apply();
+	public void setBackground(ModelAppearance appearance, RGB background) {
+		Colors value = colorMap.get(appearance);
+		if (value == null) {
+			value = new Colors();
+		}
+		value.background = background;
+		colorMap.put(appearance, value);
 	}
 
-	/**
-	 * @return the eventRGB
-	 */
-	public RGB getEventRGB() {
-		return eventRGB;
+	public void setFont(ModelAppearance appearance, RGB font) {
+		Colors value = colorMap.get(appearance);
+		if (value == null) {
+			value = new Colors();
+		}
+		value.font = font;
+		colorMap.put(appearance, value);
 	}
 
-	/**
-	 * @param eventRGB
-	 *            the eventRGB to set
-	 */
-	public void setEventRGB(RGB event) {
-		this.eventRGB = event;
-		apply();
+	public RGB getBackground(ModelAppearance appearance) {
+		Colors value = colorMap.get(appearance);
+		if (value != null) {
+			return value.background;
+		}
+		return null;
 	}
 
-	/**
-	 * @return the combinationTableRGB
-	 */
-	public RGB getCombinationTableRGB() {
-		return combinationTableRGB;
+	public RGB getFont(ModelAppearance appearance) {
+		Colors value = colorMap.get(appearance);
+		if (value != null) {
+			return value.font;
+		}
+		return null;
 	}
 
-	/**
-	 * @param combinationTableRGB
-	 *            the combinationTableRGB to set
-	 */
-	public void setCombinationTableRGB(RGB combinationTable) {
-		this.combinationTableRGB = combinationTable;
-		apply();
+	private static class Colors {
+		public RGB background;
+		public RGB font;
 	}
 
-	/**
-	 * @return the mappingListRGB
-	 */
-	public RGB getMappingListRGB() {
-		return mappingListRGB;
-	}
-
-	/**
-	 * @param mappingListRGB
-	 *            the mappingListRGB to set
-	 */
-	public void setMappingListRGB(RGB mappingList) {
-		this.mappingListRGB = mappingList;
-		apply();
-	}
-
-	/**
-	 * @return the multivalueOrRGB
-	 */
-	public RGB getMultivalueOrRGB() {
-		return multivalueOrRGB;
-	}
-
-	/**
-	 * @param multivalueOrRGB
-	 *            the multivalueOrRGB to set
-	 */
-	public void setMultivalueOrRGB(RGB multivalueOr) {
-		this.multivalueOrRGB = multivalueOr;
-		apply();
-	}
-
-	/**
-	 * @return the recursiveTableRGB
-	 */
-	public RGB getRecursiveTableRGB() {
-		return recursiveTableRGB;
-	}
-
-	/**
-	 * @param recursiveTableRGB
-	 *            the recursiveTableRGB to set
-	 */
-	public void setRecursiveTableRGB(RGB recursiveTable) {
-		this.recursiveTableRGB = recursiveTable;
-		apply();
-	}
-
-	/**
-	 * @return the supersetRGB
-	 */
-	public RGB getSupersetRGB() {
-		return supersetRGB;
-	}
-
-	/**
-	 * @param supersetRGB
-	 *            the supersetRGB to set
-	 */
-	public void setSupersetRGB(RGB superset) {
-		this.supersetRGB = superset;
-		apply();
-	}
-
-	/**
-	 * @return the virtualEntityRGB
-	 */
-	public RGB getVirtualEntityRGB() {
-		return virtualEntityRGB;
-	}
-
-	/**
-	 * @param virtualEntityRGB
-	 *            the virtualEntityRGB to set
-	 */
-	public void setVirtualEntityRGB(RGB ve) {
-		this.virtualEntityRGB = ve;
-		apply();
-	}
-
-	/**
-	 * @return the laputaRGB
-	 */
-	public RGB getLaputaRGB() {
-		return laputaRGB;
-	}
-
-	/**
-	 * @param laputaRGB
-	 *            the laputaRGB to set
-	 */
-	public void setLaputaRGB(RGB laputa) {
-		this.laputaRGB = laputa;
-		apply();
-	}
-
-	/**
-	 * @return the resourceSubsetRGB
-	 */
-	public RGB getResourceSubsetRGB() {
-		return resourceSubsetRGB;
-	}
-
-	/**
-	 * @param resourceSubsetRGB the resourceSubsetRGB to set
-	 */
-	public void setResourceSubsetRGB(RGB resourceSubsetRGB) {
-		this.resourceSubsetRGB = resourceSubsetRGB;
-		apply();
-	}
-
-	/**
-	 * @return the eventSubsetRGB
-	 */
-	public RGB getEventSubsetRGB() {
-		return eventSubsetRGB;
-	}
-
-	/**
-	 * @param eventSubsetRGB the eventSubsetRGB to set
-	 */
-	public void setEventSubsetRGB(RGB eventSubsetRGB) {
-		this.eventSubsetRGB = eventSubsetRGB;
-		apply();
-	}
-	private void apply() {
-		TMDPlugin.getDefault().update();
-	}
 }

@@ -40,34 +40,17 @@ public class AppearancePreferenceInitializer extends
 	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = TMDPlugin.getDefault().getPreferenceStore();
-		store.setDefault(AppearancePreferenceConstants.P_RESOURCE_ENTITY_COLOR,
-				StringConverter.asString(AppearanceSetting.RESOURCE_RGB));
-		store.setDefault(AppearancePreferenceConstants.P_EVENT_ENTITY_COLOR,
-				StringConverter.asString(AppearanceSetting.EVENT_RGB));
-		store.setDefault(
-				AppearancePreferenceConstants.P_COMBINATION_TABLE_COLOR,
-				StringConverter
-						.asString(AppearanceSetting.COMBINATION_TABLE_RGB));
-		store.setDefault(AppearancePreferenceConstants.P_MAPPING_LIST_COLOR,
-				StringConverter.asString(AppearanceSetting.MAPPING_LIST_RGB));
-		store.setDefault(AppearancePreferenceConstants.P_RECURSIVE_TABLE_COLOR,
-				StringConverter.asString(AppearanceSetting.RECURSIVE_TABLE_RGB));
-		store.setDefault(AppearancePreferenceConstants.P_RESOURCE_SUBSET_COLOR,
-				StringConverter.asString(AppearanceSetting.RESOURCE_SUBSET_RGB));
-		store.setDefault(AppearancePreferenceConstants.P_EVENT_SUBSET_COLOR,
-				StringConverter.asString(AppearanceSetting.EVENT_SUBSET_RGB));
-		store.setDefault(AppearancePreferenceConstants.P_VIRTUAL_ENTITY_COLOR,
-				StringConverter.asString(AppearanceSetting.VIRTUAL_ENTITY_RGB));
-		store.setDefault(AppearancePreferenceConstants.P_MULTIVALUE_OR_COLOR,
-				StringConverter.asString(AppearanceSetting.MULTIVALUE_OR_RGB));
-		store.setDefault(AppearancePreferenceConstants.P_SUPERSET_COLOR,
-				StringConverter.asString(AppearanceSetting.SUPERSET_RGB));
-		store.setDefault(AppearancePreferenceConstants.P_LAPUTA_COLOR,
-				StringConverter.asString(AppearanceSetting.LAPUTA_RGB));
 
+		for (ModelAppearance a : ModelAppearance.values()) {
+			store.setDefault(a.getBackgroundColorPropertyName(),
+					StringConverter.asString(a.getBackground()));
+		}
+		for (ModelAppearance a : ModelAppearance.values()) {
+			store.setDefault(a.getFontColorPropertyName(),
+					StringConverter.asString(a.getFont()));
+		}
 		store.setDefault(AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED,
 				StringConverter.asString(AppearanceSetting.ENABLE_COLOR));
 
 	}
-
 }

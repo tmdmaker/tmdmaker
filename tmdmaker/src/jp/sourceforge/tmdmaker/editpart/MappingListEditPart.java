@@ -30,9 +30,8 @@ import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -40,7 +39,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * 対応表のコントローラ
@@ -72,12 +70,7 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-		if (AppearanceSetting.getInstance().isColorEnabled()) {
-			entityFigure.setBackgroundColor(new Color(null, AppearanceSetting
-					.getInstance().getMappingListRGB()));
-		} else {
-			entityFigure.setBackgroundColor(ColorConstants.white);
-		}
+		setupColor(entityFigure, ModelAppearance.MAPPING_LIST);
 		// for (Attribute a : atts) {
 		// entityFigure.addAttribute(a.getName());
 		// }
