@@ -74,7 +74,7 @@ public class SubsetSettingPanel extends Composite {
 		createPartitionSelectCombo();
 		createTypeGroup();
 		createSubsetContainerComposite();
-		this.setSize(new Point(208, 150));
+		this.setSize(new Point(225, 165));
 	}
 
 	/**

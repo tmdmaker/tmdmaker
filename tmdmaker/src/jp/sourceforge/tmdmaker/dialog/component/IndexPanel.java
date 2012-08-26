@@ -255,7 +255,7 @@ public class IndexPanel extends Composite {
 						updateList();
 					}
 				});
-		this.setSize(new Point(435, 184));
+		this.setSize(new Point(449, 201));
 	}
 
 	/**
