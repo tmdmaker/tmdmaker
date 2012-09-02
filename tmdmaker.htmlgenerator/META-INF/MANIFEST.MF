@@ -7,7 +7,10 @@ Require-Bundle: org.eclipse.core.runtime,
  tmdmaker;bundle-version="0.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: jp.sourceforge.tmdmaker.generate
+Export-Package: jp.sourceforge.tmdmaker.generate,
+ jp.sourceforge.tmdmaker.generate.attributelist,
+ jp.sourceforge.tmdmaker.generate.keydefinitionlist,
+ jp.sourceforge.tmdmaker.generate.relationshiplist
 Bundle-ClassPath: .,
  lib/commons-collections-3.2.1.jar,
  lib/commons-lang-2.4.jar,
