@@ -4,9 +4,51 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+         <menu
+               id="tmdmaker.menu.popup.project"
+               label="TMD-Maker">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IFile">
+                        <test
+                              property="org.eclipse.core.resources.extension"
+                              value="tmd">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+            <command
+                  commandId="tmdmaker.ui.menu.command1"
+                  style="push">
+            </command>
+            <command
+                  commandId="tmdmaker.ui.menu.command2"
+                  style="push">
+            </command>
+            <command
+                  commandId="tmdmaker.ui.menu.command3"
+                  style="push">
+            </command>
+            <command
+                  commandId="tmdmaker.ui.menu.command4"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
             locationURI="popup:org.eclipse.jdt.ui.PackageExplorer?after=additions">
          <menu
-               id="tmdmaker.menu.popup"
+               id="tmdmaker.menu.popup.package"
                label="TMD-Maker">
             <visibleWhen
                   checkEnabled="false">
