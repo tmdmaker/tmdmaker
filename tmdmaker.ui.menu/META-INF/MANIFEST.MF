@@ -9,7 +9,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  tmdmaker;bundle-version="0.2.5",
  tmdmaker.ddlgenerator;bundle-version="0.2.5",
- tmdmaker.htmlgenerator;bundle-version="0.2.5"
+ tmdmaker.htmlgenerator;bundle-version="0.2.5",
+ org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project

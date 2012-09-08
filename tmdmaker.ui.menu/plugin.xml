@@ -10,21 +10,9 @@
                label="TMD-Maker">
             <visibleWhen
                   checkEnabled="false">
-               <with
-                     variable="selection">
-                  <count
-                        value="1">
-                  </count>
-                  <iterate>
-                     <adapt
-                           type="org.eclipse.core.resources.IFile">
-                        <test
-                              property="org.eclipse.core.resources.extension"
-                              value="tmd">
-                        </test>
-                     </adapt>
-                  </iterate>
-               </with>
+               <reference
+                     definitionId="tmdmaker.ui.menu.definition1">
+               </reference>
             </visibleWhen>
             <command
                   commandId="tmdmaker.ui.menu.command1"
@@ -52,21 +40,9 @@
                label="TMD-Maker">
             <visibleWhen
                   checkEnabled="false">
-               <with
-                     variable="selection">
-                  <count
-                        value="1">
-                  </count>
-                  <iterate>
-                     <adapt
-                           type="org.eclipse.core.resources.IFile">
-                        <test
-                              property="org.eclipse.core.resources.extension"
-                              value="tmd">
-                        </test>
-                     </adapt>
-                  </iterate>
-               </with>
+               <reference
+                     definitionId="tmdmaker.ui.menu.definition1">
+               </reference>
             </visibleWhen>
             <command
                   commandId="tmdmaker.ui.menu.command1"
@@ -125,6 +101,27 @@
             class="jp.sourceforge.tmdmaker.handler.RelationshipListHtmlGeneratorHandler"
             commandId="tmdmaker.ui.menu.command4">
       </handler>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="tmdmaker.ui.menu.definition1">
+         <with
+               variable="selection">
+            <count
+                  value="1">
+            </count>
+            <iterate>
+               <adapt
+                     type="org.eclipse.core.resources.IFile">
+                  <test
+                        property="org.eclipse.core.resources.extension"
+                        value="tmd">
+                  </test>
+               </adapt>
+            </iterate>
+         </with>
+      </definition>
    </extension>
 
 </plugin>
