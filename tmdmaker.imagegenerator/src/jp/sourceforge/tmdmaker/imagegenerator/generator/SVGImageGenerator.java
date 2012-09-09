@@ -46,7 +46,7 @@ public class SVGImageGenerator implements ImageGenerator {
 		try {
 			outputStream = new FileOutputStream(rootDir);
 			graphics.getSVGGraphics2D().stream(
-					new BufferedWriter(new OutputStreamWriter(outputStream)));
+					new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8")));
 			outputStream.flush();
 		} catch (Exception e) {
 			e.printStackTrace();

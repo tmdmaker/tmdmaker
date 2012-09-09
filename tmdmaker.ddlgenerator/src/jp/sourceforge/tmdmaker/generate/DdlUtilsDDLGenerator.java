@@ -57,7 +57,9 @@ public class DdlUtilsDDLGenerator implements Generator {
 	 */
 	@Override
 	public void execute(String rootDir, List<AbstractEntityModel> models) {
-		assert models.size() != 0;
+		if (models.isEmpty()) {
+			return;
+		}
 		Diagram diagram = models.get(0).getDiagram();
 
 		String databaseName = diagram.getDatabaseName();
