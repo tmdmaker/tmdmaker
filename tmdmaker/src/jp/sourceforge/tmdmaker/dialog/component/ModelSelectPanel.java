@@ -98,7 +98,7 @@ public class ModelSelectPanel extends Composite {
 			}
 		});
 		this.setLayout(gridLayout);
-		this.setSize(new Point(396, 147));
+		this.setSize(new Point(409, 159));
 	}
 	public void initializeValue(java.util.List<AbstractEntityModel> selectModels, java.util.List<AbstractEntityModel> notSelectModels) {
 		this.selectModels = selectModels;

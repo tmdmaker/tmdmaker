@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -255,7 +255,11 @@ public class IndexPanel extends Composite {
 						updateList();
 					}
 				});
-		this.setSize(new Point(435, 184));
+		Label filler2 = new Label(this, SWT.NONE);
+		this.setSize(new Point(449, 225));
+		new Label(this, SWT.NONE);
+		new Label(this, SWT.NONE);
+		new Label(this, SWT.NONE);
 	}
 
 	/**
