@@ -151,5 +151,25 @@
          </toolbar>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+         <view
+               closeable="false"
+               id="org.eclipse.ui.navigator.ProjectExplorer"
+               minimized="false"
+               ratio="0.3"
+               relationship="stack">
+         </view>
+         <view
+               closeable="false"
+               id="org.eclipse.ui.views.ContentOutline"
+               minimized="false"
+               ratio="0.7"
+               relationship="stack">
+         </view>
+      </perspectiveExtension>
+   </extension>
 
 </plugin>
