@@ -160,14 +160,16 @@
                id="org.eclipse.ui.navigator.ProjectExplorer"
                minimized="false"
                ratio="0.3"
-               relationship="stack">
+               relationship="stack"
+               visible="true">
          </view>
          <view
                closeable="false"
                id="org.eclipse.ui.views.ContentOutline"
                minimized="false"
                ratio="0.7"
-               relationship="stack">
+               relationship="stack"
+               visible="true">
          </view>
       </perspectiveExtension>
    </extension>
