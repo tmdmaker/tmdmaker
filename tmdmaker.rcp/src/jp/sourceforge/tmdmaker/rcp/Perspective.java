@@ -33,6 +33,12 @@ public class Perspective implements IPerspectiveFactory {
 	 * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui.IPageLayout)
 	 */
 	public void createInitialLayout(IPageLayout layout) {
+		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(true);
+
+		layout.addView(IPageLayout.ID_PROJECT_EXPLORER, IPageLayout.LEFT, 0.3f,
+				editorArea);
+		layout.addView(IPageLayout.ID_OUTLINE, IPageLayout.RIGHT, 0.7f,
+				editorArea);
 	}
 }
