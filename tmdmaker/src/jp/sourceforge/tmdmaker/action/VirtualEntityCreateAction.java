@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.action;
 import jp.sourceforge.tmdmaker.dialog.VirtualEntityCreateDialog;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
+import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
@@ -54,7 +55,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	public void run() {
 		VirtualEntityCreateDialog dialog = new VirtualEntityCreateDialog(getPart().getViewer().getControl().getShell());
 		if (dialog.open() == Dialog.OK) {
-			execute(new VirtualEntityCreateCommand(getModel(), dialog.getInputVirtualEntityName()));
+			execute(new VirtualEntityCreateCommand(getModel(), dialog.getInputVirtualEntityName(), dialog.getInputVirtualEntityType()));
 		}
 	}
 
@@ -74,8 +75,8 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		 * @param model
 		 *            みなしエンティティ作成対象
 		 */
-		public VirtualEntityCreateCommand(AbstractEntityModel model, String virtualEntityName) {
-			this.relationship = new Entity2VirtualEntityRelationship(model, virtualEntityName);
+		public VirtualEntityCreateCommand(AbstractEntityModel model, String virtualEntityName, VirtualEntityType type) {
+			this.relationship = new Entity2VirtualEntityRelationship(model, virtualEntityName, type);
 		}
 
 		/**

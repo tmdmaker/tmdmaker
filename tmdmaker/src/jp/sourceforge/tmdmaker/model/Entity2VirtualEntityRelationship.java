@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,10 +36,11 @@ public class Entity2VirtualEntityRelationship extends
 	 *            みなしエンティティ作成対象
 	 */
 	public Entity2VirtualEntityRelationship(AbstractEntityModel source,
-			String virtualEntityName) {
+			String virtualEntityName, VirtualEntityType type) {
 		setSource(source);
 		ve = VirtualEntityRule.createVirtualEntity(source, virtualEntityName);
 		ve.setConstraint(source.getConstraint().getTranslated(100, 0));
+		ve.setVirtualEntityType(type);
 		setTarget(ve);
 
 	}
