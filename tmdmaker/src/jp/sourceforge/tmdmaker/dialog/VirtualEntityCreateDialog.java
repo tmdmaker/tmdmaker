@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
+import jp.sourceforge.tmdmaker.model.VirtualEntityType;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -23,6 +25,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -39,6 +42,7 @@ public class VirtualEntityCreateDialog extends Dialog {
 	/** VE名入力欄 */
 	private Text virtualEntityName;
 	private String inputVirtualEntityName;
+	private VirtualEntityType inputVirtualEntityType;
 	private ModifyListener listener = new ModifyListener() {
 
 		@Override
@@ -51,6 +55,8 @@ public class VirtualEntityCreateDialog extends Dialog {
 			}
 		}
 	};
+	/** 種別設定用 */
+	private Combo typeCombo;
 
 	/**
 	 * コンストラクタ
@@ -72,7 +78,7 @@ public class VirtualEntityCreateDialog extends Dialog {
 		getShell().setText("みなしエンティティ作成");
 
 		Composite composite = new Composite(parent, SWT.NULL);
-		composite.setLayout(new GridLayout(2, false));
+		composite.setLayout(new GridLayout(3, false));
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gridData);
 		Label label = new Label(composite, SWT.NULL);
@@ -82,6 +88,13 @@ public class VirtualEntityCreateDialog extends Dialog {
 		virtualEntityName = new Text(composite, SWT.BORDER);
 		virtualEntityName.setLayoutData(gridData);
 		virtualEntityName.addModifyListener(listener);
+		
+		typeCombo = new Combo(composite, SWT.READ_ONLY);
+		typeCombo.add("通常");
+		typeCombo.add("リソースタイプ");
+		typeCombo.add("イベントタイプ");
+		typeCombo.select(0);
+		
 		return composite;
 	}
 
@@ -106,6 +119,8 @@ public class VirtualEntityCreateDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		inputVirtualEntityName = virtualEntityName.getText();
+		inputVirtualEntityType = VirtualEntityType.values()[typeCombo
+		                            						.getSelectionIndex()];
 		super.okPressed();
 	}
 
@@ -124,4 +139,12 @@ public class VirtualEntityCreateDialog extends Dialog {
 	public String getInputVirtualEntityName() {
 		return inputVirtualEntityName;
 	}
+
+	/**
+	 * @return the inputVirtualEntityType
+	 */
+	public VirtualEntityType getInputVirtualEntityType() {
+		return inputVirtualEntityType;
+	}
+	
 }
