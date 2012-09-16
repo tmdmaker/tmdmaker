@@ -89,6 +89,8 @@ public class EntityFileImporter implements FileImporter {
 			}
 			l.addAttribute(new Attribute(attributeName));
 		}
+		reader.close();
+		
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Map.Entry<String, AbstractEntityModel> entry : s.entrySet()) {
 			list.add(convertEntityIfPossible(entry.getValue()));

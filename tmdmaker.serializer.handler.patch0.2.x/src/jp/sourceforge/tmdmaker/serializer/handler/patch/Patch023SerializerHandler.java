@@ -23,33 +23,14 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.Version;
-import jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler;
 
 /**
  * モデルのバージョン0.2.3へのバージョンアップ
  * 
  * @author nakaG
  */
-public class Patch023SerializerHandler implements SerializerHandler {
+public class Patch023SerializerHandler extends AbstractSerializerHandler {
 
-	/**
-	 * コンストラクタ
-	 */
-	public Patch023SerializerHandler() {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleBeforeDeserialize(java.lang.String)
-	 */
-	@Override
-	public String handleBeforeDeserialize(String in) {
-		System.out.println(getClass() + "#handleBeforeDeserialize");
-		return in;
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -59,21 +40,16 @@ public class Patch023SerializerHandler implements SerializerHandler {
 	 */
 	@Override
 	public Diagram handleAfterDeserialize(Diagram in) {
-		System.out.println(getClass() + "#handleAfterDeserialize");
+		logger.info("handleAfterDeserialize");
 
-		Version version = new Version(in.getVersion());
-		// 0.2.xのバージョン
-		if (version.getMajorVersion() == 0 && version.getMinorVersion() == 2
-				&& version.getServiceNo() <= 2) {
-			System.out.println("need to convert model.");
+		if (versionUnderEqual(in, 0, 2, 2)) {
+			logger.info("apply patch 0.2.3");
 			for (ModelElement o : in.getChildren()) {
 				if (o instanceof AbstractEntityModel) {
 					AbstractEntityModel model = (AbstractEntityModel) o;
 					convert(model);
 				}
 			}
-		} else {
-			System.out.println("no need to convert.");
 		}
 		return in;
 	}
@@ -87,12 +63,12 @@ public class Patch023SerializerHandler implements SerializerHandler {
 			List<AbstractConnectionModel> connections) {
 		for (AbstractConnectionModel c : connections) {
 			if (c instanceof RelatedRelationship) {
-				System.out.println("convertRelatedRelationships():"
+				logger.debug("convertRelatedRelationships():"
 						+ c.toString());
 				convertLocationIfNeeds(c);
 			}
 			if (c instanceof Entity2SubsetTypeRelationship) {
-				System.out.println("convertRelatedRelationships():"
+				logger.debug("convertRelatedRelationships():"
 						+ c.toString());
 				convertLocationIfNeeds(c);
 			}
@@ -107,29 +83,4 @@ public class Patch023SerializerHandler implements SerializerHandler {
 			connection.setTargetLocationp(-1, -1);
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleBeforeSerialize(jp.sourceforge.tmdmaker.model.Diagram)
-	 */
-	@Override
-	public Diagram handleBeforeSerialize(Diagram diagram) {
-		System.out.println(getClass() + "#handleBeforeSerialize");
-		return diagram;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleAfterSerialize(java.lang.String)
-	 */
-	@Override
-	public String handleAfterSerialize(String in) {
-		System.out.println(getClass() + "#handleAfterSerialize");
-		return in;
-	}
-
 }

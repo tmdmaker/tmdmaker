@@ -19,32 +19,13 @@ import java.util.ArrayList;
 
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.IAttribute;
-import jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler;
 
 /**
- * モデルのバージョン0.2.3へのバージョンアップ
+ * モデルのバージョン0.2.4へのバージョンアップ
  * 
  * @author nakaG
  */
-public class Patch024SerializerHandler implements SerializerHandler {
-
-	/**
-	 * コンストラクタ
-	 */
-	public Patch024SerializerHandler() {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleBeforeDeserialize(java.lang.String)
-	 */
-	@Override
-	public String handleBeforeDeserialize(String in) {
-		System.out.println(getClass() + "#handleBeforeDeserialize");
-		return in;
-	}
+public class Patch024SerializerHandler extends AbstractSerializerHandler {
 
 	/**
 	 * {@inheritDoc}
@@ -54,35 +35,13 @@ public class Patch024SerializerHandler implements SerializerHandler {
 	 */
 	@Override
 	public Diagram handleAfterDeserialize(Diagram in) {
-		System.out.println(getClass() + "#handleAfterDeserialize");
-		if (in.getCommonAttributes() == null) {
-			in.setCommonAttributes(new ArrayList<IAttribute>());
+		logger.info("handleAfterDeserialize");
+		if (versionUnderEqual(in, 0, 2, 3)) {
+			logger.info("apply patch 0.2.4");
+			if (in.getCommonAttributes() == null) {
+				in.setCommonAttributes(new ArrayList<IAttribute>());
+			}
 		}
 		return in;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleBeforeSerialize(jp.sourceforge.tmdmaker.model.Diagram)
-	 */
-	@Override
-	public Diagram handleBeforeSerialize(Diagram diagram) {
-		System.out.println(getClass() + "#handleBeforeSerialize");
-		return diagram;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleAfterSerialize(java.lang.String)
-	 */
-	@Override
-	public String handleAfterSerialize(String in) {
-		System.out.println(getClass() + "#handleAfterSerialize");
-		return in;
-	}
-
 }

@@ -117,7 +117,7 @@ public class AttributePanel extends Composite {
 		derivationCheckBox = new Button(this, SWT.CHECK);
 		derivationCheckBox.setText("ダイアグラムに(D)を表示する");
 		this.setLayout(gridLayout);
-		this.setSize(new Point(285, 423));
+		this.setSize(new Point(306, 443));
 	}
 
 	/**

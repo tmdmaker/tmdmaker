@@ -205,7 +205,7 @@ public class ImplementInfoEditPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		this.setLayout(gridLayout);
-		this.setSize(new Point(746, 199));
+		this.setSize(new Point(764, 272));
 	}
 	private int getSelectedColumnIndex(TableItem item, Point point) {
 		for (int i = 0;i < columnTable.getColumnCount(); i++) {

@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.ui.preferences.appearance;
 
+import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.ui.preferences.IPreferenceListener;
 import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
 
@@ -41,43 +42,26 @@ public class AppearancePreferenceListener implements IPreferenceListener {
 		AppearanceSetting config = AppearanceSetting.getInstance();
 
 		if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_RESOURCE_ENTITY_COLOR)) {
-			config.setResorceRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_EVENT_ENTITY_COLOR)) {
-			config.setEventRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_COMBINATION_TABLE_COLOR)) {
-			config.setCombinationTableRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_MAPPING_LIST_COLOR)) {
-			config.setMappingListRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_RECURSIVE_TABLE_COLOR)) {
-			config.setRecursiveTableRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_RESOURCE_SUBSET_COLOR)) {
-			config.setResourceSubsetRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_EVENT_SUBSET_COLOR)) {
-			config.setEventSubsetRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_VIRTUAL_ENTITY_COLOR)) {
-			config.setVirtualEntityRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_SUPERSET_COLOR)) {
-			config.setSupersetRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_MULTIVALUE_OR_COLOR)) {
-			config.setMultivalueOrRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
-				AppearancePreferenceConstants.P_LAPUTA_COLOR)) {
-			config.setLaputaRGB(convertRGBIfNeed(event.getNewValue()));
-		} else if (event.getProperty().equals(
 				AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED)) {
 			System.out.println("P_ENTITY_COLOR_ENABLED");
 			config.setColorEnabled(convertBooleanIfNeed(event.getNewValue()));
+			TMDPlugin.getDefault().update();
+			return;
 		}
+		for (ModelAppearance a : ModelAppearance.values()) {
+			if (event.getProperty().equals(a.getBackgroundColorPropertyName())) {
+				System.out.println(a.getBackgroundColorPropertyName());
+				RGB background = convertRGBIfNeed(event.getNewValue());
+				config.setBackground(a, background);
+				TMDPlugin.getDefault().update();
+			} else if (event.getProperty().equals(a.getFontColorPropertyName())) {
+				System.out.println(a.getFontColorPropertyName());
+				RGB font = convertRGBIfNeed(event.getNewValue());
+				config.setFont(a, font);
+				TMDPlugin.getDefault().update();
+			}
+		}
+
 	}
 
 	private RGB convertRGBIfNeed(Object value) {
@@ -104,32 +88,15 @@ public class AppearancePreferenceListener implements IPreferenceListener {
 	@Override
 	public void preferenceStart(IPreferenceStore store) {
 		AppearanceSetting config = AppearanceSetting.getInstance();
-		config.setResorceRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_RESOURCE_ENTITY_COLOR)));
-		config.setEventRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_EVENT_ENTITY_COLOR)));
-		config.setCombinationTableRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_COMBINATION_TABLE_COLOR)));
-		config.setMappingListRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_MAPPING_LIST_COLOR)));
-		config.setRecursiveTableRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_RECURSIVE_TABLE_COLOR)));
-		config.setResourceSubsetRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_RESOURCE_SUBSET_COLOR)));
-		config.setEventSubsetRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_EVENT_SUBSET_COLOR)));
-		config.setMultivalueOrRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_MULTIVALUE_OR_COLOR)));
-		config.setVirtualEntityRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_VIRTUAL_ENTITY_COLOR)));
-		String colorString = store
-				.getString(AppearancePreferenceConstants.P_SUPERSET_COLOR);
-		// if (colorString != null && colorString.length() > 0) {
-		config.setSupersetRGB(StringConverter.asRGB(colorString));
-		// }
-		config.setLaputaRGB(StringConverter.asRGB(store
-				.getString(AppearancePreferenceConstants.P_LAPUTA_COLOR)));
+		for (ModelAppearance a : ModelAppearance.values()) {
+			RGB background = StringConverter.asRGB(store.getString(a
+					.getBackgroundColorPropertyName()));
+			RGB font = StringConverter.asRGB(store.getString(a
+					.getFontColorPropertyName()));
+			config.setColors(a, background, font);
+		}
 		config.setColorEnabled(store
 				.getBoolean(AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED));
+		TMDPlugin.getDefault().update();
 	}
 }

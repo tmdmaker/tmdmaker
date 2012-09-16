@@ -163,7 +163,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
         gridLayout.numColumns = 3;
         gridLayout.horizontalSpacing = 5;
         this.setLayout(gridLayout);
-        this.setSize(new Point(358, 78));
+        this.setSize(new Point(358, 97));
 	}
 
 	/**

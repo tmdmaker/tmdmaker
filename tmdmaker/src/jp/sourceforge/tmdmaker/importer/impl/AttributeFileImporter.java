@@ -55,6 +55,8 @@ public class AttributeFileImporter implements FileImporter {
 			String attributeName = nextLine[0];
 			l.addAttribute(new Attribute(attributeName));
 		}
+		reader.close();
+		
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(l);
 		return list;

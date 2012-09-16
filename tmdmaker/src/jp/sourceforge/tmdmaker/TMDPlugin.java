@@ -30,6 +30,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -192,7 +193,8 @@ public class TMDPlugin extends AbstractUIPlugin {
 				.getWorkbenchWindows()) {
 
 			for (IWorkbenchPage page : w.getPages()) {
-				for (IEditorPart part : page.getEditors()) {
+				for (IEditorReference ref : page.getEditorReferences()) {
+					IEditorPart part = ref.getEditor(false);
 					if (part instanceof TMDEditor) {
 						((TMDEditor) part).updateVisuals();
 					}

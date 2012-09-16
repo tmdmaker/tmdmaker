@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,9 @@ package jp.sourceforge.tmdmaker.model;
 public class VirtualEntity extends AbstractEntityModel {
 	/** VEの元モデルRe-used */
 	private ReusedIdentifier originalReusedIdentifier;
+
+	/** みなしエンティティの種類 */
+	private VirtualEntityType virtualEntityType = VirtualEntityType.NORMAL;
 
 	/**
 	 * @return the originalReusedIdentifier
@@ -54,6 +57,21 @@ public class VirtualEntity extends AbstractEntityModel {
 	}
 
 	/**
+	 * @return the virtualEntityType
+	 */
+	public VirtualEntityType getVirtualEntityType() {
+		return virtualEntityType;
+	}
+
+	/**
+	 * @param virtualEntityType
+	 *            the virtualEntityType to set
+	 */
+	public void setVirtualEntityType(VirtualEntityType virtualEntityType) {
+		this.virtualEntityType = virtualEntityType;
+	}
+
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
@@ -61,7 +79,8 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
+		ReusedIdentifier returnValue = new ReusedIdentifier(
+				keyModels.getSarogateKey());
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
 
 		return returnValue;
@@ -97,5 +116,16 @@ public class VirtualEntity extends AbstractEntityModel {
 	public AbstractEntityModel getRealEntity() {
 		return (AbstractEntityModel) getModelTargetConnections().get(0)
 				.getSource();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#copyTo(jp.sourceforge.tmdmaker.model.AbstractEntityModel)
+	 */
+	@Override
+	public void copyTo(AbstractEntityModel to) {
+		((VirtualEntity) to).setVirtualEntityType(getVirtualEntityType());
+		super.copyTo(to);
 	}
 }

@@ -22,7 +22,7 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
 import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
-import jp.sourceforge.tmdmaker.action.DiagramImageSaveAction;
+import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
 import jp.sourceforge.tmdmaker.action.FileImportAction;
 import jp.sourceforge.tmdmaker.action.GenerateAction;
 import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
@@ -554,10 +554,9 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 		// viewerを取得するためcreateActionsメソッドではなくここでアクションを登録
 		ActionRegistry registry = getActionRegistry();
-		DiagramImageSaveAction action6 = new DiagramImageSaveAction(viewer,
-				this);
-		registry.registerAction(action6);
-
+		DiagramImageGenerateAction action66 = new DiagramImageGenerateAction(viewer, this);
+		registry.registerAction(action66);
+		
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
 		for (Generator generator : GeneratorProvider.getGenerators()) {

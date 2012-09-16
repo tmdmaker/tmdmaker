@@ -28,14 +28,12 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * ラピュタのコントローラ
@@ -71,12 +69,7 @@ public class LaputaEditPart extends AbstractEntityEditPart {
 				entityFigure.addRelationship(i.getName());
 			}
 		}
-		if (AppearanceSetting.getInstance().isColorEnabled()) {
-			entityFigure.setBackgroundColor(new Color(null, AppearanceSetting
-					.getInstance().getLaputaRGB()));
-		} else {
-			entityFigure.setBackgroundColor(ColorConstants.white);
-		}
+		setupColor(entityFigure, ModelAppearance.LAPUTA_COLOR);
 	}
 
 	/**

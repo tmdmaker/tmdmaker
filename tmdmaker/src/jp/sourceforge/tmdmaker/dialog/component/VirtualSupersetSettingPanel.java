@@ -54,7 +54,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 		virtualSupersetNameText.setLayoutData(gridData);
 		createTypeComposite();
 		this.setLayout(gridLayout);
-		this.setSize(new Point(251, 59));
+		this.setSize(new Point(264, 66));
 	}
 
 	/**
