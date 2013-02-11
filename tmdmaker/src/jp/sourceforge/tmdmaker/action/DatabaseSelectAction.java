@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * データベース選択Action
@@ -34,6 +36,8 @@ public class DatabaseSelectAction extends Action {
 	private GraphicalViewer viewer;
 	/** ID */
 	public static final String ID = "DatabaseSelectAction";
+	/** logging */
+	public static Logger logger;
 
 	/**
 	 * コンストラクタ
@@ -46,6 +50,7 @@ public class DatabaseSelectAction extends Action {
 		this.viewer = viewer;
 		setText("データベースを選択");
 		setId(ID);
+		logger = LoggerFactory.getLogger(getClass());
 	}
 
 	/**
@@ -55,19 +60,21 @@ public class DatabaseSelectAction extends Action {
 	 */
 	@Override
 	public void run() {
-		System.out.println("database select");
+		logger.debug("database select");
 		try {
 			Diagram diagram = (Diagram) viewer.getContents().getModel();
 
 			DatabaseSelectDialog dialog = new DatabaseSelectDialog(viewer
 					.getControl().getShell(), diagram.getDatabaseName());
 			if (dialog.open() == Dialog.OK) {
-				viewer.getEditDomain().getCommandStack().execute(
-						new DatabaseChangeCommand(diagram, dialog
-								.getSelectedDatabaseName()));
+				viewer.getEditDomain()
+						.getCommandStack()
+						.execute(
+								new DatabaseChangeCommand(diagram, dialog
+										.getSelectedDatabaseName()));
 			}
 		} catch (Throwable t) {
-			System.out.println(t);
+			logger.warn("exception when database select.", t);
 		}
 	}
 
