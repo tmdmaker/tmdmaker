@@ -277,7 +277,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 	private Version getPluginVersion() {
 		Bundle bundle = TMDPlugin.getDefault().getBundle();
-		return new Version((String) bundle.getHeaders().get("Bundle-Version"));
+		return new Version(bundle.getHeaders().get("Bundle-Version"));
 	}
 
 	/**

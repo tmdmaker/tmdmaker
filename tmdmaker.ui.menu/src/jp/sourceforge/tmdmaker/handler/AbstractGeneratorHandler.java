@@ -81,8 +81,7 @@ public abstract class AbstractGeneratorHandler extends AbstractHandler {
 	}
 
 	private IFile getSelectionFile(IStructuredSelection selection) {
-		for (Iterator it = ((IStructuredSelection) selection).iterator(); it
-				.hasNext();) {
+		for (Iterator it = selection.iterator(); it.hasNext();) {
 			Object obj = it.next();
 			if (obj instanceof IFile) {
 				return (IFile) obj;
