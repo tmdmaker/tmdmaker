@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,7 +78,7 @@ public class RelationshipListHtmlGenerator implements Generator {
 	 */
 	@Override
 	public void execute(String rootDir, List<AbstractEntityModel> models) {
-		System.out.println("generate");
+		logger.info("generate");
 		VelocityContext context = HtmlGeneratorUtils.getVecityContext();
 
 		Map<AbstractEntityModel, List<RelationshipMapping>> relationshipMappingMap = createData(models);
