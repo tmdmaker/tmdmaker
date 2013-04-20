@@ -15,10 +15,14 @@
  */
 package jp.sourceforge.tmdmaker.generate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.model.IdentifierRef;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -30,9 +34,11 @@ import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.ddlutils.model.Column;
 import org.apache.ddlutils.model.Database;
+import org.apache.ddlutils.model.ForeignKey;
 import org.apache.ddlutils.model.Index;
 import org.apache.ddlutils.model.IndexColumn;
 import org.apache.ddlutils.model.NonUniqueIndex;
+import org.apache.ddlutils.model.Reference;
 import org.apache.ddlutils.model.Table;
 import org.apache.ddlutils.model.UniqueIndex;
 import org.slf4j.Logger;
@@ -60,9 +66,32 @@ public class DdlUtilsConverter {
 		Database database = new Database();
 		database.setName(diagram.getName());
 
+		foreignTables = new HashMap<Table, Map<String, List<Reference>>>();
+		tables        = new HashMap<String, Table>();
+		
 		for (AbstractEntityModel model : models) {
 			addModel(database, model);
 		}
+		
+		for (Map.Entry<Table, Map<String, List<Reference>>> foreignRefrences :
+			foreignTables.entrySet()){
+			Table table = foreignRefrences.getKey();
+			Integer fidx = 0;
+			
+			for ( Map.Entry<String, List<Reference>> foreignmap: foreignRefrences.getValue().entrySet())
+			{
+				String tableName = foreignmap.getKey();
+				fidx += 1;
+				ForeignKey foreignKey = new ForeignKey("FK_" + tableName + fidx.toString());
+
+				for (Reference ref : foreignmap.getValue()){
+					foreignKey.addReference(ref);
+				}
+				foreignKey.setForeignTable(tables.get(tableName));
+				table.addForeignKey(foreignKey);
+			}
+		}
+		
 		return database;
 	}
 
@@ -82,6 +111,10 @@ public class DdlUtilsConverter {
 			}
 		}
 	}
+	
+	private Map<Table, Map<String, List<Reference>>> foreignTables;
+	
+	private Map<String,Table> tables;
 
 	/**
 	 * TMD-MakerのモデルをDDLUtilsのテーブルモデルへ変換する
@@ -93,7 +126,9 @@ public class DdlUtilsConverter {
 	private Table convert(AbstractEntityModel entity) {
 		// テーブル名を指定
 		Table table = new Table();
+		
 		table.setName(entity.getImplementName());
+		table.setDescription(entity.getName());
 
 		// 実装対象のアトリビュートをカラムとして追加
 		List<IAttribute> attributes = ImplementRule
@@ -104,12 +139,39 @@ public class DdlUtilsConverter {
 			table.addColumn(column);
 			attributeColumnMap.put(a, column);
 		}
-
+		
+		/*
+		 * テーブル名 ー> 参照テーブル名 ー> リファレンス のリストを作成する
+		 * あとでループして各テーブルで 外部キーを作成して追加する
+		 */
+		Map<String, List<Reference>> foreinReferences = new HashMap<String, List<Reference>>();
+		
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap :
+			entity.getReusedIdentifieres().entrySet()) {
+			
+			AbstractEntityModel foreignEntity = reusedMap.getKey();
+			ReusedIdentifier reused   = reusedMap.getValue();
+			
+			List<Reference> refences = new ArrayList<Reference>();
+			
+			for (IdentifierRef iref : reused.getIdentifires()){
+				Column localColumn = convert(iref);
+				Column originalColumn = convert(iref.getOriginal());
+				Reference reference = new Reference(localColumn,originalColumn);
+				refences.add(reference);
+			    logger.debug("参照： " + localColumn.getName() + "->" + originalColumn.getName());
+			}
+			
+			foreinReferences.put(foreignEntity.getImplementName(), refences);
+		
+		}
+		
 		// キーをインデックスとして追加
 		for (KeyModel idx : entity.getKeyModels()) {
 			table.addIndex(convert(idx, attributeColumnMap));
 		}
-
+		foreignTables.put(table, foreinReferences);
+		tables.put(table.getName(), table);
 		return table;
 
 	}
