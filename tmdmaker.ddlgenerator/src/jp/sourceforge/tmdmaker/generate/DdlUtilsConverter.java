@@ -57,11 +57,25 @@ public class DdlUtilsConverter {
 	/** 外部キーのテーブル */
 	private Map<Table, Map<String, List<Reference>>> foreignTables;
 
+	/** 外部キーを出力するか */
+	private boolean foreignKeyEnabled;
+
 	/**
 	 * コンストラクタ
 	 */
 	public DdlUtilsConverter() {
+		this(false);
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param foreignKeyEnabled
+	 *            外部キーを出力する場合trueを渡す。
+	 */
+	public DdlUtilsConverter(boolean foreignKeyEnabled) {
 		foreignTables = new HashMap<Table, Map<String, List<Reference>>>();
+		this.foreignKeyEnabled = foreignKeyEnabled;
 	}
 
 	/**
@@ -76,9 +90,9 @@ public class DdlUtilsConverter {
 
 		addModels(database, models);
 
-		// TODO:オプションで外部キー設定可否を制御したい
-		addForeignKeys(database);
-
+		if (foreignKeyEnabled) {
+			addForeignKeys(database);
+		}
 		return database;
 	}
 

@@ -4,7 +4,8 @@ Bundle-Name: TMD-Maker's DDLGenerator with DdlUtils
 Bundle-SymbolicName: tmdmaker.ddlgenerator;singleton:=true
 Bundle-Version: 0.2.6.qualifier
 Require-Bundle: org.eclipse.core.runtime,
- tmdmaker;bundle-version="0.2.0"
+ tmdmaker;bundle-version="0.2.0",
+ org.eclipse.ui;bundle-version="3.104.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

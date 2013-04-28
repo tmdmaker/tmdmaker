@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.generate.ui.preferences.DdlPreferenceConstants;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 
@@ -41,8 +43,8 @@ public class DdlUtilsDDLGenerator implements Generator {
 	private static Logger logger = LoggerFactory
 			.getLogger(DdlUtilsDDLGenerator.class);
 	/** モデル変換用 */
-	private DdlUtilsConverter converter = new DdlUtilsConverter();
-	
+	private DdlUtilsConverter converter = null;
+
 	/**
 	 * コンストラクタ
 	 */
@@ -66,6 +68,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 		if (databaseName == null || databaseName.length() == 0) {
 			throw new DatabaseNotSelectRuntimeException();
 		}
+		converter = new DdlUtilsConverter(isForeignKeyEnabled());
 		Database database = converter.convert(diagram, models);
 		converter.addCommonColumns(database, diagram.getCommonAttributes());
 
@@ -76,6 +79,11 @@ public class DdlUtilsDDLGenerator implements Generator {
 
 		writeSqlFile(rootDir, "ddl.sql", sql);
 
+	}
+
+	private boolean isForeignKeyEnabled() {
+		return TMDPlugin.getDefault().getPreferenceStore()
+				.getBoolean(DdlPreferenceConstants.P_FOREIGN_KEY_ENABLED);
 	}
 
 	/**
@@ -110,7 +118,6 @@ public class DdlUtilsDDLGenerator implements Generator {
 			}
 		}
 	}
-
 
 	/**
 	 * {@inheritDoc}
