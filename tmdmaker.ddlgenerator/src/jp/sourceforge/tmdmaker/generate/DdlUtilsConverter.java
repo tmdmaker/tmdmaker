@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.generate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,16 +24,21 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.IAttribute;
+import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.model.SarogateKeyRef;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.ddlutils.model.Column;
 import org.apache.ddlutils.model.Database;
+import org.apache.ddlutils.model.ForeignKey;
 import org.apache.ddlutils.model.Index;
 import org.apache.ddlutils.model.IndexColumn;
 import org.apache.ddlutils.model.NonUniqueIndex;
+import org.apache.ddlutils.model.Reference;
 import org.apache.ddlutils.model.Table;
 import org.apache.ddlutils.model.UniqueIndex;
 import org.slf4j.Logger;
@@ -48,6 +54,15 @@ public class DdlUtilsConverter {
 	/** logging */
 	private static Logger logger = LoggerFactory
 			.getLogger(DdlUtilsConverter.class);
+	/** 外部キーのテーブル */
+	private Map<Table, Map<String, List<Reference>>> foreignTables;
+
+	/**
+	 * コンストラクタ
+	 */
+	public DdlUtilsConverter() {
+		foreignTables = new HashMap<Table, Map<String, List<Reference>>>();
+	}
 
 	/**
 	 * TMD-MakerのモデルをDDLUtilsのデータベースモデルへ変換する
@@ -57,13 +72,26 @@ public class DdlUtilsConverter {
 	 * @return DDLUtilsのルートモデル
 	 */
 	public Database convert(Diagram diagram, List<AbstractEntityModel> models) {
+		Database database = createDatabase(diagram);
+
+		addModels(database, models);
+
+		// TODO:オプションで外部キー設定可否を制御したい
+		addForeignKeys(database);
+
+		return database;
+	}
+
+	private Database createDatabase(Diagram diagram) {
 		Database database = new Database();
 		database.setName(diagram.getName());
+		return database;
+	}
 
+	private void addModels(Database database, List<AbstractEntityModel> models) {
 		for (AbstractEntityModel model : models) {
 			addModel(database, model);
 		}
-		return database;
 	}
 
 	/**
@@ -75,12 +103,14 @@ public class DdlUtilsConverter {
 	 *            TMD-Makerのモデル
 	 */
 	private void addModel(Database database, ModelElement model) {
-		if (model instanceof AbstractEntityModel) {
-			AbstractEntityModel entity = (AbstractEntityModel) model;
-			if (!entity.isNotImplement()) {
-				database.addTable(convert(entity));
-			}
+		if (!(model instanceof AbstractEntityModel)) {
+			return;
 		}
+		AbstractEntityModel entity = (AbstractEntityModel) model;
+		if (entity.isNotImplement()) {
+			return;
+		}
+		database.addTable(convert(entity));
 	}
 
 	/**
@@ -94,24 +124,156 @@ public class DdlUtilsConverter {
 		// テーブル名を指定
 		Table table = new Table();
 		table.setName(entity.getImplementName());
+		table.setDescription(entity.getName());
 
 		// 実装対象のアトリビュートをカラムとして追加
+		Map<IAttribute, Column> attributeColumnMap = new HashMap<IAttribute, Column>();
+		addColumns(entity, table, attributeColumnMap);
+
+		// キーをインデックスとして追加
+		addIndices(entity, table, attributeColumnMap);
+
+		/*
+		 * テーブル名 -> 参照テーブル名 -> リファレンス のリストを作成する。 あとでループして各テーブルで 外部キーを作成して追加する。
+		 */
+		setupForeignTables(entity, table);
+
+		return table;
+	}
+
+	/**
+	 * カラムを追加する
+	 * 
+	 * @param entity
+	 *            対象エンティティ
+	 * @param table
+	 *            対象テーブル
+	 * @param attributeColumnMap
+	 *            アトリビュートとカラムのマップ
+	 */
+	private void addColumns(AbstractEntityModel entity, Table table,
+			Map<IAttribute, Column> attributeColumnMap) {
 		List<IAttribute> attributes = ImplementRule
 				.findAllImplementAttributes(entity);
-		Map<IAttribute, Column> attributeColumnMap = new HashMap<IAttribute, Column>();
 		for (IAttribute a : attributes) {
 			Column column = convert(a);
 			table.addColumn(column);
 			attributeColumnMap.put(a, column);
 		}
+	}
 
-		// キーをインデックスとして追加
-		for (KeyModel idx : entity.getKeyModels()) {
-			table.addIndex(convert(idx, attributeColumnMap));
+	/**
+	 * 外部キーテーブルを初期化する
+	 * 
+	 * @param entity
+	 *            対象モデル
+	 * @param table
+	 *            対象テーブル
+	 */
+	private void setupForeignTables(AbstractEntityModel entity, Table table) {
+		Map<String, List<Reference>> foreinReferences = new HashMap<String, List<Reference>>();
+
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity
+				.getReusedIdentifieres().entrySet()) {
+
+			AbstractEntityModel foreignEntity = reusedMap.getKey();
+			ReusedIdentifier reused = reusedMap.getValue();
+
+			List<Reference> refences = new ArrayList<Reference>();
+
+			if (reused.isSarogateKeyEnabled()) {
+				for (SarogateKeyRef sref : reused.getSarogateKeys()) {
+					Column localColumn = convert(sref);
+					Column originalColumn = convert(sref.getOriginal());
+					addReference(refences, localColumn, originalColumn);
+				}
+			} else {
+				for (IdentifierRef iref : reused.getIdentifires()) {
+					Column localColumn = convert(iref);
+					Column originalColumn = convert(iref.getOriginal());
+					addReference(refences, localColumn, originalColumn);
+				}
+			}
+			foreinReferences.put(foreignEntity.getImplementName(), refences);
 		}
 
-		return table;
+		foreignTables.put(table, foreinReferences);
+	}
 
+	private void addReference(List<Reference> refences, Column localColumn,
+			Column originalColumn) {
+		Reference reference = new Reference(localColumn, originalColumn);
+		refences.add(reference);
+		logger.debug("参照： " + localColumn.getName() + "->"
+				+ originalColumn.getName());
+	}
+
+	/**
+	 * 外部キー制約を設定する
+	 * 
+	 * @param database
+	 *            対象データベース
+	 */
+	private void addForeignKeys(Database database) {
+		for (Map.Entry<Table, Map<String, List<Reference>>> foreignRefrences : foreignTables
+				.entrySet()) {
+			Table table = foreignRefrences.getKey();
+			Integer fidx = 0;
+
+			for (Map.Entry<String, List<Reference>> foreignmap : foreignRefrences
+					.getValue().entrySet()) {
+				String tableName = foreignmap.getKey();
+				fidx += 1;
+				ForeignKey foreignKey = new ForeignKey("FK_" + tableName
+						+ fidx.toString());
+
+				for (Reference ref : foreignmap.getValue()) {
+					foreignKey.addReference(ref);
+				}
+				foreignKey.setForeignTable(database.findTable(tableName));
+				table.addForeignKey(foreignKey);
+			}
+		}
+	}
+
+	/**
+	 * インデックスを追加する
+	 * 
+	 * @param entity
+	 *            対象エンティティ
+	 * @param table
+	 *            対象テーブル
+	 * @param attributeColumnMap
+	 *            アトリビュートとカラムのマップ
+	 */
+	private void addIndices(AbstractEntityModel entity, Table table,
+			Map<IAttribute, Column> attributeColumnMap) {
+		for (KeyModel idx : entity.getKeyModels()) {
+
+			// マスターキーはプライマリキーとして登録する
+			if (idx.isMasterKey()) {
+				markPrimaryKeys(table, idx);
+			} else {
+				table.addIndex(convert(idx, attributeColumnMap));
+			}
+		}
+	}
+
+	/**
+	 * マスターキーのカラムにプライマリキーに設定する
+	 * 
+	 * @param table
+	 *            対象テーブル
+	 * @param idx
+	 *            マスターキー
+	 */
+	private void markPrimaryKeys(Table table, KeyModel idx) {
+		for (IAttribute a : idx.getAttributes()) {
+			Column c = table.findColumn(a.getImplementName());
+			if (c != null) {
+				c.setPrimaryKey(true);
+			}
+		}
 	}
 
 	/**
@@ -185,7 +347,6 @@ public class DdlUtilsConverter {
 		for (Table t : database.getTables()) {
 			addCommonColumns(t, commonAttributes);
 		}
-
 	}
 
 	/**
@@ -202,5 +363,4 @@ public class DdlUtilsConverter {
 			t.addColumn(convert(a));
 		}
 	}
-
 }
