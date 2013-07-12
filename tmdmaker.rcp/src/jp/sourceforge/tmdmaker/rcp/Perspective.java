@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,10 @@ public class Perspective implements IPerspectiveFactory {
 
 		layout.addView(IPageLayout.ID_PROJECT_EXPLORER, IPageLayout.LEFT, 0.3f,
 				editorArea);
+		layout.getViewLayout(IPageLayout.ID_PROJECT_EXPLORER).setCloseable(
+				false);
 		layout.addView(IPageLayout.ID_OUTLINE, IPageLayout.RIGHT, 0.7f,
 				editorArea);
+		layout.getViewLayout(IPageLayout.ID_OUTLINE).setCloseable(false);
 	}
 }

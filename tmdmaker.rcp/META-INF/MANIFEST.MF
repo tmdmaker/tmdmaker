@@ -15,7 +15,10 @@ Require-Bundle: org.eclipse.ui,
  tmdmaker.serializer;bundle-version="0.2.5",
  tmdmaker.serializer.handler.patch0.2.x;bundle-version="0.2.5",
  tmdmaker.imagegenerator;bundle-version="0.2.6",
- tmdmaker.ui.menu;bundle-version="0.2.6"
+ tmdmaker.ui.menu;bundle-version="0.2.6",
+ org.eclipse.e4.ui.model.workbench,
+ org.eclipse.e4.ui.workbench,
+ org.eclipse.e4.core.contexts
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
