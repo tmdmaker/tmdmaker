@@ -116,6 +116,11 @@ public class ReusedIdentifier implements Serializable {
 	}
 
 	public boolean isSarogateKeyEnabled() {
-		return sarogateKeys.get(0).isEnabled();
+		if (sarogateKeys != null && sarogateKeys.size() > 0) {
+			SarogateKeyRef sarogateKey = sarogateKeys.get(0);
+			return sarogateKey != null && sarogateKey.isEnabled();
+		} else {
+			return false;
+		}
 	}
 }

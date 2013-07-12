@@ -140,12 +140,15 @@ public class ImplementRule {
 		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
 				.entrySet()) {
 			ReusedIdentifier ri = entry.getValue();
+			if (ri == null) {
+				continue;
+			}
 			if (ri.isSarogateKeyEnabled()) {
 				for (SarogateKeyRef s : ri.getSarogateKeys()) {
-					attributes.add(s);					
+					attributes.add(s);
 				}
 			} else {
-				for (IdentifierRef ref : entry.getValue().getIdentifires()) {
+				for (IdentifierRef ref : ri.getIdentifires()) {
 					attributes.add(ref);
 				}
 			}
