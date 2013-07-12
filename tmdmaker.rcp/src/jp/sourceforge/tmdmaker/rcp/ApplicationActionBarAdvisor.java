@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.rcp;
 
-import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.GroupMarker;
+import org.eclipse.jface.action.ICoolBarManager;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
@@ -56,9 +58,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.ui.application.ActionBarAdvisor#fillMenuBar(org.eclipse.jface.action.IMenuManager)
+	 * @see org.eclipse.ui.application.ActionBarAdvisor#fillCoolBar(org.eclipse.jface.action.ICoolBarManager)
 	 */
-	protected void fillMenuBar(IMenuManager menuBar) {
+	@Override
+	protected void fillCoolBar(ICoolBarManager coolBar) {
+		super.fillCoolBar(coolBar);
+		coolBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
-
 }
