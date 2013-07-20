@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -116,7 +116,11 @@ public class ReusedIdentifier implements Serializable {
 	}
 
 	public boolean isSarogateKeyEnabled() {
-		System.out.println("isSarogateKeyEnabled");
-		return sarogateKeys.get(0).isEnabled();
+		if (sarogateKeys != null && sarogateKeys.size() > 0) {
+			SarogateKeyRef sarogateKey = sarogateKeys.get(0);
+			return sarogateKey != null && sarogateKey.isEnabled();
+		} else {
+			return false;
+		}
 	}
 }

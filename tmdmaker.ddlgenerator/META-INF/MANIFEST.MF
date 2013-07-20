@@ -2,9 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker's DDLGenerator with DdlUtils
 Bundle-SymbolicName: tmdmaker.ddlgenerator;singleton:=true
-Bundle-Version: 0.2.6.qualifier
+Bundle-Version: 0.2.7.qualifier
 Require-Bundle: org.eclipse.core.runtime,
- tmdmaker;bundle-version="0.2.0"
+ tmdmaker;bundle-version="0.2.0",
+ org.eclipse.ui,
+ org.eclipse.ui.views,
+ org.eclipse.ui.ide
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
@@ -19,9 +22,9 @@ Bundle-ClassPath: .,
  lib/stax-api-1.0.1.jar,
  lib/wstx-asl-3.0.2.jar,
  lib/ddlutils-1.1.jar,
- lib/jcl-over-slf4j-1.6.6.jar,
- lib/slf4j-api-1.6.6.jar,
- lib/slf4j-simple-1.6.6.jar
+ lib/jcl-over-slf4j-1.7.5.jar,
+ lib/slf4j-api-1.7.5.jar,
+ lib/slf4j-simple-1.7.5.jar
 Export-Package: jp.sourceforge.tmdmaker.dialect,
  jp.sourceforge.tmdmaker.generate
 Bundle-Vendor: TMD-Maker Project

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -277,7 +277,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 	private Version getPluginVersion() {
 		Bundle bundle = TMDPlugin.getDefault().getBundle();
-		return new Version((String) bundle.getHeaders().get("Bundle-Version"));
+		return new Version(bundle.getHeaders().get("Bundle-Version"));
 	}
 
 	/**
@@ -657,7 +657,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		List editParts = getGraphicalViewer().getRootEditPart().getChildren();
 		
 		for (Object o: editParts) {
-			System.out.println(o.getClass());
+			logger.debug(o.getClass().getName());
 			if (o instanceof AbstractEntityEditPart) {
 				((AbstractEntityEditPart)o).updateAppearance();
 			} else if (o instanceof DiagramEditPart) {

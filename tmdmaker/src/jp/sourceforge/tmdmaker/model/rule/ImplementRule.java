@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SarogateKey;
+import jp.sourceforge.tmdmaker.model.SarogateKeyRef;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
@@ -138,8 +139,18 @@ public class ImplementRule {
 				.getReusedIdentifieres();
 		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
 				.entrySet()) {
-			for (IdentifierRef ref : entry.getValue().getIdentifires()) {
-				attributes.add(ref);
+			ReusedIdentifier ri = entry.getValue();
+			if (ri == null) {
+				continue;
+			}
+			if (ri.isSarogateKeyEnabled()) {
+				for (SarogateKeyRef s : ri.getSarogateKeys()) {
+					attributes.add(s);
+				}
+			} else {
+				for (IdentifierRef ref : ri.getIdentifires()) {
+					attributes.add(ref);
+				}
 			}
 		}
 		// モデルのアトリビュートを追加
