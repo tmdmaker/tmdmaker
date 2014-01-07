@@ -27,6 +27,14 @@ public class MultivalueAndSuperset extends AbstractEntityModel {
 	private Detail detail;
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isNotImplement() {
+		return true;
+	}
+
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
@@ -86,5 +94,5 @@ public class MultivalueAndSuperset extends AbstractEntityModel {
 		copyTo(copy);
 		return copy;
 	}
-	
+
 }
