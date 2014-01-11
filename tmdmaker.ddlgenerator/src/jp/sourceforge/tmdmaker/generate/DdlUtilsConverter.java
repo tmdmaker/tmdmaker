@@ -176,6 +176,8 @@ public class DdlUtilsConverter {
 		}
 	}
 
+	private List<String> recursiveTables = new ArrayList<String>();
+
 	/**
 	 * 外部キーテーブルを初期化する
 	 * 
@@ -185,6 +187,7 @@ public class DdlUtilsConverter {
 	 *            対象テーブル
 	 */
 	private void setupForeignTables(AbstractEntityModel entity, Table table) {
+
 		Map<String, List<Reference>> foreinReferences = new HashMap<String, List<Reference>>();
 
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity
@@ -193,25 +196,42 @@ public class DdlUtilsConverter {
 			AbstractEntityModel foreignEntity = reusedMap.getKey();
 			ReusedIdentifier reused = reusedMap.getValue();
 
-			List<Reference> refences = new ArrayList<Reference>();
-
-			if (reused.isSarogateKeyEnabled()) {
-				for (SarogateKeyRef sref : reused.getSarogateKeys()) {
-					Column localColumn = convert(sref);
-					Column originalColumn = convert(sref.getOriginal());
-					addReference(refences, localColumn, originalColumn);
-				}
-			} else {
-				for (IdentifierRef iref : reused.getIdentifires()) {
-					Column localColumn = convert(iref);
-					Column originalColumn = convert(iref.getOriginal());
-					addReference(refences, localColumn, originalColumn);
+			// Reused でサロゲートキーが2つあるのは再帰のときのみ。
+			int count = reused.getSarogateKeys().size();
+			if (count == 2) {
+				if (!recursiveTables.contains(entity.getImplementName())) {
+					recursiveTables.add(entity.getImplementName());
 				}
 			}
-			foreinReferences.put(foreignEntity.getImplementName(), refences);
+
+			foreinReferences.put(foreignEntity.getImplementName(), convert(reused));
 		}
 
 		foreignTables.put(table, foreinReferences);
+	}
+
+	/**
+	 * 
+	 * Re-Used 列を DdlUtils の Reference のリストに変換する
+	 * 
+	 */
+	private List<Reference> convert(ReusedIdentifier reused) {
+		List<Reference> refences = new ArrayList<Reference>();
+
+		if (reused.isSarogateKeyEnabled()) {
+			for (SarogateKeyRef sref : reused.getSarogateKeys()) {
+				Column localColumn = convert(sref);
+				Column originalColumn = convert(sref.getOriginal());
+				addReference(refences, localColumn, originalColumn);
+			}
+		} else {
+			for (IdentifierRef iref : reused.getIdentifires()) {
+				Column localColumn = convert(iref);
+				Column originalColumn = convert(iref.getOriginal());
+				addReference(refences, localColumn, originalColumn);
+			}
+		}
+		return refences;
 	}
 
 	private void addReference(List<Reference> refences, Column localColumn,
@@ -225,28 +245,62 @@ public class DdlUtilsConverter {
 	/**
 	 * 外部キー制約を設定する
 	 * 
+	 * 再帰表とその他のテーブルでは外部キーの指定の仕方が異なる
+	 * 
 	 * @param database
 	 *            対象データベース
 	 */
 	private void addForeignKeys(Database database) {
+
 		for (Map.Entry<Table, Map<String, List<Reference>>> foreignRefrences : foreignTables
 				.entrySet()) {
 			Table table = foreignRefrences.getKey();
-			Integer fidx = 0;
 
 			for (Map.Entry<String, List<Reference>> foreignmap : foreignRefrences
 					.getValue().entrySet()) {
-				String tableName = foreignmap.getKey();
-				fidx += 1;
-				ForeignKey foreignKey = new ForeignKey("FK_" + tableName
-						+ fidx.toString());
+				Table foreignTable = database.findTable(foreignmap.getKey());
 
-				for (Reference ref : foreignmap.getValue()) {
-					foreignKey.addReference(ref);
+				if (foreignTable == null)
+					continue;
+
+				if (recursiveTables.contains(table.getName())) {
+
+					addRecursiveForeignKey(table, foreignTable,
+							foreignmap.getValue());
+				} else {
+					addForeignKey(table, foreignTable, foreignmap.getValue());
 				}
-				foreignKey.setForeignTable(database.findTable(tableName));
-				table.addForeignKey(foreignKey);
 			}
+		}
+	}
+
+	/*
+	 * 再帰表以外の外部キー設定
+	 */
+	private void addForeignKey(Table table, Table foreignTable,
+			List<Reference> references) {
+		ForeignKey foreignKey = new ForeignKey("FK_" + foreignTable.getName());
+
+		for (Reference ref : references) {
+			foreignKey.addReference(ref);
+		}
+		foreignKey.setForeignTable(foreignTable);
+		table.addForeignKey(foreignKey);
+	}
+
+	/*
+	 * 再帰表の外部キー設定
+	 */
+	private void addRecursiveForeignKey(Table table, Table foreignTable,
+			List<Reference> references) {
+		Integer idx = 0;
+		for (Reference ref : references) {
+			idx += 1;
+			ForeignKey foreignKey = new ForeignKey("FK_"
+					+ foreignTable.getName() + idx.toString());
+			foreignKey.addReference(ref);
+			foreignKey.setForeignTable(foreignTable);
+			table.addForeignKey(foreignKey);
 		}
 	}
 
