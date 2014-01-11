@@ -34,7 +34,6 @@ import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.ddlutils.model.Column;
 import org.apache.ddlutils.model.Database;
-import org.apache.ddlutils.model.ForeignKey;
 import org.apache.ddlutils.model.Index;
 import org.apache.ddlutils.model.IndexColumn;
 import org.apache.ddlutils.model.NonUniqueIndex;
@@ -54,8 +53,9 @@ public class DdlUtilsConverter {
 	/** logging */
 	private static Logger logger = LoggerFactory
 			.getLogger(DdlUtilsConverter.class);
+	
 	/** 外部キーのテーブル */
-	private Map<Table, Map<String, List<Reference>>> foreignTables;
+	private List<ForeignConstraints> foreignConstraintsList;
 
 	/** 外部キーを出力するか */
 	private boolean foreignKeyEnabled;
@@ -74,8 +74,8 @@ public class DdlUtilsConverter {
 	 *            外部キーを出力する場合trueを渡す。
 	 */
 	public DdlUtilsConverter(boolean foreignKeyEnabled) {
-		foreignTables = new HashMap<Table, Map<String, List<Reference>>>();
-		this.foreignKeyEnabled = foreignKeyEnabled;
+		this.foreignConstraintsList = new ArrayList<ForeignConstraints>();
+		this.foreignKeyEnabled  = foreignKeyEnabled;
 	}
 
 	/**
@@ -91,7 +91,9 @@ public class DdlUtilsConverter {
 		addModels(database, models);
 
 		if (foreignKeyEnabled) {
-			addForeignKeys(database);
+			for (ForeignConstraints foreignConstraints: foreignConstraintsList) {
+				foreignConstraints.addForeignKeys(database);
+			}
 		}
 		return database;
 	}
@@ -150,7 +152,7 @@ public class DdlUtilsConverter {
 		/*
 		 * テーブル名 -> 参照テーブル名 -> リファレンス のリストを作成する。 あとでループして各テーブルで 外部キーを作成して追加する。
 		 */
-		setupForeignTables(entity, table);
+        this.foreignConstraintsList.add(createForeignConstraints(entity, table));
 
 		return table;
 	}
@@ -176,38 +178,34 @@ public class DdlUtilsConverter {
 		}
 	}
 
-	private List<String> recursiveTables = new ArrayList<String>();
-
 	/**
-	 * 外部キーテーブルを初期化する
+	 * 外部キーテーブルを生成する
 	 * 
 	 * @param entity
 	 *            対象モデル
 	 * @param table
 	 *            対象テーブル
 	 */
-	private void setupForeignTables(AbstractEntityModel entity, Table table) {
+	private ForeignConstraints createForeignConstraints(AbstractEntityModel entity, Table table) {
 
-		Map<String, List<Reference>> foreinReferences = new HashMap<String, List<Reference>>();
+		ForeignConstraints foreignConstraints = new ForeignConstraints(table);
 
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity
 				.getReusedIdentifieres().entrySet()) {
 
 			AbstractEntityModel foreignEntity = reusedMap.getKey();
-			ReusedIdentifier reused = reusedMap.getValue();
+			ReusedIdentifier    reused        = reusedMap.getValue();
 
-			// Reused でサロゲートキーが2つあるのは再帰のときのみ。
-			int count = reused.getSarogateKeys().size();
-			if (count == 2) {
-				if (!recursiveTables.contains(entity.getImplementName())) {
-					recursiveTables.add(entity.getImplementName());
-				}
-			}
-
-			foreinReferences.put(foreignEntity.getImplementName(), convert(reused));
+			foreignConstraints.addForeignReference(foreignEntity.getImplementName(), convert(reused), isRecursive(reused));
 		}
-
-		foreignTables.put(table, foreinReferences);
+		return foreignConstraints;
+	}
+	
+	private Boolean isRecursive(ReusedIdentifier reused)
+	{
+		// Reused でサロゲートキーが2つあるのは再帰のときのみ。
+		int count = reused.getSarogateKeys().size();
+        return (count == 2);
 	}
 
 	/**
@@ -240,68 +238,6 @@ public class DdlUtilsConverter {
 		refences.add(reference);
 		logger.debug("参照： " + localColumn.getName() + "->"
 				+ originalColumn.getName());
-	}
-
-	/**
-	 * 外部キー制約を設定する
-	 * 
-	 * 再帰表とその他のテーブルでは外部キーの指定の仕方が異なる
-	 * 
-	 * @param database
-	 *            対象データベース
-	 */
-	private void addForeignKeys(Database database) {
-
-		for (Map.Entry<Table, Map<String, List<Reference>>> foreignRefrences : foreignTables
-				.entrySet()) {
-			Table table = foreignRefrences.getKey();
-
-			for (Map.Entry<String, List<Reference>> foreignmap : foreignRefrences
-					.getValue().entrySet()) {
-				Table foreignTable = database.findTable(foreignmap.getKey());
-
-				if (foreignTable == null)
-					continue;
-
-				if (recursiveTables.contains(table.getName())) {
-
-					addRecursiveForeignKey(table, foreignTable,
-							foreignmap.getValue());
-				} else {
-					addForeignKey(table, foreignTable, foreignmap.getValue());
-				}
-			}
-		}
-	}
-
-	/*
-	 * 再帰表以外の外部キー設定
-	 */
-	private void addForeignKey(Table table, Table foreignTable,
-			List<Reference> references) {
-		ForeignKey foreignKey = new ForeignKey("FK_" + foreignTable.getName());
-
-		for (Reference ref : references) {
-			foreignKey.addReference(ref);
-		}
-		foreignKey.setForeignTable(foreignTable);
-		table.addForeignKey(foreignKey);
-	}
-
-	/*
-	 * 再帰表の外部キー設定
-	 */
-	private void addRecursiveForeignKey(Table table, Table foreignTable,
-			List<Reference> references) {
-		Integer idx = 0;
-		for (Reference ref : references) {
-			idx += 1;
-			ForeignKey foreignKey = new ForeignKey("FK_"
-					+ foreignTable.getName() + idx.toString());
-			foreignKey.addReference(ref);
-			foreignKey.setForeignTable(foreignTable);
-			table.addForeignKey(foreignKey);
-		}
 	}
 
 	/**
