@@ -3,6 +3,7 @@
 
 <product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.2.7" useFeatures="false" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
@@ -10,14 +11,22 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages/>
+   <windowImages i16="/tmdmaker.rcp/icons/window/tmd_icon_16_32bit.png" i32="/tmdmaker.rcp/icons/window/tmd_icon_32_32bit.png" i48="/tmdmaker.rcp/icons/window/tmd_icon_48_32bit.png" i64="/tmdmaker.rcp/icons/window/tmd_icon_64_32bit.png" i128="/tmdmaker.rcp/icons/window/tmd_icon_128_32bit.png"/>
 
    <launcher name="tmdmaker">
       <solaris/>
       <win useIco="false">
-         <bmp/>
+         <bmp
+            winSmallHigh="/tmdmaker.rcp/icons/launcher/tmd_icon_16_32bit.bmp"
+            winSmallLow="/tmdmaker.rcp/icons/launcher/tmd_icon_16_8bit.bmp"
+            winMediumHigh="/tmdmaker.rcp/icons/launcher/tmd_icon_32_32bit.bmp"
+            winMediumLow="/tmdmaker.rcp/icons/launcher/tmd_icon_32_8bit.bmp"
+            winLargeHigh="/tmdmaker.rcp/icons/launcher/tmd_icon_48_32bit.bmp"
+            winLargeLow="/tmdmaker.rcp/icons/launcher/tmd_icon_48_8bit.bmp"
+            winExtraLargeHigh="/tmdmaker.rcp/icons/launcher/tmd_icon_256.bmp"/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>

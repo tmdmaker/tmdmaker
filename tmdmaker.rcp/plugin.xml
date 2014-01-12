@@ -34,6 +34,10 @@
                name="appName"
                value="TMD-Maker for RCP">
          </property>
+         <property
+               name="windowImages"
+               value="icons/window/tmd_icon_16_32bit.png,icons/window/tmd_icon_32_32bit.png,icons/window/tmd_icon_48_32bit.png,icons/window/tmd_icon_64_32bit.png,icons/window/tmd_icon_128_32bit.png">
+         </property>
       </product>
    </extension>
    <extension
