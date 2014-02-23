@@ -45,8 +45,9 @@ public class ForeignConstraints {
      * @param isRecursive
      *        参照元が再帰表かどうか
      */
-    public void addForeignReference(String foreignTableName, List<Reference> references, Boolean isRecursive){
-		if (isRecursive) {
+    public void addForeignReference(String foreignTableName, List<Reference> references, boolean isRecursive){
+    	System.out.println("addForeignReference() " + foreignTableName + " " + references.size() +" "+ isRecursive);
+    	if (isRecursive) {
 			addRecursiveForeignReference(foreignTableName, references);
 		}
 		else{
@@ -128,14 +129,30 @@ public class ForeignConstraints {
      * @param references
      */
     private void addRecursiveForeignKey(Table foreignTable, List<Reference> references) {
-		Integer idx = 0;
+		ForeignKey foreignKey = new ForeignKey("FK_1" + foreignTable.getName());
+
 		for (Reference ref : references) {
-			idx += 1;
-			ForeignKey foreignKey = new ForeignKey("FK_"
-					+ foreignTable.getName() + idx.toString());
 			foreignKey.addReference(ref);
-			foreignKey.setForeignTable(foreignTable);
-			table.addForeignKey(foreignKey);
 		}
+		foreignKey.setForeignTable(foreignTable);
+		table.addForeignKey(foreignKey);
+		
+		foreignKey = new ForeignKey("FK_2" + foreignTable.getName());
+
+		for (Reference ref : references) {
+			foreignKey.addReference(ref);
+		}
+		foreignKey.setForeignTable(foreignTable);
+		table.addForeignKey(foreignKey);
+
+//    	Integer idx = 0;
+//		for (Reference ref : references) {
+//			idx += 1;
+//			ForeignKey foreignKey = new ForeignKey("FK_"
+//					+ foreignTable.getName() + idx.toString());
+//			foreignKey.addReference(ref);
+//			foreignKey.setForeignTable(foreignTable);
+//			table.addForeignKey(foreignKey);
+//		}
 	}
 }

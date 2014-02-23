@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ public class DdlUtilsConverter {
 	/** logging */
 	private static Logger logger = LoggerFactory
 			.getLogger(DdlUtilsConverter.class);
-	
+
 	/** 外部キーのテーブル */
 	private List<ForeignConstraints> foreignConstraintsList;
 
@@ -75,7 +75,7 @@ public class DdlUtilsConverter {
 	 */
 	public DdlUtilsConverter(boolean foreignKeyEnabled) {
 		this.foreignConstraintsList = new ArrayList<ForeignConstraints>();
-		this.foreignKeyEnabled  = foreignKeyEnabled;
+		this.foreignKeyEnabled = foreignKeyEnabled;
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class DdlUtilsConverter {
 		addModels(database, models);
 
 		if (foreignKeyEnabled) {
-			for (ForeignConstraints foreignConstraints: foreignConstraintsList) {
+			for (ForeignConstraints foreignConstraints : foreignConstraintsList) {
 				foreignConstraints.addForeignKeys(database);
 			}
 		}
@@ -152,7 +152,8 @@ public class DdlUtilsConverter {
 		/*
 		 * テーブル名 -> 参照テーブル名 -> リファレンス のリストを作成する。 あとでループして各テーブルで 外部キーを作成して追加する。
 		 */
-        this.foreignConstraintsList.add(createForeignConstraints(entity, table));
+		this.foreignConstraintsList
+				.add(createForeignConstraints(entity, table));
 
 		return table;
 	}
@@ -186,26 +187,29 @@ public class DdlUtilsConverter {
 	 * @param table
 	 *            対象テーブル
 	 */
-	private ForeignConstraints createForeignConstraints(AbstractEntityModel entity, Table table) {
-
+	private ForeignConstraints createForeignConstraints(
+			AbstractEntityModel entity, Table table) {
+		System.out.println("createForeignConstraints " + entity.getName() + " "
+				+ table.getName());
 		ForeignConstraints foreignConstraints = new ForeignConstraints(table);
 
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity
 				.getReusedIdentifieres().entrySet()) {
 
 			AbstractEntityModel foreignEntity = reusedMap.getKey();
-			ReusedIdentifier    reused        = reusedMap.getValue();
+			ReusedIdentifier reused = reusedMap.getValue();
 
-			foreignConstraints.addForeignReference(foreignEntity.getImplementName(), convert(reused), isRecursive(reused));
+			foreignConstraints.addForeignReference(
+					foreignEntity.getImplementName(), convert(reused),
+					isRecursive(reused));
 		}
 		return foreignConstraints;
 	}
-	
-	private Boolean isRecursive(ReusedIdentifier reused)
-	{
+
+	private Boolean isRecursive(ReusedIdentifier reused) {
 		// Reused でサロゲートキーが2つあるのは再帰のときのみ。
 		int count = reused.getSarogateKeys().size();
-        return (count == 2);
+		return (count == 2);
 	}
 
 	/**
@@ -217,16 +221,36 @@ public class DdlUtilsConverter {
 		List<Reference> refences = new ArrayList<Reference>();
 
 		if (reused.isSarogateKeyEnabled()) {
-			for (SarogateKeyRef sref : reused.getSarogateKeys()) {
+			if (isRecursive(reused)) {
+				SarogateKeyRef sref = reused.getSarogateKeys().get(0);
 				Column localColumn = convert(sref);
 				Column originalColumn = convert(sref.getOriginal());
-				addReference(refences, localColumn, originalColumn);
+				addReference(refences, localColumn, originalColumn);				
+			} else {
+				for (SarogateKeyRef sref : reused.getSarogateKeys()) {
+					Column localColumn = convert(sref);
+					Column originalColumn = convert(sref.getOriginal());
+					addReference(refences, localColumn, originalColumn);
+				}
 			}
 		} else {
-			for (IdentifierRef iref : reused.getIdentifires()) {
-				Column localColumn = convert(iref);
-				Column originalColumn = convert(iref.getOriginal());
-				addReference(refences, localColumn, originalColumn);
+			if (isRecursive(reused)) {
+				int reusedCount = reused.getIdentifires().size() / 2;
+				List<IdentifierRef> l = reused.getIdentifires();
+				for (int i = 0; i < reusedCount; i++) {
+					IdentifierRef iref = l.get(i);
+					Column localColumn = convert(iref);
+					Column originalColumn = convert(iref.getOriginal());
+					addReference(refences, localColumn, originalColumn);
+
+				}
+			} else {
+				for (IdentifierRef iref : reused.getIdentifires()) {
+
+					Column localColumn = convert(iref);
+					Column originalColumn = convert(iref.getOriginal());
+					addReference(refences, localColumn, originalColumn);
+				}
 			}
 		}
 		return refences;
