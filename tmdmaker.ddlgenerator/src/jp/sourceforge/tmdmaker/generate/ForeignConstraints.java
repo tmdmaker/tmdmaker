@@ -91,7 +91,7 @@ public class ForeignConstraints {
 			if (foreignTable == null){
 				continue;
 			}
-				addForeignKey(foreignTable, foreignmap.getValue());
+			addForeignKey(foreignTable, foreignmap.getValue());
 		}
 		
 		for (Map.Entry<String, List<Reference>> foreignmap
@@ -102,7 +102,8 @@ public class ForeignConstraints {
 			if (foreignTable == null){
 				continue;
 			}
-			addRecursiveForeignKey(foreignTable, foreignmap.getValue());
+			addForeignKey(foreignTable, foreignmap.getValue(), 1);
+			addForeignKey(foreignTable, foreignmap.getValue(), 2);
 		}
     }
 
@@ -113,13 +114,7 @@ public class ForeignConstraints {
      * @param references
      */
     private void addForeignKey(Table foreignTable, List<Reference> references) {
-		ForeignKey foreignKey = new ForeignKey("FK_" + foreignTable.getName());
-
-		for (Reference ref : references) {
-			foreignKey.addReference(ref);
-		}
-		foreignKey.setForeignTable(foreignTable);
-		table.addForeignKey(foreignKey);
+    	addForeignKey(foreignTable, references, null);
 	}
 
     /**
@@ -127,32 +122,21 @@ public class ForeignConstraints {
      * 
      * @param foreignTable
      * @param references
+     * @param no
      */
-    private void addRecursiveForeignKey(Table foreignTable, List<Reference> references) {
-		ForeignKey foreignKey = new ForeignKey("FK_1" + foreignTable.getName());
+    private void addForeignKey(Table foreignTable, List<Reference> references, Integer no) {
+    	String foreignKeyName;
+    	if (no != null) {
+    		foreignKeyName = "FK_" + no.toString() + foreignTable.getName();
+    	} else {
+    		foreignKeyName = "FK_" + foreignTable.getName();    		
+    	}
+    	ForeignKey foreignKey = new ForeignKey(foreignKeyName);
 
 		for (Reference ref : references) {
 			foreignKey.addReference(ref);
 		}
 		foreignKey.setForeignTable(foreignTable);
 		table.addForeignKey(foreignKey);
-		
-		foreignKey = new ForeignKey("FK_2" + foreignTable.getName());
-
-		for (Reference ref : references) {
-			foreignKey.addReference(ref);
-		}
-		foreignKey.setForeignTable(foreignTable);
-		table.addForeignKey(foreignKey);
-
-//    	Integer idx = 0;
-//		for (Reference ref : references) {
-//			idx += 1;
-//			ForeignKey foreignKey = new ForeignKey("FK_"
-//					+ foreignTable.getName() + idx.toString());
-//			foreignKey.addReference(ref);
-//			foreignKey.setForeignTable(foreignTable);
-//			table.addForeignKey(foreignKey);
-//		}
 	}
 }

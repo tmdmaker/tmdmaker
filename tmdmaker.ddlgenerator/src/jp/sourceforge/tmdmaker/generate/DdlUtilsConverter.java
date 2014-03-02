@@ -221,39 +221,27 @@ public class DdlUtilsConverter {
 		List<Reference> refences = new ArrayList<Reference>();
 
 		if (reused.isSarogateKeyEnabled()) {
-			if (isRecursive(reused)) {
-				SarogateKeyRef sref = reused.getSarogateKeys().get(0);
-				Column localColumn = convert(sref);
-				Column originalColumn = convert(sref.getOriginal());
-				addReference(refences, localColumn, originalColumn);				
-			} else {
-				for (SarogateKeyRef sref : reused.getSarogateKeys()) {
-					Column localColumn = convert(sref);
-					Column originalColumn = convert(sref.getOriginal());
-					addReference(refences, localColumn, originalColumn);
-				}
-			}
+			// 再帰表の場合を考慮して1つ目のみを取得
+			SarogateKeyRef sref = reused.getSarogateKeys().get(0);
+			Column localColumn = convert(sref);
+			Column originalColumn = convert(sref.getOriginal());
+			addReference(refences, localColumn, originalColumn);
+			return refences;
 		} else {
+			int reusedCount = reused.getIdentifires().size();
+			// 再帰表は同一Reused×2となっているため1つ目のみを取得する
 			if (isRecursive(reused)) {
-				int reusedCount = reused.getIdentifires().size() / 2;
-				List<IdentifierRef> l = reused.getIdentifires();
-				for (int i = 0; i < reusedCount; i++) {
-					IdentifierRef iref = l.get(i);
-					Column localColumn = convert(iref);
-					Column originalColumn = convert(iref.getOriginal());
-					addReference(refences, localColumn, originalColumn);
-
-				}
-			} else {
-				for (IdentifierRef iref : reused.getIdentifires()) {
-
-					Column localColumn = convert(iref);
-					Column originalColumn = convert(iref.getOriginal());
-					addReference(refences, localColumn, originalColumn);
-				}
+				reusedCount = reusedCount / 2;
 			}
+			List<IdentifierRef> list = reused.getIdentifires();
+			for (int i = 0; i < reusedCount; i++) {
+				IdentifierRef iref = list.get(i);
+				Column localColumn = convert(iref);
+				Column originalColumn = convert(iref.getOriginal());
+				addReference(refences, localColumn, originalColumn);
+			}
+			return refences;
 		}
-		return refences;
 	}
 
 	private void addReference(List<Reference> refences, Column localColumn,
