@@ -18,6 +18,21 @@
       Apache License Version 2.0
    </license>
 
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="tmdmaker.imagegenerator" version="0.2.6" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="tmdmaker" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="tmdmaker.ddlgenerator" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="tmdmaker.htmlgenerator" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.expressions"/>
+   </requires>
+
    <plugin
          id="tmdmaker"
          download-size="0"
