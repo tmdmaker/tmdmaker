@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.2.7" useFeatures="false" includeLaunchers="true">
-
+<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.2.8" useFeatures="false" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -12,6 +11,7 @@
    </launcherArgs>
 
    <windowImages i16="/tmdmaker.rcp/icons/window/tmd_icon_16_32bit.png" i32="/tmdmaker.rcp/icons/window/tmd_icon_32_32bit.png" i48="/tmdmaker.rcp/icons/window/tmd_icon_48_32bit.png" i64="/tmdmaker.rcp/icons/window/tmd_icon_64_32bit.png" i128="/tmdmaker.rcp/icons/window/tmd_icon_128_32bit.png"/>
+
 
    <launcher name="tmdmaker">
       <solaris/>
@@ -26,7 +26,6 @@
             winExtraLargeHigh="/tmdmaker.rcp/icons/launcher/tmd_icon_256.bmp"/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
