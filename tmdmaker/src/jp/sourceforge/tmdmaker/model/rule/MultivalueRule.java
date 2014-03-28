@@ -47,7 +47,7 @@ public class MultivalueRule {
 		target.setName(source.getName() + "." + typeName);
 		target.setEntityType(source.getEntityType());
 		target.addAttribute(createTypeCode(typeName));
-
+		ImplementRule.setModelDefaultValue(target);
 		return target;
 	}
 
@@ -83,7 +83,7 @@ public class MultivalueRule {
 		detail.setOriginalReusedIdentifier(header.createReusedIdentifier());
 		detail.getDetailIdentifier().copyFrom(
 				createDetailIdentifier(header.getName()));
-
+		ImplementRule.setModelDefaultValue(detail);
 		return detail;
 	}
 

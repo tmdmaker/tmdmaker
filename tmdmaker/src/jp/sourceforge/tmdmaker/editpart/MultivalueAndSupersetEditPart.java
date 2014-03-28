@@ -74,8 +74,7 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
 		MultivalueAndSuperset entity = (MultivalueAndSuperset) getModel();
-		entityFigure.setNotImplement(entity.isNotImplement());
-
+		entityFigure.setNotImplement(false);
 		List<IAttribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
 		entityFigure.removeAllAttributes();

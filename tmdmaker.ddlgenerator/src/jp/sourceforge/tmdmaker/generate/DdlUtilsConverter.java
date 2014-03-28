@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,6 @@ import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.ddlutils.model.Column;
 import org.apache.ddlutils.model.Database;
-import org.apache.ddlutils.model.ForeignKey;
 import org.apache.ddlutils.model.Index;
 import org.apache.ddlutils.model.IndexColumn;
 import org.apache.ddlutils.model.NonUniqueIndex;
@@ -54,8 +53,9 @@ public class DdlUtilsConverter {
 	/** logging */
 	private static Logger logger = LoggerFactory
 			.getLogger(DdlUtilsConverter.class);
+
 	/** 外部キーのテーブル */
-	private Map<Table, Map<String, List<Reference>>> foreignTables;
+	private List<ForeignConstraints> foreignConstraintsList;
 
 	/** 外部キーを出力するか */
 	private boolean foreignKeyEnabled;
@@ -74,7 +74,7 @@ public class DdlUtilsConverter {
 	 *            外部キーを出力する場合trueを渡す。
 	 */
 	public DdlUtilsConverter(boolean foreignKeyEnabled) {
-		foreignTables = new HashMap<Table, Map<String, List<Reference>>>();
+		this.foreignConstraintsList = new ArrayList<ForeignConstraints>();
 		this.foreignKeyEnabled = foreignKeyEnabled;
 	}
 
@@ -91,7 +91,9 @@ public class DdlUtilsConverter {
 		addModels(database, models);
 
 		if (foreignKeyEnabled) {
-			addForeignKeys(database);
+			for (ForeignConstraints foreignConstraints : foreignConstraintsList) {
+				foreignConstraints.addForeignKeys(database);
+			}
 		}
 		return database;
 	}
@@ -150,7 +152,8 @@ public class DdlUtilsConverter {
 		/*
 		 * テーブル名 -> 参照テーブル名 -> リファレンス のリストを作成する。 あとでループして各テーブルで 外部キーを作成して追加する。
 		 */
-		setupForeignTables(entity, table);
+		this.foreignConstraintsList
+				.add(createForeignConstraints(entity, table));
 
 		return table;
 	}
@@ -177,15 +180,18 @@ public class DdlUtilsConverter {
 	}
 
 	/**
-	 * 外部キーテーブルを初期化する
+	 * 外部キーテーブルを生成する
 	 * 
 	 * @param entity
 	 *            対象モデル
 	 * @param table
 	 *            対象テーブル
 	 */
-	private void setupForeignTables(AbstractEntityModel entity, Table table) {
-		Map<String, List<Reference>> foreinReferences = new HashMap<String, List<Reference>>();
+	private ForeignConstraints createForeignConstraints(
+			AbstractEntityModel entity, Table table) {
+		System.out.println("createForeignConstraints " + entity.getName() + " "
+				+ table.getName());
+		ForeignConstraints foreignConstraints = new ForeignConstraints(table);
 
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity
 				.getReusedIdentifieres().entrySet()) {
@@ -193,25 +199,49 @@ public class DdlUtilsConverter {
 			AbstractEntityModel foreignEntity = reusedMap.getKey();
 			ReusedIdentifier reused = reusedMap.getValue();
 
-			List<Reference> refences = new ArrayList<Reference>();
-
-			if (reused.isSarogateKeyEnabled()) {
-				for (SarogateKeyRef sref : reused.getSarogateKeys()) {
-					Column localColumn = convert(sref);
-					Column originalColumn = convert(sref.getOriginal());
-					addReference(refences, localColumn, originalColumn);
-				}
-			} else {
-				for (IdentifierRef iref : reused.getIdentifires()) {
-					Column localColumn = convert(iref);
-					Column originalColumn = convert(iref.getOriginal());
-					addReference(refences, localColumn, originalColumn);
-				}
-			}
-			foreinReferences.put(foreignEntity.getImplementName(), refences);
+			foreignConstraints.addForeignReference(
+					foreignEntity.getImplementName(), convert(reused),
+					isRecursive(reused));
 		}
+		return foreignConstraints;
+	}
 
-		foreignTables.put(table, foreinReferences);
+	private Boolean isRecursive(ReusedIdentifier reused) {
+		// Reused でサロゲートキーが2つあるのは再帰のときのみ。
+		int count = reused.getSarogateKeys().size();
+		return (count == 2);
+	}
+
+	/**
+	 * 
+	 * Re-Used 列を DdlUtils の Reference のリストに変換する
+	 * 
+	 */
+	private List<Reference> convert(ReusedIdentifier reused) {
+		List<Reference> refences = new ArrayList<Reference>();
+
+		if (reused.isSarogateKeyEnabled()) {
+			// 再帰表の場合を考慮して1つ目のみを取得
+			SarogateKeyRef sref = reused.getSarogateKeys().get(0);
+			Column localColumn = convert(sref);
+			Column originalColumn = convert(sref.getOriginal());
+			addReference(refences, localColumn, originalColumn);
+			return refences;
+		} else {
+			int reusedCount = reused.getIdentifires().size();
+			// 再帰表は同一Reused×2となっているため1つ目のみを取得する
+			if (isRecursive(reused)) {
+				reusedCount = reusedCount / 2;
+			}
+			List<IdentifierRef> list = reused.getIdentifires();
+			for (int i = 0; i < reusedCount; i++) {
+				IdentifierRef iref = list.get(i);
+				Column localColumn = convert(iref);
+				Column originalColumn = convert(iref.getOriginal());
+				addReference(refences, localColumn, originalColumn);
+			}
+			return refences;
+		}
 	}
 
 	private void addReference(List<Reference> refences, Column localColumn,
@@ -220,34 +250,6 @@ public class DdlUtilsConverter {
 		refences.add(reference);
 		logger.debug("参照： " + localColumn.getName() + "->"
 				+ originalColumn.getName());
-	}
-
-	/**
-	 * 外部キー制約を設定する
-	 * 
-	 * @param database
-	 *            対象データベース
-	 */
-	private void addForeignKeys(Database database) {
-		for (Map.Entry<Table, Map<String, List<Reference>>> foreignRefrences : foreignTables
-				.entrySet()) {
-			Table table = foreignRefrences.getKey();
-			Integer fidx = 0;
-
-			for (Map.Entry<String, List<Reference>> foreignmap : foreignRefrences
-					.getValue().entrySet()) {
-				String tableName = foreignmap.getKey();
-				fidx += 1;
-				ForeignKey foreignKey = new ForeignKey("FK_" + tableName
-						+ fidx.toString());
-
-				for (Reference ref : foreignmap.getValue()) {
-					foreignKey.addReference(ref);
-				}
-				foreignKey.setForeignTable(database.findTable(tableName));
-				table.addForeignKey(foreignKey);
-			}
-		}
 	}
 
 	/**

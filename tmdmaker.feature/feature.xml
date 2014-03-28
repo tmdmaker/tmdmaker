@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="tmdmaker"
+      label="TMD-Maker Plug-in"
+      version="0.2.8.qualifier"
+      provider-name="TMD-Maker Project"
+      plugin="tmdmaker">
+
+   <description url="http://sourceforge.jp/projects/tmdmaker/">
+      TMD-Maker Plugin.
+   </description>
+
+   <copyright>
+      (c) 2009-2014,TMD-Maker Project.
+   </copyright>
+
+   <license url="http://www.apache.org/licenses/LICENSE-2.0">
+      Apache License Version 2.0
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="tmdmaker.imagegenerator" version="0.2.6" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="tmdmaker" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="tmdmaker.ddlgenerator" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="tmdmaker.htmlgenerator" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.expressions"/>
+   </requires>
+
+   <plugin
+         id="tmdmaker"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="tmdmaker.ddlgenerator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="tmdmaker.htmlgenerator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="tmdmaker.imagegenerator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="tmdmaker.serializer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="tmdmaker.serializer.handler.patch0.2.x"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="tmdmaker.ui.menu"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
