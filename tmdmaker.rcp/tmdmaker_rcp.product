@@ -14,6 +14,7 @@
 
 
    <launcher name="tmdmaker">
+      <macosx icon="/tmdmaker.rcp/icons/launcher/tmd_icon.icns"/>
       <solaris/>
       <win useIco="false">
          <bmp
