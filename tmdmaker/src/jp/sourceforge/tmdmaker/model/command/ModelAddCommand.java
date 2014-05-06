@@ -18,7 +18,6 @@ package jp.sourceforge.tmdmaker.model.command;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -50,7 +49,7 @@ public class ModelAddCommand extends Command {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -60,6 +59,7 @@ public class ModelAddCommand extends Command {
 	public void execute() {
 		if (model != null) {
 			diagram.addChild(model);
+			model.move(x, y);
 		}
 	}
 
@@ -79,7 +79,6 @@ public class ModelAddCommand extends Command {
 	 */
 	public void setModel(AbstractEntityModel model) {
 		this.model = model;
-		this.model.setConstraint(new Rectangle(x, y, -1, -1));
 	}
 
 	public boolean isModelAdded() {

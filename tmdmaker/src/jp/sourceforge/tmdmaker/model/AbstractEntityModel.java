@@ -21,6 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.draw2d.geometry.Rectangle;
+
 /**
  * エンティティ系モデルの基底クラス
  * 
@@ -53,6 +55,9 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	/** キー定義情報 */
 	protected KeyModels keyModels = new KeyModels();
 
+	public AbstractEntityModel() {
+		setConstraint(new Rectangle(0,0,-1,-1));
+	}
 	/**
 	 * @return the diagram
 	 */
@@ -429,4 +434,11 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		this.keyModels = keyModels;
 	}
 
+	public void move(int x, int y) {
+		Rectangle oldPosition = getConstraint();
+		Rectangle newPosition = oldPosition.getCopy();
+		newPosition.x = x;
+		newPosition.y = y;
+		setConstraint(newPosition);
+	}
 }
