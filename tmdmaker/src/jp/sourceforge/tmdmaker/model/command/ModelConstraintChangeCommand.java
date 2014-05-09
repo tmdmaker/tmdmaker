@@ -15,9 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.model.command;
 
+import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -30,9 +30,9 @@ public class ModelConstraintChangeCommand extends Command {
 	/** 移動対象 */
 	private ModelElement model;
 	/** 移動後の座標 */
-	private Rectangle constraint;
+	private Constraint constraint;
 	/** 移動前の座標 */
-	private Rectangle oldConstraint;
+	private Constraint oldConstraint;
 
 	/**
 	 * コンストラクタ（新規作成時やマウス操作時）
@@ -42,7 +42,7 @@ public class ModelConstraintChangeCommand extends Command {
 	 * @param constraint
 	 *            移動後の座標
 	 */
-	public ModelConstraintChangeCommand(ModelElement model, Rectangle constraint) {
+	public ModelConstraintChangeCommand(ModelElement model, Constraint constraint) {
 		this.model = model;
 		this.constraint = constraint;
 		this.oldConstraint = model.getConstraint();

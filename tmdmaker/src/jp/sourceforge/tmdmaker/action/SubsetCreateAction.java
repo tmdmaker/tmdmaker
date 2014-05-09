@@ -25,20 +25,20 @@ import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
-import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
+import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.command.ImplementDerivationModelsDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
@@ -97,37 +97,30 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		AbstractEntityModel model = getModel();
 		SubsetType subsetType = SubsetRule.setupSubsetType(model);
 
-		SubsetCreateDialog dialog = new SubsetCreateDialog(part.getViewer()
-				.getControl().getShell(), subsetType.getSubsetType(),
-				subsetType.isExceptNull(), model.getAttributes(), subsetType
-						.findSubsetEntityList(), subsetType
-						.getPartitionAttribute());
+		SubsetCreateDialog dialog = new SubsetCreateDialog(
+				part.getViewer().getControl().getShell(), subsetType.getSubsetType(),
+				subsetType.isExceptNull(), model.getAttributes(),
+				subsetType.findSubsetEntityList(), subsetType.getPartitionAttribute());
 		// dialog.initializeValue(true, false, null);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
-			SubsetType.SubsetTypeValue newSubsetType = dialog
-					.getEditedSubsetType();
-			IAttribute selectedPartitionAttribute = dialog
-					.getEditedPartitionAttribute();
+			SubsetType.SubsetTypeValue newSubsetType = dialog.getEditedSubsetType();
+			IAttribute selectedPartitionAttribute = dialog.getEditedPartitionAttribute();
 			boolean newExceptNull = dialog.isEditedExceptNull();
-			ccommand.add(createSuitableSubsetTypeCommand(model, subsetType,
-					newSubsetType, selectedPartitionAttribute, newExceptNull));
+			ccommand.add(createSuitableSubsetTypeCommand(model, subsetType, newSubsetType,
+					selectedPartitionAttribute, newExceptNull));
 
-			List<EditSubsetEntity> editSubsets = dialog
-					.getEditedSubsetEntities();
-			addSuitableSubsetEntityCommand(model, subsetType, ccommand,
-					editSubsets);
+			List<EditSubsetEntity> editSubsets = dialog.getEditedSubsetEntities();
+			addSuitableSubsetEntityCommand(model, subsetType, ccommand, editSubsets);
 
-			List<EditSubsetEntity> deleteSubsets = dialog
-					.getDeletedSubsetEntities();
+			List<EditSubsetEntity> deleteSubsets = dialog.getDeletedSubsetEntities();
 			addSubsetDeleteCommand(model, subsetType, ccommand, deleteSubsets);
 			execute(ccommand);
 		}
 	}
 
-	private void addSubsetDeleteCommand(AbstractEntityModel model,
-			SubsetType subsetType, CompoundCommand ccommand,
-			List<EditSubsetEntity> deleteSubsets) {
+	private void addSubsetDeleteCommand(AbstractEntityModel model, SubsetType subsetType,
+			CompoundCommand ccommand, List<EditSubsetEntity> deleteSubsets) {
 		AbstractEntityModel original = null;
 		for (EditSubsetEntity e : deleteSubsets) {
 			SubsetEntity subset = e.getOriginal();
@@ -141,15 +134,14 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 			}
 		}
 		if (deleteSubsets.size() > 0) {
-			SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(model
-					.getDiagram(), subsetType);
+			SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(model.getDiagram(),
+					subsetType);
 			ccommand.add(command);
 		}
 	}
 
-	private void addSuitableSubsetEntityCommand(AbstractEntityModel model,
-			SubsetType subsetType, CompoundCommand ccommand,
-			List<EditSubsetEntity> editSubsets) {
+	private void addSuitableSubsetEntityCommand(AbstractEntityModel model, SubsetType subsetType,
+			CompoundCommand ccommand, List<EditSubsetEntity> editSubsets) {
 		for (EditSubsetEntity e : editSubsets) {
 			if (e.isAdded()) {
 				Command command = new SubsetCreateCommand(model, subsetType,
@@ -157,8 +149,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 				ccommand.add(command);
 			} else if (e.isNameChanged()) {
 				SubsetEntity subsetEntity = e.getOriginal();
-				SubsetNameChangeCommand command = new SubsetNameChangeCommand(
-						subsetEntity, e.getName());
+				SubsetNameChangeCommand command = new SubsetNameChangeCommand(subsetEntity,
+						e.getName());
 				ccommand.add(command);
 			}
 		}
@@ -169,12 +161,11 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 			IAttribute selectedPartitionAttribute, boolean newExceptNull) {
 		if (subsetType.getConstraint() == null) {
 			// entityとpartitionCodeModelの接続
-			Rectangle constraint = model.getConstraint().getTranslated(0, 50);
+			Constraint constraint = model.getConstraint().getTranslated(0, 50);
 			subsetType.setConstraint(constraint);
 			subsetType.setExceptNull(newExceptNull);
 			subsetType.setSubsetType(newSubsetType);
-			return new Entity2SubsetTypeCreateCommand(model, subsetType,
-					selectedPartitionAttribute);
+			return new Entity2SubsetTypeCreateCommand(model, subsetType, selectedPartitionAttribute);
 		} else {
 
 			return new SubsetTypeChangeCommand(subsetType, newSubsetType,
@@ -205,8 +196,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		 * @param selectedPartitionAttribute
 		 * @param newExceptNull
 		 */
-		public SubsetTypeChangeCommand(SubsetType subsetType,
-				SubsetTypeValue newSubsetTypeValue,
+		public SubsetTypeChangeCommand(SubsetType subsetType, SubsetTypeValue newSubsetTypeValue,
 				IAttribute selectedPartitionAttribute, boolean newExceptNull) {
 			this.subsetType = subsetType;
 			this.oldSubsetTypeValue = subsetType.getSubsetType();
@@ -228,8 +218,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 					&& this.subsetType.getModelTargetConnections().size() > 0) {
 				this.relationship = (Entity2SubsetTypeRelationship) this.subsetType
 						.getModelTargetConnections().get(0);
-				this.oldPartitionAttribute = this.relationship
-						.getPartitionAttribute();
+				this.oldPartitionAttribute = this.relationship.getPartitionAttribute();
 				this.subsetType.setExceptNull(newExceptNull);
 				this.subsetType.setPartitionAttribute(newPartitionAttribute);
 
@@ -266,13 +255,13 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		private SubsetType subsetType;
 		private Entity2SubsetTypeRelationship model2subsetRelationship;
 
-		public Entity2SubsetTypeCreateCommand(AbstractEntityModel model,
-				SubsetType subsetType, IAttribute partitionAttribute) {
+		public Entity2SubsetTypeCreateCommand(AbstractEntityModel model, SubsetType subsetType,
+				IAttribute partitionAttribute) {
 			this.diagram = model.getDiagram();
 			this.model = model;
 			this.subsetType = subsetType;
-			this.model2subsetRelationship = new Entity2SubsetTypeRelationship(
-					this.model, this.subsetType);
+			this.model2subsetRelationship = new Entity2SubsetTypeRelationship(this.model,
+					this.subsetType);
 			this.subsetType.setPartitionAttribute(partitionAttribute);
 			// this.model2subsetRelationship
 			// .setPartitionAttribute(partitionAttribute);
@@ -322,8 +311,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		 * @param subsetType
 		 * @param subsetEntity
 		 */
-		public SubsetCreateCommand(AbstractEntityModel model,
-				SubsetType subsetType, SubsetEntity subsetEntity) {
+		public SubsetCreateCommand(AbstractEntityModel model, SubsetType subsetType,
+				SubsetEntity subsetEntity) {
 			super();
 			this.model = model;
 			this.subsetType = subsetType;
@@ -331,8 +320,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 			this.subsetEntity = subsetEntity;
 			subsetType2subsetEntityRelationship = new SubsetType2SubsetRelationship(
 					this.subsetType, this.subsetEntity);
-			Rectangle constraint = subsetType.getConstraint().getTranslated(0,
-					50);
+			Constraint constraint = subsetType.getConstraint().getTranslated(0, 50);
 			subsetEntity.setConstraint(constraint);
 		}
 
@@ -345,8 +333,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		@Override
 		public void execute() {
 			if (subsetType.getModelTargetConnections().size() == 0) {
-				this.model2subsetTypeRelationship = new Entity2SubsetTypeRelationship(
-						this.model, this.subsetType);
+				this.model2subsetTypeRelationship = new Entity2SubsetTypeRelationship(this.model,
+						this.subsetType);
 			} else {
 				this.model2subsetTypeRelationship = (Entity2SubsetTypeRelationship) subsetType
 						.getModelTargetConnections().get(0);
@@ -435,8 +423,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		public SubsetDeleteCommand(SubsetEntity model) {
 			this.model = model;
 			this.diagram = model.getDiagram();
-			this.relationship = (RelatedRelationship) model
-					.getModelTargetConnections().get(0);
+			this.relationship = (RelatedRelationship) model.getModelTargetConnections().get(0);
 		}
 
 		/**

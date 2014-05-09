@@ -23,6 +23,7 @@ import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
@@ -33,7 +34,6 @@ import jp.sourceforge.tmdmaker.model.command.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelDeleteCommand;
 import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
 
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editparts.AbstractEditPart;
@@ -101,7 +101,7 @@ public class VirtualSupersetCreateAction extends
 				if (selection.size() == 0) {
 					return;
 				}
-				Rectangle constraint = new Rectangle(pos.x, pos.y, -1, -1);
+				Constraint constraint = new Constraint(pos.x, pos.y, -1, -1);
 				edited.setConstraint(constraint);
 				aggregator = dialog.getEditedAggregator();
 				edited.setReusedIdentifieres(aggregator.getReusedIdentifieres());

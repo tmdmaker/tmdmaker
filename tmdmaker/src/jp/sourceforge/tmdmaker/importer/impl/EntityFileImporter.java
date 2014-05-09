@@ -24,13 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.draw2d.geometry.Rectangle;
-
-import au.com.bytecode.opencsv.CSVReader;
-
 import jp.sourceforge.tmdmaker.importer.FileImporter;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IAttribute;
@@ -38,6 +35,7 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
+import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * エンティティをCSVファイルからインポートするクラス
@@ -132,7 +130,7 @@ public class EntityFileImporter implements FileImporter {
 		Laputa l = EntityRecognitionRule.getInstance().createLaputa(entityName);
 		// EntityRecognitionRule.createEntity(entityName, identifier,
 		// entityType)
-		l.setConstraint(new Rectangle());
+		l.setConstraint(new Constraint());
 		s.put(l.getName(), l);
 		return l;
 	}

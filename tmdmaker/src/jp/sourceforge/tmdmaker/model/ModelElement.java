@@ -19,8 +19,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
-import org.eclipse.draw2d.geometry.Rectangle;
-
 /**
  * ノードとなるモデル
  * 
@@ -35,7 +33,7 @@ public class ModelElement implements Serializable {
 	/** オブジェクトの名称 */
 	private String name;
 	/** オブジェクトの領域 */
-	private Rectangle constraint;
+	private Constraint constraint;
 	/** プロパティ変更通知用 */
 	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
@@ -93,7 +91,7 @@ public class ModelElement implements Serializable {
 	/**
 	 * @return the constraint
 	 */
-	public Rectangle getConstraint() {
+	public Constraint getConstraint() {
 		return constraint;
 	}
 
@@ -101,8 +99,8 @@ public class ModelElement implements Serializable {
 	 * @param constraint
 	 *            the constraint to set
 	 */
-	public void setConstraint(Rectangle constraint) {
-		Rectangle oldValue = this.constraint;
+	public void setConstraint(Constraint constraint) {
+		Constraint oldValue = this.constraint;
 		this.constraint = constraint;
 		firePropertyChange(PROPERTY_CONSTRAINT, oldValue, constraint);
 	}
