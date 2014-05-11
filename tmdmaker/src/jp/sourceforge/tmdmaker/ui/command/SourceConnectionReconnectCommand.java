@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
+package jp.sourceforge.tmdmaker.ui.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * リレーションシップ等のコネクションのターゲットを再接続するCommand
+ * リレーションシップ等のコネクションのソースを再接続するCommand
  * 
  * @author nakaG
  * 
  */
-public class TargetConnectionReconnectCommand extends Command {
+public class SourceConnectionReconnectCommand extends Command {
 	/** 再接続対象 */
 	private AbstractConnectionModel relationship;
 	/** x位置 */
-	int xp;
+	private int xp;
 	/** y位置 */
-	int yp;
+	private int yp;
 	/** 変更前x */
-	int oldXp;
+	private int oldXp;
 	/** 変更前y */
-	int oldYp;
+	private int oldYp;
 
 	/**
 	 * コンストラクタ
@@ -47,13 +47,13 @@ public class TargetConnectionReconnectCommand extends Command {
 	 * @param yp
 	 *            y位置
 	 */
-	public TargetConnectionReconnectCommand(
+	public SourceConnectionReconnectCommand(
 			AbstractConnectionModel relationship, int xp, int yp) {
 		this.relationship = relationship;
 		this.xp = xp;
 		this.yp = yp;
-		this.oldXp = relationship.getTargetXp();
-		this.oldYp = relationship.getTargetYp();
+		this.oldXp = relationship.getSourceXp();
+		this.oldYp = relationship.getSourceYp();
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class TargetConnectionReconnectCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		relationship.setTargetLocationp(xp, yp);
+		relationship.setSourceLocationp(xp, yp);
 	}
 
 	/**
@@ -73,7 +73,6 @@ public class TargetConnectionReconnectCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		relationship.setTargetLocationp(oldXp, oldYp);
+		relationship.setSourceLocationp(oldXp, oldYp);
 	}
-
 }

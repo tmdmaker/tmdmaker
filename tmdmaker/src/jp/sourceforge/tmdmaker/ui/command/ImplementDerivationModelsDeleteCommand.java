@@ -13,41 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
+package jp.sourceforge.tmdmaker.ui.command;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * エンティティ系モデル追加Command
+ * 派生元で実装するモデルの情報を削除するCommand
  * 
  * @author nakaG
  * 
  */
-public class ModelAddCommand extends Command {
-	/** 親 */
-	private Diagram diagram;
-	/** 作成対象 */
-	private AbstractEntityModel model;
-	private int x;
-	private int y;
+public class ImplementDerivationModelsDeleteCommand extends Command {
+	protected List<AbstractEntityModel> oldImplementDerivationModels;
+	protected List<AbstractEntityModel> newImplementDerivationModels;
+	private AbstractEntityModel original;
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param diagram
-	 *            親
-	 * @param x
-	 *            X座標
-	 * @param y
-	 *            Y座標
+	 * @param model
+	 *            削除対象モデル
+	 * @param original
+	 *            派生元モデル
 	 */
-	public ModelAddCommand(Diagram diagram, int x, int y) {
-		this.diagram = diagram;
-		this.x = x;
-		this.y = y;
+	public ImplementDerivationModelsDeleteCommand(AbstractEntityModel model,
+			AbstractEntityModel original) {
+		super();
+		this.oldImplementDerivationModels = original
+				.getImplementDerivationModels();
+		this.newImplementDerivationModels = new ArrayList<AbstractEntityModel>(
+				oldImplementDerivationModels);
+		this.newImplementDerivationModels.remove(model);
+		this.original = original;
 	}
 
 	/**
@@ -57,10 +59,7 @@ public class ModelAddCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		if (model != null) {
-			diagram.addChild(model);
-			model.move(x, y);
-		}
+		original.setImplementDerivationModels(newImplementDerivationModels);
 	}
 
 	/**
@@ -70,18 +69,7 @@ public class ModelAddCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		diagram.removeChild(model);
+		original.setImplementDerivationModels(oldImplementDerivationModels);
 	}
 
-	/**
-	 * @param model
-	 *            the model to set
-	 */
-	public void setModel(AbstractEntityModel model) {
-		this.model = model;
-	}
-
-	public boolean isModelAdded() {
-		return model != null;
-	}
 }

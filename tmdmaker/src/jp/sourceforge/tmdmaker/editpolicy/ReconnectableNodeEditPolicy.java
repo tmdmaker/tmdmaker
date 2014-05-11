@@ -19,8 +19,8 @@ import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.XYChopboxAnchorHelper;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.command.SourceConnectionReconnectCommand;
-import jp.sourceforge.tmdmaker.model.command.TargetConnectionReconnectCommand;
+import jp.sourceforge.tmdmaker.ui.command.SourceConnectionReconnectCommand;
+import jp.sourceforge.tmdmaker.ui.command.TargetConnectionReconnectCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;

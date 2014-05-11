@@ -13,44 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
+package jp.sourceforge.tmdmaker.ui.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * アトリビュートの所属先を別のエンティティ系モデルへ移動するCommand
+ * エンティティ系モデル編集Command
  * 
  * @author nakaG
  * 
  */
-public class AttributeTransferCommand extends Command {
-	private Attribute attributeToMove;
-	private AbstractEntityModel entityFrom;
-	private AbstractEntityModel entityTo;
-	private int indexFrom;
-	private int indexTo;
+public class ModelEditCommand extends Command {
+	/** 更新前値 */
+	private AbstractEntityModel oldValue;
+	/** 更新値 */
+	private AbstractEntityModel newValue;
+	/** 編集対象 */
+	private AbstractEntityModel editModel;
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param attributeToMove
-	 * @param entityFrom
-	 * @param indexFrom
-	 * @param entityTo
-	 * @param indexTo
+	 * @param editModel
+	 *            編集対象
+	 * @param newValue
+	 *            更新値
 	 */
-	public AttributeTransferCommand(Attribute attributeToMove,
-			AbstractEntityModel entityFrom, int indexFrom,
-			AbstractEntityModel entityTo, int indexTo) {
-		this.entityFrom = entityFrom;
-		this.attributeToMove = attributeToMove;
-		this.indexFrom = indexFrom;
-		this.entityTo = entityTo;
-		this.indexTo = indexTo;
-
+	public ModelEditCommand(AbstractEntityModel editModel,
+			AbstractEntityModel newValue) {
+		this.editModel = editModel;
+		this.oldValue = editModel.getCopy();
+		this.newValue = newValue;
 	}
 
 	/**
@@ -60,8 +55,7 @@ public class AttributeTransferCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		entityFrom.removeAttribute(attributeToMove);
-		entityTo.addAttribute(indexTo, attributeToMove);
+		newValue.copyTo(editModel);
 	}
 
 	/**
@@ -71,8 +65,7 @@ public class AttributeTransferCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		entityTo.removeAttribute(attributeToMove);
-		entityFrom.addAttribute(indexFrom, attributeToMove);
+		oldValue.copyTo(editModel);
 	}
 
 }

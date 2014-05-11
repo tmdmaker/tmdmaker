@@ -13,67 +13,75 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
+package jp.sourceforge.tmdmaker.ui.command;
 
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Diagram;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * リレーションシップ等のコネクションを削除するCommand
+ * エンティティ系モデル追加Command
  * 
  * @author nakaG
  * 
  */
-public class ConnectionDeleteCommand extends Command {
-	/** 削除対象モデル */
-	private AbstractConnectionModel connection;
+public class ModelAddCommand extends Command {
+	/** 親 */
+	private Diagram diagram;
+	/** 作成対象 */
+	private AbstractEntityModel model;
+	private int x;
+	private int y;
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param diagram
+	 *            親
+	 * @param x
+	 *            X座標
+	 * @param y
+	 *            Y座標
 	 */
-	public ConnectionDeleteCommand(AbstractConnectionModel connection) {
-		super();
-		this.connection = connection;
+	public ModelAddCommand(Diagram diagram, int x, int y) {
+		this.diagram = diagram;
+		this.x = x;
+		this.y = y;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
-	@Override
-	public boolean canExecute() {
-		return connection.isDeletable();
-	}
-
-	/**
-	 * 
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
 	public void execute() {
-		connection.disconnect();
+		if (model != null) {
+			diagram.addChild(model);
+			model.move(x, y);
+		}
 	}
 
 	/**
-	 * 
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
 	public void undo() {
-		connection.connect();
+		diagram.removeChild(model);
 	}
 
 	/**
-	 * @param connection
-	 *            the connection to set
+	 * @param model
+	 *            the model to set
 	 */
-	public void setConnection(Object connection) {
-		this.connection = (AbstractConnectionModel) connection;
+	public void setModel(AbstractEntityModel model) {
+		this.model = model;
+	}
+
+	public boolean isModelAdded() {
+		return model != null;
 	}
 }

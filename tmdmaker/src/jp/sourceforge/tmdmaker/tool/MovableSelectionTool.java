@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.tool;
 
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.CompoundCommand;

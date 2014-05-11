@@ -19,8 +19,8 @@ import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.AttributeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.command.AttributeMoveCommand;
-import jp.sourceforge.tmdmaker.model.command.AttributeTransferCommand;
+import jp.sourceforge.tmdmaker.ui.command.AttributeMoveCommand;
+import jp.sourceforge.tmdmaker.ui.command.AttributeTransferCommand;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;

@@ -29,10 +29,10 @@ import jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
-import jp.sourceforge.tmdmaker.model.command.ConnectionDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.ModelDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
+import jp.sourceforge.tmdmaker.ui.command.ConnectionCreateCommand;
+import jp.sourceforge.tmdmaker.ui.command.ConnectionDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;

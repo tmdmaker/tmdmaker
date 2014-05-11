@@ -20,7 +20,7 @@ import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Constraint;
-import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
 
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;

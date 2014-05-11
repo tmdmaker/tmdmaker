@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,44 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
+package jp.sourceforge.tmdmaker.ui.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * 表系モデル削除Command
+ * リレーションシップ等のコネクションのターゲットを再接続するCommand
  * 
  * @author nakaG
  * 
  */
-public class TableDeleteCommand extends Command {
-	/** 削除対象の表モデル */
-	private AbstractEntityModel model;
-	/** 削除対象の表モデルを作成する契機となったリレーションシップ */
-	private AbstractConnectionModel creationRelationship;
+public class TargetConnectionReconnectCommand extends Command {
+	/** 再接続対象 */
+	private AbstractConnectionModel relationship;
+	/** x位置 */
+	int xp;
+	/** y位置 */
+	int yp;
+	/** 変更前x */
+	int oldXp;
+	/** 変更前y */
+	int oldYp;
 
 	/**
+	 * コンストラクタ
 	 * 
-	 * @param model
-	 * @param creationRelationship
+	 * @param relationship
+	 *            再接続対象
+	 * @param xp
+	 *            x位置
+	 * @param yp
+	 *            y位置
 	 */
-	public TableDeleteCommand(AbstractEntityModel model,
-			AbstractConnectionModel creationRelationship) {
-		this.model = model;
-		this.creationRelationship = creationRelationship;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
-	@Override
-	public boolean canExecute() {
-		return model.isDeletable();
+	public TargetConnectionReconnectCommand(
+			AbstractConnectionModel relationship, int xp, int yp) {
+		this.relationship = relationship;
+		this.xp = xp;
+		this.yp = yp;
+		this.oldXp = relationship.getTargetXp();
+		this.oldYp = relationship.getTargetYp();
 	}
 
 	/**
@@ -60,7 +63,7 @@ public class TableDeleteCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		creationRelationship.disconnect();
+		relationship.setTargetLocationp(xp, yp);
 	}
 
 	/**
@@ -70,7 +73,7 @@ public class TableDeleteCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		creationRelationship.connect();
+		relationship.setTargetLocationp(oldXp, oldYp);
 	}
 
 }

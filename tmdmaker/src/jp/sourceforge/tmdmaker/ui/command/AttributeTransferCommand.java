@@ -13,43 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
-
-import java.util.ArrayList;
-import java.util.List;
+package jp.sourceforge.tmdmaker.ui.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Attribute;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * 派生元で実装するモデルの情報を削除するCommand
+ * アトリビュートの所属先を別のエンティティ系モデルへ移動するCommand
  * 
  * @author nakaG
  * 
  */
-public class ImplementDerivationModelsDeleteCommand extends Command {
-	protected List<AbstractEntityModel> oldImplementDerivationModels;
-	protected List<AbstractEntityModel> newImplementDerivationModels;
-	private AbstractEntityModel original;
+public class AttributeTransferCommand extends Command {
+	private Attribute attributeToMove;
+	private AbstractEntityModel entityFrom;
+	private AbstractEntityModel entityTo;
+	private int indexFrom;
+	private int indexTo;
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param model
-	 *            削除対象モデル
-	 * @param original
-	 *            派生元モデル
+	 * @param attributeToMove
+	 * @param entityFrom
+	 * @param indexFrom
+	 * @param entityTo
+	 * @param indexTo
 	 */
-	public ImplementDerivationModelsDeleteCommand(AbstractEntityModel model,
-			AbstractEntityModel original) {
-		super();
-		this.oldImplementDerivationModels = original
-				.getImplementDerivationModels();
-		this.newImplementDerivationModels = new ArrayList<AbstractEntityModel>(
-				oldImplementDerivationModels);
-		this.newImplementDerivationModels.remove(model);
-		this.original = original;
+	public AttributeTransferCommand(Attribute attributeToMove,
+			AbstractEntityModel entityFrom, int indexFrom,
+			AbstractEntityModel entityTo, int indexTo) {
+		this.entityFrom = entityFrom;
+		this.attributeToMove = attributeToMove;
+		this.indexFrom = indexFrom;
+		this.entityTo = entityTo;
+		this.indexTo = indexTo;
+
 	}
 
 	/**
@@ -59,7 +60,8 @@ public class ImplementDerivationModelsDeleteCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		original.setImplementDerivationModels(newImplementDerivationModels);
+		entityFrom.removeAttribute(attributeToMove);
+		entityTo.addAttribute(indexTo, attributeToMove);
 	}
 
 	/**
@@ -69,7 +71,8 @@ public class ImplementDerivationModelsDeleteCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		original.setImplementDerivationModels(oldImplementDerivationModels);
+		entityTo.removeAttribute(attributeToMove);
+		entityFrom.addAttribute(indexFrom, attributeToMove);
 	}
 
 }

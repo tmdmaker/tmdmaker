@@ -13,20 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
+package jp.sourceforge.tmdmaker.ui.command;
 
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
+
+import org.eclipse.gef.commands.Command;
 
 /**
- * みなしスーパーセット種類モデルの削除Command
+ * モデル削除Command
  * 
  * @author nakaG
  * 
  */
-public class VirtualSupersetTypeDeleteCommand extends
-		ConnectableElementDeleteCommand {
-	private VirtualSupersetType model;
+public class ModelDeleteCommand extends Command {
+	private Diagram diagram;
+	private AbstractEntityModel model;
 
 	/**
 	 * コンストラクタ
@@ -34,14 +36,11 @@ public class VirtualSupersetTypeDeleteCommand extends
 	 * @param diagram
 	 *            ダイアグラム
 	 * @param model
-	 *            みなしスーパーセットとの接点
+	 *            モデル
 	 */
-	public VirtualSupersetTypeDeleteCommand(Diagram diagram,
-			VirtualSupersetType model) {
+	public ModelDeleteCommand(Diagram diagram, AbstractEntityModel model) {
 		this.diagram = diagram;
 		this.model = model;
-		sourceConnections.addAll(model.getModelSourceConnections());
-		targetConnections.addAll(model.getModelTargetConnections());
 	}
 
 	/**
@@ -52,13 +51,6 @@ public class VirtualSupersetTypeDeleteCommand extends
 	 */
 	@Override
 	public void execute() {
-		// Reusedの設定・解除があるため以下の順で接続を削除する
-
-		// 先にみなしサブセットとみなしサブセット種類の接続を削除
-		detachConnections(targetConnections);
-		// 最後にみなしサブセット種類とみなしスーパーセットとの接続を削除
-		detachConnections(sourceConnections);
-		// みなしサブセット種類削除
 		diagram.removeChild(model);
 	}
 
@@ -70,10 +62,7 @@ public class VirtualSupersetTypeDeleteCommand extends
 	 */
 	@Override
 	public void undo() {
-		// executeの逆順
 		diagram.addChild(model);
-		attathConnections(sourceConnections);
-		attathConnections(targetConnections);
 	}
 
 }
