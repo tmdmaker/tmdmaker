@@ -27,8 +27,8 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
-import jp.sourceforge.tmdmaker.model.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
+import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;

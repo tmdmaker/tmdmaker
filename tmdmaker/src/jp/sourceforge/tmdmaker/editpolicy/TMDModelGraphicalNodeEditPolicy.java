@@ -16,8 +16,8 @@
 package jp.sourceforge.tmdmaker.editpolicy;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
+import jp.sourceforge.tmdmaker.ui.command.ConnectionCreateCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;

@@ -22,8 +22,8 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.command.ModelAddCommand;
-import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelAddCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
 import org.eclipse.draw2d.Figure;

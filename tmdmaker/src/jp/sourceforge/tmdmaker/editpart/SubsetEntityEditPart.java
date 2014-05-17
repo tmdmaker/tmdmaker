@@ -31,10 +31,10 @@ import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
-import jp.sourceforge.tmdmaker.model.command.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
-import jp.sourceforge.tmdmaker.model.command.SubsetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
+import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
+import jp.sourceforge.tmdmaker.ui.command.SubsetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;

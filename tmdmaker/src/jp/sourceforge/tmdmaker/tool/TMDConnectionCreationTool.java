@@ -19,7 +19,7 @@ import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
-import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
+import jp.sourceforge.tmdmaker.ui.command.ConnectionCreateCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.tools.ConnectionCreationTool;

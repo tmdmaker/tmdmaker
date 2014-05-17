@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker Core
+Bundle-SymbolicName: tmdmaker.core
+Bundle-Version: 0.2.9.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: TMD-Maker Project
+Export-Package: jp.sourceforge.tmdmaker.model,
+ jp.sourceforge.tmdmaker.model.rule,
+ jp.sourceforge.tmdmaker.model.util
+Bundle-ClassPath: lib/slf4j-api-1.7.7.jar,
+ lib/slf4j-simple-1.7.7.jar,
+ .

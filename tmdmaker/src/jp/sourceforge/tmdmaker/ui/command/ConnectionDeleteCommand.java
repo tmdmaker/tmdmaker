@@ -13,59 +13,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
+package jp.sourceforge.tmdmaker.ui.command;
 
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * エンティティ系モデル編集Command
+ * リレーションシップ等のコネクションを削除するCommand
  * 
  * @author nakaG
  * 
  */
-public class ModelEditCommand extends Command {
-	/** 更新前値 */
-	private AbstractEntityModel oldValue;
-	/** 更新値 */
-	private AbstractEntityModel newValue;
-	/** 編集対象 */
-	private AbstractEntityModel editModel;
+public class ConnectionDeleteCommand extends Command {
+	/** 削除対象モデル */
+	private AbstractConnectionModel connection;
 
 	/**
 	 * コンストラクタ
-	 * 
-	 * @param editModel
-	 *            編集対象
-	 * @param newValue
-	 *            更新値
 	 */
-	public ModelEditCommand(AbstractEntityModel editModel,
-			AbstractEntityModel newValue) {
-		this.editModel = editModel;
-		this.oldValue = editModel.getCopy();
-		this.newValue = newValue;
+	public ConnectionDeleteCommand(AbstractConnectionModel connection) {
+		super();
+		this.connection = connection;
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.commands.Command#canExecute()
+	 */
+	@Override
+	public boolean canExecute() {
+		return connection.isDeletable();
+	}
+
+	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
 	public void execute() {
-		newValue.copyTo(editModel);
+		connection.disconnect();
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
 	public void undo() {
-		oldValue.copyTo(editModel);
+		connection.connect();
 	}
 
+	/**
+	 * @param connection
+	 *            the connection to set
+	 */
+	public void setConnection(Object connection) {
+		this.connection = (AbstractConnectionModel) connection;
+	}
 }

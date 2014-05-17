@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
+package jp.sourceforge.tmdmaker.ui.command;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.IAttribute;
@@ -21,46 +21,18 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
 import org.eclipse.gef.commands.Command;
 
 /**
- * アトリビュート追加Command。未使用。
+ * アトリビュート削除Command。まだ未使用。
  * 
  * @author nakaG
  * 
  */
-public class AttributeAddCommand extends Command {
+public class AttributeDeleteCommand extends Command {
 	private AbstractEntityModel entity;
 	private IAttribute attribute;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param entity
-	 *            エンティティ系モデル
-	 * @param attribute
-	 *            追加アトリビュート
-	 */
-	public AttributeAddCommand(AbstractEntityModel entity, IAttribute attribute) {
+	public AttributeDeleteCommand(AbstractEntityModel entity,
+			IAttribute attribute) {
 		this.entity = entity;
 		this.attribute = attribute;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
-	@Override
-	public void execute() {
-		// entity.addAttribute(attribute);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
-	@Override
-	public void undo() {
-
-	}
-
 }

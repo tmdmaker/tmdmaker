@@ -13,34 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.command;
+package jp.sourceforge.tmdmaker.ui.command;
 
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
+import jp.sourceforge.tmdmaker.model.SubsetType;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * アトリビュートの同一エンティティ系モデル内での並び順を変更するCommand
+ * サブセット種類削除Command
  * 
  * @author nakaG
  * 
  */
-public class AttributeMoveCommand extends Command {
-	private AbstractEntityModel parent;
-	private Attribute child;
-	private int oldIndex;
-	private int newIndex;
-	
-	public AttributeMoveCommand(Attribute child, AbstractEntityModel parent,
-			int oldIndex, int newIndex) {
-		super();
-		this.child = child;
-		this.parent = parent;
-		if (newIndex > oldIndex)
-			newIndex--;
-		this.oldIndex = oldIndex;
-		this.newIndex = newIndex;
+public class SubsetTypeDeleteCommand extends Command {
+	private Diagram diagram;
+	private SubsetType model;
+	private Entity2SubsetTypeRelationship relationship;
+
+	public SubsetTypeDeleteCommand(Diagram diagram, SubsetType model) {
+		this.diagram = diagram;
+		this.model = model;
+		this.relationship = (Entity2SubsetTypeRelationship) model
+				.getModelTargetConnections().get(0);
 	}
 
 	/**
@@ -50,8 +46,10 @@ public class AttributeMoveCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		parent.removeAttribute(child);
-		parent.addAttribute(newIndex, child);
+		if (model.getModelSourceConnections().size() == 0) {
+			relationship.disconnect();
+			diagram.removeChild(model);
+		}
 	}
 
 	/**
@@ -61,8 +59,10 @@ public class AttributeMoveCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		parent.removeAttribute(child);
-		parent.addAttribute(oldIndex, child);
+		if (model.getModelSourceConnections().size() == 0) {
+			diagram.addChild(model);
+			relationship.connect();
+		}
 	}
 
 }

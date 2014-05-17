@@ -23,7 +23,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
