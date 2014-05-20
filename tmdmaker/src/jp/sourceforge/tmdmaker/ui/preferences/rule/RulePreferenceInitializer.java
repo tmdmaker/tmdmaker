@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.ui.preferences.rule;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -38,10 +39,11 @@ public class RulePreferenceInitializer extends AbstractPreferenceInitializer {
 	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = TMDPlugin.getDefault().getPreferenceStore();
-		store.setDefault(RulePreferenceConstants.P_IDENTIFIER_SUFFIXES,
-				EntityRecognitionRule.getInstance()
-						.getIdentifierSuffixesString());
-		store.setDefault(RulePreferenceConstants.P_REPORT_SUFFIXES,
-				EntityRecognitionRule.getInstance().getReportSuffixesString());
+		store.setDefault(RulePreferenceConstants.P_IDENTIFIER_SUFFIXES, EntityRecognitionRule
+				.getInstance().getIdentifierSuffixesString());
+		store.setDefault(RulePreferenceConstants.P_REPORT_SUFFIXES, EntityRecognitionRule
+				.getInstance().getReportSuffixesString());
+		store.setDefault(RulePreferenceConstants.P_FOREIGN_KEY_ENABLED,
+				ImplementRule.isForeignKeyEnabled());
 	}
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.dialect;
+package jp.sourceforge.tmdmaker.model.dialect;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +44,7 @@ public class DialectProviderFactory {
 				/**
 				 * {@inheritDoc}
 				 * 
-				 * @see jp.sourceforge.tmdmaker.dialect.DialectProvider#getDatabaseList()
+				 * @see jp.sourceforge.tmdmaker.model.dialect.DialectProvider#getDatabaseList()
 				 */
 				@Override
 				public List<String> getDatabaseList() {

@@ -17,9 +17,9 @@ package jp.sourceforge.tmdmaker.handler;
 
 import java.util.Iterator;
 
-import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
 import jp.sourceforge.tmdmaker.persistence.SerializerFactory;
 
 import org.eclipse.core.commands.AbstractHandler;

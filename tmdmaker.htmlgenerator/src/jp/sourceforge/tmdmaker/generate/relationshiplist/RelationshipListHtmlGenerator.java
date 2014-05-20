@@ -24,10 +24,10 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.generate.Activator;
-import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.GeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
+import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException;
 
 import org.apache.velocity.VelocityContext;
 import org.slf4j.Logger;
@@ -53,7 +53,7 @@ public class RelationshipListHtmlGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#getGeneratorName()
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#getGeneratorName()
 	 */
 	@Override
 	public String getGeneratorName() {
@@ -63,7 +63,7 @@ public class RelationshipListHtmlGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#getGroupName()
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#getGroupName()
 	 */
 	@Override
 	public String getGroupName() {
@@ -73,7 +73,7 @@ public class RelationshipListHtmlGenerator implements Generator {
 	/**
 	 * {inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String,
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#execute(java.lang.String,
 	 *      java.util.List)
 	 */
 	@Override
@@ -129,7 +129,7 @@ public class RelationshipListHtmlGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#isImplementModelOnly()
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#isImplementModelOnly()
 	 */
 	@Override
 	public boolean isImplementModelOnly() {

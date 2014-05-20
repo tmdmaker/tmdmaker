@@ -20,6 +20,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
 
 /**
  * contributeされているGeneratorを提供するクラス

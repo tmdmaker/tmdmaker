@@ -22,12 +22,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.GeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
+import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.velocity.VelocityContext;
@@ -48,7 +48,7 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String,
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#execute(java.lang.String,
 	 *      java.util.List)
 	 */
 	@Override
@@ -108,7 +108,7 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#getGeneratorName()
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#getGeneratorName()
 	 */
 	@Override
 	public String getGeneratorName() {
@@ -118,7 +118,7 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#getGroupName()
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#getGroupName()
 	 */
 	@Override
 	public String getGroupName() {
@@ -128,7 +128,7 @@ public class KeyDefinitionListHtmlGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#isImplementModelOnly()
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#isImplementModelOnly()
 	 */
 	@Override
 	public boolean isImplementModelOnly() {

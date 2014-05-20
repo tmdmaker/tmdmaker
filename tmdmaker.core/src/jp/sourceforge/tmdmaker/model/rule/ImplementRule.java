@@ -46,6 +46,8 @@ import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
  * 
  */
 public class ImplementRule {
+	private static boolean foreignKeyEnabled;
+	
 	/**
 	 * 実装しない派生モデルを取得する。
 	 * 
@@ -240,6 +242,14 @@ public class ImplementRule {
 		attribute.setDataTypeDeclaration(new DataTypeDeclaration(
 				StandardSQLDataType.CHARACTER_VARYING, 10, null));
 
+	}
+
+	public static boolean isForeignKeyEnabled() {
+		return foreignKeyEnabled;
+	}
+
+	public static void setForeignKeyEnabled(boolean foreignKeyEnabled) {
+		ImplementRule.foreignKeyEnabled = foreignKeyEnabled;
 	}
 
 }

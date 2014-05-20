@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.dialect;
+package jp.sourceforge.tmdmaker.model.dialect;
 
 import java.util.List;
 

@@ -21,10 +21,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.generate.ui.preferences.DdlPreferenceConstants;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
+import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 import org.apache.ddlutils.Platform;
 import org.apache.ddlutils.PlatformFactory;
@@ -54,7 +55,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#execute(java.lang.String,
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#execute(java.lang.String,
 	 *      java.util.List)
 	 */
 	@Override
@@ -68,7 +69,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 		if (databaseName == null || databaseName.length() == 0) {
 			throw new DatabaseNotSelectRuntimeException();
 		}
-		converter = new DdlUtilsConverter(isForeignKeyEnabled());
+		converter = new DdlUtilsConverter(ImplementRule.isForeignKeyEnabled());
 		Database database = converter.convert(diagram, models);
 		converter.addCommonColumns(database, diagram.getCommonAttributes());
 
@@ -79,11 +80,6 @@ public class DdlUtilsDDLGenerator implements Generator {
 
 		writeSqlFile(rootDir, "ddl.sql", sql);
 
-	}
-
-	private boolean isForeignKeyEnabled() {
-		return TMDPlugin.getDefault().getPreferenceStore()
-				.getBoolean(DdlPreferenceConstants.P_FOREIGN_KEY_ENABLED);
 	}
 
 	/**
@@ -122,7 +118,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#getGeneratorName()
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#getGeneratorName()
 	 */
 	@Override
 	public String getGeneratorName() {
@@ -133,7 +129,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#getGroupName()
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#getGroupName()
 	 */
 	@Override
 	public String getGroupName() {
@@ -143,7 +139,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.generate.Generator#isImplementModelOnly()
+	 * @see jp.sourceforge.tmdmaker.model.generate.Generator#isImplementModelOnly()
 	 */
 	@Override
 	public boolean isImplementModelOnly() {

@@ -14,14 +14,5 @@
             name="name">
       </generator>
    </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            category="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage"
-            class="jp.sourceforge.tmdmaker.generate.ui.preferences.DdlGeneratorPreferencePage"
-            id="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage.ddlgenerator"
-            name="DDLGenerator">
-      </page>
-   </extension>
 
 </plugin>

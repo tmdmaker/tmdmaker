@@ -25,10 +25,10 @@ import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
 import jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter;
 import jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;

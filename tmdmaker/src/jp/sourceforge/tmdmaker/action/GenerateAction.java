@@ -25,10 +25,10 @@ import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
-import jp.sourceforge.tmdmaker.generate.Generator;
 import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.GraphicalViewer;
