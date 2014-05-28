@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.ui.setting;
+package jp.sourceforge.tmdmaker.ui.preferences.appearance;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.swt.graphics.RGB;
 

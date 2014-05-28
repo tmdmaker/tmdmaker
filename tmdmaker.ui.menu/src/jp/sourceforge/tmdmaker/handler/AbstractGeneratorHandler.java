@@ -17,10 +17,10 @@ package jp.sourceforge.tmdmaker.handler;
 
 import java.util.Iterator;
 
-import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
+import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.extension.SerializerFactory;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
-import jp.sourceforge.tmdmaker.persistence.SerializerFactory;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -68,7 +68,7 @@ public abstract class AbstractGeneratorHandler extends AbstractHandler {
 						file.getContents());
 				String path = getAbsolutePath(file);
 				generator.execute(path, diagram.findEntityModel());
-				GeneratorUtils.refreshGenerateResources(path);
+				TMDPlugin.refreshGenerateResources(path);
 			} catch (CoreException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

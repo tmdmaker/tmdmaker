@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.generate;
+package jp.sourceforge.tmdmaker.extension;
 
 import java.util.Comparator;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
 
 /**
@@ -28,12 +26,12 @@ import jp.sourceforge.tmdmaker.model.generate.Generator;
  * @author nakaG
  * 
  */
-public class GeneratorProvider {
+public class GeneratorFactory {
 	private static PluginExtensionPointFactory<Generator> factory;
 
 	static {
 		factory = new PluginExtensionPointFactory<Generator>(
-				TMDPlugin.PLUGIN_ID + ".generators",
+				"tmdmaker.generators",
 				new Comparator<Generator>() {
 
 					/**

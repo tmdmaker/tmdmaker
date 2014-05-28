@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
-import jp.sourceforge.tmdmaker.model.dialect.DialectProviderFactory;
+import jp.sourceforge.tmdmaker.extension.DialectProviderFactory;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.graphics.Point;

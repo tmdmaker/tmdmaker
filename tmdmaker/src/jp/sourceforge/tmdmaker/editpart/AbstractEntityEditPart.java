@@ -28,8 +28,8 @@ import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
-import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
 import org.eclipse.draw2d.ColorConstants;

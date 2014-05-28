@@ -22,7 +22,4 @@ Bundle-ClassPath: .,
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider
 Export-Package: jp.sourceforge.tmdmaker,
- jp.sourceforge.tmdmaker.extension,
- jp.sourceforge.tmdmaker.generate,
- jp.sourceforge.tmdmaker.persistence,
- jp.sourceforge.tmdmaker.ui.setting
+ jp.sourceforge.tmdmaker.extension

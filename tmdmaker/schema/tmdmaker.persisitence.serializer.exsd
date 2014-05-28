@@ -62,7 +62,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.persistent.Serializer"/>
+                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.model.persistence.Serializer"/>
                </appInfo>
             </annotation>
          </attribute>

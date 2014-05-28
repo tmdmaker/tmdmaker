@@ -25,7 +25,7 @@ import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
+import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
 import jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter;
 import jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
@@ -109,7 +109,7 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		menu.add(new Separator("generate"));
 		menu.add(registry.getAction(DiagramImageGenerateAction.ID));
 		
-		for (Generator generator : GeneratorProvider.getGenerators()) {
+		for (Generator generator : GeneratorFactory.getGenerators()) {
 			menu.add(registry.getAction(generator.getClass().getName()));
 		}
 

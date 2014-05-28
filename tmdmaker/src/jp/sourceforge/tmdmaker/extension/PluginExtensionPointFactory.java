@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,8 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IRegistryEventListener;
 import org.eclipse.core.runtime.Platform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TMD-Makerのプラグイン拡張を取得するファクトリクラス
@@ -39,10 +41,12 @@ public class PluginExtensionPointFactory<T> {
 	private String extensionPointId;
 	/** 取得したプラグイン拡張のリスト */
 	private List<T> instanceList;
-	/** registory */
+	/** registry */
 	private IExtensionRegistry registry;
 	/** 取得したプラグイン拡張のリストのソート時に利用 */
 	private Comparator<T> comparator;
+	/** logging */
+	private static Logger logger = LoggerFactory.getLogger(PluginExtensionPointFactory.class);
 
 	/**
 	 * コンストラクタ
@@ -62,8 +66,7 @@ public class PluginExtensionPointFactory<T> {
 	 * @param comparator
 	 *            ソート用
 	 */
-	public PluginExtensionPointFactory(String extensionPoint,
-			Comparator<T> comparator) {
+	public PluginExtensionPointFactory(String extensionPoint, Comparator<T> comparator) {
 		this.extensionPointId = extensionPoint;
 		this.instanceList = new ArrayList<T>();
 		this.registry = Platform.getExtensionRegistry();
@@ -72,26 +75,25 @@ public class PluginExtensionPointFactory<T> {
 
 			@Override
 			public void removed(IExtensionPoint[] extensionPoints) {
-				System.out
-						.println("removed(IExtensionPoint[] extensionPoints)");
+				logger.debug("removed(IExtensionPoint[] extensionPoints)");
 				setup();
 			}
 
 			@Override
 			public void removed(IExtension[] extensions) {
-				System.out.println("removed(IExtension[] extensions");
+				logger.debug("removed(IExtension[] extensions");
 				setup();
 			}
 
 			@Override
 			public void added(IExtensionPoint[] extensionPoints) {
-				System.out.println("added(IExtensionPoint[] extensionPoints)");
+				logger.debug("added(IExtensionPoint[] extensionPoints)");
 				setup();
 			}
 
 			@Override
 			public void added(IExtension[] extensions) {
-				System.out.println("added(IExtension[] extensions)");
+				logger.debug("added(IExtension[] extensions)");
 				setup();
 			}
 		}, extensionPointId);
@@ -112,6 +114,21 @@ public class PluginExtensionPointFactory<T> {
 	}
 
 	/**
+	 * プラグイン拡張を1件取得する。ソート後の最初の1件を返す。 取得できなかった場合は引数の値を返す。
+	 * 
+	 * @param empty
+	 *            インスタンスが取得できなかった場合に返す値
+	 * @return プラグイン拡張。プラグイン拡張が存在しない場合はemptyを返す。
+	 */
+	public T getInstance(T empty) {
+		T instance = getInstance();
+		if (instance == null) {
+			instance = empty;
+		}
+		return instance;
+	}
+
+	/**
 	 * プラグイン拡張を取得する。ソート後のリストを返す。
 	 * 
 	 * @return プラグイン拡張のリスト。プラグイン拡張が存在しない場合は空のリストを返す。
@@ -125,7 +142,7 @@ public class PluginExtensionPointFactory<T> {
 
 		IExtensionPoint point = registry.getExtensionPoint(extensionPointId);
 		if (point == null) {
-			System.out.println(extensionPointId + " is not exists.");
+			logger.debug(extensionPointId + " is not exists.");
 			return;
 		}
 
@@ -143,6 +160,7 @@ public class PluginExtensionPointFactory<T> {
 			try {
 				instanceList.add((T) ce.createExecutableExtension("class"));
 			} catch (CoreException e) {
+				logger.warn(e.getMessage());
 				throw new PluginExtensionPointRuntimeException(e);
 			}
 		}

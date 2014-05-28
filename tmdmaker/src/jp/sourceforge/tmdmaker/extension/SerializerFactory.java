@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.persistence;
+package jp.sourceforge.tmdmaker.extension;
 
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
+import jp.sourceforge.tmdmaker.model.persistence.Serializer;
 
 /**
  * シリアライザのファクトリクラス
@@ -26,7 +25,7 @@ import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
  */
 public class SerializerFactory {
 	private static PluginExtensionPointFactory<Serializer> factory = new PluginExtensionPointFactory<Serializer>(
-			TMDPlugin.PLUGIN_ID + ".persisitence.serializer");
+			"tmdmaker.persisitence.serializer");
 
 	/**
 	 * シリアライザを取得する

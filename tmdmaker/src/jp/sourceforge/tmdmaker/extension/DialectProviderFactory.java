@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.dialect;
+package jp.sourceforge.tmdmaker.extension;
 
 import java.util.Arrays;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
+import jp.sourceforge.tmdmaker.model.dialect.DialectProvider;
 
 /**
  * DialectProviderを取得するためのFactory
@@ -29,7 +28,20 @@ import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
  */
 public class DialectProviderFactory {
 	private static PluginExtensionPointFactory<DialectProvider> factory = new PluginExtensionPointFactory<DialectProvider>(
-			TMDPlugin.PLUGIN_ID + ".dialect.provider");
+			"tmdmaker.dialect.provider");
+
+	private static final DialectProvider EMPTY = new DialectProvider() {
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.dialect.DialectProvider#getDatabaseList()
+		 */
+		@Override
+		public List<String> getDatabaseList() {
+			return Arrays.asList("");
+		}
+	};
 
 	/**
 	 * DialectProviderを取得する。
@@ -37,22 +49,6 @@ public class DialectProviderFactory {
 	 * @return 取得したDialectProvider
 	 */
 	public static DialectProvider getDialectProvider() {
-		DialectProvider provider = factory.getInstance();
-		if (provider == null) {
-			provider = new DialectProvider() {
-
-				/**
-				 * {@inheritDoc}
-				 * 
-				 * @see jp.sourceforge.tmdmaker.model.dialect.DialectProvider#getDatabaseList()
-				 */
-				@Override
-				public List<String> getDatabaseList() {
-					return Arrays.asList("");
-				}
-			};
-
-		}
-		return provider;
+		return factory.getInstance(EMPTY);
 	}
 }

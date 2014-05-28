@@ -35,16 +35,16 @@ import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
-import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
+import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
+import jp.sourceforge.tmdmaker.extension.SerializerFactory;
 import jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter;
 import jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Version;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
-import jp.sourceforge.tmdmaker.persistence.SerializationException;
-import jp.sourceforge.tmdmaker.persistence.Serializer;
-import jp.sourceforge.tmdmaker.persistence.SerializerFactory;
+import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
+import jp.sourceforge.tmdmaker.model.persistence.Serializer;
 import jp.sourceforge.tmdmaker.ruler.TMDRulerProvider;
 import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
 import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
@@ -559,7 +559,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
-		for (Generator generator : GeneratorProvider.getGenerators()) {
+		for (Generator generator : GeneratorFactory.getGenerators()) {
 			SelectionAction act = new GenerateAction(this, viewer, generator);
 			registry.registerAction(act);
 			selectionActions.add(act.getId());

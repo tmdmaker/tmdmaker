@@ -15,31 +15,26 @@
  */
 package jp.sourceforge.tmdmaker.persistence;
 
+import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
+import jp.sourceforge.tmdmaker.model.persistence.Serializer;
+
 /**
- * シリアライズ時に発生した例外のラッパークラス
+ * シリアライザのファクトリクラス
  * 
  * @author nakaG
  * 
  */
-@SuppressWarnings("serial")
-public class SerializationException extends RuntimeException {
+public class SerializerFactory {
+	private static PluginExtensionPointFactory<Serializer> factory = new PluginExtensionPointFactory<Serializer>(
+			TMDPlugin.PLUGIN_ID + ".persisitence.serializer");
 
 	/**
-	 * コンストラクタ
+	 * シリアライザを取得する
 	 * 
-	 * @param t
+	 * @return シリアライザのインスタンス
 	 */
-	public SerializationException(Throwable t) {
-		super(t);
+	public static Serializer getInstance() {
+		return factory.getInstance();
 	}
-
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param message
-	 */
-	public SerializationException(String message) {
-		super(message);
-	}
-
 }

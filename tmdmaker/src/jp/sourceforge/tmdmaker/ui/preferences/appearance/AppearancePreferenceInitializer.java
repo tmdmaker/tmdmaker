@@ -16,7 +16,6 @@
 package jp.sourceforge.tmdmaker.ui.preferences.appearance;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.ui.setting.AppearanceSetting;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
