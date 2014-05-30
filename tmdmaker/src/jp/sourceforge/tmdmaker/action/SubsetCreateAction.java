@@ -340,8 +340,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 						.getModelTargetConnections().get(0);
 			}
 			model2subsetTypeRelationship.connect();
-			diagram.addChild(subsetEntity);
 			subsetType2subsetEntityRelationship.connect();
+			diagram.addChild(subsetEntity);
 		}
 
 		/**

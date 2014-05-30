@@ -47,7 +47,7 @@ import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
  */
 public class ImplementRule {
 	private static boolean foreignKeyEnabled;
-	
+
 	/**
 	 * 実装しない派生モデルを取得する。
 	 * 
@@ -175,7 +175,7 @@ public class ImplementRule {
 	 */
 	public static AbstractEntityModel findOriginalImplementModel(
 			AbstractEntityModel model) {
-		if (model.isNotImplement()) {
+		if (model != null && model.isNotImplement()) {
 			if (model instanceof SubsetEntity) {
 				return findOriginalImplementModel(((SubsetEntity) model)
 						.getSuperset());

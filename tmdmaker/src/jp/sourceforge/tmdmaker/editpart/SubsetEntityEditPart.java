@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import java.beans.PropertyChangeEvent;
 import java.util.List;
 import java.util.Map;
 
@@ -66,28 +67,27 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		SubsetEntity entity = (SubsetEntity) getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
-		// List<Identifier> ids = entity.getReuseKeys().;
-
-		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
 		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(entity.getName());
 
-		if (entity.isSupersetAnEntity()) {
-			entityFigure.setIdentifier(entity.getOriginalReusedIdentifier()
-					.getIdentifires().get(0).getName());
+		if (entity.isSameSubset() && entity.getAttributes().size() == 0) {
+			// do nothing
 		} else {
-			for (Identifier i : entity.getOriginalReusedIdentifier()
-					.getIdentifires()) {
-				entityFigure.addRelationship(i.getName());
+			if (entity.isSupersetAnEntity()) {
+				entityFigure.setIdentifier(entity.getOriginalReusedIdentifier().getIdentifires()
+						.get(0).getName());
+			} else {
+				for (Identifier i : entity.getOriginalReusedIdentifier().getIdentifires()) {
+					entityFigure.addRelationship(i.getName());
+				}
 			}
-		}
-
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getIdentifires()) {
-				entityFigure.addRelationship(i.getName());
+			for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
+					.getReusedIdentifieres().entrySet()) {
+				for (Identifier i : rk.getValue().getIdentifires()) {
+					entityFigure.addRelationship(i.getName());
+				}
 			}
 		}
 		ModelAppearance appearance = null;
@@ -102,6 +102,16 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		// }
 	}
 
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(SubsetType.PROPERTY_PARTITION)) {
+			logger.debug(getClass() + ":" + SubsetType.PROPERTY_PARTITION);
+			refreshVisuals();
+		} else {
+			super.propertyChange(evt);
+		}
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -110,10 +120,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new SubsetEntityComponentEditPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new TMDModelGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new SubsetEntityComponentEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
@@ -126,13 +134,12 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		SubsetEntity table = (SubsetEntity) getModel();
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-				.getShell(), "サブセット表編集", table);
+		TableEditDialog dialog = new TableEditDialog(getViewer().getControl().getShell(),
+				"サブセット表編集", table);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 
-			List<EditAttribute> editAttributeList = dialog
-					.getEditAttributeList();
+			List<EditAttribute> editAttributeList = dialog.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
 			AbstractEntityModel edited = dialog.getEditedValue();
@@ -140,10 +147,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			ccommand.add(command);
 
 			if (table.isNotImplement() && !edited.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule
-						.findOriginalImplementModel(table);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(table,
-						original));
+				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(table);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(table, original));
 			}
 
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
@@ -155,8 +160,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	 * @author nakaG
 	 * 
 	 */
-	private static class SubsetEntityComponentEditPolicy extends
-			ComponentEditPolicy {
+	private static class SubsetEntityComponentEditPolicy extends ComponentEditPolicy {
 
 		/**
 		 * {@inheritDoc}
@@ -168,20 +172,17 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			CompoundCommand ccommand = new CompoundCommand();
 			Diagram diagram = (Diagram) getHost().getParent().getModel();
 			SubsetEntity model = (SubsetEntity) getHost().getModel();
-			SubsetEntityDeleteCommand command1 = new SubsetEntityDeleteCommand(
-					diagram, model);
+			SubsetEntityDeleteCommand command1 = new SubsetEntityDeleteCommand(diagram, model);
 			ccommand.add(command1);
 			if (model.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule
-						.findOriginalImplementModel(model);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(model,
-						original));
+				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(model);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
 			}
 			SubsetType2SubsetRelationship relationship = (SubsetType2SubsetRelationship) model
-					.findRelationshipFromTargetConnections(
-							SubsetType2SubsetRelationship.class).get(0);
-			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(
-					diagram, (SubsetType) relationship.getSource());
+					.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class)
+					.get(0);
+			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(diagram,
+					(SubsetType) relationship.getSource());
 			ccommand.add(command2);
 			return ccommand;
 		}
@@ -214,8 +215,8 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			this.diagram = diagram;
 			this.model = model;
 			this.subsetType2SubsetEntityRelationship = (SubsetType2SubsetRelationship) this.model
-					.findRelationshipFromTargetConnections(
-							SubsetType2SubsetRelationship.class).get(0);
+					.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class)
+					.get(0);
 		}
 
 		/**

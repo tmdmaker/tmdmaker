@@ -82,6 +82,7 @@ public class SubsetType extends ConnectableElement {
 		SubsetTypeValue oldValue = this.subsetType;
 		this.subsetType = subsetType;
 		firePropertyChange(PROPERTY_TYPE, oldValue, this.subsetType);
+		firePartitionChanged();
 	}
 
 	/**
@@ -124,6 +125,23 @@ public class SubsetType extends ConnectableElement {
 	 * 区分コード変更時処理
 	 */
 	public void firePartitionChanged() {
+		// サブセット元
+		notifySuperset();
+		// サブセット
+		notifySubsetEntity();
+	}
+
+	private void notifySubsetEntity() {
+		if (getModelSourceConnections().size() > 0) {
+			for (AbstractConnectionModel c : getModelSourceConnections()) {
+				if (c instanceof SubsetType2SubsetRelationship) {
+					c.getTarget().firePropertyChange(PROPERTY_PARTITION, null, getSubsetType());
+				}
+			}
+		}
+	}
+
+	private void notifySuperset() {
 		if (getModelTargetConnections().size() > 0) {
 			((Entity2SubsetTypeRelationship) getModelTargetConnections().get(0))
 					.firePartitionChanged();

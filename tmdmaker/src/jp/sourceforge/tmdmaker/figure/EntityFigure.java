@@ -102,13 +102,11 @@ public class EntityFigure extends Figure {
 	}
 
 	public void setIdentifier(String identifier) {
-
 		this.identifierCompartmentFigure.add(createAttributeLabel(identifier));
 	}
 
 	public void addRelationship(String relationship) {
-		this.identifierCompartmentFigure.add(createAttributeLabel(relationship
-				+ "(R)"));
+		this.identifierCompartmentFigure.add(createAttributeLabel(relationship + "(R)"));
 	}
 
 	public void removeAllRelationship() {
@@ -165,19 +163,20 @@ public class EntityFigure extends Figure {
 		@Override
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
 			super.paint(figure, graphics, insets);
-			Rectangle rect1 = titleCompartmentFigure.getBounds();
-			Rectangle rect2 = identifierCompartmentFigure.getBounds();
-			Point p = tempRect.getTopLeft().getCopy();
-			p.x = p.x + rect2.width + 2;
-			p.y = p.y + rect1.height + 2;
-			Point p2 = tempRect.getBottomLeft().getCopy();
-			p2.x = p2.x + rect2.width + 2;
-			graphics.drawLine(p, p2);
+			if (identifierCompartmentFigure.getChildren().size() > 0
+					|| attributeCompartmentFigure.getChildren().size() > 0) {
+				Rectangle rect1 = titleCompartmentFigure.getBounds();
+				Rectangle rect2 = identifierCompartmentFigure.getBounds();
+				Point p = tempRect.getTopLeft().getCopy();
+				p.x = p.x + rect2.width + 2;
+				p.y = p.y + rect1.height + 2;
+				Point p2 = tempRect.getBottomLeft().getCopy();
+				p2.x = p2.x + rect2.width + 2;
+				graphics.drawLine(p, p2);
+			}
 			if (notImplement) {
-				graphics.drawLine(tempRect.getTopLeft(), tempRect
-						.getBottomRight());
-				graphics.drawLine(tempRect.getBottomLeft(), tempRect
-						.getTopRight());
+				graphics.drawLine(tempRect.getTopLeft(), tempRect.getBottomRight());
+				graphics.drawLine(tempRect.getBottomLeft(), tempRect.getTopRight());
 			}
 		}
 
@@ -194,15 +193,16 @@ public class EntityFigure extends Figure {
 		}
 	}
 
-	private static class EntityLayoutCompartmentFigureBorder extends
-			AbstractBorder {
+	private static class EntityLayoutCompartmentFigureBorder extends AbstractBorder {
 		public Insets getInsets(IFigure figure) {
 			return new Insets(0, 1, 0, 1);
 		}
 
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
-			graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(),
-					tempRect.getTopRight());
+			if (((IFigure) figure.getChildren().get(0)).getChildren().size() > 0) {
+				graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(),
+						tempRect.getTopRight());
+			}
 		}
 	}
 

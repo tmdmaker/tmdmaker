@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package jp.sourceforge.tmdmaker.model;
+
+import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
 
 /**
  * サブセット
@@ -49,8 +51,8 @@ public class SubsetEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-//		ReusedIdentifier returnValue = new ReusedIdentifier(this.originalReusedIdentifier.getSarogateKeys());
-		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
+		ReusedIdentifier returnValue = new ReusedIdentifier(
+				keyModels.getSarogateKey());
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
 
 		return returnValue;
@@ -84,6 +86,24 @@ public class SubsetEntity extends AbstractEntityModel {
 	 */
 	public boolean isSupersetAnEntity() {
 		return this.originalReusedIdentifier.getIdentifires().size() == 1;
+	}
+
+	/**
+	 * 同一のサブセットかを判定する。
+	 * 
+	 * @return 同一のサブセットの場合にtrueを返す。
+	 */
+	public boolean isSameSubset() {
+		if (getModelTargetConnections().size() == 0) {
+			return false;
+		}
+		SubsetType2SubsetRelationship r = (SubsetType2SubsetRelationship) getModelTargetConnections()
+				.get(0);
+		if (r != null) {
+			SubsetType type = (SubsetType) r.getSource();
+			return type.getSubsetType().equals(SubsetTypeValue.SAME);
+		}
+		return false;
 	}
 
 	/**
