@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,6 @@ package jp.sourceforge.tmdmaker.model;
 @SuppressWarnings("serial")
 public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 		implements IdentifierChangeListener {
-	/** 区分コードプロパティ定数 */
-	public static final String PROPERTY_PARTITION = "_property_partition";
 
 	/**
 	 * コンストラクタ
@@ -85,7 +83,7 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	 * 区分コード変更時処理
 	 */
 	public void firePartitionChanged() {
-		firePropertyChange(PROPERTY_PARTITION, null, null);
+		firePropertyChange(SubsetType.PROPERTY_PARTITION, null, null);
 	}
 
 	/**

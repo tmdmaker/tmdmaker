@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,9 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collections;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
 import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -27,6 +29,8 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * サブセット種類のコントローラ
@@ -110,7 +114,16 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		// TODO Auto-generated method stub
+		logger.debug(getClass() + "#onDoubleClicked()");
+		SubsetType subsetType = (SubsetType) getModel();
+		AbstractEntityModel model = subsetType.getSuperset();
+
+		SubsetCreateDialog dialog = new SubsetCreateDialog(getViewer().getControl().getShell(),
+				subsetType, model);
+		if (dialog.open() == Dialog.OK) {
+			CompoundCommand ccommand = dialog.getCcommand();
+			getViewer().getEditDomain().getCommandStack().execute(ccommand);
+		}
 
 	}
 
@@ -120,8 +133,7 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
 	@Override
-	public ConnectionAnchor getSourceConnectionAnchor(
-			ConnectionEditPart connection) {
+	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		return new CenterAnchor(getFigure());
 	}
 
@@ -141,8 +153,7 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
 	@Override
-	public ConnectionAnchor getTargetConnectionAnchor(
-			ConnectionEditPart connection) {
+	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		return new CenterAnchor(getFigure());
 	}
 

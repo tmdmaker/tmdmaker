@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import jp.sourceforge.tmdmaker.figure.Entity2SubsetTypeRelationshipFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.IAttribute;
+import jp.sourceforge.tmdmaker.model.SubsetType;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -33,8 +34,7 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
  * @author nakaG
  * 
  */
-public class Entity2SubsetTypeRelationshipEditPart extends
-		AbstractRelationshipEditPart {
+public class Entity2SubsetTypeRelationshipEditPart extends AbstractRelationshipEditPart {
 
 	/**
 	 * {@inheritDoc}
@@ -55,8 +55,6 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 	 */
 	private void updateFigure(Entity2SubsetTypeRelationshipFigure figure) {
 		Entity2SubsetTypeRelationship relationship = (Entity2SubsetTypeRelationship) getModel();
-
-		// figure.createPartitionAttributeNameDecoration("test");
 
 		IAttribute partitionAttribute = relationship.getPartitionAttribute();
 		if (partitionAttribute != null) {
@@ -80,10 +78,8 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
-				new ConnectionEndpointEditPolicy());
-		installEditPolicy(EditPolicy.CONNECTION_ROLE,
-				new RelationshipEditPolicy());
+		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
+		installEditPolicy(EditPolicy.CONNECTION_ROLE, new RelationshipEditPolicy());
 
 	}
 
@@ -106,11 +102,9 @@ public class Entity2SubsetTypeRelationshipEditPart extends
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(
-				Entity2SubsetTypeRelationship.PROPERTY_PARTITION)) {
+		if (evt.getPropertyName().equals(SubsetType.PROPERTY_PARTITION)) {
 			refreshVisuals();
-		} else if (evt.getPropertyName().equals(
-				AbstractConnectionModel.PROPERTY_CONNECTION)) {
+		} else if (evt.getPropertyName().equals(AbstractConnectionModel.PROPERTY_CONNECTION)) {
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);

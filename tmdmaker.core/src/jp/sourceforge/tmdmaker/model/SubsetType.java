@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -125,26 +125,48 @@ public class SubsetType extends ConnectableElement {
 	 * 区分コード変更時処理
 	 */
 	public void firePartitionChanged() {
-		// サブセット元
+		// スーパーセット
 		notifySuperset();
+		// スーパーセットとのリレーションシップ
+		nofityRelationship();
 		// サブセット
 		notifySubsetEntity();
 	}
 
-	private void notifySubsetEntity() {
-		if (getModelSourceConnections().size() > 0) {
-			for (AbstractConnectionModel c : getModelSourceConnections()) {
-				if (c instanceof SubsetType2SubsetRelationship) {
-					c.getTarget().firePropertyChange(PROPERTY_PARTITION, null, getSubsetType());
-				}
-			}
+	private Entity2SubsetTypeRelationship getEntity2SubsetTypeRelationship() {
+		if (getModelTargetConnections().size() > 0) {
+			return (Entity2SubsetTypeRelationship) getModelTargetConnections()
+					.get(0);
 		}
+		return null;
+	}
+
+	public AbstractEntityModel getSuperset() {
+		Entity2SubsetTypeRelationship r = getEntity2SubsetTypeRelationship();
+		if (r != null) {
+			return (AbstractEntityModel) r.getSource();
+		}
+		return null;
 	}
 
 	private void notifySuperset() {
-		if (getModelTargetConnections().size() > 0) {
-			((Entity2SubsetTypeRelationship) getModelTargetConnections().get(0))
-					.firePartitionChanged();
+		AbstractEntityModel superset = getSuperset();
+		if (superset != null) {
+			superset.firePropertyChange(PROPERTY_PARTITION, null,
+					getSubsetType());
+		}
+	}
+
+	private void nofityRelationship() {
+		Entity2SubsetTypeRelationship r = getEntity2SubsetTypeRelationship();
+		if (r != null) {
+			r.firePartitionChanged();
+		}
+	}
+
+	private void notifySubsetEntity() {
+		for (SubsetEntity s : findSubsetEntityList()) {
+			s.firePropertyChange(PROPERTY_PARTITION, null, getSubsetType());
 		}
 	}
 
@@ -166,6 +188,7 @@ public class SubsetType extends ConnectableElement {
 
 	/**
 	 * 向き（縦）
+	 * 
 	 * @return
 	 */
 	public boolean isVertical() {
