@@ -55,7 +55,7 @@ public class SubsetCreateCommand extends Command {
 		this.subsetEntity = subsetEntity;
 		subsetType2subsetEntityRelationship = new SubsetType2SubsetRelationship(this.subsetType,
 				this.subsetEntity);
-		Constraint constraint = subsetType.getConstraint().getTranslated(0, 50);
+		Constraint constraint = subsetType.getConstraint().getTranslated(0, 0);
 		subsetEntity.setConstraint(constraint);
 	}
 
