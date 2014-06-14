@@ -135,8 +135,7 @@ public class SubsetType extends ConnectableElement {
 
 	private Entity2SubsetTypeRelationship getEntity2SubsetTypeRelationship() {
 		if (getModelTargetConnections().size() > 0) {
-			return (Entity2SubsetTypeRelationship) getModelTargetConnections()
-					.get(0);
+			return (Entity2SubsetTypeRelationship) getModelTargetConnections().get(0);
 		}
 		return null;
 	}
@@ -152,8 +151,7 @@ public class SubsetType extends ConnectableElement {
 	private void notifySuperset() {
 		AbstractEntityModel superset = getSuperset();
 		if (superset != null) {
-			superset.firePropertyChange(PROPERTY_PARTITION, null,
-					getSubsetType());
+			superset.firePropertyChange(PROPERTY_PARTITION, null, getSubsetType());
 		}
 	}
 
@@ -204,5 +202,10 @@ public class SubsetType extends ConnectableElement {
 		boolean oldValue = this.vertical;
 		this.vertical = vertical;
 		firePropertyChange(PROPERTY_DIRECTION, oldValue, this.vertical);
+	}
+
+	public boolean isNew() {
+		// 接続前の場合は新規作成
+		return getModelTargetConnections().size() == 0;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,8 +112,7 @@ public class Entity extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isEntityTypeEditable() {
-		return getModelSourceConnections().size() == 0
-				&& getModelTargetConnections().size() == 0;
+		return getModelSourceConnections().size() == 0 && getModelTargetConnections().size() == 0;
 	}
 
 	/**
@@ -126,12 +125,10 @@ public class Entity extends AbstractEntityModel {
 		if (getEntityType() == EntityType.EVENT) {
 			return getModelSourceConnections().size() == 0;
 		}
-		return getModelSourceConnections().size() == 0
-				&& getModelTargetConnections().size() == 0;
+		return getModelSourceConnections().size() == 0 && getModelTargetConnections().size() == 0;
 
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -158,5 +155,11 @@ public class Entity extends AbstractEntityModel {
 		copyTo(copy);
 		return copy;
 	}
-	
+
+	@Override
+	public int calcurateMaxIdentifierRefSize() {
+		int i = getIdentifier().getName().length();
+		return Math.max(super.calcurateMaxIdentifierRefSize(), i);
+	}
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,8 +54,9 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	protected KeyModels keyModels = new KeyModels();
 
 	public AbstractEntityModel() {
-		setConstraint(new Constraint(0,0,-1,-1));
+		setConstraint(new Constraint(0, 0, -1, -1));
 	}
+
 	/**
 	 * @return the diagram
 	 */
@@ -82,8 +83,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param reusedIdentifieres
 	 *            the reusedIdentifieres to set
 	 */
-	public void setReusedIdentifieres(
-			Map<AbstractEntityModel, ReusedIdentifier> reuseKeys) {
+	public void setReusedIdentifieres(Map<AbstractEntityModel, ReusedIdentifier> reuseKeys) {
 		this.reusedIdentifieres = reuseKeys;
 	}
 
@@ -105,8 +105,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param reused
 	 *            取得元モデルから得たReused
 	 */
-	protected void addReusedIdentifier(AbstractEntityModel source,
-			ReusedIdentifier reused) {
+	protected void addReusedIdentifier(AbstractEntityModel source, ReusedIdentifier reused) {
 		ReusedIdentifier added = this.reusedIdentifieres.put(source, reused);
 		firePropertyChange(PROPERTY_REUSED, null, added);
 	}
@@ -208,12 +207,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @return SubsetType。存在しない場合はnullを返す。
 	 */
 	public SubsetType findSubsetType() {
-		List<AbstractConnectionModel> results = findRelationship(
-				getModelSourceConnections(),
+		List<AbstractConnectionModel> results = findRelationship(getModelSourceConnections(),
 				Entity2SubsetTypeRelationship.class);
 		if (results.size() != 0) {
-			return (SubsetType) ((Entity2SubsetTypeRelationship) results.get(0))
-					.getTarget();
+			return (SubsetType) ((Entity2SubsetTypeRelationship) results.get(0)).getTarget();
 		}
 		return null;
 	}
@@ -226,13 +223,13 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public VirtualSupersetType findVirtualSupersetType() {
 		List<AbstractConnectionModel> results = findRelationshipFromSourceConnections(Entity2VirtualSupersetTypeRelationship.class);
 		if (results.size() != 0) {
-			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results
-					.get(0)).getTarget();
+			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results.get(0))
+					.getTarget();
 		}
 		results = findRelationshipFromTargetConnections(Entity2VirtualSupersetTypeRelationship.class);
 		if (results.size() != 0) {
-			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results
-					.get(0)).getTarget();
+			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results.get(0))
+					.getTarget();
 		}
 		return null;
 	}
@@ -264,8 +261,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            取得したいリレーションシップのクラス
 	 * @return clazzで指定したクラスのリレーションシップのリスト
 	 */
-	public List<AbstractConnectionModel> findRelationshipFromSourceConnections(
-			Class<?> clazz) {
+	public List<AbstractConnectionModel> findRelationshipFromSourceConnections(Class<?> clazz) {
 		return findRelationship(getModelSourceConnections(), clazz);
 	}
 
@@ -276,8 +272,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            取得したいリレーションシップのクラス
 	 * @return clazzで指定したクラスのリレーションシップのリスト
 	 */
-	public List<AbstractConnectionModel> findRelationshipFromTargetConnections(
-			Class<?> clazz) {
+	public List<AbstractConnectionModel> findRelationshipFromTargetConnections(Class<?> clazz) {
 		return findRelationship(getModelTargetConnections(), clazz);
 	}
 
@@ -288,10 +283,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public void fireIdentifierChanged(AbstractConnectionModel callConnection) {
 		firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
 		if (getEntityType().equals(EntityType.RESOURCE)) {
-			notifyIdentifierChangedToConnections(getModelSourceConnections(),
-					callConnection);
-			notifyIdentifierChangedToConnections(getModelTargetConnections(),
-					callConnection);
+			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
+			notifyIdentifierChangedToConnections(getModelTargetConnections(), callConnection);
 			// for (AbstractConnectionModel<?> con :
 			// getModelTargetConnections()) {
 			//
@@ -301,12 +294,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			// }
 			// }
 		} else {
-			notifyIdentifierChangedToConnections(getModelSourceConnections(),
-					callConnection);
+			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
 			for (AbstractConnectionModel con : getModelTargetConnections()) {
 				if (con instanceof IdentifierChangeListener
-						&& con instanceof Event2EventRelationship
-						&& con != callConnection) {
+						&& con instanceof Event2EventRelationship && con != callConnection) {
 					((IdentifierChangeListener) con).identifierChanged();
 				}
 			}
@@ -322,12 +313,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param callConnection
 	 *            通知元コネクション。通知元がコネクションで無い場合はnullが設定される。
 	 */
-	private void notifyIdentifierChangedToConnections(
-			List<AbstractConnectionModel> connections,
+	private void notifyIdentifierChangedToConnections(List<AbstractConnectionModel> connections,
 			AbstractConnectionModel callConnection) {
 		for (AbstractConnectionModel con : connections) {
-			if (con instanceof IdentifierChangeListener
-					&& con != callConnection) {
+			if (con instanceof IdentifierChangeListener && con != callConnection) {
 				((IdentifierChangeListener) con).identifierChanged();
 			}
 		}
@@ -407,8 +396,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param implementDerivationModels
 	 *            the implementDerivationModels to set
 	 */
-	public void setImplementDerivationModels(
-			List<AbstractEntityModel> implementDerivationModels) {
+	public void setImplementDerivationModels(List<AbstractEntityModel> implementDerivationModels) {
 		this.implementDerivationModels = implementDerivationModels;
 	}
 
@@ -439,4 +427,26 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		newPosition.y = y;
 		setConstraint(newPosition);
 	}
+
+	public int calcurateMaxIdentifierRefSize() {
+		int rx = 0;
+		final int RMARK_SIZE = 3;
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> e : getReusedIdentifieres()
+				.entrySet()) {
+			ReusedIdentifier ri = e.getValue();
+			for (IdentifierRef i : ri.getIdentifires()) {
+				rx = Math.max(i.getName().length() + RMARK_SIZE, rx);
+			}
+		}
+		return rx;
+	}
+
+	public int calcurateMaxAttributeNameSize() {
+		int ax = 0;
+		for (IAttribute a : getAttributes()) {
+			ax = Math.max(a.getName().length(), ax);
+		}
+		return ax;
+	}
+
 }

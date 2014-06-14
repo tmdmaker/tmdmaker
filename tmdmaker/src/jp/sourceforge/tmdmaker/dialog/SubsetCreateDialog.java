@@ -17,16 +17,11 @@ package jp.sourceforge.tmdmaker.dialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import jp.sourceforge.tmdmaker.dialog.component.SubsetSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Constraint;
-import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.IAttribute;
-import jp.sourceforge.tmdmaker.model.IdentifierRef;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
@@ -127,10 +122,10 @@ public class SubsetCreateDialog extends Dialog {
 		editedExceptNull = panel.isExceptNull();
 
 		ccommand = new CompoundCommand();
-		ccommand.add(createSuitableSubsetTypeCommand(model, orgSubsetType, getEditedSubsetType(),
-				getEditedPartitionAttribute(), isEditedExceptNull()));
-		addSuitableSubsetEntityCommand(model, orgSubsetType, ccommand, getEditedSubsetEntities());
-		addSubsetDeleteCommand(model, orgSubsetType, ccommand, getDeletedSubsetEntities());
+		addSuitableSubsetTypeCommand(ccommand, model, orgSubsetType, getEditedSubsetType(),
+				getEditedPartitionAttribute(), isEditedExceptNull());
+		addSuitableSubsetEntityCommand(ccommand, model, orgSubsetType, getEditedSubsetEntities());
+		addSubsetDeleteCommand(ccommand, model, orgSubsetType, getDeletedSubsetEntities());
 		super.okPressed();
 	}
 
@@ -189,32 +184,27 @@ public class SubsetCreateDialog extends Dialog {
 		return nameLength;
 	}
 
-	private void addSuitableSubsetEntityCommand(AbstractEntityModel model, SubsetType subsetType,
-			CompoundCommand ccommand, List<EditSubsetEntity> editSubsets) {
-		int subsetCount = editSubsets.size();
+	private int calcurateSubsetWidth(List<EditSubsetEntity> editSubsets) {
 		final int SPACE = 14;
-		final int CHAR_LENGTH = 12;
-		final int DOUBLE = 1;
 		int subsetNameLength = calcurateSubsetNameSize(editSubsets);
-		int reusedNameLength = calcurateMaxIdentifierRefSize(model);
-		int charLength = Math.max(subsetNameLength, reusedNameLength) * CHAR_LENGTH;
-		int subsetwidth = charLength * DOUBLE + SPACE;
-		int totalWidth = subsetCount * subsetwidth;
-		int totalWidthHalf = totalWidth / 2;
+		int reusedNameLength = model.calcurateMaxIdentifierRefSize();
+		int charLength = Math.max(subsetNameLength, reusedNameLength) * SubsetRule.CHAR_SIZE;
+		return charLength + SPACE;
+	}
 
-		// not use constraint,but use totalwidthhalf instead
-		// Constraint constraint = subsetType.getConstraint().getTranslated(-1 *
-		// totalWidthHalf, 20);
-
+	private void addSuitableSubsetEntityCommand(CompoundCommand ccommand, AbstractEntityModel model,
+			SubsetType subsetType, List<EditSubsetEntity> editSubsets) {
+		int subsetwidth = calcurateSubsetWidth(editSubsets);
+		int totalWidthHalf = editSubsets.size() * subsetwidth / 2;
 		int subsetX = totalWidthHalf * -1;
-		int subsetY = 50;
+		final int SUBSET_Y = 50;
 		for (EditSubsetEntity e : editSubsets) {
 			if (e.isAdded()) {
 				SubsetEntity subset = SubsetRule.createSubsetEntity(model, e.getName());
 				Command command = new SubsetCreateCommand(model, subsetType, subset);
 				ccommand.add(command);
-				System.out.println("model for subset x,y=" + subsetX + "," + subsetY);
-				command = new ModelConstraintChangeCommand(subset, subsetX, subsetY);
+
+				command = new ModelConstraintChangeCommand(subset, subsetX, SUBSET_Y);
 				ccommand.add(command);
 			} else if (e.isNameChanged()) {
 				SubsetEntity subsetEntity = e.getOriginal();
@@ -226,8 +216,8 @@ public class SubsetCreateDialog extends Dialog {
 		}
 	}
 
-	private void addSubsetDeleteCommand(AbstractEntityModel model, SubsetType subsetType,
-			CompoundCommand ccommand, List<EditSubsetEntity> deleteSubsets) {
+	private void addSubsetDeleteCommand(CompoundCommand ccommand, AbstractEntityModel model,
+			SubsetType subsetType, List<EditSubsetEntity> deleteSubsets) {
 		List<EditSubsetEntity> deletedList = new ArrayList<EditSubsetEntity>();
 		for (EditSubsetEntity e : deleteSubsets) {
 			if (e.getOriginal() != null) {
@@ -255,59 +245,19 @@ public class SubsetCreateDialog extends Dialog {
 		}
 	}
 
-	private Command createSuitableSubsetTypeCommand(AbstractEntityModel model,
-			SubsetType subsetType, SubsetTypeValue newSubsetType,
+	private void addSuitableSubsetTypeCommand(CompoundCommand ccommand,
+			AbstractEntityModel model, SubsetType subsetType, SubsetTypeValue newSubsetType,
 			IAttribute selectedPartitionAttribute, boolean newExceptNull) {
-		if (subsetType.getConstraint() == null) {
+		if (subsetType.isNew()) {
 			// entityとpartitionCodeModelの接続
-			Constraint constraint = calculateSubsetTypePosition(model);
-			subsetType.setConstraint(constraint);
 			subsetType.setExceptNull(newExceptNull);
 			subsetType.setSubsetType(newSubsetType);
-			return new Entity2SubsetTypeCreateCommand(model, subsetType, selectedPartitionAttribute);
+			ccommand.add(new Entity2SubsetTypeCreateCommand(model, subsetType,
+					selectedPartitionAttribute));
 		} else {
-
-			return new SubsetTypeChangeCommand(subsetType, newSubsetType,
-					selectedPartitionAttribute, newExceptNull);
+			ccommand.add(new SubsetTypeChangeCommand(subsetType, newSubsetType,
+					selectedPartitionAttribute, newExceptNull));
 		}
-	}
-
-	private Constraint calculateSubsetTypePosition(AbstractEntityModel model) {
-		int rx = calcurateMaxIdentifierRefSize(model);
-		int ax = 0;
-		final int CHAR_SIZE = 12;
-		for (IAttribute a : model.getAttributes()) {
-			ax = Math.max(a.getName().length(), ax);
-		}
-		int x = ((rx + ax) * CHAR_SIZE) / 2;
-
-		// y軸の位置
-		int identifierCount = model.getReusedIdentifieres().size();
-		if (model instanceof Entity) {
-			identifierCount++;
-		}
-
-		int attributeCount = model.getAttributes().size();
-		int acount = Math.max(identifierCount, attributeCount);
-		int y = 70 + CHAR_SIZE * acount;
-		Constraint constraint = model.getConstraint().getTranslated(x, y);
-
-		return constraint;
-	}
-
-	private int calcurateMaxIdentifierRefSize(AbstractEntityModel model) {
-		int rx = 0;
-		if (model instanceof Entity) {
-			rx = ((Entity) model).getIdentifier().getName().length();
-		}
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> e : model.getReusedIdentifieres()
-				.entrySet()) {
-			ReusedIdentifier ri = e.getValue();
-			for (IdentifierRef i : ri.getIdentifires()) {
-				rx = Math.max(i.getName().length() + 3, rx);
-			}
-		}
-		return rx;
 	}
 
 }

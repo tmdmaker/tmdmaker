@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,8 +76,7 @@ public class Detail extends AbstractEntityModel {
 	 * @param originalReusedIdentifier
 	 *            the originalReusedIdentifier to set
 	 */
-	public void setOriginalReusedIdentifier(
-			ReusedIdentifier originalReusedIdentifier) {
+	public void setOriginalReusedIdentifier(ReusedIdentifier originalReusedIdentifier) {
 		this.originalReusedIdentifier = originalReusedIdentifier;
 	}
 
@@ -113,8 +112,7 @@ public class Detail extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return getModelSourceConnections().size() == 1
-				&& getModelTargetConnections().size() == 1;
+		return getModelSourceConnections().size() == 1 && getModelTargetConnections().size() == 1;
 	}
 
 	/**
@@ -143,5 +141,21 @@ public class Detail extends AbstractEntityModel {
 		copyTo(copy);
 		return copy;
 	}
-	
+
+	@Override
+	public int calcurateMaxIdentifierRefSize() {
+		int di = detailIdentifier.getName().length();
+		int oi = calcurateMaxOriginalIdentifierRefSize();
+		int imax = Math.max(di, oi);
+		return Math.max(imax, super.calcurateMaxIdentifierRefSize());
+	}
+
+	private int calcurateMaxOriginalIdentifierRefSize() {
+		int i = 0;
+		for (IdentifierRef ir : originalReusedIdentifier.getIdentifires()) {
+			i = Math.max(ir.getName().length(), i);
+		}
+		return i;
+	}
+
 }

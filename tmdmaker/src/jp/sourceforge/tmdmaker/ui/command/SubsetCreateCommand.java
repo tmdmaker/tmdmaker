@@ -89,7 +89,9 @@ public class SubsetCreateCommand extends Command {
 	public void undo() {
 		subsetType2subsetEntityRelationship.disconnect();
 		diagram.removeChild(subsetEntity);
-		model2subsetTypeRelationship.disconnect();
+		if (subsetType.getModelTargetConnections().size() == 0) {
+			model2subsetTypeRelationship.disconnect();
+		}
 	}
 
 }
