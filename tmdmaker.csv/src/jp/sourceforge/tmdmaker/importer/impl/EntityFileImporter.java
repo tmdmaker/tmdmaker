@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.importer.FileImporter;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Constraint;
@@ -33,6 +32,7 @@ import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
+import jp.sourceforge.tmdmaker.model.importer.FileImporter;
 import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
 import au.com.bytecode.opencsv.CSVReader;
@@ -48,7 +48,7 @@ public class EntityFileImporter implements FileImporter {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.importer.FileImporter#getImporterName()
+	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#getImporterName()
 	 */
 	@Override
 	public String getImporterName() {
@@ -58,7 +58,7 @@ public class EntityFileImporter implements FileImporter {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.importer.FileImporter#importEntities(java.lang.String)
+	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#importEntities(java.lang.String)
 	 */
 	@Override
 	public List<AbstractEntityModel> importEntities(String filePath)

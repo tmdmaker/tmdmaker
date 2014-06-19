@@ -36,13 +36,13 @@ import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
+import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.extension.SerializerFactory;
-import jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter;
-import jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Version;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
+import jp.sourceforge.tmdmaker.model.importer.FileImporter;
 import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
 import jp.sourceforge.tmdmaker.model.persistence.Serializer;
 import jp.sourceforge.tmdmaker.ruler.TMDRulerProvider;
@@ -571,11 +571,12 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		action = new CommonAttributeSettingAction(viewer);
 		registry.registerAction(action);
 
-		action = new FileImportAction(viewer, new EntityFileImporter());
-		registry.registerAction(action);
-
-		action = new FileImportAction(viewer, new AttributeFileImporter());
-		registry.registerAction(action);
+		PluginExtensionPointFactory<FileImporter> fileImportFactory = new PluginExtensionPointFactory<FileImporter>(
+				TMDPlugin.IMPORTER_PLUGIN_ID);
+		for (FileImporter importer : fileImportFactory.getInstances()) {
+			FileImportAction act = new FileImportAction(viewer , importer);
+			registry.registerAction(act);
+		}
 
 		action = new ToggleGridAction(viewer);
 		registry.registerAction(action);
@@ -654,7 +655,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	}
 
 	public void updateVisuals() {
-		List editParts = getGraphicalViewer().getRootEditPart().getChildren();
+		List<?> editParts = getGraphicalViewer().getRootEditPart().getChildren();
 		
 		for (Object o: editParts) {
 			logger.debug(o.getClass().getName());

@@ -8,6 +8,7 @@ Bundle-Vendor: TMD-Maker Project
 Export-Package: jp.sourceforge.tmdmaker.model,
  jp.sourceforge.tmdmaker.model.dialect,
  jp.sourceforge.tmdmaker.model.generate,
+ jp.sourceforge.tmdmaker.model.importer,
  jp.sourceforge.tmdmaker.model.persistence,
  jp.sourceforge.tmdmaker.model.rule,
  jp.sourceforge.tmdmaker.model.util

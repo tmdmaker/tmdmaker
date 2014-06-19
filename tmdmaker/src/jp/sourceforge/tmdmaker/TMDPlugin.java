@@ -52,6 +52,7 @@ public class TMDPlugin extends AbstractUIPlugin {
 
 	/** The plug-in ID */
 	public static final String PLUGIN_ID = "tmdmaker";
+	public static final String IMPORTER_PLUGIN_ID = "tmdmaker.importers";
 
 	/** The shared instance */
 	private static TMDPlugin plugin;

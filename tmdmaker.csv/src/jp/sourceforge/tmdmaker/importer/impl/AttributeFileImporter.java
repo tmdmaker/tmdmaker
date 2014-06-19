@@ -22,9 +22,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.importer.FileImporter;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.importer.FileImporter;
 import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -39,7 +39,7 @@ public class AttributeFileImporter implements FileImporter {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.importer.FileImporter#importEntities(java.lang.String)
+	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#importEntities(java.lang.String)
 	 */
 	@Override
 	public List<AbstractEntityModel> importEntities(String filePath)
@@ -65,7 +65,7 @@ public class AttributeFileImporter implements FileImporter {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.importer.FileImporter#getImporterName()
+	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#getImporterName()
 	 */
 	@Override
 	public String getImporterName() {

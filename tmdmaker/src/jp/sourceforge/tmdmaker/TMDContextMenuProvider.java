@@ -26,9 +26,9 @@ import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
-import jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter;
-import jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter;
+import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
+import jp.sourceforge.tmdmaker.model.importer.FileImporter;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -108,14 +108,17 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 
 		menu.add(new Separator("generate"));
 		menu.add(registry.getAction(DiagramImageGenerateAction.ID));
-		
+
 		for (Generator generator : GeneratorFactory.getGenerators()) {
 			menu.add(registry.getAction(generator.getClass().getName()));
 		}
 
 		menu.add(new Separator("importer"));
-		menu.add(registry.getAction(EntityFileImporter.class.getName()));
-		menu.add(registry.getAction(AttributeFileImporter.class.getName()));
+		PluginExtensionPointFactory<FileImporter> fileImportFactory = new PluginExtensionPointFactory<FileImporter>(
+				TMDPlugin.IMPORTER_PLUGIN_ID);
+		for (FileImporter importer : fileImportFactory.getInstances()) {
+			menu.add(registry.getAction(importer.getClass().getName()));
+		}
 	}
 
 }
