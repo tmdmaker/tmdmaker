@@ -97,6 +97,7 @@ import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.gef.ui.rulers.RulerComposite;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -116,6 +117,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.osgi.framework.Bundle;
@@ -593,15 +595,16 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		action = new ToggleSnapToGeometryAction(viewer);
 		getActionRegistry().registerAction(action);
 
+		// zoom（キーバインディングとマウスホイールも）
+		// FIXME:ZoomINのキーバインディングに不具合あり 
+		IHandlerService service = (IHandlerService) getSite().getService(IHandlerService.class);
 		action = new ZoomInAction(rootEditPart.getZoomManager());
 		getActionRegistry().registerAction(action);
-		// TODO: deprecatedの解消
-		getSite().getKeyBindingService().registerAction(action);
-		
+		service.activateHandler(action.getActionDefinitionId()	, new ActionHandler(action));
+
 		action = new ZoomOutAction(rootEditPart.getZoomManager());
 		getActionRegistry().registerAction(action);
-		// TODO: deprecatedの解消
-		getSite().getKeyBindingService().registerAction(action);
+		service.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
 		
 		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
 		
