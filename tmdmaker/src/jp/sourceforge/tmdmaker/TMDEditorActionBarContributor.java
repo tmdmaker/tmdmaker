@@ -26,6 +26,8 @@ import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
+import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
+import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -91,6 +93,9 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 		autoSizeAction.setImageDescriptor(TMDPlugin
 				.getImageDescriptor("icons/autosize.gif"));
 		addRetargetAction(autoSizeAction);
+		
+		addRetargetAction(new ZoomInRetargetAction());
+		addRetargetAction(new ZoomOutRetargetAction());
 	}
 
 	/**
@@ -142,6 +147,9 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 		toolBarManager.add(registry.getAction(AutoSizeSettingAction.ID));
 		
 		toolBarManager.add(new ZoomComboContributionItem(getPage()));
+		
+		toolBarManager.add(getAction(GEFActionConstants.ZOOM_IN));
+		toolBarManager.add(getAction(GEFActionConstants.ZOOM_OUT));
 	}
-
+	
 }

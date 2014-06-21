@@ -67,6 +67,8 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.MouseWheelHandler;
+import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
@@ -87,6 +89,8 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.actions.ToggleGridAction;
 import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
+import org.eclipse.gef.ui.actions.ZoomInAction;
+import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
@@ -543,7 +547,8 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		logger.debug("configureGraphicalViewer() called");
 		super.configureGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setRootEditPart(new ScalableFreeformRootEditPart());
+		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
+		viewer.setRootEditPart(rootEditPart);
 		viewer.setEditPartFactory(new TMDEditPartFactory());
 
 		ContextMenuProvider provider = new TMDContextMenuProvider(viewer,
@@ -588,6 +593,18 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		action = new ToggleSnapToGeometryAction(viewer);
 		getActionRegistry().registerAction(action);
 
+		action = new ZoomInAction(rootEditPart.getZoomManager());
+		getActionRegistry().registerAction(action);
+		// TODO: deprecatedの解消
+		getSite().getKeyBindingService().registerAction(action);
+		
+		action = new ZoomOutAction(rootEditPart.getZoomManager());
+		getActionRegistry().registerAction(action);
+		// TODO: deprecatedの解消
+		getSite().getKeyBindingService().registerAction(action);
+		
+		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
+		
 		loadProperties();
 	}
 
