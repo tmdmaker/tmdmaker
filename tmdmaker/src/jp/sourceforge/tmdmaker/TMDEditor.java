@@ -70,6 +70,7 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -622,6 +623,9 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class type) {
 		if (type == IContentOutlinePage.class) {
 			return new TMDContentOutlinePage();
+		}
+		if (type == ZoomManager.class) {
+			return getGraphicalViewer().getProperty(ZoomManager.class.toString());
 		}
 		return super.getAdapter(type);
 	}

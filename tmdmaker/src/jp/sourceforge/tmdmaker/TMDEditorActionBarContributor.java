@@ -25,6 +25,7 @@ import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
+import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -139,6 +140,8 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 				.getAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
 
 		toolBarManager.add(registry.getAction(AutoSizeSettingAction.ID));
+		
+		toolBarManager.add(new ZoomComboContributionItem(getPage()));
 	}
 
 }
