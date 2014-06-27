@@ -449,4 +449,27 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		return ax;
 	}
 
+	/**
+	 * HDR-DTLか？
+	 * 
+	 * @return HDR-DTLの場合にtrueを返す。
+	 */
+	public boolean isHeaderDetail() {
+		Header2DetailRelationship r = getHeader2DetailRelationship();
+		return r != null;
+	}
+
+	/**
+	 * HDR-DTL間のリレーションシップを取得する。
+	 * 
+	 * @return HDR-DTLリレーションシップ
+	 */
+	public Header2DetailRelationship getHeader2DetailRelationship() {
+		for (AbstractConnectionModel c : getModelSourceConnections()) {
+			if (c instanceof Header2DetailRelationship) {
+				return (Header2DetailRelationship) c;
+			}
+		}
+		return null;
+	}
 }

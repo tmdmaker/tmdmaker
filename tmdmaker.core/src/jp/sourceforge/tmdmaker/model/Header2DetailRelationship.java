@@ -24,8 +24,7 @@ import jp.sourceforge.tmdmaker.model.rule.MultivalueRule;
  * 
  */
 @SuppressWarnings("serial")
-public class Header2DetailRelationship extends
-		TransfarReuseKeysToTargetRelationship {
+public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelationship {
 	/** 概念的 スーパーセット */
 	private MultivalueAndSuperset superset;
 
@@ -76,12 +75,19 @@ public class Header2DetailRelationship extends
 	@Override
 	public void connect() {
 		super.connect();
+		connectSuperset();
+		getSource().setName(newHeaderName);
+	}
+
+	/**
+	 * スーパーセットを接続して表示する。
+	 */
+	public void connectSuperset() {
 		getSource().getDiagram().addChild(superset);
 		getSource().getDiagram().addChild(aggregator);
 		superset2aggregator.connect();
 		header2aggregator.connect();
 		detail2aggregator.connect();
-		getSource().setName(newHeaderName);
 	}
 
 	/**
@@ -92,12 +98,28 @@ public class Header2DetailRelationship extends
 	@Override
 	public void disconnect() {
 		getSource().setName(oldHeaderName);
+		disconnectSuperset();
+		super.disconnect();
+	}
+
+	/**
+	 * スーパーセットの接続を解除し、非表示にする。
+	 */
+	public void disconnectSuperset() {
 		detail2aggregator.disconnect();
 		header2aggregator.disconnect();
 		superset2aggregator.disconnect();
 		getSource().getDiagram().removeChild(aggregator);
 		getSource().getDiagram().removeChild(superset);
-		super.disconnect();
+	}
+
+	/**
+	 * スーパーセットが接続されているか？
+	 * 
+	 * @return スーパーセットが接続されている場合にtrueを返す。
+	 */
+	public boolean isSupersetConnected() {
+		return header2aggregator.isConnected();
 	}
 
 	/**

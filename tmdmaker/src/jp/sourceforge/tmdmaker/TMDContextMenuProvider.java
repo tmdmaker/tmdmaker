@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
 import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
@@ -94,6 +96,8 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		MenuManager multivalueMenu = new MenuManager("データ の多値");
 		multivalueMenu.add(registry.getAction(MultivalueOrCreateAction.ID));
 		multivalueMenu.add(registry.getAction(MultivalueAndCreateAction.ID));
+		multivalueMenu.add(registry.getAction(MultivalueAndSupersetHideAction.ID));
+		multivalueMenu.add(registry.getAction(MultivalueAndSupersetShowAction.ID));
 		menu.add(multivalueMenu);
 
 		MenuManager tmdashMenu = new MenuManager("みなし概念(TM')");

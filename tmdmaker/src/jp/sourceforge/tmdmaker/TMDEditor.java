@@ -27,6 +27,8 @@ import jp.sourceforge.tmdmaker.action.FileImportAction;
 import jp.sourceforge.tmdmaker.action.GenerateAction;
 import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
@@ -529,6 +531,15 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		action = new AutoSizeSettingAction(this);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
+		
+		action = new MultivalueAndSupersetHideAction(this);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
+		action = new MultivalueAndSupersetShowAction(this);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
 	}
 
 	private void setupSelectionAction(ActionRegistry registry,

@@ -176,4 +176,14 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 		this.targetYp = targetYp;
 		firePropertyChange(PROPERTY_CONNECTION, null, null);
 	}
+
+	/**
+	 * 接続済みか？
+	 * 
+	 * @return 接続済みの場合にtrueを返す。
+	 */
+	public boolean isConnected() {
+		return source != null && source.getModelSourceConnections().contains(this)
+				&& target != null && target.getModelTargetConnections().contains(this);
+	}
 }
