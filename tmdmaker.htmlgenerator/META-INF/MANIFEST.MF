@@ -15,7 +15,7 @@ Bundle-ClassPath: .,
  lib/commons-collections-3.2.1.jar,
  lib/commons-lang-2.4.jar,
  lib/velocity-1.7.jar,
- lib/jcl-over-slf4j-1.7.6.jar,
- lib/slf4j-api-1.7.6.jar,
- lib/slf4j-simple-1.7.6.jar
+ lib/jcl-over-slf4j-1.7.7.jar,
+ lib/slf4j-api-1.7.7.jar,
+ lib/slf4j-simple-1.7.7.jar
 Bundle-Vendor: TMD-Maker Project

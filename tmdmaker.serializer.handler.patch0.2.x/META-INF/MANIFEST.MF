@@ -11,5 +11,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
 Bundle-ClassPath: .,
- lib/slf4j-api-1.7.6.jar,
- lib/slf4j-simple-1.7.6.jar
+ lib/slf4j-api-1.7.7.jar,
+ lib/slf4j-simple-1.7.7.jar

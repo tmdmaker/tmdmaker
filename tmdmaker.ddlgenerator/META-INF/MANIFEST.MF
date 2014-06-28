@@ -19,9 +19,9 @@ Bundle-ClassPath: .,
  lib/stax-api-1.0.1.jar,
  lib/wstx-asl-3.0.2.jar,
  lib/ddlutils-1.1.jar,
- lib/jcl-over-slf4j-1.7.6.jar,
- lib/slf4j-api-1.7.6.jar,
- lib/slf4j-simple-1.7.6.jar
+ lib/jcl-over-slf4j-1.7.7.jar,
+ lib/slf4j-api-1.7.7.jar,
+ lib/slf4j-simple-1.7.7.jar
 Export-Package: jp.sourceforge.tmdmaker.dialect,
  jp.sourceforge.tmdmaker.generate
 Bundle-Vendor: TMD-Maker Project
