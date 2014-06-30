@@ -61,16 +61,18 @@ public class EntityFileImporter implements FileImporter {
 	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#importEntities(java.lang.String)
 	 */
 	@Override
-	public List<AbstractEntityModel> importEntities(String filePath)
-			throws FileNotFoundException, IOException {
-		CSVReader reader = new CSVReader(new BufferedReader(new FileReader(
-				filePath)));
+	public List<AbstractEntityModel> importEntities(String filePath) throws FileNotFoundException,
+			IOException {
+		CSVReader reader = new CSVReader(new BufferedReader(new FileReader(filePath)));
 		String[] nextLine;
 		AbstractEntityModel l = null;
 		Map<String, AbstractEntityModel> s = new HashMap<String, AbstractEntityModel>();
 		while ((nextLine = reader.readNext()) != null) {
 			String entityName = nextLine[0];
-			String attributeName = nextLine[1];
+			String attributeName = "";
+			if (nextLine.length >= 2) {
+				attributeName = nextLine[1];
+			}
 			if (l == null) {
 				System.out.println("l is null.");
 				l = createLaputa(s, entityName);
@@ -88,7 +90,7 @@ public class EntityFileImporter implements FileImporter {
 			l.addAttribute(new Attribute(attributeName));
 		}
 		reader.close();
-		
+
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Map.Entry<String, AbstractEntityModel> entry : s.entrySet()) {
 			list.add(convertEntityIfPossible(entry.getValue()));
@@ -96,8 +98,7 @@ public class EntityFileImporter implements FileImporter {
 		return list;
 	}
 
-	private AbstractEntityModel convertEntityIfPossible(
-			AbstractEntityModel model) {
+	private AbstractEntityModel convertEntityIfPossible(AbstractEntityModel model) {
 		String entityName = model.getName();
 		List<IAttribute> identifierCandidates = new ArrayList<IAttribute>();
 
@@ -125,8 +126,7 @@ public class EntityFileImporter implements FileImporter {
 		return model;
 	}
 
-	private Laputa createLaputa(Map<String, AbstractEntityModel> s,
-			String entityName) {
+	private Laputa createLaputa(Map<String, AbstractEntityModel> s, String entityName) {
 		Laputa l = EntityRecognitionRule.getInstance().createLaputa(entityName);
 		// EntityRecognitionRule.createEntity(entityName, identifier,
 		// entityType)
