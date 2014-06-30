@@ -2,7 +2,7 @@
 <feature
       id="tmdmaker"
       label="TMD-Maker Plug-in"
-      version="0.2.8.qualifier"
+      version="0.2.9.qualifier"
       provider-name="TMD-Maker Project"
       plugin="tmdmaker">
 
@@ -26,11 +26,12 @@
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="tmdmaker.imagegenerator" version="0.2.6" match="greaterOrEqual"/>
+      <import plugin="tmdmaker.core" version="0.2.9" match="greaterOrEqual"/>
       <import plugin="org.eclipse.draw2d"/>
-      <import plugin="tmdmaker" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="tmdmaker" version="0.2.8" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.expressions"/>
       <import plugin="tmdmaker.ddlgenerator" version="0.2.5" match="greaterOrEqual"/>
       <import plugin="tmdmaker.htmlgenerator" version="0.2.5" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.expressions"/>
    </requires>
 
    <plugin
