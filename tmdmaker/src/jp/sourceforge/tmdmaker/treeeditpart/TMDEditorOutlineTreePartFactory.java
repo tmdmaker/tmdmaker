@@ -3,8 +3,9 @@ package jp.sourceforge.tmdmaker.treeeditpart;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.Detail;
+import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
@@ -39,9 +40,13 @@ public class TMDEditorOutlineTreePartFactory implements EditPartFactory {
 			logger.debug("モデル Diagram 用の EditPart を返しました");
 			part = new DiagramTreeEditPart();
 		}else if (model instanceof Entity) {
-			logger.debug("モデルAbstractEntityModel 用の EditPart を返しました");
+			logger.debug("モデルEntity 用の EditPart を返しました");
 			logger.debug(((Entity)model).getName());
 			part = new EntityTreeEditPart();
+		}else if (model instanceof Detail) {
+			logger.debug("モデルDetail 用の EditPart を返しました");
+			logger.debug(((Detail)model).getName());
+			part = new DetailTreeEditPart();
 		}else if (model instanceof AbstractEntityModel) {
 			logger.debug("モデルAbstractEntityModel 用の EditPart を返しました");
 			logger.debug(((AbstractEntityModel)model).getName());
