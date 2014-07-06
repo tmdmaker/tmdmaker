@@ -52,6 +52,7 @@ import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
 import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
 import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
 import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
+import jp.sourceforge.tmdmaker.treeeditpart.TMDEditorOutlineTreePartFactory;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -67,12 +68,12 @@ import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.SnapToGeometry;
-import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -142,12 +143,14 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	 * 
 	 */
 	private class TMDContentOutlinePage extends ContentOutlinePage {
+		private final TMDEditor tmdEditor;
 		private SashForm sash;
 		private ScrollableThumbnail thumbnail;
 		private DisposeListener disposeListener;
 
-		public TMDContentOutlinePage() {
+		public TMDContentOutlinePage(TMDEditor tmdEditor) {
 			super(new TreeViewer());
+			this.tmdEditor = tmdEditor; 
 		}
 
 		/**
@@ -161,16 +164,26 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 			Canvas canvas = new Canvas(sash, SWT.BORDER);
 			LightweightSystem lws = new LightweightSystem(canvas);
-			thumbnail = new ScrollableThumbnail(
-					(Viewport) ((FreeformGraphicalRootEditPart) getGraphicalViewer()
-							.getRootEditPart()).getFigure());
-			thumbnail
-					.setSource(((FreeformGraphicalRootEditPart) getGraphicalViewer()
-							.getRootEditPart())
-							.getLayer(LayerConstants.PRINTABLE_LAYERS));
+			
+			ScalableFreeformRootEditPart root = tmdEditor.getScalableRootEditPart();
+			
+			thumbnail = new ScrollableThumbnail((Viewport) root.getFigure());
+			thumbnail.setSource(root.getLayer(LayerConstants.PRINTABLE_LAYERS));
 
 			lws.setContents(thumbnail);
 
+			// tree
+			logger.debug("ツリー設定開始!!!");
+			EditPartViewer viewer = getViewer();
+			viewer.createControl(sash);
+			viewer.setEditDomain(tmdEditor.getEditDomain());
+			viewer.setEditPartFactory(new TMDEditorOutlineTreePartFactory());
+			viewer.setContents(tmdEditor.getRootModel());
+			
+			tmdEditor.addSelectionSynchronizerViewer(viewer);
+
+			sash.setWeights(new int[] { 3, 7 });
+			
 			disposeListener = new DisposeListener() {
 
 				@Override
@@ -181,8 +194,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 					}
 				}
 			};
-			getGraphicalViewer().getControl().addDisposeListener(
-					disposeListener);
+			getGraphicalViewer().getControl().addDisposeListener(disposeListener);
 
 		}
 
@@ -653,7 +665,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class type) {
 		if (type == IContentOutlinePage.class) {
-			return new TMDContentOutlinePage();
+			return new TMDContentOutlinePage(this);
 		}
 		if (type == ZoomManager.class) {
 			return getGraphicalViewer().getProperty(ZoomManager.class.toString());
@@ -705,4 +717,24 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 			}
 		}
 	}
+	
+	public Diagram getRootModel() {
+		GraphicalViewer viewer = getGraphicalViewer();
+		Diagram model = (Diagram) viewer.getContents().getModel();
+		//Diagram model = ((DiagramEditPart) viewer.getContents()).getModel();
+		return model;
+	}
+
+	public ScalableFreeformRootEditPart getScalableRootEditPart() {
+		return (ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart();
+	}
+
+	@Override
+	public DefaultEditDomain getEditDomain() {
+		return super.getEditDomain();
+	}
+
+	public void addSelectionSynchronizerViewer(EditPartViewer viewer) {
+		getSelectionSynchronizer().addViewer(viewer);
+	}	
 }
