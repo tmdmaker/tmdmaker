@@ -5,13 +5,12 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 
-import org.slf4j.LoggerFactory;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
+import org.slf4j.LoggerFactory;
 
 public class KeyModelTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener {
 	

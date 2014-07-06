@@ -9,7 +9,6 @@ import jp.sourceforge.tmdmaker.model.ModelElement;
 
 import org.eclipse.swt.graphics.Image;
 import org.slf4j.LoggerFactory;
-import org.eclipse.gef.editparts.AbstractTreeEditPart;
 
 public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart implements PropertyChangeListener {
 	
