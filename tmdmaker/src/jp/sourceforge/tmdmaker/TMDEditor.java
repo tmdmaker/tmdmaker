@@ -47,6 +47,7 @@ import jp.sourceforge.tmdmaker.model.generate.Generator;
 import jp.sourceforge.tmdmaker.model.importer.FileImporter;
 import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
 import jp.sourceforge.tmdmaker.model.persistence.Serializer;
+import jp.sourceforge.tmdmaker.property.TMDEditorPropertySourceProvider;
 import jp.sourceforge.tmdmaker.ruler.TMDRulerProvider;
 import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
 import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
@@ -123,6 +124,10 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertySheetEntry;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheetSorter;
 import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -225,7 +230,25 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		}
 
 	}
-
+	
+	/**
+	 * 
+	 * プロパティページ (プロパティ名はデフォルトでは名前順でソートされるので、抑止のためにサブクラスを作成)
+	 * 
+	 * @author tohosaku
+	 *
+	 */
+	private class TMDPropertySheetPage extends PropertySheetPage {
+		private class TMDPropertySheetSorter extends PropertySheetSorter {
+			public void sort(IPropertySheetEntry[] entries) {
+			}
+		}
+		public TMDPropertySheetPage(){
+		    super();
+		    this.setSorter(new TMDPropertySheetSorter());
+		}
+	}
+	
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 	private RulerComposite rulerComp;
@@ -258,6 +281,10 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	// protected Control getGraphicalControl() {
 	// return rulerComp;
 	// }
+	
+	public GraphicalViewer getViewer(){
+		return getGraphicalViewer();
+	}
 
 	/**
 	 * 
@@ -669,6 +696,11 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		}
 		if (type == ZoomManager.class) {
 			return getGraphicalViewer().getProperty(ZoomManager.class.toString());
+		}
+		if (type == IPropertySheetPage.class) {
+			TMDPropertySheetPage propertySheetPage = new TMDPropertySheetPage();
+			propertySheetPage.setPropertySourceProvider(new TMDEditorPropertySourceProvider(this));
+			return propertySheetPage;
 		}
 		return super.getAdapter(type);
 	}
