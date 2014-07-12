@@ -175,6 +175,14 @@
                relationship="right"
                visible="true">
          </view>
+         <view
+               closeable="false"
+               id="org.eclipse.ui.views.PropertySheet"
+               minimized="false"
+               ratio="0.7"
+               relationship="bottom"
+               visible="true">
+         </view>
       </perspectiveExtension>
    </extension>
 

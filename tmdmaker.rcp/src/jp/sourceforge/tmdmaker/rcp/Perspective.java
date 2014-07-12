@@ -43,5 +43,9 @@ public class Perspective implements IPerspectiveFactory {
 		layout.addView(IPageLayout.ID_OUTLINE, IPageLayout.RIGHT, 0.7f,
 				editorArea);
 		layout.getViewLayout(IPageLayout.ID_OUTLINE).setCloseable(false);
+		layout.addView(IPageLayout.ID_PROP_SHEET, IPageLayout.BOTTOM, 0.7f, editorArea);
+		layout.getViewLayout(IPageLayout.ID_PROP_SHEET).setCloseable(false);
+//		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
+		
 	}
 }
