@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009,2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
 import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
+import jp.sourceforge.tmdmaker.action.CopyModelAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
 import jp.sourceforge.tmdmaker.action.FileImportAction;
@@ -30,6 +31,7 @@ import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
+import jp.sourceforge.tmdmaker.action.PasteModelAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
@@ -534,6 +536,14 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		selectionAction = new ImplementInfoEditAction(this);
 		setupSelectionAction(registry, selectionActions, selectionAction);
 
+		selectionAction = new CopyModelAction(this);
+		registry.registerAction(selectionAction);
+		selectionActions.add(selectionAction.getId());
+
+		selectionAction = new PasteModelAction(this);
+		registry.registerAction(selectionAction);
+		selectionActions.add(selectionAction.getId());
+		
 		IAction action = null;
 		// 水平方向の整列アクション
 		action = new AlignmentAction((IWorkbenchPart) this,

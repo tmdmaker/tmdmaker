@@ -40,8 +40,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 * @param originalReusedIdentifier
 	 *            the originalReusedIdentifier to set
 	 */
-	public void setOriginalReusedIdentifier(
-			ReusedIdentifier originalReusedIdentifier) {
+	public void setOriginalReusedIdentifier(ReusedIdentifier originalReusedIdentifier) {
 		this.originalReusedIdentifier = originalReusedIdentifier;
 	}
 
@@ -79,8 +78,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		ReusedIdentifier returnValue = new ReusedIdentifier(
-				keyModels.getSarogateKey());
+		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
 
 		return returnValue;
@@ -114,8 +112,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 * @return 派生元モデル
 	 */
 	public AbstractEntityModel getRealEntity() {
-		return (AbstractEntityModel) getModelTargetConnections().get(0)
-				.getSource();
+		return (AbstractEntityModel) getModelTargetConnections().get(0).getSource();
 	}
 
 	/**
@@ -125,7 +122,9 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public void copyTo(AbstractEntityModel to) {
-		((VirtualEntity) to).setVirtualEntityType(getVirtualEntityType());
+		if (to instanceof VirtualEntity) {
+			((VirtualEntity) to).setVirtualEntityType(getVirtualEntityType());
+		}
 		super.copyTo(to);
 	}
 }

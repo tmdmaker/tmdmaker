@@ -66,8 +66,7 @@ public class CombinationTable extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return getModelSourceConnections().size() == 0
-				&& getModelTargetConnections().size() == 1;
+		return getModelSourceConnections().size() == 0 && getModelTargetConnections().size() == 1;
 	}
 
 	/**
@@ -92,8 +91,7 @@ public class CombinationTable extends AbstractEntityModel {
 	 * @param combinationTableType
 	 *            the combinationTableType to set
 	 */
-	public void setCombinationTableType(
-			CombinationTableType combinationTableType) {
+	public void setCombinationTableType(CombinationTableType combinationTableType) {
 		this.combinationTableType = combinationTableType;
 	}
 
@@ -116,8 +114,10 @@ public class CombinationTable extends AbstractEntityModel {
 	 */
 	@Override
 	public void copyTo(AbstractEntityModel to) {
-		((CombinationTable)to).setCombinationTableType(getCombinationTableType());
+		if (to instanceof CombinationTable) {
+			((CombinationTable) to).setCombinationTableType(getCombinationTableType());
+		}
 		super.copyTo(to);
 	}
-	
+
 }

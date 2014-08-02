@@ -383,6 +383,43 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
+	 * 引数で渡されたモデルへ自身の値をコピーする。アトリビュートもコピーする。
+	 * 
+	 * @param to
+	 *            値を設定するモデル
+	 */
+	public void copyWithAttributesTo(AbstractEntityModel to) {
+		copyTo(to);
+		to.setAttributes(getCopyAttributes());
+	}
+
+	/**
+	 * attributeをコピーしたリストを作成する。
+	 * 
+	 * @return コピーしたアトリビュート
+	 */
+	private List<IAttribute> getCopyAttributes() {
+		List<IAttribute> copies = new ArrayList<IAttribute>(getAttributes().size());
+		for (IAttribute a : getAttributes()) {
+			IAttribute copy = new Attribute();
+			copy.copyFrom(a);
+			copies.add(copy);
+		}
+		return copies;
+	}
+
+	/**
+	 * 自身のコピーを作成する。deepコピー。
+	 * 
+	 * @return 自身のコピー
+	 */
+	public AbstractEntityModel getCopyWithAttributes() {
+		AbstractEntityModel model = getCopy();
+		model.setAttributes(getCopyAttributes());
+		return model;
+	}
+
+	/**
 	 * @return the implementDerivationModels
 	 */
 	public List<AbstractEntityModel> getImplementDerivationModels() {
@@ -400,6 +437,11 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		this.implementDerivationModels = implementDerivationModels;
 	}
 
+	/**
+	 * 自身のコピーを作成する。shallowコピー。
+	 * 
+	 * @return 自身のコピー
+	 */
 	public abstract AbstractEntityModel getCopy();
 
 	/**

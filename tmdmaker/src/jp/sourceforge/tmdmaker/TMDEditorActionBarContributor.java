@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009,2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
@@ -67,35 +68,31 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.TOP));
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.MIDDLE));
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.BOTTOM));
-		RetargetAction gridAction = new RetargetAction(
-				GEFActionConstants.TOGGLE_GRID_VISIBILITY, "&Grid",
-				IAction.AS_CHECK_BOX);
-		gridAction.setImageDescriptor(TMDPlugin
-				.getImageDescriptor("icons/grid.gif"));
+		RetargetAction gridAction = new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY,
+				"&Grid", IAction.AS_CHECK_BOX);
+		gridAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/grid.gif"));
 		addRetargetAction(gridAction);
 
-		RetargetAction rulerAction = new RetargetAction(
-				GEFActionConstants.TOGGLE_RULER_VISIBILITY, "&Rulers",
-				IAction.AS_CHECK_BOX);
-		rulerAction.setImageDescriptor(TMDPlugin
-				.getImageDescriptor("icons/ruler.gif"));
+		RetargetAction rulerAction = new RetargetAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY,
+				"&Rulers", IAction.AS_CHECK_BOX);
+		rulerAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/ruler.gif"));
 		addRetargetAction(rulerAction);
 
-		RetargetAction snapAction = new RetargetAction(
-				GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY,
+		RetargetAction snapAction = new RetargetAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY,
 				"Snap to Geo&metry", IAction.AS_CHECK_BOX);
-		snapAction.setImageDescriptor(TMDPlugin
-				.getImageDescriptor("icons/snap.gif"));
+		snapAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/snap.gif"));
 		addRetargetAction(snapAction);
 
-		RetargetAction autoSizeAction = new RetargetAction(
-				AutoSizeSettingAction.ID, "&AutoSize");
-		autoSizeAction.setImageDescriptor(TMDPlugin
-				.getImageDescriptor("icons/autosize.gif"));
+		RetargetAction autoSizeAction = new RetargetAction(AutoSizeSettingAction.ID, "&AutoSize");
+		autoSizeAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/autosize.gif"));
 		addRetargetAction(autoSizeAction);
-		
+
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
+
+		IWorkbenchWindow iww = getPage().getWorkbenchWindow();
+		addRetargetAction((RetargetAction) ActionFactory.COPY.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.PASTE.create(iww));
 	}
 
 	/**
@@ -135,21 +132,21 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 		toolBarManager.add(registry.getAction(GEFActionConstants.ALIGN_BOTTOM));
 
 		toolBarManager.add(new Separator());
-		toolBarManager.add(registry
-				.getAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY));
+		toolBarManager.add(registry.getAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY));
 
-		toolBarManager.add(registry
-				.getAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY));
+		toolBarManager.add(registry.getAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY));
 
-		toolBarManager.add(registry
-				.getAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
+		toolBarManager.add(registry.getAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
 
 		toolBarManager.add(registry.getAction(AutoSizeSettingAction.ID));
-		
+
 		toolBarManager.add(new ZoomComboContributionItem(getPage()));
-		
+
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_IN));
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_OUT));
+		
+		toolBarManager.add(getAction(ActionFactory.COPY.getId()));
+		toolBarManager.add(getAction(ActionFactory.PASTE.getId()));
 	}
-	
+
 }
