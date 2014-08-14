@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.FillLayout;
 
 /**
  * エンティティ新規作成ダイアログ
@@ -65,8 +67,15 @@ public class EntityCreateDialog extends Dialog {
 		getShell().setText("エンティティ新規作成");
 
 		Composite composite = new Composite(parent, SWT.NULL);
+		FillLayout fl_composite = new FillLayout(SWT.HORIZONTAL);
+		fl_composite.marginWidth = 5;
+		fl_composite.marginHeight = 5;
+		composite.setLayout(fl_composite);
 
 		panel = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
+		GridLayout gridLayout = (GridLayout) panel.getLayout();
+		gridLayout.marginRight = 5;
+		gridLayout.marginLeft = 5;
 		panel.setEditIdentifier(new EditAttribute());
 		// panel.setInitialFocus();
 

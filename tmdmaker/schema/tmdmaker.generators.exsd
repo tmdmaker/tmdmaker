@@ -65,7 +65,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.generate.Generator"/>
+                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.model.generate.Generator"/>
                </appInfo>
             </annotation>
          </attribute>

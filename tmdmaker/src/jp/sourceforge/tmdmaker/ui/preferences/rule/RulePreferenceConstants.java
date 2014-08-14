@@ -27,4 +27,6 @@ public class RulePreferenceConstants {
 
 	public static final String P_REPORT_SUFFIXES = "reportSuffixesPreference";
 
+	public static final String P_FOREIGN_KEY_ENABLED = "foreignKeyEnablePreference";
+
 }

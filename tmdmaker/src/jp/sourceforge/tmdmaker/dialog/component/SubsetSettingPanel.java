@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,8 +47,8 @@ public class SubsetSettingPanel extends Composite {
 	private TableEditor tableEditor = null;
 	private boolean exceptNull = false;
 	private boolean sameType = false;
-	private List<EditSubsetEntity> deletedSubsetEntityList = new ArrayList<EditSubsetEntity>();  //  @jve:decl-index=0:
-	private List<EditSubsetEntity> subsetEntityList = null;  //  @jve:decl-index=0:
+	private List<EditSubsetEntity> deletedSubsetEntityList = new ArrayList<EditSubsetEntity>(); // @jve:decl-index=0:
+	private List<EditSubsetEntity> subsetEntityList = null; // @jve:decl-index=0:
 	private Label partitionCodeLabel = null;
 	private Combo partitionSelectCombo = null;
 	private Group typeGroup = null;
@@ -60,6 +60,7 @@ public class SubsetSettingPanel extends Composite {
 	private Composite subsetControlComposite = null;
 	private Button newButton = null;
 	private Button deleteButton = null;
+
 	public SubsetSettingPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
@@ -74,11 +75,11 @@ public class SubsetSettingPanel extends Composite {
 		createPartitionSelectCombo();
 		createTypeGroup();
 		createSubsetContainerComposite();
-		this.setSize(new Point(225, 165));
+		this.setSize(new Point(324, 178));
 	}
 
 	/**
-	 * This method initializes partitionSelectCombo	
+	 * This method initializes partitionSelectCombo
 	 *
 	 */
 	private void createPartitionSelectCombo() {
@@ -90,7 +91,7 @@ public class SubsetSettingPanel extends Composite {
 	}
 
 	/**
-	 * This method initializes typeGroup	
+	 * This method initializes typeGroup
 	 *
 	 */
 	private void createTypeGroup() {
@@ -107,36 +108,33 @@ public class SubsetSettingPanel extends Composite {
 		typeGroup.setLayoutData(gridData);
 		sameRadioButton = new Button(typeGroup, SWT.RADIO);
 		sameRadioButton.setText("同一");
-		sameRadioButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						sameType = true;
-						exceptNull = false;
-						nullCheckBox.setSelection(false);
-						nullCheckBox.setEnabled(false);
-					}
-				});
+		sameRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				sameType = true;
+				exceptNull = false;
+				nullCheckBox.setSelection(false);
+				nullCheckBox.setEnabled(false);
+			}
+		});
 		differenceRadioButton = new Button(typeGroup, SWT.RADIO);
 		differenceRadioButton.setText("相違");
-		differenceRadioButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						sameType = false;
-						nullCheckBox.setEnabled(true);
-					}
-				});
+		differenceRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				sameType = false;
+				nullCheckBox.setEnabled(true);
+			}
+		});
 		nullCheckBox = new Button(typeGroup, SWT.CHECK);
 		nullCheckBox.setText("NULLを排除");
-		nullCheckBox
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						exceptNull = !exceptNull;
-					}
-				});
+		nullCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				exceptNull = !exceptNull;
+			}
+		});
 	}
 
 	/**
-	 * This method initializes subsetContainerComposite	
+	 * This method initializes subsetContainerComposite
 	 *
 	 */
 	private void createSubsetContainerComposite() {
@@ -158,7 +156,9 @@ public class SubsetSettingPanel extends Composite {
 		subsetTable.setLinesVisible(true);
 		subsetTable.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
+				System.out.println("widgetSelected()"); // TODO Auto-generated
+														// Event stub
+														// widgetSelected()
 			}
 		});
 		subsetTable.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
@@ -175,6 +175,7 @@ public class SubsetSettingPanel extends Composite {
 				final Text text = new Text(subsetTable, SWT.NONE);
 				text.setText(item.getText(EDIT_COLUMN));
 				text.addFocusListener(new FocusAdapter() {
+					
 
 					/**
 					 * {@inheritDoc}
@@ -184,16 +185,20 @@ public class SubsetSettingPanel extends Composite {
 					@Override
 					public void focusLost(FocusEvent e) {
 						TableItem item = tableEditor.getItem();
-						String editValue = text.getText();
-						if (editValue == null) {
-							editValue = "";
+						if (item != null) {
+							if (item.isDisposed())
+								return;
+							String editValue = text.getText();
+							if (editValue == null) {
+								editValue = "";
+							}
+							item.setText(EDIT_COLUMN, editValue);
+							EditSubsetEntity ese = subsetEntityList.get(selectedIndex);
+							ese.setName(editValue);
 						}
-						item.setText(EDIT_COLUMN, editValue);
-						EditSubsetEntity ese = subsetEntityList.get(selectedIndex);
-						ese.setName(editValue);
 						text.dispose();
 					}
-					
+
 				});
 				text.addModifyListener(new ModifyListener() {
 
@@ -212,15 +217,13 @@ public class SubsetSettingPanel extends Composite {
 						item.setText(EDIT_COLUMN, editValue);
 						EditSubsetEntity ese = subsetEntityList.get(selectedIndex);
 						ese.setName(editValue);
-						
 					}
-					
+
 				});
 				text.selectAll();
 				text.setFocus();
-				
-				tableEditor.setEditor(text, item, EDIT_COLUMN);
 
+					tableEditor.setEditor(text, item, EDIT_COLUMN);
 			}
 		});
 		createSubsetControlComposite();
@@ -235,7 +238,7 @@ public class SubsetSettingPanel extends Composite {
 	}
 
 	/**
-	 * This method initializes subsetControlComposite	
+	 * This method initializes subsetControlComposite
 	 *
 	 */
 	private void createSubsetControlComposite() {
@@ -255,24 +258,25 @@ public class SubsetSettingPanel extends Composite {
 		});
 		deleteButton = new Button(subsetControlComposite, SWT.NONE);
 		deleteButton.setText("削除");
-		deleteButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						if (selectedIndex == -1) {
-							return;
-						}
-						EditSubsetEntity deleted = subsetEntityList.remove(selectedIndex);
-						deletedSubsetEntityList.add(deleted);
-						if (subsetEntityList.size() <= selectedIndex) {
-							selectedIndex--;
-						}
-						updateTable();
-						updateSelection();
-					}
-				});
+		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				if (selectedIndex == -1) {
+					return;
+				}
+				EditSubsetEntity deleted = subsetEntityList.remove(selectedIndex);
+				deletedSubsetEntityList.add(deleted);
+				if (subsetEntityList.size() <= selectedIndex) {
+					selectedIndex--;
+				}
+
+				updateTable();
+				updateSelection();
+			}
+		});
 	}
 
-	public void initializeValue(boolean sameType, boolean exceptNull, List<IAttribute> attributes, List<EditSubsetEntity> subsets, IAttribute selectedAttribute) {
+	public void initializeValue(boolean sameType, boolean exceptNull, List<IAttribute> attributes,
+			List<EditSubsetEntity> subsets, IAttribute selectedAttribute) {
 		this.sameType = sameType;
 		this.exceptNull = exceptNull;
 		if (sameType) {
@@ -294,6 +298,7 @@ public class SubsetSettingPanel extends Composite {
 			item.setText(se.getName());
 		}
 	}
+
 	private void updateTable() {
 		this.subsetTable.removeAll();
 		for (EditSubsetEntity ese : this.subsetEntityList) {
@@ -301,22 +306,28 @@ public class SubsetSettingPanel extends Composite {
 			item.setText(ese.getName());
 		}
 	}
+
 	private void updateSelection() {
 		this.subsetTable.select(selectedIndex);
-	
+
 	}
+
 	public boolean isSameTypeSelected() {
 		return sameType;
 	}
+
 	public int getSelectedPartitionAttributeIndex() {
 		return this.partitionSelectCombo.getSelectionIndex();
 	}
+
 	public List<EditSubsetEntity> getSubsetEntityList() {
 		return this.subsetEntityList;
 	}
+
 	public boolean isExceptNull() {
 		return exceptNull;
 	}
+
 	/**
 	 * @return the deletedSubsetEntityList
 	 */
@@ -324,4 +335,4 @@ public class SubsetSettingPanel extends Composite {
 		return deletedSubsetEntityList;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="0,0"
+} // @jve:decl-index=0:visual-constraint="0,0"

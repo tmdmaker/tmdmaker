@@ -25,10 +25,9 @@ import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
-import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.GraphicalViewer;
@@ -96,14 +95,14 @@ public class GenerateAction extends SelectionAction {
 				// generator.execute(dialog.getSavePath(), diagram);
 				TMDPlugin.showMessageDialog(generator.getGeneratorName()
 						+ " 完了");
-				GeneratorUtils.refreshGenerateResources(savePath);
+				TMDPlugin.refreshGenerateResources(savePath);
 			} catch (Throwable t) {
 				TMDPlugin.showErrorDialog(t);
 			}
 		}
 	}
 	private String getSavePath() {
-		IFile file = GeneratorUtils.getEditFile(getWorkbenchPart());
+		IFile file = TMDPlugin.getEditFile(getWorkbenchPart());
 		return file.getLocation().removeLastSegments(1).toOSString();
 	}
 

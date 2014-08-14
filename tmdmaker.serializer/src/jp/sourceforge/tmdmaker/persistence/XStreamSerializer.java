@@ -23,6 +23,8 @@ import java.io.UnsupportedEncodingException;
 
 import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
+import jp.sourceforge.tmdmaker.model.persistence.Serializer;
 import jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler;
 
 import com.thoughtworks.xstream.XStream;
@@ -44,7 +46,7 @@ public class XStreamSerializer implements Serializer {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.persistent.Serializer#serializeStream(jp.sourceforge.tmdmaker.model.Diagram
+	 * @see jp.sourceforge.tmdmaker.model.persistence.persistent.Serializer#serializeStream(jp.sourceforge.tmdmaker.model.Diagram
 	 *      obj)
 	 */
 	@Override
@@ -97,7 +99,7 @@ public class XStreamSerializer implements Serializer {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.Serializer#deserialize(java.io.InputStream)
+	 * @see jp.sourceforge.tmdmaker.model.persistence.Serializer#deserialize(java.io.InputStream)
 	 */
 	@Override
 	public Diagram deserialize(InputStream in) {

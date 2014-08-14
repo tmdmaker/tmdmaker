@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009,2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,17 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
 import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
+import jp.sourceforge.tmdmaker.action.CopyModelAction;
 import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
 import jp.sourceforge.tmdmaker.action.FileImportAction;
 import jp.sourceforge.tmdmaker.action.GenerateAction;
 import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
+import jp.sourceforge.tmdmaker.action.PasteModelAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
@@ -35,21 +39,23 @@ import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
-import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
-import jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter;
-import jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter;
+import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
+import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
+import jp.sourceforge.tmdmaker.extension.SerializerFactory;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Version;
-import jp.sourceforge.tmdmaker.persistence.SerializationException;
-import jp.sourceforge.tmdmaker.persistence.Serializer;
-import jp.sourceforge.tmdmaker.persistence.SerializerFactory;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
+import jp.sourceforge.tmdmaker.model.importer.FileImporter;
+import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
+import jp.sourceforge.tmdmaker.model.persistence.Serializer;
+import jp.sourceforge.tmdmaker.property.TMDEditorPropertySourceProvider;
 import jp.sourceforge.tmdmaker.ruler.TMDRulerProvider;
 import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
 import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
 import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
 import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
+import jp.sourceforge.tmdmaker.treeeditpart.TMDEditorOutlineTreePartFactory;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -65,11 +71,14 @@ import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.MouseWheelHandler;
+import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.SnapToGeometry;
-import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -86,12 +95,15 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.actions.ToggleGridAction;
 import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
+import org.eclipse.gef.ui.actions.ZoomInAction;
+import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.gef.ui.rulers.RulerComposite;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -111,8 +123,13 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertySheetEntry;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheetSorter;
 import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,12 +150,14 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	 * 
 	 */
 	private class TMDContentOutlinePage extends ContentOutlinePage {
+		private final TMDEditor tmdEditor;
 		private SashForm sash;
 		private ScrollableThumbnail thumbnail;
 		private DisposeListener disposeListener;
 
-		public TMDContentOutlinePage() {
+		public TMDContentOutlinePage(TMDEditor tmdEditor) {
 			super(new TreeViewer());
+			this.tmdEditor = tmdEditor; 
 		}
 
 		/**
@@ -152,16 +171,26 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 			Canvas canvas = new Canvas(sash, SWT.BORDER);
 			LightweightSystem lws = new LightweightSystem(canvas);
-			thumbnail = new ScrollableThumbnail(
-					(Viewport) ((FreeformGraphicalRootEditPart) getGraphicalViewer()
-							.getRootEditPart()).getFigure());
-			thumbnail
-					.setSource(((FreeformGraphicalRootEditPart) getGraphicalViewer()
-							.getRootEditPart())
-							.getLayer(LayerConstants.PRINTABLE_LAYERS));
+			
+			ScalableFreeformRootEditPart root = tmdEditor.getScalableRootEditPart();
+			
+			thumbnail = new ScrollableThumbnail((Viewport) root.getFigure());
+			thumbnail.setSource(root.getLayer(LayerConstants.PRINTABLE_LAYERS));
 
 			lws.setContents(thumbnail);
 
+			// tree
+			logger.debug("ツリー設定開始!!!");
+			EditPartViewer viewer = getViewer();
+			viewer.createControl(sash);
+			viewer.setEditDomain(tmdEditor.getEditDomain());
+			viewer.setEditPartFactory(new TMDEditorOutlineTreePartFactory());
+			viewer.setContents(tmdEditor.getRootModel());
+			
+			tmdEditor.addSelectionSynchronizerViewer(viewer);
+
+			sash.setWeights(new int[] { 3, 7 });
+			
 			disposeListener = new DisposeListener() {
 
 				@Override
@@ -172,8 +201,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 					}
 				}
 			};
-			getGraphicalViewer().getControl().addDisposeListener(
-					disposeListener);
+			getGraphicalViewer().getControl().addDisposeListener(disposeListener);
 
 		}
 
@@ -204,7 +232,25 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		}
 
 	}
-
+	
+	/**
+	 * 
+	 * プロパティページ (プロパティ名はデフォルトでは名前順でソートされるので、抑止のためにサブクラスを作成)
+	 * 
+	 * @author tohosaku
+	 *
+	 */
+	private class TMDPropertySheetPage extends PropertySheetPage {
+		private class TMDPropertySheetSorter extends PropertySheetSorter {
+			public void sort(IPropertySheetEntry[] entries) {
+			}
+		}
+		public TMDPropertySheetPage(){
+		    super();
+		    this.setSorter(new TMDPropertySheetSorter());
+		}
+	}
+	
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 	private RulerComposite rulerComp;
@@ -237,6 +283,10 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	// protected Control getGraphicalControl() {
 	// return rulerComp;
 	// }
+	
+	public GraphicalViewer getViewer(){
+		return getGraphicalViewer();
+	}
 
 	/**
 	 * 
@@ -486,6 +536,14 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		selectionAction = new ImplementInfoEditAction(this);
 		setupSelectionAction(registry, selectionActions, selectionAction);
 
+		selectionAction = new CopyModelAction(this);
+		registry.registerAction(selectionAction);
+		selectionActions.add(selectionAction.getId());
+
+		selectionAction = new PasteModelAction(this);
+		registry.registerAction(selectionAction);
+		selectionActions.add(selectionAction.getId());
+		
 		IAction action = null;
 		// 水平方向の整列アクション
 		action = new AlignmentAction((IWorkbenchPart) this,
@@ -522,6 +580,15 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		action = new AutoSizeSettingAction(this);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
+		
+		action = new MultivalueAndSupersetHideAction(this);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
+		action = new MultivalueAndSupersetShowAction(this);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
 	}
 
 	private void setupSelectionAction(ActionRegistry registry,
@@ -542,7 +609,8 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		logger.debug("configureGraphicalViewer() called");
 		super.configureGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setRootEditPart(new ScalableFreeformRootEditPart());
+		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
+		viewer.setRootEditPart(rootEditPart);
 		viewer.setEditPartFactory(new TMDEditPartFactory());
 
 		ContextMenuProvider provider = new TMDContextMenuProvider(viewer,
@@ -559,7 +627,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
-		for (Generator generator : GeneratorProvider.getGenerators()) {
+		for (Generator generator : GeneratorFactory.getGenerators()) {
 			SelectionAction act = new GenerateAction(this, viewer, generator);
 			registry.registerAction(act);
 			selectionActions.add(act.getId());
@@ -571,11 +639,12 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		action = new CommonAttributeSettingAction(viewer);
 		registry.registerAction(action);
 
-		action = new FileImportAction(viewer, new EntityFileImporter());
-		registry.registerAction(action);
-
-		action = new FileImportAction(viewer, new AttributeFileImporter());
-		registry.registerAction(action);
+		PluginExtensionPointFactory<FileImporter> fileImportFactory = new PluginExtensionPointFactory<FileImporter>(
+				TMDPlugin.IMPORTER_PLUGIN_ID);
+		for (FileImporter importer : fileImportFactory.getInstances()) {
+			FileImportAction act = new FileImportAction(viewer , importer);
+			registry.registerAction(act);
+		}
 
 		action = new ToggleGridAction(viewer);
 		registry.registerAction(action);
@@ -586,6 +655,19 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		action = new ToggleSnapToGeometryAction(viewer);
 		getActionRegistry().registerAction(action);
 
+		// zoom（キーバインディングとマウスホイールも）
+		// FIXME:ZoomINのキーバインディングに不具合あり 
+		IHandlerService service = (IHandlerService) getSite().getService(IHandlerService.class);
+		action = new ZoomInAction(rootEditPart.getZoomManager());
+		getActionRegistry().registerAction(action);
+		service.activateHandler(action.getActionDefinitionId()	, new ActionHandler(action));
+
+		action = new ZoomOutAction(rootEditPart.getZoomManager());
+		getActionRegistry().registerAction(action);
+		service.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
+		
+		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
+		
 		loadProperties();
 	}
 
@@ -620,7 +702,15 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class type) {
 		if (type == IContentOutlinePage.class) {
-			return new TMDContentOutlinePage();
+			return new TMDContentOutlinePage(this);
+		}
+		if (type == ZoomManager.class) {
+			return getGraphicalViewer().getProperty(ZoomManager.class.toString());
+		}
+		if (type == IPropertySheetPage.class) {
+			TMDPropertySheetPage propertySheetPage = new TMDPropertySheetPage();
+			propertySheetPage.setPropertySourceProvider(new TMDEditorPropertySourceProvider(this));
+			return propertySheetPage;
 		}
 		return super.getAdapter(type);
 	}
@@ -654,7 +744,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	}
 
 	public void updateVisuals() {
-		List editParts = getGraphicalViewer().getRootEditPart().getChildren();
+		List<?> editParts = getGraphicalViewer().getRootEditPart().getChildren();
 		
 		for (Object o: editParts) {
 			logger.debug(o.getClass().getName());
@@ -669,4 +759,24 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 			}
 		}
 	}
+	
+	public Diagram getRootModel() {
+		GraphicalViewer viewer = getGraphicalViewer();
+		Diagram model = (Diagram) viewer.getContents().getModel();
+		//Diagram model = ((DiagramEditPart) viewer.getContents()).getModel();
+		return model;
+	}
+
+	public ScalableFreeformRootEditPart getScalableRootEditPart() {
+		return (ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart();
+	}
+
+	@Override
+	public DefaultEditDomain getEditDomain() {
+		return super.getEditDomain();
+	}
+
+	public void addSelectionSynchronizerViewer(EditPartViewer viewer) {
+		getSelectionSynchronizer().addViewer(viewer);
+	}	
 }

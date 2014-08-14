@@ -24,8 +24,8 @@ import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Cardinality;
-import jp.sourceforge.tmdmaker.model.command.ConnectionDeleteCommand;
-import jp.sourceforge.tmdmaker.model.command.RelationshipEditCommand;
+import jp.sourceforge.tmdmaker.ui.command.ConnectionDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.command.RelationshipEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;

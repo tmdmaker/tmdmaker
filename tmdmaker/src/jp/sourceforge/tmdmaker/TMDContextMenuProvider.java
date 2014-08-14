@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +20,17 @@ import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
 import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
 import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.generate.Generator;
-import jp.sourceforge.tmdmaker.generate.GeneratorProvider;
-import jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter;
-import jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter;
+import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
+import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
+import jp.sourceforge.tmdmaker.model.importer.FileImporter;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -94,6 +96,8 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		MenuManager multivalueMenu = new MenuManager("データ の多値");
 		multivalueMenu.add(registry.getAction(MultivalueOrCreateAction.ID));
 		multivalueMenu.add(registry.getAction(MultivalueAndCreateAction.ID));
+		multivalueMenu.add(registry.getAction(MultivalueAndSupersetHideAction.ID));
+		multivalueMenu.add(registry.getAction(MultivalueAndSupersetShowAction.ID));
 		menu.add(multivalueMenu);
 
 		MenuManager tmdashMenu = new MenuManager("みなし概念(TM')");
@@ -108,14 +112,17 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 
 		menu.add(new Separator("generate"));
 		menu.add(registry.getAction(DiagramImageGenerateAction.ID));
-		
-		for (Generator generator : GeneratorProvider.getGenerators()) {
+
+		for (Generator generator : GeneratorFactory.getGenerators()) {
 			menu.add(registry.getAction(generator.getClass().getName()));
 		}
 
 		menu.add(new Separator("importer"));
-		menu.add(registry.getAction(EntityFileImporter.class.getName()));
-		menu.add(registry.getAction(AttributeFileImporter.class.getName()));
+		PluginExtensionPointFactory<FileImporter> fileImportFactory = new PluginExtensionPointFactory<FileImporter>(
+				TMDPlugin.IMPORTER_PLUGIN_ID);
+		for (FileImporter importer : fileImportFactory.getInstances()) {
+			menu.add(registry.getAction(importer.getClass().getName()));
+		}
 	}
 
 }

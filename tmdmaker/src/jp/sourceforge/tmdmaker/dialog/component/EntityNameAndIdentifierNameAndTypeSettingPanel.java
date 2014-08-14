@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 	private Button descButton = null;
 	
 	public EntityNameAndIdentifierNameAndTypeSettingPanel(Composite parent, int style) {
-		super(parent, style);
+		super(parent, SWT.NONE);
 		initialize();
 		this.nameAutoCreateCheckBox.setSelection(true);
 		this.nameText.setEnabled(false);
@@ -95,17 +95,16 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
         gridData11.horizontalAlignment = GridData.FILL;
         gridData11.verticalAlignment = GridData.CENTER;
         GridData gridData10 = new GridData();
-        gridData10.horizontalAlignment = GridData.CENTER;
+        gridData10.horizontalAlignment = SWT.CENTER;
         gridData10.verticalAlignment = GridData.CENTER;
         GridData gridData9 = new GridData();
         gridData9.horizontalSpan = 2;
         GridData gridData1 = new GridData();
-        gridData1.grabExcessHorizontalSpace = false;
         gridData1.verticalAlignment = GridData.CENTER;
         gridData1.horizontalAlignment = GridData.FILL;
         GridData gridData = new GridData();
+        gridData.grabExcessVerticalSpace = true;
         gridData.horizontalAlignment = GridData.FILL;
-        gridData.grabExcessHorizontalSpace = true;
         gridData.widthHint = -1;
         gridData.verticalAlignment = GridData.CENTER;
         nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
@@ -169,12 +168,14 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
         	}
         });
         GridLayout gridLayout = new GridLayout();
+        gridLayout.marginLeft = 5;
+        gridLayout.marginRight = 5;
         gridLayout.numColumns = 3;
         gridLayout.horizontalSpacing = 5;
         
         updateValue();
         this.setLayout(gridLayout);
-        this.setSize(new Point(324, 90));
+        this.setSize(new Point(370, 88));
 	}
 
 	/**
@@ -183,6 +184,7 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 	 */
 	private void createTypeCombo() {
 		typeCombo = new Combo(this, SWT.READ_ONLY);
+		typeCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		typeCombo.addSelectionListener(new org.eclipse.swt.events.SelectionListener() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				entity.setType(getSelectedType());

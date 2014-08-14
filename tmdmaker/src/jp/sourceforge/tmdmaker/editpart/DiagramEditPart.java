@@ -22,8 +22,9 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.command.ModelAddCommand;
-import jp.sourceforge.tmdmaker.model.command.ModelConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelAddCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
@@ -151,23 +152,20 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 		 *      java.lang.Object)
 		 */
 		@Override
-		protected Command createChangeConstraintCommand(EditPart child,
-				Object constraint) {
+		protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 			logger.debug(getClass() + "#createChangeConstraintCommand()");
 			ModelConstraintChangeCommand command = new ModelConstraintChangeCommand(
-					(ModelElement) child.getModel(), (Rectangle) constraint);
+					(ModelElement) child.getModel(), ConstraintConverter.toConstraint((Rectangle) constraint));
 			return command;
 		}
 
 		@Override
-		protected Command createChangeConstraintCommand(
-				ChangeBoundsRequest request, EditPart child, Object constraint) {
+		protected Command createChangeConstraintCommand(ChangeBoundsRequest request,
+				EditPart child, Object constraint) {
 			logger.debug("resizedirection:" + request.getResizeDirection());
-			logger.debug("NORTH_SOUTH/EAST_WEST:"
-					+ PositionConstants.NORTH_SOUTH + "/"
+			logger.debug("NORTH_SOUTH/EAST_WEST:" + PositionConstants.NORTH_SOUTH + "/"
 					+ PositionConstants.EAST_WEST);
-			return super.createChangeConstraintCommand(request, child,
-					constraint);
+			return super.createChangeConstraintCommand(request, child, constraint);
 		}
 
 		/**
@@ -183,9 +181,8 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 			constraint.width = -1;
 			constraint.height = -1;
 			Entity entity = (Entity) request.getNewObject();
-			entity.setConstraint(constraint);
-			return new ModelAddCommand((Diagram) getModel(), constraint.x,
-					constraint.y);
+			entity.setConstraint(ConstraintConverter.toConstraint(constraint));
+			return new ModelAddCommand((Diagram) getModel(), constraint.x, constraint.y);
 		}
 	}
 
@@ -200,16 +197,14 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 	public Object getAdapter(Class key) {
 		if (key == SnapToHelper.class) {
 			List<SnapToHelper> snapStrategies = new ArrayList<SnapToHelper>();
-			Boolean val = (Boolean) getViewer().getProperty(
-					RulerProvider.PROPERTY_RULER_VISIBILITY);
+			Boolean val = (Boolean) getViewer()
+					.getProperty(RulerProvider.PROPERTY_RULER_VISIBILITY);
 			if (val != null && val.booleanValue())
 				snapStrategies.add(new SnapToGuides(this));
-			val = (Boolean) getViewer().getProperty(
-					SnapToGeometry.PROPERTY_SNAP_ENABLED);
+			val = (Boolean) getViewer().getProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED);
 			if (val != null && val.booleanValue())
 				snapStrategies.add(new SnapToGeometry(this));
-			val = (Boolean) getViewer().getProperty(
-					SnapToGrid.PROPERTY_GRID_ENABLED);
+			val = (Boolean) getViewer().getProperty(SnapToGrid.PROPERTY_GRID_ENABLED);
 			if (val != null && val.booleanValue())
 				snapStrategies.add(new SnapToGrid(this));
 

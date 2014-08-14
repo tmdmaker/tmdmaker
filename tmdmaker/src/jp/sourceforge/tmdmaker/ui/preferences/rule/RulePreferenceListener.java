@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.ui.preferences.rule;
 
 import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.ui.preferences.IPreferenceListener;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -37,15 +38,14 @@ public class RulePreferenceListener implements IPreferenceListener {
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getProperty().equals(
-				RulePreferenceConstants.P_IDENTIFIER_SUFFIXES)) {
+		if (event.getProperty().equals(RulePreferenceConstants.P_IDENTIFIER_SUFFIXES)) {
 			EntityRecognitionRule.getInstance().setIdentifierSuffixesString(
 					(String) event.getNewValue());
-		} else if (event.getProperty().equals(
-				RulePreferenceConstants.P_REPORT_SUFFIXES)) {
+		} else if (event.getProperty().equals(RulePreferenceConstants.P_REPORT_SUFFIXES)) {
 			EntityRecognitionRule.getInstance().setReportSuffixesString(
 					(String) event.getNewValue());
-
+		} else if (event.getProperty().equals(RulePreferenceConstants.P_FOREIGN_KEY_ENABLED)) {
+			ImplementRule.setForeignKeyEnabled((Boolean) event.getNewValue());
 		}
 	}
 
@@ -60,8 +60,7 @@ public class RulePreferenceListener implements IPreferenceListener {
 		EntityRecognitionRule rule = EntityRecognitionRule.getInstance();
 		rule.setIdentifierSuffixesString(store
 				.getString(RulePreferenceConstants.P_IDENTIFIER_SUFFIXES));
-		rule.setReportSuffixesString(store
-				.getString(RulePreferenceConstants.P_REPORT_SUFFIXES));
+		rule.setReportSuffixesString(store.getString(RulePreferenceConstants.P_REPORT_SUFFIXES));
 	}
 
 }

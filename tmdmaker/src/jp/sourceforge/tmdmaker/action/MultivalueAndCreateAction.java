@@ -22,10 +22,10 @@ import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Cardinality;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
-import jp.sourceforge.tmdmaker.model.command.ConnectionCreateCommand;
-import jp.sourceforge.tmdmaker.model.command.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
 import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
+import jp.sourceforge.tmdmaker.ui.command.ConnectionCreateCommand;
+import jp.sourceforge.tmdmaker.ui.command.ConnectionDeleteCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;

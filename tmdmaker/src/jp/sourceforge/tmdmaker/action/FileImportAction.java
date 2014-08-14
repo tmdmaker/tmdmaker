@@ -18,10 +18,10 @@ package jp.sourceforge.tmdmaker.action;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.importer.FileImporter;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.command.ModelAddCommand;
+import jp.sourceforge.tmdmaker.model.importer.FileImporter;
+import jp.sourceforge.tmdmaker.ui.command.ModelAddCommand;
 
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Point;

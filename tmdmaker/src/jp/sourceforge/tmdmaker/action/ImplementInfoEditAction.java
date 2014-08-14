@@ -20,8 +20,8 @@ import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditSarogateKey;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.SarogateKey;
-import jp.sourceforge.tmdmaker.model.command.AttributeEditCommand;
-import jp.sourceforge.tmdmaker.model.command.ModelEditCommand;
+import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;

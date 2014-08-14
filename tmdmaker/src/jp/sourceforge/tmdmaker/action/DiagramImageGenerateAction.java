@@ -16,7 +16,6 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.generate.GeneratorUtils;
 import jp.sourceforge.tmdmaker.imagegenerator.Draw2dToImageConverter;
 
 import org.eclipse.core.resources.IFile;
@@ -71,7 +70,7 @@ public class DiagramImageGenerateAction extends Action {
 
 		FileDialog dialog = new FileDialog(viewer.getControl().getShell(),
 				SWT.SAVE);
-		IFile editfile = GeneratorUtils.getEditFile(part);
+		IFile editfile = TMDPlugin.getEditFile(part);
 		dialog.setFileName(editfile.getLocation().removeFileExtension()
 				.toOSString());
 		dialog.setFilterPath(editfile.getLocation().removeFirstSegments(1)
@@ -114,7 +113,7 @@ public class DiagramImageGenerateAction extends Action {
 			TMDPlugin.showMessageDialog(getText() + " 完了");
 
 			try {
-				GeneratorUtils.refreshGenerateResource(filePath.toString());
+				TMDPlugin.refreshGenerateResource(filePath.toString());
 			} catch (Exception e) {
 				TMDPlugin.showErrorDialog(e);
 			}

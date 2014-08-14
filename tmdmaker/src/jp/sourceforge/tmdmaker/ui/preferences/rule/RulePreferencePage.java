@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.ui.preferences.rule;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -77,6 +78,10 @@ public class RulePreferencePage extends FieldEditorPreferencePage implements
 		addField(new StringFieldEditor(
 				RulePreferenceConstants.P_REPORT_SUFFIXES, "レポートサフィックス:",
 				getFieldEditorParent()));
+		BooleanFieldEditor forenKeyEnabledEdior = new BooleanFieldEditor(
+				RulePreferenceConstants.P_FOREIGN_KEY_ENABLED, "外部参照制約を出力する",
+				getFieldEditorParent());
+		addField(forenKeyEnabledEdior);
 
 	}
 

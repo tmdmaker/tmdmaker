@@ -17,10 +17,10 @@ package jp.sourceforge.tmdmaker.wizard;
 
 import java.io.InputStream;
 
+import jp.sourceforge.tmdmaker.extension.SerializerFactory;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.persistence.SerializationException;
-import jp.sourceforge.tmdmaker.persistence.Serializer;
-import jp.sourceforge.tmdmaker.persistence.SerializerFactory;
+import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
+import jp.sourceforge.tmdmaker.model.persistence.Serializer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;

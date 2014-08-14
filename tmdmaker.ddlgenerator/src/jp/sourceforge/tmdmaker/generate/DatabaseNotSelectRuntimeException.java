@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.generate;
 
+import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException;
+
 /**
  * 対象データベースが選択されていない場合に発生する例外
  * 

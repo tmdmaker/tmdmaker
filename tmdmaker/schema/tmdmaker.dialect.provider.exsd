@@ -62,7 +62,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.dialect.DialectProvider"/>
+                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.model.dialect.DialectProvider"/>
                </appInfo>
             </annotation>
          </attribute>

@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringWriter;
 
+import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException;
+
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;

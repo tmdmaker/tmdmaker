@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.model.dialect.DialectProvider;
+
 import org.apache.ddlutils.PlatformFactory;
 
 /**
@@ -26,7 +28,7 @@ public class DdlUtilsDialectProvider implements DialectProvider {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.dialect.DialectProvider#getDatabaseList()
+	 * @see jp.sourceforge.tmdmaker.model.dialect.DialectProvider#getDatabaseList()
 	 */
 	@Override
 	public List<String> getDatabaseList() {

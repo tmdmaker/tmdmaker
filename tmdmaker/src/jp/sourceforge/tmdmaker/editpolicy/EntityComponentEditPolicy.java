@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.editpolicy;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.command.ConnectableElementDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.command.ConnectableElementDeleteCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;

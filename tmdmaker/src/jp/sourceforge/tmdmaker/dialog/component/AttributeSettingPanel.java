@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Text;
 public class AttributeSettingPanel extends Composite {
 	private EditTable entity;
 	private static final int EDIT_COLUMN = 0;
-	private List<IAttribute> deletedAttributes = new ArrayList<IAttribute>();  //  @jve:decl-index=0:
+	private List<IAttribute> deletedAttributes = new ArrayList<IAttribute>(); // @jve:decl-index=0:
 	private int selectedIndex = -1;
 	private TableEditor tableEditor = null;
 	private Table attributeTable = null;
@@ -55,11 +55,11 @@ public class AttributeSettingPanel extends Composite {
 	private Button downButton = null;
 	private Button descButton = null;
 	private Button identifierChangeButton = null;
-	
+
 	public AttributeSettingPanel(Composite parent, int style, EditTable entity) {
 		super(parent, style);
 		this.entity = entity;
-		initialize();		
+		initialize();
 	}
 
 	private void initialize() {
@@ -81,86 +81,90 @@ public class AttributeSettingPanel extends Composite {
 		attributeTable.setLayoutData(gridData12);
 		attributeTable.setLayoutData(gridData);
 		attributeTable.setLinesVisible(true);
-		attributeTable
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						selectedIndex = attributeTable.getSelectionIndex();
-						if (selectedIndex == -1) {
-							return;
+		attributeTable.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				selectedIndex = attributeTable.getSelectionIndex();
+				if (selectedIndex == -1) {
+					return;
+				}
+				Control oldEditor = tableEditor.getEditor();
+				if (oldEditor != null) {
+					oldEditor.dispose();
+				}
+
+				TableItem item = (TableItem) e.item;
+				final Text text = new Text(attributeTable, SWT.NONE);
+				text.setText(item.getText(EDIT_COLUMN));
+				text.addFocusListener(new FocusAdapter() {
+					private String beforeName;
+
+					/**
+					 * 
+					 * {@inheritDoc}
+					 * 
+					 * @see org.eclipse.swt.events.FocusAdapter#focusGained(org.eclipse.swt.events.FocusEvent)
+					 */
+					@Override
+					public void focusGained(FocusEvent e) {
+						beforeName = text.getText();
+						if (beforeName == null) {
+							beforeName = "";
 						}
-						Control oldEditor = tableEditor.getEditor();
-						if (oldEditor != null) {
-							oldEditor.dispose();
-						}
-
-						TableItem item = (TableItem)e.item;
-						final Text text = new Text(attributeTable, SWT.NONE);
-						text.setText(item.getText(EDIT_COLUMN));
-						text.addFocusListener(new FocusAdapter(){
-							private String beforeName;
-							/**
-							 * 
-							 * {@inheritDoc}
-							 * 
-							 * @see org.eclipse.swt.events.FocusAdapter#focusGained(org.eclipse.swt.events.FocusEvent)
-							 */
-							@Override
-							public void focusGained(FocusEvent e) {
-								beforeName = text.getText();
-								if (beforeName == null) {
-									beforeName = "";
-								}
-								super.focusGained(e);
-							}
-
-							/**
-							 * {@inheritDoc}
-							 *
-							 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
-							 */
-							@Override
-							public void focusLost(FocusEvent e) {
-								TableItem item = tableEditor.getItem();
-								String editValue = text.getText();
-								if (editValue == null) {
-									editValue = "";
-								}
-								if (editValue.length() == 0) {					
-									editValue = beforeName;
-								}
-								item.setText(EDIT_COLUMN, editValue);
-								EditAttribute ea = entity.getEditAttribute(selectedIndex);
-								ea.setName(editValue);
-								text.dispose();
-							}
-							
-						});
-						text.addModifyListener(new ModifyListener(){
-
-							/**
-							 * {@inheritDoc}
-							 *
-							 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-							 */
-							@Override
-							public void modifyText(ModifyEvent e) {
-								TableItem item = tableEditor.getItem();
-								String editValue = text.getText();
-								if (editValue == null) {
-									editValue = "";
-								}
-								item.setText(EDIT_COLUMN, editValue);
-								EditAttribute ea = entity.getEditAttribute(selectedIndex);
-								ea.setName(editValue);
-							}
-							
-						});
-						text.selectAll();
-						text.setFocus();
-						
-						tableEditor.setEditor(text, item, EDIT_COLUMN);
+						super.focusGained(e);
 					}
+
+					/**
+					 * {@inheritDoc}
+					 *
+					 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
+					 */
+					@Override
+					public void focusLost(FocusEvent e) {
+						TableItem item = tableEditor.getItem();
+						if (item != null) {
+							if (item.isDisposed())
+								return;
+							String editValue = text.getText();
+							if (editValue == null) {
+								editValue = "";
+							}
+							if (editValue.length() == 0) {
+								editValue = beforeName;
+							}
+							item.setText(EDIT_COLUMN, editValue);
+							EditAttribute ea = entity.getEditAttribute(selectedIndex);
+							ea.setName(editValue);
+						}
+						text.dispose();
+					}
+
 				});
+				text.addModifyListener(new ModifyListener() {
+
+					/**
+					 * {@inheritDoc}
+					 *
+					 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+					 */
+					@Override
+					public void modifyText(ModifyEvent e) {
+						TableItem item = tableEditor.getItem();
+						String editValue = text.getText();
+						if (editValue == null) {
+							editValue = "";
+						}
+						item.setText(EDIT_COLUMN, editValue);
+						EditAttribute ea = entity.getEditAttribute(selectedIndex);
+						ea.setName(editValue);
+					}
+
+				});
+				text.selectAll();
+				text.setFocus();
+
+				tableEditor.setEditor(text, item, EDIT_COLUMN);
+			}
+		});
 		TableColumn tableColumn = new TableColumn(attributeTable, SWT.NONE);
 		tableColumn.setWidth(200);
 		tableColumn.setText("アトリビュート");
@@ -170,7 +174,7 @@ public class AttributeSettingPanel extends Composite {
 	}
 
 	/**
-	 * This method initializes controlComposite	
+	 * This method initializes controlComposite
 	 *
 	 */
 	private void createControlComposite() {
@@ -256,8 +260,7 @@ public class AttributeSettingPanel extends Composite {
 		deleteButton = new Button(controlComposite, SWT.NONE);
 		deleteButton.setText("削除");
 		deleteButton.setLayoutData(gridData4);
-		deleteButton
-		.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1) {
 					return;
@@ -272,19 +275,19 @@ public class AttributeSettingPanel extends Composite {
 		identifierChangeButton = new Button(controlComposite, SWT.NONE);
 		identifierChangeButton.setText("個体指定子へ");
 		identifierChangeButton.setLayoutData(gridData6);
-		identifierChangeButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						if (selectedIndex == -1) {
-							return;
-						}
-						entity.uptoIdentifier(selectedIndex);
-						updateSelection();
-					}
-				});
+		identifierChangeButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				if (selectedIndex == -1) {
+					return;
+				}
+				entity.uptoIdentifier(selectedIndex);
+				updateSelection();
+			}
+		});
 		identifierChangeButton.setVisible(entity.canUpToIdentifier());
 		updateAttributeTable();
 	}
+
 	public void updateAttributeTable() {
 		attributeTable.removeAll();
 		for (EditAttribute ea : entity.getAttributes()) {
@@ -292,6 +295,7 @@ public class AttributeSettingPanel extends Composite {
 			item.setText(0, ea.getName());
 		}
 	}
+
 	private void updateSelection() {
 		attributeTable.select(selectedIndex);
 	}
@@ -302,5 +306,5 @@ public class AttributeSettingPanel extends Composite {
 	public List<IAttribute> getDeletedAttributeList() {
 		return deletedAttributes;
 	}
-	
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+
+} // @jve:decl-index=0:visual-constraint="10,10"
