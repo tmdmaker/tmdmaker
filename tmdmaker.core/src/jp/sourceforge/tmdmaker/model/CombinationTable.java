@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -39,11 +40,71 @@ public class CombinationTable extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
+		checkDuplicateTargetReusedIdentifieres();
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifieres
 				.entrySet()) {
 			returnValue.addAll(rk.getValue().getIdentifires());
 		}
 		return returnValue;
+	}
+
+	@Override
+	public Map<AbstractEntityModel, ReusedIdentifier> getReusedIdentifieres() {
+		checkDuplicateTargetReusedIdentifieres();
+		return super.getReusedIdentifieres();
+	}
+
+	private Map.Entry<AbstractEntityModel, ReusedIdentifier> getSource() {
+		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super
+				.getReusedIdentifieres().entrySet().iterator();
+		if (it.hasNext()) {
+			return it.next();
+		}
+		return null;
+	}
+
+	private Map.Entry<AbstractEntityModel, ReusedIdentifier> getTarget() {
+		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super
+				.getReusedIdentifieres().entrySet().iterator();
+
+		// sourceは読み飛ばす
+		if (!it.hasNext()) {
+			return null;
+		}
+		it.next();
+
+		if (it.hasNext()) {
+			return it.next();
+		}
+		return null;
+	}
+
+	private void checkDuplicateTargetReusedIdentifieres() {
+		Map.Entry<AbstractEntityModel, ReusedIdentifier> source = getSource();
+		Map.Entry<AbstractEntityModel, ReusedIdentifier> target = getTarget();
+		if (source == null || target == null) {
+			return;
+		}
+		for (IdentifierRef i : target.getValue().getIdentifires()) {
+			if (containIdentifier(source.getValue(), i)) {
+				i.setDuplicate(true);
+			} else {
+				i.setDuplicate(false);
+			}
+		}
+	}
+
+	private boolean containIdentifier(ReusedIdentifier source, IdentifierRef target) {
+
+		for (IdentifierRef s : source.getIdentifires()) {
+			// sourceに存在するIdentifierと同じのIdentifierがtargetに存在する場合は、
+			// そのIdentifier省略する。
+			// TODO 現状では名称の一致をもって同一Identifierとみなす
+			if (target.getName().equals(s.getName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -118,6 +179,18 @@ public class CombinationTable extends AbstractEntityModel {
 			((CombinationTable) to).setCombinationTableType(getCombinationTableType());
 		}
 		super.copyTo(to);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#fireIdentifierChanged
+	 *      (jp.sourceforge.tmdmaker.model.AbstractConnectionModel)
+	 */
+	@Override
+	public void fireIdentifierChanged(AbstractConnectionModel callConnection) {
+		checkDuplicateTargetReusedIdentifieres();
+		super.fireIdentifierChanged(callConnection);
 	}
 
 }

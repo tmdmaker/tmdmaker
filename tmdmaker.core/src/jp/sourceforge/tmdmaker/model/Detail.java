@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -152,7 +152,7 @@ public class Detail extends AbstractEntityModel {
 
 	private int calcurateMaxOriginalIdentifierRefSize() {
 		int i = 0;
-		for (IdentifierRef ir : originalReusedIdentifier.getIdentifires()) {
+		for (IdentifierRef ir : originalReusedIdentifier.getUniqueIdentifieres()) {
 			i = Math.max(ir.getName().length(), i);
 		}
 		return i;

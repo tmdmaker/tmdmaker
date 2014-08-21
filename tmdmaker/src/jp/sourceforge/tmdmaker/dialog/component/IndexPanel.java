@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,25 +62,28 @@ public class IndexPanel extends Composite {
 		GridData gridData16 = new GridData();
 		gridData16.horizontalSpan = 2;
 		gridData16.verticalAlignment = GridData.CENTER;
-		gridData16.grabExcessHorizontalSpace = false;
+		gridData16.grabExcessHorizontalSpace = true;
 		gridData16.horizontalAlignment = GridData.FILL;
 		GridData gridData11 = new GridData();
+		gridData11.grabExcessHorizontalSpace = true;
 		gridData11.widthHint = 30;
 		gridData11.verticalAlignment = GridData.CENTER;
-		gridData11.horizontalAlignment = GridData.CENTER;
+		gridData11.horizontalAlignment = SWT.FILL;
 		GridData gridData10 = new GridData();
+		gridData10.grabExcessHorizontalSpace = true;
 		gridData10.widthHint = 30;
 		gridData10.verticalAlignment = GridData.CENTER;
-		gridData10.horizontalAlignment = GridData.CENTER;
+		gridData10.horizontalAlignment = SWT.FILL;
 		GridData gridData9 = new GridData();
 		gridData9.widthHint = 30;
 		gridData9.verticalAlignment = GridData.CENTER;
-		gridData9.horizontalAlignment = GridData.CENTER;
+		gridData9.horizontalAlignment = SWT.FILL;
 		GridData gridData8 = new GridData();
 		gridData8.widthHint = 30;
 		gridData8.verticalAlignment = GridData.CENTER;
-		gridData8.horizontalAlignment = GridData.CENTER;
+		gridData8.horizontalAlignment = SWT.FILL;
 		GridData gridData5 = new GridData();
+		gridData5.grabExcessHorizontalSpace = true;
 		gridData5.verticalSpan = 4;
 		gridData5.verticalAlignment = GridData.FILL;
 		gridData5.widthHint = 150;
@@ -135,12 +138,15 @@ public class IndexPanel extends Composite {
 		masterCheckBox.setText("マスターキーに指定");
 		masterCheckBox.setLayoutData(gridData17);
 		Label filler31 = new Label(this, SWT.NONE);
+		filler31.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		attributeSelectedLabel = new Label(this, SWT.NONE);
 		attributeSelectedLabel.setText("選択");
 		Label filler8 = new Label(this, SWT.NONE);
 		attributeNotSelectedLabel = new Label(this, SWT.NONE);
+		attributeNotSelectedLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		attributeNotSelectedLabel.setText("未選択");
 		upButton = new Button(this, SWT.NONE);
+		upButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		upButton.setText("上へ");
 		upButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -199,6 +205,7 @@ public class IndexPanel extends Composite {
 					}
 				});
 		downButton = new Button(this, SWT.NONE);
+		downButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		downButton.setText("下へ");
 		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -230,6 +237,7 @@ public class IndexPanel extends Composite {
 					}
 				});
 		Label filler1 = new Label(this, SWT.NONE);
+		filler1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		selectAllButton = new Button(this, SWT.NONE);
 		selectAllButton.setText("<<");
 		selectAllButton.setLayoutData(gridData10);
@@ -243,6 +251,7 @@ public class IndexPanel extends Composite {
 					}
 				});
 		Label filler = new Label(this, SWT.NONE);
+		filler.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		removeAllButton = new Button(this, SWT.NONE);
 		removeAllButton.setText(">>");
 		removeAllButton.setLayoutData(gridData11);
@@ -256,7 +265,8 @@ public class IndexPanel extends Composite {
 					}
 				});
 		Label filler2 = new Label(this, SWT.NONE);
-		this.setSize(new Point(449, 225));
+		filler2.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		this.setSize(new Point(464, 225));
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
@@ -274,7 +284,7 @@ public class IndexPanel extends Composite {
 		gridData3.verticalAlignment = GridData.CENTER;
 		GridData gridData2 = new GridData();
 		gridData2.horizontalAlignment = GridData.FILL;
-		gridData2.grabExcessHorizontalSpace = false;
+		gridData2.grabExcessHorizontalSpace = true;
 		gridData2.horizontalSpan = 4;
 		gridData2.verticalAlignment = GridData.CENTER;
 		GridLayout gridLayout2 = new GridLayout();

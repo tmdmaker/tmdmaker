@@ -76,16 +76,16 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 			// do nothing
 		} else {
 			if (entity.isSupersetAnEntity()) {
-				entityFigure.setIdentifier(entity.getOriginalReusedIdentifier().getIdentifires()
+				entityFigure.setIdentifier(entity.getOriginalReusedIdentifier().getUniqueIdentifieres()
 						.get(0).getName());
 			} else {
-				for (Identifier i : entity.getOriginalReusedIdentifier().getIdentifires()) {
+				for (Identifier i : entity.getOriginalReusedIdentifier().getUniqueIdentifieres()) {
 					entityFigure.addRelationship(i.getName());
 				}
 			}
 			for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 					.getReusedIdentifieres().entrySet()) {
-				for (Identifier i : rk.getValue().getIdentifires()) {
+				for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
 					entityFigure.addRelationship(i.getName());
 				}
 			}

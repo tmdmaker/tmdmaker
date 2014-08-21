@@ -83,7 +83,7 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityType(EntityType.MA.getLabel());
 		// figure.setIdentifier(entity.getIdentifier().getName());
 		IdentifierRef identifierRef = entity.getReusedIdentifieres().entrySet()
-				.iterator().next().getValue().getIdentifires().get(0);
+				.iterator().next().getValue().getUniqueIdentifieres().get(0);
 		entityFigure.setIdentifier(identifierRef.getName());
 		// for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 		// .getReusedIdentifieres().entrySet()) {
