@@ -17,8 +17,6 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
 import java.util.List;
-import java.util.Map;
-
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -28,7 +26,6 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
@@ -52,12 +49,12 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class SubsetEntityEditPart extends AbstractEntityEditPart<SubsetEntity> {
+public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEntity> {
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
@@ -83,12 +80,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart<SubsetEntity> {
 					entityFigure.addRelationship(i.getName());
 				}
 			}
-			for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-					.getReusedIdentifieres().entrySet()) {
-				for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-					entityFigure.addRelationship(i.getName());
-				}
-			}
+			entityFigure.addRelationship(extractRelationship(entity));
 		}
 		ModelAppearance appearance = null;
 		if (entity.getEntityType().equals(EntityType.RESOURCE)) {
@@ -128,7 +120,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart<SubsetEntity> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {

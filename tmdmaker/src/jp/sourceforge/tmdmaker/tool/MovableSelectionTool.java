@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.tool;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
 
@@ -71,8 +71,8 @@ public class MovableSelectionTool extends SelectionTool {
 		CompoundCommand command = new CompoundCommand();
 
 		for (Object selection : getCurrentViewer().getSelectedEditParts()) {
-			if (selection instanceof AbstractEntityEditPart) {
-				AbstractEntityEditPart<?> part = (AbstractEntityEditPart<?>) selection;
+			if (selection instanceof AbstractModelEditPart) {
+				AbstractModelEditPart<?> part = (AbstractModelEditPart<?>) selection;
 				command.add(new ModelConstraintChangeCommand(
 						(ModelElement) part.getModel(), p.x, p.y));
 			}

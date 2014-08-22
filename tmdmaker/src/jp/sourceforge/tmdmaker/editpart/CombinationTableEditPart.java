@@ -16,18 +16,13 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
-import java.util.Map;
-
 import jp.sourceforge.tmdmaker.dialog.CombinationTableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
@@ -46,7 +41,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class CombinationTableEditPart extends AbstractEntityEditPart<CombinationTable> {
+public class CombinationTableEditPart extends AbstractEntityModelEditPart<CombinationTable> {
 	
 	@Override
 	public CombinationTable getModel()
@@ -58,7 +53,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart<Combination
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
@@ -67,22 +62,13 @@ public class CombinationTableEditPart extends AbstractEntityEditPart<Combination
 		CombinationTable table = getModel();
 
 		entityFigure.setEntityType(table.getCombinationTableType().getLabel());
+		
 		entityFigure.setNotImplement(table.isNotImplement());
-		// List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres()
-				.entrySet()) {
-			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
+		
+		entityFigure.addRelationship(extractRelationship(table));
 		setupColor(entityFigure, ModelAppearance.COMBINATION_TABLE);
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
 	}
 
 	/**
@@ -101,7 +87,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart<Combination
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {

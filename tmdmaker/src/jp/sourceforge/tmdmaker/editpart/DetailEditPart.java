@@ -16,17 +16,13 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
-import java.util.Map;
-
 import jp.sourceforge.tmdmaker.dialog.DetailEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 
@@ -44,12 +40,12 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class DetailEditPart extends AbstractEntityEditPart<Detail> {
+public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {
@@ -76,7 +72,7 @@ public class DetailEditPart extends AbstractEntityEditPart<Detail> {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
@@ -93,17 +89,7 @@ public class DetailEditPart extends AbstractEntityEditPart<Detail> {
 				.getUniqueIdentifieres().get(0);
 		entityFigure.setIdentifier(original.getName());
 		entityFigure.setIdentifier(entity.getDetailIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReusedIdentifieres().entrySet()) {
-
-			for (IdentifierRef i : rk.getValue().getUniqueIdentifieres()) {
-				if (i.isSame(original)) {
-					// nothing
-				} else {
-					entityFigure.addRelationship(i.getName());
-				}
-			}
-		}
+		entityFigure.addRelationship(extractRelationship(entity, original));
 		// for (Attribute a : atts) {
 		// entityFigure.addAttribute(a.getName());
 		// }

@@ -36,7 +36,7 @@ import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
@@ -739,12 +739,12 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 
 		for (Object o : editParts) {
 			logger.debug(o.getClass().getName());
-			if (o instanceof AbstractEntityEditPart) {
-				((AbstractEntityEditPart<?>)o).updateAppearance();
+			if (o instanceof AbstractModelEditPart) {
+				((AbstractModelEditPart<?>)o).updateAppearance();
 			} else if (o instanceof DiagramEditPart) {
 				for (Object ob : ((DiagramEditPart) o).getChildren()) {
-					if (ob instanceof AbstractEntityEditPart) {
-						((AbstractEntityEditPart<?>)ob).updateAppearance();
+					if (ob instanceof AbstractModelEditPart) {
+						((AbstractModelEditPart<?>)ob).updateAppearance();
 					}		
 				}
 			}

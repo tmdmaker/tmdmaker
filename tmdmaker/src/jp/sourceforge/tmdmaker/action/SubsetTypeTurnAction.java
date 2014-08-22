@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 
@@ -69,7 +69,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		AbstractEntityEditPart<?> part = getPart();
+		AbstractModelEditPart<?> part = getPart();
 		SubsetType model = (SubsetType) part.getModel();
 
 		execute(new SubsetTypeChangeCommand(model));

@@ -18,7 +18,7 @@ package jp.sourceforge.tmdmaker.action;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.VirtualSupersetCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -192,8 +192,8 @@ public class VirtualSupersetCreateAction extends
 		for (Object o : getSelectedObjects()) {
 			if (o instanceof DiagramEditPart) {
 				return (Diagram) ((DiagramEditPart) o).getModel();
-			} else if (o instanceof AbstractEntityEditPart) {
-				return (Diagram) (((AbstractEntityEditPart<?>) o).getParent())
+			} else if (o instanceof AbstractModelEditPart) {
+				return (Diagram) (((AbstractModelEditPart<?>) o).getParent())
 						.getModel();
 			}
 		}

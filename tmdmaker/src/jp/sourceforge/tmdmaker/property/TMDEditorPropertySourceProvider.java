@@ -17,7 +17,7 @@
 package jp.sourceforge.tmdmaker.property;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.AttributeEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.editpart.EntityEditPart;
@@ -60,8 +60,8 @@ public class TMDEditorPropertySourceProvider implements IPropertySourceProvider 
 			Entity entity = (Entity) ((EntityTreeEditPart) object).getModel();
 			return new EntityPropertySource(this.editor, entity);
 		}
-		if (object instanceof AbstractEntityEditPart) {
-			AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart<?>) object).getModel();
+		if (object instanceof AbstractModelEditPart) {
+			AbstractEntityModel model = (AbstractEntityModel) ((AbstractModelEditPart<?>) object).getModel();
 			return new AbstractEntityModelPropertySource(this.editor, model);
 		}
 		if (object instanceof AbstractEntityModelTreeEditPart) {

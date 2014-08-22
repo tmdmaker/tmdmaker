@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.figure;
 
+import java.util.List;
+
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.Figure;
@@ -108,7 +110,13 @@ public class EntityFigure extends Figure {
 	public void addRelationship(String relationship) {
 		this.identifierCompartmentFigure.add(createAttributeLabel(relationship + "(R)"));
 	}
-
+	
+	public void addRelationship(List<String> relationship) {
+		for(String r:relationship){
+			addRelationship(r);
+		}
+	}
+	
 	public void removeAllRelationship() {
 		this.identifierCompartmentFigure.removeAll();
 	}

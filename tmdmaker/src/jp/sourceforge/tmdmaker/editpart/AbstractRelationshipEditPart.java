@@ -47,7 +47,7 @@ public abstract class AbstractRelationshipEditPart extends
 		PropertyChangeListener {
 	/** logging */
 	protected static Logger logger = LoggerFactory
-			.getLogger(AbstractEntityEditPart.class);
+			.getLogger(AbstractModelEditPart.class);
 	/** リレーションシップのアンカー */
 	private ConnectionAnchor anchor;
 

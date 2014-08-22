@@ -28,11 +28,8 @@ import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -44,7 +41,6 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.ReconnectRequest;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * エンティティ系モデルのコントローラの基底クラス
@@ -52,7 +48,7 @@ import org.eclipse.swt.graphics.Color;
  * @author nakaG
  * 
  */
-public abstract class AbstractEntityEditPart<T extends ModelElement> extends AbstractTMDEditPart<T> implements NodeEditPart {
+public abstract class AbstractModelEditPart<T extends ModelElement> extends AbstractTMDEditPart<T> implements NodeEditPart {
 
 	/** このコントローラで利用するアンカー */
 	private ConnectionAnchor anchor;
@@ -60,7 +56,7 @@ public abstract class AbstractEntityEditPart<T extends ModelElement> extends Abs
 	/**
 	 * コンストラクタ
 	 */
-	public AbstractEntityEditPart() {
+	public AbstractModelEditPart() {
 		super();
 	}
 
@@ -148,7 +144,7 @@ public abstract class AbstractEntityEditPart<T extends ModelElement> extends Abs
 
 			Point location = new Point(reconnectRequest.getLocation());
 			this.getFigure().translateToRelative(location);
-			IFigure sourceFigure = ((AbstractEntityEditPart<?>) connectionEditPart.getSource())
+			IFigure sourceFigure = ((AbstractModelEditPart<?>) connectionEditPart.getSource())
 					.getFigure();
 			XYChopboxAnchor anchor = new XYChopboxAnchor(getFigure());
 
@@ -218,7 +214,7 @@ public abstract class AbstractEntityEditPart<T extends ModelElement> extends Abs
 			}
 			Point location = new Point(reconnectRequest.getLocation());
 			this.getFigure().translateToRelative(location);
-			IFigure targetFigure = ((AbstractEntityEditPart<?>) connectionEditPart.getTarget())
+			IFigure targetFigure = ((AbstractModelEditPart<?>) connectionEditPart.getTarget())
 					.getFigure();
 
 			XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
@@ -485,36 +481,5 @@ public abstract class AbstractEntityEditPart<T extends ModelElement> extends Abs
 		updateFigure(figure);
 
 		return figure;
-	}
-
-	/**
-	 * モデルの色を設定する
-	 * 
-	 * @param entityFigure
-	 *            モデル
-	 * @param appearance
-	 *            モデル外観
-	 */
-	protected void setupColor(IFigure entityFigure, ModelAppearance appearance) {
-		entityFigure.setBackgroundColor(createBackgroundColor(appearance));
-		entityFigure.setForegroundColor(createForegroundColor(appearance));
-	}
-
-	private Color createBackgroundColor(ModelAppearance appearance) {
-		AppearanceSetting config = AppearanceSetting.getInstance();
-		if (config.isColorEnabled()) {
-			return new Color(null, config.getBackground(appearance));
-		} else {
-			return ColorConstants.white;
-		}
-	}
-
-	private Color createForegroundColor(ModelAppearance appearance) {
-		AppearanceSetting config = AppearanceSetting.getInstance();
-		if (config.isColorEnabled()) {
-			return new Color(null, config.getFont(appearance));
-		} else {
-			return ColorConstants.black;
-		}
 	}
 }

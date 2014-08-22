@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.editpolicy;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.AttributeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
@@ -55,20 +55,20 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 		}
 		Attribute toMove = (Attribute) child.getModel();
 
-		AbstractEntityEditPart<?> originalEntityEditPart = (AbstractEntityEditPart<?>) child
+		AbstractModelEditPart<?> originalEntityEditPart = (AbstractModelEditPart<?>) child
 				.getParent();
 		AbstractEntityModel originalEntity = (AbstractEntityModel) originalEntityEditPart
 				.getModel();
 		int oldIndex = originalEntityEditPart.getChildren().indexOf(child);
 
-		AbstractEntityEditPart<?> newEntityEditPart = null;
+		AbstractModelEditPart<?> newEntityEditPart = null;
 		int newIndex = 0;
 		// アトリビュートが0件か最終行を指定した場合はnull
 		if (after == null) {
-			newEntityEditPart = (AbstractEntityEditPart<?>) getHost();
+			newEntityEditPart = (AbstractModelEditPart<?>) getHost();
 			newIndex = newEntityEditPart.getChildren().size();
 		} else if (after instanceof AttributeEditPart) {
-			newEntityEditPart = (AbstractEntityEditPart<?>) getHost();
+			newEntityEditPart = (AbstractModelEditPart<?>) getHost();
 			newIndex = newEntityEditPart.getChildren().indexOf(after);
 		} else {
 			logger.debug("after is null or not AttributeEditPart." + after);
@@ -93,7 +93,7 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
 		logger.debug(getClass() + "#createMoveChildCommand()");
-		AbstractEntityEditPart<?> parent = (AbstractEntityEditPart<?>) getHost();
+		AbstractModelEditPart<?> parent = (AbstractModelEditPart<?>) getHost();
 		AbstractEntityModel model = (AbstractEntityModel) parent.getModel();
 		Attribute attribute = (Attribute) child.getModel();
 		int oldIndex = parent.getChildren().indexOf(child);

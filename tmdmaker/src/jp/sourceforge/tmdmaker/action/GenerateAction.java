@@ -21,7 +21,7 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.dialog.GeneratorDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
@@ -109,11 +109,11 @@ public class GenerateAction extends SelectionAction {
 	private List<AbstractEntityModel> getSelectedModelList() {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Object selection : getSelectedObjects()) {
-			if (selection instanceof AbstractEntityEditPart
+			if (selection instanceof AbstractModelEditPart
 					&& !(selection instanceof SubsetTypeEditPart)
 					&& !(selection instanceof MultivalueAndAggregatorEditPart)
 					&& !(selection instanceof LaputaEditPart)) {
-				AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart<?>) selection)
+				AbstractEntityModel model = (AbstractEntityModel) ((AbstractModelEditPart<?>) selection)
 						.getModel();
 				if (generator.isImplementModelOnly()) {
 					if (!model.isNotImplement()) {

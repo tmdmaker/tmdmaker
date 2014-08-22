@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.editpolicy;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.XYChopboxAnchorHelper;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -64,7 +64,7 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 			return null;
 		}
 		Point location = new Point(request.getLocation());
-		AbstractEntityEditPart<?> sourceEditPart = (AbstractEntityEditPart<?>) request
+		AbstractModelEditPart<?> sourceEditPart = (AbstractModelEditPart<?>) request
 				.getConnectionEditPart().getSource();
 		IFigure sourceFigure = sourceEditPart.getFigure();
 		sourceFigure.translateToRelative(location);
@@ -106,7 +106,7 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 			return null;
 		}
 		Point location = new Point(request.getLocation());
-		AbstractEntityEditPart<?> targetEditPart = (AbstractEntityEditPart<?>) request
+		AbstractModelEditPart<?> targetEditPart = (AbstractModelEditPart<?>) request
 				.getConnectionEditPart().getTarget();
 		IFigure targetFigure = targetEditPart.getFigure();
 		targetFigure.translateToRelative(location);

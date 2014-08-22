@@ -35,12 +35,12 @@ import org.eclipse.gef.Request;
  * @author nakaG
  * 
  */
-public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<MultivalueAndAggregator> {
+public class MultivalueAndAggregatorEditPart extends AbstractModelEditPart<MultivalueAndAggregator> {
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {
@@ -52,7 +52,7 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<Mult
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
@@ -79,7 +79,7 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<Mult
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getModelChildren()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#getModelChildren()
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -90,7 +90,7 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<Mult
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getContentPane()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#getContentPane()
 	 */
 	@Override
 	public IFigure getContentPane() {
@@ -112,7 +112,7 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<Mult
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getConnectionAnchor()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#getConnectionAnchor()
 	 */
 	@Override
 	protected ConnectionAnchor getConnectionAnchor() {
@@ -122,7 +122,7 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<Mult
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
@@ -133,7 +133,7 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<Mult
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
 	 */
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
@@ -143,7 +143,7 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<Mult
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
@@ -154,7 +154,7 @@ public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<Mult
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
 	 */
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {

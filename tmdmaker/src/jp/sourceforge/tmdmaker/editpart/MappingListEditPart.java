@@ -16,18 +16,13 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
-import java.util.Map;
-
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MappingList;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
@@ -46,12 +41,12 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class MappingListEditPart extends AbstractEntityEditPart<MappingList> {
+public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList> {
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
@@ -64,12 +59,7 @@ public class MappingListEditPart extends AbstractEntityEditPart<MappingList> {
 		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
+		entityFigure.addRelationship(extractRelationship(table));
 		setupColor(entityFigure, ModelAppearance.MAPPING_LIST);
 		// for (Attribute a : atts) {
 		// entityFigure.addAttribute(a.getName());
@@ -94,7 +84,7 @@ public class MappingListEditPart extends AbstractEntityEditPart<MappingList> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {
