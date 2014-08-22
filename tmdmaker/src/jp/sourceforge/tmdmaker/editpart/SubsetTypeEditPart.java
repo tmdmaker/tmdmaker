@@ -38,7 +38,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class SubsetTypeEditPart extends AbstractEntityEditPart {
+public class SubsetTypeEditPart extends AbstractEntityEditPart<SubsetType> {
 
 	/**
 	 * 
@@ -62,7 +62,7 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		SubsetTypeFigure sf = (SubsetTypeFigure) figure;
-		SubsetType model = (SubsetType) getModel();
+		SubsetType model = getModel();
 		sf.setVertical(model.isVertical());
 		sf.setSameType(model.isSameType());
 	}
@@ -115,7 +115,7 @@ public class SubsetTypeEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
-		SubsetType subsetType = (SubsetType) getModel();
+		SubsetType subsetType = getModel();
 		AbstractEntityModel model = subsetType.getSuperset();
 
 		SubsetCreateDialog dialog = new SubsetCreateDialog(getViewer().getControl().getShell(),

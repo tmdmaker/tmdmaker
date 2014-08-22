@@ -46,7 +46,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class MultivalueOrEditPart extends AbstractEntityEditPart {
+public class MultivalueOrEditPart extends AbstractEntityEditPart<MultivalueOrEntity> {
 
 	/**
 	 * 
@@ -57,7 +57,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
-		MultivalueOrEntity table = (MultivalueOrEntity) getModel();
+		MultivalueOrEntity table = getModel();
 		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 				.getShell(), "多値のOR表編集", table);
 		if (dialog.open() == Dialog.OK) {
@@ -83,7 +83,7 @@ public class MultivalueOrEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		MultivalueOrEntity entity = (MultivalueOrEntity) getModel();
+		MultivalueOrEntity entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		// List<Attribute> atts = entity.getAttributes();

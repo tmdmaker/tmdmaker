@@ -193,7 +193,7 @@ public class VirtualSupersetCreateAction extends
 			if (o instanceof DiagramEditPart) {
 				return (Diagram) ((DiagramEditPart) o).getModel();
 			} else if (o instanceof AbstractEntityEditPart) {
-				return (Diagram) (((AbstractEntityEditPart) o).getParent())
+				return (Diagram) (((AbstractEntityEditPart<?>) o).getParent())
 						.getModel();
 			}
 		}

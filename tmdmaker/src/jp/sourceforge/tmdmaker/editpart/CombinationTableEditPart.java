@@ -46,7 +46,13 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class CombinationTableEditPart extends AbstractEntityEditPart {
+public class CombinationTableEditPart extends AbstractEntityEditPart<CombinationTable> {
+	
+	@Override
+	public CombinationTable getModel()
+	{
+		return (CombinationTable)super.getModel();
+	}
 
 	/**
 	 * 
@@ -58,7 +64,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	protected void updateFigure(IFigure figure) {
 		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
-		CombinationTable table = (CombinationTable) getModel();
+		CombinationTable table = getModel();
 
 		entityFigure.setEntityType(table.getCombinationTableType().getLabel());
 		entityFigure.setNotImplement(table.isNotImplement());
@@ -100,7 +106,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
-		CombinationTable table = (CombinationTable) getModel();
+		CombinationTable table = getModel();
 		CombinationTableEditDialog dialog = new CombinationTableEditDialog(getViewer().getControl()
 				.getShell(), "対照表編集", table);
 		if (dialog.open() == Dialog.OK) {

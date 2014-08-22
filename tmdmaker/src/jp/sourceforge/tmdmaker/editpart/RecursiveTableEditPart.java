@@ -45,7 +45,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class RecursiveTableEditPart extends AbstractEntityEditPart {
+public class RecursiveTableEditPart extends AbstractEntityEditPart<RecursiveTable> {
 
 	/**
 	 * 
@@ -56,7 +56,7 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		RecursiveTable table = (RecursiveTable) getModel();
+		RecursiveTable table = getModel();
 		entityFigure.setNotImplement(table.isNotImplement());
 		// List<Identifier> ids = table.getReuseKeys();
 		// List<Attribute> atts = table.getAttributes();

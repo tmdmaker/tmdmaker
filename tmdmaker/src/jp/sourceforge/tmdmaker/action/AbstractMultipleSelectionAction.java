@@ -61,7 +61,7 @@ public abstract class AbstractMultipleSelectionAction extends
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Object selection : getSelectedObjects()) {
 			if (isTargetModel(selection)) {
-				Object model = ((AbstractEntityEditPart) selection).getModel();
+				Object model = ((AbstractEntityEditPart<?>) selection).getModel();
 				if (model instanceof AbstractEntityModel) {
 					list.add((AbstractEntityModel) model);
 				}

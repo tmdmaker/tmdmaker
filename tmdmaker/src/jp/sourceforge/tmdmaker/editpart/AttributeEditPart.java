@@ -37,7 +37,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class AttributeEditPart extends AbstractTMDEditPart {
+public class AttributeEditPart extends AbstractTMDEditPart<Attribute> {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -47,9 +47,8 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 	@Override
 	protected IFigure createFigure() {
 
-		Attribute model = (Attribute) getModel();
 		Label label = new Label();
-		label.setText(createAttributeName(model));
+		label.setText(createAttributeName(getModel()));
 		label.setBorder(new MarginBorder(2, 2, 2, 2));
 		label.setLabelAlignment(PositionConstants.LEFT);
 		return label;
@@ -80,8 +79,7 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		Attribute model = (Attribute) getModel();
-		EditAttribute edit = new EditAttribute(model);
+		EditAttribute edit = new EditAttribute(getModel());
 		AttributeDialog dialog = new AttributeDialog(getViewer().getControl()
 				.getShell(), edit);
 		if (dialog.open() == Dialog.OK) {
@@ -118,7 +116,7 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 			logger.warn("Not Handle Event Occured.");
 		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -126,9 +124,8 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 	 */
 	@Override
 	protected void refreshVisuals() {
-		Attribute model = (Attribute) getModel();
 		Label f = (Label) getFigure();
-		f.setText(createAttributeName(model));
+		f.setText(createAttributeName(getModel()));
 		getParent().refresh();
 	}
 

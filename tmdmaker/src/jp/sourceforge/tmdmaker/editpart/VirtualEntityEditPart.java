@@ -49,7 +49,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class VirtualEntityEditPart extends AbstractEntityEditPart {
+public class VirtualEntityEditPart extends AbstractEntityEditPart<VirtualEntity> {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -58,7 +58,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		VirtualEntity entity = (VirtualEntity) getModel();
+		VirtualEntity entity = getModel();
 		VirtualEntityEditDialog dialog = new VirtualEntityEditDialog(
 				getViewer().getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
@@ -92,7 +92,7 @@ public class VirtualEntityEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		VirtualEntity entity = (VirtualEntity) getModel();
+		VirtualEntity entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		// List<Attribute> atts = entity.getAttributes();

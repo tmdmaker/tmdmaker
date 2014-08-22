@@ -50,7 +50,7 @@ public class TMDEditorOutlineTreePartFactory implements EditPartFactory {
 		}else if (model instanceof AbstractEntityModel) {
 			logger.debug("モデルAbstractEntityModel 用の EditPart を返しました");
 			logger.debug(((AbstractEntityModel)model).getName());
-			part = new AbstractEntityModelTreeEditPart();
+			part = new AbstractEntityModelTreeEditPart<AbstractEntityModel>();
 		}else if (model instanceof IdentifierRef) {
 			logger.debug("モデルIdentifierRef 用の EditPart を返しました");
 			logger.debug(((IdentifierRef)model).getName());

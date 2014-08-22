@@ -61,11 +61,11 @@ public class TMDEditorPropertySourceProvider implements IPropertySourceProvider 
 			return new EntityPropertySource(this.editor, entity);
 		}
 		if (object instanceof AbstractEntityEditPart) {
-			AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart) object).getModel();
+			AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart<?>) object).getModel();
 			return new AbstractEntityModelPropertySource(this.editor, model);
 		}
 		if (object instanceof AbstractEntityModelTreeEditPart) {
-			AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityModelTreeEditPart) object).getModel();
+			AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityModelTreeEditPart<AbstractEntityModel>) object).getModel();
 			return new AbstractEntityModelPropertySource(this.editor, model);
 		}
 		if (object instanceof IdentifierRefTreeEditPart) {

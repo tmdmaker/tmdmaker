@@ -740,12 +740,12 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		for (Object o : editParts) {
 			logger.debug(o.getClass().getName());
 			if (o instanceof AbstractEntityEditPart) {
-				((AbstractEntityEditPart) o).updateAppearance();
+				((AbstractEntityEditPart<?>)o).updateAppearance();
 			} else if (o instanceof DiagramEditPart) {
 				for (Object ob : ((DiagramEditPart) o).getChildren()) {
 					if (ob instanceof AbstractEntityEditPart) {
-						((AbstractEntityEditPart) ob).updateAppearance();
-					}
+						((AbstractEntityEditPart<?>)ob).updateAppearance();
+					}		
 				}
 			}
 		}

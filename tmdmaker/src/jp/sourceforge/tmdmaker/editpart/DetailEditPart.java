@@ -44,7 +44,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class DetailEditPart extends AbstractEntityEditPart {
+public class DetailEditPart extends AbstractEntityEditPart<Detail> {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -54,7 +54,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
-		Detail table = (Detail) getModel();
+		Detail table = getModel();
 		DetailEditDialog dialog = new DetailEditDialog(getViewer().getControl()
 				.getShell(), table);
 		if (dialog.open() == Dialog.OK) {
@@ -81,7 +81,7 @@ public class DetailEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		Detail entity = (Detail) getModel();
+		Detail entity = getModel();
 
 		entityFigure.setNotImplement(entity.isNotImplement());
 		entityFigure.removeAllRelationship();

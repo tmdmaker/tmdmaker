@@ -41,7 +41,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class LaputaEditPart extends AbstractEntityEditPart {
+public class LaputaEditPart extends AbstractEntityEditPart<Laputa> {
 
 	/**
 	 * {@inheritDoc}
@@ -51,7 +51,7 @@ public class LaputaEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		Laputa entity = (Laputa) getModel();
+		Laputa entity = getModel();
 		// ラピュタは実装しないが×は付けない
 		// entityFigure.setNotImplement(entity.isNotImplement());
 
@@ -80,7 +80,7 @@ public class LaputaEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
-		Laputa model = (Laputa) getModel();
+		Laputa model = getModel();
 		LaputaEditDialog dialog = new LaputaEditDialog(getViewer().getControl()
 				.getShell(), model);
 		if (dialog.open() == Dialog.OK) {

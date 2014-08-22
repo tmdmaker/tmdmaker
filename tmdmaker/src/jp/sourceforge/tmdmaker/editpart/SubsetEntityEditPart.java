@@ -52,7 +52,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class SubsetEntityEditPart extends AbstractEntityEditPart {
+public class SubsetEntityEditPart extends AbstractEntityEditPart<SubsetEntity> {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -64,7 +64,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		logger.debug(getClass() + "#updateFigure()");
 
 		EntityFigure entityFigure = (EntityFigure) figure;
-		SubsetEntity entity = (SubsetEntity) getModel();
+		SubsetEntity entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		entityFigure.removeAllRelationship();
@@ -133,7 +133,7 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
-		SubsetEntity table = (SubsetEntity) getModel();
+		SubsetEntity table = getModel();
 		TableEditDialog dialog = new TableEditDialog(getViewer().getControl().getShell(),
 				"サブセット表編集", table);
 		if (dialog.open() == Dialog.OK) {

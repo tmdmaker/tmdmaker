@@ -41,7 +41,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
+public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart<MultivalueAndSuperset> {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -50,7 +50,7 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		AbstractEntityModel entity = (AbstractEntityModel) getModel();
+		AbstractEntityModel entity = getModel();
 		SupersetEditDialog dialog = new SupersetEditDialog(getViewer()
 				.getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
@@ -73,7 +73,7 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 	protected void updateFigure(IFigure figure) {
 		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
-		MultivalueAndSuperset entity = (MultivalueAndSuperset) getModel();
+		MultivalueAndSuperset entity = getModel();
 		entityFigure.setNotImplement(false);
 		List<IAttribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();

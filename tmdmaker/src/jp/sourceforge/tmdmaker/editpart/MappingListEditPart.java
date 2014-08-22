@@ -46,7 +46,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class MappingListEditPart extends AbstractEntityEditPart {
+public class MappingListEditPart extends AbstractEntityEditPart<MappingList> {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -56,7 +56,7 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		MappingList table = (MappingList) getModel();
+		MappingList table = getModel();
 		entityFigure.setNotImplement(table.isNotImplement());
 		// List<Identifier> ids = table.getReuseKeys();
 		// List<Attribute> atts = table.getAttributes();
@@ -99,7 +99,7 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
-		MappingList table = (MappingList) getModel();
+		MappingList table = getModel();
 		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
 				.getShell(), "対応表編集", table);
 		if (dialog.open() == Dialog.OK) {

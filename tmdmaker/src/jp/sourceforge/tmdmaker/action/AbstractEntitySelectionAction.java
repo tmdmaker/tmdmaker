@@ -65,8 +65,8 @@ public abstract class AbstractEntitySelectionAction extends SelectionAction {
 	 * 
 	 * @return コントローラ(EditPart)
 	 */
-	protected AbstractEntityEditPart getPart() {
-		return (AbstractEntityEditPart) getSelectedObjects().get(0);
+	protected AbstractEntityEditPart<? extends AbstractEntityModel> getPart() {
+		return (AbstractEntityEditPart<? extends AbstractEntityModel>) getSelectedObjects().get(0);
 	}
 
 	/**
@@ -74,6 +74,6 @@ public abstract class AbstractEntitySelectionAction extends SelectionAction {
 	 * @return モデル
 	 */
 	protected AbstractEntityModel getModel() {
-		return (AbstractEntityModel) getPart().getModel();
+		return getPart().getModel();
 	}
 }

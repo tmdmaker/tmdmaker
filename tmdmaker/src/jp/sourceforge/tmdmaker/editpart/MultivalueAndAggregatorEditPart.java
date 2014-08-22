@@ -18,6 +18,8 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.Collections;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
+
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
@@ -33,7 +35,7 @@ import org.eclipse.gef.Request;
  * @author nakaG
  * 
  */
-public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart {
+public class MultivalueAndAggregatorEditPart extends AbstractEntityEditPart<MultivalueAndAggregator> {
 	/**
 	 * 
 	 * {@inheritDoc}

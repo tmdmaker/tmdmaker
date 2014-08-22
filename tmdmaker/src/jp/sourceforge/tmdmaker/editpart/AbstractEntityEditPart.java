@@ -52,7 +52,7 @@ import org.eclipse.swt.graphics.Color;
  * @author nakaG
  * 
  */
-public abstract class AbstractEntityEditPart extends AbstractTMDEditPart implements NodeEditPart {
+public abstract class AbstractEntityEditPart<T extends ModelElement> extends AbstractTMDEditPart<T> implements NodeEditPart {
 
 	/** このコントローラで利用するアンカー */
 	private ConnectionAnchor anchor;
@@ -74,7 +74,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart impleme
 	public void activate() {
 		logger.debug(getClass() + "#activate()");
 		super.activate();
-		((ModelElement) getModel()).addPropertyChangeListener(this);
+		getModel().addPropertyChangeListener(this);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart impleme
 	public void deactivate() {
 		logger.debug(getClass() + "#deactivate()");
 		super.deactivate();
-		((ModelElement) getModel()).removePropertyChangeListener(this);
+		getModel().removePropertyChangeListener(this);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart impleme
 
 			Point location = new Point(reconnectRequest.getLocation());
 			this.getFigure().translateToRelative(location);
-			IFigure sourceFigure = ((AbstractEntityEditPart) connectionEditPart.getSource())
+			IFigure sourceFigure = ((AbstractEntityEditPart<?>) connectionEditPart.getSource())
 					.getFigure();
 			XYChopboxAnchor anchor = new XYChopboxAnchor(getFigure());
 
@@ -218,7 +218,7 @@ public abstract class AbstractEntityEditPart extends AbstractTMDEditPart impleme
 			}
 			Point location = new Point(reconnectRequest.getLocation());
 			this.getFigure().translateToRelative(location);
-			IFigure targetFigure = ((AbstractEntityEditPart) connectionEditPart.getTarget())
+			IFigure targetFigure = ((AbstractEntityEditPart<?>) connectionEditPart.getTarget())
 					.getFigure();
 
 			XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),

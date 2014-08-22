@@ -34,7 +34,7 @@ import org.eclipse.gef.Request;
  * @author nakaG
  * 
  */
-public class VirtualSupersetTypeEditPart extends AbstractEntityEditPart {
+public class VirtualSupersetTypeEditPart extends AbstractEntityEditPart<VirtualSupersetType> {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -44,7 +44,7 @@ public class VirtualSupersetTypeEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		SubsetTypeFigure sf = (SubsetTypeFigure) figure;
-		VirtualSupersetType model = (VirtualSupersetType) getModel();
+		VirtualSupersetType model = getModel();
 		sf.setSameType(model.isApplyAttribute());
 		sf.setOpaque(true);
 	}

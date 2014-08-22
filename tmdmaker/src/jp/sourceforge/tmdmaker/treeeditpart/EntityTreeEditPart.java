@@ -13,14 +13,9 @@ import org.eclipse.swt.graphics.Image;
  * @author ny@cosmichorror.org
  *
  */
-public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart implements
+public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart<Entity> implements
 		PropertyChangeListener {
 	
-	@Override
-	public Entity getModel() {
-		return (Entity) super.getModel();
-	}
-
 	@Override
 	protected void setIdentifiers(){
 		identifiers.add(0, getModel().getIdentifier());

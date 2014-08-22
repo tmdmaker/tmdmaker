@@ -43,7 +43,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class EntityEditPart extends AbstractEntityEditPart {
+public class EntityEditPart extends AbstractEntityEditPart<Entity> {
 
 	/**
 	 * 
@@ -55,7 +55,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	protected void updateFigure(IFigure figure) {
 		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
-		Entity entity = (Entity) getModel();
+		Entity entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		entityFigure.removeAllRelationship();
@@ -103,7 +103,7 @@ public class EntityEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
-		Entity entity = (Entity) getModel();
+		Entity entity = getModel();
 		EntityEditDialog dialog = new EntityEditDialog(getViewer().getControl()
 				.getShell(), entity);
 		if (dialog.open() == Dialog.OK) {

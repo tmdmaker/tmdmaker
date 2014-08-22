@@ -113,7 +113,7 @@ public class GenerateAction extends SelectionAction {
 					&& !(selection instanceof SubsetTypeEditPart)
 					&& !(selection instanceof MultivalueAndAggregatorEditPart)
 					&& !(selection instanceof LaputaEditPart)) {
-				AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart) selection)
+				AbstractEntityModel model = (AbstractEntityModel) ((AbstractEntityEditPart<?>) selection)
 						.getModel();
 				if (generator.isImplementModelOnly()) {
 					if (!model.isNotImplement()) {

@@ -78,7 +78,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		AbstractEntityEditPart part = getPart();
+		AbstractEntityEditPart<? extends AbstractEntityModel> part = getPart();
 		AbstractEntityModel model = getModel();
 		SubsetType subsetType = SubsetRule.setupSubsetType(model);
 

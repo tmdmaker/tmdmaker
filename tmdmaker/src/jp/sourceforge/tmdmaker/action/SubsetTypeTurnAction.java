@@ -69,7 +69,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		AbstractEntityEditPart part = getPart();
+		AbstractEntityEditPart<?> part = getPart();
 		SubsetType model = (SubsetType) part.getModel();
 
 		execute(new SubsetTypeChangeCommand(model));

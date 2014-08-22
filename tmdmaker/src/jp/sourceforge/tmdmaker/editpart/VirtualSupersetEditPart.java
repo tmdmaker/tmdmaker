@@ -42,7 +42,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class VirtualSupersetEditPart extends AbstractEntityEditPart {
+public class VirtualSupersetEditPart extends AbstractEntityEditPart<VirtualSuperset> {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -52,7 +52,7 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		AbstractEntityModel entity = (AbstractEntityModel) getModel();
+		AbstractEntityModel entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		// みなしスーパーセットはReusedを表示させない
@@ -77,7 +77,7 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		AbstractEntityModel entity = (AbstractEntityModel) getModel();
+		AbstractEntityModel entity = getModel();
 		SupersetEditDialog dialog = new SupersetEditDialog(getViewer()
 				.getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {

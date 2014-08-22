@@ -51,8 +51,7 @@ import org.eclipse.gef.requests.CreateRequest;
  * @author nakaG
  * 
  */
-public class DiagramEditPart extends AbstractTMDEditPart {
-
+public class DiagramEditPart extends AbstractTMDEditPart<Diagram> {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -101,7 +100,7 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 	 */
 	@Override
 	protected List<ModelElement> getModelChildren() {
-		return ((Diagram) getModel()).getChildren();
+		return getModel().getChildren();
 	}
 
 	/**
@@ -182,7 +181,7 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 			constraint.height = -1;
 			Entity entity = (Entity) request.getNewObject();
 			entity.setConstraint(ConstraintConverter.toConstraint(constraint));
-			return new ModelAddCommand((Diagram) getModel(), constraint.x, constraint.y);
+			return new ModelAddCommand(getModel(), constraint.x, constraint.y);
 		}
 	}
 

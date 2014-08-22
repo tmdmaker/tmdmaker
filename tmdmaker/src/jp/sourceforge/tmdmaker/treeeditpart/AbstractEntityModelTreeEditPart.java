@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * @author ny@cosmichorror.org
  *
  */
-public class AbstractEntityModelTreeEditPart extends AbstractTreeEditPart implements
+public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> extends AbstractTreeEditPart implements
 		PropertyChangeListener {
 	
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractEntityModelTreeEditPart.class);
@@ -53,10 +53,9 @@ public class AbstractEntityModelTreeEditPart extends AbstractTreeEditPart implem
 	}
 
 	//getModel()でツリー要素の対象モデルのインスタンスが取れる。
-    //色々なところから呼び出されるメソッドだが、呼び出す側で毎回キャストするのが面倒なので、共変戻り値の構文を使って自分のクラスで返すようにしておく。
 	@Override
-	public AbstractEntityModel getModel() {
-		return (AbstractEntityModel) super.getModel();
+	public T getModel() {
+		return (T)super.getModel();
 	}
 
 	List<List<?>> children = new ArrayList<List<?>>();

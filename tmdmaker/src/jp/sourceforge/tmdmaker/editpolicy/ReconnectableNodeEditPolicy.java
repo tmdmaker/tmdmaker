@@ -64,7 +64,7 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 			return null;
 		}
 		Point location = new Point(request.getLocation());
-		AbstractEntityEditPart sourceEditPart = (AbstractEntityEditPart) request
+		AbstractEntityEditPart<?> sourceEditPart = (AbstractEntityEditPart<?>) request
 				.getConnectionEditPart().getSource();
 		IFigure sourceFigure = sourceEditPart.getFigure();
 		sourceFigure.translateToRelative(location);
@@ -106,7 +106,7 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 			return null;
 		}
 		Point location = new Point(request.getLocation());
-		AbstractEntityEditPart targetEditPart = (AbstractEntityEditPart) request
+		AbstractEntityEditPart<?> targetEditPart = (AbstractEntityEditPart<?>) request
 				.getConnectionEditPart().getTarget();
 		IFigure targetFigure = targetEditPart.getFigure();
 		targetFigure.translateToRelative(location);

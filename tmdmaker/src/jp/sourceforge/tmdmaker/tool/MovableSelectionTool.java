@@ -72,7 +72,7 @@ public class MovableSelectionTool extends SelectionTool {
 
 		for (Object selection : getCurrentViewer().getSelectedEditParts()) {
 			if (selection instanceof AbstractEntityEditPart) {
-				AbstractEntityEditPart part = (AbstractEntityEditPart) selection;
+				AbstractEntityEditPart<?> part = (AbstractEntityEditPart<?>) selection;
 				command.add(new ModelConstraintChangeCommand(
 						(ModelElement) part.getModel(), p.x, p.y));
 			}
