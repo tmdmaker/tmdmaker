@@ -66,9 +66,14 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 		// entityFigure.addRelationship(i.getName());
 		// }
 		// }
-		setupColor(entityFigure, ModelAppearance.SUPERSET_COLOR);
+		setupColor(entityFigure);
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.SUPERSET_COLOR;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

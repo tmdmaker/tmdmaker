@@ -66,11 +66,13 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	 * @param appearance
 	 *            モデル外観
 	 */
-	protected void setupColor(IFigure entityFigure, ModelAppearance appearance) {
-		entityFigure.setBackgroundColor(createBackgroundColor(appearance));
-		entityFigure.setForegroundColor(createForegroundColor(appearance));
+	protected void setupColor(IFigure entityFigure) {
+		entityFigure.setBackgroundColor(createBackgroundColor(getAppearance()));
+		entityFigure.setForegroundColor(createForegroundColor(getAppearance()));
 	}
 
+	abstract protected ModelAppearance getAppearance();
+	
 	private Color createBackgroundColor(ModelAppearance appearance) {
 		AppearanceSetting config = AppearanceSetting.getInstance();
 		if (config.isColorEnabled()) {

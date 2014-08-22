@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
+
 import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
@@ -58,18 +59,23 @@ public class EntityEditPart extends AbstractEntityModelEditPart<Entity> {
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(entity.getEntityType().getLabel());
 
-		ModelAppearance appearance = null;
-		if (entity.getEntityType().equals(EntityType.RESOURCE)) {
-			appearance = ModelAppearance.RESOURCE;
-		} else if (entity.getEntityType().equals(EntityType.EVENT)) {
-			appearance = ModelAppearance.EVENT;
-		}
-		setupColor(entityFigure, appearance);
+		setupColor(entityFigure);
 
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		entityFigure.addRelationship(extractRelationship(entity));
 	}
-
+	
+	@Override
+	protected ModelAppearance getAppearance() {
+		ModelAppearance appearance = null;
+		if (getModel().getEntityType().equals(EntityType.RESOURCE)) {
+			appearance = ModelAppearance.RESOURCE;
+		} else if (getModel().getEntityType().equals(EntityType.EVENT)) {
+			appearance = ModelAppearance.EVENT;
+		}
+		return appearance;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

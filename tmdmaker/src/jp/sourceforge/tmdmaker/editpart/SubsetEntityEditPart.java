@@ -82,18 +82,23 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 			}
 			entityFigure.addRelationship(extractRelationship(entity));
 		}
-		ModelAppearance appearance = null;
-		if (entity.getEntityType().equals(EntityType.RESOURCE)) {
-			appearance = ModelAppearance.RESOURCE_SUBSET;
-		} else if (entity.getEntityType().equals(EntityType.EVENT)) {
-			appearance = ModelAppearance.EVENT_SUBSET;
-		}
-		setupColor(entityFigure, appearance);
+		setupColor(entityFigure);
 		// for (Attribute a : atts) {
 		// entityFigure.addAttribute(a.getName());
 		// }
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		ModelAppearance appearance = null;
+		if (getModel().getEntityType().equals(EntityType.RESOURCE)) {
+			appearance = ModelAppearance.RESOURCE_SUBSET;
+		} else if (getModel().getEntityType().equals(EntityType.EVENT)) {
+			appearance = ModelAppearance.EVENT_SUBSET;
+		}
+		return appearance;
+	}
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(SubsetType.PROPERTY_PARTITION)) {

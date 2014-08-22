@@ -88,12 +88,17 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.MO.getLabel());
 		entityFigure.addRelationship(extractRelationship(entity));
-		setupColor(entityFigure, ModelAppearance.MULTIVALUE_OR);
+		setupColor(entityFigure);
 		// for (Attribute a : atts) {
 		// entityFigure.addAttribute(a.getName());
 		// }
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.MULTIVALUE_OR;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

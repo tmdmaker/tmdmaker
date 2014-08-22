@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
+
 import jp.sourceforge.tmdmaker.dialog.LaputaEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
@@ -59,9 +60,13 @@ public class LaputaEditPart extends AbstractEntityModelEditPart<Laputa> {
 
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		entityFigure.addRelationship(extractRelationship(entity));
-		setupColor(entityFigure, ModelAppearance.LAPUTA_COLOR);
+		setupColor(entityFigure);
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.LAPUTA_COLOR;
+	}
 	/**
 	 * {@inheritDoc}
 	 * 

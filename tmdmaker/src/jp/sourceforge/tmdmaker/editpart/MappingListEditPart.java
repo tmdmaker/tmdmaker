@@ -60,12 +60,17 @@ public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList
 
 		entityFigure.setEntityName(table.getName());
 		entityFigure.addRelationship(extractRelationship(table));
-		setupColor(entityFigure, ModelAppearance.MAPPING_LIST);
+		setupColor(entityFigure);
 		// for (Attribute a : atts) {
 		// entityFigure.addAttribute(a.getName());
 		// }
 	}
-
+	
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.MAPPING_LIST;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

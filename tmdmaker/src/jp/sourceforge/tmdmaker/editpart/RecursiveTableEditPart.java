@@ -60,12 +60,17 @@ public class RecursiveTableEditPart extends AbstractEntityModelEditPart<Recursiv
 
 		entityFigure.setEntityName(table.getName());
 		entityFigure.addRelationship(extractRelationship(table));
-		setupColor(entityFigure, ModelAppearance.RECURSIVE_TABLE);
+		setupColor(entityFigure);
 		// for (Attribute a : atts) {
 		// entityFigure.addAttribute(a.getName());
 		// }
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.RECURSIVE_TABLE;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

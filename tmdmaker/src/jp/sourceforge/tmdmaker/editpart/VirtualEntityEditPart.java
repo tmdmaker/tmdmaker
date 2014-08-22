@@ -99,18 +99,23 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 		entityFigure.setEntityType(EntityType.VE.getLabel());
 		// figure.setIdentifier(entity.getIdentifier().getName());
 		entityFigure.addRelationship(extractRelationship(entity));
+		setupColor(entityFigure);
+	}
+
+	@Override
+	protected ModelAppearance getAppearance() {
 		ModelAppearance appearance = null;
-		if (entity.getVirtualEntityType().equals(VirtualEntityType.RESOURCE)) {
+		if (getModel().getVirtualEntityType().equals(VirtualEntityType.RESOURCE)) {
 			appearance = ModelAppearance.RESOURCE_VIRTUAL_ENTITY;
-		} else if (entity.getVirtualEntityType()
+		} else if (getModel().getVirtualEntityType()
 				.equals(VirtualEntityType.EVENT)) {
 			appearance = ModelAppearance.EVENT_SUBSET;
 		} else {
 			appearance = ModelAppearance.VIRTUAL_ENTITY;
 		}
-		setupColor(entityFigure, appearance);
+		return appearance;
 	}
-
+	
 	/**
 	 * 
 	 * {@inheritDoc}

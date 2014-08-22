@@ -27,6 +27,7 @@ import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -132,5 +133,11 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityModelEditPart<M
 					.getModelTargetConnections().get(0));
 		}
 
+	}
+
+	@Override
+	protected ModelAppearance getAppearance() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

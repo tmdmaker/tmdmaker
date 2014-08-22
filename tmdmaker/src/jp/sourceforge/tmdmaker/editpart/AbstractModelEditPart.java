@@ -393,8 +393,7 @@ public abstract class AbstractModelEditPart<T extends ModelElement> extends Abst
 	protected void refreshVisuals() {
 		logger.debug(getClass().toString() + "#refreshVisuals()");
 		super.refreshVisuals();
-		Object model = getModel();
-		Constraint constraint = ((ModelElement) model).getConstraint();
+		Constraint constraint = getModel().getConstraint();
 		Rectangle bounds = ConstraintConverter.toRectangle(constraint);
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
 

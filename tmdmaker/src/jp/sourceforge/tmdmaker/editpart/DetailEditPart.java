@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
+
 import jp.sourceforge.tmdmaker.dialog.DetailEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -25,6 +26,7 @@ import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -129,6 +131,12 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 					.getModelTargetConnections().get(0));
 
 		}
+	}
+
+	@Override
+	protected ModelAppearance getAppearance() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

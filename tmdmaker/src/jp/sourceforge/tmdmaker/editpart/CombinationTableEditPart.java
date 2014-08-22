@@ -68,9 +68,14 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 		entityFigure.setEntityName(table.getName());
 		
 		entityFigure.addRelationship(extractRelationship(table));
-		setupColor(entityFigure, ModelAppearance.COMBINATION_TABLE);
+		setupColor(entityFigure);
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.COMBINATION_TABLE;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
