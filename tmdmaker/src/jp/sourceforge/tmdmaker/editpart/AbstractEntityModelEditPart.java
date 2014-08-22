@@ -90,4 +90,15 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 			return ColorConstants.black;
 		}
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+	 */
+	@SuppressWarnings({ "rawtypes" })
+	@Override
+	protected List getModelChildren() {
+		return getModel().getAttributes();
+	}
 }

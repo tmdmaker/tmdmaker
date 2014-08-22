@@ -48,7 +48,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * @author nakaG
  * 
  */
-public abstract class AbstractModelEditPart<T extends ModelElement> extends AbstractTMDEditPart<T> implements NodeEditPart {
+public abstract class AbstractModelEditPart<T extends ConnectableElement> extends AbstractTMDEditPart<T> implements NodeEditPart {
 
 	/** このコントローラで利用するアンカー */
 	private ConnectionAnchor anchor;
@@ -246,7 +246,7 @@ public abstract class AbstractModelEditPart<T extends ModelElement> extends Abst
 	 */
 	@Override
 	protected List<AbstractConnectionModel> getModelSourceConnections() {
-		return ((ConnectableElement) getModel()).getModelSourceConnections();
+		return getModel().getModelSourceConnections();
 	}
 
 	/**
@@ -257,7 +257,7 @@ public abstract class AbstractModelEditPart<T extends ModelElement> extends Abst
 	 */
 	@Override
 	protected List<AbstractConnectionModel> getModelTargetConnections() {
-		return ((ConnectableElement) getModel()).getModelTargetConnections();
+		return getModel().getModelTargetConnections();
 	}
 
 	/**
@@ -455,17 +455,6 @@ public abstract class AbstractModelEditPart<T extends ModelElement> extends Abst
 	@Override
 	public IFigure getContentPane() {
 		return ((EntityFigure) getFigure()).getAttributeCompartmentFigure();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-	 */
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	protected List getModelChildren() {
-		return ((AbstractEntityModel) getModel()).getAttributes();
 	}
 
 	/**
