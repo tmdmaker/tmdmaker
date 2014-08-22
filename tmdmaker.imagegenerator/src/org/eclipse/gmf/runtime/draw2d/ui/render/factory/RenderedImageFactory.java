@@ -42,7 +42,7 @@ import org.eclipse.swt.graphics.RGB;
  */
 public class RenderedImageFactory {
 
-    static private Map instanceMap = new WeakHashMap();
+    static private Map<RenderedImageKey, WeakReference<RenderedImage>> instanceMap = new WeakHashMap<RenderedImageKey, WeakReference<RenderedImage>>();
 
     /**
      * createInfo static Utility to create a RenderInfo object.
@@ -149,10 +149,10 @@ public class RenderedImageFactory {
         Adler32 checksum = new Adler32();
         checksum.update(buffer);
         final RenderedImageKey key = new RenderedImageKey(info, checksum.getValue(), null, url);
-        WeakReference ref = (WeakReference) instanceMap.get(key);
+        WeakReference<RenderedImage> ref = (WeakReference<RenderedImage>) instanceMap.get(key);
         RenderedImage image = null;
         if (ref != null)
-            image = (RenderedImage) (((WeakReference) instanceMap.get(key))
+            image = (RenderedImage) (((WeakReference<RenderedImage>) instanceMap.get(key))
                 .get());
         else
             image = autodetectImage(buffer, key);
@@ -264,7 +264,7 @@ public class RenderedImageFactory {
             }
             
             RenderedImageKey key = new RenderedImageKey(info, oldKey.getChecksum(), extraData);
-            WeakReference ref = (WeakReference) instanceMap.get(key);
+            WeakReference<RenderedImage> ref = (WeakReference<RenderedImage>) instanceMap.get(key);
             if (ref != null) {
                 return (RenderedImage) ref.get();
             } else {
@@ -295,10 +295,10 @@ public class RenderedImageFactory {
         Adler32 checksum = new Adler32();
         checksum.update(buffer);
         final RenderedImageKey key = new RenderedImageKey(info, checksum.getValue(), null);
-        WeakReference ref = (WeakReference) instanceMap.get(key);
+        WeakReference<RenderedImage> ref = (WeakReference<RenderedImage>) instanceMap.get(key);
         RenderedImage image = null;
         if (ref != null)
-            image = (RenderedImage) (((WeakReference) instanceMap.get(key))
+            image = (RenderedImage) (((WeakReference<RenderedImage>) instanceMap.get(key))
                 .get());
         else
             image = autodetectImage(buffer, key);
@@ -317,13 +317,13 @@ public class RenderedImageFactory {
     private static final String E_MODIFIER_FACTORY = "factory"; //$NON-NLS-1$
     private static final String A_CLASS = "class"; //$NON-NLS-1$
 
-    static private List imageTypes = null;
+    static private List<RenderedImageType> imageTypes = null;
     
     static private RenderedImage autodetectImage(byte[] buffer,
             final RenderedImageKey key) {
         
         if (imageTypes == null) {
-            imageTypes = new ArrayList();
+            imageTypes = new ArrayList<RenderedImageType>();
             
             IExtensionPoint riExtensionPt = Platform.getExtensionRegistry().getExtensionPoint("org.eclipse.gmf.runtime.draw2d.ui.render", //$NON-NLS-1$
                                                             "renderedImageFactory");  //$NON-NLS-1$
@@ -345,7 +345,7 @@ public class RenderedImageFactory {
         }
         
         RenderedImage image = null;
-        ListIterator li = imageTypes.listIterator();
+        ListIterator<RenderedImageType> li = imageTypes.listIterator();
         while (li.hasNext()) {
             RenderedImageType imageType = (RenderedImageType)li.next();
             image = imageType.autoDetect(buffer, key);
@@ -360,7 +360,7 @@ public class RenderedImageFactory {
         }
         
         if (image != null) {
-            instanceMap.put(key, new WeakReference(image));
+            instanceMap.put(key, new WeakReference<RenderedImage>(image));
         }
         
         return image;
