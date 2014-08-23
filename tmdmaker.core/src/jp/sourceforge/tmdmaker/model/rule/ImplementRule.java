@@ -132,7 +132,7 @@ public class ImplementRule {
 		if (model instanceof SubsetEntity) {
 			ReusedIdentifier reused = ((SubsetEntity) model)
 					.getOriginalReusedIdentifier();
-			for (IdentifierRef ref : reused.getIdentifires()) {
+			for (IdentifierRef ref : reused.getUniqueIdentifieres()) {
 				attributes.add(ref);
 			}
 		}
@@ -150,7 +150,7 @@ public class ImplementRule {
 					attributes.add(s);
 				}
 			} else {
-				for (IdentifierRef ref : ri.getIdentifires()) {
+				for (IdentifierRef ref : ri.getUniqueIdentifieres()) {
 					attributes.add(ref);
 				}
 			}

@@ -66,7 +66,7 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityName(table.getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table
 				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getIdentifires()) {
+			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
 				entityFigure.addRelationship(i.getName());
 			}
 		}

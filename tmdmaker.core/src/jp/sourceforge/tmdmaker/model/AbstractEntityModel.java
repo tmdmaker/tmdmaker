@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -476,7 +476,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> e : getReusedIdentifieres()
 				.entrySet()) {
 			ReusedIdentifier ri = e.getValue();
-			for (IdentifierRef i : ri.getIdentifires()) {
+			for (IdentifierRef i : ri.getUniqueIdentifieres()) {
 				rx = Math.max(i.getName().length() + RMARK_SIZE, rx);
 			}
 		}

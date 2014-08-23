@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,9 @@ package jp.sourceforge.tmdmaker.model;
 public class IdentifierRef extends Identifier {
 	/** 元の個体指定子 */
 	private Identifier original;
+
+	/** 重複キー（対照表限定利用） */
+	private Boolean duplicate = null;
 
 	/**
 	 * コンストラクタ
@@ -64,7 +67,7 @@ public class IdentifierRef extends Identifier {
 		}
 		return returnName;
 	}
-	
+
 	public boolean isSame(IdentifierRef identifierRef) {
 		return this.original.equals(identifierRef.getOriginal());
 	}
@@ -82,6 +85,7 @@ public class IdentifierRef extends Identifier {
 		}
 		return returnName;
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -91,7 +95,7 @@ public class IdentifierRef extends Identifier {
 	public void setImplementName(String implementName) {
 		String oldValue = super.getImplementName();
 		if (implementName == null || !implementName.equals(oldValue)) {
-			super.setImplementName(implementName);			
+			super.setImplementName(implementName);
 		}
 	}
 
@@ -127,8 +131,30 @@ public class IdentifierRef extends Identifier {
 		}
 		to.setImplementName(getImplementName());
 		to.setNullable(isNullable());
-//		to.setName(getName());
+		// to.setName(getName());
 
 	}
-	
+
+	/**
+	 * @return the duplicate
+	 */
+	public Boolean isDuplicate() {
+		if (duplicate == null) {
+			if (original instanceof IdentifierRef) {
+				return ((IdentifierRef)original).isDuplicate();
+			} else {
+				return false;
+			}
+		}
+		return duplicate;
+	}
+
+	/**
+	 * @param duplicate
+	 *            the duplicate to set
+	 */
+	public void setDuplicate(Boolean duplicate) {
+		this.duplicate = duplicate;
+	}
+
 }

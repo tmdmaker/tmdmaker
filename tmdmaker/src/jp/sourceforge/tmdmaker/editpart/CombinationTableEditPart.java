@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009,2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
@@ -69,18 +67,11 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 		// entityFigure.removeAllAttributes();
 
 		entityFigure.setEntityName(table.getName());
-		List<String> reusedIdentifierNames = new ArrayList<String>();
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getIdentifires()) {
-				if (!reusedIdentifierNames.contains(i.getName())
-						|| rk.getKey() instanceof RecursiveTable) {
-					reusedIdentifierNames.add(i.getName());
-				}
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres()
+				.entrySet()) {
+			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
+				entityFigure.addRelationship(i.getName());
 			}
-		}
-		for (String name : reusedIdentifierNames) {
-			entityFigure.addRelationship(name);
 		}
 		setupColor(entityFigure, ModelAppearance.COMBINATION_TABLE);
 		// for (Attribute a : atts) {
@@ -96,10 +87,8 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new CombinationTableComponentEditPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new TMDModelGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new CombinationTableComponentEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
@@ -112,20 +101,17 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		CombinationTable table = (CombinationTable) getModel();
-		CombinationTableEditDialog dialog = new CombinationTableEditDialog(
-				getViewer().getControl().getShell(), "対照表編集", table);
+		CombinationTableEditDialog dialog = new CombinationTableEditDialog(getViewer().getControl()
+				.getShell(), "対照表編集", table);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 
-			List<EditAttribute> editAttributeList = dialog
-					.getEditAttributeList();
+			List<EditAttribute> editAttributeList = dialog.getEditAttributeList();
 			addAttributeEditCommands(ccommand, table, editAttributeList);
 
-			ModelEditCommand command = new ModelEditCommand(table,
-					dialog.getEditedValue());
+			ModelEditCommand command = new ModelEditCommand(table, dialog.getEditedValue());
 			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack()
-					.execute(ccommand.unwrap());
+			getViewer().getEditDomain().getCommandStack().execute(ccommand.unwrap());
 		}
 
 	}
@@ -135,8 +121,7 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	 * @author nakaG
 	 * 
 	 */
-	private static class CombinationTableComponentEditPolicy extends
-			ComponentEditPolicy {
+	private static class CombinationTableComponentEditPolicy extends ComponentEditPolicy {
 		/**
 		 * 
 		 * {@inheritDoc}

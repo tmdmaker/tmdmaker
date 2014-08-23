@@ -228,12 +228,13 @@ public class DdlUtilsConverter {
 			addReference(refences, localColumn, originalColumn);
 			return refences;
 		} else {
-			int reusedCount = reused.getIdentifires().size();
+			List<IdentifierRef> list = reused.getUniqueIdentifieres();
+			int reusedCount = list.size();
 			// 再帰表は同一Reused×2となっているため1つ目のみを取得する
 			if (isRecursive(reused)) {
 				reusedCount = reusedCount / 2;
 			}
-			List<IdentifierRef> list = reused.getIdentifires();
+
 			for (int i = 0; i < reusedCount; i++) {
 				IdentifierRef iref = list.get(i);
 				Column localColumn = convert(iref);

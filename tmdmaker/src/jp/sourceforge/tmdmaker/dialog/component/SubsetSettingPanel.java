@@ -70,12 +70,13 @@ public class SubsetSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		partitionCodeLabel = new Label(this, SWT.NONE);
+		partitionCodeLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		partitionCodeLabel.setText("区分コード");
 		this.setLayout(gridLayout);
 		createPartitionSelectCombo();
 		createTypeGroup();
 		createSubsetContainerComposite();
-		this.setSize(new Point(324, 178));
+		this.setSize(new Point(224, 178));
 	}
 
 	/**
@@ -100,13 +101,14 @@ public class SubsetSettingPanel extends Composite {
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 2;
 		gridData.horizontalAlignment = GridData.FILL;
-		gridData.verticalAlignment = GridData.CENTER;
+		gridData.verticalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = false;
 		typeGroup = new Group(this, SWT.NONE);
 		typeGroup.setText("サブセット種類");
 		typeGroup.setLayout(gridLayout1);
 		typeGroup.setLayoutData(gridData);
 		sameRadioButton = new Button(typeGroup, SWT.RADIO);
+		sameRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		sameRadioButton.setText("同一");
 		sameRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -117,6 +119,7 @@ public class SubsetSettingPanel extends Composite {
 			}
 		});
 		differenceRadioButton = new Button(typeGroup, SWT.RADIO);
+		differenceRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		differenceRadioButton.setText("相違");
 		differenceRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -125,6 +128,7 @@ public class SubsetSettingPanel extends Composite {
 			}
 		});
 		nullCheckBox = new Button(typeGroup, SWT.CHECK);
+		nullCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		nullCheckBox.setText("NULLを排除");
 		nullCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -245,6 +249,7 @@ public class SubsetSettingPanel extends Composite {
 		subsetControlComposite = new Composite(subsetContainerComposite, SWT.NONE);
 		subsetControlComposite.setLayout(new GridLayout());
 		newButton = new Button(subsetControlComposite, SWT.NONE);
+		newButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		newButton.setText("新規");
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -257,6 +262,7 @@ public class SubsetSettingPanel extends Composite {
 			}
 		});
 		deleteButton = new Button(subsetControlComposite, SWT.NONE);
+		deleteButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		deleteButton.setText("削除");
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {

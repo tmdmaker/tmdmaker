@@ -90,13 +90,13 @@ public class DetailEditPart extends AbstractEntityEditPart {
 		// entityFigure.setEntityType(entity.getEntityType().toString());
 		// figure.setIdentifier(entity.getIdentifier().getName());
 		IdentifierRef original = entity.getOriginalReusedIdentifier()
-				.getIdentifires().get(0);
+				.getUniqueIdentifieres().get(0);
 		entityFigure.setIdentifier(original.getName());
 		entityFigure.setIdentifier(entity.getDetailIdentifier().getName());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
 				.getReusedIdentifieres().entrySet()) {
 
-			for (IdentifierRef i : rk.getValue().getIdentifires()) {
+			for (IdentifierRef i : rk.getValue().getUniqueIdentifieres()) {
 				if (i.isSame(original)) {
 					// nothing
 				} else {

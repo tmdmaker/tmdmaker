@@ -49,12 +49,13 @@ public class VirtualSupersetSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		virtualSupersetNameLabel = new Label(this, SWT.NONE);
+		virtualSupersetNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		virtualSupersetNameLabel.setText("みなしスーパーセット名");
 		virtualSupersetNameText = new Text(this, SWT.BORDER);
 		virtualSupersetNameText.setLayoutData(gridData);
 		createTypeComposite();
 		this.setLayout(gridLayout);
-		this.setSize(new Point(264, 66));
+		this.setSize(new Point(288, 62));
 	}
 
 	/**

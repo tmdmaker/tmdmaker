@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,6 +84,21 @@ public class ReusedIdentifier implements Serializable {
 		return Collections.unmodifiableList(identifieres);
 	}
 
+	/**
+	 * 参照元の個体指定子（またはRe-usedキー）を返す。
+	 * sourceとtargetで重複する個体指定子は１つにまとめる。
+	 * @return 重複を排除した参照元の個体指定子（またはRe-usedキー）。
+	 */
+	public List<IdentifierRef> getUniqueIdentifieres() {
+		List<IdentifierRef> list = new ArrayList<IdentifierRef>(identifieres.size());
+		for(IdentifierRef i : identifieres) {
+			if (!i.isDuplicate()) {
+				list.add(i);
+			}
+		}
+		return Collections.unmodifiableList(list);
+	}
+	
 	/**
 	 * @return the sarogateKey
 	 */

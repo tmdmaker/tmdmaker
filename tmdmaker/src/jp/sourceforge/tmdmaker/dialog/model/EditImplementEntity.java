@@ -85,7 +85,7 @@ public class EditImplementEntity {
 		}
 		if (model instanceof SubsetEntity) {
 			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
-			for (IdentifierRef ref : reused.getIdentifires()) {
+			for (IdentifierRef ref : reused.getUniqueIdentifieres()) {
 				attributes.add(new EditImplementAttribute(model, ref));
 			}
 
@@ -105,7 +105,7 @@ public class EditImplementEntity {
 			} else {
 				System.out.println("not ri.isSarogateKeyEnabled()");
 				// 個体指定子の参照をカラムとして使用
-				for (IdentifierRef ref : ri.getIdentifires()) {
+				for (IdentifierRef ref : ri.getUniqueIdentifieres()) {
 					attributes.add(new EditImplementAttribute(model, ref));
 				}
 			}

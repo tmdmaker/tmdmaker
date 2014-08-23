@@ -27,6 +27,8 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -221,8 +223,18 @@ public class ImplementInfoEditPanel extends Composite {
 		if (control instanceof Text) {
 			final Text text = (Text) control;
 			text.addFocusListener(new FocusAdapter(){
+				int forcusGainIndex = -1;
+				@Override
+				public void focusGained(FocusEvent e) {
+					System.out.println("text focusGained()");
+					forcusGainIndex = tableSelectedIndex;
+					super.focusGained(e);
+				}
+
 				public void focusLost(FocusEvent e){
-					setData(tableEditor.getColumn(), text.getText());
+					System.out.println("text focusLost()");
+					System.out.println("index = " + forcusGainIndex);
+					setData(tableEditor.getColumn(), text.getText(), forcusGainIndex);
 					updateTable();
 //					TableItem item = tableEditor.getItem();
 //					item.setText(tableEditor.getColumn(), text.getText());
@@ -244,8 +256,22 @@ public class ImplementInfoEditPanel extends Composite {
 			text.selectAll();
 			text.setFocus();
 		} else if (control instanceof Combo) {
+			System.out.println("instanceof Combo");
 			final Combo combo = (Combo) control;
+
 			combo.addFocusListener(new FocusAdapter() {
+				int forcusGainedIndex = -1;
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.swt.events.FocusAdapter#focusGained(org.eclipse.swt.events.FocusEvent)
+				 */
+				@Override
+				public void focusGained(FocusEvent e) {
+					System.out.println("combo focusGained");
+					forcusGainedIndex = tableSelectedIndex;
+					super.focusGained(e);
+				}
 
 				/**
 				 * {@inheritDoc}
@@ -255,13 +281,45 @@ public class ImplementInfoEditPanel extends Composite {
 				@Override
 				public void focusLost(FocusEvent e) {
 //					TableItem item = tableEditor.getItem();
+					System.out.println("combo focusLost()");
 					int index = combo.getSelectionIndex();
 					if (index != -1) {
-						setData(tableEditor.getColumn(), String.valueOf(index));
+						setData(tableEditor.getColumn(), String.valueOf(index), forcusGainedIndex);
 						updateTable();
 //						item.setText(tableEditor.getColumn(), combo.getItem(index));
 					}
 					combo.dispose();
+				}
+				
+			});
+			combo.addSelectionListener(new SelectionAdapter(){
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.swt.events.SelectionAdapter#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+				 */
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					System.out.println("widgetDefaultSelected()");
+					super.widgetDefaultSelected(e);
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+				 */
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					System.out.println("widgetSelected()");
+					int index = combo.getSelectionIndex();
+					if (index != -1) {
+						setData(tableEditor.getColumn(), String.valueOf(index), tableSelectedIndex);
+						updateTable();
+					}
+					combo.dispose();
+
 				}
 				
 			});
@@ -301,8 +359,8 @@ public class ImplementInfoEditPanel extends Composite {
 		}
 		
 	}
-	private void setData(int columnIndex, String value) {
-		EditImplementAttribute a = attributes.get(tableSelectedIndex);
+	private void setData(int columnIndex, String value, int attributeIndex) {
+		EditImplementAttribute a = attributes.get(attributeIndex);
 		
 		switch (columnIndex) {
 			case COLUMN_NO_ATTRIBUTE_NAME:
