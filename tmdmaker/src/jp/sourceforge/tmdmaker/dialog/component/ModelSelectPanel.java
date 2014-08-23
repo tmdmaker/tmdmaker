@@ -72,6 +72,7 @@ public class ModelSelectPanel extends Composite {
 		selectedLabel = new Label(this, SWT.NONE);
 		selectedLabel.setText("選択");
 		Label filler = new Label(this, SWT.NONE);
+		filler.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		candidateLabel = new Label(this, SWT.NONE);
 		candidateLabel.setText("未選択");
 		selectedList = new List(this, SWT.MULTI|SWT.BORDER|SWT.V_SCROLL|SWT.H_SCROLL);

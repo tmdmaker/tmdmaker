@@ -60,7 +60,7 @@ public class SarogateKeyPanel2 extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		this.setLayout(gridLayout);
-		setSize(new Point(271, 107));
+		setSize(new Point(254, 113));
 		checkBox = new Button(this, SWT.CHECK);
 		checkBox.setText("サロゲートキーを追加する");
 		checkBox.setLayoutData(gridData5);
@@ -75,6 +75,7 @@ public class SarogateKeyPanel2 extends Composite {
 		implementNameText = new Text(this, SWT.BORDER);
 		implementNameText.setLayoutData(gridData2);
 		dataLabel = new Label(this, SWT.NONE);
+		dataLabel.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
 		dataLabel.setText("データ属性");
 		createDataTypeComposite();
 	}
@@ -140,10 +141,12 @@ public class SarogateKeyPanel2 extends Composite {
 		dataTypeComposite.setLayout(gridLayout1);
 		dataTypeComposite.setLayoutData(gridData);
 		pLabel = new Label(dataTypeComposite, SWT.NONE);
+		pLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		pLabel.setText("桁数");
 		precisionText = new Text(dataTypeComposite, SWT.BORDER);
 		precisionText.setLayoutData(gridData3);
 		sLabel = new Label(dataTypeComposite, SWT.NONE);
+		sLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		sLabel.setText("位取り");
 		scaleText = new Text(dataTypeComposite, SWT.BORDER);
 		scaleText.setLayoutData(gridData4);
@@ -158,7 +161,7 @@ public class SarogateKeyPanel2 extends Composite {
 		gridData1.horizontalSpan = 4;
 		gridData1.verticalAlignment = GridData.CENTER;
 		gridData1.widthHint = 180;
-		gridData1.grabExcessHorizontalSpace = false;
+		gridData1.grabExcessHorizontalSpace = true;
 		gridData1.horizontalAlignment = GridData.FILL;
 		dataTypeCombo = new Combo(dataTypeComposite, SWT.NONE);
 		dataTypeCombo.setLayoutData(gridData1);

@@ -57,7 +57,7 @@ public class IndexSettingPanel extends Composite {
 
 	private void initialize() {
 		GridData gridData1 = new GridData();
-		gridData1.horizontalAlignment = GridData.CENTER;
+		gridData1.horizontalAlignment = SWT.FILL;
 		gridData1.verticalAlignment = GridData.BEGINNING;
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
@@ -73,8 +73,10 @@ public class IndexSettingPanel extends Composite {
 		indexTable.setLayoutData(gridData);
 		indexTable.setLinesVisible(true);
 		addButton = new Button(this, SWT.NONE);
+		addButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		addButton.setText("追加");
 		updateButton = new Button(this, SWT.NONE);
+		updateButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		updateButton.setText("更新");
 		updateButton
 				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {

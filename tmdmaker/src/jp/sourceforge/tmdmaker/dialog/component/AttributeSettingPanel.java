@@ -68,6 +68,7 @@ public class AttributeSettingPanel extends Composite {
 		gridData12.verticalAlignment = GridData.FILL;
 		gridData12.horizontalAlignment = GridData.BEGINNING;
 		GridData gridData = new GridData();
+		gridData.grabExcessVerticalSpace = true;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = GridData.FILL;
 		GridLayout gridLayout = new GridLayout();
@@ -170,7 +171,7 @@ public class AttributeSettingPanel extends Composite {
 		tableColumn.setText("アトリビュート");
 		this.setLayout(gridLayout);
 		createControlComposite();
-		this.setSize(new Point(323, 177));
+		this.setSize(new Point(338, 213));
 	}
 
 	/**
@@ -201,6 +202,7 @@ public class AttributeSettingPanel extends Composite {
 		gridData1.verticalAlignment = GridData.CENTER;
 		gridData1.horizontalAlignment = GridData.FILL;
 		controlComposite = new Composite(this, SWT.NONE);
+		controlComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
 		controlComposite.setLayout(new GridLayout());
 		newButton = new Button(controlComposite, SWT.NONE);
 		newButton.setText("新規");
