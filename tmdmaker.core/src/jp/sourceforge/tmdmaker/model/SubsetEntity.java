@@ -129,4 +129,9 @@ public class SubsetEntity extends AbstractEntityModel {
 		return (AbstractEntityModel) type.getModelTargetConnections().get(0)
 				.getSource();
 	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

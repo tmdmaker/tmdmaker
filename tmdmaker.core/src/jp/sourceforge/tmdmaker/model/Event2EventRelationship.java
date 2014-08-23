@@ -230,5 +230,10 @@ public class Event2EventRelationship extends AbstractRelationship {
 	}
 	private boolean hasMappingList() {
 		return getSourceCardinality().equals(Cardinality.MANY);
-	}	
+	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

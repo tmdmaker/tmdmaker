@@ -85,5 +85,9 @@ public class MappingList extends AbstractEntityModel {
 		copyTo(copy);
 		return copy;
 	}
-	
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

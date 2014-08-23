@@ -103,4 +103,8 @@ public class VirtualSupersetType extends ConnectableElement {
 		return reusedIdentifieres;
 	}
 
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

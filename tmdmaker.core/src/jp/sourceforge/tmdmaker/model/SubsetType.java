@@ -208,4 +208,9 @@ public class SubsetType extends ConnectableElement {
 		// 接続前の場合は新規作成
 		return getModelTargetConnections().size() == 0;
 	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

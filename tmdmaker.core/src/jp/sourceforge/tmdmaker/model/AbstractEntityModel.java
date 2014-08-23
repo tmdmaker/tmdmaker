@@ -304,7 +304,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		}
 
 	}
-
+	
 	/**
 	 * 個体指定子が変更されたことをコネクションへ通知する
 	 * 
@@ -513,5 +513,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
 	}
 }

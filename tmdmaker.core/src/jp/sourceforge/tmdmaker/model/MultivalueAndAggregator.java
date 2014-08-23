@@ -23,5 +23,8 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class MultivalueAndAggregator extends ConnectableElement {
-
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

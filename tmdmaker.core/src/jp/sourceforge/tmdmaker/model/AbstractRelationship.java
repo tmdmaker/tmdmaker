@@ -181,5 +181,9 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 	public String getTargetName() {
 		return getTarget().getName();
 	}
-
+	
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

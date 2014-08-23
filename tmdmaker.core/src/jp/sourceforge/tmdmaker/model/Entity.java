@@ -161,5 +161,9 @@ public class Entity extends AbstractEntityModel {
 		int i = getIdentifier().getName().length();
 		return Math.max(super.calcurateMaxIdentifierRefSize(), i);
 	}
-
+	
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

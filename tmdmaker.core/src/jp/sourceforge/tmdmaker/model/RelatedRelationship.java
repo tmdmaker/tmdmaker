@@ -79,6 +79,11 @@ public class RelatedRelationship extends AbstractConnectionModel {
 		return getRelationHelperFactory().getRelationHelper().getTargetName();
 	}
 
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
+
 	/**
 	 * 対照表や対応表のリレーションのヘルパークラス
 	 */

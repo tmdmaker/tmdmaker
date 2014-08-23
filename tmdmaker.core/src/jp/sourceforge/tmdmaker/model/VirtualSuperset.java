@@ -111,4 +111,8 @@ public class VirtualSuperset extends AbstractEntityModel {
 		return copy;
 	}
 
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -163,4 +163,8 @@ public class Diagram extends ModelElement {
 		this.commonAttributes = commonAttributes;
 	}
 
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

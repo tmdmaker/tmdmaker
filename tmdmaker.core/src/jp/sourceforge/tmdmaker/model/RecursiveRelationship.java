@@ -92,4 +92,9 @@ public class RecursiveRelationship extends AbstractRelationship {
 	public void identifierChanged() {
 		table.fireIdentifierChanged(this);
 	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author nakaG
  */
 @SuppressWarnings("serial")
-public class ModelElement implements Serializable {
+public class ModelElement implements Serializable,IAcceptor {
 	/** 名称プロパティ定数 */
 	public static final String PROPERTY_NAME = "_property_name";
 	/** 領域プロパティ定数 */
@@ -104,5 +104,8 @@ public class ModelElement implements Serializable {
 		this.constraint = constraint;
 		firePropertyChange(PROPERTY_CONSTRAINT, oldValue, constraint);
 	}
-
+	
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

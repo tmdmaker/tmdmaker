@@ -15,29 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
-import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.CombinationTable;
-import jp.sourceforge.tmdmaker.model.Detail;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
-import jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship;
-import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
-import jp.sourceforge.tmdmaker.model.Laputa;
-import jp.sourceforge.tmdmaker.model.MappingList;
-import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
-import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
-import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
-import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
-import jp.sourceforge.tmdmaker.model.RecursiveTable;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.SubsetEntity;
-import jp.sourceforge.tmdmaker.model.SubsetType;
-import jp.sourceforge.tmdmaker.model.VirtualEntity;
-import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-
+import jp.sourceforge.tmdmaker.model.ModelElement;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
@@ -57,57 +35,10 @@ public class TMDEditPartFactory implements EditPartFactory {
 	 * @return EditPart modelに対応したEditPart
 	 */
 	@Override
-	public final EditPart createEditPart(final EditPart context,
-			final Object model) {
-		EditPart part = null;
-		if (model instanceof Diagram) {
-			part = new DiagramEditPart();
-		} else if (model instanceof RecursiveRelationship) {
-			part = new RecursiveRelationshipEditPart();
-		} else if (model instanceof Event2EventRelationship) {
-			part = new RelationshipEditPart();
-		} else if (model instanceof AbstractRelationship) {
-			part = new RelationshipEditPart();
-		} else if (model instanceof Entity2SubsetTypeRelationship) {
-			part = new Entity2SubsetTypeRelationshipEditPart();
-		} else if (model instanceof Entity2VirtualSupersetTypeRelationship) {
-			part = new RelatedRelationshipEditPart();
-		} else if (model instanceof RelatedRelationship) {
-			part = new RelatedRelationshipEditPart();
-		} else if (model instanceof CombinationTable) {
-			part = new CombinationTableEditPart();
-		} else if (model instanceof MappingList) {
-			part = new MappingListEditPart();
-		} else if (model instanceof RecursiveTable) {
-			part = new RecursiveTableEditPart();
-		} else if (model instanceof Entity) {
-			part = new EntityEditPart();
-		} else if (model instanceof SubsetType) {
-			part = new SubsetTypeEditPart();
-		} else if (model instanceof SubsetEntity) {
-			part = new SubsetEntityEditPart();
-		} else if (model instanceof MultivalueOrEntity) {
-			part = new MultivalueOrEditPart();
-		} else if (model instanceof MultivalueAndAggregator) {
-			part = new MultivalueAndAggregatorEditPart();
-		} else if (model instanceof MultivalueAndSuperset) {
-			part = new MultivalueAndSupersetEditPart();
-		} else if (model instanceof Detail) {
-			part = new DetailEditPart();
-		} else if (model instanceof VirtualEntity) {
-			part = new VirtualEntityEditPart();
-		} else if (model instanceof VirtualSuperset) {
-			part = new VirtualSupersetEditPart();
-		} else if (model instanceof VirtualSupersetType) {
-			part = new VirtualSupersetTypeEditPart();
-		} else if (model instanceof Laputa) {
-			part = new LaputaEditPart();
-		} else if (model instanceof Attribute) {
-			part = new AttributeEditPart();
-		}
-		if (part != null) {
-			part.setModel(model);
-		}
-		return part;
+	public final EditPart createEditPart(final EditPart context, final Object obj) {
+		ModelElement model = (ModelElement)obj;
+		TMDEditPartVisitor visitor = new TMDEditPartVisitor();
+		model.accept(visitor);
+		return visitor.getEditPart();
 	}
 }

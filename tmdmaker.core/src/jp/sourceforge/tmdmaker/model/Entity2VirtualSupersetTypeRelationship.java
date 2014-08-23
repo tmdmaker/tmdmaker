@@ -102,4 +102,8 @@ public class Entity2VirtualSupersetTypeRelationship extends RelatedRelationship
 		return getSource().getName();
 	}
 
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }
