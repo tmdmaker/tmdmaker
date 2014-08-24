@@ -19,9 +19,12 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.property.DiagramPropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.command.ModelAddCommand;
 import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
@@ -44,6 +47,8 @@ import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.gef.rulers.RulerProvider;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * Diagramのコントローラ
@@ -51,7 +56,7 @@ import org.eclipse.gef.requests.CreateRequest;
  * @author nakaG
  * 
  */
-public class DiagramEditPart extends AbstractTMDEditPart<Diagram> {
+public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPropertyAvailable {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -213,5 +218,10 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> {
 			return new CompoundSnapToHelper(ss);
 		}
 		return super.getAdapter(key);
+	}
+
+	@Override
+	public IPropertySource getPropertySource(TMDEditor editor) {
+		return new DiagramPropertySource(editor, this.getModel());
 	}
 }

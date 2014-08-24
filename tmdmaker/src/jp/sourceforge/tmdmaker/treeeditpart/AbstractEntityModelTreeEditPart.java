@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
@@ -24,10 +25,13 @@ import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.property.AbstractEntityModelPropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.views.properties.IPropertySource;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -35,7 +39,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> extends AbstractTreeEditPart implements
-		PropertyChangeListener {
+		PropertyChangeListener,IPropertyAvailable {
 	
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractEntityModelTreeEditPart.class);
 	
@@ -318,6 +322,11 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 				removeChild(ep);
 			}
 		}
+	}
+
+	@Override
+	public IPropertySource getPropertySource(TMDEditor editor) {
+		return new AbstractEntityModelPropertySource(editor, this.getModel());
 	}
 
 }

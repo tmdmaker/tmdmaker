@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
+import jp.sourceforge.tmdmaker.property.AbstractEntityModelPropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.ui.views.properties.IPropertySource;
 
-public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel> extends AbstractModelEditPart<T> {
+public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel> extends AbstractModelEditPart<T> implements IPropertyAvailable {
 
 	@Override
 	abstract protected void updateFigure(IFigure figure);
@@ -100,5 +104,9 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	@Override
 	protected List getModelChildren() {
 		return getModel().getAttributes();
+	}
+	
+	public IPropertySource getPropertySource(TMDEditor editor) {
+		return new AbstractEntityModelPropertySource(editor, this.getModel());
 	}
 }

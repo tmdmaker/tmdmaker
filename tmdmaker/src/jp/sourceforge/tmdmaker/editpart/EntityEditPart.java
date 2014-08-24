@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
@@ -25,6 +26,8 @@ import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.property.EntityPropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
@@ -32,6 +35,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * エンティティのコントローラ
@@ -39,7 +43,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class EntityEditPart extends AbstractEntityModelEditPart<Entity> {
+public class EntityEditPart extends AbstractEntityModelEditPart<Entity> implements IPropertyAvailable {
 
 	/**
 	 * 
@@ -113,5 +117,10 @@ public class EntityEditPart extends AbstractEntityModelEditPart<Entity> {
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}
+	}
+
+	@Override
+	public IPropertySource getPropertySource(TMDEditor editor) {
+		return new EntityPropertySource(editor, this.getModel());
 	}
 }

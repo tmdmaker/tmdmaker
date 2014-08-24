@@ -2,19 +2,23 @@ package jp.sourceforge.tmdmaker.treeeditpart;
 
 import java.beans.PropertyChangeListener;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.property.EntityPropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * @author ny@cosmichorror.org
  *
  */
 public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart<Entity> implements
-		PropertyChangeListener {
+		PropertyChangeListener,IPropertyAvailable {
 	
 	@Override
 	protected void setIdentifiers(){
@@ -44,5 +48,10 @@ public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart<Entity> 
 			return TMDPlugin.getImage("icons/outline/multi_or.png");
 		}
 		return super.getImage();
+	}
+
+	@Override
+	public IPropertySource getPropertySource(TMDEditor editor) {
+		return new EntityPropertySource(editor, this.getModel());
 	}
 }

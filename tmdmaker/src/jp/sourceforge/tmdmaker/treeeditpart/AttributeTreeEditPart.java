@@ -3,15 +3,19 @@ package jp.sourceforge.tmdmaker.treeeditpart;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.property.AttributePropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.views.properties.IPropertySource;
 import org.slf4j.LoggerFactory;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 
-public class AttributeTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener {
+public class AttributeTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener,IPropertyAvailable {
 	
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(AttributeTreeEditPart.class);
 	
@@ -58,5 +62,10 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart implements Prope
 	    } else {
 			logger.warn("Not Handle Event Occured.");
 		}
+	}
+
+	@Override
+	public IPropertySource getPropertySource(TMDEditor editor) {
+		return new AttributePropertySource(editor, this.getModel());
 	}
 }

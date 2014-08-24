@@ -17,12 +17,15 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.property.AttributePropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -30,6 +33,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * アトリビュートのコントローラ
@@ -37,7 +41,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class AttributeEditPart extends AbstractTMDEditPart<Attribute> {
+public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements IPropertyAvailable {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -137,5 +141,10 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute> {
 	 */
 	protected void handleNameChange(PropertyChangeEvent evt) {
 		refreshVisuals();
+	}
+	
+	@Override
+	public IPropertySource getPropertySource(TMDEditor editor) {
+		return new AttributePropertySource(editor, this.getModel());
 	}
 }
