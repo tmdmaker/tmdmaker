@@ -1,4 +1,4 @@
-package jp.sourceforge.tmdmaker.editpart;
+package jp.sourceforge.tmdmaker.treeeditpart;
 
 import org.eclipse.gef.EditPart;
 
@@ -30,147 +30,12 @@ import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 
-public class TMDEditPartVisitor implements IVisitor{
-	
+public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
+
 	EditPart part = null;
 	
 	public EditPart getEditPart() {
 		return part;
-	}
-
-	@Override
-	public void visit(Attribute entity) {
-		part = new AttributeEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(CombinationTable entity) {
-		part = new CombinationTableEditPart();		
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(Detail entity) {
-		part = new DetailEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(Diagram diagram) {
-		part = new DiagramEditPart();
-		part.setModel(diagram);
-	}
-
-	@Override
-	public void visit(Entity entity) {
-		part = new EntityEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(Laputa entity) {
-		part = new LaputaEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(MappingList entity) {
-		part = new MappingListEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(AbstractEntityModel entity) {
-	}
-
-	@Override
-	public void visit(MultivalueAndSuperset entity) {
-		part = new MultivalueAndSupersetEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(MultivalueOrEntity entity) {
-		part = new MultivalueOrEditPart();
-	}
-
-	@Override
-	public void visit(RecursiveTable entity) {
-		part = new RecursiveTableEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(SubsetEntity entity) {
-		part = new SubsetEntityEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(VirtualEntity entity) {
-		part = new VirtualEntityEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(VirtualSuperset entity) {
-		part = new VirtualSupersetEditPart();
-		part.setModel(entity);
-	}
-
-	@Override
-	public void visit(RecursiveRelationship relationship) {
-		part = new RecursiveRelationshipEditPart();
-		part.setModel(relationship);
-	}
-
-	@Override
-	public void visit(AbstractRelationship relationship) {
-		part = new RelationshipEditPart();
-		part.setModel(relationship);
-	}
-
-	@Override
-	public void visit(Event2EventRelationship relationship) {
-		part = new RelationshipEditPart();
-		part.setModel(relationship);
-	}
-
-	@Override
-	public void visit(Entity2SubsetTypeRelationship relationship) {
-		part = new Entity2SubsetTypeRelationshipEditPart();
-		part.setModel(relationship);
-	}
-
-	@Override
-	public void visit(Entity2VirtualSupersetTypeRelationship relationship) {
-		part = new RelatedRelationshipEditPart();
-		part.setModel(relationship);
-	}
-
-	@Override
-	public void visit(MultivalueAndAggregator aggregator) {
-		part = new MultivalueAndAggregatorEditPart();
-		part.setModel(aggregator);
-	}
-
-	@Override
-	public void visit(RelatedRelationship relationship) {
-		part = new RelatedRelationshipEditPart();
-		part.setModel(relationship);
-	}
-
-	@Override
-	public void visit(SubsetType type) {
-		part = new SubsetTypeEditPart();
-		part.setModel(type);
-	}
-
-	@Override
-	public void visit(VirtualSupersetType type) {
-		part = new VirtualSupersetTypeEditPart();
-		part.setModel(type);
 	}
 
 	@Override
@@ -179,11 +44,143 @@ public class TMDEditPartVisitor implements IVisitor{
 	}
 
 	@Override
+	public void visit(AbstractRelationship relationship) {
+		part = null;
+	}
+
+	@Override
+	public void visit(Attribute entity) {
+		part = new AttributeTreeEditPart();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(CombinationTable entity) {
+		part = new AbstractEntityModelTreeEditPart<CombinationTable>();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(Detail entity) {
+		part = new DetailTreeEditPart();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(Diagram diagram) {
+		part = new DiagramTreeEditPart();
+		part.setModel(diagram);
+	}
+
+	@Override
+	public void visit(Entity entity) {
+		part = new EntityTreeEditPart();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(Event2EventRelationship relationship) {
+		part = null;
+	}
+
+	@Override
+	public void visit(Entity2SubsetTypeRelationship relationship) {
+		part = null;
+	}
+
+	@Override
+	public void visit(Entity2VirtualSupersetTypeRelationship relationship) {
+		part = null;
+	}
+
+	@Override
+	public void visit(Laputa entity) {
+		part = new AbstractEntityModelTreeEditPart<Laputa>();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(MappingList entity) {
+		part = new AbstractEntityModelTreeEditPart<MappingList>();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(AbstractEntityModel entity) {
+		part = new AbstractEntityModelTreeEditPart<AbstractEntityModel>();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(MultivalueAndSuperset entity) {
+		part = null;
+	}
+
+	@Override
+	public void visit(MultivalueAndAggregator aggregator) {
+		part = null;
+	}
+
+	@Override
+	public void visit(MultivalueOrEntity entity) {
+		part = new AbstractEntityModelTreeEditPart<MultivalueOrEntity>();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(RecursiveRelationship relationship) {
+		part = null;
+	}
+
+	@Override
+	public void visit(RecursiveTable entity) {
+		part = new AbstractEntityModelTreeEditPart<RecursiveTable>();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(RelatedRelationship relationship) {
+		part = null;
+	}
+
+	@Override
+	public void visit(SubsetEntity entity) {
+		part = new AbstractEntityModelTreeEditPart<SubsetEntity>();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(SubsetType type) {
+		part = null;
+	}
+
+	@Override
+	public void visit(VirtualEntity entity) {
+		part = new AbstractEntityModelTreeEditPart<VirtualEntity>();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(VirtualSuperset entity) {
+		part = new AbstractEntityModelTreeEditPart<VirtualSuperset>();
+		part.setModel(entity);
+	}
+
+	@Override
+	public void visit(VirtualSupersetType type) {
+		part = null;
+	}
+
+	@Override
 	public void visit(IdentifierRef identifier) {
-		part = null;	}
+		part = new IdentifierRefTreeEditPart();
+		part.setModel(identifier);
+	}
 
 	@Override
 	public void visit(Identifier identifier) {
-		part = null;
+		part = new IdentifierTreeEditPart();
+		part.setModel(identifier);
 	}
+
 }

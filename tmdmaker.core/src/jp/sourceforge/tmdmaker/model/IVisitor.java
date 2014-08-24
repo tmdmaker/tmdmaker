@@ -11,6 +11,8 @@ public interface IVisitor {
 	void visit(Event2EventRelationship relationship);
 	void visit(Entity2SubsetTypeRelationship relationship);
 	void visit(Entity2VirtualSupersetTypeRelationship relationship);
+	void visit(IdentifierRef identifier);
+	void visit(Identifier identifier);
 	void visit(Laputa entity);
 	void visit(MappingList entity);
 	void visit(AbstractEntityModel entity);
