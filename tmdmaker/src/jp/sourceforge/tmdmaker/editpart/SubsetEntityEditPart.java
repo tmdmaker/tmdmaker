@@ -72,11 +72,10 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 
 		EntityFigure entityFigure = (EntityFigure) figure;
 		SubsetEntity entity = getModel();
+		
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(entity.getName());
 
 		if (entity.isSameSubset() && entity.getAttributes().size() == 0) {
@@ -92,10 +91,7 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 			}
 			entityFigure.addRelationship(extractRelationship(entity));
 		}
-		setupColor(entityFigure);
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
 	@Override

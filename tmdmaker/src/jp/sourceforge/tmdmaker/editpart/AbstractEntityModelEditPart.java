@@ -136,17 +136,14 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	@Override
 	abstract protected void createEditPolicies();
 	
-	/**
-	 * モデルの色を設定する
-	 * 
-	 * @param entityFigure
-	 *            モデル
-	 * @param appearance
-	 *            モデル外観
-	 */
-	protected void setupColor(IFigure entityFigure) {
-		entityFigure.setBackgroundColor(createBackgroundColor(getAppearance()));
-		entityFigure.setForegroundColor(createForegroundColor(getAppearance()));
+	protected Color getForegroundColor()
+	{
+		return createForegroundColor(getAppearance());
+	}
+	
+	protected Color getBackgroundColor()
+	{
+		return createBackgroundColor(getAppearance());
 	}
 
 	abstract protected ModelAppearance getAppearance();

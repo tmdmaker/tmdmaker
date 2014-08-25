@@ -86,15 +86,11 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 		VirtualEntity entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
-		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.VE.getLabel());
-		// figure.setIdentifier(entity.getIdentifier().getName());
 		entityFigure.addRelationship(extractRelationship(entity));
-		setupColor(entityFigure);
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
 	@Override

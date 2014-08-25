@@ -55,16 +55,11 @@ public class LaputaEditPart extends AbstractEntityModelEditPart<Laputa> {
 		// ラピュタは実装しないが×は付けない
 		// entityFigure.setNotImplement(entity.isNotImplement());
 
-		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(entity.getName());
-		// entityFigure.setEntityType(EntityType.VE.getLabel());
-
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		entityFigure.addRelationship(extractRelationship(entity));
-		setupColor(entityFigure);
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
 	@Override

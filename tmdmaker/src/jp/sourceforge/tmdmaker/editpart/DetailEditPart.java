@@ -69,16 +69,11 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 		entityFigure.removeAllRelationship();
 
 		entityFigure.setEntityName(entity.getName());
-		// entityFigure.setEntityType(entity.getEntityType().toString());
-		// figure.setIdentifier(entity.getIdentifier().getName());
 		IdentifierRef original = entity.getOriginalReusedIdentifier()
 				.getUniqueIdentifieres().get(0);
 		entityFigure.setIdentifier(original.getName());
 		entityFigure.setIdentifier(entity.getDetailIdentifier().getName());
 		entityFigure.addRelationship(extractRelationship(entity, original));
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
 	}
 
 	/**

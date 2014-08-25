@@ -58,18 +58,12 @@ public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		MappingList table = getModel();
+		
 		entityFigure.setNotImplement(table.isNotImplement());
-		// List<Identifier> ids = table.getReuseKeys();
-		// List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(table.getName());
 		entityFigure.addRelationship(extractRelationship(table));
-		setupColor(entityFigure);
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 	
 	@Override

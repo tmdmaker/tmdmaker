@@ -71,13 +71,7 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.VE.getLabel());
-		// for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-		// .getReusedIdentifieres().entrySet()) {
-		// for (Identifier i : rk.getValue().getIdentifires()) {
-		// entityFigure.addRelationship(i.getName());
-		// }
-		// }
-		setupColor(entityFigure);
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
 	@Override

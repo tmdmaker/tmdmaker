@@ -30,6 +30,7 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * エンティティ（表）Figure
@@ -135,6 +136,17 @@ public class EntityFigure extends Figure {
 	 */
 	public void setNotImplement(boolean notImplement) {
 		this.setBorder(new EntityFigureBorder(notImplement));
+	}
+	
+	/**
+	 * モデルの色を設定する
+	 * @param foreGround 前景色
+	 * @param backGround 背景色
+	 */
+	public void setColor(Color foregroundColor, Color backgroundColor)
+	{
+		setForegroundColor(foregroundColor);
+		setBackgroundColor(backgroundColor);
 	}
 
 	private static class EntityTitleCompartmentFigure extends Figure {

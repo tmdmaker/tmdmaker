@@ -67,7 +67,7 @@ public class EntityEditPart extends AbstractEntityModelEditPart<Entity> implemen
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(entity.getEntityType().getLabel());
 
-		setupColor(entityFigure);
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
 		entityFigure.addRelationship(extractRelationship(entity));
