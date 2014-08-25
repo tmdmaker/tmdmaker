@@ -20,6 +20,14 @@ import org.eclipse.ui.views.properties.IPropertySource;
 public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart<Entity> implements
 		PropertyChangeListener,IPropertyAvailable {
 	
+	/**
+	 * コンストラクタ
+	 * @param model
+	 */
+	public EntityTreeEditPart(Entity model) {
+		super(model);
+	}
+
 	@Override
 	protected void setIdentifiers(){
 		identifiers.add(0, getModel().getIdentifier());

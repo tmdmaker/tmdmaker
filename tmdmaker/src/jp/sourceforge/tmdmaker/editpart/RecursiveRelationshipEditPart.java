@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import jp.sourceforge.tmdmaker.figure.RelationshipFigure;
+import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 
 import org.eclipse.draw2d.ConnectionEndpointLocator;
 import org.eclipse.draw2d.Ellipse;
@@ -32,6 +33,15 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * 
  */
 public class RecursiveRelationshipEditPart extends RelationshipEditPart {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public RecursiveRelationshipEditPart(RecursiveRelationship relationship)
+	{
+		super(relationship);
+	}
+	
 	// 未使用
 	/**
 	 * 

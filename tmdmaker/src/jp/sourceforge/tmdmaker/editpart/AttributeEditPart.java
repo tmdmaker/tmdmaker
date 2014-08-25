@@ -42,6 +42,16 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * 
  */
 public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements IPropertyAvailable {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public AttributeEditPart(Attribute attribute)
+	{
+		super();
+		setModel(attribute);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

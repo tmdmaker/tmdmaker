@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.treeeditpart;
 
 import org.eclipse.gef.EditPart;
@@ -49,33 +64,28 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 	}
 
 	@Override
-	public void visit(Attribute entity) {
-		part = new AttributeTreeEditPart();
-		part.setModel(entity);
+	public void visit(Attribute attribute) {
+		part = new AttributeTreeEditPart(attribute);
 	}
 
 	@Override
 	public void visit(CombinationTable entity) {
-		part = new AbstractEntityModelTreeEditPart<CombinationTable>();
-		part.setModel(entity);
+		part = new AbstractEntityModelTreeEditPart<CombinationTable>(entity);
 	}
 
 	@Override
 	public void visit(Detail entity) {
-		part = new DetailTreeEditPart();
-		part.setModel(entity);
+		part = new DetailTreeEditPart(entity);
 	}
 
 	@Override
 	public void visit(Diagram diagram) {
-		part = new DiagramTreeEditPart();
-		part.setModel(diagram);
+		part = new DiagramTreeEditPart(diagram);
 	}
 
 	@Override
 	public void visit(Entity entity) {
-		part = new EntityTreeEditPart();
-		part.setModel(entity);
+		part = new EntityTreeEditPart(entity);
 	}
 
 	@Override
@@ -95,20 +105,17 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(Laputa entity) {
-		part = new AbstractEntityModelTreeEditPart<Laputa>();
-		part.setModel(entity);
+		part = new AbstractEntityModelTreeEditPart<Laputa>(entity);
 	}
 
 	@Override
 	public void visit(MappingList entity) {
-		part = new AbstractEntityModelTreeEditPart<MappingList>();
-		part.setModel(entity);
+		part = new AbstractEntityModelTreeEditPart<MappingList>(entity);
 	}
 
 	@Override
 	public void visit(AbstractEntityModel entity) {
-		part = new AbstractEntityModelTreeEditPart<AbstractEntityModel>();
-		part.setModel(entity);
+		part = new AbstractEntityModelTreeEditPart<AbstractEntityModel>(entity);
 	}
 
 	@Override
@@ -123,8 +130,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(MultivalueOrEntity entity) {
-		part = new AbstractEntityModelTreeEditPart<MultivalueOrEntity>();
-		part.setModel(entity);
+		part = new AbstractEntityModelTreeEditPart<MultivalueOrEntity>(entity);
 	}
 
 	@Override
@@ -134,8 +140,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(RecursiveTable entity) {
-		part = new AbstractEntityModelTreeEditPart<RecursiveTable>();
-		part.setModel(entity);
+		part = new AbstractEntityModelTreeEditPart<RecursiveTable>(entity);
 	}
 
 	@Override
@@ -145,8 +150,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(SubsetEntity entity) {
-		part = new AbstractEntityModelTreeEditPart<SubsetEntity>();
-		part.setModel(entity);
+		part = new AbstractEntityModelTreeEditPart<SubsetEntity>(entity);
 	}
 
 	@Override
@@ -156,14 +160,12 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(VirtualEntity entity) {
-		part = new AbstractEntityModelTreeEditPart<VirtualEntity>();
-		part.setModel(entity);
+		part = new AbstractEntityModelTreeEditPart<VirtualEntity>(entity);
 	}
 
 	@Override
 	public void visit(VirtualSuperset entity) {
-		part = new AbstractEntityModelTreeEditPart<VirtualSuperset>();
-		part.setModel(entity);
+		part = new AbstractEntityModelTreeEditPart<VirtualSuperset>(entity);
 	}
 
 	@Override
@@ -173,14 +175,11 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(IdentifierRef identifier) {
-		part = new IdentifierRefTreeEditPart();
-		part.setModel(identifier);
+		part = new IdentifierRefTreeEditPart(identifier);
 	}
 
 	@Override
 	public void visit(Identifier identifier) {
-		part = new IdentifierTreeEditPart();
-		part.setModel(identifier);
+		part = new IdentifierTreeEditPart(identifier);
 	}
-
 }

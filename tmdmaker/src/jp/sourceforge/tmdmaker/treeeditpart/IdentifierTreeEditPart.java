@@ -19,6 +19,16 @@ public class IdentifierTreeEditPart extends AbstractTreeEditPart implements Prop
 	
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(IdentifierTreeEditPart.class);
 	
+	/**
+	 * コンストラクタ
+	 * @param identifier
+	 */
+	public IdentifierTreeEditPart(Identifier identifier)
+	{
+		super();
+		setModel(identifier);
+	}
+	
 	@Override
 	public Identifier getModel() {
 		return (Identifier) super.getModel();

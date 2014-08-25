@@ -46,6 +46,15 @@ import org.eclipse.ui.views.properties.IPropertySource;
 public class EntityEditPart extends AbstractEntityModelEditPart<Entity> implements IPropertyAvailable {
 
 	/**
+	 * コンストラクタ
+	 */
+	public EntityEditPart(Entity entity)
+	{
+		super();
+		setModel(entity);
+	}
+
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 

@@ -32,6 +32,14 @@ public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart<Detail> 
 		PropertyChangeListener {
 
 	/**
+	 * コンストラクタ
+	 * @param model
+	 */
+	public DetailTreeEditPart(Detail model) {
+		super(model);
+	}
+
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 

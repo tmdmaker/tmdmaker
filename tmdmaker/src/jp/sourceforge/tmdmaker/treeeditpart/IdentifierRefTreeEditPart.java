@@ -18,6 +18,15 @@ public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart implements
 	
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(IdentifierRefTreeEditPart.class);
 	
+	/**
+	 * コンストラクタ
+	 * @param identifier
+	 */
+	public IdentifierRefTreeEditPart(IdentifierRef identifier)
+	{
+		super(identifier);
+	}
+	
 	@Override
 	public IdentifierRef getModel() {
 		return (IdentifierRef) super.getModel();

@@ -43,6 +43,16 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public DetailEditPart(Detail entity)
+	{
+		super();
+		setModel(entity);
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}

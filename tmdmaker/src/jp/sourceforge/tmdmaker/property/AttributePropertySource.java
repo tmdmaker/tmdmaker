@@ -5,7 +5,6 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 public class AttributePropertySource extends AbstractPropertySource {

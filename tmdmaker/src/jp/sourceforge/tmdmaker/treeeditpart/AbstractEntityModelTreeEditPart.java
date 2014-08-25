@@ -55,8 +55,15 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 	    icons.put(MappingList.class,        "icons/outline/mapping_list.png");
 	    icons.put(Laputa.class,             "icons/outline/laputa.png");
 	}
+	
+	public AbstractEntityModelTreeEditPart(T model)
+	{
+		super();
+		setModel(model);
+	}
 
 	//getModel()でツリー要素の対象モデルのインスタンスが取れる。
+	@SuppressWarnings("unchecked")
 	@Override
 	public T getModel() {
 		return (T)super.getModel();

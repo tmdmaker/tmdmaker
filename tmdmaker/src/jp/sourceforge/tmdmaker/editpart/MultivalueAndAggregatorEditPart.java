@@ -36,6 +36,16 @@ import org.eclipse.gef.Request;
  * 
  */
 public class MultivalueAndAggregatorEditPart extends AbstractModelEditPart<MultivalueAndAggregator> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public MultivalueAndAggregatorEditPart(MultivalueAndAggregator aggregator)
+	{
+		super();
+		setModel(aggregator);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

@@ -43,6 +43,16 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<VirtualSuperset> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public VirtualSupersetEditPart(VirtualSuperset entity)
+	{
+		super();
+		setModel(entity);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

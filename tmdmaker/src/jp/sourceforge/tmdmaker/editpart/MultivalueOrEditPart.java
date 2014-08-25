@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
+
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -42,6 +43,15 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class MultivalueOrEditPart extends AbstractEntityModelEditPart<MultivalueOrEntity> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public MultivalueOrEditPart(MultivalueOrEntity entity)
+	{
+		super();
+		setModel(entity);
+	}
 
 	/**
 	 * 

@@ -40,6 +40,15 @@ import org.eclipse.jface.dialogs.Dialog;
 public class LaputaEditPart extends AbstractEntityModelEditPart<Laputa> {
 
 	/**
+	 * コンストラクタ
+	 */
+	public LaputaEditPart(Laputa entity)
+	{
+		super();
+		setModel(entity);
+	}
+	
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)

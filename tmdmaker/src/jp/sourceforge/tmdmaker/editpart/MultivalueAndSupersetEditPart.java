@@ -43,6 +43,16 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class MultivalueAndSupersetEditPart extends AbstractEntityModelEditPart<MultivalueAndSuperset> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public MultivalueAndSupersetEditPart(MultivalueAndSuperset entity)
+	{
+		super();
+		setModel(entity);
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}

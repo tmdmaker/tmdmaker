@@ -39,7 +39,16 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class SubsetTypeEditPart extends AbstractModelEditPart<SubsetType> {
-
+	
+	/**
+	 * コンストラクタ
+	 */
+	public SubsetTypeEditPart(SubsetType type)
+	{
+		super();
+		setModel(type);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

@@ -35,6 +35,16 @@ import org.eclipse.gef.Request;
  * 
  */
 public class VirtualSupersetTypeEditPart extends AbstractModelEditPart<VirtualSupersetType> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public VirtualSupersetTypeEditPart(VirtualSupersetType type)
+	{
+		super();
+		setModel(type);
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}

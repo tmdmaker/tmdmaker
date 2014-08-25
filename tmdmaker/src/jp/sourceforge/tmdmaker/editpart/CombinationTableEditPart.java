@@ -42,6 +42,15 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class CombinationTableEditPart extends AbstractEntityModelEditPart<CombinationTable> {
+
+	/**
+	 * コンストラクタ
+	 */
+	public CombinationTableEditPart(CombinationTable table)
+	{
+		super();
+		setModel(table);
+	}
 	
 	@Override
 	public CombinationTable getModel()

@@ -57,6 +57,16 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * 
  */
 public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPropertyAvailable {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public DiagramEditPart(Diagram diagram)
+	{
+		super();
+		setModel(diagram);
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
