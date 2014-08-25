@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -73,7 +74,7 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityModelEditPart<M
 									.getEditedValue()));
 		}
 	}
-
+	
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -147,6 +148,12 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityModelEditPart<M
 
 	@Override
 	protected ModelAppearance getAppearance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected ModelEditDialog<MultivalueAndSuperset> getDialog() {
 		// TODO Auto-generated method stub
 		return null;
 	}

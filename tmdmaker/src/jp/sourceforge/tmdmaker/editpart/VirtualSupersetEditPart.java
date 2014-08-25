@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -103,6 +104,12 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 							new ModelEditCommand(entity, dialog
 									.getEditedValue()));
 		}
+	}
+
+	@Override
+	protected ModelEditDialog<VirtualSuperset> getDialog() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**

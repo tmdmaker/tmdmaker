@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -32,7 +33,6 @@ import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.SubsetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
@@ -42,7 +42,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * サブセットのコントローラ
@@ -133,34 +132,22 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
-	 */
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		SubsetEntity table = getModel();
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl().getShell(),
-				"サブセット表編集", table);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
-
-			List<EditAttribute> editAttributeList = dialog.getEditAttributeList();
-			addAttributeEditCommands(ccommand, table, editAttributeList);
-
-			AbstractEntityModel edited = dialog.getEditedValue();
-			ModelEditCommand command = new ModelEditCommand(table, edited);
-			ccommand.add(command);
-
-			if (table.isNotImplement() && !edited.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(table);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(table, original));
-			}
-
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
+	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue)
+	{
+		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
+		Command deleteCommand    = getDeleteCommand(editedValue);
+		if (deleteCommand != null)
+		{
+			ccommand.add(deleteCommand);
 		}
+		return ccommand;
+	}
+	
+	@Override
+	protected ModelEditDialog<SubsetEntity> getDialog()
+	{
+		return new TableEditDialog<SubsetEntity>(getControllShell(), "サブセット表編集", getModel());
 	}
 
 	/**

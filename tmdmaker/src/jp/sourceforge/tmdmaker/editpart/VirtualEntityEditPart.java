@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.VirtualEntityEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -28,7 +29,6 @@ import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
@@ -38,7 +38,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * みなしエンティティのコントローラ
@@ -57,39 +56,24 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 		setModel(entity);
 	}
 	
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
-	 */
 	@Override
-	protected void onDoubleClicked() {
-		VirtualEntity entity = getModel();
-		VirtualEntityEditDialog dialog = new VirtualEntityEditDialog(
-				getViewer().getControl().getShell(), entity);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
-
-			List<EditAttribute> editAttributeList = dialog
-					.getEditAttributeList();
-			addAttributeEditCommands(ccommand, entity, editAttributeList);
-
-			AbstractEntityModel edited = dialog.getEditedValue();
-			ModelEditCommand command = new ModelEditCommand(entity, edited);
-
-			if (entity.isNotImplement() && !edited.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule
-						.findOriginalImplementModel(entity);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(entity,
-						original));
-			}
-
-			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
+	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue)
+	{
+		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
+		Command deleteCommand    = getDeleteCommand(editedValue);
+		if (deleteCommand != null)
+		{
+			ccommand.add(deleteCommand);
 		}
+		return ccommand;
 	}
-
+	
+	@Override
+	protected ModelEditDialog<VirtualEntity> getDialog()
+	{
+		return new VirtualEntityEditDialog(getControllShell(), getModel());
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class TableEditDialog extends ModelEditDialog<AbstractEntityModel> {
+public class TableEditDialog<T extends AbstractEntityModel> extends ModelEditDialog<T> {
 	
 	/** ダイアログタイトル */
 	private String title;
