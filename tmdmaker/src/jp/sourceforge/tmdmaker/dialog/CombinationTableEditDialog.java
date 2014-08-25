@@ -16,20 +16,15 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditCombinationTable;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.CombinationTableType;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -48,12 +43,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class CombinationTableEditDialog extends Dialog implements
-		PropertyChangeListener {
-	/** 編集対象モデル */
-	private EditCombinationTable entity;
-	/** 編集結果格納用 */
-	private CombinationTable editedValue;
+public class CombinationTableEditDialog extends ModelEditDialog<CombinationTable>  {
 	/** ダイアログタイトル */
 	private String title;
 	/** 表名設定用 */
@@ -140,9 +130,9 @@ public class CombinationTableEditDialog extends Dialog implements
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (typeCombo.getSelectionIndex() == 0) {
-					entity.setCombinationTableType(CombinationTableType.L_TRUTH);
+					getEditModel().setCombinationTableType(CombinationTableType.L_TRUTH);
 				} else {
-					entity.setCombinationTableType(CombinationTableType.F_TRUTH);
+					getEditModel().setCombinationTableType(CombinationTableType.F_TRUTH);
 				}
 			}
 
@@ -164,12 +154,12 @@ public class CombinationTableEditDialog extends Dialog implements
 
 		return composite;
 	}
-
+	
 	/**
 	 * ダイアログへ初期値を設定する
 	 */
 	private void initializeTypeCombo() {
-		if (entity.getCombinationTableType().equals(
+		if (getEditModel().getCombinationTableType().equals(
 				CombinationTableType.L_TRUTH)) {
 			typeCombo.select(0);
 		} else {
@@ -184,22 +174,14 @@ public class CombinationTableEditDialog extends Dialog implements
 	 */
 	@Override
 	protected void okPressed() {
-		editedValue = entity.createEditedModel();
+		editedValue = getEditModel().createEditedModel();
 
 		super.okPressed();
 	}
 
-	/**
-	 * @return the editAttributeList
-	 */
-	public List<EditAttribute> getEditAttributeList() {
-		return entity.getAttributes();
-	}
-
-	/**
-	 * @return the editedValue
-	 */
-	public AbstractEntityModel getEditedValue() {
-		return editedValue;
+	@Override
+	protected EditCombinationTable getEditModel()
+	{
+		return (EditCombinationTable)entity;
 	}
 }

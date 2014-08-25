@@ -94,7 +94,7 @@ public class LaputaEditPart extends AbstractEntityModelEditPart<Laputa> {
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, model, editAttributeList);
 			ModelEditCommand command = new ModelEditCommand(model,
-					dialog.getEditedValueEntity());
+					dialog.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}

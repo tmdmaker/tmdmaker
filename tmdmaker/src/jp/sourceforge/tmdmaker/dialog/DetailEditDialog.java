@@ -16,18 +16,14 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.DetailIdentifierSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.model.Detail;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -43,11 +39,8 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class DetailEditDialog extends Dialog implements PropertyChangeListener {
-	/** 編集対象モデル */
-	private EditEntity entity;
-	/** 編集結果格納用 */
-	private Detail editedValue;
+public class DetailEditDialog extends ModelEditDialog<Detail> {
+	
 	/** 表名設定用 */
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
@@ -97,18 +90,6 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	}
 
 	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#close()
-	 */
-	@Override
-	public boolean close() {
-		entity.removePropertyChangeListener(this);
-		return super.close();
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
@@ -122,20 +103,20 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new TableNameSettingPanel(composite, SWT.NULL, entity);
+		panel1 = new TableNameSettingPanel(composite, SWT.NULL, getEditModel());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel3 = new DetailIdentifierSettingPanel(composite, SWT.NULL, entity);
+		panel3 = new DetailIdentifierSettingPanel(composite, SWT.NULL, getEditModel());
 		panel3.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel4 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
+		panel4 = new ImplementInfoSettingPanel(composite, SWT.NULL, getEditModel());
 		panel4.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel2 = new AttributeSettingPanel(composite, SWT.NULL, entity);
+		panel2 = new AttributeSettingPanel(composite, SWT.NULL, getEditModel());
 		panel2.setLayoutData(gridData);
 
 		composite.pack();
@@ -151,22 +132,12 @@ public class DetailEditDialog extends Dialog implements PropertyChangeListener {
 	@Override
 	protected void okPressed() {
 		editedValue = entity.createEditedModel();
-
 		super.okPressed();
 	}
-
-	/**
-	 * @return the editAttributeList
-	 */
-	public List<EditAttribute> getEditAttributeList() {
-		return entity.getAttributes();
+	
+	@Override
+	protected EditEntity getEditModel()
+	{
+		return (EditEntity)entity;
 	}
-
-	/**
-	 * @return the editedValue
-	 */
-	public Detail getEditedValue() {
-		return editedValue;
-	}
-
 }

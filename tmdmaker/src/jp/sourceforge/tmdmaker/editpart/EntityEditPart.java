@@ -19,6 +19,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -113,7 +114,7 @@ public class EntityEditPart extends AbstractEntityModelEditPart<Entity> implemen
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
 		Entity entity = getModel();
-		EntityEditDialog dialog = new EntityEditDialog(getViewer().getControl()
+		ModelEditDialog<Entity> dialog = new EntityEditDialog(getViewer().getControl()
 				.getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
@@ -122,7 +123,7 @@ public class EntityEditPart extends AbstractEntityModelEditPart<Entity> implemen
 					.getEditAttributeList();
 			addAttributeEditCommands(ccommand, entity, editAttributeList);
 			ModelEditCommand command = new ModelEditCommand(entity,
-					dialog.getEditedValueEntity());
+					dialog.getEditedValue());
 			ccommand.add(command);
 			getViewer().getEditDomain().getCommandStack().execute(ccommand);
 		}

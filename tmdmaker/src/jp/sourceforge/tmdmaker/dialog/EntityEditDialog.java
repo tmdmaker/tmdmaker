@@ -16,17 +16,13 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndIdentifierNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.model.Entity;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -42,18 +38,13 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class EntityEditDialog extends Dialog implements PropertyChangeListener {
+public class EntityEditDialog extends ModelEditDialog<Entity> {
 	/** エンティティ名、個体指定子、エンティティ種類設定用 */
 	private EntityNameAndIdentifierNameAndTypeSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel3;
-
-	/** 編集元エンティティ */
-	private EditEntity entity;
-	/** 編集結果格納用 */
-	private Entity editedValueEntity;
 
 	/**
 	 * コンストラクタ
@@ -67,18 +58,6 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 		super(parentShell);
 		entity = new EditEntity(original);
 		entity.addPropertyChangeListener(this);
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#close()
-	 */
-	@Override
-	public boolean close() {
-		entity.removePropertyChangeListener(this);
-		return super.close();
 	}
 
 	/**
@@ -118,15 +97,16 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite, SWT.NULL, entity);
+		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite,
+				SWT.NULL, getEditModel());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
-		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
+		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, getEditModel());
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel3.setLayoutData(gridData);
 
-		panel2 = new AttributeSettingPanel(composite, SWT.NULL, entity);
+		panel2 = new AttributeSettingPanel(composite, SWT.NULL, getEditModel());
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel2.setLayoutData(gridData);
 
@@ -154,27 +134,14 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 	 */
 	@Override
 	protected void okPressed() {
-		this.editedValueEntity = entity.createEditedModel();
-		// Identifier newIdentifier = new Identifier();
-		// entity.getEditIdentifier().copyTo(newIdentifier);
-		// this.editedValueEntity.setIdentifier(newIdentifier);
-		// this.editedValueEntity.setEntityType(entity.getType());
-
+		this.editedValue = entity.createEditedModel();
 		super.okPressed();
 	}
-
-	/**
-	 * @return the editAttributeList
-	 */
-	public List<EditAttribute> getEditAttributeList() {
-		return entity.getAttributes();
-	}
-
-	/**
-	 * @return the editedValueEntity
-	 */
-	public Entity getEditedValueEntity() {
-		return editedValueEntity;
+	
+	@Override
+	protected EditEntity getEditModel()
+	{
+		return (EditEntity)entity;
 	}
 
 }
