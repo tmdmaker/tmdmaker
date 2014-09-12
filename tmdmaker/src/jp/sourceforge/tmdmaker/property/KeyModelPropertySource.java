@@ -20,20 +20,25 @@ public class KeyModelPropertySource extends AbstractPropertySource {
 	public Object getEditableValue() {
 		return this.keymodel;
 	}
-
-	@Override
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return new IPropertyDescriptor[] {
+	
+	static private IPropertyDescriptor[] propertyFields;
+	static {
+		propertyFields = new IPropertyDescriptor[] {
 				new TextPropertyDescriptor("Name", "名前"),
 				new TextPropertyDescriptor("IsMasterKey", "マスターキー"),
 				new TextPropertyDescriptor("IsUnique", "ユニーク制約")
-				};
+		};
+	}
+	
+	@Override
+	public IPropertyDescriptor[] getPropertyDescriptors() {
+		return propertyFields;
 	}
 
 	@Override
 	public Object getPropertyValue(Object id) {
 		if (id.equals("Name")) {
-			return keymodel.getName() != null ? keymodel.getName() : "";
+			return canonicalize(keymodel.getName());
 		}
 		if (id.equals("IsMasterKey")) {
 			return keymodel.isMasterKey() ? "はい" : "いいえ";
@@ -42,20 +47,6 @@ public class KeyModelPropertySource extends AbstractPropertySource {
 			return keymodel.isUnique() ? "はい" : "いいえ";
 		}
 		return null;
-	}
-
-	@Override
-	public boolean isPropertySet(Object id) {
-		if (id.equals("Name")) {
-			return true;
-		}
-		if (id.equals("IsMasterKey")) {
-			return true;
-		}
-		if (id.equals("IsUnique")) {
-			return true;
-		}
-		return false;
 	}
 
 	@Override

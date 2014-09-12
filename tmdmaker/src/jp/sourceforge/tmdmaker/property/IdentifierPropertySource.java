@@ -20,25 +20,30 @@ public class IdentifierPropertySource extends AbstractPropertySource {
 	public Object getEditableValue() {
 		return this.identifier;
 	}
-
-	@Override
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return new IPropertyDescriptor[] {
+	
+	static private IPropertyDescriptor[] propertyFields;
+	static {
+		propertyFields = new IPropertyDescriptor[] {
 				new TextPropertyDescriptor("Name", "名前"),
 				new TextPropertyDescriptor("ImplementName",	"実装名"),
 				new TextPropertyDescriptor("DataTypeDeclaration",	"型"),
 				new TextPropertyDescriptor("Size",	"長さ"),
 				new TextPropertyDescriptor("Scale",	"少数")
-				};
+		};
+	}
+	
+	@Override
+	public IPropertyDescriptor[] getPropertyDescriptors() {
+		return propertyFields;
 	}
 
 	@Override
 	public Object getPropertyValue(Object id) {
 		if (id.equals("Name")) {
-			return identifier.getName() != null ? identifier.getName() : "";
+			return canonicalize(identifier.getName());
 		}
 		if (id.equals("ImplementName")) {
-			return identifier.getImplementName() != null ? identifier.getImplementName() : "";
+			return canonicalize(identifier.getImplementName());
 		}
 		if (id.equals("DataTypeDeclaration")) {
 			return identifier.getDataTypeDeclaration() != null ? identifier.getDataTypeDeclaration().getLogicalType().toString() : "";
@@ -50,26 +55,6 @@ public class IdentifierPropertySource extends AbstractPropertySource {
 		    return identifier.getDataTypeDeclaration() != null ? identifier.getDataTypeDeclaration().getScale() : "";
 		}
 		return null;
-		}
-
-	@Override
-	public boolean isPropertySet(Object id) {
-		if (id.equals("Name")) {
-			return true;
-		}
-		if (id.equals("ImplementName")) {
-			return true;
-		}
-		if (id.equals("DataTypeDeclaration")) {
-			return true;
-		}
-		if (id.equals("Size")){
-		    return true;
-		}
-		if (id.equals("Scale")){
-		    return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -77,5 +62,4 @@ public class IdentifierPropertySource extends AbstractPropertySource {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

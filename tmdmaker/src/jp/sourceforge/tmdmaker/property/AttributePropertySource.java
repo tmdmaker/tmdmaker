@@ -20,25 +20,30 @@ public class AttributePropertySource extends AbstractPropertySource {
 	public Object getEditableValue() {
 		return this.attribute;
 	}
-
-	@Override
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return new IPropertyDescriptor[] {
+	
+	static private IPropertyDescriptor[] propertyFields;
+	static {
+		propertyFields = new IPropertyDescriptor[] {
 				new TextPropertyDescriptor("Name", "名前"),
 				new TextPropertyDescriptor("ImplementName",	"実装名"),
 				new TextPropertyDescriptor("DataTypeDeclaration",	"型"),
 				new TextPropertyDescriptor("Size",	"長さ"),
 				new TextPropertyDescriptor("Scale",	"少数")
-				};
+		};
+	}
+	
+	@Override
+	public IPropertyDescriptor[] getPropertyDescriptors() {
+		return propertyFields;
 	}
 
 	@Override
 	public Object getPropertyValue(Object id) {
 		if (id.equals("Name")) {
-			return attribute.getName() != null ? attribute.getName() : "";
+			return canonicalize(attribute.getName());
 		}
 		if (id.equals("ImplementName")) {
-			return attribute.getImplementName() != null ? attribute.getImplementName() : "";
+			return canonicalize(attribute.getImplementName());
 		}
 		if (id.equals("DataTypeDeclaration")) {
 			return attribute.getDataTypeDeclaration() != null ? attribute.getDataTypeDeclaration().getLogicalType().toString() : "";
@@ -50,26 +55,6 @@ public class AttributePropertySource extends AbstractPropertySource {
 		    return attribute.getDataTypeDeclaration() != null ? attribute.getDataTypeDeclaration().getScale() : "";
 		}
 		return null;
-		}
-
-	@Override
-	public boolean isPropertySet(Object id) {
-		if (id.equals("Name")) {
-			return true;
-		}
-		if (id.equals("ImplementName")) {
-			return true;
-		}
-		if (id.equals("DataTypeDeclaration")) {
-			return true;
-		}
-		if (id.equals("Size")){
-		    return true;
-		}
-		if (id.equals("Scale")){
-		    return true;
-		}
-		return false;
 	}
 
 	@Override
