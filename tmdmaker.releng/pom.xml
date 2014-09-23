@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>tmdmaker</groupId>
+	<artifactId>tmdmaker.releng</artifactId>
+	<version>0.2.9-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<tycho-version>0.21.0</tycho-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<release-version>0.2.9</release-version>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<!-- enable tycho build extension -->
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<target>
+						<artifact>
+							<groupId>tmdmaker</groupId>
+							<artifactId>tmdmaker.releng.targetplatform</artifactId>
+							<version>0.2.9-SNAPSHOT</version>
+						</artifact>
+					</target>
+					<environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<modules>
+		<module>../tmdmaker.core</module>
+		<module>../tmdmaker.imagegenerator</module>
+		<module>../tmdmaker</module>
+		<module>../tmdmaker.csv</module>
+		<module>../tmdmaker.ddlgenerator</module>
+		<module>../tmdmaker.htmlgenerator</module>
+		<module>../tmdmaker.serializer</module>
+		<module>../tmdmaker.serializer.handler.patch0.2.x</module>
+		<module>../tmdmaker.ui.menu</module>
+		<module>../tmdmaker.feature</module>
+		<module>../tmdmaker.releng.plugin</module>
+
+		<module>../../tmdmaker-rcp/tmdmaker.releng.product</module>
+		<module>../../tmdmaker-rcp/tmdmaker.rcp</module>
+		<module>../../tmdmaker-rcp/tmdmaker.releng.targetplatform</module>
+	</modules>
+</project>

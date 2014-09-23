@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="tmdmaker.feature" />
+   <category-def name="tmdmaker.category.id" label="TMD-Maker plugin">
+      <description>
+         TMD-Maker plugin built with Tycho
+      </description>
+   </category-def>
+</site>
