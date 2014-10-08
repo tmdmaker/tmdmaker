@@ -21,6 +21,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -114,6 +115,17 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 					SideValue.TOP);
 			trimBar.getChildren().remove(searchField);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#preWindowShellClose()
+	 */
+	@Override
+	public boolean preWindowShellClose() {
+		Shell shell = getWindowConfigurer().getWindow().getShell();
+		return MessageDialog.openConfirm(shell, "Confirm Exit", "Exit TMD-Maker?");
 	}
 
 }
