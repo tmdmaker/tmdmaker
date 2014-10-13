@@ -80,5 +80,6 @@
 		<module>../../tmdmaker-rcp/tmdmaker.releng.product</module>
 		<module>../../tmdmaker-rcp/tmdmaker.rcp</module>
 		<module>../../tmdmaker-rcp/tmdmaker.releng.targetplatform</module>
+		<module>../../tmdmaker-rcp/tmdmaker.rcp.nl_ja</module>
 	</modules>
 </project>
