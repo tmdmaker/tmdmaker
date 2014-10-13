@@ -36,7 +36,7 @@ import org.osgi.framework.Bundle;
  */
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
-	private static final String PERSPECTIVE_ID = "tmdmaker.rcp.perspective";
+	private static final String PERSPECTIVE_ID = "tmdmaker.rcp.perspective"; //$NON-NLS-1$
 
 	/**
 	 * 
@@ -52,17 +52,17 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 	}
 
 	private void initializeWorkbenchImages(IWorkbenchConfigurer configurer) {
-		final String ICONS_PATH = "icons/full/";
-		final String PATH_OBJECT = ICONS_PATH + "obj16/";
+		final String ICONS_PATH = "icons/full/"; //$NON-NLS-1$
+		final String PATH_OBJECT = ICONS_PATH + "obj16/"; //$NON-NLS-1$
 		final String IDE_WORKBENCH = "org.eclipse.ui.ide"; //$NON-NLS-1$
 
 		Bundle ideBundle = Platform.getBundle(IDE_WORKBENCH);
 		declareWorkbenchImage(configurer, ideBundle,
-				IDE.SharedImages.IMG_OBJ_PROJECT, PATH_OBJECT + "prj_obj.gif",
+				IDE.SharedImages.IMG_OBJ_PROJECT, PATH_OBJECT + "prj_obj.gif", //$NON-NLS-1$
 				true);
 		declareWorkbenchImage(configurer, ideBundle,
 				IDE.SharedImages.IMG_OBJ_PROJECT_CLOSED, PATH_OBJECT
-						+ "cprj_obj.gif", true);
+						+ "cprj_obj.gif", true); //$NON-NLS-1$
 	}
 
 	private void declareWorkbenchImage(IWorkbenchConfigurer configurer_p,

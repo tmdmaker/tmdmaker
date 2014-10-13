@@ -17,7 +17,7 @@
             class="jp.sourceforge.tmdmaker.rcp.Perspective"
             fixed="true"
             id="tmdmaker.rcp.perspective"
-            name="RCP Perspective">
+            name="%perspective.name">
       </perspective>
    </extension>
    <extension
@@ -45,10 +45,10 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu">
          <menu
-               label="&amp;File">
+               label="%menu.label">
             <command
                   commandId="org.eclipse.ui.newWizard"
-                  label="&amp;New"
+                  label="%command.label"
                   style="push">
             </command>
             <separator
@@ -57,7 +57,7 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.file.close"
-                  label="&amp;Close"
+                  label="%command.label.0"
                   style="push">
             </command>
             <separator
@@ -66,12 +66,12 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.file.save"
-                  label="&amp;Save"
+                  label="%command.label.1"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.file.saveAs"
-                  label="Save &amp;As"
+                  label="%command.label.2"
                   style="push">
             </command>
             <separator
@@ -80,20 +80,20 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.file.exit"
-                  label="E&amp;xit"
+                  label="%command.label.3"
                   style="push">
             </command>
          </menu>
          <menu
-               label="&amp;Edit">
+               label="%menu.label.0">
             <command
                   commandId="org.eclipse.ui.edit.undo"
-                  label="&amp;Undo"
+                  label="%command.label.4"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.edit.redo"
-                  label="&amp;Redo"
+                  label="%command.label.5"
                   style="push">
             </command>
             <separator
@@ -102,12 +102,12 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.edit.copy"
-                  label="&amp;Copy"
+                  label="%command.label.6"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.edit.paste"
-                  label="&amp;Paste"
+                  label="%command.label.7"
                   style="push">
             </command>
             <separator
@@ -116,20 +116,20 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.edit.delete"
-                  label="&amp;Delete"
+                  label="%command.label.8"
                   style="push">
             </command>
          </menu>
          <menu
-               label="&amp;Window">
+               label="%menu.label.1">
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="&amp;Show View"
+                  label="%command.label.9"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.window.preferences"
-                  label="&amp;Preferences"
+                  label="%command.label.10"
                   style="push">
             </command>
          </menu>
@@ -140,7 +140,7 @@
                id="tmdmaker.rcp.toolbar1">
             <command
                   commandId="org.eclipse.ui.newWizard"
-                  label="&amp;New"
+                  label="%command.label.11"
                   style="push">
             </command>
             <separator
@@ -149,12 +149,12 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.file.save"
-                  label="&amp;Save"
+                  label="%command.label.12"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.file.saveAs"
-                  label="Save &amp;As"
+                  label="%command.label.13"
                   style="push">
             </command>
          </toolbar>

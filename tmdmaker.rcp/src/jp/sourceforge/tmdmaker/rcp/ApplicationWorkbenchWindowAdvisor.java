@@ -70,7 +70,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		configurer.setShowCoolBar(true);
 		configurer.setShowMenuBar(true);
 		configurer.setShowStatusLine(false);
-		configurer.setTitle("TMD-Maker for RCP");
+		configurer.setTitle(Messages.ApplicationWorkbenchWindowAdvisor_0);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	private void hideQuickAccess(EModelService modelService, MWindow model) {
 		MToolControl searchField = (MToolControl) modelService.find(
-				"SearchField", model);
+				"SearchField", model); //$NON-NLS-1$
 		if (searchField != null) {
 			searchField.setToBeRendered(false);
 			MTrimBar trimBar = modelService.getTrim((MTrimmedWindow) model,
@@ -125,7 +125,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	@Override
 	public boolean preWindowShellClose() {
 		Shell shell = getWindowConfigurer().getWindow().getShell();
-		return MessageDialog.openConfirm(shell, "Confirm Exit", "Exit TMD-Maker?");
+		return MessageDialog.openConfirm(shell, Messages.ApplicationWorkbenchWindowAdvisor_2, Messages.ApplicationWorkbenchWindowAdvisor_3);
 	}
 
 }

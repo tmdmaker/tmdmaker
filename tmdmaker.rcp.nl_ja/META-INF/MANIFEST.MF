@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nl_ja
+Bundle-SymbolicName: tmdmaker.rcp.nl_ja
+Bundle-Version: 0.2.10.qualifier
+Fragment-Host: tmdmaker.rcp;bundle-version="0.2.9"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
