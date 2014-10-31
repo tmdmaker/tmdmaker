@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -108,7 +108,7 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
         gridData.widthHint = -1;
         gridData.verticalAlignment = GridData.CENTER;
         nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
-        nameAutoCreateCheckBox.setText("個体指定子からエンティティ名を自動生成");
+        nameAutoCreateCheckBox.setText("個体指定子からエンティティ名等を自動生成");
         nameAutoCreateCheckBox.setLayoutData(gridData9);
         typeLabel = new Label(this, SWT.NONE);
         typeLabel.setText("類別");
@@ -148,7 +148,10 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 				Text t = (Text) e.widget;
 				entity.setIdentifierName(t.getText());
 				if (nameAutoCreateCheckBox.getSelection()) {
-    				nameText.setText(createEntityName(t.getText()));
+					String oldName = nameText.getText();
+					String newName = createEntityName(t.getText());
+    				nameText.setText(newName);
+    				entity.updateTypeAttribute(oldName, newName);
 				}
 			}
 		});

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,9 +90,10 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(EditEntity.PROPERTY_ATTRIBUTES)) {
-			panel2.updateAttributeTable();
-		} else if (evt.getPropertyName().equals(
-				EditEntity.PROPERTY_UP_IDENTIFIER)) {
+			if (panel2 != null) {
+				panel2.updateAttributeTable();
+			}
+		} else if (evt.getPropertyName().equals(EditEntity.PROPERTY_UP_IDENTIFIER)) {
 			panel1.updateValue();
 			panel2.updateAttributeTable();
 		}
@@ -117,8 +118,7 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite,
-				SWT.NULL, entity);
+		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite, SWT.NULL, entity);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@ package jp.sourceforge.tmdmaker.dialog.model;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
+import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
 
 /**
  * エンティティの編集用
@@ -89,8 +91,9 @@ public class EditEntity extends EditTable {
 	 *            更新後の個体指定子の値
 	 */
 	public void updateEditIdentifier(EditAttribute identifier) {
+		String oldIndentifierName = editIdentifier.getName();
 		identifier.copyTo(editIdentifier);
-		firePropertyChange(PROPERTY_IDENTIFIER, null, editIdentifier);
+		firePropertyChange(PROPERTY_IDENTIFIER, oldIndentifierName, editIdentifier);
 	}
 
 	/**
@@ -100,8 +103,9 @@ public class EditEntity extends EditTable {
 	 *            個体指定子名称
 	 */
 	public void setIdentifierName(String name) {
+		String oldIndentifierName = editIdentifier.getName();
 		editIdentifier.setName(name);
-		firePropertyChange(PROPERTY_IDENTIFIER, null, editIdentifier);
+		firePropertyChange(PROPERTY_IDENTIFIER, oldIndentifierName, editIdentifier);
 	}
 
 	/**
@@ -143,8 +147,7 @@ public class EditEntity extends EditTable {
 	 */
 	@Override
 	public boolean isValid() {
-		return super.isValid()
-				&& this.getEditIdentifier().getName().length() > 0;
+		return super.isValid() && this.getEditIdentifier().getName().length() > 0;
 	}
 
 	/**
@@ -170,4 +173,31 @@ public class EditEntity extends EditTable {
 		}
 	}
 
+	private EditAttribute findAttributeByName(String attributeName) {
+
+		for (EditAttribute ea : getAttributes()) {
+			if (attributeName.equals(ea.getName())) {
+				return ea;
+			}
+		}
+		return null;
+	}
+
+	public void updateTypeAttribute(String oldEntityName, String newEntityName) {
+		String oldAttributeName = null;
+		String newAttribteName = null;
+		if (getType().equals(EntityType.EVENT)) {
+			oldAttributeName = EntityTypeRule.createEventAttributeName(oldEntityName);
+			newAttribteName = EntityTypeRule.createEventAttributeName(newEntityName);
+		} else {
+			oldAttributeName = EntityTypeRule.createResourceAttributeName(oldEntityName);
+			newAttribteName = EntityTypeRule.createResourceAttributeName(newEntityName);
+		}
+
+		EditAttribute ea = findAttributeByName(oldAttributeName);
+		if (ea != null) {
+			ea.setName(newAttribteName);
+			firePropertyChange(PROPERTY_ATTRIBUTES, null, ea);
+		}
+	}
 }

@@ -10,7 +10,9 @@
 		<tycho-version>0.21.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<release-version>0.2.10</release-version>
+		<os-jvm-flags />
 	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -61,9 +63,32 @@
 					</environments>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<useUIHarness>true</useUIHarness>
+					<useUIThread>true</useUIThread>
+					
+					<argLine>-Xms40m -Xmx1G ${os-jvm-flags}</argLine>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
+	<profiles>
+		<profile>
+			<id>macosx-jvm-flags</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+			</properties>
+		</profile>
+	</profiles>
 	<modules>
 		<module>../tmdmaker.core</module>
 		<module>../tmdmaker.imagegenerator</module>
@@ -81,5 +106,6 @@
 		<module>../../tmdmaker-rcp/tmdmaker.rcp</module>
 		<module>../../tmdmaker-rcp/tmdmaker.releng.targetplatform</module>
 		<module>../../tmdmaker-rcp/tmdmaker.rcp.nl_ja</module>
+		<module>../tmdmaker.test</module>
 	</modules>
 </project>
