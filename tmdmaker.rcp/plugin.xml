@@ -38,6 +38,19 @@
                name="windowImages"
                value="icons/window/tmd_icon_16_32bit.png,icons/window/tmd_icon_32_32bit.png,icons/window/tmd_icon_48_32bit.png,icons/window/tmd_icon_64_32bit.png,icons/window/tmd_icon_128_32bit.png">
          </property>
+         <property name="preferenceCustomization" value="plugin_customization.ini" />
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="17,282,470,20">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="15,305,470,15">
+         </property>
       </product>
    </extension>
    <extension

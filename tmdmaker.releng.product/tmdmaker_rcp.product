@@ -13,6 +13,11 @@
 
    <windowImages i16="/icons/window/tmd_icon_16_32bit.png" i32="/icons/window/tmd_icon_32_32bit.png" i48="/icons/window/tmd_icon_48_32bit.png" i64="/icons/window/tmd_icon_64_32bit.png" i128="/icons/window/tmd_icon_128_32bit.png"/>
 
+   <splash
+      location="tmdmaker.rcp"
+      startupProgressRect="15,305,470,15"
+      startupMessageRect="17,282,470,20"
+      startupForegroundColor="000000" />
    <launcher name="tmdmaker">
       <linux icon="/icons/launcher/tmd_icon.xpm"/>
       <macosx icon="/icons/launcher/tmd_icon.icns"/>
