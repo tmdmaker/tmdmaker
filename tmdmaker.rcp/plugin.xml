@@ -51,6 +51,8 @@
                name="startupProgressRect"
                value="15,305,470,15">
          </property>
+         <property name="buildId" value="Ver.0.2.10" ></property>
+         <property name="buildIdLocation" value="270,270,200,40" ></property>
       </product>
    </extension>
    <extension
@@ -202,6 +204,17 @@
                visible="true">
          </view>
       </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.splashHandlers">
+      <splashHandler
+            class="jp.sourceforge.tmdmaker.rcp.TMDSplashHandler"
+            id="tmdmaker.rcp.splashHandler">
+      </splashHandler>
+      <splashHandlerProductBinding
+            productId="tmdmaker.rcp.product"
+            splashId="tmdmaker.rcp.splashHandler">
+      </splashHandlerProductBinding>
    </extension>
 
 </plugin>
