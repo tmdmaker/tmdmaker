@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
-import org.eclipse.gef.SnapToGuides;
 import org.eclipse.gef.SnapToHelper;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
@@ -45,7 +44,6 @@ import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.gef.rulers.RulerProvider;
 
 /**
  * Diagramのコントローラ
@@ -54,6 +52,7 @@ import org.eclipse.gef.rulers.RulerProvider;
  * 
  */
 public class DiagramEditPart extends AbstractTMDEditPart {
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -155,7 +154,8 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 		protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 			logger.debug(getClass() + "#createChangeConstraintCommand()");
 			ModelConstraintChangeCommand command = new ModelConstraintChangeCommand(
-					(ModelElement) child.getModel(), ConstraintConverter.toConstraint((Rectangle) constraint));
+					(ModelElement) child.getModel(),
+					ConstraintConverter.toConstraint((Rectangle) constraint));
 			return command;
 		}
 
@@ -197,11 +197,7 @@ public class DiagramEditPart extends AbstractTMDEditPart {
 	public Object getAdapter(Class key) {
 		if (key == SnapToHelper.class) {
 			List<SnapToHelper> snapStrategies = new ArrayList<SnapToHelper>();
-			Boolean val = (Boolean) getViewer()
-					.getProperty(RulerProvider.PROPERTY_RULER_VISIBILITY);
-			if (val != null && val.booleanValue())
-				snapStrategies.add(new SnapToGuides(this));
-			val = (Boolean) getViewer().getProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED);
+			Boolean val = (Boolean) getViewer().getProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED);
 			if (val != null && val.booleanValue())
 				snapStrategies.add(new SnapToGeometry(this));
 			val = (Boolean) getViewer().getProperty(SnapToGrid.PROPERTY_GRID_ENABLED);
