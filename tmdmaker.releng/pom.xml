@@ -101,11 +101,10 @@
 		<module>../tmdmaker.ui.menu</module>
 		<module>../tmdmaker.feature</module>
 		<module>../tmdmaker.releng.plugin</module>
-
-		<module>../../tmdmaker-rcp/tmdmaker.releng.product</module>
-		<module>../../tmdmaker-rcp/tmdmaker.rcp</module>
-		<module>../../tmdmaker-rcp/tmdmaker.releng.targetplatform</module>
-		<module>../../tmdmaker-rcp/tmdmaker.rcp.nl_ja</module>
 		<module>../tmdmaker.test</module>
+		<module>../tmdmaker.releng.product</module>
+		<module>../tmdmaker.rcp</module>
+		<module>../tmdmaker.releng.targetplatform</module>
+		<module>../tmdmaker.rcp.nl_ja</module>
 	</modules>
 </project>
