@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target includeMode="feature" name="tmdmaker.releng.targetplatform" sequenceNumber="45">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.platform.feature.group" version="4.4.0.v20140925-0400"/>
+<unit id="org.eclipse.e4.rcp.feature.group" version="1.3.100.v20140909-1633"/>
+<unit id="org.eclipse.equinox.executable.feature.group" version="3.6.100.v20140819-1617"/>
+<unit id="org.eclipse.jdt.feature.group" version="3.10.0.v20140925-0400"/>
+<unit id="org.eclipse.draw2d.feature.group" version="3.9.101.201408150207"/>
+<unit id="org.eclipse.gef.feature.group" version="3.9.101.201408150207"/>
+<repository location="http://download.eclipse.org/releases/luna"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.9.0.v20140911-0143"/>
+<unit id="org.eclipse.rcp.sdk.id" version="4.4.1.M20140925-0400"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.4"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.10.0.v20140909-1633"/>
+<repository location="http://download.eclipse.org/releases/luna"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.4.0.v20140623020002"/>
+<repository location="http://download.eclipse.org/technology/babel/update-site/R0.12.0/luna"/>
+</location>
+</locations>
+</target>
