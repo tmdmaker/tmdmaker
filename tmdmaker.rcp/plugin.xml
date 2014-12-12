@@ -51,8 +51,22 @@
                name="startupProgressRect"
                value="15,305,470,15">
          </property>
-         <property name="buildId" value="Ver.0.2.10" ></property>
-         <property name="buildIdLocation" value="270,270,200,40" ></property>
+         <property 
+               name="buildId"
+               value="Ver.0.2.10">
+         </property>
+         <property 
+               name="buildIdLocation" 
+               value="270,270,200,40">
+         </property>
+         <property
+               name="aboutImage" 
+               value="icons/tmd_about.gif">
+          </property>
+         <property
+               name="aboutText"
+               value="TMD-Maker for Rich Client Platform.&#x0A;&#x0A;Ver.0.2.10.&#x0A;&#x0A;Copyright 2009-2014 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;&#x0A;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);">
+         </property>
       </product>
    </extension>
    <extension
@@ -148,6 +162,15 @@
                   style="push">
             </command>
          </menu>
+         <menu
+               label="%menu.label.2">
+            <command
+                  commandId="org.eclipse.ui.help.aboutAction"
+                  label="%command.label.14"
+                  style="push">
+            </command>
+         </menu>
+         
       </menuContribution>
       <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar">
