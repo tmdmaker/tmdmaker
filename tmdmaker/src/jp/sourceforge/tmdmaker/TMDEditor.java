@@ -98,8 +98,10 @@ import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
-import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
+import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.gef.ui.rulers.RulerComposite;
@@ -141,7 +143,7 @@ import org.slf4j.LoggerFactory;
  * @author nakaG
  * 
  */
-public class TMDEditor extends GraphicalEditorWithPalette implements IResourceChangeListener {
+public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IResourceChangeListener {
 
 	/**
 	 * アウトラインページ
@@ -290,6 +292,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements IResourceCh
 	 */
 	@Override
 	protected void initializeGraphicalViewer() {
+		super.initializeGraphicalViewer();
 		logger.debug(getClass() + "#initializeGraphicalViewer()");
 		GraphicalViewer viewer = getGraphicalViewer();
 
@@ -333,6 +336,16 @@ public class TMDEditor extends GraphicalEditorWithPalette implements IResourceCh
 	protected void setInput(IEditorInput input) {
 		super.setInput(input);
 		setPartName(input.getName());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getGraphicalControl()
+	 */
+	@Override
+	protected Control getGraphicalControl() {
+		return rulerComp;
 	}
 
 	/**
@@ -749,12 +762,24 @@ public class TMDEditor extends GraphicalEditorWithPalette implements IResourceCh
 		return (ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart();
 	}
 
-	@Override
-	public DefaultEditDomain getEditDomain() {
-		return super.getEditDomain();
-	}
-
 	public void addSelectionSynchronizerViewer(EditPartViewer viewer) {
 		getSelectionSynchronizer().addViewer(viewer);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()
+	 */
+	@Override
+	protected FlyoutPreferences getPalettePreferences() {
+		FlyoutPreferences pref = super.getPalettePreferences();
+
+		if (pref.getPaletteWidth() <= 0) {
+			pref.setDockLocation(PositionConstants.EAST);
+			pref.setPaletteState(FlyoutPaletteComposite.STATE_PINNED_OPEN);
+			pref.setPaletteWidth(135);
+		}
+		return pref;
 	}
 }
