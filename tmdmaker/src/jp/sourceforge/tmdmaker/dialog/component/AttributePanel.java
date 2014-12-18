@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +52,9 @@ public class AttributePanel extends Composite {
 	private Label implementNameLabel = null;
 	private Text implementNameText = null;
 	private Button derivationCheckBox = null;
+	private Button btnAutoIncrementCheckButton = null;
+	private Text textDefaultValue;
+
 	public AttributePanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
@@ -117,16 +120,16 @@ public class AttributePanel extends Composite {
 		derivationCheckBox = new Button(this, SWT.CHECK);
 		derivationCheckBox.setText("ダイアグラムに(D)を表示する");
 		this.setLayout(gridLayout);
-		this.setSize(new Point(306, 443));
+		this.setSize(new Point(294, 447));
 	}
 
 	/**
-	 * This method initializes dataCombo	
+	 * This method initializes dataCombo
 	 *
 	 */
 	private void createDataCombo() {
 		GridData gridData1 = new GridData();
-		gridData1.horizontalAlignment = GridData.CENTER;
+		gridData1.horizontalAlignment = SWT.FILL;
 		gridData1.widthHint = 180;
 		gridData1.horizontalSpan = 4;
 		gridData1.verticalAlignment = GridData.CENTER;
@@ -137,6 +140,7 @@ public class AttributePanel extends Composite {
 				int index = ((Combo) e.getSource()).getSelectionIndex();
 				fireDataTypeChanged(index);
 			}
+
 			public void widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent e) {
 			}
 		});
@@ -145,6 +149,7 @@ public class AttributePanel extends Composite {
 			dataCombo.add(dataType.getName());
 		}
 	}
+
 	public void initializeValue(EditAttribute ea) {
 		inputNameText.setText(ea.getName());
 		descriptionTextArea.setText(ea.getDescription());
@@ -162,9 +167,16 @@ public class AttributePanel extends Composite {
 				scaleText.setText(ea.getScale());
 			}
 			dataCombo.select(dt.ordinal() + 1);
+			if (ea.getAutoIncrement() != null) {
+				btnAutoIncrementCheckButton.setSelection(ea.getAutoIncrement());
+			}
+			if (ea.getDefaultValue() != null) {
+				textDefaultValue.setText(ea.getDefaultValue());
+			}
 			fireDataTypeChanged(dataCombo.getSelectionIndex());
 		}
 	}
+
 	private void fireDataTypeChanged(int index) {
 		if (index > 0) {
 			StandardSQLDataType dataType = StandardSQLDataType.values()[index - 1];
@@ -172,12 +184,14 @@ public class AttributePanel extends Composite {
 			scaleText.setEnabled(dataType.isSupportScale());
 		} else {
 			precisionText.setEnabled(true);
-			scaleText.setEnabled(true);					
-		}		
+			scaleText.setEnabled(true);
+		}
 	}
+
 	public String getDescription() {
 		return descriptionTextArea.getText();
 	}
+
 	public StandardSQLDataType getDataType() {
 		int selectionIndex = dataCombo.getSelectionIndex();
 		if (selectionIndex > 0) {
@@ -186,6 +200,7 @@ public class AttributePanel extends Composite {
 			return null;
 		}
 	}
+
 	public String getPresition() {
 		if (precisionText.isEnabled()) {
 			return precisionText.getText();
@@ -193,6 +208,7 @@ public class AttributePanel extends Composite {
 			return "";
 		}
 	}
+
 	public String getScale() {
 		if (scaleText.isEnabled()) {
 			return scaleText.getText();
@@ -200,26 +216,44 @@ public class AttributePanel extends Composite {
 			return "";
 		}
 	}
+
+	public Boolean getAutoIncrement() {
+		if (btnAutoIncrementCheckButton.getSelection()) {
+			return true;
+		}
+		return null;
+	}
+
 	public String getValidationRule() {
 		return validationRuleTextArea.getText();
 	}
+
 	public String getLock() {
 		return lockTextArea.getText();
 	}
+
 	public String getDerivationRule() {
 		return derivationRuleTextArea.getText();
 	}
+
 	public boolean isDerivation() {
 		return derivationCheckBox.getSelection();
 	}
+
 	public String getInputName() {
 		return inputNameText.getText();
 	}
+
 	public String getImplementName() {
 		return implementNameText.getText();
 	}
+
+	public String getDefaultValue() {
+		return textDefaultValue.getText();
+	}
+
 	/**
-	 * This method initializes dataTypeComposite	
+	 * This method initializes dataTypeComposite
 	 *
 	 */
 	private void createDataTypeComposite() {
@@ -233,9 +267,10 @@ public class AttributePanel extends Composite {
 		gridLayout1.verticalSpacing = 5;
 		gridLayout1.horizontalSpacing = 5;
 		GridData gridData2 = new GridData();
-		gridData2.horizontalAlignment = GridData.CENTER;
+		gridData2.heightHint = 104;
+		gridData2.horizontalAlignment = SWT.FILL;
 		gridData2.grabExcessHorizontalSpace = false;
-		gridData2.verticalAlignment = GridData.CENTER;
+		gridData2.verticalAlignment = SWT.FILL;
 		dataTypeComposite = new Composite(this, SWT.NONE);
 		dataTypeComposite.setLayoutData(gridData2);
 		dataTypeComposite.setLayout(gridLayout1);
@@ -248,11 +283,26 @@ public class AttributePanel extends Composite {
 		sLabel.setText("位取り");
 		scaleText = new Text(dataTypeComposite, SWT.BORDER);
 		scaleText.setLayoutData(gridData4);
+
+		btnAutoIncrementCheckButton = new Button(dataTypeComposite, SWT.CHECK);
+		btnAutoIncrementCheckButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				3, 1));
+		btnAutoIncrementCheckButton.setText("オートインクリメント");
+		new Label(dataTypeComposite, SWT.NONE);
+
+		Label lblNewLabel = new Label(dataTypeComposite, SWT.NONE);
+		lblNewLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblNewLabel.setText("デフォルト値");
+
+		textDefaultValue = new Text(dataTypeComposite, SWT.BORDER);
+		textDefaultValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 	}
+
 	public void addNameModifyListener(ModifyListener listener) {
 		inputNameText.addModifyListener(listener);
 	}
+
 	public void removeNameModifyListener(ModifyListener listener) {
 		inputNameText.removeModifyListener(listener);
 	}
-}  //  @jve:decl-index=0:visual-constraint="-60,-10"
+} // @jve:decl-index=0:visual-constraint="-60,-10"

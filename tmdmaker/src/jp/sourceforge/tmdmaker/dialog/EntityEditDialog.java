@@ -138,6 +138,18 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	protected Control createContents(Composite parent) {
+		Control contents = super.createContents(parent);
+		panel2.updateAttributeTable();
+		return contents;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override

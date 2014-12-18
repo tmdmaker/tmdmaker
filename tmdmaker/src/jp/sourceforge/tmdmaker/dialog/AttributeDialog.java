@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -111,6 +111,8 @@ public class AttributeDialog extends Dialog {
 		original.setDataType(panel.getDataType());
 		original.setSize(panel.getPresition());
 		original.setScale(panel.getScale());
+		original.setAutoIncrement(panel.getAutoIncrement());
+		original.setDefaultValue(panel.getDefaultValue());
 		super.okPressed();
 	}
 

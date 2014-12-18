@@ -88,7 +88,10 @@ public class EntityTypeRule {
 	 * @return アトリビュート名
 	 */
 	public static String createEventAttributeName(String entityName) {
-		return entityName + EVENT_DATE_LITERAL;
+		if (entityName != null && entityName.length() != 0) {
+			return entityName + EVENT_DATE_LITERAL;
+		}
+		return null;
 	}
 
 	/**

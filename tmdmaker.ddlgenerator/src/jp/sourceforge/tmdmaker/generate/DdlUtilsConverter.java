@@ -32,6 +32,7 @@ import jp.sourceforge.tmdmaker.model.SarogateKeyRef;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ddlutils.model.Column;
 import org.apache.ddlutils.model.Database;
 import org.apache.ddlutils.model.Index;
@@ -342,6 +343,13 @@ public class DdlUtilsConverter {
 			}
 			if (dataType.isSupportScale() && dtd.getScale() != null) {
 				column.setScale(dtd.getScale().intValue());
+			}
+			if (dtd.getAutoIncrement() != null) {
+				column.setAutoIncrement(dtd.getAutoIncrement());
+			}
+			String defaultValue = dtd.getDefaultValue();
+			if (StringUtils.isNotEmpty(defaultValue)) {
+				column.setDefaultValue(defaultValue);
 			}
 		}
 		column.setRequired(!attribute.isNullable());
