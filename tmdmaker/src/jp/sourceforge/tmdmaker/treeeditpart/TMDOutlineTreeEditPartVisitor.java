@@ -45,6 +45,14 @@ import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 
+/**
+ * 
+ * Visitor パターンの実装。IAcceptorを実装した各モデルに対し、visitメソッドで定義した処理を実行する。
+ * ここでは、各モデルに対応したtreeview用のEditPartを生成する。
+ * 
+ * @author tohosaku
+ *
+ */
 public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	EditPart part = null;
