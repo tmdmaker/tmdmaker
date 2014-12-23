@@ -106,5 +106,6 @@
 		<module>../tmdmaker.rcp</module>
 		<module>../tmdmaker.releng.targetplatform</module>
 		<module>../tmdmaker.rcp.nl_ja</module>
+		<module>../tmdmaker.rcp.feature</module>
 	</modules>
 </project>
