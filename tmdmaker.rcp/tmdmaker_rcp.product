@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.2.10" useFeatures="false" includeLaunchers="true">
+<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.2.10" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/tmdmaker.rcp/icons/tmd_about.gif"/>
@@ -419,6 +419,16 @@ Licensed under the Apache License, Version 2.0
       <plugin id="tmdmaker.serializer.handler.patch0.2.x"/>
       <plugin id="tmdmaker.ui.menu"/>
    </plugins>
+
+   <features>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.e4.rcp"/>
+      <feature id="org.eclipse.babel.nls_eclipse_ja"/>
+      <feature id="tmdmaker.rcp.feature"/>
+      <feature id="tmdmaker.feature"/>
+   </features>
 
    <configurations>
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />

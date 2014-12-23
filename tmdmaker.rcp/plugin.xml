@@ -65,7 +65,7 @@
           </property>
          <property
                name="aboutText"
-               value="TMD-Maker for Rich Client Platform.&#x0A;&#x0A;Ver.0.2.10.&#x0A;&#x0A;Copyright 2009-2014 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;&#x0A; Licensed under the Apache License, Version 2.0">
+               value="TMD-Maker for Rich Client Platform.&#x0A;&#x0A;{buildId}.&#x0A;&#x0A;Copyright 2009-2014 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;&#x0A;Licensed under the Apache License, Version 2.0">
          </property>
       </product>
    </extension>

@@ -46,6 +46,7 @@ Copyright 2009-2014 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
       </win>
    </launcher>
 
+
    <vm>
    </vm>
 
@@ -462,13 +463,13 @@ Copyright 2009-2014 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
    </plugins>
 
    <features>
-      <feature id="tmdmaker.rcp.feature" version="0.2.10.qualifier"/>
-      <feature id="org.eclipse.emf.ecore"/>
-      <feature id="tmdmaker.feature"/>
-      <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.e4.rcp"/>
-      <feature id="org.eclipse.babel.nls_eclipse_ja" version="4.4.0.v20140623020002"/>
+      <feature id="org.eclipse.babel.nls_eclipse_ja"/>
+      <feature id="tmdmaker.rcp.feature"/>
+      <feature id="tmdmaker.feature"/>
    </features>
 
    <configurations>
