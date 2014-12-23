@@ -56,7 +56,7 @@ import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
  */
 public class TMDEditPartVisitor implements IVisitor{
 	
-	EditPart part = null;
+	private EditPart part = null;
 	
 	public EditPart getEditPart() {
 		return part;
