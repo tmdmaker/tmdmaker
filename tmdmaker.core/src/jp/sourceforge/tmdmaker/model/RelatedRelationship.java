@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,8 +41,7 @@ public class RelatedRelationship extends AbstractConnectionModel {
 	 * @param target
 	 *            接続先
 	 */
-	public RelatedRelationship(ConnectableElement source,
-			ConnectableElement target) {
+	public RelatedRelationship(ConnectableElement source, ConnectableElement target) {
 		setSource(source);
 		setTarget(target);
 	}
@@ -125,6 +124,18 @@ public class RelatedRelationship extends AbstractConnectionModel {
 	 * 多値のANDのヘッダーディテールと相違マークとのリレーションのヘルパークラス
 	 */
 	private class MultivalueAnd2AggregatorRelationHelper extends RelationHelper {
+		// 本来であれば相違マークがsource、ヘッダーディテールがtargetとなるべきだが、削除判定などの影響でsourceとtargetが逆になっている。
+		// そのためツールチップに表示する内容のみ、本来の方向に合わせて表示している。
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship.RelationHelper#getSourceName()
+		 */
+		@Override
+		public String getSourceName() {
+			return getTarget().getModelTargetConnections().get(0).getSourceName();
+		}
+
 		/**
 		 * 
 		 * {@inheritDoc}
@@ -133,8 +144,7 @@ public class RelatedRelationship extends AbstractConnectionModel {
 		 */
 		@Override
 		public String getTargetName() {
-			return getTarget().getModelTargetConnections().get(0)
-					.getSourceName();
+			return super.getSourceName();
 		}
 
 	}
@@ -142,8 +152,7 @@ public class RelatedRelationship extends AbstractConnectionModel {
 	/**
 	 * 多値のANDのスーパーセットと相違マークとのリレーションのヘルパークラス
 	 */
-	private class MultivalueAndSuperset2AggregatorRelationHelper extends
-			RelationHelper {
+	private class MultivalueAndSuperset2AggregatorRelationHelper extends RelationHelper {
 		/**
 		 * 
 		 * {@inheritDoc}
@@ -152,11 +161,9 @@ public class RelatedRelationship extends AbstractConnectionModel {
 		 */
 		@Override
 		public String getTargetName() {
-			AbstractConnectionModel h2a = getTarget()
-					.getModelTargetConnections().get(1);
-			AbstractConnectionModel d2a = getTarget()
-					.getModelTargetConnections().get(2);
-			return h2a.getSourceName() + "," + d2a.getSourceName();
+			AbstractConnectionModel h2a = getTarget().getModelTargetConnections().get(1);
+			AbstractConnectionModel d2a = getTarget().getModelTargetConnections().get(2);
+			return h2a.getTargetName() + "," + d2a.getTargetName();
 		}
 
 	}
@@ -164,8 +171,7 @@ public class RelatedRelationship extends AbstractConnectionModel {
 	/**
 	 * スーパーセットタイプとスーパーセットのリレーションのヘルパークラス
 	 */
-	private class VirtualSupersetType2VirtualSupersetRelationHelper extends
-			RelationHelper {
+	private class VirtualSupersetType2VirtualSupersetRelationHelper extends RelationHelper {
 		/**
 		 * 
 		 * {@inheritDoc}
@@ -187,8 +193,7 @@ public class RelatedRelationship extends AbstractConnectionModel {
 		public String getTargetName() {
 			StringBuilder builder = new StringBuilder();
 			boolean first = true;
-			for (AbstractConnectionModel c : getSource()
-					.getModelTargetConnections()) {
+			for (AbstractConnectionModel c : getSource().getModelTargetConnections()) {
 				if (first) {
 					first = false;
 				} else {
