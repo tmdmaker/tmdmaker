@@ -174,7 +174,9 @@ public class EditEntity extends EditTable {
 	}
 
 	private EditAttribute findAttributeByName(String attributeName) {
-
+		if (attributeName == null || attributeName.length() == 0) {
+			return null;
+		}
 		for (EditAttribute ea : getAttributes()) {
 			if (attributeName.equals(ea.getName())) {
 				return ea;
