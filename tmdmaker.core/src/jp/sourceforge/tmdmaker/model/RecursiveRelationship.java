@@ -84,6 +84,17 @@ public class RecursiveRelationship extends AbstractRelationship {
 	}
 
 	/**
+	 * 
+	 * Target の名前を返す。TM上、再帰表のSourceとTargetは同一となるが、プログラム上ではTargetが再帰表となっている。
+	 * このため、ツールチップでFromとToが同一entityとなるようにした。
+	 * 
+	 */
+	@Override
+	public String getTargetName() {
+		return getSourceName();
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#identifierChanged()
