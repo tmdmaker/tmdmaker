@@ -15,6 +15,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
+				<version>${antrun-version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.jacoco</groupId>
@@ -52,16 +53,12 @@
 
 											<structure name="TMD-Maker">
 												<classfiles>
-													<fileset
-														dir="../tmdmaker.core/target/classes" />
-													<fileset
-														dir="../tmdmaker/target/classes" />
+													<fileset dir="../tmdmaker.core/target/classes" />
+													<fileset dir="../tmdmaker/target/classes" />
 												</classfiles>
 												<sourcefiles encoding="UTF-8">
-													<fileset
-														dir="../tmdmaker.core/src" />
-													<fileset
-														dir="../tmdmaker/src" />
+													<fileset dir="../tmdmaker.core/src" />
+													<fileset dir="../tmdmaker/src" />
 												</sourcefiles>
 											</structure>
 											<html destdir="${project.basedir}/target/jacoco/report" />

@@ -12,18 +12,10 @@
 		<release-version>0.2.10</release-version>
 		<os-jvm-flags />
 		<jacoco-version>0.7.2.201409121644</jacoco-version>
+		<antrun-version>1.7</antrun-version>
 	</properties>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-antrun-plugin</artifactId>
-					<version>1.7</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
 			<plugin>
 				<!-- enable tycho build extension -->
