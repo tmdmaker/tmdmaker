@@ -7,6 +7,7 @@
 		<groupId>tmdmaker</groupId>
 		<artifactId>tmdmaker.releng</artifactId>
 		<version>0.2.10-SNAPSHOT</version>
+		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
 
 	<build>
