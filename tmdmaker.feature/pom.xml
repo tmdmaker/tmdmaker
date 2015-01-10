@@ -10,4 +10,7 @@
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
 
+	<properties>
+		<jacoco.skip>true</jacoco.skip>
+	</properties>
 </project>
