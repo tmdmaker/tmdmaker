@@ -166,4 +166,11 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 		return getTarget().isDeletable();
 	}
 
+	MultivalueAndSuperset getMultivalueAndSuperset() {
+		return superset;
+	}
+	
+	MultivalueAndAggregator getAggregator() {
+		return aggregator;
+	}
 }

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker Core Test
+Bundle-SymbolicName: tmdmaker.core.test
+Bundle-Version: 0.2.10.qualifier
+Fragment-Host: tmdmaker.core;bundle-version="0.2.9"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: TMD-Maker Project
+Require-Bundle: org.junit
