@@ -11,7 +11,6 @@
 	</parent>
 	<properties>
 		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-		<jacoco.skip>true</jacoco.skip>
 	</properties>
 
 	<build>

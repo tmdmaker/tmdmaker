@@ -9,8 +9,4 @@
 		<version>0.2.10-SNAPSHOT</version>
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
-
-	<properties>
-		<jacoco.skip>true</jacoco.skip>
-	</properties>
 </project>
