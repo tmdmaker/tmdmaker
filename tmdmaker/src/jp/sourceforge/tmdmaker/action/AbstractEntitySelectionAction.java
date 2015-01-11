@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
+import jp.sourceforge.tmdmaker.editpart.VirtualSupersetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -55,6 +56,7 @@ public abstract class AbstractEntitySelectionAction extends SelectionAction {
 			return selection instanceof AbstractModelEditPart
 					&& !(selection instanceof SubsetTypeEditPart)
 					&& !(selection instanceof MultivalueAndAggregatorEditPart)
+					&& !(selection instanceof VirtualSupersetTypeEditPart)
 					&& !(selection instanceof LaputaEditPart);
 		} else {
 			return false;
