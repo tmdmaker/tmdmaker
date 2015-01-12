@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,10 @@ import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
+import jp.sourceforge.tmdmaker.editpart.MultivalueAndSupersetEditPart;
 import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
+import jp.sourceforge.tmdmaker.editpart.VirtualSupersetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
@@ -62,8 +64,10 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 			Object selection = getSelectedObjects().get(0);
 			return selection instanceof AbstractModelEditPart
 					&& !(selection instanceof SubsetTypeEditPart)
+					&& !(selection instanceof MultivalueAndSupersetEditPart)
 					&& !(selection instanceof MultivalueAndAggregatorEditPart)
 					&& !(selection instanceof VirtualSupersetEditPart)
+					&& !(selection instanceof VirtualSupersetTypeEditPart)
 					&& !(selection instanceof LaputaEditPart);
 		} else {
 			return false;

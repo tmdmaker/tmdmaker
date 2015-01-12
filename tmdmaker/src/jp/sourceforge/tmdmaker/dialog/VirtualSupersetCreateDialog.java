@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
 import jp.sourceforge.tmdmaker.dialog.component.VirtualSupersetSettingPanel;
@@ -76,33 +78,6 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	 *            対象ダイアグラム
 	 * @param superset
 	 *            みなしスーパーセット
-	 */
-	// public VirtualSupersetCreateDialog(Shell parentShell, Diagram diagram,
-	// VirtualSuperset superset) {
-	// super(parentShell);
-	// this.superset = superset;
-	// selection = new ArrayList<AbstractEntityModel>();
-	// if (this.superset != null) {
-	// selection.addAll(this.superset.getVirtualSubsetList());
-	// }
-	// notSelection = new ArrayList<AbstractEntityModel>();
-	// for (ModelElement m : diagram.getChildren()) {
-	// if (m instanceof AbstractEntityModel && !m.equals(superset)
-	// && !selection.contains(m)) {
-	// notSelection.add((AbstractEntityModel) m);
-	// }
-	// }
-	// }
-
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param parentShell
-	 *            親
-	 * @param diagram
-	 *            対象ダイアグラム
-	 * @param superset
-	 *            みなしスーパーセット
 	 * @param selectedList
 	 *            選択しているエンティティ系モデルのリスト
 	 */
@@ -110,11 +85,7 @@ public class VirtualSupersetCreateDialog extends Dialog {
 			VirtualSuperset superset, List<AbstractEntityModel> selectedList) {
 		super(parentShell);
 		this.superset = superset;
-		selection = new ArrayList<AbstractEntityModel>();
-		if (this.superset != null) {
-			selection.addAll(this.superset.getVirtualSubsetList());
-		}
-		selection.addAll(selectedList);
+		selection = setupSelection(selectedList);
 
 		notSelection = new ArrayList<AbstractEntityModel>();
 		for (ModelElement m : diagram.getChildren()) {
@@ -123,6 +94,18 @@ public class VirtualSupersetCreateDialog extends Dialog {
 				notSelection.add((AbstractEntityModel) m);
 			}
 		}
+	}
+
+	private List<AbstractEntityModel> setupSelection(List<AbstractEntityModel> selectedList) {
+		List<AbstractEntityModel> distinctList = new ArrayList<AbstractEntityModel>();
+		// 重複排除
+		Set<AbstractEntityModel> selectionTarget = new LinkedHashSet<AbstractEntityModel>();
+		if (this.superset != null) {
+			selectionTarget.addAll(this.superset.getVirtualSubsetList());
+		}
+		selectionTarget.addAll(selectedList);
+		distinctList.addAll(selectionTarget);
+		return distinctList;
 	}
 
 	/**
