@@ -16,6 +16,13 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.dialog.MultivalueOrEntityCreateDialog;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
+import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
+import jp.sourceforge.tmdmaker.editpart.MultivalueAndSupersetEditPart;
+import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
+import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
+import jp.sourceforge.tmdmaker.editpart.VirtualSupersetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.MultivalueOrRelationship;
 
@@ -62,6 +69,29 @@ public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 			execute(command);
 		}
 	}
+
+	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.action.AbstractEntitySelectionAction#calculateEnabled()
+	 */
+	@Override
+	protected boolean calculateEnabled() {
+		if (getSelectedObjects().size() == 1) {
+			Object selection = getSelectedObjects().get(0);
+			return selection instanceof AbstractModelEditPart
+					&& !(selection instanceof SubsetTypeEditPart)
+					&& !(selection instanceof MultivalueAndSupersetEditPart)
+					&& !(selection instanceof MultivalueAndAggregatorEditPart)
+					&& !(selection instanceof VirtualSupersetEditPart)
+					&& !(selection instanceof VirtualSupersetTypeEditPart)
+					&& !(selection instanceof LaputaEditPart);
+		} else {
+			return false;
+		}
+	}
+
 
 	/**
 	 * 
