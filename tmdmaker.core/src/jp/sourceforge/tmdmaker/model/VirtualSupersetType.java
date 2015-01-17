@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,16 @@ public class VirtualSupersetType extends ConnectableElement {
 	private boolean applyAttribute = false;
 
 	/**
+	 * コンストラクタ
+	 */
+	public VirtualSupersetType() {
+		// デフォルト値
+		setApplyAttribute(true);
+		Constraint c = new Constraint(0, 0, -1, -1);
+		setConstraint(c);
+	}
+
+	/**
 	 * @return the applyAttribute
 	 */
 	public boolean isApplyAttribute() {
@@ -47,8 +57,7 @@ public class VirtualSupersetType extends ConnectableElement {
 	public void setApplyAttribute(boolean applyAttribute) {
 		boolean oldValue = this.applyAttribute;
 		this.applyAttribute = applyAttribute;
-		firePropertyChange(PROPERTY_SUPERSET_TYPE, oldValue,
-				this.applyAttribute);
+		firePropertyChange(PROPERTY_SUPERSET_TYPE, oldValue, this.applyAttribute);
 	}
 
 	/**
@@ -69,8 +78,7 @@ public class VirtualSupersetType extends ConnectableElement {
 	 * @param reused
 	 *            取得元モデルから得たReused
 	 */
-	protected void addReusedIdentifier(AbstractEntityModel source,
-			ReusedIdentifier reused) {
+	protected void addReusedIdentifier(AbstractEntityModel source, ReusedIdentifier reused) {
 		this.reusedIdentifieres.put(source, reused);
 		notifyRelationshipChanged();
 	}

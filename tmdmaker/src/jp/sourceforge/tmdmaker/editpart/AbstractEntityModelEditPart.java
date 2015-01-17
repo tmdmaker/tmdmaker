@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
@@ -34,9 +35,12 @@ import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
+import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
@@ -202,4 +206,22 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	public IPropertySource getPropertySource(TMDEditor editor) {
 		return new AbstractEntityModelPropertySource(editor, this.getModel());
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#refreshVisuals()
+	 */
+	@Override
+	protected void refreshVisuals() {
+		logger.debug(getClass().toString() + "#refreshVisuals()");
+		super.refreshVisuals();
+		Constraint constraint = getModel().getConstraint();
+		Rectangle bounds = ConstraintConverter.toRectangle(constraint);
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
+
+		updateFigure(getFigure());
+		refreshChildren();
+	}
+	
 }

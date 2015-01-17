@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,9 @@ package jp.sourceforge.tmdmaker.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
+import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 
 /**
  * TMのダイアグラムを表すクラス
@@ -118,8 +121,8 @@ public class Diagram extends ModelElement {
 	 * @return AbstractEntityModelのリスト
 	 */
 	public List<AbstractEntityModel> findEntityModel() {
-		List<AbstractEntityModel> entities = new ArrayList<AbstractEntityModel>(
-				getChildren().size());
+		List<AbstractEntityModel> entities = new ArrayList<AbstractEntityModel>(getChildren()
+				.size());
 
 		for (ModelElement m : getChildren()) {
 			if (m instanceof AbstractEntityModel) {
@@ -167,4 +170,44 @@ public class Diagram extends ModelElement {
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
+
+	/**
+	 * エンティティを作成する
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @param identifierName
+	 *            個体指定子名
+	 * @param entityType
+	 *            エンティティ種類
+	 * @return エンティティ
+	 */
+	public Entity createEntity(String entityName, String identifierName, EntityType entityType) {
+		Entity e = EntityRecognitionRule.getInstance().createEntity(entityName,
+				new Identifier(identifierName), entityType);
+		this.addChild(e);
+
+		return e;
+	}
+
+	/**
+	 * みなしスーパーセット作成
+	 * 
+	 * @param virtualSupersetName
+	 *            みなしスーパーセット名
+	 * @param virtualSubsets
+	 *            みなしサブセット
+	 * @return 作成したみなしスーパーセット
+	 */
+	public VirtualSuperset createVirtualSuperset(String virtualSupersetName,
+			List<AbstractEntityModel> virtualSubsets) {
+		VirtualSuperset superset = VirtualEntityRule.createVirtualSuperset(virtualSupersetName);
+		this.addChild(superset);
+		for (AbstractEntityModel m : virtualSubsets) {
+			superset.connectSubset(m);
+		}
+		// supersetとtypeの配置は別途moveメソッドで実施を想定
+		return superset;
+	}
+
 }

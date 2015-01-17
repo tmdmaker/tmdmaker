@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,16 @@ public class ModelDeleteCommand extends Command {
 	public ModelDeleteCommand(Diagram diagram, AbstractEntityModel model) {
 		this.diagram = diagram;
 		this.model = model;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.commands.Command#canExecute()
+	 */
+	@Override
+	public boolean canExecute() {
+		return model.isDeletable();
 	}
 
 	/**

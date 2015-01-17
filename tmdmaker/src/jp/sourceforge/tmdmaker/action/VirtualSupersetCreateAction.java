@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,11 @@ import jp.sourceforge.tmdmaker.dialog.VirtualSupersetCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-import jp.sourceforge.tmdmaker.ui.command.ConnectionCreateCommand;
-import jp.sourceforge.tmdmaker.ui.command.ConnectionDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 
 import org.eclipse.gef.commands.Command;
@@ -95,70 +88,41 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 			VirtualSuperset edited = dialog.getEditedValue();
-			// みなしスーパーセット
+			aggregator = dialog.getEditedAggregator();
+			// みなしスーパーセット作成
 			if (original == null) {
 				List<AbstractEntityModel> selection = dialog.getSelection();
 				if (selection.size() == 0) {
 					return;
 				}
-				Constraint constraint = new Constraint(pos.x, pos.y, -1, -1);
-				edited.setConstraint(constraint);
-				aggregator = dialog.getEditedAggregator();
-				edited.setReusedIdentifieres(aggregator.getReusedIdentifieres());
-				ccommand.add(new VirtualSupersetCreateCommand(diagram, edited));
 
-				// みなしスーパーセットと既存エンティティとの接点
-				aggregator.setConstraint(constraint.getTranslated(0, 50));
-				ccommand.add(new VirtualSupersetTypeCreateCommand(diagram, aggregator));
+				ccommand.add(new VirtualSupersetCreateCommand(diagram, edited.getName(), aggregator
+						.isApplyAttribute(), selection, pos.x, pos.y));
 
-				ccommand.add(new ConnectionCreateCommand(
-						new RelatedRelationship(aggregator, edited), aggregator, edited));
-
-				// 接点とみなしサブセットの接続
-				for (AbstractEntityModel model : selection) {
-					ccommand.add(new ConnectionCreateCommand(
-							new Entity2VirtualSupersetTypeRelationship(model, aggregator), model,
-							aggregator));
-				}
 			} else {
 				// みなしスーパーセット編集
-				// ccommand.add(new TableEditCommand<VirtualSuperset>(original,
-				// edited));
 				ccommand.add(new ModelEditCommand(original, edited));
+
+				// 接点編集
+				ccommand.add(new VirtualSupersetTypeChangeCommand(
+						original.getVirtualSupersetType(), dialog.getEditedAggregator()
+								.isApplyAttribute()));
 
 				// 接点との接続
 				List<AbstractEntityModel> notSelection = dialog.getNotSelection();
 				List<AbstractEntityModel> selection = dialog.getSelection();
 				List<AbstractEntityModel> selectedList = original.getVirtualSubsetList();
 
-				for (AbstractConnectionModel con : original.getVirtualSubsetRelationshipList()) {
-					ConnectableElement source = con.getSource();
-					// 解除されたみなしサブセットとの接続を切る
-					if (notSelection.contains(source)) {
-						ccommand.add(new ConnectionDeleteCommand(con));
+				// 未接続のみなしサブセットとの接続
+				for (AbstractEntityModel s : selection) {
+					if (!selectedList.contains(s)) {
+						ccommand.add(new VirtualSubsetAddCommand(original, s));
 					}
 				}
-				if (selection.size() == 0) {
-					// // みなしスーパーセットと接点とのコネクション削除
-					// ccommand.add(new ConnectionDeleteCommand(aggregator
-					// .getModelSourceConnections().get(0)));
-					// 接点削除
-					ccommand.add(new VirtualSupersetTypeDeleteCommand(diagram, aggregator));
-					// みなしスーパーセット削除
-					ccommand.add(new ModelDeleteCommand(diagram, original));
-				} else {
-					// 接点編集
-					ccommand.add(new VirtualSupersetTypeChangeCommand(original
-							.getVirtualSupersetType(), dialog.getEditedAggregator()
-							.isApplyAttribute()));
-
-					// 未接続のみなしサブセットとの接続
-					for (AbstractEntityModel s : selection) {
-						if (!selectedList.contains(s)) {
-							ccommand.add(new ConnectionCreateCommand(
-									new Entity2VirtualSupersetTypeRelationship(s, aggregator), s,
-									aggregator));
-						}
+				// 接続していたが未選択に変更したサブセットとの接続を解除
+				for (AbstractEntityModel m : original.getVirtualSubsetList()) {
+					if (notSelection.contains(m)) {
+						ccommand.add(new VirtualSubsetDisconnectCommand(original, m));
 					}
 				}
 			}
@@ -229,7 +193,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 	private boolean hasEntityModel() {
 		for (Object o : getSelectedObjects()) {
 			if (o instanceof AbstractEntityModelEditPart) {
-					return true;
+				return true;
 			}
 		}
 		return false;
@@ -240,17 +204,63 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 				&& getSelectedObjects().get(0) instanceof DiagramEditPart;
 	}
 
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
 	private static class VirtualSupersetCreateCommand extends Command {
 		private Diagram diagram;
+		private String virtualSupersetName;
+		private boolean applyAttribute;
+		private List<AbstractEntityModel> subsets;
 		private VirtualSuperset model;
+		private int x;
+		private int y;
+		private Constraint typeConstraint;
 
-		public VirtualSupersetCreateCommand(Diagram diagram, VirtualSuperset model) {
+		public VirtualSupersetCreateCommand(Diagram diagram, String virtualSupersetName,
+				boolean applyAttribute, List<AbstractEntityModel> subsets, int x, int y) {
 			this.diagram = diagram;
+			this.virtualSupersetName = virtualSupersetName;
+			this.applyAttribute = applyAttribute;
+			this.subsets = subsets;
+			this.x = x;
+			this.y = y;
+			Constraint supersetConstraint = new Constraint(x, y, -1, -1);
+			typeConstraint = supersetConstraint.getTranslated(0, 50);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#execute()
+		 */
+		@Override
+		public void execute() {
+			model = diagram.createVirtualSuperset(virtualSupersetName, subsets);
+			model.move(x, y);
+			VirtualSupersetType type = model.getVirtualSupersetType();
+			type.setConstraint(typeConstraint);
+			type.setApplyAttribute(applyAttribute);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.gef.commands.Command#undo()
+		 */
+		@Override
+		public void undo() {
+			for (AbstractEntityModel m : subsets) {
+				model.disconnectSubset(m);
+			}
+			diagram.removeChild(model);
+		}
+
+	}
+
+	private static class VirtualSubsetAddCommand extends Command {
+		private VirtualSuperset superset;
+		private AbstractEntityModel model;
+
+		public VirtualSubsetAddCommand(VirtualSuperset superset, AbstractEntityModel model) {
+			this.superset = superset;
 			this.model = model;
 		}
 
@@ -261,7 +271,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 		 */
 		@Override
 		public void execute() {
-			diagram.addChild(model);
+			superset.connectSubset(model);
 		}
 
 		/**
@@ -271,49 +281,21 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 		 */
 		@Override
 		public void undo() {
-			diagram.removeChild(model);
+			superset.disconnectSubset(model);
 		}
 
 	}
 
-	private static class VirtualSupersetTypeCreateCommand extends Command {
+	private static class VirtualSubsetDisconnectCommand extends Command {
 		private Diagram diagram;
-		private VirtualSupersetType aggregator;
+		private VirtualSuperset superset;
+		private AbstractEntityModel model;
+		private Constraint oldTypeConstraint;
 
-		public VirtualSupersetTypeCreateCommand(Diagram diagram, VirtualSupersetType aggregator) {
-			super();
-			this.diagram = diagram;
-			this.aggregator = aggregator;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			diagram.addChild(aggregator);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			diagram.removeChild(aggregator);
-		}
-
-	}
-
-	private static class VirtualSupersetTypeDeleteCommand extends Command {
-		private Diagram diagram;
-		private VirtualSupersetType model;
-
-		public VirtualSupersetTypeDeleteCommand(Diagram diagram, VirtualSupersetType model) {
-			this.diagram = diagram;
+		public VirtualSubsetDisconnectCommand(VirtualSuperset superset, AbstractEntityModel model) {
+			this.diagram = superset.getDiagram();
+			this.superset = superset;
+			this.oldTypeConstraint = superset.getVirtualSupersetType().getConstraint();
 			this.model = model;
 		}
 
@@ -324,7 +306,10 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 		 */
 		@Override
 		public void execute() {
-			diagram.removeChild(model);
+			superset.disconnectSubset(model);
+			if (!superset.hasSubset()) {
+				diagram.removeChild(superset);
+			}
 		}
 
 		/**
@@ -334,7 +319,11 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 		 */
 		@Override
 		public void undo() {
-			diagram.addChild(model);
+			if (!superset.hasSubset()) {
+				diagram.addChild(superset);
+			}
+			superset.connectSubset(model);
+			superset.getVirtualSupersetType().setConstraint(oldTypeConstraint);
 		}
 	}
 

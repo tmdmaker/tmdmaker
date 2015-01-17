@@ -131,10 +131,7 @@ public class VirtualSupersetCreateDialog extends Dialog {
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 
 		panel2.setLayoutData(gridData);
-
-		panel1.initializeValue(superset);
-		panel2.initializeValue(selection, notSelection);
-
+		
 		return composite;
 	}
 
@@ -177,6 +174,21 @@ public class VirtualSupersetCreateDialog extends Dialog {
 		super.createButtonsForButtonBar(parent);
 		Button okButton = getButton(IDialogConstants.OK_ID);
 		okButton.setEnabled(false);
+	}
+
+	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	protected Control createContents(Composite parent) {
+		Control c =  super.createContents(parent);
+		panel1.initializeValue(superset);
+		panel2.initializeValue(selection, notSelection);
+
+		return c;
 	}
 
 	/**

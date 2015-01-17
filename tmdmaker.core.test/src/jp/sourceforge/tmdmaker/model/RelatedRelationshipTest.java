@@ -16,7 +16,6 @@
 package jp.sourceforge.tmdmaker.model;
 
 import static org.junit.Assert.assertEquals;
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
 import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 
@@ -31,38 +30,14 @@ import org.junit.Test;
 public class RelatedRelationshipTest {
 
 	/**
-	 * Test method for
-	 * {@link jp.sourceforge.tmdmaker.model.RelatedRelationship#getSourceName()}
+	 * Test method for {@link jp.sourceforge.tmdmaker.model.RelatedRelationship}
 	 * .
-	 */
-	@Test
-	public void testGetSourceName() {
-		// fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link jp.sourceforge.tmdmaker.model.RelatedRelationship#getTargetName()}
-	 * .
-	 */
-	@Test
-	public void testGetTargetName() {
-		// fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link jp.sourceforge.tmdmaker.model.RelatedRelationship} .
 	 */
 	@Test
 	public void testVirtualSupersetHelper() {
 		Diagram diagram = new Diagram();
-		Entity e1 = EntityRecognitionRule.getInstance().createEntity("テスト1",
-				new Identifier("テスト1番号"), EntityType.EVENT);
-		diagram.addChild(e1);
-		Entity e2 = EntityRecognitionRule.getInstance().createEntity("テスト2",
-				new Identifier("テスト2番号"), EntityType.EVENT);
-		diagram.addChild(e2);
+		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
+		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
 
 		VirtualSuperset vsp = VirtualEntityRule.createVirtualSuperset("スーパーセット");
 		VirtualSupersetType type = new VirtualSupersetType();
@@ -92,9 +67,7 @@ public class RelatedRelationshipTest {
 	@Test
 	public void testMultivalueAndHelper() {
 		Diagram diagram = new Diagram();
-		Entity e = EntityRecognitionRule.getInstance().createEntity("テスト", new Identifier("テスト番号"),
-				EntityType.EVENT);
-		diagram.addChild(e);
+		Entity e = diagram.createEntity("テスト", "テスト番号", EntityType.EVENT);
 		Header2DetailRelationship r = new Header2DetailRelationship(e);
 		r.connect();
 		MultivalueAndAggregator ag = r.getAggregator();
@@ -111,6 +84,7 @@ public class RelatedRelationshipTest {
 		assertEquals("テスト", c2.getSourceName());
 		assertEquals("テストDTL", c2.getTargetName());
 	}
+
 	/**
 	 * Test method for {@link jp.sourceforge.tmdmaker.model.RelatedRelationship}
 	 * .
@@ -118,18 +92,15 @@ public class RelatedRelationshipTest {
 	@Test
 	public void testTableHelper() {
 		Diagram diagram = new Diagram();
-		Entity e1 = EntityRecognitionRule.getInstance().createEntity("テスト1",
-				new Identifier("テスト1番号"), EntityType.RESOURCE);
-		diagram.addChild(e1);
-		Entity e2 = EntityRecognitionRule.getInstance().createEntity("テスト2",
-				new Identifier("テスト2番号"), EntityType.RESOURCE);
-		diagram.addChild(e2);
+		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.RESOURCE);
+		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.RESOURCE);
 
-		Resource2ResourceRelationship r = (Resource2ResourceRelationship) RelationshipRule.createRelationship(e1, e2);
+		Resource2ResourceRelationship r = (Resource2ResourceRelationship) RelationshipRule
+				.createRelationship(e1, e2);
 		r.connect();
 		CombinationTable t1 = r.getTable();
 		RelatedRelationship rr = (RelatedRelationship) t1.getModelTargetConnections().get(0);
-		
+
 		assertEquals("テスト1", rr.getSourceName());
 		assertEquals("テスト2", rr.getTargetName());
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -394,11 +394,10 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement> extend
 		logger.debug(getClass().toString() + "#refreshVisuals()");
 		super.refreshVisuals();
 		Constraint constraint = getModel().getConstraint();
-		Rectangle bounds = ConstraintConverter.toRectangle(constraint);
+		Rectangle bounds = ConstraintConverter.toRectangleWithoutHeightWidth(constraint);
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
 
 		updateFigure(getFigure());
-		refreshChildren();
 	}
 
 	public void updateAppearance() {
