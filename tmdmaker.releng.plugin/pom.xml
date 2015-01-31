@@ -83,4 +83,6 @@
 		</plugins>
 	</build>
 	<version>0.2.9-SNAPSHOT</version>
+	<description>TMD-MakerのPluginビルド用プロジェクト</description>
+	<name>TMD-Maker Plugin Release Engineering</name>
 </project>

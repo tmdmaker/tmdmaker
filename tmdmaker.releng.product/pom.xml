@@ -45,4 +45,6 @@
 		</plugins>
 	</build>
 	<version>0.2.9-SNAPSHOT</version>
+	<name>TMD-Maker Product Release Engineering</name>
+	<description>TMD-MakerのRCPビルド用プロジェクト</description>
 </project>

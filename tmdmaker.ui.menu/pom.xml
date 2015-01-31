@@ -9,4 +9,6 @@
   	<relativePath>../tmdmaker.releng</relativePath>
   </parent>
   <version>0.2.9-SNAPSHOT</version>
+  <name>TMD-Maker Menu Plugin</name>
+  <description>TMD-Makerのメニュープロジェクト</description>
 </project>

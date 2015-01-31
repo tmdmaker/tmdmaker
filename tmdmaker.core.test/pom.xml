@@ -17,4 +17,6 @@
 			</plugin>
 		</plugins>
 	</build>
+	<name>TMD-Maker Core Test Plugin</name>
+	<description>TMD-Makerのコアモデルのテスト用プロジェクト</description>
 </project>

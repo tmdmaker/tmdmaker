@@ -8,4 +8,6 @@
   	<version>0.2.10-SNAPSHOT</version>
   	<relativePath>../tmdmaker.releng</relativePath>
   </parent>
+  <name>TMD-Maker TargetPlatform Release Engineering</name>
+  <description>TMD-MakerのTargetPlatformビルド用プロジェクト</description>
 </project>

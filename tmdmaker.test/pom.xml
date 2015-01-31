@@ -17,4 +17,6 @@
 			</plugin>
 		</plugins>
 	</build>
+	<description>TMD-Makerのエディターのテスト用プロジェクト</description>
+	<name>TMD-Maker Test Plugin</name>
 </project>

@@ -9,4 +9,6 @@
   	<relativePath>../tmdmaker.releng</relativePath>
   </parent>
   <version>0.2.9-SNAPSHOT</version>
+  <description>TMD-MakerのRCPプロジェクト</description>
+  <name>TMD-Maker Rich Client Platform Project</name>
 </project>

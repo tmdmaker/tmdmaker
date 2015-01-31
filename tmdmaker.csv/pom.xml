@@ -9,4 +9,6 @@
   	<relativePath>../tmdmaker.releng</relativePath>
   </parent>
   <version>0.2.9-SNAPSHOT</version>
+  <description>TMD-MakerのCSVインポートプロジェクト</description>
+  <name>TMD-Maker CSV Project</name>
 </project>

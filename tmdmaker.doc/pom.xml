@@ -10,6 +10,17 @@
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
 
+	<description>TMD-Makerのドキュメントプロジェクト</description>
+	<name>TMD-Maker Document Project</name>
+	<url>${project-url}</url>
+	
+	<distributionManagement>
+		<site>
+			<id>${project.artifactId}-site</id>
+			<url>${project.baseUri}/../</url>
+		</site>
+	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -61,12 +72,13 @@
 													<fileset dir="../tmdmaker/src" />
 												</sourcefiles>
 											</structure>
-											<html destdir="${project.basedir}/target/jacoco/report" />
-											<xml destfile="${project.basedir}/target/jacoco/report/jacoco.xml" />
+											<html destdir="${project.basedir}/target/site/jacoco/report" />
+											<xml
+												destfile="${project.basedir}/target/site/jacoco/report/jacoco.xml" />
 										</jacoco-report>
 									</try>
 									<catch>
-										<echo>skipping</echo>
+										<echo>skipping jacoco report</echo>
 									</catch>
 								</trycatch>
 							</target>

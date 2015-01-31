@@ -1,0 +1,18 @@
+<project name="TMD-Maker"  xmlns="http://maven.apache.org/DECORATION/1.6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
+  <bannerLeft>
+    <name>TMD-Maker</name>
+  </bannerLeft>
+  <body>
+    <links>
+      <item name="${project.name}" href="${project.url}"/>
+      <item name="webサイトtop" href="../index.html"/>
+    </links>
+    <menu ref="parent" inherit="top"/>
+    <menu ref="modules" />
+    <menu ref="reports" inherit="top"/>
+    <menu name="カバレッジレポート">
+      <item name="jacoco" href="../jacoco/report/index.html" />
+    </menu>
+  </body>
+</project>

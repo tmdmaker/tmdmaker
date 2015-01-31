@@ -9,4 +9,6 @@
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
   
+  	<description>TMD-Maker RCPのFeatureプロジェクト</description>
+  	<name>TMD-Maker RCP Feature Project</name>
 </project>

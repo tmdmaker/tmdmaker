@@ -11,4 +11,6 @@
 		<version>0.2.10-SNAPSHOT</version>
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
+	<description>TMD-MakerのImage生成用プロジェクト</description>
+	<name>TMD-Maker Image Generator Plugin</name>
 </project>
