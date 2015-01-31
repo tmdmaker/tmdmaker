@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,12 +31,11 @@ import jp.sourceforge.tmdmaker.model.RelatedRelationship;
  */
 public class Patch023SerializerHandler extends AbstractSerializerHandler {
 
-
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleAfterDeserialize(jp.sourceforge.tmdmaker.model.Diagram)
+	 * @see jp.sourceforge.tmdmaker.serializer.handler.patch.AbstractSerializerHandler#handleAfterDeserialize(jp.sourceforge.tmdmaker.model.Diagram)
 	 */
 	@Override
 	public Diagram handleAfterDeserialize(Diagram in) {
@@ -63,13 +62,11 @@ public class Patch023SerializerHandler extends AbstractSerializerHandler {
 			List<AbstractConnectionModel> connections) {
 		for (AbstractConnectionModel c : connections) {
 			if (c instanceof RelatedRelationship) {
-				logger.debug("convertRelatedRelationships():"
-						+ c.toString());
+				logger.debug("convertRelatedRelationships():" + c.toString());
 				convertLocationIfNeeds(c);
 			}
 			if (c instanceof Entity2SubsetTypeRelationship) {
-				logger.debug("convertRelatedRelationships():"
-						+ c.toString());
+				logger.debug("convertRelatedRelationships():" + c.toString());
 				convertLocationIfNeeds(c);
 			}
 		}

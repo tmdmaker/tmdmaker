@@ -39,8 +39,8 @@ public class SubsetEntity extends AbstractEntityModel {
 	 * @param originalReusedIdentifier
 	 *            the originalReusedIdentifier to set
 	 */
-	public void setOriginalReusedIdentifier(ReusedIdentifier originalReuseKey) {
-		this.originalReusedIdentifier = originalReuseKey;
+	public void setOriginalReusedIdentifier(ReusedIdentifier originalReusedIdentifier) {
+		this.originalReusedIdentifier = originalReusedIdentifier;
 	}
 
 	/**

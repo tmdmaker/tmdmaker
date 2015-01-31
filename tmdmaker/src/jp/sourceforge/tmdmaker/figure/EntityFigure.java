@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -111,13 +111,13 @@ public class EntityFigure extends Figure {
 	public void addRelationship(String relationship) {
 		this.identifierCompartmentFigure.add(createAttributeLabel(relationship + "(R)"));
 	}
-	
+
 	public void addRelationship(List<String> relationship) {
-		for(String r:relationship){
+		for (String r : relationship) {
 			addRelationship(r);
 		}
 	}
-	
+
 	public void removeAllRelationship() {
 		this.identifierCompartmentFigure.removeAll();
 	}
@@ -137,14 +137,16 @@ public class EntityFigure extends Figure {
 	public void setNotImplement(boolean notImplement) {
 		this.setBorder(new EntityFigureBorder(notImplement));
 	}
-	
+
 	/**
 	 * モデルの色を設定する
-	 * @param foreGround 前景色
-	 * @param backGround 背景色
+	 * 
+	 * @param foregroundColor
+	 *            前景色
+	 * @param backgroundColor
+	 *            背景色
 	 */
-	public void setColor(Color foregroundColor, Color backgroundColor)
-	{
+	public void setColor(Color foregroundColor, Color backgroundColor) {
 		setForegroundColor(foregroundColor);
 		setBackgroundColor(backgroundColor);
 	}

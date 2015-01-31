@@ -45,9 +45,10 @@ public class RecursiveRelationship extends AbstractRelationship {
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see tm.tmdiagram.tmdeditor.model.AbstractConnectionModel#connect()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#connect()
 	 */
 	@Override
 	public void connect() {

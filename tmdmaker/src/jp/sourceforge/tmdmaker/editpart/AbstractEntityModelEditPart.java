@@ -141,8 +141,7 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	}
 
 	/**
-	 * @param entityFigure
-	 * @param entity
+	 * @param table
 	 * @param original
 	 */
 	protected List<String> extractRelationship(T table, IdentifierRef original) {

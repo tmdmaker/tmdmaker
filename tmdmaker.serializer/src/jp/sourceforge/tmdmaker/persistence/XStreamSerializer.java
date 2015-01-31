@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,10 +44,10 @@ public class XStreamSerializer implements Serializer {
 			Activator.PLUGIN_ID + ".handler");
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.persistence.persistent.Serializer#serializeStream(jp.sourceforge.tmdmaker.model.Diagram
-	 *      obj)
+	 * @see jp.sourceforge.tmdmaker.model.persistence.Serializer#serialize(jp.sourceforge.tmdmaker.model.Diagram)
 	 */
 	@Override
 	public InputStream serialize(Diagram obj) {

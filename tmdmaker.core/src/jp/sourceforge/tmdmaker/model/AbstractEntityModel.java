@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,8 +83,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param reusedIdentifieres
 	 *            the reusedIdentifieres to set
 	 */
-	public void setReusedIdentifieres(Map<AbstractEntityModel, ReusedIdentifier> reuseKeys) {
-		this.reusedIdentifieres = reuseKeys;
+	public void setReusedIdentifieres(Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres) {
+		this.reusedIdentifieres = reusedIdentifieres;
 	}
 
 	/**
@@ -304,7 +304,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		}
 
 	}
-	
+
 	/**
 	 * 個体指定子が変更されたことをコネクションへ通知する
 	 * 
@@ -514,7 +514,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);

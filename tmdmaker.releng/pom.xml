@@ -246,10 +246,24 @@
 				<version>2.0</version>
 			</plugin>
 			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>javancss-maven-plugin</artifactId> 
-				<version>2.1</version> </plugin> -->			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
-				<version>2.10.1</version> <reportSets> <reportSet> <id>aggregate</id> <inherited>false</inherited> 
-				<reports> <report>aggregate</report> </reports> </reportSet> </reportSets> 
-				</plugin> -->
+				<version>2.1</version> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.1</version>
+				<configuration>
+					<excludePackageNames>org.eclipse.gmf.*</excludePackageNames>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<id>aggregate</id>
+						<inherited>false</inherited>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
 		</plugins>
 	</reporting>
 	<url>${project-url}${project.artifactId}</url>

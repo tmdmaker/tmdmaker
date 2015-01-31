@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,8 +43,7 @@ public class EditImplementAttribute {
 	 * 
 	 * @param containerModel
 	 */
-	public EditImplementAttribute(AbstractEntityModel containerModel,
-			IAttribute original) {
+	public EditImplementAttribute(AbstractEntityModel containerModel, IAttribute original) {
 		this.editAttribute = new EditAttribute(original);
 		this.containerModel = containerModel;
 	}
@@ -86,8 +85,8 @@ public class EditImplementAttribute {
 	}
 
 	/**
+	 * 
 	 * @param newAttribute
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#copyTo(jp.sourceforge.tmdmaker.model.IAttribute)
 	 */
 	public void copyTo(IAttribute newAttribute) {
 		editAttribute.copyTo(newAttribute);
@@ -95,23 +94,22 @@ public class EditImplementAttribute {
 
 	/**
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#copyToOriginal()
 	 */
 	public void copyToOriginal() {
 		editAttribute.copyToOriginal();
 	}
 
 	/**
+	 * 
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getDataType()
 	 */
 	public StandardSQLDataType getDataType() {
 		return editAttribute.getDataType();
 	}
 
 	/**
+	 * 
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#isDerivation()
 	 */
 	public boolean isDerivation() {
 		return editAttribute.isDerivation();
@@ -119,7 +117,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param derivation
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setDerivation()
 	 */
 	public void setDerivation(boolean derivation) {
 		editAttribute.setDerivation(derivation);
@@ -127,7 +124,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getDerivationRule()
 	 */
 	public String getDerivationRule() {
 		return editAttribute.getDerivationRule();
@@ -135,7 +131,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getDescription()
 	 */
 	public String getDescription() {
 		return editAttribute.getDescription();
@@ -143,7 +138,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getImplementName()
 	 */
 	public String getImplementName() {
 		return editAttribute.getImplementName();
@@ -151,7 +145,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getLock()
 	 */
 	public String getLock() {
 		return editAttribute.getLock();
@@ -159,7 +152,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getName()
 	 */
 	public String getName() {
 		return editAttribute.getName();
@@ -167,7 +159,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getOriginalAttribute()
 	 */
 	public IAttribute getOriginalAttribute() {
 		return editAttribute.getOriginalAttribute();
@@ -175,7 +166,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getScale()
 	 */
 	public String getScale() {
 		return editAttribute.getScale();
@@ -183,7 +173,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getSize()
 	 */
 	public String getSize() {
 		return editAttribute.getSize();
@@ -191,7 +180,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#getValidationRule()
 	 */
 	public String getValidationRule() {
 		return editAttribute.getValidationRule();
@@ -199,7 +187,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {
 		return editAttribute.hashCode();
@@ -217,7 +204,7 @@ public class EditImplementAttribute {
 			return true;
 		}
 		if (obj instanceof EditImplementAttribute) {
-			EditImplementAttribute other = (EditImplementAttribute)obj;
+			EditImplementAttribute other = (EditImplementAttribute) obj;
 			return editAttribute.equals(other.getEditAttribute());
 		}
 		return false;
@@ -225,7 +212,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#isAdded()
 	 */
 	public boolean isAdded() {
 		return editAttribute.isAdded();
@@ -233,7 +219,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#isEdited()
 	 */
 	public boolean isEdited() {
 		return editAttribute.isEdited();
@@ -241,7 +226,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#isNameChanged()
 	 */
 	public boolean isNameChanged() {
 		return editAttribute.isNameChanged();
@@ -249,7 +233,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#isNullable()
 	 */
 	public boolean isNullable() {
 		return editAttribute.isNullable();
@@ -257,7 +240,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param dataType
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setDataType(jp.sourceforge.tmdmaker.model.StandardSQLDataType)
 	 */
 	public void setDataType(StandardSQLDataType dataType) {
 		editAttribute.setDataType(dataType);
@@ -265,7 +247,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param derivationRule
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setDerivationRule(java.lang.String)
 	 */
 	public void setDerivationRule(String derivationRule) {
 		editAttribute.setDerivationRule(derivationRule);
@@ -273,7 +254,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param description
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setDescription(java.lang.String)
 	 */
 	public void setDescription(String description) {
 		editAttribute.setDescription(description);
@@ -281,7 +261,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param edited
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setEdited(boolean)
 	 */
 	public void setEdited(boolean edited) {
 		editAttribute.setEdited(edited);
@@ -289,7 +268,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param implementName
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setImplementName(java.lang.String)
 	 */
 	public void setImplementName(String implementName) {
 		editAttribute.setImplementName(implementName);
@@ -297,7 +275,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param lock
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setLock(java.lang.String)
 	 */
 	public void setLock(String lock) {
 		editAttribute.setLock(lock);
@@ -305,7 +282,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param name
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setName(java.lang.String)
 	 */
 	public void setName(String name) {
 		editAttribute.setName(name);
@@ -313,7 +289,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param nullable
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setNullable(boolean)
 	 */
 	public void setNullable(boolean nullable) {
 		editAttribute.setNullable(nullable);
@@ -321,7 +296,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param originalAttribute
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setOriginalAttribute(jp.sourceforge.tmdmaker.model.Attribute)
 	 */
 	public void setOriginalAttribute(Attribute originalAttribute) {
 		editAttribute.setOriginalAttribute(originalAttribute);
@@ -329,7 +303,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param scale
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setScale(java.lang.String)
 	 */
 	public void setScale(String scale) {
 		editAttribute.setScale(scale);
@@ -337,7 +310,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param size
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setSize(java.lang.String)
 	 */
 	public void setSize(String size) {
 		editAttribute.setSize(size);
@@ -345,7 +317,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @param validationRule
-	 * @see jp.sourceforge.tmdmaker.model.EditAttribute#setValidationRule(java.lang.String)
 	 */
 	public void setValidationRule(String validationRule) {
 		editAttribute.setValidationRule(validationRule);
@@ -353,7 +324,6 @@ public class EditImplementAttribute {
 
 	/**
 	 * @return
-	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 		return editAttribute.toString();

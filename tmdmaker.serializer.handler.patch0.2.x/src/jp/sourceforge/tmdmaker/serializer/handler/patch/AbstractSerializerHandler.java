@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,10 +31,10 @@ public class AbstractSerializerHandler implements SerializerHandler {
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleBeforeDeserialize(java.lang.String)
+	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#handleBeforeDeserialize(java.lang.String)
 	 */
 	@Override
 	public String handleBeforeDeserialize(String in) {
@@ -43,10 +43,10 @@ public class AbstractSerializerHandler implements SerializerHandler {
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleAfterDeserialize(jp.sourceforge.tmdmaker.model.Diagram)
+	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#handleAfterDeserialize(jp.sourceforge.tmdmaker.model.Diagram)
 	 */
 	@Override
 	public Diagram handleAfterDeserialize(Diagram in) {
@@ -55,10 +55,10 @@ public class AbstractSerializerHandler implements SerializerHandler {
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleBeforeSerialize(jp.sourceforge.tmdmaker.model.Diagram)
+	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#handleBeforeSerialize(jp.sourceforge.tmdmaker.model.Diagram)
 	 */
 	@Override
 	public Diagram handleBeforeSerialize(Diagram diagram) {
@@ -67,10 +67,10 @@ public class AbstractSerializerHandler implements SerializerHandler {
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleAfterSerialize(java.lang.String)
+	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#handleAfterSerialize(java.lang.String)
 	 */
 	@Override
 	public String handleAfterSerialize(String in) {

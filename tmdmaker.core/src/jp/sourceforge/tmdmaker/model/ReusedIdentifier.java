@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,9 +65,9 @@ public class ReusedIdentifier implements Serializable {
 	/**
 	 * コンストラクタ. 再帰表が作成される時に利用する
 	 * 
-	 * @param sarogateKey
+	 * @param sarogateKey1
 	 *            参照元のサロゲートキー
-	 * @param sarogateKey
+	 * @param sarogateKey2
 	 *            参照元のサロゲートキー
 	 */
 	public ReusedIdentifier(SarogateKey sarogateKey1, SarogateKey sarogateKey2) {

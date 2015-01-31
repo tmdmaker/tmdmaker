@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,8 +41,10 @@ public class SubsetTypeFigure extends Figure {
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param subsetTypeValue
+	 * @param sameType
 	 *            サブセットタイプ
+	 * @param vertical
+	 *            縦横判定
 	 */
 	public SubsetTypeFigure(boolean sameType, boolean vertical) {
 		super();
@@ -54,7 +56,7 @@ public class SubsetTypeFigure extends Figure {
 	/**
 	 * サブセットのタイプを設定する
 	 * 
-	 * @param subsetTypeValue
+	 * @param sameType
 	 *            サブセットタイプ値
 	 */
 	public void setSameType(boolean sameType) {
@@ -157,8 +159,7 @@ public class SubsetTypeFigure extends Figure {
 		 * @param insets
 		 *            The insets
 		 */
-		private void paintSubsetSameType(IFigure figure, Graphics graphics,
-				Insets insets) {
+		private void paintSubsetSameType(IFigure figure, Graphics graphics, Insets insets) {
 			tempRect.setBounds(getPaintRectangle(figure, insets));
 			if (getWidth() % 2 != 0) {
 				tempRect.width--;
@@ -169,18 +170,13 @@ public class SubsetTypeFigure extends Figure {
 
 			// 同一サブセット
 			if (vertical) {
-				graphics.drawLine(tempRect.getTopLeft(),
-						tempRect.getBottomLeft());
-				graphics.drawLine(tempRect.getTopRight(),
-						tempRect.getBottomRight());
-				graphics.drawLine(getPaintRectangle(figure, insets).getLeft(),
-						tempRect.getCenter());
+				graphics.drawLine(tempRect.getTopLeft(), tempRect.getBottomLeft());
+				graphics.drawLine(tempRect.getTopRight(), tempRect.getBottomRight());
+				graphics.drawLine(getPaintRectangle(figure, insets).getLeft(), tempRect.getCenter());
 			} else {
 				graphics.drawLine(tempRect.getTopLeft(), tempRect.getTopRight());
-				graphics.drawLine(tempRect.getBottomLeft(),
-						tempRect.getBottomRight());
-				graphics.drawLine(getPaintRectangle(figure, insets).getTop(),
-						tempRect.getCenter());
+				graphics.drawLine(tempRect.getBottomLeft(), tempRect.getBottomRight());
+				graphics.drawLine(getPaintRectangle(figure, insets).getTop(), tempRect.getCenter());
 			}
 		}
 
@@ -194,8 +190,7 @@ public class SubsetTypeFigure extends Figure {
 		 * @param insets
 		 *            The insets
 		 */
-		private void paintSubsetDifferenceType(IFigure figure,
-				Graphics graphics, Insets insets) {
+		private void paintSubsetDifferenceType(IFigure figure, Graphics graphics, Insets insets) {
 			// 相違サブセット
 			tempRect.setBounds(getPaintRectangle(figure, insets));
 			graphics.drawLine(tempRect.getTopLeft(), tempRect.getBottomRight());

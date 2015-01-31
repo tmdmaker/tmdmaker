@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 public class DetailEditDialog extends ModelEditDialog<Detail> {
-	
+
 	/** 表名設定用 */
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
@@ -55,8 +55,6 @@ public class DetailEditDialog extends ModelEditDialog<Detail> {
 	 * 
 	 * @param parentShell
 	 *            親
-	 * @param title
-	 *            ダイアログのタイトル
 	 * @param original
 	 *            編集対象モデル
 	 */
@@ -76,8 +74,7 @@ public class DetailEditDialog extends ModelEditDialog<Detail> {
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(EditEntity.PROPERTY_ATTRIBUTES)) {
 			panel2.updateAttributeTable();
-		} else if (evt.getPropertyName().equals(
-				EditEntity.PROPERTY_UP_IDENTIFIER)) {
+		} else if (evt.getPropertyName().equals(EditEntity.PROPERTY_UP_IDENTIFIER)) {
 			panel3.updateValue();
 			panel2.updateAttributeTable();
 		}
@@ -134,10 +131,9 @@ public class DetailEditDialog extends ModelEditDialog<Detail> {
 		editedValue = entity.createEditedModel();
 		super.okPressed();
 	}
-	
+
 	@Override
-	protected EditEntity getEditModel()
-	{
-		return (EditEntity)entity;
+	protected EditEntity getEditModel() {
+		return (EditEntity) entity;
 	}
 }
