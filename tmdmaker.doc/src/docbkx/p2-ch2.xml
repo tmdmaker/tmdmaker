@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter xmlns="http://docbook.org/ns/docbook"  
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+	xmlns:xl="http://www.w3.org/1999/xlink" 
+	xml:lang="ja">
+
+		<title>TMの5つの文法 2.個体の性質・関係の性質</title>
+		<para>エンティティを作った後は、エンティティを2種類に分類します。</para>
+		<para>エンティティ名 + 日付を意味する項目がある場合はイベント、そのような項目がない場合はリソースに分類します。</para>
+		<para>ちなみにイベントの日付は取引日等のように、過去に起こった事実（過去日）を表す日付なので、将来や予定を表す日付等を持つエンティティはリソースに分類します。</para>
+		<para>TM(T字形ER手法)で勘違いされていそうなことなのですが、日付があれば何でもイベントに分類されるわけではないのでご注意を！</para>
+		<para></para>
+		<orderedlist>
+			<title>エンティティの分類方法</title>
+			<listitem>
+				<para>エディタの「エンティティ」をダブルクリックすると、エンティティ編集ダイアログが表示されます。</para>
+				<imageobject>
+					<imagedata fileref="images/change_type1.jpg"/>
+				</imageobject>
+			</listitem>
+			<listitem>
+				<para>類別のリストをクリックすると、リソースとイベントが選択できます。</para>
+				<imageobject>
+					<imagedata fileref="images/change_type2.jpg"/>
+				</imageobject>
+			</listitem>
+			<listitem>
+				<para>現在リソースなっていますが、試しにイベントに変更してOKボタンをクリックします。</para>
+				<para>するとエンティティの種類がイベントに変更されました。</para>
+				<imageobject>
+					<imagedata fileref="images/change_type3.jpg"/>
+				</imageobject>
+				<para>エンティティの種類は、エンティティ作成時の「エンティティ新規作成」ダイアログでも変更できます。</para>
+				<para>新規作成時には、エンティティの種類がイベントの場合は「エンティティ名＋日」、リソースの場合は「エンティティ名＋名称」という名前でアトリビュートが作成されます。</para>
+				<para>また、エンティティの種類に「不明」を選択した場合は、ラピュタ（帰属不明なアトリビュートを一時的に置いておく入れ物）が作成できます。ラピュタは個体指定子の入力は不要です。</para>
+				<imageobject>
+					<imagedata fileref="images/change_type4.jpg"/>
+				</imageobject>
+			</listitem>
+			<listitem>
+				<para>最後にエンティティの種類に合わせてエンティティを並べ替えます。</para>
+				<para>ポイントはイベント系エンティティです。エンティティの日付が発生する時系列に左から右へ並べます。リソース系エンティティは画面の上下に適当に並べておいてください。</para>
+				<para>イベントは並びが重要なエンティティです。その理由は次回以降で明らかになるはずです。</para>
+				<imageobject>
+					<imagedata fileref="images/change_type5.jpg"/>
+				</imageobject>
+			</listitem>
+		</orderedlist>
+		<para>ちなみにエンティティの種類の変更は、この後説明する関係の文法でリレーションシップを持つと変更できなくなります。</para>
+	</chapter>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter xmlns="http://docbook.org/ns/docbook"  
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+	xmlns:xl="http://www.w3.org/1999/xlink" 
+	xml:lang="ja" 
+	xml:id="create_project">
+		<title>TMダイアグラムの作成準備</title>
+		<para>インストールが済んだらいよいよTMダイアグラムの作成です。でもまずその前にいくつか準備があります。</para>
+		<orderedlist>
+			<listitem>
+				<para>プロジェクト作成</para>
+				<para>プロジェクトとは簡単に言うとダイアグラムの保存先フォルダです。既にプロジェクトが作成済みの場合は<link linkend="create_diagram">ダイアグラム作成</link>へ進んでください。</para>
+					<orderedlist>
+						<listitem>
+							<para>プロジェクトエクスプローラを右クリックして、New->Projectを選択します。</para>
+							<imageobject>
+								<imagedata fileref="images/create_project1.jpg"/>
+							</imageobject>
+						</listitem>
+						<listitem>
+							<para>ウィザードで、General->Projectを選択して、Nextボタンを押します。</para>
+							<imageobject>
+								<imagedata fileref="images/create_project2.jpg"/>
+							</imageobject>
+						</listitem>
+						<listitem>
+							<para>プロジェクト名に、任意の名前を入力して他の設定はとりあえず無視。そしてFinishボタンを押します。</para>
+							<imageobject>
+								<imagedata fileref="images/create_project3.jpg"/>
+							</imageobject>
+						</listitem>
+						<listitem>
+							<para>プロジェクトエクスプローラにプロジェクトが表示されます。</para>
+							<para>ちなみにworkspaceフォルダの下にプロジェクトフォルダが作成されています。</para>
+							<imageobject>
+								<imagedata fileref="images/create_project4.jpg"/>
+							</imageobject>
+						</listitem>
+					</orderedlist>
+			</listitem>
+			<listitem>
+				<para>ダイアグラム作成<anchor xml:id="create_diagram" /></para>
+				<para>それではプロジェクトの下にダイアグラムを作成します。ダイアグラムは複数作成できます。</para>
+					<orderedlist>
+						<listitem>
+							<para>プロジェクトエクスプローラを右クリックして、New->Otherを選択します。</para>
+							<imageobject>
+								<imagedata fileref="images/create_file1.jpg"/>
+							</imageobject>
+						</listitem>
+						<listitem>
+							<para>ウィザードで、TMD->TM Diagramを選択して、Nextボタンを押します。</para>
+							<imageobject>
+								<imagedata fileref="images/create_file2.jpg"/>
+							</imageobject>
+						</listitem>
+						<listitem>
+							<para>ウィザードで、親フォルダに上で作成したプロジェクトを選択し、ファイル名を任意に付けて、Finishボタンを押します。</para>
+							<imageobject>
+								<imagedata fileref="images/create_file3.jpg"/>
+							</imageobject>
+						</listitem>
+						<listitem>
+							<para>新しいダイアグラムが作成され、TMDエディタが開きます。プロジェクトエクスプローラで任意のファイルをダブルクリックすると選択したダイアグラムが開きます。</para>
+							<imageobject>
+								<imagedata fileref="images/create_file4.jpg"/>
+							</imageobject>
+						</listitem> 
+					</orderedlist>
+			</listitem>
+		</orderedlist>
+		<para>TMを理解している人は直感でどんどん進められるかもしれませんが、次パートで順序だててTMDを作っていきます。</para>
+	</chapter>

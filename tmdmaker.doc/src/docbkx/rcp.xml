@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter 
+		xml:id="rcp_list" 
+		xmlns="http://docbook.org/ns/docbook" 
+		xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+		xml:lang="ja">	
+		<title id="ex.htmltable">TMD-Maker for RCP 対応プラットフォーム</title>
+		<table border="1">
+			<caption>TMD-Maker for RCP 対応プラットフォーム一覧</caption>
+			<thead>
+			  <tr>
+			    <th>ダウンロードファイル名</th><th>対応ＯＳ</th><th>ウインドウマネージャー</th><th>プロセッサ</th><th>リリース</th><th>動作確認</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+			    <td>未提供</td><td>AIX</td><td>motif</td><td>ppc</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>HP-UX</td><td>motif</td><td>ia64_32bit</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>Linux</td><td>gtk</td><td>ppc</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>Linux</td><td>gtk</td><td>x86(32bit版)</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>tmdmaker_for_rcp_x.y.z-linux.gtk.x86_64.zip</td><td>Linux</td><td>gtk</td><td>x86_64bit</td><td>○</td><td>○</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>linux</td><td>motif</td><td>x86</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>Mac OS X</td><td>carbon</td><td>ppc</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>Mac OS X</td><td>carbon</td><td>x86</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>Mac OS X</td><td>cocoa</td><td>ppc</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>tmdmaker_for_rcp_x.y.z-macosx.cocoa.x86.zip</td><td>Mac OS X</td><td>cocoa</td><td>x86(32bit版)</td><td>○</td><td>○</td>
+			  </tr>
+			  <tr>
+			    <td>tmdmaker_for_rcp_x.y.z-macosx.cocoa.x86_64.zip</td><td>Mac OS X</td><td>cocoa</td><td>x86_64bit</td><td>○</td><td>○</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>solaris</td><td>gtk</td><td>sparc</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>solaris</td><td>gtk</td><td>x86</td><td>-</td><td>-</td>
+			  </tr>
+			  <tr>
+			    <td>tmdmaker_for_rcp_x.y.z-win32.win32.x86.zip</td><td>windows</td><td>win32</td><td>x86(32bit版)</td><td>○</td><td>○</td>
+			  </tr>
+			  <tr>
+			    <td>tmdmaker_for_rcp_x.y.z-win32.win32.x86_64.zip</td><td>windows</td><td>win32</td><td>x86_64bit</td><td>○</td><td>○</td>
+			  </tr>
+			  <tr>
+			    <td>未提供</td><td>windows</td><td>wpf</td><td>x86</td><td>-</td><td>-</td>
+			  </tr>
+			</tbody>
+		</table>
+			
+	</chapter>

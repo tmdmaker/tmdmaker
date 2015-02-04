@@ -13,7 +13,7 @@
 	<description>TMD-Makerのドキュメントプロジェクト</description>
 	<name>TMD-Maker Document Project</name>
 	<url>${project-url}</url>
-	
+
 	<distributionManagement>
 		<site>
 			<id>${project.artifactId}-site</id>
@@ -72,9 +72,9 @@
 													<fileset dir="../tmdmaker/src" />
 												</sourcefiles>
 											</structure>
-											<html destdir="${project.basedir}/target/site/jacoco/report" />
+											<html destdir="${project.build.directory}/site/jacoco/report" />
 											<xml
-												destfile="${project.basedir}/target/site/jacoco/report/jacoco.xml" />
+												destfile="${project.build.directory}/site/jacoco/report/jacoco.xml" />
 										</jacoco-report>
 									</try>
 									<catch>
@@ -85,6 +85,41 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.agilejava.docbkx</groupId>
+				<artifactId>docbkx-maven-plugin</artifactId>
+				<version>2.0.16</version>
+				<configuration>
+					<xincludeSupported>true</xincludeSupported>
+					<chunkedOutput>true</chunkedOutput>
+					<htmlCustomization>src/docbkx/generate-html.xsl</htmlCustomization>
+					<preProcess>
+						<copy todir="${project.build.directory}/site/doc/images">
+							<fileset dir="${project.basedir}/src/docbkx/images" />
+						</copy>
+					</preProcess>
+					<targetDirectory>${project.build.directory}/site/doc</targetDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-html</id>
+						<phase>pre-site</phase>
+						<goals>
+							<goal>generate-html</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>net.sf.docbook</groupId>
+						<artifactId>docbook-xml</artifactId>
+						<version>5.0-all</version>
+						<classifier>resources</classifier>
+						<type>zip</type>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
