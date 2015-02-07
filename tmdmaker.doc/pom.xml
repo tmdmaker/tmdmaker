@@ -16,8 +16,8 @@
 
 	<distributionManagement>
 		<site>
-			<id>${project.artifactId}-site</id>
-			<url>${project.baseUri}/../</url>
+			<id>tmdmaker-site</id>
+			<url>scp://shell.sourceforge.jp/home/groups/t/tm/tmdmaker/htdocs/</url>
 		</site>
 	</distributionManagement>
 
