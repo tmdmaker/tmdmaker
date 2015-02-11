@@ -124,6 +124,16 @@
 					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<jacocoReports>
+						<jacocoReport>../tmdmaker.doc/target/site/jacoco/report/jacoco.xml</jacocoReport>
+					</jacocoReports>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<profiles>
@@ -214,6 +224,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.13</version>
+				<configuration>
+					<configLocation>sun_check_eclipse.xml</configLocation>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -221,6 +234,10 @@
 				<version>3.3</version>
 				<configuration>
 					<aggregate>true</aggregate>
+					<linkXref>true</linkXref>
+					<excludes>
+						<exclude>**/org/eclipse/gmf/**/*.java</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
