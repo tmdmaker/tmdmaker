@@ -1,12 +1,12 @@
 /*
  * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
 /**
  * エンティティ系モデルの基底クラス
@@ -515,8 +517,54 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	public SubsetEntity addSubset(String subsetName) {
+		SubsetType subsetType = findSubsetType();
+		// サブセット未作成の場合は初期値を用意
+		if (subsetType == null) {
+			subsetType = new SubsetType();
+			subsetType.setSubsetType(SubsetType.SubsetTypeValue.SAME);
+			subsetType.setExceptNull(false);
+			getDiagram().addChild(subsetType);
+			Entity2SubsetTypeRelationship r1 = new Entity2SubsetTypeRelationship(this, subsetType);
+			r1.connect();
+		}
+		SubsetEntity subset = SubsetRule.createSubsetEntity(this, subsetName);
+		SubsetType2SubsetRelationship r2 = new SubsetType2SubsetRelationship(subsetType, subset);
+		r2.connect();
+		getDiagram().addChild(subset);
+		return subset;
+	}
+	
+	public boolean removeSubset(SubsetEntity subset) {
+		if (!subset.isDeletable()) {
+			return false;
+		}
+		SubsetType subsetType = findSubsetType();
+		if (subsetType == null) {
+			return false;
+		}
+		if (subsetType.removeSubsetEntity(subset)) {
+			removeSubsetTypeIfEmpty(subsetType);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	private void removeSubsetTypeIfEmpty(SubsetType subsetType) {
+		if (!subsetType.hasSubsetEntity()) {
+			Entity2SubsetTypeRelationship r= (Entity2SubsetTypeRelationship) subsetType.getModelTargetConnections().get(0);
+			r.disconnect();
+			getDiagram().removeChild(subsetType);
+		}
 	}
 }

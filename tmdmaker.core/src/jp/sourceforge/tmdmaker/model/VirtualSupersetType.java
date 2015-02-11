@@ -1,12 +1,12 @@
 /*
  * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,8 @@ import java.util.Map;
  * 
  */
 @SuppressWarnings("serial")
-public class VirtualSupersetType extends ConnectableElement {
+public class VirtualSupersetType extends AbstractSubsetType {
+	/** スーパーセットタイプ */
 	public static final String PROPERTY_SUPERSET_TYPE = "_property_superset_type";
 	/** 個体指定子プロパティ定数 */
 	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
@@ -111,6 +112,12 @@ public class VirtualSupersetType extends ConnectableElement {
 		return reusedIdentifieres;
 	}
 
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);

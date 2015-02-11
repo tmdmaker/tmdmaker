@@ -1,12 +1,12 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
- * 
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,12 +17,10 @@ package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.dialog.VirtualEntityCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractSubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
-import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
 import jp.sourceforge.tmdmaker.editpart.MultivalueAndSupersetEditPart;
-import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
-import jp.sourceforge.tmdmaker.editpart.VirtualSupersetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
@@ -32,7 +30,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * みなしエンティティ作成アクション
+ * みなしエンティティ作成アクション.
  * 
  * @author nakaG
  * 
@@ -42,7 +40,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	public static final String ID = "_VE";
 
 	/**
-	 * コンストラクタ
+	 * コンストラクタ.
 	 * 
 	 * @param part
 	 *            エディター
@@ -77,11 +75,9 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		if (getSelectedObjects().size() == 1) {
 			Object selection = getSelectedObjects().get(0);
 			return selection instanceof AbstractModelEditPart
-					&& !(selection instanceof SubsetTypeEditPart)
+					&& !(selection instanceof AbstractSubsetTypeEditPart)
 					&& !(selection instanceof MultivalueAndSupersetEditPart)
-					&& !(selection instanceof MultivalueAndAggregatorEditPart)
 					&& !(selection instanceof VirtualSupersetEditPart)
-					&& !(selection instanceof VirtualSupersetTypeEditPart)
 					&& !(selection instanceof LaputaEditPart);
 		} else {
 			return false;
@@ -90,7 +86,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 
 
 	/**
-	 * みなしエンティティ作成
+	 * みなしエンティティ作成.
 	 * 
 	 * @author nakaG
 	 * 
@@ -100,7 +96,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		private Entity2VirtualEntityRelationship relationship;
 
 		/**
-		 * コンストラクタ
+		 * コンストラクタ.
 		 * 
 		 * @param model
 		 *            みなしエンティティ作成対象

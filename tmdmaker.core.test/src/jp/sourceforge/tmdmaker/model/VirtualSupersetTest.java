@@ -1,12 +1,12 @@
 /*
  * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +52,7 @@ public class VirtualSupersetTest {
 		assertEquals(false, vsp.isEntityTypeEditable());
 		assertEquals(true, vsp.hasSubset());
 		assertEquals(2, vsp.getVirtualSubsetRelationshipList().size());
-		
+
 		vsp.disconnectSubset(e2);
 		assertEquals(1, vsp.getVirtualSubsetList().size());
 		vsp.disconnectSubset(e1);
@@ -81,8 +81,16 @@ public class VirtualSupersetTest {
 		list.add(e3);
 		list.add(vsp1);
 		VirtualSuperset vsp2 = diagram.createVirtualSuperset("スーパーセット2", list);
-		
+
 		assertEquals(true, vsp2.isDeletable());
 		assertEquals(false, vsp1.isDeletable());
+
+		VirtualSupersetType type1 = vsp1.getVirtualSupersetType();
+		assertEquals(2, type1.getReusedIdentifieres().size());
+		VirtualSupersetType type2 = vsp2.getVirtualSupersetType();
+		assertEquals(2, type2.getReusedIdentifieres().size());
+		assertEquals(false, type2.isVertical());
+		type2.setVertical(true);
+		assertEquals(true, type2.isVertical());
 	}
 }

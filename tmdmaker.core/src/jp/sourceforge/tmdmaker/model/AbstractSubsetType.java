@@ -16,21 +16,36 @@
 package jp.sourceforge.tmdmaker.model;
 
 /**
- * 多値のANDの相違マーク(×)を表すモデル.
- * 
- * @author nakaG
- * 
+ * サブセットとスーパーセットとの接点クラス
+ *
+ * @author nakag
+ *
  */
 @SuppressWarnings("serial")
-public class MultivalueAndAggregator extends AbstractSubsetType {
+public abstract class AbstractSubsetType extends ConnectableElement {
+
+	/** サブセットタイプの向き */
+	public static final String PROPERTY_DIRECTION = "_property_direction";
+	/** モデルの向き（縦） */
+	private boolean vertical = false;
+
 	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.model.ModelElement#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 * 向き（縦）
+	 *
+	 * @return 縦の場合にtrueを返す
 	 */
-	@Override
-	public void accept(IVisitor visitor) {
-		visitor.visit(this);
+	public boolean isVertical() {
+		return vertical;
+	}
+
+	/**
+	 * 向き（縦）
+	 *
+	 * @param vertical 縦の場合にtrueを設定する。
+	 */
+	public void setVertical(boolean vertical) {
+		boolean oldValue = this.vertical;
+		this.vertical = vertical;
+		firePropertyChange(PROPERTY_DIRECTION, oldValue, this.vertical);
 	}
 }
