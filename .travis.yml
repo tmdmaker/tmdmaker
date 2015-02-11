@@ -5,4 +5,4 @@ jdk:
 
 before_script: "cd ./tmdmaker.releng/"
 after_success:
-  - mvn clean install coveralls:report
+  - mvn clean install coveralls:report -DuseUIHarness=false
