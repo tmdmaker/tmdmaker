@@ -27,6 +27,9 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
+import jp.sourceforge.tmdmaker.ui.command.VirtualSubsetAddCommand;
+import jp.sourceforge.tmdmaker.ui.command.VirtualSubsetDisconnectCommand;
+import jp.sourceforge.tmdmaker.ui.command.VirtualSupersetTypeChangeCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -37,20 +40,20 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * みなしスーパーセット作成アクション
- * 
+ * みなしスーパーセット作成アクション.
+ *
  * @author nakaG
  * 
  */
 public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction {
-	/** みなしスーパーセット作成アクションを表す定数 */
+	/** みなしスーパーセット作成アクションを表す定数. */
 	public static final String ID = "_VS";
 
 	/**
-	 * コンストラクタ
-	 * 
+	 * コンストラクタ.
+	 *
 	 * @param part
-	 *            エディター
+	 *            エディター.
 	 */
 	public VirtualSupersetCreateAction(IWorkbenchPart part) {
 		super(part);
@@ -60,7 +63,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
 	@Override
@@ -168,16 +171,15 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 		for (AbstractEntityModel o : list) {
 			VirtualSupersetType type = o.findVirtualSupersetType();
 			if (type != null) {
-				return (VirtualSuperset) type.getModelSourceConnections().get(0).getTarget();
+				return type.getSuperset();
 			}
 		}
 		return null;
 	}
 
 	/**
-	 * 
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
 	@Override
@@ -228,7 +230,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 
 		/**
 		 * {@inheritDoc}
-		 * 
+		 *
 		 * @see org.eclipse.gef.commands.Command#execute()
 		 */
 		@Override
@@ -242,7 +244,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 
 		/**
 		 * {@inheritDoc}
-		 * 
+		 *
 		 * @see org.eclipse.gef.commands.Command#undo()
 		 */
 		@Override
@@ -251,121 +253,6 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 				model.disconnectSubset(m);
 			}
 			diagram.removeChild(model);
-		}
-
-	}
-
-	private static class VirtualSubsetAddCommand extends Command {
-		private VirtualSuperset superset;
-		private AbstractEntityModel model;
-
-		public VirtualSubsetAddCommand(VirtualSuperset superset, AbstractEntityModel model) {
-			this.superset = superset;
-			this.model = model;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			superset.connectSubset(model);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			superset.disconnectSubset(model);
-		}
-
-	}
-
-	private static class VirtualSubsetDisconnectCommand extends Command {
-		private Diagram diagram;
-		private VirtualSuperset superset;
-		private AbstractEntityModel model;
-		private Constraint oldTypeConstraint;
-
-		public VirtualSubsetDisconnectCommand(VirtualSuperset superset, AbstractEntityModel model) {
-			this.diagram = superset.getDiagram();
-			this.superset = superset;
-			this.oldTypeConstraint = superset.getVirtualSupersetType().getConstraint();
-			this.model = model;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			superset.disconnectSubset(model);
-			if (!superset.hasSubset()) {
-				diagram.removeChild(superset);
-			}
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			if (!superset.hasSubset()) {
-				diagram.addChild(superset);
-			}
-			superset.connectSubset(model);
-			superset.getVirtualSupersetType().setConstraint(oldTypeConstraint);
-		}
-	}
-
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class VirtualSupersetTypeChangeCommand extends Command {
-		private VirtualSupersetType model;
-		private boolean oldApplyAttribute;
-		private boolean newApplyAttribute;
-
-		/**
-		 * 
-		 * @param model
-		 * @param newApplyAttribute
-		 */
-		public VirtualSupersetTypeChangeCommand(VirtualSupersetType model, boolean newApplyAttribute) {
-			this.model = model;
-			this.newApplyAttribute = newApplyAttribute;
-			this.oldApplyAttribute = model.isApplyAttribute();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			this.model.setApplyAttribute(newApplyAttribute);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			this.model.setApplyAttribute(oldApplyAttribute);
 		}
 	}
 }

@@ -15,17 +15,19 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * みなしスーパーセット種類（同一(=)/相違マーク(×）)
- * 
+ * みなしスーパーセット種類（同一(=)/相違マーク(×）).
+ *
  * @author nakaG
- * 
+ *
  */
 @SuppressWarnings("serial")
-public class VirtualSupersetType extends AbstractSubsetType {
+public class VirtualSupersetType extends AbstractSubsetType<VirtualSuperset> {
 	/** スーパーセットタイプ */
 	public static final String PROPERTY_SUPERSET_TYPE = "_property_superset_type";
 	/** 個体指定子プロパティ定数 */
@@ -35,17 +37,16 @@ public class VirtualSupersetType extends AbstractSubsetType {
 	private boolean applyAttribute = false;
 
 	/**
-	 * コンストラクタ
+	 * コンストラクタ.
 	 */
 	public VirtualSupersetType() {
+		super();
 		// デフォルト値
 		setApplyAttribute(true);
-		Constraint c = new Constraint(0, 0, -1, -1);
-		setConstraint(c);
 	}
 
 	/**
-	 * @return the applyAttribute
+	 * @return the applyAttribute.
 	 */
 	public boolean isApplyAttribute() {
 		return applyAttribute;
@@ -53,7 +54,7 @@ public class VirtualSupersetType extends AbstractSubsetType {
 
 	/**
 	 * @param applyAttribute
-	 *            the applyAttribute to set
+	 *            the applyAttribute to set.
 	 */
 	public void setApplyAttribute(boolean applyAttribute) {
 		boolean oldValue = this.applyAttribute;
@@ -62,22 +63,22 @@ public class VirtualSupersetType extends AbstractSubsetType {
 	}
 
 	/**
-	 * 取得元モデルからReused個体指定子を追加する
-	 * 
+	 * 取得元モデルからReused個体指定子を追加する.
+	 *
 	 * @param source
-	 *            個体指定子取得元
+	 *            個体指定子取得元.
 	 */
 	public void addReusedIdentifier(AbstractEntityModel source) {
 		addReusedIdentifier(source, source.createReusedIdentifier());
 	}
 
 	/**
-	 * 取得元モデルからReused個体指定子を追加する
-	 * 
+	 * 取得元モデルからReused個体指定子を追加する.
+	 *
 	 * @param source
-	 *            個体指定子取得元
+	 *            個体指定子取得元.
 	 * @param reused
-	 *            取得元モデルから得たReused
+	 *            取得元モデルから得たReused.
 	 */
 	protected void addReusedIdentifier(AbstractEntityModel source, ReusedIdentifier reused) {
 		this.reusedIdentifieres.put(source, reused);
@@ -85,11 +86,11 @@ public class VirtualSupersetType extends AbstractSubsetType {
 	}
 
 	/**
-	 * 取得元モデルから得たReused個体指定子を削除する
-	 * 
+	 * 取得元モデルから得たReused個体指定子を削除する.
+	 *
 	 * @param source
-	 *            個体指定子取得元
-	 * @return 削除したReused
+	 *            個体指定子取得元.
+	 * @return 削除したReused.
 	 */
 	public ReusedIdentifier removeReusedIdentifier(AbstractEntityModel source) {
 		ReusedIdentifier removed = this.reusedIdentifieres.remove(source);
@@ -98,7 +99,7 @@ public class VirtualSupersetType extends AbstractSubsetType {
 	}
 
 	/**
-	 * みなしスーパーセットにリレーションシップの変更を通知する。
+	 * みなしスーパーセットにリレーションシップの変更を通知する.
 	 */
 	private void notifyRelationshipChanged() {
 		((AbstractEntityModel) getModelSourceConnections().get(0).getTarget())
@@ -106,14 +107,13 @@ public class VirtualSupersetType extends AbstractSubsetType {
 	}
 
 	/**
-	 * @return the reusedIdentifieres
+	 * @return the reusedIdentifieres.
 	 */
 	public Map<AbstractEntityModel, ReusedIdentifier> getReusedIdentifieres() {
 		return reusedIdentifieres;
 	}
 
 	/**
-	 *
 	 * {@inheritDoc}
 	 *
 	 * @see jp.sourceforge.tmdmaker.model.ModelElement#accept(jp.sourceforge.tmdmaker.model.IVisitor)
@@ -121,5 +121,36 @@ public class VirtualSupersetType extends AbstractSubsetType {
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractSubsetType#getSuperset()
+	 */
+	@Override
+	public VirtualSuperset getSuperset() {
+		if (getModelSourceConnections().size() > 0) {
+			AbstractConnectionModel r = getModelSourceConnections().get(0);
+			return (VirtualSuperset) r.getTarget();
+		}
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractSubsetType#getSubsetList()
+	 */
+	@Override
+	public List<AbstractEntityModel> getSubsetList() {
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		for (AbstractConnectionModel c : getModelTargetConnections()) {
+			ConnectableElement m = c.getSource();
+			if (m instanceof AbstractEntityModel) {
+				list.add((AbstractEntityModel) m);
+			}
+		}
+		return list;
 	}
 }

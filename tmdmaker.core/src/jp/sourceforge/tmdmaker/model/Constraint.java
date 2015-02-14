@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /**
  * モデルの制約
- * 
+ *
  * @author nakaG
  *
  */
@@ -47,8 +47,11 @@ public class Constraint implements Serializable {
 	 */
 	public int height;
 
+	/**
+	 * コンストラクタ.
+	 */
 	public Constraint() {
-
+		this(0, 0, -1, -1);
 	}
 
 	public Constraint(int x, int y, int width, int height) {

@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -46,6 +46,10 @@ public class MultivalueAndSupersetTest {
 		r2.connect();
 		
 		assertEquals(false, sp.isDeletable());
+		assertEquals(r.getAggregator().getSuperset(), sp);
+		MultivalueAndAggregator a = r.getAggregator();
+		assertEquals(a.getSubsetList().get(0), e1);
+		assertEquals(a.getSubsetList().get(1), r.getTarget());
 	}
 
 }

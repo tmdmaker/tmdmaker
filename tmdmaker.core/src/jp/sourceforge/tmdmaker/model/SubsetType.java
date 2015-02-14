@@ -25,7 +25,7 @@ import java.util.List;
  *
  */
 @SuppressWarnings("serial")
-public class SubsetType extends AbstractSubsetType {
+public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 
 	/** サブセット種類（同一、相違）. */
 	public enum SubsetTypeValue {
@@ -47,15 +47,24 @@ public class SubsetType extends AbstractSubsetType {
 	private boolean exceptNull;
 
 	/**
-	 * サブセットエンティティ取得.
-	 *
-	 * @return サブセットエンティティのリスト
+	 * コンストラクタ.
 	 */
-	public List<SubsetEntity> findSubsetEntityList() {
+	public SubsetType() {
+		super();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractSubsetType#getSubsetList()
+	 */
+	@Override
+	public List<SubsetEntity> getSubsetList() {
 		List<SubsetEntity> results = new ArrayList<SubsetEntity>();
 		for (AbstractConnectionModel c : getModelSourceConnections()) {
-			if (c instanceof RelatedRelationship) {
-				results.add((SubsetEntity) c.getTarget());
+			ConnectableElement m = c.getTarget();
+			if (m instanceof SubsetEntity) {
+				results.add((SubsetEntity) m);
 			}
 		}
 		return results;
@@ -135,9 +144,11 @@ public class SubsetType extends AbstractSubsetType {
 	}
 
 	/**
-	 * スーパーセットを返す
-	 * @return  スーパーセット。存在しない場合はnullを返す。
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractSubsetType#getSuperset()
 	 */
+	@Override
 	public AbstractEntityModel getSuperset() {
 		Entity2SubsetTypeRelationship r = getEntity2SubsetTypeRelationship();
 		if (r != null) {
@@ -161,7 +172,7 @@ public class SubsetType extends AbstractSubsetType {
 	}
 
 	private void notifySubsetEntity() {
-		for (SubsetEntity s : findSubsetEntityList()) {
+		for (SubsetEntity s : getSubsetList()) {
 			s.firePropertyChange(PROPERTY_PARTITION, null, getSubsetType());
 		}
 	}
@@ -177,6 +188,7 @@ public class SubsetType extends AbstractSubsetType {
 
 	/**
 	 * 新規作成か？
+	 * 
 	 * @return 新規作成の場合はtrueを返す
 	 */
 	public boolean isNew() {
@@ -193,16 +205,17 @@ public class SubsetType extends AbstractSubsetType {
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
-	
+
 	public boolean removeSubsetEntity(SubsetEntity subsetEntity) {
 		if (!subsetEntity.isDeletable()) {
 			return false;
 		}
-		for (SubsetEntity s : findSubsetEntityList()) {
+		for (SubsetEntity s : getSubsetList()) {
 			if (s.equals(subsetEntity)) {
 				Diagram diagram = subsetEntity.getDiagram();
-				SubsetType2SubsetRelationship r = (SubsetType2SubsetRelationship) s.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class)
-				.get(0);
+				SubsetType2SubsetRelationship r = (SubsetType2SubsetRelationship) s
+						.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class)
+						.get(0);
 				r.disconnect();
 				diagram.removeChild(subsetEntity);
 				return true;
@@ -210,7 +223,7 @@ public class SubsetType extends AbstractSubsetType {
 		}
 		return false;
 	}
-	
+
 	public boolean hasSubsetEntity() {
 		return getModelSourceConnections().size() != 0;
 	}

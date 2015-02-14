@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 多値のANDの相違マーク(×)を表すモデル.
  * 
@@ -22,7 +25,14 @@ package jp.sourceforge.tmdmaker.model;
  * 
  */
 @SuppressWarnings("serial")
-public class MultivalueAndAggregator extends AbstractSubsetType {
+public class MultivalueAndAggregator extends AbstractSubsetType<MultivalueAndSuperset> {
+	/**
+	 * コンストラクタ.
+	 */
+	public MultivalueAndAggregator() {
+		super();
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -32,5 +42,44 @@ public class MultivalueAndAggregator extends AbstractSubsetType {
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractSubsetType#getSuperset()
+	 */
+	@Override
+	public MultivalueAndSuperset getSuperset() {
+		if (getModelTargetConnections().size() > 0) {
+			AbstractConnectionModel r = getModelTargetConnections().get(0);
+			return (MultivalueAndSuperset) r.getSource();
+		}
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractSubsetType#getSubsetList()
+	 */
+	@Override
+	public List<AbstractEntityModel> getSubsetList() {
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		list.add(getHeader());
+		list.add(getDetail());
+		return list;
+	}
+
+	public AbstractEntityModel getHeader() {
+		RelatedRelationship header2aggregator = (RelatedRelationship) getModelTargetConnections()
+				.get(1);
+		return (AbstractEntityModel) header2aggregator.getSource();
+	}
+
+	public Detail getDetail() {
+		RelatedRelationship detail2aggregator = (RelatedRelationship) getModelTargetConnections()
+				.get(2);
+		return (Detail) detail2aggregator.getSource();
 	}
 }

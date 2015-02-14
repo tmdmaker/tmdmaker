@@ -92,5 +92,6 @@ public class VirtualSupersetTest {
 		assertEquals(false, type2.isVertical());
 		type2.setVertical(true);
 		assertEquals(true, type2.isVertical());
+		assertEquals(type1.getSuperset(), vsp1);
 	}
 }

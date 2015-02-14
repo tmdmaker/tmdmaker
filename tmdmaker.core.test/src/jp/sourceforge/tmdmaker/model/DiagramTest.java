@@ -52,4 +52,30 @@ public class DiagramTest {
 		assertEquals("スーパーセット", m2t1.getSourceName());
 		assertEquals("テスト1", m2t1.getTargetName());
 	}
+
+	@Test
+	public void testFindEntity() {
+		Diagram diagram = new Diagram();
+		assertEquals(0, diagram.findEntityModel().size());
+
+		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
+		assertEquals(1, diagram.findEntityModel().size());
+
+		diagram.removeChild(e1);
+		assertEquals(0, diagram.findEntityModel().size());
+
+		diagram.addChild(e1);
+		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		list.add(e1);
+		list.add(e2);
+		VirtualSuperset vsp = diagram.createVirtualSuperset("スーパーセット", list);
+		assertEquals(3, diagram.findEntityModel().size());
+
+		VirtualSupersetType type = vsp.getVirtualSupersetType();
+		diagram.addChild(e1);
+		diagram.addChild(type);
+		assertEquals(3, diagram.findEntityModel().size());
+
+	}
 }

@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+
 /**
  * リレーションシップを表すコネクションとのリレーションシップ
  * 
@@ -133,7 +134,8 @@ public class RelatedRelationship extends AbstractConnectionModel {
 		 */
 		@Override
 		public String getSourceName() {
-			return getTarget().getModelTargetConnections().get(0).getSourceName();
+			MultivalueAndAggregator aggregator = (MultivalueAndAggregator) getTarget();
+			return aggregator.getSuperset().getName();
 		}
 
 		/**
@@ -161,11 +163,9 @@ public class RelatedRelationship extends AbstractConnectionModel {
 		 */
 		@Override
 		public String getTargetName() {
-			AbstractConnectionModel h2a = getTarget().getModelTargetConnections().get(1);
-			AbstractConnectionModel d2a = getTarget().getModelTargetConnections().get(2);
-			return h2a.getTargetName() + "," + d2a.getTargetName();
+			MultivalueAndAggregator aggregator = (MultivalueAndAggregator) getTarget();
+			return aggregator.getHeader().getName() + "," + aggregator.getDetail().getName();
 		}
-
 	}
 
 	/**
@@ -193,13 +193,14 @@ public class RelatedRelationship extends AbstractConnectionModel {
 		public String getTargetName() {
 			StringBuilder builder = new StringBuilder();
 			boolean first = true;
-			for (AbstractConnectionModel c : getSource().getModelTargetConnections()) {
+			VirtualSupersetType type = (VirtualSupersetType) getSource();
+			for (AbstractEntityModel m : type.getSubsetList()) {
 				if (first) {
 					first = false;
 				} else {
 					builder.append(',');
 				}
-				builder.append(c.getSource().getName());
+				builder.append(m.getName());
 			}
 			return builder.toString();
 		}

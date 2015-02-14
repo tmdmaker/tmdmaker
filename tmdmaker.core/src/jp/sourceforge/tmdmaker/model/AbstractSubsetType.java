@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import java.util.List;
+
 /**
  * サブセットとスーパーセットとの接点クラス
  *
@@ -22,12 +24,19 @@ package jp.sourceforge.tmdmaker.model;
  *
  */
 @SuppressWarnings("serial")
-public abstract class AbstractSubsetType extends ConnectableElement {
+public abstract class AbstractSubsetType<T extends AbstractEntityModel> extends ConnectableElement {
 
 	/** サブセットタイプの向き */
 	public static final String PROPERTY_DIRECTION = "_property_direction";
 	/** モデルの向き（縦） */
 	private boolean vertical = false;
+
+	/**
+	 * コンストラクタ.
+	 */
+	public AbstractSubsetType() {
+		setConstraint(new Constraint());
+	}
 
 	/**
 	 * 向き（縦）
@@ -41,11 +50,26 @@ public abstract class AbstractSubsetType extends ConnectableElement {
 	/**
 	 * 向き（縦）
 	 *
-	 * @param vertical 縦の場合にtrueを設定する。
+	 * @param vertical
+	 *            縦の場合にtrueを設定する。
 	 */
 	public void setVertical(boolean vertical) {
 		boolean oldValue = this.vertical;
 		this.vertical = vertical;
 		firePropertyChange(PROPERTY_DIRECTION, oldValue, this.vertical);
 	}
+
+	/**
+	 * スーパーセット取得.
+	 *
+	 * @return スーパーセット
+	 */
+	public abstract T getSuperset();
+
+	/**
+	 * サブセットのリスト取得.
+	 *
+	 * @return サブセットのリストを返す。サブセットを持たない場合は空のリストを返す.
+	 */
+	public abstract List<? extends AbstractEntityModel> getSubsetList();
 }

@@ -25,9 +25,9 @@ import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
 /**
  * エンティティ系モデルの基底クラス
- * 
+ *
  * @author nakaG
- * 
+ *
  */
 @SuppressWarnings("serial")
 public abstract class AbstractEntityModel extends ConnectableElement {
@@ -55,8 +55,11 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	/** キー定義情報 */
 	protected KeyModels keyModels = new KeyModels();
 
+	/**
+	 * コンストラクタ.
+	 */
 	public AbstractEntityModel() {
-		setConstraint(new Constraint(0, 0, -1, -1));
+		setConstraint(new Constraint());
 	}
 
 	/**
@@ -544,7 +547,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		getDiagram().addChild(subset);
 		return subset;
 	}
-	
+
 	public boolean removeSubset(SubsetEntity subset) {
 		if (!subset.isDeletable()) {
 			return false;
@@ -560,9 +563,11 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			return false;
 		}
 	}
+
 	private void removeSubsetTypeIfEmpty(SubsetType subsetType) {
 		if (!subsetType.hasSubsetEntity()) {
-			Entity2SubsetTypeRelationship r= (Entity2SubsetTypeRelationship) subsetType.getModelTargetConnections().get(0);
+			Entity2SubsetTypeRelationship r = (Entity2SubsetTypeRelationship) subsetType
+					.getModelTargetConnections().get(0);
 			r.disconnect();
 			getDiagram().removeChild(subsetType);
 		}

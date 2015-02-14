@@ -66,10 +66,10 @@ public class SubsetTest {
 		assertEquals(true, subsetType != null);
 		assertEquals(true, subsetType.hasSubsetEntity());
 		assertEquals(false, subsetType.isExceptNull());
-		assertEquals(2, subsetType.findSubsetEntityList().size());
+		assertEquals(2, subsetType.getSubsetList().size());
 
-		SubsetEntity s1 = subsetType.findSubsetEntityList().get(0);
-		SubsetEntity s2 = subsetType.findSubsetEntityList().get(1);
+		SubsetEntity s1 = subsetType.getSubsetList().get(0);
+		SubsetEntity s2 = subsetType.getSubsetList().get(1);
 		assertEquals("サブセット1", s1.getName());
 		assertEquals("サブセット2", s2.getName());
 		assertThat(
@@ -113,8 +113,8 @@ public class SubsetTest {
 	@Test
 	public void testRemoveSubset() {
 		SubsetType subsetType = e1.findSubsetType();
-		SubsetEntity s1 = subsetType.findSubsetEntityList().get(0);
-		SubsetEntity s2 = subsetType.findSubsetEntityList().get(1);
+		SubsetEntity s1 = subsetType.getSubsetList().get(0);
+		SubsetEntity s2 = subsetType.getSubsetList().get(1);
 		assertEquals(true, s1.isDeletable());
 		assertEquals(true, s2.isDeletable());
 		assertEquals(true, s1.getModelTargetConnections().get(0).isDeletable());
@@ -135,8 +135,8 @@ public class SubsetTest {
 	@Test
 	public void testIdentifierChange() {
 		SubsetType subsetType = e1.findSubsetType();
-		SubsetEntity s1 = subsetType.findSubsetEntityList().get(0);
-		SubsetEntity s2 = subsetType.findSubsetEntityList().get(1);
+		SubsetEntity s1 = subsetType.getSubsetList().get(0);
+		SubsetEntity s2 = subsetType.getSubsetList().get(1);
 		e1.setIdentifierName("テスト1番号1");
 		assertEquals("テスト1番号1", s1.getOriginalReusedIdentifier().getIdentifires().get(0).getName());
 		assertEquals("テスト1番号1", s2.getOriginalReusedIdentifier().getIdentifires().get(0).getName());
