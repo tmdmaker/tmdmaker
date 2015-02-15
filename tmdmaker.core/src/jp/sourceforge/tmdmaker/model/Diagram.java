@@ -210,4 +210,13 @@ public class Diagram extends ModelElement {
 		return superset;
 	}
 
+	public List<AbstractEntityModel> findEntityModelExcludeFor(List<AbstractEntityModel> excludes) {
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		for (ModelElement m : getChildren()) {
+			if (m instanceof AbstractEntityModel && !excludes.contains(m)) {
+				list.add((AbstractEntityModel)m);
+			}
+		}
+		return list;
+	}
 }

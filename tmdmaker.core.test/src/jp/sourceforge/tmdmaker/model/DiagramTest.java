@@ -24,7 +24,7 @@ import org.junit.Test;
 
 /**
  * diagramのテストクラス
- * 
+ *
  * @author nakag
  *
  */
@@ -77,5 +77,14 @@ public class DiagramTest {
 		diagram.addChild(type);
 		assertEquals(3, diagram.findEntityModel().size());
 
-	}
+		List<AbstractEntityModel> excludes = new ArrayList<AbstractEntityModel>();
+		excludes.add(e1);
+		excludes.add(e2);
+		excludes.add(vsp);
+		Entity e3 = diagram.createEntity("テスト3", "テスト3番号", EntityType.EVENT);
+
+		List<AbstractEntityModel> exlist = diagram.findEntityModelExcludeFor(excludes);
+		assertEquals(1, exlist.size());
+		assertEquals(e3, exlist.get(0));
+	}	
 }
