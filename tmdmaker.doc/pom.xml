@@ -60,6 +60,7 @@
 											<executiondata>
 												<file file="../tmdmaker.core.test/target/jacoco.exec" />
 												<file file="../tmdmaker.test/target/jacoco.exec" />
+												<file file="../tmdmaker.ui.test/target/jacoco.exec" />
 											</executiondata>
 
 											<structure name="TMD-Maker">

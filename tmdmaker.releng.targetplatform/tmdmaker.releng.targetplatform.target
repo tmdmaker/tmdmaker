@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target includeMode="feature" name="tmdmaker.releng.targetplatform" sequenceNumber="51">
+<?pde version="3.8"?><target includeMode="feature" name="tmdmaker.releng.targetplatform" sequenceNumber="54">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.4.0.v20141223043836"/>
@@ -18,6 +18,20 @@
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.rcp.sdk.id" version="4.4.2.M20150204-1700"/>
 <unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.9.1.v20150129-0838"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.4"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.swtbot.generator.feature.feature.group" version="2.2.1.201402241301"/>
+<unit id="org.eclipse.swtbot.eclipse.feature.group" version="2.2.1.201402241301"/>
+<unit id="org.eclipse.swtbot.ide.feature.group" version="2.2.1.201402241301"/>
+<unit id="org.eclipse.swtbot.eclipse.test.junit.feature.group" version="2.2.1.201402241301"/>
+<unit id="org.eclipse.swtbot.feature.group" version="2.2.1.201402241301"/>
+<unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="2.2.1.201402241301"/>
+<unit id="org.eclipse.swtbot.forms.feature.group" version="2.2.1.201402241301"/>
+<repository location="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.pde.source.feature.group" version="3.10.1.v20150204-1700"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.4"/>
 </location>
 </locations>

@@ -111,6 +111,17 @@
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
+
+					<dependency-resolution>
+						<extraRequirements>
+							<requirement>
+								<type>eclipse-feature</type>
+								<id>org.eclipse.e4.rcp</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+						</extraRequirements>
+					</dependency-resolution>
+
 				</configuration>
 			</plugin>
 			<plugin>
@@ -119,9 +130,11 @@
 				<version>${tycho-version}</version>
 				<configuration>
 					<useUIHarness>true</useUIHarness>
-					<useUIThread>true</useUIThread>
-
+					<useUIThread>false</useUIThread>
+					<product>org.eclipse.sdk.ide</product>
+					<application>org.eclipse.ui.ide.workbench</application>
 					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
+					<appArgLine>-nl en</appArgLine>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -169,6 +182,7 @@
 		<module>../tmdmaker.rcp.feature</module>
 		<module>../tmdmaker.core.test</module>
 		<module>../tmdmaker.test</module>
+		<module>../tmdmaker.ui.test</module>
 		<module>../tmdmaker.doc</module>
 	</modules>
 
