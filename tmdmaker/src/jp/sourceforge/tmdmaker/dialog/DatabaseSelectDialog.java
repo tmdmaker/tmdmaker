@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,6 +67,7 @@ public class DatabaseSelectDialog extends Dialog {
 		panel = new DatabaseSettingPanel(composite, SWT.NULL);
 		panel.initializeValue(originalDatabaseName);
 
+		composite.pack();
 		return composite;
 	}
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,6 +82,7 @@ public class CommonAttributeDialog extends Dialog implements
 
 		panel = new AttributeSettingPanel(composite, SWT.NULL, model);
 
+		composite.pack();
 		return composite;
 	}
 

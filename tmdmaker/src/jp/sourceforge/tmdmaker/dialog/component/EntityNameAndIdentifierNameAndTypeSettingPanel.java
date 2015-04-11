@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -181,7 +181,7 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 
 		updateValue();
 		this.setLayout(gridLayout);
-		this.setSize(new Point(370, 88));
+		this.setSize(new Point(372, 88));
 	}
 
 	/**
