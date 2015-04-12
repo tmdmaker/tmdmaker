@@ -64,14 +64,14 @@ public class AttributePanel extends Composite {
 	private void initialize() {
 		GridData gridData10 = new GridData();
 		gridData10.horizontalAlignment = GridData.FILL;
-		gridData10.verticalAlignment = GridData.CENTER;
+		gridData10.verticalAlignment = SWT.FILL;
 		GridData gridData11 = new GridData();
 		gridData11.horizontalAlignment = GridData.FILL;
 		gridData11.heightHint = 60;
-		gridData11.verticalAlignment = GridData.CENTER;
+		gridData11.verticalAlignment = SWT.FILL;
 		GridData gridData8 = new GridData();
 		gridData8.widthHint = -1;
-		gridData8.verticalAlignment = GridData.CENTER;
+		gridData8.verticalAlignment = SWT.FILL;
 		gridData8.horizontalAlignment = GridData.FILL;
 		GridData gridData7 = new GridData();
 		gridData7.heightHint = 60;
@@ -119,9 +119,10 @@ public class AttributePanel extends Composite {
 		derivationRuleTextArea.setLayoutData(gridData7);
 		Label filler6 = new Label(this, SWT.NONE);
 		derivationCheckBox = new Button(this, SWT.CHECK);
+		derivationCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		derivationCheckBox.setText("ダイアグラムに(D)を表示する");
 		this.setLayout(gridLayout);
-		this.setSize(new Point(294, 453));
+		this.setSize(new Point(346, 489));
 	}
 
 	/**
@@ -133,7 +134,7 @@ public class AttributePanel extends Composite {
 		gridData1.horizontalAlignment = SWT.FILL;
 		gridData1.widthHint = 180;
 		gridData1.horizontalSpan = 4;
-		gridData1.verticalAlignment = GridData.CENTER;
+		gridData1.verticalAlignment = SWT.FILL;
 		dataCombo = new Combo(dataTypeComposite, SWT.READ_ONLY);
 		dataCombo.setLayoutData(gridData1);
 		dataCombo.addSelectionListener(new org.eclipse.swt.events.SelectionListener() {
@@ -259,8 +260,12 @@ public class AttributePanel extends Composite {
 	 */
 	private void createDataTypeComposite() {
 		GridData gridData4 = new GridData();
+		gridData4.verticalAlignment = SWT.FILL;
+		gridData4.horizontalAlignment = SWT.FILL;
 		gridData4.widthHint = 30;
 		GridData gridData3 = new GridData();
+		gridData3.verticalAlignment = SWT.FILL;
+		gridData3.horizontalAlignment = SWT.FILL;
 		gridData3.widthHint = 50;
 		GridLayout gridLayout1 = new GridLayout();
 		gridLayout1.numColumns = 4;
@@ -268,9 +273,11 @@ public class AttributePanel extends Composite {
 		gridLayout1.verticalSpacing = 5;
 		gridLayout1.horizontalSpacing = 5;
 		GridData gridData2 = new GridData();
-		gridData2.heightHint = 104;
+		gridData2.widthHint = 272;
+		gridData2.grabExcessVerticalSpace = true;
+		gridData2.heightHint = 140;
 		gridData2.horizontalAlignment = SWT.FILL;
-		gridData2.grabExcessHorizontalSpace = false;
+		gridData2.grabExcessHorizontalSpace = true;
 		gridData2.verticalAlignment = SWT.FILL;
 		dataTypeComposite = new Composite(this, SWT.NONE);
 		dataTypeComposite.setLayoutData(gridData2);
@@ -286,17 +293,16 @@ public class AttributePanel extends Composite {
 		scaleText.setLayoutData(gridData4);
 
 		btnAutoIncrementCheckButton = new Button(dataTypeComposite, SWT.CHECK);
-		btnAutoIncrementCheckButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				3, 1));
+		btnAutoIncrementCheckButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false,
+				4, 1));
 		btnAutoIncrementCheckButton.setText("オートインクリメント");
-		new Label(dataTypeComposite, SWT.NONE);
 
 		Label lblNewLabel = new Label(dataTypeComposite, SWT.NONE);
-		lblNewLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblNewLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		lblNewLabel.setText("デフォルト値");
 
 		textDefaultValue = new Text(dataTypeComposite, SWT.BORDER);
-		textDefaultValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		textDefaultValue.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
 	}
 
 	public void addNameModifyListener(ModifyListener listener) {
