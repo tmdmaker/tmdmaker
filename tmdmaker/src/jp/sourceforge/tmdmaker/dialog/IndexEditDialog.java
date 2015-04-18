@@ -110,6 +110,7 @@ public class IndexEditDialog extends Dialog {
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new IndexPanel(composite, SWT.NULL);
 		panel.initializeValue(keyModel, attributes);
+		composite.pack();
 		return composite;
 	}
 

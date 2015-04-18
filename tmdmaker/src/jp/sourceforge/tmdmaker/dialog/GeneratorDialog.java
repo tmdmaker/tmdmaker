@@ -133,6 +133,7 @@ public class GeneratorDialog extends Dialog {
 		panel.setLayoutData(gridData);
 		panel.initializeValue(selectedModels, notSelectedModels);
 
+		composite.pack();
 		return composite;
 	}
 

@@ -127,6 +127,7 @@ public class VirtualSupersetCreateDialog extends Dialog {
 
 		panel2.setLayoutData(gridData);
 
+		composite.pack();
 		return composite;
 	}
 

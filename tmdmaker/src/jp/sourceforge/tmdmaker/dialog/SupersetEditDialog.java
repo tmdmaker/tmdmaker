@@ -101,6 +101,7 @@ public class SupersetEditDialog extends ModelEditDialog<AbstractEntityModel> {
 		panel = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		panel.setLayoutData(gridData);
 
+		composite.pack();
 		return composite;
 	}
 

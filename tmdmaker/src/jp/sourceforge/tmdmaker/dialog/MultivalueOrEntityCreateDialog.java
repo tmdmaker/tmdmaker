@@ -82,6 +82,7 @@ public class MultivalueOrEntityCreateDialog extends Dialog {
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.widthHint = 100;
 		typeName.setLayoutData(gridData);
+		composite.pack();
 		return composite;
 	}
 
