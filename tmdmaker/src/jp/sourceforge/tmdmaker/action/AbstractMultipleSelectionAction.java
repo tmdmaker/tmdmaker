@@ -18,7 +18,7 @@ package jp.sourceforge.tmdmaker.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.eclipse.ui.IWorkbenchPart;
@@ -61,7 +61,7 @@ public abstract class AbstractMultipleSelectionAction extends
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Object selection : getSelectedObjects()) {
 			if (isTargetModel(selection)) {
-				Object model = ((AbstractEntityEditPart) selection).getModel();
+				Object model = ((AbstractModelEditPart<?>) selection).getModel();
 				if (model instanceof AbstractEntityModel) {
 					list.add((AbstractEntityModel) model);
 				}
@@ -78,6 +78,6 @@ public abstract class AbstractMultipleSelectionAction extends
 	 * @return 本Actionで使用する対象の場合にtrueを返す
 	 */
 	protected boolean isTargetModel(Object selection) {
-		return selection instanceof AbstractEntityEditPart;
+		return selection instanceof AbstractModelEditPart;
 	}
 }

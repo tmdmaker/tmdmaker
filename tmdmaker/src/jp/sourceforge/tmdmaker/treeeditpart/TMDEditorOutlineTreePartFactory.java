@@ -2,14 +2,10 @@ package jp.sourceforge.tmdmaker.treeeditpart;
 
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Detail;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.KeyModel;
+import jp.sourceforge.tmdmaker.model.ModelElement;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -35,34 +31,13 @@ public class TMDEditorOutlineTreePartFactory implements EditPartFactory {
 	 */
 	@Override
 	public final EditPart createEditPart(final EditPart context, final Object model) {
+		
 		EditPart part = null;
-		if (model instanceof Diagram) {
-			logger.debug("モデル Diagram 用の EditPart を返しました");
-			part = new DiagramTreeEditPart();
-		}else if (model instanceof Entity) {
-			logger.debug("モデルEntity 用の EditPart を返しました");
-			logger.debug(((Entity)model).getName());
-			part = new EntityTreeEditPart();
-		}else if (model instanceof Detail) {
-			logger.debug("モデルDetail 用の EditPart を返しました");
-			logger.debug(((Detail)model).getName());
-			part = new DetailTreeEditPart();
-		}else if (model instanceof AbstractEntityModel) {
-			logger.debug("モデルAbstractEntityModel 用の EditPart を返しました");
-			logger.debug(((AbstractEntityModel)model).getName());
-			part = new AbstractEntityModelTreeEditPart();
-		}else if (model instanceof IdentifierRef) {
-			logger.debug("モデルIdentifierRef 用の EditPart を返しました");
-			logger.debug(((IdentifierRef)model).getName());
-			part = new IdentifierRefTreeEditPart();
-		}else if (model instanceof Identifier) {
-			logger.debug("モデルIdentifier 用の EditPart を返しました");
-			logger.debug(((Identifier)model).getName());
-			part = new IdentifierTreeEditPart();
-		}else if (model instanceof Attribute) {
-			logger.debug("モデルAttribute 用の EditPart を返しました");
-			logger.debug(((Attribute)model).getName());
-			part = new AttributeTreeEditPart();
+		if (model instanceof ModelElement) {
+			ModelElement element = (ModelElement)model;
+			TMDOutlineTreeEditPartVisitor visitor = new TMDOutlineTreeEditPartVisitor();
+			element.accept(visitor);
+			return visitor.getEditPart();
 		}else if (model instanceof KeyModel) {
 			logger.debug("KeyModel用の EditPart を返しました");
 			logger.debug(((KeyModel)model).getName());

@@ -44,6 +44,16 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class RelationshipEditPart extends AbstractRelationshipEditPart {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public RelationshipEditPart(AbstractRelationship relationship)
+	{
+		super();
+		setModel(relationship);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

@@ -15,30 +15,21 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.util.List;
-import java.util.Map;
-
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.MappingList;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * 対応表のコントローラ
@@ -46,36 +37,40 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class MappingListEditPart extends AbstractEntityEditPart {
+public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public  MappingListEditPart(MappingList table)
+	{
+		super();
+		setModel(table);
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		MappingList table = (MappingList) getModel();
+		MappingList table = getModel();
+		
 		entityFigure.setNotImplement(table.isNotImplement());
-		// List<Identifier> ids = table.getReuseKeys();
-		// List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
-		setupColor(entityFigure, ModelAppearance.MAPPING_LIST);
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
+		entityFigure.addRelationship(extractRelationship(table));
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
-
+	
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.MAPPING_LIST;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -91,31 +86,12 @@ public class MappingListEditPart extends AbstractEntityEditPart {
 				new ReconnectableNodeEditPolicy());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
-	 */
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		MappingList table = (MappingList) getModel();
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-				.getShell(), "対応表編集", table);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
-
-			List<EditAttribute> editAttributeList = dialog
-					.getEditAttributeList();
-			addAttributeEditCommands(ccommand, table, editAttributeList);
-
-			ModelEditCommand command = new ModelEditCommand(table,
-					dialog.getEditedValue());
-			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
-		}
+	protected ModelEditDialog<MappingList> getDialog()
+	{
+		return new TableEditDialog<MappingList>(getControllShell(), "対応表編集", getModel());
 	}
-
+	
 	/**
 	 * 
 	 * @author nakaG

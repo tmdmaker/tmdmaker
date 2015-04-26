@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.figure;
 
+import java.util.List;
+
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.Figure;
@@ -28,6 +30,7 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * エンティティ（表）Figure
@@ -109,6 +112,12 @@ public class EntityFigure extends Figure {
 		this.identifierCompartmentFigure.add(createAttributeLabel(relationship + "(R)"));
 	}
 
+	public void addRelationship(List<String> relationship) {
+		for (String r : relationship) {
+			addRelationship(r);
+		}
+	}
+
 	public void removeAllRelationship() {
 		this.identifierCompartmentFigure.removeAll();
 	}
@@ -127,6 +136,19 @@ public class EntityFigure extends Figure {
 	 */
 	public void setNotImplement(boolean notImplement) {
 		this.setBorder(new EntityFigureBorder(notImplement));
+	}
+
+	/**
+	 * モデルの色を設定する
+	 * 
+	 * @param foregroundColor
+	 *            前景色
+	 * @param backgroundColor
+	 *            背景色
+	 */
+	public void setColor(Color foregroundColor, Color backgroundColor) {
+		setForegroundColor(foregroundColor);
+		setBackgroundColor(backgroundColor);
 	}
 
 	private static class EntityTitleCompartmentFigure extends Figure {

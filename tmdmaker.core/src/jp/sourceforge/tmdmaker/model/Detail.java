@@ -158,4 +158,8 @@ public class Detail extends AbstractEntityModel {
 		return i;
 	}
 
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

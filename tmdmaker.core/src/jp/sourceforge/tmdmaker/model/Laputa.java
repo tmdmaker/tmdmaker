@@ -91,4 +91,9 @@ public class Laputa extends AbstractEntityModel {
 	public boolean isEntityTypeEditable() {
 		return false;
 	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

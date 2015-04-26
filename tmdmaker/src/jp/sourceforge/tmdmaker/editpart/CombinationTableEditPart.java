@@ -15,20 +15,13 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.util.List;
-import java.util.Map;
-
 import jp.sourceforge.tmdmaker.dialog.CombinationTableEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
@@ -46,39 +39,44 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class CombinationTableEditPart extends AbstractEntityEditPart {
+public class CombinationTableEditPart extends AbstractEntityModelEditPart<CombinationTable> {
 
+	/**
+	 * コンストラクタ
+	 */
+	public CombinationTableEditPart(CombinationTable table)
+	{
+		super();
+		setModel(table);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
-		CombinationTable table = (CombinationTable) getModel();
+		CombinationTable table = getModel();
 
 		entityFigure.setEntityType(table.getCombinationTableType().getLabel());
+		
 		entityFigure.setNotImplement(table.isNotImplement());
-		// List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres()
-				.entrySet()) {
-			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
-		setupColor(entityFigure, ModelAppearance.COMBINATION_TABLE);
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
+		
+		entityFigure.addRelationship(extractRelationship(table));
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.COMBINATION_TABLE;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -95,25 +93,23 @@ public class CombinationTableEditPart extends AbstractEntityEditPart {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()");
-		CombinationTable table = (CombinationTable) getModel();
-		CombinationTableEditDialog dialog = new CombinationTableEditDialog(getViewer().getControl()
-				.getShell(), "対照表編集", table);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
-
-			List<EditAttribute> editAttributeList = dialog.getEditAttributeList();
-			addAttributeEditCommands(ccommand, table, editAttributeList);
-
-			ModelEditCommand command = new ModelEditCommand(table, dialog.getEditedValue());
-			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand.unwrap());
-		}
-
+		
+		ModelEditDialog<CombinationTable> dialog = getDialog();
+		if (dialog.open() != Dialog.OK) return;
+		
+		CompoundCommand ccommand = createEditCommand(dialog.getEditAttributeList(), dialog.getEditedValue());
+		executeEditCommand(ccommand.unwrap());
+	}
+	
+	@Override
+	protected ModelEditDialog<CombinationTable> getDialog()
+	{
+		return new CombinationTableEditDialog(getControllShell(), "対照表編集", getModel());
 	}
 
 	/**

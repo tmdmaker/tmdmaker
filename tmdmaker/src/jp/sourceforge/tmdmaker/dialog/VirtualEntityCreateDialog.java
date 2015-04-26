@@ -95,6 +95,7 @@ public class VirtualEntityCreateDialog extends Dialog {
 		typeCombo.add("イベントタイプ");
 		typeCombo.select(0);
 		
+		composite.pack();
 		return composite;
 	}
 

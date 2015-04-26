@@ -42,6 +42,10 @@ public class EditAttribute {
 	private String size = "";
 	/** 精度 */
 	private String scale = "";
+	/** オートインクリメント */
+	private Boolean autoIncrement;
+	/** デフォルト値 */
+	private String defaultValue;
 	/** 前提 */
 	private String validationRule = "";
 	/** 機密性 */
@@ -74,28 +78,25 @@ public class EditAttribute {
 		this.originalAttribute = original;
 
 		this.name = ModelEditUtils.toBlankStringIfNull(original.getName());
-		this.description = ModelEditUtils.toBlankStringIfNull(original
-				.getDescription());
-		this.derivationRule = ModelEditUtils.toBlankStringIfNull(original
-				.getDerivationRule());
+		this.description = ModelEditUtils.toBlankStringIfNull(original.getDescription());
+		this.derivationRule = ModelEditUtils.toBlankStringIfNull(original.getDerivationRule());
 		this.derivation = original.isDerivation();
 		this.lock = ModelEditUtils.toBlankStringIfNull(original.getLock());
-		this.validationRule = ModelEditUtils.toBlankStringIfNull(original
-				.getValidationRule());
-		this.implementName = ModelEditUtils.toBlankStringIfNull(original
-				.getImplementName());
-		DataTypeDeclaration dataTypeDeclaration = original
-				.getDataTypeDeclaration();
+		this.validationRule = ModelEditUtils.toBlankStringIfNull(original.getValidationRule());
+		this.implementName = ModelEditUtils.toBlankStringIfNull(original.getImplementName());
+		DataTypeDeclaration dataTypeDeclaration = original.getDataTypeDeclaration();
 		if (dataTypeDeclaration != null) {
 			this.dataType = dataTypeDeclaration.getLogicalType();
-			this.size = ModelEditUtils.toBlankIfNull(dataTypeDeclaration
-					.getSize());
-			this.scale = ModelEditUtils.toBlankIfNull(dataTypeDeclaration
-					.getScale());
+			this.size = ModelEditUtils.toBlankIfNull(dataTypeDeclaration.getSize());
+			this.scale = ModelEditUtils.toBlankIfNull(dataTypeDeclaration.getScale());
+			this.autoIncrement = dataTypeDeclaration.getAutoIncrement();
+			this.defaultValue = dataTypeDeclaration.getDefaultValue();
 		} else {
 			this.dataType = null;
 			this.size = "";
 			this.scale = "";
+			this.autoIncrement = null;
+			this.defaultValue = null;
 		}
 		this.nullable = original.isNullable();
 		this.added = false;
@@ -215,6 +216,37 @@ public class EditAttribute {
 	public void setScale(String scale) {
 		this.scale = scale;
 		setEdited(true);
+	}
+
+	/**
+	 * @return the autoIncrement
+	 */
+	public Boolean getAutoIncrement() {
+		return autoIncrement;
+	}
+
+	/**
+	 * @param autoIncrement
+	 *            the autoIncrement to set
+	 */
+	public void setAutoIncrement(Boolean autoIncrement) {
+		this.autoIncrement = autoIncrement;
+		setEdited(true);
+	}
+
+	/**
+	 * @return the defaultValue
+	 */
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	/**
+	 * @param defaultValue
+	 *            the defaultValue to set
+	 */
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 	/**
@@ -345,8 +377,8 @@ public class EditAttribute {
 			} else {
 				scale = null;
 			}
-			DataTypeDeclaration dataTypeDeclaration = new DataTypeDeclaration(
-					dataType, size, scale);
+			DataTypeDeclaration dataTypeDeclaration = new DataTypeDeclaration(dataType, size,
+					scale, autoIncrement, defaultValue);
 			newAttribute.setDataTypeDeclaration(dataTypeDeclaration);
 		} else {
 			newAttribute.setDataTypeDeclaration(null);
@@ -390,6 +422,7 @@ public class EditAttribute {
 		to.setNullable(isNullable());
 		to.setScale(getScale());
 		to.setSize(getSize());
+		to.setAutoIncrement(getAutoIncrement());
 		to.setValidationRule(getValidationRule());
 	}
 

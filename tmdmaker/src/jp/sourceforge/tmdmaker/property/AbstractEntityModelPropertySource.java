@@ -29,22 +29,27 @@ public class AbstractEntityModelPropertySource extends AbstractPropertySource {
 		return this.model;
 	}
 
-	@Override
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return new IPropertyDescriptor[] {
-				new TextPropertyDescriptor("Name", "名前"),
+	static private IPropertyDescriptor[] propertyFields;
+	static {
+		propertyFields = new IPropertyDescriptor[] {
+				new TextPropertyDescriptor("Name",          "名前"),
 				new TextPropertyDescriptor("ImplementName",	"実装名"),
         		new TextPropertyDescriptor("EntityType",	"種類"),
-        		new TextPropertyDescriptor("Implement",	"実装")};
+        		new TextPropertyDescriptor("Implement",	    "実装")};
+	}
+	
+	@Override
+	public IPropertyDescriptor[] getPropertyDescriptors() {
+		return propertyFields;
 	}
 
 	@Override
 	public Object getPropertyValue(Object id) {
 		if (id.equals("Name")) {
-			return model.getName() != null ? model.getName() : "";
+			return canonicalize(model.getName());
 		}
 		if (id.equals("ImplementName")) {
-			return model.getImplementName() != null ? model.getImplementName() : "";
+			return canonicalize(model.getImplementName());
 		}
 		if (id.equals("Implement")) {
 			return model.isNotImplement() ? "実装しない" : "実装する";
@@ -69,23 +74,6 @@ public class AbstractEntityModelPropertySource extends AbstractPropertySource {
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public boolean isPropertySet(Object id) {
-		if (id.equals("Name")) {
-			return true;
-		}
-		if (id.equals("Implement")) {
-			return true;
-		}
-		if (id.equals("ImplementName")) {
-			return true;
-		}
-		if (id.equals("EntityType")) {
-			return true;
-		}
-		return false;
 	}
 
 	@Override

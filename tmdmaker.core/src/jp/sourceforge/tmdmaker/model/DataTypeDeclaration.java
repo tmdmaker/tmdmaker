@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,26 +27,6 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class DataTypeDeclaration implements Serializable {
-	// 未使用。使うかも
-	// enum DataTypeGroup {
-	// NUMBER("数値", true, true),
-	// CHAR("固定長文字列", true, false),
-	// VARCHAR("可変長文字列", true, false),
-	// DATE("日付", false, false),
-	// DATETIME("日時", false, false);
-	//		
-	// private String name;
-	// private boolean supportSize;
-	// private boolean supportScale;
-	// private DataTypeGroup(String name, boolean supportSize, boolean
-	// supportScale) {
-	// this.name = name;
-	// this.supportSize = supportSize;
-	// this.supportScale = supportScale;
-	// }
-	// }
-	// public static String[] dataTypes = new String[] {"数値", "固定長文字列",
-	// "可変長文字列", "日付", "時間", "バイナリ"};
 
 	/**
 	 * コンストラクタ
@@ -58,11 +38,31 @@ public class DataTypeDeclaration implements Serializable {
 	 * @param scale
 	 *            精度
 	 */
-	public DataTypeDeclaration(StandardSQLDataType logicalType, Integer size,
-			Integer scale) {
+	public DataTypeDeclaration(StandardSQLDataType logicalType, Integer size, Integer scale) {
+		this(logicalType, size, scale, null, null);
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param logicalType
+	 *            論理データ型
+	 * @param size
+	 *            長さ
+	 * @param scale
+	 *            精度
+	 * @param autoIncrement
+	 *            オートインクリメント
+	 * @param defaultValue
+	 *            デフォルト値
+	 */
+	public DataTypeDeclaration(StandardSQLDataType logicalType, Integer size, Integer scale,
+			Boolean autoIncrement, String defaultValue) {
 		this.logicalType = logicalType;
 		this.size = size;
 		this.scale = scale;
+		this.autoIncrement = autoIncrement;
+		this.defaultValue = defaultValue;
 	}
 
 	/** 論理データ型 */
@@ -71,6 +71,10 @@ public class DataTypeDeclaration implements Serializable {
 	private Integer size;
 	/** 位 */
 	private Integer scale;
+	/** オートインクリメント */
+	private Boolean autoIncrement;
+	/** デフォルト値 */
+	private String defaultValue;
 
 	/**
 	 * @return the logicalType
@@ -94,11 +98,25 @@ public class DataTypeDeclaration implements Serializable {
 	}
 
 	/**
+	 * @return the autoIncrement
+	 */
+	public Boolean getAutoIncrement() {
+		return autoIncrement;
+	}
+
+	/**
+	 * @return the defaultValue
+	 */
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	/**
 	 * コピー(sharrow copy)を取得する。
 	 * 
 	 * @return コピーしたオブジェクト
 	 */
 	public DataTypeDeclaration getCopy() {
-		return new DataTypeDeclaration(logicalType, size, scale);
+		return new DataTypeDeclaration(logicalType, size, scale, autoIncrement, defaultValue);
 	}
 }

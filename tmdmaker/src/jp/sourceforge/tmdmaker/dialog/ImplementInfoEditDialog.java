@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -167,7 +167,7 @@ public class ImplementInfoEditDialog extends Dialog {
 		panel4.refreshVisual();
 		item2.setControl(composite);
 		
-		
+		composite.pack();
 		return composite;
 	}
 

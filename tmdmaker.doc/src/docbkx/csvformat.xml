@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter 
+		xml:id="csvformat" 
+		xmlns="http://docbook.org/ns/docbook"
+		xmlns:xml="http://www.w3.org/XML/1998/namespace"  
+		xmlns:xl="http://www.w3.org/1999/xlink" 
+		xml:lang="ja">	
+		<title id="ex.htmltable">TMD-Maker CSVフォーマット</title>
+		<para>TMD-Maker は、CSVファイル(カンマ区切り)からエンティティやアトリビュートを取り込むことができます。</para>
+		<para>現状ではエンティティ名やアトリビュート名のみですが、徐々に取り込める属性を増やしていく予定です。</para>
+		<table border="1">
+			<caption>ファイルからエンティティをインポート</caption>
+			<thead>
+			  <tr>
+			    <th>項番</th><th>項目名</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+			    <td>1</td><td>エンティティ名</td>
+			  </tr>
+			  <tr>
+			    <td>2</td><td>アトリビュート名</td>
+			  </tr>
+			</tbody>
+		</table>
+		<table border="1">
+			<caption>ファイルからアトリビュートをインポート</caption>
+			<thead>
+			  <tr>
+			    <th>項番</th><th>項目名</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+			    <td>1</td><td>アトリビュート名</td>
+			  </tr>
+			</tbody>
+		</table>
+			
+	</chapter>

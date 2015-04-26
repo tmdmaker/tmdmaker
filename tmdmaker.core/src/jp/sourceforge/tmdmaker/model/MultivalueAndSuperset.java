@@ -65,7 +65,7 @@ public class MultivalueAndSuperset extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return detail.isDeletable();
+		return detail.isDeletable() && getModelSourceConnections().size() == 1;
 	}
 
 	/**
@@ -95,4 +95,8 @@ public class MultivalueAndSuperset extends AbstractEntityModel {
 		return copy;
 	}
 
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

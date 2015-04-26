@@ -124,4 +124,8 @@ public class RecursiveTable extends AbstractEntityModel {
 		return copy;
 	}
 
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

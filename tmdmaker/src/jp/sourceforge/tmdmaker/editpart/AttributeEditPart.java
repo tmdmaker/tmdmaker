@@ -17,12 +17,15 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.property.AttributePropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
 
 import org.eclipse.draw2d.IFigure;
@@ -30,6 +33,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * アトリビュートのコントローラ
@@ -37,7 +41,17 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class AttributeEditPart extends AbstractTMDEditPart {
+public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements IPropertyAvailable {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public AttributeEditPart(Attribute attribute)
+	{
+		super();
+		setModel(attribute);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -47,9 +61,8 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 	@Override
 	protected IFigure createFigure() {
 
-		Attribute model = (Attribute) getModel();
 		Label label = new Label();
-		label.setText(createAttributeName(model));
+		label.setText(createAttributeName(getModel()));
 		label.setBorder(new MarginBorder(2, 2, 2, 2));
 		label.setLabelAlignment(PositionConstants.LEFT);
 		return label;
@@ -80,8 +93,7 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		Attribute model = (Attribute) getModel();
-		EditAttribute edit = new EditAttribute(model);
+		EditAttribute edit = new EditAttribute(getModel());
 		AttributeDialog dialog = new AttributeDialog(getViewer().getControl()
 				.getShell(), edit);
 		if (dialog.open() == Dialog.OK) {
@@ -118,7 +130,7 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 			logger.warn("Not Handle Event Occured.");
 		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -126,9 +138,8 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 	 */
 	@Override
 	protected void refreshVisuals() {
-		Attribute model = (Attribute) getModel();
 		Label f = (Label) getFigure();
-		f.setText(createAttributeName(model));
+		f.setText(createAttributeName(getModel()));
 		getParent().refresh();
 	}
 
@@ -140,5 +151,10 @@ public class AttributeEditPart extends AbstractTMDEditPart {
 	 */
 	protected void handleNameChange(PropertyChangeEvent evt) {
 		refreshVisuals();
+	}
+	
+	@Override
+	public IPropertySource getPropertySource(TMDEditor editor) {
+		return new AttributePropertySource(editor, this.getModel());
 	}
 }

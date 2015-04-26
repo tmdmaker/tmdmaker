@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
 public class Patch024SerializerHandler extends AbstractSerializerHandler {
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler#
-	 *      handleAfterDeserialize(jp.sourceforge.tmdmaker.model.Diagram)
+	 * @see jp.sourceforge.tmdmaker.serializer.handler.patch.AbstractSerializerHandler#handleAfterDeserialize(jp.sourceforge.tmdmaker.model.Diagram)
 	 */
 	@Override
 	public Diagram handleAfterDeserialize(Diagram in) {

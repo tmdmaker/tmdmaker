@@ -16,17 +16,13 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -42,11 +38,8 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class TableEditDialog extends Dialog implements PropertyChangeListener {
-	/** 編集対象モデル */
-	private EditTable entity;
-	/** 編集結果格納用 */
-	private AbstractEntityModel editedValue;
+public class TableEditDialog<T extends AbstractEntityModel> extends ModelEditDialog<T> {
+	
 	/** ダイアログタイトル */
 	private String title;
 	/** 表名設定用 */
@@ -66,8 +59,7 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 	 * @param original
 	 *            編集対象モデル
 	 */
-	public TableEditDialog(Shell parentShell, String title,
-			AbstractEntityModel original) {
+	public TableEditDialog(Shell parentShell, String title,	AbstractEntityModel original) {
 		super(parentShell);
 		this.title = title;
 		entity = new EditTable(original);
@@ -91,17 +83,6 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 			okButton.setEnabled(entity.isValid());
 		}
 
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#close()
-	 */
-	@Override
-	public boolean close() {
-		entity.removePropertyChangeListener(this);
-		return super.close();
 	}
 
 	/**
@@ -143,29 +124,6 @@ public class TableEditDialog extends Dialog implements PropertyChangeListener {
 	@Override
 	protected void okPressed() {
 		editedValue = entity.createEditedModel();
-//		editedValue.setName(entity.getName());
-//		editedValue.setNotImplement(entity.isNotImplement());
-//		editedValue.setImplementName(entity.getImplementName());
-//		editedValue.setAttributes(entity.getAttributesOrder());
-//		editedValue.setKeyModels(entity.getKeyModels());
-//		editedValue.setImplementDerivationModels(entity
-//				.getImplementDerivationModels());
-
 		super.okPressed();
 	}
-
-	/**
-	 * @return the editAttributeList
-	 */
-	public List<EditAttribute> getEditAttributeList() {
-		return entity.getAttributes();
-	}
-
-	/**
-	 * @return the editedValue
-	 */
-	public AbstractEntityModel getEditedValue() {
-		return editedValue;
-	}
-
 }

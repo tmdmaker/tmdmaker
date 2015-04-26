@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -42,17 +43,27 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class VirtualSupersetEditPart extends AbstractEntityEditPart {
+public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<VirtualSuperset> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public VirtualSupersetEditPart(VirtualSuperset entity)
+	{
+		super();
+		setModel(entity);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		AbstractEntityModel entity = (AbstractEntityModel) getModel();
+		AbstractEntityModel entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		// みなしスーパーセットはReusedを表示させない
@@ -60,15 +71,14 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.VE.getLabel());
-		// for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-		// .getReusedIdentifieres().entrySet()) {
-		// for (Identifier i : rk.getValue().getIdentifires()) {
-		// entityFigure.addRelationship(i.getName());
-		// }
-		// }
-		setupColor(entityFigure, ModelAppearance.SUPERSET_COLOR);
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.SUPERSET_COLOR;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -77,7 +87,7 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		AbstractEntityModel entity = (AbstractEntityModel) getModel();
+		AbstractEntityModel entity = getModel();
 		SupersetEditDialog dialog = new SupersetEditDialog(getViewer()
 				.getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
@@ -88,6 +98,12 @@ public class VirtualSupersetEditPart extends AbstractEntityEditPart {
 							new ModelEditCommand(entity, dialog
 									.getEditedValue()));
 		}
+	}
+
+	@Override
+	protected ModelEditDialog<VirtualSuperset> getDialog() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**

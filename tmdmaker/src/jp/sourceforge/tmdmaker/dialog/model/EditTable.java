@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,9 +102,10 @@ public class EditTable {
 	 * @param newValue
 	 *            変更後の値
 	 */
-	public void firePropertyChange(String propName, Object oldValue,
-			Object newValue) {
-		listeners.firePropertyChange(propName, oldValue, newValue);
+	public void firePropertyChange(String propName, Object oldValue, Object newValue) {
+		if (listeners != null && listeners.getPropertyChangeListeners() != null) {
+			listeners.firePropertyChange(propName, oldValue, newValue);
+		}
 	}
 
 	/**

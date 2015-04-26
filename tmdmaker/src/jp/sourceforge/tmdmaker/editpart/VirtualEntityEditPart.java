@@ -16,8 +16,8 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
-import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.VirtualEntityEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -25,13 +25,10 @@ import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
@@ -41,7 +38,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * みなしエンティティのコントローラ
@@ -49,77 +45,68 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class VirtualEntityEditPart extends AbstractEntityEditPart {
+public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEntity> {
+	
 	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 * コンストラクタ
 	 */
-	@Override
-	protected void onDoubleClicked() {
-		VirtualEntity entity = (VirtualEntity) getModel();
-		VirtualEntityEditDialog dialog = new VirtualEntityEditDialog(
-				getViewer().getControl().getShell(), entity);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
-
-			List<EditAttribute> editAttributeList = dialog
-					.getEditAttributeList();
-			addAttributeEditCommands(ccommand, entity, editAttributeList);
-
-			AbstractEntityModel edited = dialog.getEditedValue();
-			ModelEditCommand command = new ModelEditCommand(entity, edited);
-
-			if (entity.isNotImplement() && !edited.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule
-						.findOriginalImplementModel(entity);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(entity,
-						original));
-			}
-
-			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
-		}
+	public VirtualEntityEditPart(VirtualEntity entity)
+	{
+		super();
+		setModel(entity);
 	}
-
+	
+	@Override
+	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue)
+	{
+		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
+		Command deleteCommand    = getDeleteCommand(editedValue);
+		if (deleteCommand != null)
+		{
+			ccommand.add(deleteCommand);
+		}
+		return ccommand;
+	}
+	
+	@Override
+	protected ModelEditDialog<VirtualEntity> getDialog()
+	{
+		return new VirtualEntityEditDialog(getControllShell(), getModel());
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		VirtualEntity entity = (VirtualEntity) getModel();
+		VirtualEntity entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
-		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.VE.getLabel());
-		// figure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
+		entityFigure.addRelationship(extractRelationship(entity));
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
+	}
+
+	@Override
+	protected ModelAppearance getAppearance() {
 		ModelAppearance appearance = null;
-		if (entity.getVirtualEntityType().equals(VirtualEntityType.RESOURCE)) {
+		if (getModel().getVirtualEntityType().equals(VirtualEntityType.RESOURCE)) {
 			appearance = ModelAppearance.RESOURCE_VIRTUAL_ENTITY;
-		} else if (entity.getVirtualEntityType()
+		} else if (getModel().getVirtualEntityType()
 				.equals(VirtualEntityType.EVENT)) {
 			appearance = ModelAppearance.EVENT_SUBSET;
 		} else {
 			appearance = ModelAppearance.VIRTUAL_ENTITY;
 		}
-		setupColor(entityFigure, appearance);
+		return appearance;
 	}
-
+	
 	/**
 	 * 
 	 * {@inheritDoc}

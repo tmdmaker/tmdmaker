@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter xmlns="http://docbook.org/ns/docbook"  
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+	xmlns:xl="http://www.w3.org/1999/xlink" 
+	xml:lang="ja">
+		<title>TMD-Makerとは</title>
+		<para>
+			私が初めてTM（当時はまだT字形ER手法と呼ばれていました）を知った時から今日まで、
+			TMを勉強したり実践するにあたり、TMD（T字形ER図）を既存のドローツールで作成することは大変面倒な作業でした。
+			あまりにも面倒なのでTMの勉強をやめてしまおうかと思うほどでした。
+			私と同じ理由でTMを勉強したり実践することをあきらめてしまった人もいるのではないでしょうか？
+		</para>
+		<para>
+			商用のツールを買うほどのお金や権限もない。でもTMがやりたい。
+			私は「TMDを作成できるフリーのツールはないかなぁ」と常々考えていました。
+		</para>
+		<para>私と同じようなことを考えていた人は手を上げてください。</para>
+		<para>
+			お待たせいたしました。それがTMD-Makerです。
+			「TMDを作るもの」という意味です。
+			無料で誰もが使えるツールです。
+			結局自分で作ってしまいました。
+		</para>
+	</chapter>

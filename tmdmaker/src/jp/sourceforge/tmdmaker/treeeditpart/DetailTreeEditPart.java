@@ -28,17 +28,15 @@ import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
  * @author nakaG
  *
  */
-public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart implements
+public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart<Detail> implements
 		PropertyChangeListener {
+
 	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.treeeditpart.AbstractEntityModelTreeEditPart#getModel()
+	 * コンストラクタ
+	 * @param model
 	 */
-	@Override
-	public Detail getModel() {
-		return (Detail) super.getModel();
+	public DetailTreeEditPart(Detail model) {
+		super(model);
 	}
 
 	/**

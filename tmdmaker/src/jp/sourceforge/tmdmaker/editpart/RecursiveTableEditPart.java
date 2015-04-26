@@ -15,29 +15,20 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.util.List;
-import java.util.Map;
-
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * 再帰表のコントローラ
@@ -45,37 +36,40 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class RecursiveTableEditPart extends AbstractEntityEditPart {
+public class RecursiveTableEditPart extends AbstractEntityModelEditPart<RecursiveTable> {
 
+	/**
+	 * コンストラクタ
+	 */
+	public RecursiveTableEditPart(RecursiveTable table)
+	{
+		super();
+		setModel(table);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		RecursiveTable table = (RecursiveTable) getModel();
+		RecursiveTable table = getModel();
+		
 		entityFigure.setNotImplement(table.isNotImplement());
-		// List<Identifier> ids = table.getReuseKeys();
-		// List<Attribute> atts = table.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(table.getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
-		setupColor(entityFigure, ModelAppearance.RECURSIVE_TABLE);
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
+		entityFigure.addRelationship(extractRelationship(table));
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.RECURSIVE_TABLE;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -91,30 +85,10 @@ public class RecursiveTableEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
-	 */
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		RecursiveTable table = (RecursiveTable) getModel();
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl()
-				.getShell(), "再帰表編集", table);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
-
-			List<EditAttribute> editAttributeList = dialog
-					.getEditAttributeList();
-			addAttributeEditCommands(ccommand, table, editAttributeList);
-
-			ModelEditCommand command = new ModelEditCommand(table,
-					dialog.getEditedValue());
-			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
-		}
-
+	protected ModelEditDialog<RecursiveTable> getDialog()
+	{
+		return new TableEditDialog<RecursiveTable>(getControllShell(), "再帰表編集", getModel());
 	}
 
 	/**

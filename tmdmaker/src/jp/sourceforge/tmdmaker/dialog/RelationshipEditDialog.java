@@ -175,6 +175,7 @@ public class RelationshipEditDialog extends Dialog {
 			}
 
 		});
+		composite.pack();
 		return composite;
 	}
 

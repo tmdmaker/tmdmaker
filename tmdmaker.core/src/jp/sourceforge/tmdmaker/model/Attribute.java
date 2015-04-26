@@ -256,4 +256,9 @@ public class Attribute extends ModelElement implements IAttribute {
 		copyTo(copy);
 		return copy;
 	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -45,9 +45,10 @@ public class RecursiveRelationship extends AbstractRelationship {
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see tm.tmdiagram.tmdeditor.model.AbstractConnectionModel#connect()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#connect()
 	 */
 	@Override
 	public void connect() {
@@ -84,6 +85,17 @@ public class RecursiveRelationship extends AbstractRelationship {
 	}
 
 	/**
+	 * 
+	 * Target の名前を返す。TM上、再帰表のSourceとTargetは同一となるが、プログラム上ではTargetが再帰表となっている。
+	 * このため、ツールチップでFromとToが同一entityとなるようにした。
+	 * 
+	 */
+	@Override
+	public String getTargetName() {
+		return getSourceName();
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#identifierChanged()
@@ -91,5 +103,10 @@ public class RecursiveRelationship extends AbstractRelationship {
 	@Override
 	public void identifierChanged() {
 		table.fireIdentifierChanged(this);
+	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
 	}
 }

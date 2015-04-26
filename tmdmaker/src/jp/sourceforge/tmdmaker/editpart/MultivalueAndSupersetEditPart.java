@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -27,6 +28,7 @@ import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -41,16 +43,26 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
+public class MultivalueAndSupersetEditPart extends AbstractEntityModelEditPart<MultivalueAndSuperset> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public MultivalueAndSupersetEditPart(MultivalueAndSuperset entity)
+	{
+		super();
+		setModel(entity);
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		AbstractEntityModel entity = (AbstractEntityModel) getModel();
+		AbstractEntityModel entity = getModel();
 		SupersetEditDialog dialog = new SupersetEditDialog(getViewer()
 				.getControl().getShell(), entity);
 		if (dialog.open() == Dialog.OK) {
@@ -62,18 +74,18 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 									.getEditedValue()));
 		}
 	}
-
+	
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
-		MultivalueAndSuperset entity = (MultivalueAndSuperset) getModel();
+		MultivalueAndSuperset entity = getModel();
 		entityFigure.setNotImplement(false);
 		List<IAttribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
@@ -132,5 +144,17 @@ public class MultivalueAndSupersetEditPart extends AbstractEntityEditPart {
 					.getModelTargetConnections().get(0));
 		}
 
+	}
+
+	@Override
+	protected ModelAppearance getAppearance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected ModelEditDialog<MultivalueAndSuperset> getDialog() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

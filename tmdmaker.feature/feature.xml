@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="tmdmaker"
+      id="tmdmaker.feature"
       label="TMD-Maker Plug-in"
-      version="0.2.9.qualifier"
+      version="0.2.10.qualifier"
       provider-name="TMD-Maker Project"
       plugin="tmdmaker">
 
@@ -10,29 +10,13 @@
       TMD-Maker Plugin.
    </description>
 
-   <copyright>
-      (c) 2009-2014,TMD-Maker Project.
+   <copyright url="http://tmdmaker.sourceforge.jp/">
+      (c) 2009-2015,TMD-Maker Project.
    </copyright>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">
       Apache License Version 2.0
    </license>
-
-   <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.gef"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="tmdmaker.imagegenerator" version="0.2.6" match="greaterOrEqual"/>
-      <import plugin="tmdmaker.core" version="0.2.9" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.draw2d"/>
-      <import plugin="tmdmaker" version="0.2.8" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.expressions"/>
-      <import plugin="tmdmaker.ddlgenerator" version="0.2.5" match="greaterOrEqual"/>
-      <import plugin="tmdmaker.htmlgenerator" version="0.2.5" match="greaterOrEqual"/>
-   </requires>
 
    <plugin
          id="tmdmaker"

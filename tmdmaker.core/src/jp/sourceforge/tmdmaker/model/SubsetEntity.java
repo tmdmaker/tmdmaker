@@ -39,8 +39,8 @@ public class SubsetEntity extends AbstractEntityModel {
 	 * @param originalReusedIdentifier
 	 *            the originalReusedIdentifier to set
 	 */
-	public void setOriginalReusedIdentifier(ReusedIdentifier originalReuseKey) {
-		this.originalReusedIdentifier = originalReuseKey;
+	public void setOriginalReusedIdentifier(ReusedIdentifier originalReusedIdentifier) {
+		this.originalReusedIdentifier = originalReusedIdentifier;
 	}
 
 	/**
@@ -128,5 +128,10 @@ public class SubsetEntity extends AbstractEntityModel {
 				.getSource();
 		return (AbstractEntityModel) type.getModelTargetConnections().get(0)
 				.getSource();
+	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
 	}
 }

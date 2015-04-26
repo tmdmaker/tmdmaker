@@ -1,12 +1,12 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
- * 
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,10 +16,10 @@
 package jp.sourceforge.tmdmaker.action;
 
 import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractSubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
-import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
-import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
+import jp.sourceforge.tmdmaker.editpart.MultivalueAndSupersetEditPart;
 import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.SubsetType;
@@ -30,8 +30,8 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * サブセット作成アクション
- * 
+ * サブセット作成アクション.
+ *
  * @author nakaG
  * 
  */
@@ -40,10 +40,10 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	public static final String ID = "_SUBSET";
 
 	/**
-	 * コンストラクタ
-	 * 
+	 * コンストラクタ.
+	 *
 	 * @param part
-	 *            エディター
+	 *            エディター.
 	 */
 	public SubsetCreateAction(IWorkbenchPart part) {
 		super(part);
@@ -53,16 +53,16 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see jp.sourceforge.tmdmaker.action.AbstractEntitySelectionAction#calculateEnabled()
 	 */
 	@Override
 	protected boolean calculateEnabled() {
 		if (getSelectedObjects().size() == 1) {
 			Object selection = getSelectedObjects().get(0);
-			return selection instanceof AbstractEntityEditPart
-					&& !(selection instanceof SubsetTypeEditPart)
-					&& !(selection instanceof MultivalueAndAggregatorEditPart)
+			return selection instanceof AbstractModelEditPart
+					&& !(selection instanceof AbstractSubsetTypeEditPart)
+					&& !(selection instanceof MultivalueAndSupersetEditPart)
 					&& !(selection instanceof VirtualSupersetEditPart)
 					&& !(selection instanceof LaputaEditPart);
 		} else {
@@ -71,14 +71,14 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	}
 
 	/**
-	 * 
+	 *
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
 	@Override
 	public void run() {
-		AbstractEntityEditPart part = getPart();
+		AbstractModelEditPart<? extends AbstractEntityModel> part = getPart();
 		AbstractEntityModel model = getModel();
 		SubsetType subsetType = SubsetRule.setupSubsetType(model);
 
@@ -89,5 +89,4 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 			execute(ccommand);
 		}
 	}
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,8 +38,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * @author nakaG
  * 
  */
-public class AppearancePreferencePage extends FieldEditorPreferencePage
-		implements IWorkbenchPreferencePage {
+public class AppearancePreferencePage extends FieldEditorPreferencePage implements
+		IWorkbenchPreferencePage {
 
 	private Composite colorFields;
 	private BooleanFieldEditor editor;
@@ -47,7 +47,7 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage
 	private List<ColorFieldEditor> fontFieldEditors = new ArrayList<ColorFieldEditor>();
 
 	/**
-	 * @param title
+	 * コンストラクタ
 	 */
 	public AppearancePreferencePage() {
 		super(GRID);
@@ -93,8 +93,7 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage
 		colorGd.horizontalSpan = 2;
 		colorGroup.setLayoutData(colorGd);
 
-		editor = new BooleanFieldEditor(
-				AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED,
+		editor = new BooleanFieldEditor(AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED,
 				"モデルの色設定を有効にする :", colorGroup) {
 
 			/*
@@ -119,9 +118,8 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage
 		l.setText("背景色");
 
 		for (ModelAppearance a : ModelAppearance.values()) {
-			colorFieldEditors.add(new ColorFieldEditor(a
-					.getBackgroundColorPropertyName(), a.getLabel(),
-					colorFields));
+			colorFieldEditors.add(new ColorFieldEditor(a.getBackgroundColorPropertyName(), a
+					.getLabel(), colorFields));
 		}
 
 		for (ColorFieldEditor e : colorFieldEditors) {
@@ -132,8 +130,8 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage
 		l.setText("罫線・フォント");
 
 		for (ModelAppearance a : ModelAppearance.values()) {
-			fontFieldEditors.add(new ColorFieldEditor(a
-					.getFontColorPropertyName(), a.getLabel(), colorFields));
+			fontFieldEditors.add(new ColorFieldEditor(a.getFontColorPropertyName(), a.getLabel(),
+					colorFields));
 		}
 
 		for (ColorFieldEditor e : fontFieldEditors) {

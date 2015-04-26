@@ -16,20 +16,15 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.dialog.model.EditVirtualEntity;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -48,12 +43,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class VirtualEntityEditDialog extends Dialog implements
-		PropertyChangeListener {
-	/** 編集対象モデル */
-	private EditVirtualEntity entity;
-	/** 編集結果格納用 */
-	private VirtualEntity editedValue;
+public class VirtualEntityEditDialog extends ModelEditDialog<VirtualEntity> { 
 	/** 表名設定用 */
 	private TableNameSettingPanel panel1;
 	/** アトリビュート設定用 */
@@ -94,18 +84,6 @@ public class VirtualEntityEditDialog extends Dialog implements
 	}
 
 	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#close()
-	 */
-	@Override
-	public boolean close() {
-		entity.removePropertyChangeListener(this);
-		return super.close();
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
@@ -131,7 +109,7 @@ public class VirtualEntityEditDialog extends Dialog implements
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				entity.setVirtualEntityType(VirtualEntityType.values()[typeCombo
+				getEditModel().setVirtualEntityType(VirtualEntityType.values()[typeCombo
 						.getSelectionIndex()]);
 			}
 
@@ -158,7 +136,7 @@ public class VirtualEntityEditDialog extends Dialog implements
 	 * ダイアログへ初期値を設定する
 	 */
 	private void initializeTypeCombo() {
-		typeCombo.select(entity.getVirtualEntityType().ordinal());
+		typeCombo.select(getEditModel().getVirtualEntityType().ordinal());
 	}
 
 	/**
@@ -172,19 +150,10 @@ public class VirtualEntityEditDialog extends Dialog implements
 
 		super.okPressed();
 	}
-
-	/**
-	 * @return the editAttributeList
-	 */
-	public List<EditAttribute> getEditAttributeList() {
-		return entity.getAttributes();
+	
+	@Override
+	protected EditVirtualEntity getEditModel()
+	{
+		return (EditVirtualEntity)entity;
 	}
-
-	/**
-	 * @return the editedValue
-	 */
-	public AbstractEntityModel getEditedValue() {
-		return editedValue;
-	}
-
 }

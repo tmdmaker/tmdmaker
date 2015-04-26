@@ -119,4 +119,8 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 		return builder.toString();
 	}
 
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,13 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndIdentifierNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.model.Entity;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -42,18 +38,13 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class EntityEditDialog extends Dialog implements PropertyChangeListener {
+public class EntityEditDialog extends ModelEditDialog<Entity> {
 	/** エンティティ名、個体指定子、エンティティ種類設定用 */
 	private EntityNameAndIdentifierNameAndTypeSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel3;
-
-	/** 編集元エンティティ */
-	private EditEntity entity;
-	/** 編集結果格納用 */
-	private Entity editedValueEntity;
 
 	/**
 	 * コンストラクタ
@@ -73,26 +64,15 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#close()
-	 */
-	@Override
-	public boolean close() {
-		entity.removePropertyChangeListener(this);
-		return super.close();
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(EditEntity.PROPERTY_ATTRIBUTES)) {
-			panel2.updateAttributeTable();
-		} else if (evt.getPropertyName().equals(
-				EditEntity.PROPERTY_UP_IDENTIFIER)) {
+			if (panel2 != null) {
+				panel2.updateAttributeTable();
+			}
+		} else if (evt.getPropertyName().equals(EditEntity.PROPERTY_UP_IDENTIFIER)) {
 			panel1.updateValue();
 			panel2.updateAttributeTable();
 		}
@@ -118,15 +98,15 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 		composite.setLayout(gridLayout);
 
 		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite,
-				SWT.NULL, entity);
+				SWT.NULL, getEditModel());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
-		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
+		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, getEditModel());
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel3.setLayoutData(gridData);
 
-		panel2 = new AttributeSettingPanel(composite, SWT.NULL, entity);
+		panel2 = new AttributeSettingPanel(composite, SWT.NULL, getEditModel());
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel2.setLayoutData(gridData);
 
@@ -138,31 +118,30 @@ public class EntityEditDialog extends Dialog implements PropertyChangeListener {
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	protected Control createContents(Composite parent) {
+		Control contents = super.createContents(parent);
+		panel2.updateAttributeTable();
+		return contents;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
 	protected void okPressed() {
-		this.editedValueEntity = entity.createEditedModel();
-		// Identifier newIdentifier = new Identifier();
-		// entity.getEditIdentifier().copyTo(newIdentifier);
-		// this.editedValueEntity.setIdentifier(newIdentifier);
-		// this.editedValueEntity.setEntityType(entity.getType());
-
+		this.editedValue = entity.createEditedModel();
 		super.okPressed();
 	}
-
-	/**
-	 * @return the editAttributeList
-	 */
-	public List<EditAttribute> getEditAttributeList() {
-		return entity.getAttributes();
-	}
-
-	/**
-	 * @return the editedValueEntity
-	 */
-	public Entity getEditedValueEntity() {
-		return editedValueEntity;
+	
+	@Override
+	protected EditEntity getEditModel()
+	{
+		return (EditEntity)entity;
 	}
 
 }

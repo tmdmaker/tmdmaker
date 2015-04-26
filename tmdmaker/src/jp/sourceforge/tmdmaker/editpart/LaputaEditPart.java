@@ -15,25 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.util.List;
-import java.util.Map;
-
 import jp.sourceforge.tmdmaker.dialog.LaputaEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * ラピュタのコントローラ
@@ -41,59 +32,45 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class LaputaEditPart extends AbstractEntityEditPart {
+public class LaputaEditPart extends AbstractEntityModelEditPart<Laputa> {
 
+	/**
+	 * コンストラクタ
+	 */
+	public LaputaEditPart(Laputa entity)
+	{
+		super();
+		setModel(entity);
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		Laputa entity = (Laputa) getModel();
+		Laputa entity = getModel();
 		// ラピュタは実装しないが×は付けない
 		// entityFigure.setNotImplement(entity.isNotImplement());
 
-		// List<Attribute> atts = entity.getAttributes();
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(entity.getName());
-		// entityFigure.setEntityType(EntityType.VE.getLabel());
-
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
-		setupColor(entityFigure, ModelAppearance.LAPUTA_COLOR);
+		entityFigure.addRelationship(extractRelationship(entity));
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#onDoubleClicked()
-	 */
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		Laputa model = (Laputa) getModel();
-		LaputaEditDialog dialog = new LaputaEditDialog(getViewer().getControl()
-				.getShell(), model);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.LAPUTA_COLOR;
+	}
 
-			List<EditAttribute> editAttributeList = dialog
-					.getEditAttributeList();
-			addAttributeEditCommands(ccommand, model, editAttributeList);
-			ModelEditCommand command = new ModelEditCommand(model,
-					dialog.getEditedValueEntity());
-			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
-		}
+	@Override
+	protected ModelEditDialog<Laputa> getDialog()
+	{
+	    return new LaputaEditDialog(getControllShell(), getModel());
 	}
 
 	/**

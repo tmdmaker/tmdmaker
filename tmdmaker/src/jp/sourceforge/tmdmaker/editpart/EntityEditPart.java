@@ -15,27 +15,22 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.util.List;
-import java.util.Map;
-
+import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
+import jp.sourceforge.tmdmaker.property.EntityPropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * エンティティのコントローラ
@@ -43,19 +38,28 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class EntityEditPart extends AbstractEntityEditPart {
+public class EntityEditPart extends AbstractEntityModelEditPart<Entity> implements IPropertyAvailable {
+
+	/**
+	 * コンストラクタ
+	 */
+	public EntityEditPart(Entity entity)
+	{
+		super();
+		setModel(entity);
+	}
 
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
-		Entity entity = (Entity) getModel();
+		Entity entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		entityFigure.removeAllRelationship();
@@ -63,23 +67,23 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(entity.getEntityType().getLabel());
 
-		ModelAppearance appearance = null;
-		if (entity.getEntityType().equals(EntityType.RESOURCE)) {
-			appearance = ModelAppearance.RESOURCE;
-		} else if (entity.getEntityType().equals(EntityType.EVENT)) {
-			appearance = ModelAppearance.EVENT;
-		}
-		setupColor(entityFigure, appearance);
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 
 		entityFigure.setIdentifier(entity.getIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReusedIdentifieres().entrySet()) {
-			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-				entityFigure.addRelationship(i.getName());
-			}
-		}
+		entityFigure.addRelationship(extractRelationship(entity));
 	}
-
+	
+	@Override
+	protected ModelAppearance getAppearance() {
+		ModelAppearance appearance = null;
+		if (getModel().getEntityType().equals(EntityType.RESOURCE)) {
+			appearance = ModelAppearance.RESOURCE;
+		} else if (getModel().getEntityType().equals(EntityType.EVENT)) {
+			appearance = ModelAppearance.EVENT;
+		}
+		return appearance;
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -95,27 +99,13 @@ public class EntityEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
-	 */
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		Entity entity = (Entity) getModel();
-		EntityEditDialog dialog = new EntityEditDialog(getViewer().getControl()
-				.getShell(), entity);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
-
-			List<EditAttribute> editAttributeList = dialog
-					.getEditAttributeList();
-			addAttributeEditCommands(ccommand, entity, editAttributeList);
-			ModelEditCommand command = new ModelEditCommand(entity,
-					dialog.getEditedValueEntity());
-			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
-		}
+	protected ModelEditDialog<Entity> getDialog() {
+		return new EntityEditDialog(getControllShell(), getModel());
+	}
+	
+	@Override
+	public IPropertySource getPropertySource(TMDEditor editor) {
+		return new EntityPropertySource(editor, this.getModel());
 	}
 }

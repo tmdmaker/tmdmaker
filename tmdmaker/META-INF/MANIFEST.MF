@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: tmdmaker;singleton:=true
-Bundle-Version: 0.2.9.qualifier
+Bundle-Version: 0.2.10.qualifier
 Bundle-Activator: jp.sourceforge.tmdmaker.TMDPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.gef,
@@ -15,7 +15,6 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
- lib/jcl-over-slf4j-1.7.7.jar,
  lib/slf4j-api-1.7.7.jar,
  lib/slf4j-simple-1.7.7.jar
 Bundle-Localization: plugin

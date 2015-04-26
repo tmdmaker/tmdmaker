@@ -17,8 +17,8 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
 import java.util.List;
-import java.util.Map;
 
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -28,13 +28,11 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.SubsetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
@@ -44,7 +42,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * サブセットのコントローラ
@@ -52,24 +49,33 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class SubsetEntityEditPart extends AbstractEntityEditPart {
+public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEntity> {
+	
+	/**
+	 * コンストラクタ
+	 */
+	public SubsetEntityEditPart(SubsetEntity entity)
+	{
+		super();
+		setModel(entity);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		logger.debug(getClass() + "#updateFigure()");
 
 		EntityFigure entityFigure = (EntityFigure) figure;
-		SubsetEntity entity = (SubsetEntity) getModel();
+		SubsetEntity entity = getModel();
+		
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		entityFigure.removeAllRelationship();
-		// entityFigure.removeAllAttributes();
-
 		entityFigure.setEntityName(entity.getName());
 
 		if (entity.isSameSubset() && entity.getAttributes().size() == 0) {
@@ -83,25 +89,22 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 					entityFigure.addRelationship(i.getName());
 				}
 			}
-			for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-					.getReusedIdentifieres().entrySet()) {
-				for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
-					entityFigure.addRelationship(i.getName());
-				}
-			}
+			entityFigure.addRelationship(extractRelationship(entity));
 		}
-		ModelAppearance appearance = null;
-		if (entity.getEntityType().equals(EntityType.RESOURCE)) {
-			appearance = ModelAppearance.RESOURCE_SUBSET;
-		} else if (entity.getEntityType().equals(EntityType.EVENT)) {
-			appearance = ModelAppearance.EVENT_SUBSET;
-		}
-		setupColor(entityFigure, appearance);
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
+		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
+	@Override
+	protected ModelAppearance getAppearance() {
+		ModelAppearance appearance = null;
+		if (getModel().getEntityType().equals(EntityType.RESOURCE)) {
+			appearance = ModelAppearance.RESOURCE_SUBSET;
+		} else if (getModel().getEntityType().equals(EntityType.EVENT)) {
+			appearance = ModelAppearance.EVENT_SUBSET;
+		}
+		return appearance;
+	}
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(SubsetType.PROPERTY_PARTITION)) {
@@ -125,34 +128,22 @@ public class SubsetEntityEditPart extends AbstractEntityEditPart {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
-	 */
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		SubsetEntity table = (SubsetEntity) getModel();
-		TableEditDialog dialog = new TableEditDialog(getViewer().getControl().getShell(),
-				"サブセット表編集", table);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
-
-			List<EditAttribute> editAttributeList = dialog.getEditAttributeList();
-			addAttributeEditCommands(ccommand, table, editAttributeList);
-
-			AbstractEntityModel edited = dialog.getEditedValue();
-			ModelEditCommand command = new ModelEditCommand(table, edited);
-			ccommand.add(command);
-
-			if (table.isNotImplement() && !edited.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(table);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(table, original));
-			}
-
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
+	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue)
+	{
+		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
+		Command deleteCommand    = getDeleteCommand(editedValue);
+		if (deleteCommand != null)
+		{
+			ccommand.add(deleteCommand);
 		}
+		return ccommand;
+	}
+	
+	@Override
+	protected ModelEditDialog<SubsetEntity> getDialog()
+	{
+		return new TableEditDialog<SubsetEntity>(getControllShell(), "サブセット表編集", getModel());
 	}
 
 	/**

@@ -19,6 +19,7 @@ import java.beans.PropertyChangeEvent;
 
 import jp.sourceforge.tmdmaker.editpolicy.RelationshipEditPolicy;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
@@ -34,6 +35,15 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
  */
 public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 
+	/**
+	 * コンストラクタ
+	 */
+	public RelatedRelationshipEditPart(RelatedRelationship relationship)
+	{
+		super();
+		setModel(relationship);
+	}
+	
 	/**
 	 * 
 	 * {@inheritDoc}

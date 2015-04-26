@@ -1,5 +1,5 @@
 /*
- * Copyright 2009,2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
 import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
 import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
@@ -77,6 +77,7 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.SnapToGeometry;
+import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -97,8 +98,10 @@ import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
-import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
+import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.gef.ui.rulers.RulerComposite;
@@ -140,8 +143,7 @@ import org.slf4j.LoggerFactory;
  * @author nakaG
  * 
  */
-public class TMDEditor extends GraphicalEditorWithPalette implements
-		IResourceChangeListener {
+public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IResourceChangeListener {
 
 	/**
 	 * アウトラインページ
@@ -157,7 +159,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 		public TMDContentOutlinePage(TMDEditor tmdEditor) {
 			super(new TreeViewer());
-			this.tmdEditor = tmdEditor; 
+			this.tmdEditor = tmdEditor;
 		}
 
 		/**
@@ -171,9 +173,9 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 			Canvas canvas = new Canvas(sash, SWT.BORDER);
 			LightweightSystem lws = new LightweightSystem(canvas);
-			
+
 			ScalableFreeformRootEditPart root = tmdEditor.getScalableRootEditPart();
-			
+
 			thumbnail = new ScrollableThumbnail((Viewport) root.getFigure());
 			thumbnail.setSource(root.getLayer(LayerConstants.PRINTABLE_LAYERS));
 
@@ -186,11 +188,11 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 			viewer.setEditDomain(tmdEditor.getEditDomain());
 			viewer.setEditPartFactory(new TMDEditorOutlineTreePartFactory());
 			viewer.setContents(tmdEditor.getRootModel());
-			
+
 			tmdEditor.addSelectionSynchronizerViewer(viewer);
 
 			sash.setWeights(new int[] { 3, 7 });
-			
+
 			disposeListener = new DisposeListener() {
 
 				@Override
@@ -225,14 +227,13 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 			// getSelectionSynchronizer().removeViewer(getViewer());
 			if (getGraphicalViewer().getControl() != null
 					&& !getGraphicalViewer().getControl().isDisposed()) {
-				getGraphicalViewer().getControl().removeDisposeListener(
-						disposeListener);
+				getGraphicalViewer().getControl().removeDisposeListener(disposeListener);
 			}
 			super.dispose();
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * プロパティページ (プロパティ名はデフォルトでは名前順でソートされるので、抑止のためにサブクラスを作成)
@@ -245,12 +246,13 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 			public void sort(IPropertySheetEntry[] entries) {
 			}
 		}
-		public TMDPropertySheetPage(){
-		    super();
-		    this.setSorter(new TMDPropertySheetSorter());
+
+		public TMDPropertySheetPage() {
+			super();
+			this.setSorter(new TMDPropertySheetSorter());
 		}
 	}
-	
+
 	/** logging */
 	private static Logger logger = LoggerFactory.getLogger(TMDEditor.class);
 	private RulerComposite rulerComp;
@@ -275,16 +277,10 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	protected void createGraphicalViewer(Composite parent) {
 		rulerComp = new RulerComposite(parent, SWT.NONE);
 		super.createGraphicalViewer(rulerComp);
-		rulerComp
-				.setGraphicalViewer((ScrollingGraphicalViewer) getGraphicalViewer());
+		rulerComp.setGraphicalViewer((ScrollingGraphicalViewer) getGraphicalViewer());
 	}
 
-	// @Override
-	// protected Control getGraphicalControl() {
-	// return rulerComp;
-	// }
-	
-	public GraphicalViewer getViewer(){
+	public GraphicalViewer getViewer() {
 		return getGraphicalViewer();
 	}
 
@@ -296,6 +292,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	 */
 	@Override
 	protected void initializeGraphicalViewer() {
+		super.initializeGraphicalViewer();
 		logger.debug(getClass() + "#initializeGraphicalViewer()");
 		GraphicalViewer viewer = getGraphicalViewer();
 
@@ -342,6 +339,16 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getGraphicalControl()
+	 */
+	@Override
+	protected Control getGraphicalControl() {
+		return rulerComp;
+	}
+
+	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
@@ -366,12 +373,10 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 		PaletteDrawer drawer = new PaletteDrawer("作成");
 
-		ImageDescriptor descriptor = TMDPlugin
-				.getImageDescriptor("icons/new_entity.gif");
+		ImageDescriptor descriptor = TMDPlugin.getImageDescriptor("icons/new_entity.gif");
 
-		CreationToolEntry creationEntry = new CreationToolEntry("エンティティ",
-				"エンティティ", new SimpleFactory(Entity.class), descriptor,
-				descriptor);
+		CreationToolEntry creationEntry = new CreationToolEntry("エンティティ", "エンティティ",
+				new SimpleFactory(Entity.class), descriptor, descriptor);
 		creationEntry.setToolClass(EntityCreationTool.class);
 
 		drawer.add(creationEntry);
@@ -401,8 +406,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 	public void doSave(IProgressMonitor monitor) {
 		logger.debug("doSave() called");
 
-		Diagram diagram = (Diagram) getGraphicalViewer().getContents()
-				.getModel();
+		Diagram diagram = (Diagram) getGraphicalViewer().getContents().getModel();
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		try {
 			file.deleteMarkers(IMarker.PROBLEM, false, 0);
@@ -450,8 +454,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		if (path == null) {
 			return;
 		}
-		final IFile file = ResourcesPlugin.getWorkspace().getRoot()
-				.getFile(path);
+		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 		try {
 			new ProgressMonitorDialog(shell).run(false, // don't fork
 					false, // not cancelable
@@ -459,13 +462,11 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 						@Override
 						public void execute(IProgressMonitor monitor) {
-							Diagram diagram = (Diagram) getGraphicalViewer()
-									.getContents().getModel();
+							Diagram diagram = (Diagram) getGraphicalViewer().getContents()
+									.getModel();
 							try {
-								Serializer serializer = SerializerFactory
-										.getInstance();
-								file.create(serializer.serialize(diagram),
-										true, monitor);
+								Serializer serializer = SerializerFactory.getInstance();
+								file.create(serializer.serialize(diagram), true, monitor);
 							} catch (SerializationException e) {
 								TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
 								logger.warn("IFile#setContents().", e);
@@ -520,7 +521,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 		selectionAction = new SubsetTypeTurnAction(this);
 		setupSelectionAction(registry, selectionActions, selectionAction);
-		
+
 		selectionAction = new MultivalueOrCreateAction(this);
 		setupSelectionAction(registry, selectionActions, selectionAction);
 
@@ -543,44 +544,38 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		selectionAction = new PasteModelAction(this);
 		registry.registerAction(selectionAction);
 		selectionActions.add(selectionAction.getId());
-		
+
 		IAction action = null;
 		// 水平方向の整列アクション
-		action = new AlignmentAction((IWorkbenchPart) this,
-				PositionConstants.LEFT);
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
 
-		action = new AlignmentAction((IWorkbenchPart) this,
-				PositionConstants.CENTER);
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.CENTER);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
 
-		action = new AlignmentAction((IWorkbenchPart) this,
-				PositionConstants.RIGHT);
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.RIGHT);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
 
 		// 垂直方向の整列アクション
-		action = new AlignmentAction((IWorkbenchPart) this,
-				PositionConstants.TOP);
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.TOP);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
 
-		action = new AlignmentAction((IWorkbenchPart) this,
-				PositionConstants.MIDDLE);
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.MIDDLE);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
 
-		action = new AlignmentAction((IWorkbenchPart) this,
-				PositionConstants.BOTTOM);
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.BOTTOM);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
 
 		action = new AutoSizeSettingAction(this);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
-		
+
 		action = new MultivalueAndSupersetHideAction(this);
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
@@ -591,8 +586,8 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 	}
 
-	private void setupSelectionAction(ActionRegistry registry,
-			List<String> selectionActions, SelectionAction selectionAction) {
+	private void setupSelectionAction(ActionRegistry registry, List<String> selectionActions,
+			SelectionAction selectionAction) {
 		registry.registerAction(selectionAction);
 		selectionActions.add(selectionAction.getId());
 		selectionAction.setSelectionProvider(getGraphicalViewer());
@@ -613,8 +608,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		viewer.setRootEditPart(rootEditPart);
 		viewer.setEditPartFactory(new TMDEditPartFactory());
 
-		ContextMenuProvider provider = new TMDContextMenuProvider(viewer,
-				getActionRegistry());
+		ContextMenuProvider provider = new TMDContextMenuProvider(viewer, getActionRegistry());
 		viewer.setContextMenu(provider);
 
 		// ContextMenuにRun as等を表示しないようにするためIWorkbenchPartSiteに登録しない
@@ -624,7 +618,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		ActionRegistry registry = getActionRegistry();
 		DiagramImageGenerateAction action66 = new DiagramImageGenerateAction(viewer, this);
 		registry.registerAction(action66);
-		
+
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
 		for (Generator generator : GeneratorFactory.getGenerators()) {
@@ -642,7 +636,7 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		PluginExtensionPointFactory<FileImporter> fileImportFactory = new PluginExtensionPointFactory<FileImporter>(
 				TMDPlugin.IMPORTER_PLUGIN_ID);
 		for (FileImporter importer : fileImportFactory.getInstances()) {
-			FileImportAction act = new FileImportAction(viewer , importer);
+			FileImportAction act = new FileImportAction(viewer, importer);
 			registry.registerAction(act);
 		}
 
@@ -656,41 +650,38 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		getActionRegistry().registerAction(action);
 
 		// zoom（キーバインディングとマウスホイールも）
-		// FIXME:ZoomINのキーバインディングに不具合あり 
+		// FIXME:ZoomINのキーバインディングに不具合あり
 		IHandlerService service = (IHandlerService) getSite().getService(IHandlerService.class);
 		action = new ZoomInAction(rootEditPart.getZoomManager());
 		getActionRegistry().registerAction(action);
-		service.activateHandler(action.getActionDefinitionId()	, new ActionHandler(action));
+		service.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
 
 		action = new ZoomOutAction(rootEditPart.getZoomManager());
 		getActionRegistry().registerAction(action);
 		service.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
-		
-		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
-		
+
+		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1),
+				MouseWheelZoomHandler.SINGLETON);
+
 		loadProperties();
 	}
 
 	private void loadProperties() {
-		// getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED,
-		// true);
-		// getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,
-		// true);
 
 		// ルーラーは垂直と水平位置に表示させる。
 		TMDRulerProvider provider = new TMDRulerProvider(new RulerModel());
-		getGraphicalViewer().setProperty(
-				RulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
 		provider = new TMDRulerProvider(new RulerModel());
-		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_VERTICAL_RULER,
-				provider);
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_VERTICAL_RULER, provider);
+
 		// ルーラーは初期表示しない。
-		getGraphicalViewer().setProperty(
-				RulerProvider.PROPERTY_RULER_VISIBILITY, Boolean.FALSE);
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_RULER_VISIBILITY, Boolean.FALSE);
 
 		// スナップ機能はデフォルトでは無効とする。
-		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED,
-				Boolean.FALSE);
+		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, Boolean.FALSE);
+
+		// グリッド機能はデフォルトでは無効とする。
+		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, Boolean.FALSE);
 
 	}
 
@@ -745,25 +736,25 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 
 	public void updateVisuals() {
 		List<?> editParts = getGraphicalViewer().getRootEditPart().getChildren();
-		
-		for (Object o: editParts) {
+
+		for (Object o : editParts) {
 			logger.debug(o.getClass().getName());
-			if (o instanceof AbstractEntityEditPart) {
-				((AbstractEntityEditPart)o).updateAppearance();
+			if (o instanceof AbstractModelEditPart) {
+				((AbstractModelEditPart<?>)o).updateAppearance();
 			} else if (o instanceof DiagramEditPart) {
-				for (Object ob : ((DiagramEditPart)o).getChildren()) {
-					if (ob instanceof AbstractEntityEditPart) {
-						((AbstractEntityEditPart)ob).updateAppearance();
+				for (Object ob : ((DiagramEditPart) o).getChildren()) {
+					if (ob instanceof AbstractModelEditPart) {
+						((AbstractModelEditPart<?>)ob).updateAppearance();
 					}		
 				}
 			}
 		}
 	}
-	
+
 	public Diagram getRootModel() {
 		GraphicalViewer viewer = getGraphicalViewer();
 		Diagram model = (Diagram) viewer.getContents().getModel();
-		//Diagram model = ((DiagramEditPart) viewer.getContents()).getModel();
+		// Diagram model = ((DiagramEditPart) viewer.getContents()).getModel();
 		return model;
 	}
 
@@ -771,12 +762,24 @@ public class TMDEditor extends GraphicalEditorWithPalette implements
 		return (ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart();
 	}
 
-	@Override
-	public DefaultEditDomain getEditDomain() {
-		return super.getEditDomain();
-	}
-
 	public void addSelectionSynchronizerViewer(EditPartViewer viewer) {
 		getSelectionSynchronizer().addViewer(viewer);
-	}	
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()
+	 */
+	@Override
+	protected FlyoutPreferences getPalettePreferences() {
+		FlyoutPreferences pref = super.getPalettePreferences();
+
+		if (pref.getPaletteWidth() <= 0) {
+			pref.setDockLocation(PositionConstants.EAST);
+			pref.setPaletteState(FlyoutPaletteComposite.STATE_PINNED_OPEN);
+			pref.setPaletteWidth(135);
+		}
+		return pref;
+	}
 }

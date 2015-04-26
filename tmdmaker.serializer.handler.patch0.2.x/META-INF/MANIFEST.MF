@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker 0.2.x patch
 Bundle-SymbolicName: tmdmaker.serializer.handler.patch0.2.x;singleton:=true
-Bundle-Version: 0.2.9.qualifier
+Bundle-Version: 0.2.10.qualifier
 Bundle-Activator: jp.sourceforge.tmdmaker.serializer.handler.patch.Activator
 Require-Bundle: org.eclipse.core.runtime,
  tmdmaker.serializer,

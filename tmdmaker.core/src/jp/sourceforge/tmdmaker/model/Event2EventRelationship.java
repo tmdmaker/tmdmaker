@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 * @param target
 	 *            ターゲット
 	 */
-	public Event2EventRelationship(AbstractEntityModel source,
-			AbstractEntityModel target) {
+	public Event2EventRelationship(AbstractEntityModel source, AbstractEntityModel target) {
 		setSource(source);
 		setTarget(target);
 		this.setCenterMark(true);
@@ -63,7 +62,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#setSourceCardinality(java.lang.String)
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#setSourceCardinality(jp.sourceforge.tmdmaker.model.Cardinality)
 	 */
 	@Override
 	public void setSourceCardinality(Cardinality sourceCardinality) {
@@ -154,28 +153,24 @@ public class Event2EventRelationship extends AbstractRelationship {
 		AbstractEntityModel targetEntity = getTarget();
 
 		if (table == null) {
-			table = RelationshipRule.createMappingList(sourceEntity,
-					targetEntity);
+			table = RelationshipRule.createMappingList(sourceEntity, targetEntity);
 		}
 		setCenterMark(true);
 
-		table.setConstraint(sourceEntity.getConstraint()
-				.getTranslated(100, 100));
+		table.setConstraint(sourceEntity.getConstraint().getTranslated(100, 100));
 		Diagram diagram = sourceEntity.getDiagram();
 		diagram.addChild(table);
 
 		if (sourceMappingListReuseIdentifier == null) {
 			table.addReusedIdentifier(sourceEntity);
 		} else {
-			table.addReusedIdentifier(sourceEntity,
-					sourceMappingListReuseIdentifier);
+			table.addReusedIdentifier(sourceEntity, sourceMappingListReuseIdentifier);
 			sourceMappingListReuseIdentifier = null;
 		}
 		if (targetMappingListReuseIdentifier == null) {
 			table.addReusedIdentifier(targetEntity);
 		} else {
-			table.addReusedIdentifier(targetEntity,
-					targetMappingListReuseIdentifier);
+			table.addReusedIdentifier(targetEntity, targetMappingListReuseIdentifier);
 			targetMappingListReuseIdentifier = null;
 		}
 		mappingListConnection = new RelatedRelationship(this, table);
@@ -192,10 +187,8 @@ public class Event2EventRelationship extends AbstractRelationship {
 		}
 		if (table != null) {
 			AbstractEntityModel sourceEntity = getSource();
-			sourceMappingListReuseIdentifier = table
-					.removeReusedIdentifier(sourceEntity);
-			targetMappingListReuseIdentifier = table
-					.removeReusedIdentifier(getTarget());
+			sourceMappingListReuseIdentifier = table.removeReusedIdentifier(sourceEntity);
+			targetMappingListReuseIdentifier = table.removeReusedIdentifier(getTarget());
 			sourceEntity.getDiagram().removeChild(table);
 		}
 	}
@@ -228,7 +221,13 @@ public class Event2EventRelationship extends AbstractRelationship {
 			getTarget().fireIdentifierChanged(this);
 		}
 	}
+
 	private boolean hasMappingList() {
 		return getSourceCardinality().equals(Cardinality.MANY);
-	}	
+	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

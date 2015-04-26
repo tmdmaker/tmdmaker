@@ -1,0 +1,36 @@
+<project name="TMD-Maker"  xmlns="http://maven.apache.org/DECORATION/1.6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.3.1</version>
+  </skin>
+  <bannerLeft>
+    <name>TMD-Maker</name>
+  </bannerLeft>
+  <custom>
+    <fluidoSkin>
+      <facebookLike>
+      </facebookLike>
+
+      <twitter>
+        <user>TMDMakerTweet</user>
+        <showUser>true</showUser>
+        <showFollowers>true</showFollowers>
+      </twitter>
+    </fluidoSkin>
+  </custom>
+
+  <body>
+    <links>
+      <item name="${project.name}" href="${project.url}"/>
+      <item name="webサイトtop" href="../index.html"/>
+    </links>
+    <menu ref="parent" inherit="top"/>
+    <menu ref="modules" />
+    <menu ref="reports" inherit="top"/>
+    <menu name="カバレッジレポート">
+      <item name="jacoco" href="../jacoco/report/index.html" />
+    </menu>
+  </body>
+</project>

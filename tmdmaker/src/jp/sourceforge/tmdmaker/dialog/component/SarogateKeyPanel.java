@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ public class SarogateKeyPanel extends Composite {
 			}
 		});
 		this.setLayout(gridLayout);
-		setSize(new Point(197, 49));
+		setSize(new Point(195, 52));
 	}
 
 	public void refreshVisual() {

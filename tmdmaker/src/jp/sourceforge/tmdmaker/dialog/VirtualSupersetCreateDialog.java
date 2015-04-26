@@ -1,12 +1,12 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
- * 
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,13 +16,14 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
 import jp.sourceforge.tmdmaker.dialog.component.VirtualSupersetSettingPanel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
@@ -41,10 +42,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * みなしスーパーセット作成ダイアログ
- * 
+ * みなしスーパーセット作成ダイアログ.
+ *
  * @author nakaG
- * 
+ *
  */
 public class VirtualSupersetCreateDialog extends Dialog {
 	private VirtualSupersetSettingPanel panel1;
@@ -68,66 +69,43 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	};
 
 	/**
-	 * コンストラクタ
-	 * 
+	 * コンストラクタ.
+	 *
 	 * @param parentShell
-	 *            親
+	 *            親.
 	 * @param diagram
-	 *            対象ダイアグラム
+	 *            対象ダイアグラム.
 	 * @param superset
-	 *            みなしスーパーセット
-	 */
-	// public VirtualSupersetCreateDialog(Shell parentShell, Diagram diagram,
-	// VirtualSuperset superset) {
-	// super(parentShell);
-	// this.superset = superset;
-	// selection = new ArrayList<AbstractEntityModel>();
-	// if (this.superset != null) {
-	// selection.addAll(this.superset.getVirtualSubsetList());
-	// }
-	// notSelection = new ArrayList<AbstractEntityModel>();
-	// for (ModelElement m : diagram.getChildren()) {
-	// if (m instanceof AbstractEntityModel && !m.equals(superset)
-	// && !selection.contains(m)) {
-	// notSelection.add((AbstractEntityModel) m);
-	// }
-	// }
-	// }
-
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param parentShell
-	 *            親
-	 * @param diagram
-	 *            対象ダイアグラム
-	 * @param superset
-	 *            みなしスーパーセット
+	 *            みなしスーパーセット.
 	 * @param selectedList
-	 *            選択しているエンティティ系モデルのリスト
+	 *            選択しているエンティティ系モデルのリスト.
 	 */
 	public VirtualSupersetCreateDialog(Shell parentShell, Diagram diagram,
 			VirtualSuperset superset, List<AbstractEntityModel> selectedList) {
 		super(parentShell);
 		this.superset = superset;
-		selection = new ArrayList<AbstractEntityModel>();
-		if (this.superset != null) {
-			selection.addAll(this.superset.getVirtualSubsetList());
-		}
-		selection.addAll(selectedList);
+		selection = setupSelection(selectedList);
 
-		notSelection = new ArrayList<AbstractEntityModel>();
-		for (ModelElement m : diagram.getChildren()) {
-			if (m instanceof AbstractEntityModel && !m.equals(superset)
-					&& !selection.contains(m)) {
-				notSelection.add((AbstractEntityModel) m);
-			}
+		List<AbstractEntityModel> excludes = new ArrayList<AbstractEntityModel>(selection);
+		excludes.add(superset);
+		notSelection = diagram.findEntityModelExcludeFor(excludes);
+	}
+
+	private List<AbstractEntityModel> setupSelection(List<AbstractEntityModel> selectedList) {
+		List<AbstractEntityModel> distinctList = new ArrayList<AbstractEntityModel>();
+		// 重複排除
+		Set<AbstractEntityModel> selectionTarget = new LinkedHashSet<AbstractEntityModel>();
+		if (this.superset != null) {
+			selectionTarget.addAll(this.superset.getVirtualSubsetList());
 		}
+		selectionTarget.addAll(selectedList);
+		distinctList.addAll(selectionTarget);
+		return distinctList;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -149,21 +127,18 @@ public class VirtualSupersetCreateDialog extends Dialog {
 
 		panel2.setLayoutData(gridData);
 
-		panel1.initializeValue(superset);
-		panel2.initializeValue(selection, notSelection);
-
+		composite.pack();
 		return composite;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
 	protected void okPressed() {
-		editedValue = VirtualEntityRule.createVirtualSuperset(panel1
-				.getVirtualSupersetName());
+		editedValue = VirtualEntityRule.createVirtualSuperset(panel1.getVirtualSupersetName());
 		// editedValue.setName(panel1.getVirtualSupersetName());
 		editedAggregator = new VirtualSupersetType();
 		editedAggregator.setApplyAttribute(panel1.isApplyAttributeSelected());
@@ -172,9 +147,8 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	}
 
 	/**
-	 * 
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#close()
 	 */
 	@Override
@@ -184,9 +158,8 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	}
 
 	/**
-	 * 
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -194,6 +167,20 @@ public class VirtualSupersetCreateDialog extends Dialog {
 		super.createButtonsForButtonBar(parent);
 		Button okButton = getButton(IDialogConstants.OK_ID);
 		okButton.setEnabled(false);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	protected Control createContents(Composite parent) {
+		Control c = super.createContents(parent);
+		panel1.initializeValue(superset);
+		panel2.initializeValue(selection, notSelection);
+
+		return c;
 	}
 
 	/**
@@ -223,5 +210,4 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	public VirtualSupersetType getEditedAggregator() {
 		return editedAggregator;
 	}
-
 }

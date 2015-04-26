@@ -127,4 +127,9 @@ public class VirtualEntity extends AbstractEntityModel {
 		}
 		super.copyTo(to);
 	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
 }

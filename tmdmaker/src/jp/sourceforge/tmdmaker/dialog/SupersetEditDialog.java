@@ -16,13 +16,11 @@
 package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -40,14 +38,9 @@ import org.eclipse.swt.widgets.Text;
  * @author nakaG
  * 
  */
-public class SupersetEditDialog extends Dialog implements
-		PropertyChangeListener {
+public class SupersetEditDialog extends ModelEditDialog<AbstractEntityModel> {
 	/** 名称入力欄 */
 	private Text inputNameText;
-	/** 編集対象モデル */
-	private EditTable entity;
-	/** 編集結果格納用 */
-	private AbstractEntityModel editedValue;
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel;
 
@@ -108,6 +101,7 @@ public class SupersetEditDialog extends Dialog implements
 		panel = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
 		panel.setLayoutData(gridData);
 
+		composite.pack();
 		return composite;
 	}
 
@@ -121,12 +115,5 @@ public class SupersetEditDialog extends Dialog implements
 		editedValue = entity.createEditedModel();
 
 		super.okPressed();
-	}
-
-	/**
-	 * @return the editedValue
-	 */
-	public AbstractEntityModel getEditedValue() {
-		return editedValue;
 	}
 }

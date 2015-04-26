@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * @author nakaG
  * 
  */
-public abstract class AbstractTMDEditPart extends AbstractGraphicalEditPart
+public abstract class AbstractTMDEditPart<T extends ModelElement> extends AbstractGraphicalEditPart
 		implements PropertyChangeListener {
 	/** logging */
 	protected static Logger logger;
@@ -52,7 +52,7 @@ public abstract class AbstractTMDEditPart extends AbstractGraphicalEditPart
 	@Override
 	public void activate() {
 		super.activate();
-		((ModelElement) getModel()).addPropertyChangeListener(this);
+		getModel().addPropertyChangeListener(this);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public abstract class AbstractTMDEditPart extends AbstractGraphicalEditPart
 	@Override
 	public void deactivate() {
 		super.deactivate();
-		((ModelElement) getModel()).removePropertyChangeListener(this);
+		getModel().removePropertyChangeListener(this);
 	}
 
 	/**
@@ -81,7 +81,13 @@ public abstract class AbstractTMDEditPart extends AbstractGraphicalEditPart
 			super.performRequest(req);
 		}
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public T getModel(){
+		return (T)super.getModel();
+	}
+	
 	/**
 	 * ダブルクリック時の処理をサブクラスで実装する
 	 */

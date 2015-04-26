@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,14 @@ public interface IAttribute {
 	 * @return the name
 	 */
 	public abstract String getName();
+
 	/**
 	 * 
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public abstract void setName(String name);
+
 	/**
 	 * @return the implementName
 	 */
@@ -80,11 +83,13 @@ public interface IAttribute {
 	 * @return the derivation
 	 */
 	public abstract boolean isDerivation();
-	
+
 	/**
-	 * @param the derivation
+	 * @param derivation
+	 *            the derivation
 	 */
 	public abstract void setDerivation(boolean derivation);
+
 	/**
 	 * @return the derivationRule
 	 */

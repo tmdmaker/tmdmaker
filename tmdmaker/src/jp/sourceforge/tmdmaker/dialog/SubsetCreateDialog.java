@@ -1,12 +1,12 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
- * 
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,10 +45,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * サブセット作成ダイアログ
- * 
+ * サブセット作成ダイアログ.
+ *
  * @author nakaG
- * 
+ *
  */
 public class SubsetCreateDialog extends Dialog {
 	private SubsetSettingPanel panel;
@@ -68,13 +68,14 @@ public class SubsetCreateDialog extends Dialog {
 	private CompoundCommand ccommand;
 
 	/**
-	 * 
+	 * コンストラクタ.
+	 *
 	 * @param parentShell
-	 *            親
+	 *            親.
 	 * @param subsetType
-	 *            サブセットの種類（同一/相違）
+	 *            サブセットの種類（同一/相違）.
 	 * @param model
-	 *            スーパーセット
+	 *            スーパーセット.
 	 */
 	public SubsetCreateDialog(Shell parentShell, SubsetType subsetType, AbstractEntityModel model) {
 		super(parentShell);
@@ -82,7 +83,7 @@ public class SubsetCreateDialog extends Dialog {
 		this.exceptNull = subsetType.isExceptNull();
 		this.attributes = model.getAttributes();
 		this.selectedAttribute = subsetType.getPartitionAttribute();
-		for (SubsetEntity se : subsetType.findSubsetEntityList()) {
+		for (SubsetEntity se : subsetType.getSubsetList()) {
 			this.subsetEntities.add(new EditSubsetEntity(se));
 		}
 
@@ -92,7 +93,7 @@ public class SubsetCreateDialog extends Dialog {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -102,12 +103,13 @@ public class SubsetCreateDialog extends Dialog {
 		panel = new SubsetSettingPanel(composite, SWT.NULL);
 		panel.initializeValue(this.subsetType.equals(SubsetType.SubsetTypeValue.SAME),
 				this.exceptNull, this.attributes, this.subsetEntities, this.selectedAttribute);
+		composite.pack();
 		return composite;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
@@ -192,8 +194,8 @@ public class SubsetCreateDialog extends Dialog {
 		return charLength + SPACE;
 	}
 
-	private void addSuitableSubsetEntityCommand(CompoundCommand ccommand, AbstractEntityModel model,
-			SubsetType subsetType, List<EditSubsetEntity> editSubsets) {
+	private void addSuitableSubsetEntityCommand(CompoundCommand ccommand,
+			AbstractEntityModel model, SubsetType subsetType, List<EditSubsetEntity> editSubsets) {
 		int subsetwidth = calcurateSubsetWidth(editSubsets);
 		int totalWidthHalf = editSubsets.size() * subsetwidth / 2;
 		int subsetX = totalWidthHalf * -1;
@@ -245,8 +247,8 @@ public class SubsetCreateDialog extends Dialog {
 		}
 	}
 
-	private void addSuitableSubsetTypeCommand(CompoundCommand ccommand,
-			AbstractEntityModel model, SubsetType subsetType, SubsetTypeValue newSubsetType,
+	private void addSuitableSubsetTypeCommand(CompoundCommand ccommand, AbstractEntityModel model,
+			SubsetType subsetType, SubsetTypeValue newSubsetType,
 			IAttribute selectedPartitionAttribute, boolean newExceptNull) {
 		if (subsetType.isNew()) {
 			// entityとpartitionCodeModelの接続

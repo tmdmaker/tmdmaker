@@ -70,13 +70,13 @@ public class SubsetSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		partitionCodeLabel = new Label(this, SWT.NONE);
-		partitionCodeLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		partitionCodeLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 		partitionCodeLabel.setText("区分コード");
 		this.setLayout(gridLayout);
 		createPartitionSelectCombo();
 		createTypeGroup();
 		createSubsetContainerComposite();
-		this.setSize(new Point(224, 178));
+		this.setSize(new Point(268, 208));
 	}
 
 	/**
@@ -85,8 +85,9 @@ public class SubsetSettingPanel extends Composite {
 	 */
 	private void createPartitionSelectCombo() {
 		GridData gridData3 = new GridData();
-		gridData3.horizontalAlignment = GridData.FILL;
-		gridData3.verticalAlignment = GridData.CENTER;
+		gridData3.widthHint = 172;
+		gridData3.horizontalAlignment = SWT.FILL;
+		gridData3.verticalAlignment = SWT.CENTER;
 		partitionSelectCombo = new Combo(this, SWT.NONE);
 		partitionSelectCombo.setLayoutData(gridData3);
 	}
@@ -102,13 +103,13 @@ public class SubsetSettingPanel extends Composite {
 		gridData.horizontalSpan = 2;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = false;
+		gridData.grabExcessHorizontalSpace = true;
 		typeGroup = new Group(this, SWT.NONE);
 		typeGroup.setText("サブセット種類");
 		typeGroup.setLayout(gridLayout1);
 		typeGroup.setLayoutData(gridData);
 		sameRadioButton = new Button(typeGroup, SWT.RADIO);
-		sameRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		sameRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		sameRadioButton.setText("同一");
 		sameRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -119,7 +120,7 @@ public class SubsetSettingPanel extends Composite {
 			}
 		});
 		differenceRadioButton = new Button(typeGroup, SWT.RADIO);
-		differenceRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		differenceRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		differenceRadioButton.setText("相違");
 		differenceRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -128,7 +129,7 @@ public class SubsetSettingPanel extends Composite {
 			}
 		});
 		nullCheckBox = new Button(typeGroup, SWT.CHECK);
-		nullCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		nullCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		nullCheckBox.setText("NULLを排除");
 		nullCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -143,13 +144,16 @@ public class SubsetSettingPanel extends Composite {
 	 */
 	private void createSubsetContainerComposite() {
 		GridData gridData2 = new GridData();
+		gridData2.heightHint = 88;
+		gridData2.widthHint = 136;
 		gridData2.horizontalAlignment = GridData.FILL;
 		gridData2.verticalAlignment = GridData.FILL;
 		GridLayout gridLayout2 = new GridLayout();
 		gridLayout2.numColumns = 2;
 		GridData gridData1 = new GridData();
+		gridData1.widthHint = 237;
 		gridData1.horizontalSpan = 2;
-		gridData1.verticalAlignment = GridData.CENTER;
+		gridData1.verticalAlignment = SWT.FILL;
 		gridData1.horizontalAlignment = GridData.FILL;
 		subsetContainerComposite = new Composite(this, SWT.NONE);
 		subsetContainerComposite.setLayoutData(gridData1);
@@ -247,9 +251,12 @@ public class SubsetSettingPanel extends Composite {
 	 */
 	private void createSubsetControlComposite() {
 		subsetControlComposite = new Composite(subsetContainerComposite, SWT.NONE);
+		GridData gd_subsetControlComposite = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
+		gd_subsetControlComposite.widthHint = 76;
+		subsetControlComposite.setLayoutData(gd_subsetControlComposite);
 		subsetControlComposite.setLayout(new GridLayout());
 		newButton = new Button(subsetControlComposite, SWT.NONE);
-		newButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		newButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		newButton.setText("新規");
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -262,7 +269,7 @@ public class SubsetSettingPanel extends Composite {
 			}
 		});
 		deleteButton = new Button(subsetControlComposite, SWT.NONE);
-		deleteButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		deleteButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		deleteButton.setText("削除");
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {

@@ -120,4 +120,8 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	public void identifierChanged() {
 		table.fireIdentifierChanged(this);
 	}
+	
+	CombinationTable getTable() {
+		return table;
+	}
 }

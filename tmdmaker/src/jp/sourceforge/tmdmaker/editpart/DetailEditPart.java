@@ -15,28 +15,21 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import java.util.List;
-import java.util.Map;
-
 import jp.sourceforge.tmdmaker.dialog.DetailEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
-import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * ディテールのコントローラ
@@ -44,69 +37,43 @@ import org.eclipse.jface.dialogs.Dialog;
  * @author nakaG
  * 
  */
-public class DetailEditPart extends AbstractEntityEditPart {
+public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
+	
 	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#onDoubleClicked()
+	 * コンストラクタ
 	 */
+	public DetailEditPart(Detail entity)
+	{
+		super();
+		setModel(entity);
+	}
+
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		Detail table = (Detail) getModel();
-		DetailEditDialog dialog = new DetailEditDialog(getViewer().getControl()
-				.getShell(), table);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
-
-			List<EditAttribute> editAttributeList = dialog
-					.getEditAttributeList();
-			addAttributeEditCommands(ccommand, table, editAttributeList);
-
-			ModelEditCommand command = new ModelEditCommand(table,
-					dialog.getEditedValue());
-			ccommand.add(command);
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
-		}
-
+	protected ModelEditDialog<Detail> getDialog()
+	{
+		return new DetailEditDialog(getControllShell(), getModel());
 	}
 
 	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
-		Detail entity = (Detail) getModel();
+		Detail entity = getModel();
 
 		entityFigure.setNotImplement(entity.isNotImplement());
 		entityFigure.removeAllRelationship();
 
 		entityFigure.setEntityName(entity.getName());
-		// entityFigure.setEntityType(entity.getEntityType().toString());
-		// figure.setIdentifier(entity.getIdentifier().getName());
 		IdentifierRef original = entity.getOriginalReusedIdentifier()
 				.getUniqueIdentifieres().get(0);
 		entityFigure.setIdentifier(original.getName());
 		entityFigure.setIdentifier(entity.getDetailIdentifier().getName());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-				.getReusedIdentifieres().entrySet()) {
-
-			for (IdentifierRef i : rk.getValue().getUniqueIdentifieres()) {
-				if (i.isSame(original)) {
-					// nothing
-				} else {
-					entityFigure.addRelationship(i.getName());
-				}
-			}
-		}
-		// for (Attribute a : atts) {
-		// entityFigure.addAttribute(a.getName());
-		// }
+		entityFigure.addRelationship(extractRelationship(entity, original));
 	}
 
 	/**
@@ -143,6 +110,12 @@ public class DetailEditPart extends AbstractEntityEditPart {
 					.getModelTargetConnections().get(0));
 
 		}
+	}
+
+	@Override
+	protected ModelAppearance getAppearance() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

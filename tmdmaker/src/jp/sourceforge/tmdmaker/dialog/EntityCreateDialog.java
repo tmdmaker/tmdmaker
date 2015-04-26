@@ -79,6 +79,7 @@ public class EntityCreateDialog extends Dialog {
 		panel.setEditIdentifier(new EditAttribute());
 		// panel.setInitialFocus();
 
+		composite.pack();
 		return composite;
 	}
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
  * 
  */
 public class EntityTypeRule {
+	private static final String RESOURCE_NAME_LITERAL = "名称";
 	private static final String EVENT_DATE_LITERAL = "日";
 
 	/**
@@ -59,13 +60,38 @@ public class EntityTypeRule {
 	public static void addDefaultAttribute(Entity model) {
 		Attribute defaultAttribute = new Attribute();
 		if (isEvent(model)) {
-			defaultAttribute.setName(model.getName() + EVENT_DATE_LITERAL);
+			defaultAttribute.setName(createEventAttributeName(model.getName()));
 			ImplementRule.setEventDefaultAttributeValue(defaultAttribute);
 		} else {
-			defaultAttribute.setName(model.getName() + "名称");
+			defaultAttribute.setName(createResourceAttributeName(model.getName()));
 			ImplementRule.setResourceDefaultAttributeValue(defaultAttribute);
 		}
 		model.addAttribute(defaultAttribute);
+	}
+
+	/**
+	 * リソースの初期アトリビュート名を作成する
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @return アトリビュート名
+	 */
+	public static String createResourceAttributeName(String entityName) {
+		return entityName + RESOURCE_NAME_LITERAL;
+	}
+
+	/**
+	 * イベントの初期アトリビュート名を作成する
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @return アトリビュート名
+	 */
+	public static String createEventAttributeName(String entityName) {
+		if (entityName != null && entityName.length() != 0) {
+			return entityName + EVENT_DATE_LITERAL;
+		}
+		return null;
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,6 +64,7 @@ public class ImplementInfoEditPanel extends Composite {
 		initialize();
 		this.implementModel = implementModel;
 		this.attributes = implementModel.getAttributes();
+		pack();
 	}
 
 	private void initialize() {
@@ -196,10 +197,10 @@ public class ImplementInfoEditPanel extends Composite {
 		tableColumn2.setWidth(150);
 		tableColumn2.setText("型");
 		TableColumn tableColumn21 = new TableColumn(columnTable, SWT.NONE);
-		tableColumn21.setWidth(40);
+		tableColumn21.setWidth(50);
 		tableColumn21.setText("長さ");
 		TableColumn tableColumn31 = new TableColumn(columnTable, SWT.NONE);
-		tableColumn31.setWidth(40);
+		tableColumn31.setWidth(50);
 		tableColumn31.setText("少数");
 		TableColumn tableColumn3 = new TableColumn(columnTable, SWT.NONE);
 		tableColumn3.setWidth(60);
@@ -207,7 +208,7 @@ public class ImplementInfoEditPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		this.setLayout(gridLayout);
-		this.setSize(new Point(764, 272));
+		this.setSize(new Point(765, 249));
 	}
 	private int getSelectedColumnIndex(TableItem item, Point point) {
 		for (int i = 0;i < columnTable.getColumnCount(); i++) {

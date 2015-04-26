@@ -37,6 +37,15 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 public class Entity2SubsetTypeRelationshipEditPart extends AbstractRelationshipEditPart {
 
 	/**
+	 * コンストラクタ
+	 */
+	public Entity2SubsetTypeRelationshipEditPart(Entity2SubsetTypeRelationship relationship)
+	{
+		super();
+		setModel(relationship);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#createFigure()

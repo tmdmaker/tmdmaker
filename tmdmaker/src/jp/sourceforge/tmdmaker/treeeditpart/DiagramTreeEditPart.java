@@ -20,6 +20,16 @@ import org.eclipse.swt.graphics.Image;
 public class DiagramTreeEditPart extends AbstractTreeEditPart implements
 		PropertyChangeListener {
 	
+	/**
+	 * コンストラクタ
+	 * @param diagram
+	 */
+	public DiagramTreeEditPart(Diagram diagram)
+	{
+		super();
+		setModel(diagram);
+	}
+	
 	@Override
 	public Diagram getModel() {
 		return (Diagram) super.getModel();

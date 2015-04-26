@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2014-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,10 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class ConstraintConverter {
 	public static Rectangle toRectangle(Constraint constraint) {
 		return new Rectangle(constraint.x, constraint.y, constraint.width, constraint.height);
+	}
+
+	public static Rectangle toRectangleWithoutHeightWidth(Constraint constraint) {
+		return new Rectangle(constraint.x, constraint.y, -1, -1);
 	}
 
 	public static Constraint toConstraint(Rectangle rectangle) {

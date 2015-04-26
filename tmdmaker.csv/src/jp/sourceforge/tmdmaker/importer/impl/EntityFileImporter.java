@@ -26,7 +26,6 @@ import java.util.Map;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IAttribute;
@@ -130,7 +129,6 @@ public class EntityFileImporter implements FileImporter {
 		Laputa l = EntityRecognitionRule.getInstance().createLaputa(entityName);
 		// EntityRecognitionRule.createEntity(entityName, identifier,
 		// entityType)
-		l.setConstraint(new Constraint());
 		s.put(l.getName(), l);
 		return l;
 	}
