@@ -17,16 +17,12 @@ package jp.sourceforge.tmdmaker.editor;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.eclipse.swtbot.swt.finder.waits.Conditions;
-import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -60,28 +56,28 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-//		bot.menu("File").menu("New").menu("Project...").click();
-//
-//		SWTBotShell shell = bot.shell("New Project");
-//		shell.activate();
-//		SWTBotTree projectSelectionTree = bot.tree();
-//		projectSelectionTree.expandNode("General").expandNode("Project")
-//				.select();
-//		bot.waitUntil(new DefaultCondition() {
-//			public String getFailureMessage() {
-//				return "unable to select";
-//			}
-//
-//			public boolean test() throws Exception {
-//				return bot.button("Next >").isEnabled();
-//			}
-//
-//		});
-//		bot.button("Next >").click();
-//		bot.textWithLabel("Project name:").setText(PROJECT_NAME);
-//		bot.button("Finish").click();
-//		bot.waitUntil(Conditions.shellCloses(shell));
-		 project.createProject(PROJECT_NAME);
+		// bot.menu("File").menu("New").menu("Project...").click();
+		//
+		// SWTBotShell shell = bot.shell("New Project");
+		// shell.activate();
+		// SWTBotTree projectSelectionTree = bot.tree();
+		// projectSelectionTree.expandNode("General").expandNode("Project")
+		// .select();
+		// bot.waitUntil(new DefaultCondition() {
+		// public String getFailureMessage() {
+		// return "unable to select";
+		// }
+		//
+		// public boolean test() throws Exception {
+		// return bot.button("Next >").isEnabled();
+		// }
+		//
+		// });
+		// bot.button("Next >").click();
+		// bot.textWithLabel("Project name:").setText(PROJECT_NAME);
+		// bot.button("Finish").click();
+		// bot.waitUntil(Conditions.shellCloses(shell));
+		project.createProject(PROJECT_NAME);
 		tmDiagram.createFile(PROJECT_NAME, FILE_NAME);
 		editor = bot.gefEditor(FILE_NAME);
 	}
@@ -90,8 +86,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 	public void tearDown() throws Exception {
 		if (editor != null)
 			editor.close();
-		IProject project = ResourcesPlugin.getWorkspace().getRoot()
-				.getProject(PROJECT_NAME);
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 		project.delete(true, null);
 		super.tearDown();
 	}
@@ -108,5 +103,14 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 	private String getActiveToolLabel() {
 		return editor.getActiveTool().getLabel();
+	}
+
+	@Test
+	public void testCreateResourceEntity() {
+		editor.activateTool("エンティティ");
+		editor.click(50, 50);
+		SWTBotShell shell = bot.shell("エンティティ新規作成");
+		shell.activate();
+		bot.text(0).setText("顧客番号");
 	}
 }
