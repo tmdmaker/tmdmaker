@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<release-version>0.2.10</release-version>
 		<os-jvm-flags />
-		<jacoco-version>0.7.4.201502262128</jacoco-version>
+		<jacoco-version>0.7.5.201505241946</jacoco-version>
 		<antrun-version>1.8</antrun-version>
 		<ant-contrib-version>20020829</ant-contrib-version>
 		<docbkx-maven-plugin-version>2.0.16</docbkx-maven-plugin-version>
@@ -62,7 +62,7 @@
 						<dependency>
 							<groupId>org.apache.maven.wagon</groupId>
 							<artifactId>wagon-ssh</artifactId>
-							<version>2.8</version>
+							<version>2.9</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -103,11 +103,6 @@
 							<os>linux</os>
 							<ws>gtk</ws>
 							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86</arch>
 						</environment>
 						<environment>
 							<os>macosx</os>
@@ -246,7 +241,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.15</version>
+				<version>2.16</version>
 				<configuration>
 					<configLocation>sun_check_eclipse.xml</configLocation>
 				</configuration>
@@ -254,7 +249,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.4</version>
+				<version>3.5</version>
 				<configuration>
 					<aggregate>true</aggregate>
 					<linkXref>true</linkXref>

@@ -38,7 +38,6 @@
                name="windowImages"
                value="icons/window/tmd_icon_16_32bit.png,icons/window/tmd_icon_32_32bit.png,icons/window/tmd_icon_48_32bit.png,icons/window/tmd_icon_64_32bit.png,icons/window/tmd_icon_128_32bit.png">
          </property>
-         <property name="preferenceCustomization" value="plugin_customization.ini" />
          <property
                name="startupForegroundColor"
                value="000000">
@@ -66,6 +65,10 @@
          <property
                name="aboutText"
                value="%blurb">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
          </property>
       </product>
    </extension>
@@ -197,36 +200,6 @@
             </command>
          </toolbar>
       </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="*">
-         <view
-               closeable="false"
-               id="org.eclipse.ui.navigator.ProjectExplorer"
-               minimized="false"
-               ratio="0.3"
-               relationship="left"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="org.eclipse.ui.views.ContentOutline"
-               minimized="false"
-               ratio="0.7"
-               relationship="right"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="org.eclipse.ui.views.PropertySheet"
-               minimized="false"
-               ratio="0.7"
-               relationship="bottom"
-               visible="true">
-         </view>
-      </perspectiveExtension>
    </extension>
    <extension
          point="org.eclipse.ui.splashHandlers">
