@@ -17,6 +17,9 @@
 				<version>${tycho-version}</version>
 				<configuration>
 					<includeAllDependencies>true</includeAllDependencies>
+					<profileProperties>
+						<macosx-bundled>true</macosx-bundled>
+					</profileProperties>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -28,7 +31,11 @@
 						<product>
 							<id>tmdmaker.rcp.product</id>
 							<archiveFileName>tmdmaker_for_rcp_${release-version}</archiveFileName>
-							<rootFolder>tmdmaker</rootFolder>
+							<rootFolders>
+								<win32>tmdmaker</win32>
+								<linux>tmdmaker</linux>
+								<macosx>TMD-Maker.app</macosx>
+							</rootFolders>
 						</product>
 					</products>
 				</configuration>

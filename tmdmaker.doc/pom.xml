@@ -36,7 +36,7 @@
 					<dependency>
 						<groupId>ant-contrib</groupId>
 						<artifactId>ant-contrib</artifactId>
-						<version>20020829</version>
+						<version>${ant-contrib-version}</version>
 					</dependency>
 				</dependencies>
 				<executions>
@@ -60,6 +60,7 @@
 											<executiondata>
 												<file file="../tmdmaker.core.test/target/jacoco.exec" />
 												<file file="../tmdmaker.test/target/jacoco.exec" />
+												<file file="../tmdmaker.ui.test/target/jacoco.exec" />
 											</executiondata>
 
 											<structure name="TMD-Maker">
@@ -89,7 +90,7 @@
 			<plugin>
 				<groupId>com.agilejava.docbkx</groupId>
 				<artifactId>docbkx-maven-plugin</artifactId>
-				<version>2.0.16</version>
+				<version>${docbkx-maven-plugin-version}</version>
 				<configuration>
 					<xincludeSupported>true</xincludeSupported>
 					<chunkedOutput>true</chunkedOutput>
@@ -114,7 +115,7 @@
 					<dependency>
 						<groupId>net.sf.docbook</groupId>
 						<artifactId>docbook-xml</artifactId>
-						<version>5.0-all</version>
+						<version>${docbook-xml-verson}</version>
 						<classifier>resources</classifier>
 						<type>zip</type>
 						<scope>runtime</scope>

@@ -13,6 +13,10 @@
 		<os-jvm-flags />
 		<jacoco-version>0.7.5.201505241946</jacoco-version>
 		<antrun-version>1.8</antrun-version>
+		<ant-contrib-version>20020829</ant-contrib-version>
+		<docbkx-maven-plugin-version>2.0.16</docbkx-maven-plugin-version>
+		<docbook-xml-verson>5.0-all</docbook-xml-verson>
+		<maven-dependency-plugin-version>2.10</maven-dependency-plugin-version>
 		<project-url>http://tmdmaker.sourceforge.jp/</project-url>
 	</properties>
 
@@ -106,6 +110,17 @@
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
+
+					<dependency-resolution>
+						<extraRequirements>
+							<requirement>
+								<type>eclipse-feature</type>
+								<id>org.eclipse.e4.rcp</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+						</extraRequirements>
+					</dependency-resolution>
+
 				</configuration>
 			</plugin>
 			<plugin>
@@ -114,9 +129,12 @@
 				<version>${tycho-version}</version>
 				<configuration>
 					<useUIHarness>true</useUIHarness>
-					<useUIThread>true</useUIThread>
-
-					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
+					<useUIThread>false</useUIThread>
+<!--   					<application>org.eclipse.ui.ide.workbench</application>
+ --> 					<product>org.eclipse.platform.ide</product>
+  	<!-- 				<application>org.eclipse.e4.ui.workbench.swt.E4Application</application>
+	 -->				<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
+					<appArgLine>-nl en</appArgLine>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -128,6 +146,11 @@
 						<jacocoReport>../tmdmaker.doc/target/site/jacoco/report/jacoco.xml</jacocoReport>
 					</jacocoReports>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-versions-plugin</artifactId>
+				<version>${tycho-version}</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -164,6 +187,7 @@
 		<module>../tmdmaker.rcp.feature</module>
 		<module>../tmdmaker.core.test</module>
 		<module>../tmdmaker.test</module>
+		<module>../tmdmaker.ui.test</module>
 		<module>../tmdmaker.doc</module>
 	</modules>
 
