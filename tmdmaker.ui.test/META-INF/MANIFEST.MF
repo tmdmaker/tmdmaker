@@ -22,4 +22,6 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.apache.log4j,
  org.eclipse.ui.views,
  org.eclipse.swtbot.eclipse.core,
- org.eclipse.platform
+ org.eclipse.platform,
+ tmdmaker.core,
+ org.eclipse.swtbot.e4.finder

@@ -82,5 +82,16 @@ public class Constraint implements Serializable {
 		y += dy;
 		return this;
 	}
-
+	@Override
+	public String toString() {
+		StringBuffer buf = new StringBuffer();
+		buf.append("x=" + x);
+		buf.append(",");
+		buf.append("y="+y);
+		buf.append(",");
+		buf.append("h="+height);
+		buf.append(",");
+		buf.append("w="+ width);
+		return buf.toString();
+	}
 }
