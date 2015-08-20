@@ -1,14 +1,25 @@
+sudo: false
+
 language: java
+
 jdk:
   - oraclejdk8
   - oraclejdk7
 
-before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+cache:
+  directories:
+  - $HOME/.m2
 
-before_script: "cd ./tmdmaker.releng/"
+env: DISPLAY=:99.0
+
+install: true
+
+before_script:
+  - sh -e /etc/init.d/xvfb start
+  - cd ./tmdmaker.releng/
+
 script:
   - mvn -B clean install
+
 after_success:
   - mvn coveralls:report
