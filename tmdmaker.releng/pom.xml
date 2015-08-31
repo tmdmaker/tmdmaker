@@ -78,6 +78,14 @@
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<compilerVersion>1.8</compilerVersion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
@@ -130,10 +138,10 @@
 				<configuration>
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>false</useUIThread>
-<!--   					<application>org.eclipse.ui.ide.workbench</application>
- --> 					<product>org.eclipse.platform.ide</product>
-  	<!-- 				<application>org.eclipse.e4.ui.workbench.swt.E4Application</application>
-	 -->				<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
+					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
+					<product>org.eclipse.platform.ide</product>
+					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
+					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
 					<appArgLine>-nl en</appArgLine>
 				</configuration>
 			</plugin>

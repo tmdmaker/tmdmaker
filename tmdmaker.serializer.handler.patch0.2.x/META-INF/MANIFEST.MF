@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.core.runtime,
  tmdmaker.serializer,
  tmdmaker.core;bundle-version="0.2.9"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: TMD-Maker Project
 Bundle-ClassPath: .,
  lib/slf4j-api-1.7.7.jar,
