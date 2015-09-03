@@ -70,7 +70,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 	@Override
 	public void run() {
 		AbstractModelEditPart<?> part = getPart();
-		AbstractSubsetType model = (AbstractSubsetType) part.getModel();
+		AbstractSubsetType<?> model = (AbstractSubsetType<?>) part.getModel();
 
 		execute(new SubsetTypeChangeCommand(model));
 	}
@@ -82,7 +82,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 	 *
 	 */
 	private static class SubsetTypeChangeCommand extends Command {
-		private AbstractSubsetType model;
+		private AbstractSubsetType<?> model;
 		private boolean oldVertical;
 		private boolean newVertical;
 
@@ -92,7 +92,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 		 * @param model
 		 *            対象となるサブセット種類.
 		 */
-		public SubsetTypeChangeCommand(AbstractSubsetType model) {
+		public SubsetTypeChangeCommand(AbstractSubsetType<?> model) {
 			this.model = model;
 			oldVertical = model.isVertical();
 			newVertical = !oldVertical;

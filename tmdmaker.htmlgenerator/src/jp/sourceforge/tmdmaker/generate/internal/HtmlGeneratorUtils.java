@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.generate;
+package jp.sourceforge.tmdmaker.generate.internal;
 
 import java.io.Closeable;
 import java.io.File;
@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringWriter;
 
+import jp.sourceforge.tmdmaker.generate.Activator;
 import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException;
 
 import org.apache.velocity.VelocityContext;

@@ -146,6 +146,7 @@ abstract public class AbstractRenderedImage implements RenderedImage {
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(Image.class)) {
 			return getSWTImage();

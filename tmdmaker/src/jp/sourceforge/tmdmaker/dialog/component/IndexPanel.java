@@ -141,7 +141,7 @@ public class IndexPanel extends Composite {
 		filler31.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		attributeSelectedLabel = new Label(this, SWT.NONE);
 		attributeSelectedLabel.setText("選択");
-		Label filler8 = new Label(this, SWT.NONE);
+		new Label(this, SWT.NONE);
 		attributeNotSelectedLabel = new Label(this, SWT.NONE);
 		attributeNotSelectedLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		attributeNotSelectedLabel.setText("未選択");

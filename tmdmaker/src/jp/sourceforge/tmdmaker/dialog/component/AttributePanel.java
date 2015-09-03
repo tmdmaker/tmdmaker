@@ -117,7 +117,7 @@ public class AttributePanel extends Composite {
 		derivationRuleLabel.setText("計算式");
 		derivationRuleTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		derivationRuleTextArea.setLayoutData(gridData7);
-		Label filler6 = new Label(this, SWT.NONE);
+		new Label(this, SWT.NONE);
 		derivationCheckBox = new Button(this, SWT.CHECK);
 		derivationCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		derivationCheckBox.setText("ダイアグラムに(D)を表示する");
