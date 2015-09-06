@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.treeeditpart;
 
 import java.beans.PropertyChangeEvent;
@@ -25,6 +40,7 @@ import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.property.AbstractEntityModelPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 
@@ -54,6 +70,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 	    icons.put(RecursiveTable.class,     "icons/outline/recursive_table.png");
 	    icons.put(MappingList.class,        "icons/outline/mapping_list.png");
 	    icons.put(Laputa.class,             "icons/outline/laputa.png");
+	    icons.put(VirtualSuperset.class,      "icons/outline/virtual_entity.png");
 	}
 	
 	public AbstractEntityModelTreeEditPart(T model)
