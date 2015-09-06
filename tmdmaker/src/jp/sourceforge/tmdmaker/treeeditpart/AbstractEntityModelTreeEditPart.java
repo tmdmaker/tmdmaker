@@ -51,129 +51,165 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Entity系モデルのtreeeditpartクラス
+ *
  * @author ny@cosmichorror.org
  *
  */
-public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> extends AbstractTreeEditPart implements
-		PropertyChangeListener,IPropertyAvailable {
-	
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractEntityModelTreeEditPart.class);
-	
-	private static Map<Type,String> icons = new HashMap<Type,String>();
-	
+public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
+		extends AbstractTreeEditPart implements PropertyChangeListener, IPropertyAvailable {
+
+	private static org.slf4j.Logger logger = LoggerFactory
+			.getLogger(AbstractEntityModelTreeEditPart.class);
+
+	private static Map<Type, String> icons = new HashMap<Type, String>();
+
 	static {
-	    icons.put(CombinationTable.class,   "icons/outline/combination_table.png");
-	    icons.put(SubsetEntity.class,       "icons/outline/subset_resource.png");
-	    icons.put(VirtualEntity.class,      "icons/outline/virtual_entity.png");
-	    icons.put(MultivalueOrEntity.class, "icons/outline/multivalue_or.png");
-	    icons.put(Detail.class,             "icons/outline/detail.png");
-	    icons.put(RecursiveTable.class,     "icons/outline/recursive_table.png");
-	    icons.put(MappingList.class,        "icons/outline/mapping_list.png");
-	    icons.put(Laputa.class,             "icons/outline/laputa.png");
-	    icons.put(VirtualSuperset.class,      "icons/outline/virtual_entity.png");
+		icons.put(CombinationTable.class, "icons/outline/combination_table.png");
+		icons.put(SubsetEntity.class, "icons/outline/subset_resource.png");
+		icons.put(VirtualEntity.class, "icons/outline/virtual_entity.png");
+		icons.put(MultivalueOrEntity.class, "icons/outline/multivalue_or.png");
+		icons.put(Detail.class, "icons/outline/detail.png");
+		icons.put(RecursiveTable.class, "icons/outline/recursive_table.png");
+		icons.put(MappingList.class, "icons/outline/mapping_list.png");
+		icons.put(Laputa.class, "icons/outline/laputa.png");
+		icons.put(VirtualSuperset.class, "icons/outline/virtual_entity.png");
 	}
-	
-	public AbstractEntityModelTreeEditPart(T model)
-	{
+
+	public AbstractEntityModelTreeEditPart(T model) {
 		super();
 		setModel(model);
 	}
 
-	//getModel()でツリー要素の対象モデルのインスタンスが取れる。
+	// getModel()でツリー要素の対象モデルのインスタンスが取れる。
 	@SuppressWarnings("unchecked")
 	@Override
 	public T getModel() {
-		return (T)super.getModel();
+		return (T) super.getModel();
 	}
 
 	List<List<?>> children = new ArrayList<List<?>>();
 	List<Identifier> identifiers = new ArrayList<Identifier>();
 
-	//子要素があるときは、getModelChildren()で子要素の一覧を返す。無いときは空のリストを返す。
+	// 子要素があるときは、getModelChildren()で子要素の一覧を返す。無いときは空のリストを返す。
 	@Override
 	protected List<List<?>> getModelChildren() {
 		return children;
 	}
-	
+
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#setModel(java.lang.Object)
+	 */
 	@Override
 	public void setModel(Object model) {
 		super.setModel(model);
 		updateChildren();
 	}
-	
-	protected void clearChildren(){
+
+	protected void clearChildren() {
 		children.clear();
 		identifiers.clear();
 	}
-	
+
 	protected void updateChildren() {
 		clearChildren();
 		setIdentifiers();
 		setAttributes();
 		setKeyModels();
 	}
-	
-	protected void setIdentifiers(){
-		for (ReusedIdentifier r: getModel().getReusedIdentifieres().values()){
-			for (Identifier i : r.getIdentifires()){
+
+	protected void setIdentifiers() {
+		for (ReusedIdentifier r : getModel().getReusedIdentifieres().values()) {
+			for (Identifier i : r.getIdentifires()) {
 				identifiers.add(i);
 			}
 		}
-		if (identifiers != null && identifiers.size() != 0){
-		    children.add(identifiers);
-		}	
-	}
-	
-	protected void setAttributes(){
-		List<IAttribute> attributes = getModel().getAttributes();
-		if (attributes != null && attributes.size() != 0){
-			children.add(attributes);
-		}
-	}
-	
-	protected void setKeyModels(){
-		List<KeyModel> keymodels = new ArrayList<KeyModel>();
-		for (KeyModel key : getModel().getKeyModels()){
-		    keymodels.add(key);
-		}
-		if (keymodels.size() > 0){
-		    children.add(keymodels);
-		}
-	}
-	
-	@Override
-	protected String getText() {
-		ModelElement model = getModel();
-		if (model.getName() == null)
-		{
-			return "";
-		}
-		else{
-			return model.getName();		
+		if (identifiers != null && identifiers.size() != 0) {
+			children.add(identifiers);
 		}
 	}
 
+	protected void setAttributes() {
+		List<IAttribute> attributes = getModel().getAttributes();
+		if (attributes != null && attributes.size() != 0) {
+			children.add(attributes);
+		}
+	}
+
+	protected void setKeyModels() {
+		List<KeyModel> keymodels = new ArrayList<KeyModel>();
+		for (KeyModel key : getModel().getKeyModels()) {
+			keymodels.add(key);
+		}
+		if (keymodels.size() > 0) {
+			children.add(keymodels);
+		}
+	}
+
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractTreeEditPart#getText()
+	 */
 	@Override
-	protected Image getImage() {		
-		if (icons.containsKey(getModel().getClass())){
-		     String path = icons.get(getModel().getClass());
-		     return TMDPlugin.getImage(path);
+	protected String getText() {
+		ModelElement model = getModel();
+		if (model.getName() == null) {
+			return "";
+		} else {
+			return model.getName();
+		}
+	}
+
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractTreeEditPart#getImage()
+	 */
+	@Override
+	protected Image getImage() {
+		if (icons.containsKey(getModel().getClass())) {
+			String path = icons.get(getModel().getClass());
+			return TMDPlugin.getImage(path);
 		}
 		return super.getImage();
 	}
-	
+
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#activate()
+	 */
 	@Override
 	public void activate() {
 		super.activate();
 		getModel().addPropertyChangeListener(this);
 	}
 
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#deactivate()
+	 */
 	@Override
 	public void deactivate() {
 		getModel().removePropertyChangeListener(this);
 		super.deactivate();
 	}
 
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		logger.debug(getClass() + "." + evt.getPropertyName());
@@ -199,7 +235,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 			logger.warn("Not Handle Event Occured.");
 		}
 	}
-	
+
 	/**
 	 * 名称変更イベント処理
 	 * 
@@ -260,6 +296,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 	protected void handleReUseKeyChange(PropertyChangeEvent evt) {
 		refreshVisuals();
 	}
+
 	/**
 	 * 接続元コネクション変更イベント処理
 	 * 
@@ -267,7 +304,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 	 *            発生したイベント情報
 	 */
 	protected void handleSourceConnectionChange(PropertyChangeEvent evt) {
-		//refreshSourceConnections();
+		// refreshSourceConnections();
 	}
 
 	/**
@@ -277,10 +314,11 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 	 *            発生したイベント情報
 	 */
 	protected void handleTargetConnectionChange(PropertyChangeEvent evt) {
-		//refreshTargetConnections();
+		// refreshTargetConnections();
 	}
-	
+
 	/**
+	 *
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
@@ -293,6 +331,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 	}
 
 	/**
+	 *
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
@@ -306,10 +345,10 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 		@SuppressWarnings("unchecked")
 		List<FolderTreeEditPart<?>> children = getChildren();
 		int size = children.size();
-		Map<List<?>,FolderTreeEditPart<?>> modelToEditPart = new HashMap<List<?>,FolderTreeEditPart<?>>();
+		Map<List<?>, FolderTreeEditPart<?>> modelToEditPart = new HashMap<List<?>, FolderTreeEditPart<?>>();
 		if (size > 0) {
-			modelToEditPart = new HashMap<List<?>,FolderTreeEditPart<?>>(size);
-			for (FolderTreeEditPart<?> e: children) {
+			modelToEditPart = new HashMap<List<?>, FolderTreeEditPart<?>>(size);
+			for (FolderTreeEditPart<?> e : children) {
 				modelToEditPart.put(e.getModel(), e);
 			}
 		}
@@ -318,19 +357,20 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 		for (i = 0; i < modelObjects.size(); i++) {
 			List<?> model = modelObjects.get(i);
 
-			//TODO: 要調査AbstractEditPart#refreshChildren では、EditPartの再作成回避のためのチェックがあったが、ここでそれをやると新規作成時に ReUsedのキーがうまく反映されないので、チェックは行わない。
+			// TODO: 要調査AbstractEditPart#refreshChildren
+			// では、EditPartの再作成回避のためのチェックがあったが、ここでそれをやると新規作成時に
+			// ReUsedのキーがうまく反映されないので、チェックは行わない。
 
 			// Look to see if the EditPart is already around but in the
 			// wrong location
 			FolderTreeEditPart<?> editPart = modelToEditPart.get(model);
 
-			if (editPart != null){
+			if (editPart != null) {
 				reorderChild(editPart, i);
-			}
-			else {
+			} else {
 				// An EditPart for this model doesn't exist yet. Create and
 				// insert one.
-				editPart = (FolderTreeEditPart<?>)createChild(model);
+				editPart = (FolderTreeEditPart<?>) createChild(model);
 				addChild(editPart, i);
 			}
 		}
@@ -348,6 +388,11 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel> exte
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.property.IPropertyAvailable#getPropertySource(jp.sourceforge.tmdmaker.TMDEditor)
+	 */
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {
 		return new AbstractEntityModelPropertySource(editor, this.getModel());
