@@ -19,16 +19,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.property.DiagramPropertySource;
-import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.command.ModelAddCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
-import jp.sourceforge.tmdmaker.util.ConstraintConverter;
-
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
@@ -42,6 +32,7 @@ import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.SnapToHelper;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
@@ -49,19 +40,32 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import jp.sourceforge.tmdmaker.TMDEditor;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.model.other.Memo;
+import jp.sourceforge.tmdmaker.property.DiagramPropertySource;
+import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
+import jp.sourceforge.tmdmaker.ui.command.MemoAddCommand;
+import jp.sourceforge.tmdmaker.ui.command.MemoChangeCommand;
+import jp.sourceforge.tmdmaker.ui.command.EntityModelAddCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.util.ConstraintConverter;
+
 /**
  * Diagramのコントローラ
  * 
  * @author nakaG
  * 
  */
-public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPropertyAvailable {
-	
+public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPropertyAvailable {
+
 	/**
 	 * コンストラクタ
 	 */
-	public DiagramEditPart(Diagram diagram)
-	{
+	public DiagramEditPart(Diagram diagram) {
 		super();
 		setModel(diagram);
 	}
@@ -173,8 +177,8 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 		}
 
 		@Override
-		protected Command createChangeConstraintCommand(ChangeBoundsRequest request,
-				EditPart child, Object constraint) {
+		protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child,
+				Object constraint) {
 			logger.debug("resizedirection:" + request.getResizeDirection());
 			logger.debug("NORTH_SOUTH/EAST_WEST:" + PositionConstants.NORTH_SOUTH + "/"
 					+ PositionConstants.EAST_WEST);
@@ -189,13 +193,30 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 		 */
 		@Override
 		protected Command getCreateCommand(CreateRequest request) {
-			logger.debug(getClass() + "#getCreateCommand()");
+			logger.debug(getClass() + "#getCreateCommand()"+ request.getNewObjectType());
 			Rectangle constraint = (Rectangle) getConstraintFor(request);
-			constraint.width = -1;
-			constraint.height = -1;
-			Entity entity = (Entity) request.getNewObject();
-			entity.setConstraint(ConstraintConverter.toConstraint(constraint));
-			return new ModelAddCommand(getModel(), constraint.x, constraint.y);
+			ConnectableElement model = (ConnectableElement) request.getNewObject();
+			model.setConstraint(ConstraintConverter.toConstraintWithoutHeightWidth(constraint));
+			logger.debug(model.getConstraint().toString());
+			// EntityまたはLaputa
+			if (model instanceof AbstractEntityModel) {
+				return new EntityModelAddCommand(getModel(), constraint.x, constraint.y);
+			}
+			// Memo
+			if (model instanceof Memo) {
+				return createMemoCommand(constraint, model);
+			}
+			return null;
+		}
+
+		private Command createMemoCommand(Rectangle constraint, ConnectableElement model) {
+			Memo memo = (Memo) model;
+			final String DEFAULT_MEMO_TEXT = "Memo";
+
+			CompoundCommand command = new CompoundCommand();
+			command.add(new MemoAddCommand(getModel(), memo, constraint.x, constraint.y));
+			command.add(new MemoChangeCommand(memo, DEFAULT_MEMO_TEXT));
+			return command;
 		}
 	}
 

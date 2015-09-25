@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 package jp.sourceforge.tmdmaker.tool;
 
 import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog;
-import jp.sourceforge.tmdmaker.ui.command.ModelAddCommand;
+import jp.sourceforge.tmdmaker.ui.command.EntityModelAddCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.tools.CreationTool;
@@ -45,8 +45,8 @@ public class EntityCreationTool extends CreationTool {
 			unlockTargetEditPart();
 
 			Command curCommand = getCurrentCommand();
-			if (curCommand instanceof ModelAddCommand) {
-				ModelAddCommand addCommand = (ModelAddCommand) curCommand;
+			if (curCommand instanceof EntityModelAddCommand) {
+				EntityModelAddCommand addCommand = (EntityModelAddCommand) curCommand;
 
 				EntityCreateDialog dialog = new EntityCreateDialog(
 						getCurrentViewer().getControl().getShell());

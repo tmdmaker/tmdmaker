@@ -44,6 +44,7 @@ import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
+import jp.sourceforge.tmdmaker.model.other.Memo;
 
 /**
  * 
@@ -189,5 +190,15 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 	@Override
 	public void visit(Identifier identifier) {
 		part = new IdentifierTreeEditPart(identifier);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.IVisitor#visit(jp.sourceforge.tmdmaker.model.other.Memo)
+	 */
+	@Override
+	public void visit(Memo type) {
+		part = null;
 	}
 }

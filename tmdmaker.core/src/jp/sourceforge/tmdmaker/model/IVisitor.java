@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.model.other.Memo;
+
 /**
  * Visitorパターンの訪問者側
  * 
@@ -48,4 +50,5 @@ public interface IVisitor {
 	void visit(VirtualEntity entity);
 	void visit(VirtualSuperset entity);
 	void visit(VirtualSupersetType type);
+	void visit(Memo model);
 }

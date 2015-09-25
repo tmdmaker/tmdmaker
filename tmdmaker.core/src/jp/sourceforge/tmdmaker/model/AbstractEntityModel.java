@@ -467,14 +467,6 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		this.keyModels = keyModels;
 	}
 
-	public void move(int x, int y) {
-		Constraint oldPosition = getConstraint();
-		Constraint newPosition = oldPosition.getCopy();
-		newPosition.x = x;
-		newPosition.y = y;
-		setConstraint(newPosition);
-	}
-
 	public int calcurateMaxIdentifierRefSize() {
 		int rx = 0;
 		final int RMARK_SIZE = 3;

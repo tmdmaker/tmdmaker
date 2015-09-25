@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,44 +19,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.EventObject;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
-import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
-import jp.sourceforge.tmdmaker.action.CopyModelAction;
-import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
-import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
-import jp.sourceforge.tmdmaker.action.FileImportAction;
-import jp.sourceforge.tmdmaker.action.GenerateAction;
-import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
-import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
-import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
-import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
-import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
-import jp.sourceforge.tmdmaker.action.PasteModelAction;
-import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
-import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
-import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
-import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
-import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
-import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
-import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
-import jp.sourceforge.tmdmaker.extension.SerializerFactory;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.Version;
-import jp.sourceforge.tmdmaker.model.generate.Generator;
-import jp.sourceforge.tmdmaker.model.importer.FileImporter;
-import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
-import jp.sourceforge.tmdmaker.model.persistence.Serializer;
-import jp.sourceforge.tmdmaker.property.TMDEditorPropertySourceProvider;
-import jp.sourceforge.tmdmaker.ruler.TMDRulerProvider;
-import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
-import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
-import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
-import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
-import jp.sourceforge.tmdmaker.treeeditpart.TMDEditorOutlineTreePartFactory;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -73,6 +35,8 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.KeyHandler;
+import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
@@ -92,6 +56,8 @@ import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
+import org.eclipse.gef.ui.actions.DirectEditAction;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.actions.ToggleGridAction;
 import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
@@ -136,6 +102,45 @@ import org.eclipse.ui.views.properties.PropertySheetSorter;
 import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
+import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
+import jp.sourceforge.tmdmaker.action.CopyModelAction;
+import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
+import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
+import jp.sourceforge.tmdmaker.action.FileImportAction;
+import jp.sourceforge.tmdmaker.action.GenerateAction;
+import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
+import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
+import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
+import jp.sourceforge.tmdmaker.action.PasteModelAction;
+import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
+import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
+import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
+import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
+import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
+import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
+import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
+import jp.sourceforge.tmdmaker.extension.SerializerFactory;
+import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.Version;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
+import jp.sourceforge.tmdmaker.model.importer.FileImporter;
+import jp.sourceforge.tmdmaker.model.other.Memo;
+import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
+import jp.sourceforge.tmdmaker.model.persistence.Serializer;
+import jp.sourceforge.tmdmaker.property.TMDEditorPropertySourceProvider;
+import jp.sourceforge.tmdmaker.ruler.TMDRulerProvider;
+import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
+import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
+import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
+import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
+import jp.sourceforge.tmdmaker.treeeditpart.TMDEditorOutlineTreePartFactory;
 
 /**
  * TMDエディター
@@ -386,12 +391,21 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		ConnectionCreationToolEntry connxCCreationEntry = new ConnectionCreationToolEntry(
 				"リレーションシップ", "リレーションシップ", null, descriptor, descriptor);
 		connxCCreationEntry.setToolClass(TMDConnectionCreationTool.class);
-		// new SimpleFactory(AbstractRelationship.class), descriptor,
-		// descriptor);
+
 		drawer.add(connxCCreationEntry);
+
+		PaletteDrawer otherDrawer = new PaletteDrawer("その他");
+		ImageDescriptor memoDescriptor = TMDPlugin.getImageDescriptor("icons/new_memo.gif");
+
+		CreationToolEntry memoCreationEntry = new CreationToolEntry("メモ", "メモ",
+				new SimpleFactory(Memo.class), memoDescriptor, memoDescriptor);
+		// memoCreationEntry.setToolClass(CreationTool.class);
+
+		otherDrawer.add(memoCreationEntry);
 
 		root.add(toolGroup);
 		root.add(drawer);
+		root.add(otherDrawer);
 
 		return root;
 	}
@@ -584,6 +598,10 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		registry.registerAction(action);
 		selectionActions.add(action.getId());
 
+		action = new DirectEditAction(this);
+		registry.registerAction(action);
+		selectionActions.add(action.getId());
+
 	}
 
 	private void setupSelectionAction(ActionRegistry registry, List<String> selectionActions,
@@ -616,6 +634,15 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 
 		// viewerを取得するためcreateActionsメソッドではなくここでアクションを登録
 		ActionRegistry registry = getActionRegistry();
+		registerActions(viewer, rootEditPart, registry);
+
+		registerKeyHandleres(viewer, registry);
+
+		loadProperties();
+	}
+
+	private void registerActions(GraphicalViewer viewer, ScalableFreeformRootEditPart rootEditPart,
+			ActionRegistry registry) {
 		DiagramImageGenerateAction action66 = new DiagramImageGenerateAction(viewer, this);
 		registry.registerAction(action66);
 
@@ -662,8 +689,13 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 
 		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1),
 				MouseWheelZoomHandler.SINGLETON);
+	}
 
-		loadProperties();
+	private void registerKeyHandleres(GraphicalViewer viewer, ActionRegistry registry) {
+		KeyHandler handler = new KeyHandler();
+		viewer.setKeyHandler(handler);
+		handler.put(KeyStroke.getPressed(SWT.F2, 0),
+				registry.getAction(GEFActionConstants.DIRECT_EDIT));
 	}
 
 	private void loadProperties() {
@@ -740,12 +772,12 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		for (Object o : editParts) {
 			logger.debug(o.getClass().getName());
 			if (o instanceof AbstractModelEditPart) {
-				((AbstractModelEditPart<?>)o).updateAppearance();
+				((AbstractModelEditPart<?>) o).updateAppearance();
 			} else if (o instanceof DiagramEditPart) {
 				for (Object ob : ((DiagramEditPart) o).getChildren()) {
 					if (ob instanceof AbstractModelEditPart) {
-						((AbstractModelEditPart<?>)ob).updateAppearance();
-					}		
+						((AbstractModelEditPart<?>) ob).updateAppearance();
+					}
 				}
 			}
 		}

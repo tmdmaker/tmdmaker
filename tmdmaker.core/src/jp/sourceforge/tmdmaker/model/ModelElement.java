@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author nakaG
  */
 @SuppressWarnings("serial")
-public class ModelElement implements Serializable,IAcceptor {
+public class ModelElement implements Serializable, IAcceptor {
 	/** 名称プロパティ定数 */
 	public static final String PROPERTY_NAME = "_property_name";
 	/** 領域プロパティ定数 */
@@ -57,8 +57,7 @@ public class ModelElement implements Serializable,IAcceptor {
 	 * @param newValue
 	 *            変更後の値
 	 */
-	public void firePropertyChange(String propName, Object oldValue,
-			Object newValue) {
+	public void firePropertyChange(String propName, Object oldValue, Object newValue) {
 		listeners.firePropertyChange(propName, oldValue, newValue);
 	}
 
@@ -104,8 +103,16 @@ public class ModelElement implements Serializable,IAcceptor {
 		this.constraint = constraint;
 		firePropertyChange(PROPERTY_CONSTRAINT, oldValue, constraint);
 	}
-	
+
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	public void move(int x, int y) {
+		Constraint oldPosition = getConstraint();
+		Constraint newPosition = oldPosition.getCopy();
+		newPosition.x = x;
+		newPosition.y = y;
+		setConstraint(newPosition);
 	}
 }

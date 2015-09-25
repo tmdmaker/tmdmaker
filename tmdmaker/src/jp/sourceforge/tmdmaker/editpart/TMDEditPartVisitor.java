@@ -45,6 +45,7 @@ import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
+import jp.sourceforge.tmdmaker.model.other.Memo;
 
 /**
  * 
@@ -54,10 +55,10 @@ import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
  * @author tohosaku
  *
  */
-public class TMDEditPartVisitor implements IVisitor{
-	
+public class TMDEditPartVisitor implements IVisitor {
+
 	private EditPart part = null;
-	
+
 	public EditPart getEditPart() {
 		return part;
 	}
@@ -190,5 +191,15 @@ public class TMDEditPartVisitor implements IVisitor{
 	@Override
 	public void visit(Identifier identifier) {
 		part = null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.IVisitor#visit(jp.sourceforge.tmdmaker.model.other.Memo)
+	 */
+	@Override
+	public void visit(Memo model) {
+		part = new MemoEditPart(model);
 	}
 }

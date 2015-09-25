@@ -48,7 +48,8 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * @author nakaG
  * 
  */
-public abstract class AbstractModelEditPart<T extends ConnectableElement> extends AbstractTMDEditPart<T> implements NodeEditPart {
+public abstract class AbstractModelEditPart<T extends ConnectableElement>
+		extends AbstractTMDEditPart<T>implements NodeEditPart {
 
 	/** このコントローラで利用するアンカー */
 	private ConnectionAnchor anchor;
@@ -150,8 +151,8 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement> extend
 
 			Rectangle bounds = sourceFigure.getBounds();
 
-			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4), bounds.y
-					+ (bounds.height / 4), bounds.width / 2, bounds.height / 2);
+			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4),
+					bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
 			if (!centerRectangle.contains(location)) {
 				Point point = new XYChopboxAnchorHelper(bounds).getIntersectionPoint(location);
@@ -222,8 +223,8 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement> extend
 
 			Rectangle bounds = targetFigure.getBounds();
 
-			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4), bounds.y
-					+ (bounds.height / 4), bounds.width / 2, bounds.height / 2);
+			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4),
+					bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
 			if (!centerRectangle.contains(location)) {
 				Point point = new XYChopboxAnchorHelper(bounds).getIntersectionPoint(location);
@@ -457,16 +458,9 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement> extend
 	}
 
 	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 * モデルのサイズを自動調整可能か？
+	 *
+	 * @return 自動調整可能なモデルのコントローラはtrueを返す
 	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
-
-		return figure;
-	}
+	public abstract boolean canAutoSize();
 }
