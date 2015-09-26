@@ -34,18 +34,14 @@ import jp.sourceforge.tmdmaker.property.AbstractEntityModelPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -187,34 +183,6 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 
 	@Override
 	abstract protected void createEditPolicies();
-
-	protected Color getForegroundColor() {
-		return createForegroundColor(getAppearance());
-	}
-
-	protected Color getBackgroundColor() {
-		return createBackgroundColor(getAppearance());
-	}
-
-	abstract protected ModelAppearance getAppearance();
-
-	private Color createBackgroundColor(ModelAppearance appearance) {
-		AppearanceSetting config = AppearanceSetting.getInstance();
-		if (config.isColorEnabled()) {
-			return new Color(null, config.getBackground(appearance));
-		} else {
-			return ColorConstants.white;
-		}
-	}
-
-	private Color createForegroundColor(ModelAppearance appearance) {
-		AppearanceSetting config = AppearanceSetting.getInstance();
-		if (config.isColorEnabled()) {
-			return new Color(null, config.getFont(appearance));
-		} else {
-			return ColorConstants.black;
-		}
-	}
 
 	/**
 	 * {@inheritDoc}

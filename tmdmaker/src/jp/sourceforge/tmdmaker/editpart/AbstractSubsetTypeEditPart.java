@@ -28,6 +28,7 @@ import org.eclipse.gef.Request;
 import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
 import jp.sourceforge.tmdmaker.model.AbstractSubsetType;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 /**
  * スーパーセットとサブセットとの接点のEditPartの基底クラス.
@@ -159,5 +160,15 @@ public abstract class AbstractSubsetTypeEditPart<T extends ConnectableElement>
 	@Override
 	public boolean canAutoSize() {
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#getAppearance()
+	 */
+	@Override
+	protected ModelAppearance getAppearance() {
+		return null;
 	}
 }

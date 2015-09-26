@@ -21,6 +21,7 @@ import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * メモFigure
@@ -59,5 +60,18 @@ public class MemoFigure extends Figure {
 	 */
 	public TextFlow getMemoTextFlow() {
 		return memo;
+	}
+
+	/**
+	 * モデルの色を設定する
+	 *
+	 * @param foregroundColor
+	 *            前景色
+	 * @param backgroundColor
+	 *            背景色
+	 */
+	public void setColor(Color foregroundColor, Color backgroundColor) {
+		setForegroundColor(foregroundColor);
+		setBackgroundColor(backgroundColor);
 	}
 }

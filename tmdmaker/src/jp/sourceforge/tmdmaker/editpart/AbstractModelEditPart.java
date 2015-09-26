@@ -28,8 +28,11 @@ import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -41,6 +44,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * エンティティ系モデルのコントローラの基底クラス
@@ -463,4 +467,32 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 * @return 自動調整可能なモデルのコントローラはtrueを返す
 	 */
 	public abstract boolean canAutoSize();
+
+	protected abstract ModelAppearance getAppearance();
+
+	protected Color getForegroundColor() {
+		return createForegroundColor(getAppearance());
+	}
+
+	protected Color getBackgroundColor() {
+		return createBackgroundColor(getAppearance());
+	}
+
+	private Color createBackgroundColor(ModelAppearance appearance) {
+		AppearanceSetting config = AppearanceSetting.getInstance();
+		if (config.isColorEnabled() && appearance != null) {
+			return new Color(null, config.getBackground(appearance));
+		} else {
+			return ColorConstants.white;
+		}
+	}
+
+	private Color createForegroundColor(ModelAppearance appearance) {
+		AppearanceSetting config = AppearanceSetting.getInstance();
+		if (config.isColorEnabled() && appearance != null) {
+			return new Color(null, config.getFont(appearance));
+		} else {
+			return ColorConstants.black;
+		}
+	}
 }

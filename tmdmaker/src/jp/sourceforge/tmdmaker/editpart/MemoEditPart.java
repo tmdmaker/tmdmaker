@@ -41,6 +41,7 @@ import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.other.Memo;
 import jp.sourceforge.tmdmaker.ui.command.MemoChangeCommand;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
 /**
@@ -102,6 +103,7 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 		MemoFigure memoFigure = (MemoFigure) getFigure();
 		Memo memo = getModel();
 		memoFigure.setMemo(memo.getMemo());
+		memoFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
 
 	/**
@@ -166,6 +168,11 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	@Override
 	public boolean canAutoSize() {
 		return true;
+	}
+
+	@Override
+	protected ModelAppearance getAppearance() {
+		return ModelAppearance.MEMO_COLOR;
 	}
 
 	private static class MemoDirectEditPolicy extends DirectEditPolicy {
