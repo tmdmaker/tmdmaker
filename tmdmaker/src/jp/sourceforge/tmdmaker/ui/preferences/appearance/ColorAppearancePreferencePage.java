@@ -18,38 +18,48 @@ package jp.sourceforge.tmdmaker.ui.preferences.appearance;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
 
 /**
- * 外観設定ページ
+ * 背景色外観設定ページ
  * 
  * @author nakaG
  * 
  */
-public class AppearancePreferencePage extends FieldEditorPreferencePage implements
-		IWorkbenchPreferencePage {
+public class ColorAppearancePreferencePage extends FieldEditorPreferencePage
+		implements IWorkbenchPreferencePage {
 
 	private Composite colorFields;
-	private BooleanFieldEditor editor;
 	private List<ColorFieldEditor> colorFieldEditors = new ArrayList<ColorFieldEditor>();
-	private List<ColorFieldEditor> fontFieldEditors = new ArrayList<ColorFieldEditor>();
+	private IPropertyChangeListener listener = new IPropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			if (event.getProperty().equals(AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED)) {
+				Boolean colorEnabled = (Boolean) event.getNewValue();
+				setColorFieldsEnabled(colorEnabled);
+			}
+		}
+	};
 
 	/**
 	 * コンストラクタ
 	 */
-	public AppearancePreferencePage() {
+	public ColorAppearancePreferencePage() {
 		super(GRID);
 		setPreferenceStore(TMDPlugin.getDefault().getPreferenceStore());
+		getPreferenceStore().addPropertyChangeListener(listener);
 	}
 
 	/**
@@ -71,8 +81,8 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 	@Override
 	protected void initialize() {
 		super.initialize();
-		setColorFieldsEnabled(getPreferenceStore().getBoolean(
-				AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED));
+		setColorFieldsEnabled(getPreferenceStore()
+				.getBoolean(AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED));
 	}
 
 	/**
@@ -88,17 +98,23 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 		colorGroup.setText("色設定");
 		colorGroup.setLayout(new GridLayout(1, true));
 
-		editor = new BooleanFieldEditor(AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED,
-				"モデルの色設定を有効にする", colorGroup);
+		colorFields = new Composite(colorGroup, SWT.NONE);
+		new Label(colorFields, SWT.NONE);
+		Label l = new Label(colorFields, SWT.NONE);
+		l.setText("背景色");
 
-		addField(editor);
+		for (ModelAppearance a : ModelAppearance.values()) {
+			colorFieldEditors.add(new ColorFieldEditor(a.getBackgroundColorPropertyName(),
+					a.getLabel(), colorFields));
+		}
+
+		for (ColorFieldEditor e : colorFieldEditors) {
+			addField(e);
+		}
 	}
 
 	private void setColorFieldsEnabled(boolean enabled) {
 		for (ColorFieldEditor e : colorFieldEditors) {
-			e.setEnabled(enabled, colorFields);
-		}
-		for (ColorFieldEditor e : fontFieldEditors) {
 			e.setEnabled(enabled, colorFields);
 		}
 	}
@@ -111,6 +127,16 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 	@Override
 	protected void performDefaults() {
 		super.performDefaults();
-		setColorFieldsEnabled(editor.getBooleanValue());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#dispose()
+	 */
+	@Override
+	public void dispose() {
+		getPreferenceStore().removePropertyChangeListener(listener);
+		super.dispose();
 	}
 }
