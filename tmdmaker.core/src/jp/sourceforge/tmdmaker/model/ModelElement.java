@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,5 +114,29 @@ public class ModelElement implements Serializable, IAcceptor {
 		newPosition.x = x;
 		newPosition.y = y;
 		setConstraint(newPosition);
+	}
+	/**
+	 * サブセットを作成可能か？
+	 *
+	 * @return サブセットを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateSubset() {
+		return false;
+	}
+	/**
+	 * 多値のORを作成可能か？
+	 *
+	 * @return 多値のORを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateMultivalueOr() {
+		return false;
+	}
+	/**
+	 * みなしエンティティを作成可能か？
+	 *
+	 * @return みなしエンティティを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateVirtualEntity() {
+		return false;
 	}
 }

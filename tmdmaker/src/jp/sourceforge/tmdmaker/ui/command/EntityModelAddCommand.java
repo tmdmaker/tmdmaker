@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,24 @@ public class EntityModelAddCommand extends Command {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
+	 * @param diagram
+	 *            親
+	 * @param x
+	 *            X座標
+	 * @param y
+	 *            Y座標
+	 */
+	public EntityModelAddCommand(Diagram diagram, AbstractEntityModel model, int x, int y) {
+		this.diagram = diagram;
+		this.model = model;
+		this.x = x;
+		this.y = y;
+	}
+
+	/**
+	 * コンストラクタ
+	 *
 	 * @param diagram
 	 *            親
 	 * @param x

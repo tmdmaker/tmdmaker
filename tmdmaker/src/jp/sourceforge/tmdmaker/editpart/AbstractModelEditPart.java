@@ -468,6 +468,33 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	public abstract boolean canAutoSize();
 
+	/**
+	 * サブセットを作成可能か？
+	 *
+	 * @return サブセットを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateSubset() {
+		return getModel().canCreateSubset();
+	}
+
+	/**
+	 * 多値のORを作成可能か？
+	 *
+	 * @return 多値のORを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateMultivalueOr() {
+		return getModel().canCreateMultivalueOr();
+	}
+
+	/**
+	 * みなしエンティティを作成可能か？
+	 *
+	 * @return みなしエンティティを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateVirtualEntity() {
+		return getModel().canCreateVirtualEntity();
+	}
+
 	protected abstract ModelAppearance getAppearance();
 
 	protected Color getForegroundColor() {

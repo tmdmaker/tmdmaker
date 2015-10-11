@@ -37,6 +37,7 @@ public enum ModelAppearance {
 	EVENT_VIRTUAL_ENTITY("みなしエンティティ（イベント） :", "eventVirtualEntity", new RGB(255, 204, 255), new RGB(0, 0, 0)),
 	SUPERSET_COLOR("みなしスーパーセット:", "supersetColor", new RGB(255, 255, 255), new RGB(0, 0, 0)),
 	LAPUTA_COLOR("ラピュタ:", "laputaColor", new RGB(255, 255, 255), new RGB(0, 0, 0)),
+	TURBO_FILE_COLOR("ターボファイル:", "turboFileColor", new RGB(255, 255, 255), new RGB(0, 0, 0)),
 	MEMO_COLOR("メモ：", "memoColor", new RGB(204, 255, 255), new RGB(0, 0, 0));
 
 	/** 設定ページ用のラベル */

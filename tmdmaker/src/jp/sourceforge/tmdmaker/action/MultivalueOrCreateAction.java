@@ -15,18 +15,14 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import jp.sourceforge.tmdmaker.dialog.MultivalueOrEntityCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.AbstractSubsetTypeEditPart;
-import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
-import jp.sourceforge.tmdmaker.editpart.MultivalueAndSupersetEditPart;
-import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.MultivalueOrRelationship;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
+
+import jp.sourceforge.tmdmaker.dialog.MultivalueOrEntityCreateDialog;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.MultivalueOrRelationship;
 
 /**
  * 多値のOR作成アクション.
@@ -75,13 +71,12 @@ public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	protected boolean calculateEnabled() {
-		if (getSelectedObjects().size() == 1) {
-			Object selection = getSelectedObjects().get(0);
-			return selection instanceof AbstractModelEditPart
-					&& !(selection instanceof AbstractSubsetTypeEditPart)
-					&& !(selection instanceof MultivalueAndSupersetEditPart)
-					&& !(selection instanceof VirtualSupersetEditPart)
-					&& !(selection instanceof LaputaEditPart);
+		if (getSelectedObjects().size() != 1) {
+			return false;
+		}
+		Object selection = getSelectedObjects().get(0);
+		if (selection instanceof AbstractModelEditPart<?>) {
+			return ((AbstractModelEditPart<?>) selection).canCreateMultivalueOr();
 		} else {
 			return false;
 		}

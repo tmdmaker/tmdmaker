@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -128,8 +128,43 @@ public class VirtualEntity extends AbstractEntityModel {
 		super.copyTo(to);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateSubset()
+	 */
+	@Override
+	public boolean canCreateSubset() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateMultivalueOr()
+	 */
+	@Override
+	public boolean canCreateMultivalueOr() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateVirtualEntity()
+	 */
+	@Override
+	public boolean canCreateVirtualEntity() {
+		return false;
 	}
 }

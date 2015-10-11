@@ -224,5 +224,4 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	public boolean canAutoSize() {
 		return true;
 	}
-	
 }

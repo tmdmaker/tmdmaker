@@ -15,19 +15,15 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.AbstractSubsetTypeEditPart;
-import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
-import jp.sourceforge.tmdmaker.editpart.MultivalueAndSupersetEditPart;
-import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.SubsetType;
-import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
-
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
+
+import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.SubsetType;
+import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
 /**
  * サブセット作成アクション.
@@ -58,13 +54,12 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	protected boolean calculateEnabled() {
-		if (getSelectedObjects().size() == 1) {
-			Object selection = getSelectedObjects().get(0);
-			return selection instanceof AbstractModelEditPart
-					&& !(selection instanceof AbstractSubsetTypeEditPart)
-					&& !(selection instanceof MultivalueAndSupersetEditPart)
-					&& !(selection instanceof VirtualSupersetEditPart)
-					&& !(selection instanceof LaputaEditPart);
+		if (getSelectedObjects().size() != 1) {
+			return false;
+		}
+		Object selection = getSelectedObjects().get(0);
+		if (selection instanceof AbstractModelEditPart<?>) {
+			return ((AbstractModelEditPart<?>) selection).canCreateSubset();
 		} else {
 			return false;
 		}
@@ -82,8 +77,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		AbstractEntityModel model = getModel();
 		SubsetType subsetType = SubsetRule.setupSubsetType(model);
 
-		SubsetCreateDialog dialog = new SubsetCreateDialog(
-				part.getViewer().getControl().getShell(), subsetType, model);
+		SubsetCreateDialog dialog = new SubsetCreateDialog(part.getViewer().getControl().getShell(),
+				subsetType, model);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = dialog.getCcommand();
 			execute(ccommand);

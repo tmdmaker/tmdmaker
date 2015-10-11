@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.model;
 
 import jp.sourceforge.tmdmaker.model.other.Memo;
+import jp.sourceforge.tmdmaker.model.other.TurboFile;
 
 /**
  * Visitorパターンの訪問者側
@@ -51,4 +52,6 @@ public interface IVisitor {
 	void visit(VirtualSuperset entity);
 	void visit(VirtualSupersetType type);
 	void visit(Memo model);
+	void visit(TurboFile entity);
+	void visit(TurboFileRelationship relationship);
 }

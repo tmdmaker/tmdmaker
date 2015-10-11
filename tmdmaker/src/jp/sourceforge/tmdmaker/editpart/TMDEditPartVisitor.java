@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,10 +42,12 @@ import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
+import jp.sourceforge.tmdmaker.model.TurboFileRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 import jp.sourceforge.tmdmaker.model.other.Memo;
+import jp.sourceforge.tmdmaker.model.other.TurboFile;
 
 /**
  * 
@@ -201,5 +203,25 @@ public class TMDEditPartVisitor implements IVisitor {
 	@Override
 	public void visit(Memo model) {
 		part = new MemoEditPart(model);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.IVisitor#visit(jp.sourceforge.tmdmaker.model.other.TurboFile)
+	 */
+	@Override
+	public void visit(TurboFile entity) {
+		part = new TurboFileEditPart(entity);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.IVisitor#visit(jp.sourceforge.tmdmaker.model.TurboFileRelationship)
+	 */
+	@Override
+	public void visit(TurboFileRelationship relationship) {
+		part = new RelationshipEditPart(relationship);
 	}
 }

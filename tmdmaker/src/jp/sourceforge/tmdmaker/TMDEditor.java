@@ -132,6 +132,7 @@ import jp.sourceforge.tmdmaker.model.Version;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
 import jp.sourceforge.tmdmaker.model.importer.FileImporter;
 import jp.sourceforge.tmdmaker.model.other.Memo;
+import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
 import jp.sourceforge.tmdmaker.model.persistence.Serializer;
 import jp.sourceforge.tmdmaker.property.TMDEditorPropertySourceProvider;
@@ -395,12 +396,16 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		drawer.add(connxCCreationEntry);
 
 		PaletteDrawer otherDrawer = new PaletteDrawer("その他");
+		// ターボファイル作成
+		ImageDescriptor turboFileDescriptor = TMDPlugin.getImageDescriptor("icons/new_turbo.gif");
+		CreationToolEntry turboFileCreationEntry = new CreationToolEntry("ターボファイル", "ターボファイル",
+				new SimpleFactory(TurboFile.class), turboFileDescriptor, turboFileDescriptor);
+		otherDrawer.add(turboFileCreationEntry);
+		
+		// メモ作成
 		ImageDescriptor memoDescriptor = TMDPlugin.getImageDescriptor("icons/new_memo.gif");
-
 		CreationToolEntry memoCreationEntry = new CreationToolEntry("メモ", "メモ",
 				new SimpleFactory(Memo.class), memoDescriptor, memoDescriptor);
-		// memoCreationEntry.setToolClass(CreationTool.class);
-
 		otherDrawer.add(memoCreationEntry);
 
 		root.add(toolGroup);

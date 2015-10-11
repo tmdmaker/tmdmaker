@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,11 +46,12 @@ import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.other.Memo;
+import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.property.DiagramPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
+import jp.sourceforge.tmdmaker.ui.command.EntityModelAddCommand;
 import jp.sourceforge.tmdmaker.ui.command.MemoAddCommand;
 import jp.sourceforge.tmdmaker.ui.command.MemoChangeCommand;
-import jp.sourceforge.tmdmaker.ui.command.EntityModelAddCommand;
 import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
@@ -198,6 +199,9 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 			ConnectableElement model = (ConnectableElement) request.getNewObject();
 			model.setConstraint(ConstraintConverter.toConstraintWithoutHeightWidth(constraint));
 			logger.debug(model.getConstraint().toString());
+			if (model instanceof TurboFile) {
+				return createTurboFileCommand(constraint, model);
+			}
 			// EntityまたはLaputa
 			if (model instanceof AbstractEntityModel) {
 				return new EntityModelAddCommand(getModel(), constraint.x, constraint.y);
@@ -207,6 +211,13 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 				return createMemoCommand(constraint, model);
 			}
 			return null;
+		}
+
+		private EntityModelAddCommand createTurboFileCommand(Rectangle constraint,
+				ConnectableElement model) {
+			TurboFile turbo = (TurboFile) model;
+			turbo.setName("ターボファイル");
+			return new EntityModelAddCommand(getModel(), turbo, constraint.x, constraint.y);
 		}
 
 		private Command createMemoCommand(Rectangle constraint, ConnectableElement model) {
