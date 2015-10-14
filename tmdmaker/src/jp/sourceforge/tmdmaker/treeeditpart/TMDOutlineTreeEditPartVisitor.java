@@ -211,7 +211,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 	 */
 	@Override
 	public void visit(TurboFile entity) {
-		part = new AbstractEntityModelTreeEditPart<AbstractEntityModel>(entity);
+		part = new AbstractEntityModelTreeEditPart<TurboFile>(entity);
 	}
 
 	/**

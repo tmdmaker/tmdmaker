@@ -90,4 +90,34 @@ public class TurboFile extends AbstractEntityModel {
 	public EntityType getEntityType() {
 		return EntityType.TURBO;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#canCreateVirtualEntity()
+	 */
+	@Override
+	public boolean canCreateVirtualEntity() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#canCreateMultivalueOr()
+	 */
+	@Override
+	public boolean canCreateMultivalueOr() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#canCreateSubset()
+	 */
+	@Override
+	public boolean canCreateSubset() {
+		return false;
+	}
 }

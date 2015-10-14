@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import jp.sourceforge.tmdmaker.model.other.Memo;
+import jp.sourceforge.tmdmaker.model.other.TurboFile;
 
 /**
  * モデル毎の特徴の差異のテスト
@@ -69,6 +70,8 @@ public class ModelFeatureTest {
 		Memo mm = new Memo();
 		assertEquals(false, mm.canCreateSubset());
 
+		TurboFile tb = new TurboFile();
+		assertEquals(false, tb.canCreateSubset());
 	}
 
 	/**
@@ -112,6 +115,8 @@ public class ModelFeatureTest {
 		Memo mm = new Memo();
 		assertEquals(false, mm.canCreateMultivalueOr());
 
+		TurboFile tb = new TurboFile();
+		assertEquals(false, tb.canCreateMultivalueOr());
 	}
 
 	/**
@@ -154,7 +159,9 @@ public class ModelFeatureTest {
 
 		Memo mm = new Memo();
 		assertEquals(false, mm.canCreateVirtualEntity());
-
+		
+		TurboFile tb = new TurboFile();
+		assertEquals(false, tb.canCreateVirtualEntity());
 	}
 
 }

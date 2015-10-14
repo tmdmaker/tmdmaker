@@ -23,6 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.LoggerFactory;
+
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -41,14 +47,9 @@ import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
+import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.property.AbstractEntityModelPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.editparts.AbstractTreeEditPart;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.slf4j.LoggerFactory;
 
 /**
  * Entity系モデルのtreeeditpartクラス
@@ -74,6 +75,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 		icons.put(MappingList.class, "icons/outline/mapping_list.png");
 		icons.put(Laputa.class, "icons/outline/laputa.png");
 		icons.put(VirtualSuperset.class, "icons/outline/virtual_entity.png");
+		icons.put(TurboFile.class, "icons/outline/virtual_entity.png");
 	}
 
 	public AbstractEntityModelTreeEditPart(T model) {
