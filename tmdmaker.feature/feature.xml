@@ -18,6 +18,10 @@
       Apache License Version 2.0
    </license>
 
+   <includes
+         id="org.eclipse.gef"
+         version="0.0.0"/>
+
    <plugin
          id="tmdmaker"
          download-size="0"
