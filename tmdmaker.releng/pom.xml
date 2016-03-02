@@ -17,7 +17,7 @@
 		<docbkx-maven-plugin-version>2.0.16</docbkx-maven-plugin-version>
 		<docbook-xml-verson>5.0-all</docbook-xml-verson>
 		<maven-dependency-plugin-version>2.10</maven-dependency-plugin-version>
-		<project-url>http://tmdmaker.sourceforge.jp/</project-url>
+		<project-url>http://tmdmaker.osdn.jp/</project-url>
 	</properties>
 
 	<build>
@@ -321,7 +321,7 @@
 	<distributionManagement>
 		<site>
 			<id>tmdmaker-site</id>
-			<url>scp://shell.sourceforge.jp/home/groups/t/tm/tmdmaker/htdocs/${project.artifactId}</url>
+			<url>scp://shell.osdn.jp/home/groups/t/tm/tmdmaker/htdocs/${project.artifactId}</url>
 		</site>
 	</distributionManagement>
 
@@ -329,15 +329,15 @@
 	<description>TMD-Makerの親POM用プロジェクト</description>
 	<organization>
 		<name>TMD-Maker Project</name>
-		<url>http://tmdmaker.sourceforge.jp</url>
+		<url>http://tmdmaker.osdn.jp</url>
 	</organization>
 	<scm>
-		<connection>scm:git:git://git.sourceforge.jp/gitroot/tmdmaker/tmdmaker.git</connection>
-		<url>http://sourceforge.jp/projects/tmdmaker/scm/git/tmdmaker/tree/develop/tmdmaker.releng/</url>
+		<connection>scm:git:git://git.osdn.jp/gitroot/tmdmaker/tmdmaker.git</connection>
+		<url>http://osdn.jp/projects/tmdmaker/scm/git/tmdmaker/tree/develop/tmdmaker.releng/</url>
 	</scm>
 	<issueManagement>
-		<system>sourceforge.jp</system>
-		<url>http://sourceforge.jp/projects/tmdmaker/ticket/</url>
+		<system>osdn.jp</system>
+		<url>http://osdn.jp/projects/tmdmaker/ticket/</url>
 	</issueManagement>
 	<ciManagement>
 		<system>travis-ci</system>

@@ -17,7 +17,7 @@
 	<distributionManagement>
 		<site>
 			<id>tmdmaker-site</id>
-			<url>scp://shell.sourceforge.jp/home/groups/t/tm/tmdmaker/htdocs/</url>
+			<url>scp://shell.osdn.jp/home/groups/t/tm/tmdmaker/htdocs/</url>
 		</site>
 	</distributionManagement>
 

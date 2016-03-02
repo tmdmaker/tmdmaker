@@ -6,12 +6,12 @@
       provider-name="TMD-Maker Project"
       plugin="tmdmaker.rcp">
 
-   <description url="http://sourceforge.jp/projects/tmdmaker/">
+   <description url="http://osdn.jp/projects/tmdmaker/">
       TMD-Maker for Rich Client Platform.
    </description>
 
-   <copyright url="http://tmdmaker.sourceforge.jp/">
-      (c) 2009-2015,TMD-Maker Project.
+   <copyright url="http://tmdmaker.osdn.jp/">
+      (c) 2009-2016,TMD-Maker Project.
    </copyright>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">

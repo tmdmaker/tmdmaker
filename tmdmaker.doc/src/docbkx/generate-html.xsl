@@ -18,7 +18,7 @@
 			<div>
 				<a href="http://sourceforge.jp/">
 					<img width="210" height="63" border="0" alt="SourceForge.JP">
-						<xsl:attribute name="src">http://sourceforge.jp/sflogo.php?group_id=4743<![CDATA[&]]>type=3</xsl:attribute>
+						<xsl:attribute name="src">http://osdn.jp/sflogo.php?group_id=4743<![CDATA[&]]>type=3</xsl:attribute>
 					</img>
 				</a>
 			</div>

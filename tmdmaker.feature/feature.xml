@@ -6,12 +6,12 @@
       provider-name="TMD-Maker Project"
       plugin="tmdmaker">
 
-   <description url="http://sourceforge.jp/projects/tmdmaker/">
+   <description url="https://osdn.jp/projects/tmdmaker/">
       TMD-Maker Plugin.
    </description>
 
    <copyright url="http://tmdmaker.sourceforge.jp/">
-      (c) 2009-2015,TMD-Maker Project.
+      (c) 2009-2016,TMD-Maker Project.
    </copyright>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">
