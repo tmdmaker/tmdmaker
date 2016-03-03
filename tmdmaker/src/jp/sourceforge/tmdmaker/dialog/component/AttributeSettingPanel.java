@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -266,6 +266,10 @@ public class AttributeSettingPanel extends Composite {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1) {
 					return;
+				}
+				Control oldEditor = tableEditor.getEditor();
+				if (oldEditor != null) {
+					oldEditor.dispose();
 				}
 				entity.deleteAttribute(selectedIndex);
 				if (entity.getMaxAttributeIndex() <= selectedIndex) {
