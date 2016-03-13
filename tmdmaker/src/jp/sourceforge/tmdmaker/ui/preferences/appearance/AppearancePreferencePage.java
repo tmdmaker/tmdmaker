@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 
 /**
@@ -60,7 +61,6 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -85,11 +85,11 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 	protected void createFieldEditors() {
 		Composite parent = getFieldEditorParent();
 		Group colorGroup = new Group(parent, SWT.NONE);
-		colorGroup.setText("色設定");
+		colorGroup.setText(Messages.AppearancePreferencePage_0);
 		colorGroup.setLayout(new GridLayout(1, true));
 
 		editor = new BooleanFieldEditor(AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED,
-				"モデルの色設定を有効にする", colorGroup);
+				Messages.AppearancePreferencePage_1, colorGroup);
 
 		addField(editor);
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.Cardinality;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -37,6 +38,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 public class RelationshipEditDialog extends Dialog {
+	private static final String NOT_MATCH = Messages.RelationshipEditDialog_0;
 	private Cardinality sourceCardinality = Cardinality.ONE;
 	private Cardinality targetCardinality = Cardinality.ONE;
 	private boolean sourceNoInstance, targetNoInstance;
@@ -107,7 +109,7 @@ public class RelationshipEditDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("Relationship編集");
+		getShell().setText(Messages.RelationshipEditDialog_1);
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(5, false));
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -119,7 +121,7 @@ public class RelationshipEditDialog extends Dialog {
 		sourceCardinalityCombo.select(sourceCardinalityCombo
 				.indexOf(sourceCardinality.getLabel()));
 		label = new Label(composite, SWT.NULL);
-		label.setText(":");
+		label.setText(":"); //$NON-NLS-1$
 		targetCardinalityCombo = new Combo(composite, SWT.READ_ONLY);
 		targetCardinalityCombo.add(Cardinality.ONE.getLabel());
 		targetCardinalityCombo.add(Cardinality.MANY.getLabel());
@@ -129,7 +131,7 @@ public class RelationshipEditDialog extends Dialog {
 		label.setText(targetName);
 
 		label = new Label(composite, SWT.NULL);
-		label.setText("対応なし");
+		label.setText(NOT_MATCH);
 		sourceCardinalityCheck = new Button(composite, SWT.CHECK);
 		sourceCardinalityCheck.setSelection(this.sourceNoInstance);
 		sourceCardinalityCheck.addSelectionListener(new SelectionAdapter() {
@@ -151,9 +153,9 @@ public class RelationshipEditDialog extends Dialog {
 
 		});
 		label = new Label(composite, SWT.NULL);
-		label.setText("");
+		label.setText(""); //$NON-NLS-1$
 		label = new Label(composite, SWT.NULL);
-		label.setText("対応なし");
+		label.setText(NOT_MATCH);
 		targetCardinalityCheck = new Button(composite, SWT.CHECK);
 		targetCardinalityCheck.setSelection(this.targetNoInstance);
 		targetCardinalityCheck.addSelectionListener(new SelectionAdapter() {

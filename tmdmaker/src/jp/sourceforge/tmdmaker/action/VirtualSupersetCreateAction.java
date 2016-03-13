@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.action;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.VirtualSupersetCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractEntityModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
@@ -47,7 +48,7 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction {
 	/** みなしスーパーセット作成アクションを表す定数. */
-	public static final String ID = "_VS";
+	public static final String ID = "_VS"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ.
@@ -57,7 +58,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 	 */
 	public VirtualSupersetCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText("みなしSuperset編集");
+		setText(Messages.VirtualSupersetCreateAction_0);
 		setId(ID);
 	}
 

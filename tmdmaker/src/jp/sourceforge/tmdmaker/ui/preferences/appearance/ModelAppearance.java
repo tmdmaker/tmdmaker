@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package jp.sourceforge.tmdmaker.ui.preferences.appearance;
 
 import org.eclipse.swt.graphics.RGB;
 
+import jp.sourceforge.tmdmaker.Messages;
+
 /**
  * モデルの外観設定
  * 
@@ -24,21 +26,21 @@ import org.eclipse.swt.graphics.RGB;
  * 
  */
 public enum ModelAppearance {
-	RESOURCE("リソース :", "resourceEntity", new RGB(0, 255, 255), new RGB(0, 0, 0)),
-	EVENT("イベント :", "eventEntity", new RGB(255, 204, 204), new RGB(0, 0, 0)),
-	COMBINATION_TABLE("対照表 :", "combinationTable", new RGB(153, 255, 153), new RGB(0, 0, 0)),
-	MAPPING_LIST("対応表 :", "mappingList", new RGB(0, 102, 204),	 new RGB(0, 0, 0)),
-	RECURSIVE_TABLE("再帰表 :", "recursiveTable", new RGB(255, 153, 51), new RGB(0, 0, 0)),
-	RESOURCE_SUBSET("サブセット（リソース） :", "resourceSubset", new RGB(0, 204, 204), new RGB(0, 0, 0)),
-	EVENT_SUBSET("サブセット（イベント） :", "eventSubset", new RGB(255, 153, 153), new RGB(0, 0, 0)),
-	MULTIVALUE_OR("多値のOR :", "multivalueOr", new RGB(255, 255, 102), new RGB(0, 0, 0)),
-	VIRTUAL_ENTITY("みなしエンティティ :", "virtualEntity", new RGB(255, 255, 255), new RGB(0, 0, 0)),
-	RESOURCE_VIRTUAL_ENTITY("みなしエンティティ（リソース） :", "resourceVirtualEntity", new RGB(204, 204, 255), new RGB(0, 0, 0)),
-	EVENT_VIRTUAL_ENTITY("みなしエンティティ（イベント） :", "eventVirtualEntity", new RGB(255, 204, 255), new RGB(0, 0, 0)),
-	SUPERSET_COLOR("みなしスーパーセット:", "supersetColor", new RGB(255, 255, 255), new RGB(0, 0, 0)),
-	LAPUTA_COLOR("ラピュタ:", "laputaColor", new RGB(255, 255, 255), new RGB(0, 0, 0)),
-	TURBO_FILE_COLOR("ターボファイル:", "turboFileColor", new RGB(255, 255, 255), new RGB(0, 0, 0)),
-	MEMO_COLOR("メモ：", "memoColor", new RGB(204, 255, 255), new RGB(0, 0, 0));
+	RESOURCE(Messages.ModelAppearance_0, "resourceEntity", new RGB(0, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
+	EVENT(Messages.ModelAppearance_1, "eventEntity", new RGB(255, 204, 204), new RGB(0, 0, 0)), //$NON-NLS-2$
+	COMBINATION_TABLE(Messages.ModelAppearance_2, "combinationTable", new RGB(153, 255, 153), new RGB(0, 0, 0)), //$NON-NLS-2$
+	MAPPING_LIST(Messages.ModelAppearance_3, "mappingList", new RGB(0, 102, 204),	 new RGB(0, 0, 0)), //$NON-NLS-2$
+	RECURSIVE_TABLE(Messages.ModelAppearance_4, "recursiveTable", new RGB(255, 153, 51), new RGB(0, 0, 0)), //$NON-NLS-2$
+	RESOURCE_SUBSET(Messages.ModelAppearance_5, "resourceSubset", new RGB(0, 204, 204), new RGB(0, 0, 0)), //$NON-NLS-2$
+	EVENT_SUBSET(Messages.ModelAppearance_6, "eventSubset", new RGB(255, 153, 153), new RGB(0, 0, 0)), //$NON-NLS-2$
+	MULTIVALUE_OR(Messages.ModelAppearance_7, "multivalueOr", new RGB(255, 255, 102), new RGB(0, 0, 0)), //$NON-NLS-2$
+	VIRTUAL_ENTITY(Messages.ModelAppearance_8, "virtualEntity", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
+	RESOURCE_VIRTUAL_ENTITY(Messages.ModelAppearance_9, "resourceVirtualEntity", new RGB(204, 204, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
+	EVENT_VIRTUAL_ENTITY(Messages.ModelAppearance_10, "eventVirtualEntity", new RGB(255, 204, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
+	SUPERSET_COLOR(Messages.ModelAppearance_11, "supersetColor", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
+	LAPUTA_COLOR(Messages.ModelAppearance_12, "laputaColor", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
+	TURBO_FILE_COLOR(Messages.ModelAppearance_13, "turboFileColor", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
+	MEMO_COLOR(Messages.ModelAppearance_14, "memoColor", new RGB(204, 255, 255), new RGB(0, 0, 0));
 
 	/** 設定ページ用のラベル */
 	private String label;
@@ -102,7 +104,7 @@ public enum ModelAppearance {
 	 * @return 背景色のプロパティ名
 	 */
 	public String getBackgroundColorPropertyName() {
-		return propertyPrefix + "Preference";
+		return propertyPrefix + "Preference"; //$NON-NLS-1$
 	}
 
 	/**
@@ -111,6 +113,6 @@ public enum ModelAppearance {
 	 * @return 罫線・フォントのプロパティ名
 	 */
 	public String getFontColorPropertyName() {
-		return propertyPrefix + "FontPreference";
+		return propertyPrefix + "FontPreference"; //$NON-NLS-1$
 	}
 }

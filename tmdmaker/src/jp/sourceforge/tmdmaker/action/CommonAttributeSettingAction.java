@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.action;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.CommonAttributeDialog;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.IAttribute;
@@ -36,7 +37,7 @@ public class CommonAttributeSettingAction extends Action {
 	/** ビューワ */
 	private GraphicalViewer viewer;
 	/** ID */
-	public static final String ID = "CommonAtributeSettingAction";
+	public static final String ID = "CommonAtributeSettingAction"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -47,7 +48,7 @@ public class CommonAttributeSettingAction extends Action {
 	public CommonAttributeSettingAction(GraphicalViewer viewer) {
 		super();
 		this.viewer = viewer;
-		setText("共通属性定義");
+		setText(Messages.CommonAttributeSettingAction_0);
 		setId(ID);
 	}
 

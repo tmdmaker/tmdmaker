@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.editpart.EntityEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -39,7 +40,7 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 	/** 多値のAND作成アクションを表す定数 */
-	public static final String ID = "_MA";
+	public static final String ID = "_MA"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -49,7 +50,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 	 */
 	public MultivalueAndCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText("多値のAND(HDR-DTL)作成");
+		setText(Messages.MultivalueAndCreateAction_0);
 		setId(ID);
 	}
 

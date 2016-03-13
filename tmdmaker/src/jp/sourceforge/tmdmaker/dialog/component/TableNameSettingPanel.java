@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 
 import org.eclipse.swt.SWT;
@@ -25,6 +26,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * Table name setting panel.
+ * 
+ * @author nakag
+ *
+ */
 public class TableNameSettingPanel extends Composite {
 	private EditTable entity;
 	private Label nameLabel = null;
@@ -44,7 +51,7 @@ public class TableNameSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("名称");
+		nameLabel.setText(Messages.TableNameSettingPanel_0);
 		nameText = new Text(this, SWT.BORDER);
 		nameText.setLayoutData(gridData);
 		nameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
@@ -57,4 +64,4 @@ public class TableNameSettingPanel extends Composite {
 		this.nameText.setText(entity.getName());
 		setSize(new Point(315, 30));
 	}
-}  //  @jve:decl-index=0:visual-constraint="0,0"
+}

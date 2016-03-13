@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.Constraint;
@@ -33,7 +34,7 @@ import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
  * 
  */
 public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
-	public static final String ID = "AutoSizeSettingAction";
+	public static final String ID = "AutoSizeSettingAction"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -43,7 +44,7 @@ public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 	 */
 	public AutoSizeSettingAction(IWorkbenchPart part) {
 		super(part);
-		setText("サイズの自動調整");
+		setText(Messages.AutoSizeSettingAction_0);
 		setId(ID);
 	}
 

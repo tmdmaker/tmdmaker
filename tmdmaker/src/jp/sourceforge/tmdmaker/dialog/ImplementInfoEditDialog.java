@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoEditPanel;
 import jp.sourceforge.tmdmaker.dialog.component.IndexSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
@@ -91,11 +92,11 @@ public class ImplementInfoEditDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("実装情報編集");
+		getShell().setText(Messages.ImplementInfoEditDialog_0);
 		TabFolder tabFolder = new TabFolder(parent, SWT.NULL);
 		// １つめのタブを作成
 		TabItem item1 = new TabItem(tabFolder, SWT.NULL);
-		item1.setText("テーブル設計");
+		item1.setText(Messages.ImplementInfoEditDialog_1);
 		
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
@@ -119,7 +120,7 @@ public class ImplementInfoEditDialog extends Dialog {
 		item1.setControl(composite);
 
 		updateButton = new Button(composite, SWT.NULL);
-		updateButton.setText("属性一覧へ反映");
+		updateButton.setText(Messages.ImplementInfoEditDialog_2);
 		updateButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 
 			/**
@@ -130,20 +131,20 @@ public class ImplementInfoEditDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				for (Map.Entry<AbstractEntityModel, List<EditImplementAttribute>> entry : otherModelAttributesMap.entrySet()) {
-					System.out.println("remove all other model");
+					System.out.println("remove all other model"); //$NON-NLS-1$
 					editAttributeList.removeAll(entry.getValue());
 				}
 				for (AbstractEntityModel m : panel2.getSelectModels()) {
 					System.out.println(m);
 					System.out.println(m.getName());
 					List<EditImplementAttribute> list = otherModelAttributesMap.get(m);
-					System.out.println("add other model");
+					System.out.println("add other model"); //$NON-NLS-1$
 					if (list != null) {
-						System.out.println("add other model attributes");
+						System.out.println("add other model attributes"); //$NON-NLS-1$
 						editAttributeList.addAll(list);
 					}
 				}
-				System.out.println("update");
+				System.out.println("update"); //$NON-NLS-1$
 				panel1.updateTable();
 //				panel3.initializeValue(editAttributeList, editedKeyModels);
 			}
@@ -151,7 +152,7 @@ public class ImplementInfoEditDialog extends Dialog {
 
 		// ２つめのタブを作成
 		TabItem item2 = new TabItem(tabFolder, SWT.NULL);
-		item2.setText("キー定義");
+		item2.setText(Messages.ImplementInfoEditDialog_3);
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		composite =	new Composite(tabFolder, SWT.NULL);

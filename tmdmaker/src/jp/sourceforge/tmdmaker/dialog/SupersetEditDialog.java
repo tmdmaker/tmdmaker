@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -76,14 +77,14 @@ public class SupersetEditDialog extends ModelEditDialog<AbstractEntityModel> {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("みなしスーパーセット編集");
+		getShell().setText(Messages.SupersetEditDialog_0);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(2, false));
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gridData);
 		Label label = new Label(composite, SWT.NULL);
-		label.setText("名称");
+		label.setText(Messages.SupersetEditDialog_1);
 		inputNameText = new Text(composite, SWT.BORDER);
 		inputNameText.setText(entity.getName());
 		inputNameText.addModifyListener(new ModifyListener() {

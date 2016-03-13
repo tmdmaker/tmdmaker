@@ -480,6 +480,7 @@ Copyright 2009-2015 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
       <feature id="org.eclipse.equinox.executable"/>
       <feature id="org.eclipse.gef"/>
       <feature id="org.eclipse.draw2d"/>
+      <feature id="org.eclipse.babel.nls_tools.gef_ja"/>
    </features>
 
    <configurations>

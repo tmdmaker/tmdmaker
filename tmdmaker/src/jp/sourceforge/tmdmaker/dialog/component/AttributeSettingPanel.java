@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
@@ -41,10 +42,16 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * Attribute setting panel.
+ * 
+ * @author nakag
+ *
+ */
 public class AttributeSettingPanel extends Composite {
 	private EditTable entity;
 	private static final int EDIT_COLUMN = 0;
-	private List<IAttribute> deletedAttributes = new ArrayList<IAttribute>(); // @jve:decl-index=0:
+	private List<IAttribute> deletedAttributes = new ArrayList<IAttribute>();
 	private int selectedIndex = -1;
 	private TableEditor tableEditor = null;
 	private Table attributeTable = null;
@@ -109,7 +116,7 @@ public class AttributeSettingPanel extends Composite {
 					public void focusGained(FocusEvent e) {
 						beforeName = text.getText();
 						if (beforeName == null) {
-							beforeName = "";
+							beforeName = ""; //$NON-NLS-1$
 						}
 						super.focusGained(e);
 					}
@@ -127,7 +134,7 @@ public class AttributeSettingPanel extends Composite {
 								return;
 							String editValue = text.getText();
 							if (editValue == null) {
-								editValue = "";
+								editValue = ""; //$NON-NLS-1$
 							}
 							if (editValue.length() == 0) {
 								editValue = beforeName;
@@ -152,7 +159,7 @@ public class AttributeSettingPanel extends Composite {
 						TableItem item = tableEditor.getItem();
 						String editValue = text.getText();
 						if (editValue == null) {
-							editValue = "";
+							editValue = ""; //$NON-NLS-1$
 						}
 						item.setText(EDIT_COLUMN, editValue);
 						EditAttribute ea = entity.getEditAttribute(selectedIndex);
@@ -168,7 +175,7 @@ public class AttributeSettingPanel extends Composite {
 		});
 		TableColumn tableColumn = new TableColumn(attributeTable, SWT.NONE);
 		tableColumn.setWidth(200);
-		tableColumn.setText("アトリビュート");
+		tableColumn.setText(Messages.AttributeSettingPanel_0);
 		this.setLayout(gridLayout);
 		createControlComposite();
 		this.setSize(new Point(338, 213));
@@ -205,7 +212,7 @@ public class AttributeSettingPanel extends Composite {
 		controlComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
 		controlComposite.setLayout(new GridLayout());
 		newButton = new Button(controlComposite, SWT.NONE);
-		newButton.setText("新規");
+		newButton.setText(Messages.AttributeSettingPanel_1);
 		newButton.setLayoutData(gridData1);
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -215,7 +222,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		upButton = new Button(controlComposite, SWT.NONE);
-		upButton.setText("上へ");
+		upButton.setText(Messages.AttributeSettingPanel_2);
 		upButton.setLayoutData(gridData2);
 		upButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -228,7 +235,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		downButton = new Button(controlComposite, SWT.NONE);
-		downButton.setText("下へ");
+		downButton.setText(Messages.AttributeSettingPanel_3);
 		downButton.setLayoutData(gridData3);
 		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -241,7 +248,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		descButton = new Button(controlComposite, SWT.NONE);
-		descButton.setText("詳細");
+		descButton.setText(Messages.AttributeSettingPanel_4);
 		descButton.setLayoutData(gridData5);
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -260,7 +267,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		deleteButton = new Button(controlComposite, SWT.NONE);
-		deleteButton.setText("削除");
+		deleteButton.setText(Messages.AttributeSettingPanel_5);
 		deleteButton.setLayoutData(gridData4);
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -279,7 +286,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		identifierChangeButton = new Button(controlComposite, SWT.NONE);
-		identifierChangeButton.setText("個体指定子へ");
+		identifierChangeButton.setText(Messages.AttributeSettingPanel_6);
 		identifierChangeButton.setLayoutData(gridData6);
 		identifierChangeButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -313,4 +320,4 @@ public class AttributeSettingPanel extends Composite {
 		return deletedAttributes;
 	}
 
-} // @jve:decl-index=0:visual-constraint="10,10"
+}

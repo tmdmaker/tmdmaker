@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.dialog;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
@@ -79,7 +80,7 @@ public class GeneratorDialog extends Dialog {
 
 		GridData gridData = new GridData();
 		Label pathLabel = new Label(composite, SWT.NONE);
-		pathLabel.setText("出力先");
+		pathLabel.setText(Messages.GeneratorDialog_0);
 		gridData.horizontalSpan = 2;
 		pathLabel.setLayoutData(gridData);
 
@@ -92,7 +93,7 @@ public class GeneratorDialog extends Dialog {
 		// savePathInputText.setEnabled(false);
 
 		Button button = new Button(composite, SWT.NULL);
-		button.setText("出力先変更");
+		button.setText(Messages.GeneratorDialog_1);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			/**
@@ -102,7 +103,6 @@ public class GeneratorDialog extends Dialog {
 			 */
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
 				super.widgetSelected(e);
 				DirectoryDialog dialog = new DirectoryDialog(getShell(),
 						SWT.SAVE);
@@ -123,7 +123,7 @@ public class GeneratorDialog extends Dialog {
 
 		gridData = new GridData();
 		Label modelLabel = new Label(composite, SWT.NONE);
-		modelLabel.setText("出力モデル");
+		modelLabel.setText(Messages.GeneratorDialog_2);
 		gridData.horizontalSpan = 2;
 		modelLabel.setLayoutData(gridData);
 

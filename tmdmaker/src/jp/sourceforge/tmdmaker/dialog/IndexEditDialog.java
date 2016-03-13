@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.IndexPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.model.IAttribute;
@@ -66,9 +67,9 @@ public class IndexEditDialog extends Dialog {
 			keyCount = a.getKeyCount();
 		} else {
 			// この処理は行われないはず
-			modelName = "";
+			modelName = ""; //$NON-NLS-1$
 		}
-		return modelName + "_IDX" + (keyCount + 1);
+		return modelName + "_IDX" + (keyCount + 1); //$NON-NLS-1$
 	}
 
 	/**
@@ -106,7 +107,7 @@ public class IndexEditDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("キー編集");
+		getShell().setText(Messages.IndexEditDialog_0);
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new IndexPanel(composite, SWT.NULL);
 		panel.initializeValue(keyModel, attributes);

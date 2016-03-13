@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.model.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 
@@ -41,14 +42,20 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * Subset setting panel.
+ * 
+ * @author nakag
+ *
+ */
 public class SubsetSettingPanel extends Composite {
 	private static int EDIT_COLUMN = 0;
 	private int selectedIndex = -1;
 	private TableEditor tableEditor = null;
 	private boolean exceptNull = false;
 	private boolean sameType = false;
-	private List<EditSubsetEntity> deletedSubsetEntityList = new ArrayList<EditSubsetEntity>(); // @jve:decl-index=0:
-	private List<EditSubsetEntity> subsetEntityList = null; // @jve:decl-index=0:
+	private List<EditSubsetEntity> deletedSubsetEntityList = new ArrayList<EditSubsetEntity>();
+	private List<EditSubsetEntity> subsetEntityList = null;
 	private Label partitionCodeLabel = null;
 	private Combo partitionSelectCombo = null;
 	private Group typeGroup = null;
@@ -71,7 +78,7 @@ public class SubsetSettingPanel extends Composite {
 		gridLayout.numColumns = 2;
 		partitionCodeLabel = new Label(this, SWT.NONE);
 		partitionCodeLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-		partitionCodeLabel.setText("区分コード");
+		partitionCodeLabel.setText(Messages.SubsetSettingPanel_0);
 		this.setLayout(gridLayout);
 		createPartitionSelectCombo();
 		createTypeGroup();
@@ -105,12 +112,12 @@ public class SubsetSettingPanel extends Composite {
 		gridData.verticalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		typeGroup = new Group(this, SWT.NONE);
-		typeGroup.setText("サブセット種類");
+		typeGroup.setText(Messages.SubsetSettingPanel_1);
 		typeGroup.setLayout(gridLayout1);
 		typeGroup.setLayoutData(gridData);
 		sameRadioButton = new Button(typeGroup, SWT.RADIO);
 		sameRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		sameRadioButton.setText("同一");
+		sameRadioButton.setText(Messages.SubsetSettingPanel_2);
 		sameRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				sameType = true;
@@ -121,7 +128,7 @@ public class SubsetSettingPanel extends Composite {
 		});
 		differenceRadioButton = new Button(typeGroup, SWT.RADIO);
 		differenceRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		differenceRadioButton.setText("相違");
+		differenceRadioButton.setText(Messages.SubsetSettingPanel_3);
 		differenceRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				sameType = false;
@@ -130,7 +137,7 @@ public class SubsetSettingPanel extends Composite {
 		});
 		nullCheckBox = new Button(typeGroup, SWT.CHECK);
 		nullCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		nullCheckBox.setText("NULLを排除");
+		nullCheckBox.setText(Messages.SubsetSettingPanel_4);
 		nullCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				exceptNull = !exceptNull;
@@ -164,13 +171,6 @@ public class SubsetSettingPanel extends Composite {
 		subsetTable.setLinesVisible(true);
 		subsetTable.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated
-														// Event stub
-														// widgetSelected()
-			}
-		});
-		subsetTable.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				selectedIndex = subsetTable.getSelectionIndex();
 				if (selectedIndex == -1) {
 					return;
@@ -183,7 +183,6 @@ public class SubsetSettingPanel extends Composite {
 				final Text text = new Text(subsetTable, SWT.NONE);
 				text.setText(item.getText(EDIT_COLUMN));
 				text.addFocusListener(new FocusAdapter() {
-					
 
 					/**
 					 * {@inheritDoc}
@@ -198,7 +197,7 @@ public class SubsetSettingPanel extends Composite {
 								return;
 							String editValue = text.getText();
 							if (editValue == null) {
-								editValue = "";
+								editValue = ""; //$NON-NLS-1$
 							}
 							item.setText(EDIT_COLUMN, editValue);
 							EditSubsetEntity ese = subsetEntityList.get(selectedIndex);
@@ -220,7 +219,7 @@ public class SubsetSettingPanel extends Composite {
 						TableItem item = tableEditor.getItem();
 						String editValue = text.getText();
 						if (editValue == null) {
-							editValue = "";
+							editValue = ""; //$NON-NLS-1$
 						}
 						item.setText(EDIT_COLUMN, editValue);
 						EditSubsetEntity ese = subsetEntityList.get(selectedIndex);
@@ -231,13 +230,13 @@ public class SubsetSettingPanel extends Composite {
 				text.selectAll();
 				text.setFocus();
 
-					tableEditor.setEditor(text, item, EDIT_COLUMN);
+				tableEditor.setEditor(text, item, EDIT_COLUMN);
 			}
 		});
 		createSubsetControlComposite();
 		TableColumn tableColumn = new TableColumn(subsetTable, SWT.NONE);
 		tableColumn.setWidth(120);
-		tableColumn.setText("サブセット名");
+		tableColumn.setText(Messages.SubsetSettingPanel_5);
 		tableEditor = new TableEditor(subsetTable);
 		tableEditor.grabHorizontal = true;
 		tableEditor.horizontalAlignment = SWT.LEFT;
@@ -257,11 +256,12 @@ public class SubsetSettingPanel extends Composite {
 		subsetControlComposite.setLayout(new GridLayout());
 		newButton = new Button(subsetControlComposite, SWT.NONE);
 		newButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		newButton.setText("新規");
+		newButton.setText(Messages.SubsetSettingPanel_6);
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				EditSubsetEntity ese = new EditSubsetEntity();
-				ese.setName("サブセット" + String.valueOf(subsetEntityList.size() + 1));
+				ese.setName(Messages.SubsetSettingPanel_7
+						+ String.valueOf(subsetEntityList.size() + 1));
 				subsetEntityList.add(ese);
 				selectedIndex = subsetEntityList.size() - 1;
 				updateTable();
@@ -270,7 +270,7 @@ public class SubsetSettingPanel extends Composite {
 		});
 		deleteButton = new Button(subsetControlComposite, SWT.NONE);
 		deleteButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		deleteButton.setText("削除");
+		deleteButton.setText(Messages.SubsetSettingPanel_8);
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1) {
@@ -348,4 +348,4 @@ public class SubsetSettingPanel extends Composite {
 		return deletedSubsetEntityList;
 	}
 
-} // @jve:decl-index=0:visual-constraint="0,0"
+}

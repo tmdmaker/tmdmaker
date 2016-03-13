@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
 
@@ -28,7 +29,7 @@ import org.eclipse.ui.IWorkbenchPart;
  *
  */
 public class MultivalueAndSupersetHideAction extends AbstractEntitySelectionAction {
-	public static final String ID = "_MVA_SE_HIDE";
+	public static final String ID = "_MVA_SE_HIDE"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -38,7 +39,7 @@ public class MultivalueAndSupersetHideAction extends AbstractEntitySelectionActi
 	 */
 	public MultivalueAndSupersetHideAction(IWorkbenchPart part) {
 		super(part);
-		setText("多値のANDのスーパーセットを非表示");
+		setText(Messages.MultivalueAndSupersetHideAction_0);
 		setId(ID);
 	}
 

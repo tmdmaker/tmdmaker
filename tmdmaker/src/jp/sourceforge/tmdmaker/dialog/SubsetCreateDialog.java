@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.SubsetSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditSubsetEntity;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -98,7 +99,7 @@ public class SubsetCreateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("サブセット編集");
+		getShell().setText(Messages.SubsetCreateDialog_0);
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new SubsetSettingPanel(composite, SWT.NULL);
 		panel.initializeValue(this.subsetType.equals(SubsetType.SubsetTypeValue.SAME),

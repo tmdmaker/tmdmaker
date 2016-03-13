@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,37 +88,37 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 
 		// GEFActionConstants.addStandardActionGroups(menu);
 		ActionRegistry registry = getActionRegistry();
-		MenuManager subsetMenu = new MenuManager("サブセット");
+		MenuManager subsetMenu = new MenuManager(Messages.TMDContextMenuProvider_0);
 		subsetMenu.add(registry.getAction(SubsetCreateAction.ID));
 		menu.add(subsetMenu);
 
 		menu.add(registry.getAction(SubsetTypeTurnAction.ID));
 
-		MenuManager multivalueMenu = new MenuManager("データ の多値");
+		MenuManager multivalueMenu = new MenuManager(Messages.TMDContextMenuProvider_1);
 		multivalueMenu.add(registry.getAction(MultivalueOrCreateAction.ID));
 		multivalueMenu.add(registry.getAction(MultivalueAndCreateAction.ID));
 		multivalueMenu.add(registry.getAction(MultivalueAndSupersetHideAction.ID));
 		multivalueMenu.add(registry.getAction(MultivalueAndSupersetShowAction.ID));
 		menu.add(multivalueMenu);
 
-		MenuManager tmdashMenu = new MenuManager("みなし概念(TM')");
+		MenuManager tmdashMenu = new MenuManager(Messages.TMDContextMenuProvider_2);
 		tmdashMenu.add(registry.getAction(VirtualEntityCreateAction.ID));
 		tmdashMenu.add(registry.getAction(VirtualSupersetCreateAction.ID));
 		menu.add(tmdashMenu);
 
-		menu.add(new Separator("implement"));
+		menu.add(new Separator("implement")); //$NON-NLS-1$
 		menu.add(registry.getAction(DatabaseSelectAction.ID));
 		menu.add(registry.getAction(ImplementInfoEditAction.ID));
 		menu.add(registry.getAction(CommonAttributeSettingAction.ID));
 
-		menu.add(new Separator("generate"));
+		menu.add(new Separator("generate")); //$NON-NLS-1$
 		menu.add(registry.getAction(DiagramImageGenerateAction.ID));
 
 		for (Generator generator : GeneratorFactory.getGenerators()) {
 			menu.add(registry.getAction(generator.getClass().getName()));
 		}
 
-		menu.add(new Separator("importer"));
+		menu.add(new Separator("importer")); //$NON-NLS-1$
 		PluginExtensionPointFactory<FileImporter> fileImportFactory = new PluginExtensionPointFactory<FileImporter>(
 				TMDPlugin.IMPORTER_PLUGIN_ID);
 		for (FileImporter importer : fileImportFactory.getInstances()) {

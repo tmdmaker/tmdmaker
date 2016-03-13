@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
@@ -30,6 +31,7 @@ import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 /**
  * ターボファイルのコントローラ
+ * 
  * @author nakag
  *
  */
@@ -53,7 +55,6 @@ public class TurboFileEditPart extends AbstractEntityModelEditPart<TurboFile>
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
-		logger.debug(getClass() + "#updateFigure()");
 		EntityFigure entityFigure = (EntityFigure) figure;
 		TurboFile entity = getModel();
 		entityFigure.setNotImplement(entity.isNotImplement());
@@ -75,7 +76,8 @@ public class TurboFileEditPart extends AbstractEntityModelEditPart<TurboFile>
 	 */
 	@Override
 	protected ModelEditDialog<TurboFile> getDialog() {
-		return new TableEditDialog<TurboFile>(getControllShell(), "ターボファイル編集", getModel());
+		return new TableEditDialog<TurboFile>(getControllShell(), Messages.TurboFileEditPart_0,
+				getModel());
 	}
 
 	/**

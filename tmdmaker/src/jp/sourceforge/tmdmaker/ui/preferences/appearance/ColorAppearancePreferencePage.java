@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 
 /**
@@ -70,7 +71,6 @@ public class ColorAppearancePreferencePage extends FieldEditorPreferencePage
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -95,13 +95,13 @@ public class ColorAppearancePreferencePage extends FieldEditorPreferencePage
 	protected void createFieldEditors() {
 		Composite parent = getFieldEditorParent();
 		Group colorGroup = new Group(parent, SWT.NONE);
-		colorGroup.setText("色設定");
+		colorGroup.setText(Messages.ColorAppearancePreferencePage_0);
 		colorGroup.setLayout(new GridLayout(1, true));
 
 		colorFields = new Composite(colorGroup, SWT.NONE);
 		new Label(colorFields, SWT.NONE);
 		Label l = new Label(colorFields, SWT.NONE);
-		l.setText("背景色");
+		l.setText(Messages.ColorAppearancePreferencePage_1);
 
 		for (ModelAppearance a : ModelAppearance.values()) {
 			colorFieldEditors.add(new ColorFieldEditor(a.getBackgroundColorPropertyName(),

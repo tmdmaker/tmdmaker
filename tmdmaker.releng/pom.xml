@@ -180,6 +180,7 @@
 		<module>../tmdmaker.core</module>
 		<module>../tmdmaker.imagegenerator</module>
 		<module>../tmdmaker</module>
+		<module>../tmdmaker.nl_ja</module>
 		<module>../tmdmaker.csv</module>
 		<module>../tmdmaker.ddlgenerator</module>
 		<module>../tmdmaker.htmlgenerator</module>

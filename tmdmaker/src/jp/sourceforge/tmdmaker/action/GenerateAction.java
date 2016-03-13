@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.Dialog;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.dialog.GeneratorDialog;
@@ -88,7 +89,7 @@ public class GenerateAction extends SelectionAction {
 				String savePath = dialog.getSavePath();
 				generator.execute(savePath, dialog.getSelectedModels());
 				// generator.execute(dialog.getSavePath(), diagram);
-				TMDPlugin.showMessageDialog(generator.getGeneratorName() + " 完了");
+				TMDPlugin.showMessageDialog(generator.getGeneratorName() + Messages.GenerateAction_0);
 				TMDPlugin.refreshGenerateResources(savePath);
 			} catch (Throwable t) {
 				TMDPlugin.showErrorDialog(t);

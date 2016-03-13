@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.imagegenerator.Draw2dToImageConverter;
 
@@ -43,7 +44,7 @@ public class DiagramImageGenerateAction extends Action {
 	private IWorkbenchPart part;
 	private Draw2dToImageConverter converter;
 	/** ID */
-	public static final String ID = "DiagramImageGenerateAction";
+	public static final String ID = "DiagramImageGenerateAction"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -55,7 +56,7 @@ public class DiagramImageGenerateAction extends Action {
 			IWorkbenchPart part) {
 		this.viewer = viewer;
 		this.part = part;
-		setText("ダイアグラムから画像を生成");
+		setText(Messages.DiagramImageGenerateAction_0);
 		setId(ID);
 		converter = new Draw2dToImageConverter();
 	}
@@ -83,7 +84,7 @@ public class DiagramImageGenerateAction extends Action {
 			final StringBuffer filePath = new StringBuffer(file);
 			final String extension = extensions[dialog.getFilterIndex()];
 			if (!file.endsWith(extension)) {
-				filePath.append(".");
+				filePath.append("."); //$NON-NLS-1$
 				filePath.append(extension);
 			}
 			FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) getViewer()
@@ -99,7 +100,7 @@ public class DiagramImageGenerateAction extends Action {
 
 									@Override
 									public void execute(IProgressMonitor monitor) {
-										monitor.beginTask("生成", 1);
+										monitor.beginTask(Messages.DiagramImageGenerateAction_1, 1);
 										converter.execute(figure,
 												filePath.toString(), extension);
 										monitor.worked(1);
@@ -110,7 +111,7 @@ public class DiagramImageGenerateAction extends Action {
 				TMDPlugin.showErrorDialog(e);
 			}
 
-			TMDPlugin.showMessageDialog(getText() + " 完了");
+			TMDPlugin.showMessageDialog(getText() + Messages.DiagramImageGenerateAction_2);
 
 			try {
 				TMDPlugin.refreshGenerateResource(filePath.toString());

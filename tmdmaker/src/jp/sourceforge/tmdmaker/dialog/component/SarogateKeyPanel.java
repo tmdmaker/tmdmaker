@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementEntity;
 
 import org.eclipse.swt.layout.GridLayout;
@@ -27,7 +28,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
 
 /**
- * @author nakaG
+ * Surrogate key panel.
+ * 
+ * @author nakag
  *
  */
 public class SarogateKeyPanel extends Composite {
@@ -40,7 +43,7 @@ public class SarogateKeyPanel extends Composite {
 		super(parent, style);
 		this.entity = entity;
 		initialize();
-//		refreshVisual();
+		// refreshVisual();
 	}
 
 	private void initialize() {
@@ -55,22 +58,19 @@ public class SarogateKeyPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		useSarogateKeyCheckBox = new Button(this, SWT.CHECK);
-		useSarogateKeyCheckBox.setText("サロゲートキーを追加する");
+		useSarogateKeyCheckBox.setText(Messages.SarogateKeyPanel_0);
 		useSarogateKeyCheckBox.setLayoutData(gridData);
-		useSarogateKeyCheckBox
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-						entity.setSarogateKeyEnabled(useSarogateKeyCheckBox.getSelection());
-					}
-				});
+		useSarogateKeyCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				entity.setSarogateKeyEnabled(useSarogateKeyCheckBox.getSelection());
+			}
+		});
 		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("名称");
+		nameLabel.setText(Messages.SarogateKeyPanel_1);
 		inputNameText = new Text(this, SWT.BORDER);
 		inputNameText.setLayoutData(gridData1);
 		inputNameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
 			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
-				System.out.println("SarogateKeyPanel#modifyText()"); // TODO Auto-generated Event stub modifyText()
 				entity.setSarogateKeyName(inputNameText.getText());
 			}
 		});
@@ -89,4 +89,4 @@ public class SarogateKeyPanel extends Composite {
 			inputNameText.setEnabled(false);
 		}
 	}
-}  //  @jve:decl-index=0:visual-constraint="0,0"
+}

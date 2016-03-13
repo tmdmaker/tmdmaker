@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.MultivalueOrEntityCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -32,7 +33,7 @@ import jp.sourceforge.tmdmaker.model.MultivalueOrRelationship;
  */
 public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 	/** 多値のOR作成アクションを表す定数 */
-	public static final String ID = "_MO";
+	public static final String ID = "_MO"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ.
@@ -42,7 +43,7 @@ public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 	 */
 	public MultivalueOrCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText("多値のOR作成");
+		setText(Messages.MultivalueOrCreateAction_0);
 		setId(ID);
 	}
 

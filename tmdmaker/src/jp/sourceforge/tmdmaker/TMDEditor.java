@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -151,6 +151,9 @@ import jp.sourceforge.tmdmaker.treeeditpart.TMDEditorOutlineTreePartFactory;
  */
 public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IResourceChangeListener {
 
+	private static final String SAVE_ERROR = Messages.TMDEditor_11;
+	private static final String READ_ERROR = Messages.TMDEditor_12;
+
 	/**
 	 * アウトラインページ
 	 * 
@@ -188,7 +191,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 			lws.setContents(thumbnail);
 
 			// tree
-			logger.debug("ツリー設定開始!!!");
+			logger.debug(Messages.TMDEditor_13);
 			EditPartViewer viewer = getViewer();
 			viewer.createControl(sash);
 			viewer.setEditDomain(tmdEditor.getEditDomain());
@@ -268,7 +271,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 	 */
 	public TMDEditor() {
 		super();
-		logger.debug("{} is instanciate.", TMDEditor.class);
+		logger.debug("{} is instanciate.", TMDEditor.class); //$NON-NLS-1$
 		setEditDomain(new DefaultEditDomain(this));
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
@@ -299,7 +302,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 	@Override
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
-		logger.debug(getClass() + "#initializeGraphicalViewer()");
+		logger.debug(getClass() + "#initializeGraphicalViewer()"); //$NON-NLS-1$
 		GraphicalViewer viewer = getGraphicalViewer();
 
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
@@ -308,7 +311,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 			Serializer serializer = SerializerFactory.getInstance();
 			diagram = serializer.deserialize(file.getContents());
 		} catch (Exception e) {
-			TMDPlugin.showErrorDialog("読み込み時にエラーが発生しました。", e);
+			TMDPlugin.showErrorDialog(READ_ERROR, e);
 			diagram = new Diagram();
 		}
 		Version version = getPluginVersion();
@@ -330,7 +333,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 
 	private Version getPluginVersion() {
 		Bundle bundle = TMDPlugin.getDefault().getBundle();
-		return new Version(bundle.getHeaders().get("Bundle-Version"));
+		return new Version(bundle.getHeaders().get("Bundle-Version")); //$NON-NLS-1$
 	}
 
 	/**
@@ -362,10 +365,10 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 	 */
 	@Override
 	protected PaletteRoot getPaletteRoot() {
-		logger.debug("getPaletteRoot() called");
+		logger.debug("getPaletteRoot() called"); //$NON-NLS-1$
 		PaletteRoot root = new PaletteRoot();
 
-		PaletteGroup toolGroup = new PaletteGroup("ツール");
+		PaletteGroup toolGroup = new PaletteGroup(Messages.TMDEditor_0);
 
 		ToolEntry tool = new SelectionToolEntry();
 		// カーソルキーでモデルを移動できるようにSelectionToolを拡張
@@ -377,34 +380,34 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		tool = new MarqueeToolEntry();
 		toolGroup.add(tool);
 
-		PaletteDrawer drawer = new PaletteDrawer("作成");
+		PaletteDrawer drawer = new PaletteDrawer(Messages.TMDEditor_1);
 
-		ImageDescriptor descriptor = TMDPlugin.getImageDescriptor("icons/new_entity.gif");
+		ImageDescriptor descriptor = TMDPlugin.getImageDescriptor("icons/new_entity.gif"); //$NON-NLS-1$
 
-		CreationToolEntry creationEntry = new CreationToolEntry("エンティティ", "エンティティ",
+		CreationToolEntry creationEntry = new CreationToolEntry(Messages.TMDEditor_2, Messages.TMDEditor_3,
 				new SimpleFactory(Entity.class), descriptor, descriptor);
 		creationEntry.setToolClass(EntityCreationTool.class);
 
 		drawer.add(creationEntry);
 
-		descriptor = TMDPlugin.getImageDescriptor("icons/new_relationship.gif");
+		descriptor = TMDPlugin.getImageDescriptor("icons/new_relationship.gif"); //$NON-NLS-1$
 
 		ConnectionCreationToolEntry connxCCreationEntry = new ConnectionCreationToolEntry(
-				"リレーションシップ", "リレーションシップ", null, descriptor, descriptor);
+				Messages.TMDEditor_4, Messages.TMDEditor_5, null, descriptor, descriptor);
 		connxCCreationEntry.setToolClass(TMDConnectionCreationTool.class);
 
 		drawer.add(connxCCreationEntry);
 
-		PaletteDrawer otherDrawer = new PaletteDrawer("その他");
+		PaletteDrawer otherDrawer = new PaletteDrawer(Messages.TMDEditor_6);
 		// ターボファイル作成
-		ImageDescriptor turboFileDescriptor = TMDPlugin.getImageDescriptor("icons/new_turbo.gif");
-		CreationToolEntry turboFileCreationEntry = new CreationToolEntry("ターボファイル", "ターボファイル",
+		ImageDescriptor turboFileDescriptor = TMDPlugin.getImageDescriptor("icons/new_turbo.gif"); //$NON-NLS-1$
+		CreationToolEntry turboFileCreationEntry = new CreationToolEntry(Messages.TMDEditor_7, Messages.TMDEditor_8,
 				new SimpleFactory(TurboFile.class), turboFileDescriptor, turboFileDescriptor);
 		otherDrawer.add(turboFileCreationEntry);
 		
 		// メモ作成
-		ImageDescriptor memoDescriptor = TMDPlugin.getImageDescriptor("icons/new_memo.gif");
-		CreationToolEntry memoCreationEntry = new CreationToolEntry("メモ", "メモ",
+		ImageDescriptor memoDescriptor = TMDPlugin.getImageDescriptor("icons/new_memo.gif"); //$NON-NLS-1$
+		CreationToolEntry memoCreationEntry = new CreationToolEntry(Messages.TMDEditor_9, Messages.TMDEditor_10,
 				new SimpleFactory(Memo.class), memoDescriptor, memoDescriptor);
 		otherDrawer.add(memoCreationEntry);
 
@@ -423,25 +426,25 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		logger.debug("doSave() called");
+		logger.debug("doSave() called"); //$NON-NLS-1$
 
 		Diagram diagram = (Diagram) getGraphicalViewer().getContents().getModel();
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		try {
 			file.deleteMarkers(IMarker.PROBLEM, false, 0);
 		} catch (CoreException e) {
-			TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
-			logger.warn("IFile#deleteMarkers()." + e);
+			TMDPlugin.showErrorDialog(SAVE_ERROR, e);
+			logger.warn("IFile#deleteMarkers()." + e); //$NON-NLS-1$
 		}
 		try {
 			Serializer serializer = SerializerFactory.getInstance();
 			file.setContents(serializer.serialize(diagram), true, true, monitor);
 		} catch (SerializationException e) {
-			TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
-			logger.warn("IFile#setContents().", e);
+			TMDPlugin.showErrorDialog(SAVE_ERROR, e);
+			logger.warn("IFile#setContents().", e); //$NON-NLS-1$
 		} catch (CoreException e) {
-			TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
-			logger.warn("IFile#setContents().", e);
+			TMDPlugin.showErrorDialog(SAVE_ERROR, e);
+			logger.warn("IFile#setContents().", e); //$NON-NLS-1$
 		}
 		getCommandStack().markSaveLocation();
 	}
@@ -463,7 +466,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 	 */
 	@Override
 	public void doSaveAs() {
-		logger.debug("doSaveAs() called");
+		logger.debug("doSaveAs() called"); //$NON-NLS-1$
 		Shell shell = getSite().getWorkbenchWindow().getShell();
 		SaveAsDialog dialog = new SaveAsDialog(shell);
 		dialog.setOriginalFile(((IFileEditorInput) getEditorInput()).getFile());
@@ -487,11 +490,11 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 								Serializer serializer = SerializerFactory.getInstance();
 								file.create(serializer.serialize(diagram), true, monitor);
 							} catch (SerializationException e) {
-								TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
-								logger.warn("IFile#setContents().", e);
+								TMDPlugin.showErrorDialog(SAVE_ERROR, e);
+								logger.warn("IFile#setContents().", e); //$NON-NLS-1$
 							} catch (CoreException e) {
-								TMDPlugin.showErrorDialog("保存時にエラーが発生しました。", e);
-								logger.warn("IFile#setContents().", e);
+								TMDPlugin.showErrorDialog(SAVE_ERROR, e);
+								logger.warn("IFile#setContents().", e); //$NON-NLS-1$
 							}
 							getCommandStack().markSaveLocation();
 							setInput(new FileEditorInput(file));
@@ -501,9 +504,9 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 
 			// setInput(new FileEditorInput(file));
 		} catch (InterruptedException e) {
-			logger.warn("ProgressMonitorDialog#run().", e);
+			logger.warn("ProgressMonitorDialog#run().", e); //$NON-NLS-1$
 		} catch (InvocationTargetException e) {
-			logger.warn("ProgressMonitorDialog#run().", e);
+			logger.warn("ProgressMonitorDialog#run().", e); //$NON-NLS-1$
 		}
 
 	}
@@ -527,7 +530,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 	 */
 	@Override
 	protected void createActions() {
-		logger.debug("createAction() called");
+		logger.debug("createAction() called"); //$NON-NLS-1$
 
 		super.createActions();
 		ActionRegistry registry = getActionRegistry();
@@ -624,7 +627,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 	 */
 	@Override
 	protected void configureGraphicalViewer() {
-		logger.debug("configureGraphicalViewer() called");
+		logger.debug("configureGraphicalViewer() called"); //$NON-NLS-1$
 		super.configureGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
 		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();

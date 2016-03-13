@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.wizard;
 
 import java.io.InputStream;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.extension.SerializerFactory;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
@@ -55,7 +56,7 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 	public NewDiagramWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		setWindowTitle("新規作成");
+		setWindowTitle(Messages.NewDiagramWizard_0);
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 		try {
 			IDE.openEditor(page, file, true);
 		} catch (PartInitException e) {
-			logger.error("open error.", e);
+			logger.error("open error.", e); //$NON-NLS-1$
 			return false;
 		}
 		return true;
@@ -95,7 +96,7 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public void addPages() {
-		page = new NewDiagramCreationPage("new TMD", selection);
+		page = new NewDiagramCreationPage(Messages.NewDiagramWizard_1, selection);
 		addPage(page);
 		super.addPages();
 
@@ -107,8 +108,8 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 		public NewDiagramCreationPage(String string,
 				IStructuredSelection selection) {
 			super(string, selection);
-			setFileExtension("tmd");
-			setFileName("diagram.tmd");
+			setFileExtension("tmd"); //$NON-NLS-1$
+			setFileName("diagram.tmd"); //$NON-NLS-1$
 		}
 
 		/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementEntity;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
@@ -41,8 +42,13 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * Implement info edit panel.
+ * @author nakag
+ *
+ */
 public class ImplementInfoEditPanel extends Composite {
-	private static final String[] NULLABLES = {"禁止", "許可"};//  @jve:decl-index=0:
+	private static final String[] NULLABLES = {Messages.ImplementInfoEditPanel_0, Messages.ImplementInfoEditPanel_1};
 	private static final int COLUMN_NO_MODEL_NAME = 0;
 	private static final int COLUMN_NO_ATTRIBUTE_NAME = 1;
 	private static final int COLUMN_NO_IMPLEMENT_NAME = 2;
@@ -50,11 +56,10 @@ public class ImplementInfoEditPanel extends Composite {
 	private static final int COLUMN_NO_SIZE = 4;
 	private static final int COLUMN_NO_SCALE = 5;
 	private static final int COLUMN_NO_NULLABLE = 6;
-	private EditImplementEntity implementModel;//  @jve:decl-index=0:
-//	private AbstractEntityModel model;  //  @jve:decl-index=0:
+	private EditImplementEntity implementModel;
 	private int tableSelectedIndex = -1;
-	private List<EditImplementAttribute> attributes;  //  @jve:decl-index=0:
-	private TableEditor tableEditor;  //  @jve:decl-index=0:
+	private List<EditImplementAttribute> attributes;
+	private TableEditor tableEditor;
 	private Label implementNameLabel = null;
 	private Text implementNameText = null;
 	private Table columnTable = null;
@@ -124,7 +129,7 @@ public class ImplementInfoEditPanel extends Composite {
 		gridData.heightHint = 200;
 		gridData.verticalAlignment = GridData.CENTER;
 		implementNameLabel = new Label(this, SWT.NONE);
-		implementNameLabel.setText("実装名");
+		implementNameLabel.setText(Messages.ImplementInfoEditPanel_2);
 		implementNameText = new Text(this, SWT.BORDER);
 		implementNameText.setLayoutData(gridData1);
 		implementNameText.addModifyListener(new ModifyListener() {
@@ -152,14 +157,12 @@ public class ImplementInfoEditPanel extends Composite {
 		columnTable.setLinesVisible(true);
 		TableColumn tableColumn11 = new TableColumn(columnTable, SWT.NONE);
 		tableColumn11.setWidth(150);
-		tableColumn11.setText("モデル名");
+		tableColumn11.setText(Messages.ImplementInfoEditPanel_3);
 		columnTable.addMouseListener(new org.eclipse.swt.events.MouseAdapter() {
 			public void mouseDown(org.eclipse.swt.events.MouseEvent e) {
-				System.out.println("mouseDown()");
 				tableSelectedIndex = columnTable.getSelectionIndex();
 				
 				if (tableSelectedIndex == -1) {
-					System.out.println("Not Select");
 					return;
 				}
 				Control oldEditor = tableEditor.getEditor();
@@ -171,8 +174,6 @@ public class ImplementInfoEditPanel extends Composite {
 				int selectedColumnIndex = getSelectedColumnIndex(item, point);
 				// テーブルの特定の列をクリックした場合
 				if (selectedColumnIndex != -1) {
-//						TableColumn column = columnTable.getColumn(selectedColumnIndex);
-//						System.out.println(column.getText());
 					Control control = createEditorControl(selectedColumnIndex, columnTable, item);
 					// 編集対象の列が選択された場合
 					if (control != null) {
@@ -189,22 +190,22 @@ public class ImplementInfoEditPanel extends Composite {
 		});
 		TableColumn tableColumn = new TableColumn(columnTable, SWT.NONE);
 		tableColumn.setWidth(150);
-		tableColumn.setText("属性名");
+		tableColumn.setText(Messages.ImplementInfoEditPanel_4);
 		TableColumn tableColumn1 = new TableColumn(columnTable, SWT.NONE);
 		tableColumn1.setWidth(150);
-		tableColumn1.setText("実装名");
+		tableColumn1.setText(Messages.ImplementInfoEditPanel_5);
 		TableColumn tableColumn2 = new TableColumn(columnTable, SWT.NONE);
 		tableColumn2.setWidth(150);
-		tableColumn2.setText("型");
+		tableColumn2.setText(Messages.ImplementInfoEditPanel_6);
 		TableColumn tableColumn21 = new TableColumn(columnTable, SWT.NONE);
 		tableColumn21.setWidth(50);
-		tableColumn21.setText("長さ");
+		tableColumn21.setText(Messages.ImplementInfoEditPanel_7);
 		TableColumn tableColumn31 = new TableColumn(columnTable, SWT.NONE);
 		tableColumn31.setWidth(50);
-		tableColumn31.setText("少数");
+		tableColumn31.setText(Messages.ImplementInfoEditPanel_8);
 		TableColumn tableColumn3 = new TableColumn(columnTable, SWT.NONE);
 		tableColumn3.setWidth(60);
-		tableColumn3.setText("Null");
+		tableColumn3.setText(Messages.ImplementInfoEditPanel_9);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		this.setLayout(gridLayout);
@@ -212,7 +213,6 @@ public class ImplementInfoEditPanel extends Composite {
 	}
 	private int getSelectedColumnIndex(TableItem item, Point point) {
 		for (int i = 0;i < columnTable.getColumnCount(); i++) {
-			System.out.println("column" + i);
 			if (item.getBounds(i).contains(point)) {
 				return i;
 			}
@@ -227,14 +227,11 @@ public class ImplementInfoEditPanel extends Composite {
 				int forcusGainIndex = -1;
 				@Override
 				public void focusGained(FocusEvent e) {
-					System.out.println("text focusGained()");
 					forcusGainIndex = tableSelectedIndex;
 					super.focusGained(e);
 				}
 
 				public void focusLost(FocusEvent e){
-					System.out.println("text focusLost()");
-					System.out.println("index = " + forcusGainIndex);
 					setData(tableEditor.getColumn(), text.getText(), forcusGainIndex);
 					updateTable();
 //					TableItem item = tableEditor.getItem();
@@ -257,7 +254,6 @@ public class ImplementInfoEditPanel extends Composite {
 			text.selectAll();
 			text.setFocus();
 		} else if (control instanceof Combo) {
-			System.out.println("instanceof Combo");
 			final Combo combo = (Combo) control;
 
 			combo.addFocusListener(new FocusAdapter() {
@@ -269,7 +265,6 @@ public class ImplementInfoEditPanel extends Composite {
 				 */
 				@Override
 				public void focusGained(FocusEvent e) {
-					System.out.println("combo focusGained");
 					forcusGainedIndex = tableSelectedIndex;
 					super.focusGained(e);
 				}
@@ -282,7 +277,6 @@ public class ImplementInfoEditPanel extends Composite {
 				@Override
 				public void focusLost(FocusEvent e) {
 //					TableItem item = tableEditor.getItem();
-					System.out.println("combo focusLost()");
 					int index = combo.getSelectionIndex();
 					if (index != -1) {
 						setData(tableEditor.getColumn(), String.valueOf(index), forcusGainedIndex);
@@ -302,7 +296,6 @@ public class ImplementInfoEditPanel extends Composite {
 				 */
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
-					System.out.println("widgetDefaultSelected()");
 					super.widgetDefaultSelected(e);
 				}
 
@@ -313,7 +306,6 @@ public class ImplementInfoEditPanel extends Composite {
 				 */
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					System.out.println("widgetSelected()");
 					int index = combo.getSelectionIndex();
 					if (index != -1) {
 						setData(tableEditor.getColumn(), String.valueOf(index), tableSelectedIndex);
@@ -340,17 +332,17 @@ public class ImplementInfoEditPanel extends Composite {
 				if (type.isSupportSize()) {
 					item.setText(COLUMN_NO_SIZE, a.getSize());
 				} else {
-					item.setText(COLUMN_NO_SIZE, "");					
+					item.setText(COLUMN_NO_SIZE, "");					 //$NON-NLS-1$
 				}
 				if (type.isSupportScale()) {
 					item.setText(COLUMN_NO_SCALE, a.getScale());
 				} else {
-					item.setText(COLUMN_NO_SCALE, "");					
+					item.setText(COLUMN_NO_SCALE, "");					 //$NON-NLS-1$
 				}
 			} else {
-				item.setText(COLUMN_NO_DATATYPE, "");
-				item.setText(COLUMN_NO_SIZE, "");
-				item.setText(COLUMN_NO_SCALE, "");
+				item.setText(COLUMN_NO_DATATYPE, ""); //$NON-NLS-1$
+				item.setText(COLUMN_NO_SIZE, ""); //$NON-NLS-1$
+				item.setText(COLUMN_NO_SCALE, ""); //$NON-NLS-1$
 			}
 			if (a.isNullable()) {
 				item.setText(COLUMN_NO_NULLABLE, NULLABLES[1]);
@@ -375,15 +367,15 @@ public class ImplementInfoEditPanel extends Composite {
 				if (index > 0) {
 					a.setDataType(StandardSQLDataType.values()[index - 1]);
 					if (!a.getDataType().isSupportSize()) {
-						a.setSize("");
+						a.setSize(""); //$NON-NLS-1$
 					}
 					if (!a.getDataType().isSupportScale()) {
-						a.setScale("");
+						a.setScale(""); //$NON-NLS-1$
 					}
 				} else {
 					a.setDataType(null);
-					a.setSize("");
-					a.setScale("");					
+					a.setSize(""); //$NON-NLS-1$
+					a.setScale("");					 //$NON-NLS-1$
 				}
 				break;
 			case COLUMN_NO_SIZE:
@@ -424,7 +416,7 @@ public class ImplementInfoEditPanel extends Composite {
 					if (type != null) {
 						index = type.ordinal() + 1;
 					}
-					dataTypeCombo.add("");
+					dataTypeCombo.add(""); //$NON-NLS-1$
 					for (StandardSQLDataType dataType : StandardSQLDataType.values()) {
 						dataTypeCombo.add(dataType.getName());
 					}
@@ -485,4 +477,4 @@ public class ImplementInfoEditPanel extends Composite {
 		return attributes;
 	}
 	
-}  //  @jve:decl-index=0:visual-constraint="-9,-23"
+}

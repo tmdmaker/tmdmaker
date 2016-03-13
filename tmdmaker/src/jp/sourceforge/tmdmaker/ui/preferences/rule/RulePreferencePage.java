@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.ui.preferences.rule;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
@@ -30,8 +31,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * @author nakaG
  * 
  */
-public class RulePreferencePage extends FieldEditorPreferencePage implements
-		IWorkbenchPreferencePage {
+public class RulePreferencePage extends FieldEditorPreferencePage
+		implements IWorkbenchPreferencePage {
 
 	/**
 	 * 
@@ -39,7 +40,7 @@ public class RulePreferencePage extends FieldEditorPreferencePage implements
 	public RulePreferencePage() {
 		super(GRID);
 		setPreferenceStore(TMDPlugin.getDefault().getPreferenceStore());
-		setDescription("");
+		setDescription(""); //$NON-NLS-1$
 	}
 
 	/**
@@ -49,7 +50,6 @@ public class RulePreferencePage extends FieldEditorPreferencePage implements
 	 */
 	public RulePreferencePage(String title, ImageDescriptor image, int style) {
 		super(title, image, style);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -60,8 +60,6 @@ public class RulePreferencePage extends FieldEditorPreferencePage implements
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -72,17 +70,13 @@ public class RulePreferencePage extends FieldEditorPreferencePage implements
 	 */
 	@Override
 	protected void createFieldEditors() {
-		addField(new StringFieldEditor(
-				RulePreferenceConstants.P_IDENTIFIER_SUFFIXES, "個体指定子サフィックス:",
-				getFieldEditorParent()));
-		addField(new StringFieldEditor(
-				RulePreferenceConstants.P_REPORT_SUFFIXES, "レポートサフィックス:",
-				getFieldEditorParent()));
+		addField(new StringFieldEditor(RulePreferenceConstants.P_IDENTIFIER_SUFFIXES,
+				Messages.RulePreferencePage_0, getFieldEditorParent()));
+		addField(new StringFieldEditor(RulePreferenceConstants.P_REPORT_SUFFIXES,
+				Messages.RulePreferencePage_1, getFieldEditorParent()));
 		BooleanFieldEditor forenKeyEnabledEdior = new BooleanFieldEditor(
-				RulePreferenceConstants.P_FOREIGN_KEY_ENABLED, "外部参照制約を出力する",
+				RulePreferenceConstants.P_FOREIGN_KEY_ENABLED, Messages.RulePreferencePage_2,
 				getFieldEditorParent());
 		addField(forenKeyEnabledEdior);
-
 	}
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.VirtualEntityCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -33,7 +34,7 @@ import jp.sourceforge.tmdmaker.model.VirtualEntityType;
  */
 public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	/** みなしエンティティ作成アクションを表す定数 */
-	public static final String ID = "_VE";
+	public static final String ID = "_VE"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ.
@@ -43,7 +44,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	 */
 	public VirtualEntityCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText("みなしEntity作成");
+		setText(Messages.VirtualEntityCreateAction_0);
 		setId(ID);
 	}
 

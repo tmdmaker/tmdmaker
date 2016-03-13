@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditCommonAttribute;
 import jp.sourceforge.tmdmaker.model.IAttribute;
@@ -73,7 +74,7 @@ public class CommonAttributeDialog extends Dialog implements
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("共通属性定義");
+		getShell().setText(Messages.CommonAttributeDialog_0);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout();

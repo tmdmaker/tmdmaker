@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
@@ -30,6 +31,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 
+/**
+ * Attribute panel.
+ * 
+ * @author nakag
+ *
+ */
 public class AttributePanel extends Composite {
 
 	private Label inputNameLabel = null;
@@ -90,37 +97,37 @@ public class AttributePanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		inputNameLabel = new Label(this, SWT.NONE);
-		inputNameLabel.setText("名称");
+		inputNameLabel.setText(Messages.AttributePanel_0);
 		inputNameLabel.setBounds(new Rectangle(0, -8, 41, 8));
 		inputNameText = new Text(this, SWT.BORDER);
 		inputNameText.setLayoutData(gridData8);
 		implementNameLabel = new Label(this, SWT.NONE);
-		implementNameLabel.setText("実装名");
+		implementNameLabel.setText(Messages.AttributePanel_1);
 		implementNameText = new Text(this, SWT.BORDER);
 		implementNameText.setLayoutData(gridData10);
 		descriptionLabel = new Label(this, SWT.NONE);
-		descriptionLabel.setText("摘要");
+		descriptionLabel.setText(Messages.AttributePanel_2);
 		descriptionTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		descriptionTextArea.setLayoutData(gridData11);
 		dataLabel = new Label(this, SWT.NONE);
-		dataLabel.setText("データ属性");
+		dataLabel.setText(Messages.AttributePanel_3);
 		createDataTypeComposite();
 		validationRuleLabel = new Label(this, SWT.NONE);
-		validationRuleLabel.setText("前提");
+		validationRuleLabel.setText(Messages.AttributePanel_4);
 		validationRuleTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		validationRuleTextArea.setLayoutData(gridData);
 		lockLabel = new Label(this, SWT.NONE);
-		lockLabel.setText("機密性");
+		lockLabel.setText(Messages.AttributePanel_5);
 		lockTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		lockTextArea.setLayoutData(gridData5);
 		derivationRuleLabel = new Label(this, SWT.NONE);
-		derivationRuleLabel.setText("計算式");
+		derivationRuleLabel.setText(Messages.AttributePanel_6);
 		derivationRuleTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		derivationRuleTextArea.setLayoutData(gridData7);
 		new Label(this, SWT.NONE);
 		derivationCheckBox = new Button(this, SWT.CHECK);
 		derivationCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		derivationCheckBox.setText("ダイアグラムに(D)を表示する");
+		derivationCheckBox.setText(Messages.AttributePanel_7);
 		this.setLayout(gridLayout);
 		this.setSize(new Point(346, 489));
 	}
@@ -146,7 +153,7 @@ public class AttributePanel extends Composite {
 			public void widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent e) {
 			}
 		});
-		dataCombo.add("");
+		dataCombo.add(""); //$NON-NLS-1$
 		for (StandardSQLDataType dataType : StandardSQLDataType.values()) {
 			dataCombo.add(dataType.getName());
 		}
@@ -207,7 +214,7 @@ public class AttributePanel extends Composite {
 		if (precisionText.isEnabled()) {
 			return precisionText.getText();
 		} else {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 	}
 
@@ -215,7 +222,7 @@ public class AttributePanel extends Composite {
 		if (scaleText.isEnabled()) {
 			return scaleText.getText();
 		} else {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 	}
 
@@ -284,22 +291,22 @@ public class AttributePanel extends Composite {
 		dataTypeComposite.setLayout(gridLayout1);
 		createDataCombo();
 		pLabel = new Label(dataTypeComposite, SWT.NONE);
-		pLabel.setText("桁数");
+		pLabel.setText(Messages.AttributePanel_8);
 		precisionText = new Text(dataTypeComposite, SWT.BORDER);
 		precisionText.setLayoutData(gridData3);
 		sLabel = new Label(dataTypeComposite, SWT.NONE);
-		sLabel.setText("位取り");
+		sLabel.setText(Messages.AttributePanel_9);
 		scaleText = new Text(dataTypeComposite, SWT.BORDER);
 		scaleText.setLayoutData(gridData4);
 
 		btnAutoIncrementCheckButton = new Button(dataTypeComposite, SWT.CHECK);
-		btnAutoIncrementCheckButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false,
-				4, 1));
-		btnAutoIncrementCheckButton.setText("オートインクリメント");
+		btnAutoIncrementCheckButton
+				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 4, 1));
+		btnAutoIncrementCheckButton.setText(Messages.AttributePanel_10);
 
 		Label lblNewLabel = new Label(dataTypeComposite, SWT.NONE);
 		lblNewLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		lblNewLabel.setText("デフォルト値");
+		lblNewLabel.setText(Messages.AttributePanel_11);
 
 		textDefaultValue = new Text(dataTypeComposite, SWT.BORDER);
 		textDefaultValue.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
@@ -312,4 +319,4 @@ public class AttributePanel extends Composite {
 	public void removeNameModifyListener(ModifyListener listener) {
 		inputNameText.removeModifyListener(listener);
 	}
-} // @jve:decl-index=0:visual-constraint="-60,-10"
+}

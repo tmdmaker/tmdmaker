@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -75,14 +76,14 @@ public class VirtualEntityCreateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("みなしエンティティ作成");
+		getShell().setText(Messages.VirtualEntityCreateDialog_0);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(3, false));
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gridData);
 		Label label = new Label(composite, SWT.NULL);
-		label.setText("みなしエンティティ名");
+		label.setText(Messages.VirtualEntityCreateDialog_1);
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.widthHint = 100;
 		virtualEntityName = new Text(composite, SWT.BORDER);
@@ -90,9 +91,9 @@ public class VirtualEntityCreateDialog extends Dialog {
 		virtualEntityName.addModifyListener(listener);
 		
 		typeCombo = new Combo(composite, SWT.READ_ONLY);
-		typeCombo.add("通常");
-		typeCombo.add("リソースタイプ");
-		typeCombo.add("イベントタイプ");
+		typeCombo.add(Messages.VirtualEntityCreateDialog_2);
+		typeCombo.add(Messages.VirtualEntityCreateDialog_3);
+		typeCombo.add(Messages.VirtualEntityCreateDialog_4);
 		typeCombo.select(0);
 		
 		composite.pack();

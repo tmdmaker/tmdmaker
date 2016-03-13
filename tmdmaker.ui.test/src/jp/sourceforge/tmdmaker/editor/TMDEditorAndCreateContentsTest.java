@@ -80,11 +80,11 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 	@Test
 	public void activateTool() {
-		botEditor.activateTool("エンティティ");
-		assertEquals("エンティティ", getActiveToolLabel());
+		botEditor.activateTool("Entity");
+		assertEquals("Entity", getActiveToolLabel());
 
-		botEditor.activateTool("リレーションシップ");
-		assertEquals("リレーションシップ", getActiveToolLabel());
+		botEditor.activateTool("Relationship");
+		assertEquals("Relationship", getActiveToolLabel());
 
 	}
 
@@ -94,9 +94,9 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 	@Test
 	public void testCreateResourceEntity() {
-		botEditor.activateTool("エンティティ");
+		botEditor.activateTool("Entity");
 		botEditor.click(50, 50);
-		SWTBotShell shell = bot.shell("エンティティ新規作成");
+		SWTBotShell shell = bot.shell("Create a new entity");
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("顧客番号");
@@ -104,9 +104,9 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		bot.button("OK").click();
 		sleep();
 
-		botEditor.activateTool("エンティティ");
+		botEditor.activateTool("Entity");
 		botEditor.click(300, 50);
-		shell = bot.shell("エンティティ新規作成");
+		shell = bot.shell("Create a new entity");
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("商品番号");
@@ -117,14 +117,14 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		sleep();
 
 		// R:R 対照表
-		botEditor.activateTool("リレーションシップ");
+		botEditor.activateTool("Relationship");
 		botEditor.click(55, 55);
 		botEditor.click(305, 55);
 		sleep();
 
-		botEditor.activateTool("エンティティ");
+		botEditor.activateTool("Entity");
 		botEditor.click(50, 250);
-		shell = bot.shell("エンティティ新規作成");
+		shell = bot.shell("Create a new entity");
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("受注ID");
@@ -132,9 +132,9 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		bot.button("OK").click();
 		sleep();
 
-		botEditor.activateTool("エンティティ");
+		botEditor.activateTool("Entity");
 		botEditor.click(300, 250);
-		shell = bot.shell("エンティティ新規作成");
+		shell = bot.shell("Create a new entity");
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("請求ID");
@@ -142,9 +142,9 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		bot.button("OK").click();
 		sleep();
 
-		botEditor.activateTool("エンティティ");
+		botEditor.activateTool("Entity");
 		botEditor.click(500, 250);
-		shell = bot.shell("エンティティ新規作成");
+		shell = bot.shell("Create a new entity");
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("発送ID");
@@ -153,34 +153,34 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		sleep();
 
 		// R:E
-		botEditor.activateTool("リレーションシップ");
+		botEditor.activateTool("Relationship");
 		botEditor.click(305, 55);
 		botEditor.click(55, 255);
 		sleep();
 
 		// E:E 対応表
-		botEditor.activateTool("リレーションシップ");
+		botEditor.activateTool("Relationship");
 		botEditor.click(55, 255);
 		botEditor.click(305, 255);
 		sleep();
-		shell = bot.shell("Relationship編集");
+		shell = bot.shell("Edit relationship");
 		shell.activate();
 		bot.comboBox(0).setSelection(1);
 		bot.button("OK").click();
 		sleep();
 
 		// E:E
-		botEditor.activateTool("リレーションシップ");
+		botEditor.activateTool("Relationship");
 		botEditor.click(305, 255);
 		botEditor.click(505, 255);
 		sleep();
-		shell = bot.shell("Relationship編集");
+		shell = bot.shell("Edit relationship");
 		shell.activate();
 		bot.button("OK").click();
 		sleep();
 
 		// 再帰
-		botEditor.activateTool("リレーションシップ");
+		botEditor.activateTool("Relationship");
 		botEditor.click(305, 255);
 		botEditor.click(305, 255);
 		sleep();
@@ -188,27 +188,27 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		// サブセット
 		botEditor.activateTool("Select");
 		botEditor.click(303, 55);
-		botEditor.clickContextMenu("サブセット");
-		botEditor.clickContextMenu("サブセット作成");
-		shell = bot.shell("サブセット編集");
+		botEditor.clickContextMenu("Subset");
+		botEditor.clickContextMenu("Create subset");
+		shell = bot.shell("Edit subset");
 		shell.activate();
-		bot.radio("同一").click();
-		bot.button("新規").click();
-		bot.button("新規").click();
+		bot.radio("Hometype").click();
+		bot.button("Add").click();
+		bot.button("Add").click();
 		bot.button("OK").click();
 		sleep();
 
 		// 多値のAND
 		botEditor.activateTool("Select");
 		botEditor.click(505, 255);
-		botEditor.clickContextMenu("データ の多値").clickContextMenu("多値のAND(HDR-DTL)作成");
+		botEditor.clickContextMenu("Multivalue").clickContextMenu("Create multivalue AND(HDR-DTL)");
 		sleep();
 
 		// 多値のOR
 		botEditor.activateTool("Select");
 		botEditor.click(305, 55);
-		botEditor.clickContextMenu("データ の多値").clickContextMenu("多値のOR作成");
-		shell = bot.shell("MO作成");
+		botEditor.clickContextMenu("Multivalue").clickContextMenu("Create multivalue OR");
+		shell = bot.shell("Create multivalue OR");
 		shell.activate();
 		bot.text(0).setText("商品種別");
 		bot.button("OK").click();
@@ -216,8 +216,8 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 		// みなしエンティティ
 		botEditor.click(55, 55);
-		botEditor.clickContextMenu("みなし概念(TM')").clickContextMenu("みなしEntity作成");
-		shell = bot.shell("みなしエンティティ作成");
+		botEditor.clickContextMenu("Virtual entity(TM')").clickContextMenu("Create virtual entity");
+		shell = bot.shell("Create virtual entity");
 		shell.activate();
 		bot.text(0).setText("顧客住所");
 		bot.button("OK").click();
@@ -225,11 +225,11 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 		// みなしスーパーセット
 		botEditor.click(20, 205);
-		botEditor.clickContextMenu("みなし概念(TM')").clickContextMenu("みなしSuperset編集");
-		shell = bot.shell("スーパーセット編集");
+		botEditor.clickContextMenu("Virtual entity(TM')").clickContextMenu("Edir virtual superset");
+		shell = bot.shell("Edir superset");
 		shell.activate();
 		sleep();
-		bot.textWithLabel("みなしスーパーセット名").setText("すーぱーセット");
+		bot.textWithLabel("Virtual superset name").setText("すーぱーセット");
 		bot.list(1).select(0);
 		bot.button("<").click();
 		bot.list(1).select(0);
