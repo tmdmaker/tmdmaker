@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.KeyModels;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.model.SarogateKey;
-import jp.sourceforge.tmdmaker.model.SarogateKeyRef;
+import jp.sourceforge.tmdmaker.model.SurrogateKey;
+import jp.sourceforge.tmdmaker.model.SurrogateKeyRef;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
@@ -47,14 +47,15 @@ public class EditImplementEntity {
 	/** プロパティ変更通知用 */
 	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 	public static final String PROPERTY_ATTRIBUTES = "attributes";
-	public static final String PROPERTY_SAROGATE = "sarogate";
+	public static final String PROPERTY_SURROGATE = "surrogate";
 	public static final String PROPERTY_KEYMODELS = "keymodels";
 	// private AbstractEntityModel model;
-	private EditSarogateKey sarogateKey;
+	private EditSurrogateKey surrogateKey;
 	private List<EditImplementAttribute> attributes = new ArrayList<EditImplementAttribute>();
 	private KeyModels keyModels = new KeyModels();
 	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
 	private String implementName;
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -68,20 +69,19 @@ public class EditImplementEntity {
 		if (originalKeyModels != null) {
 			originalKeyModels.copyTo(keyModels);
 
-			SarogateKey key = originalKeyModels.getSarogateKey();
-			sarogateKey = new EditSarogateKey(model, key);
-			if (sarogateKey.isEnabled()) {
-				attributes.add(sarogateKey);
+			SurrogateKey key = originalKeyModels.getSurrogateKey();
+			surrogateKey = new EditSurrogateKey(model, key);
+			if (surrogateKey.isEnabled()) {
+				attributes.add(surrogateKey);
 			}
 		}
 		// 個体指定子をカラムとして追加
 		if (model instanceof Entity) {
-			attributes.add(new EditImplementAttribute(model, ((Entity) model)
-					.getIdentifier()));
+			attributes.add(new EditImplementAttribute(model, ((Entity) model).getIdentifier()));
 		}
 		if (model instanceof Detail) {
-			attributes.add(new EditImplementAttribute(model, ((Detail) model)
-					.getDetailIdentifier()));
+			attributes
+					.add(new EditImplementAttribute(model, ((Detail) model).getDetailIdentifier()));
 		}
 		if (model instanceof SubsetEntity) {
 			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
@@ -91,19 +91,17 @@ public class EditImplementEntity {
 
 		}
 		// Re-usedをカラムとして追加
-		Map<AbstractEntityModel, ReusedIdentifier> reused = model
-				.getReusedIdentifieres();
-		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
-				.entrySet()) {
+		Map<AbstractEntityModel, ReusedIdentifier> reused = model.getReusedIdentifieres();
+		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused.entrySet()) {
 			ReusedIdentifier ri = entry.getValue();
-			if (ri.isSarogateKeyEnabled()) {
+			if (ri.isSurrogateKeyEnabled()) {
 				// サロゲートキーをカラムとして使用
-				System.out.println("ri.isSarogateKeyEnabled()");
-				for (SarogateKeyRef s : ri.getSarogateKeys()) {
+				System.out.println("ri.isSurrogateKeyEnabled()");
+				for (SurrogateKeyRef s : ri.getSurrogateKeys()) {
 					attributes.add(new EditImplementAttribute(model, s));
 				}
 			} else {
-				System.out.println("not ri.isSarogateKeyEnabled()");
+				System.out.println("not ri.isSurrogateKeyEnabled()");
 				// 個体指定子の参照をカラムとして使用
 				for (IdentifierRef ref : ri.getUniqueIdentifieres()) {
 					attributes.add(new EditImplementAttribute(model, ref));
@@ -125,8 +123,7 @@ public class EditImplementEntity {
 		// 対象モデルに戻して実装するモデルが保持するattributeを抽出
 		if (model.getImplementDerivationModels() != null) {
 			for (AbstractEntityModel m : model.getImplementDerivationModels()) {
-				List<EditImplementAttribute> list = otherModelAttributesMap
-						.get(m);
+				List<EditImplementAttribute> list = otherModelAttributesMap.get(m);
 				if (list != null) {
 					attributes.addAll(list);
 				}
@@ -141,14 +138,14 @@ public class EditImplementEntity {
 	 * @param enabled
 	 *            サロゲートキーへ設定するプロパティ値
 	 */
-	public void setSarogateKeyEnabled(boolean enabled) {
-		sarogateKey.setEnabled(enabled);
+	public void setSurrogateKeyEnabled(boolean enabled) {
+		surrogateKey.setEnabled(enabled);
 		if (enabled) {
-			addAttribute(0, sarogateKey);
+			addAttribute(0, surrogateKey);
 		} else {
-			removeAttribute(sarogateKey);
+			removeAttribute(surrogateKey);
 		}
-		firePropertyChange(PROPERTY_ATTRIBUTES, null, sarogateKey);
+		firePropertyChange(PROPERTY_ATTRIBUTES, null, surrogateKey);
 	}
 
 	/**
@@ -156,8 +153,8 @@ public class EditImplementEntity {
 	 * 
 	 * @return サロゲートキーのenabledプロパティ
 	 */
-	public boolean isSarogateKeyEnabled() {
-		return sarogateKey.isEnabled();
+	public boolean isSurrogateKeyEnabled() {
+		return surrogateKey.isEnabled();
 	}
 
 	/**
@@ -165,8 +162,8 @@ public class EditImplementEntity {
 	 * 
 	 * @return サロゲートキー名
 	 */
-	public String getSarogateKeyName() {
-		return sarogateKey.getName();
+	public String getSurrogateKeyName() {
+		return surrogateKey.getName();
 	}
 
 	/**
@@ -175,16 +172,16 @@ public class EditImplementEntity {
 	 * @param name
 	 *            サロゲートキー名
 	 */
-	public void setSarogateKeyName(String name) {
-		sarogateKey.setName(name);
-		firePropertyChange(PROPERTY_SAROGATE, null, sarogateKey);
+	public void setSurrogateKeyName(String name) {
+		surrogateKey.setName(name);
+		firePropertyChange(PROPERTY_SURROGATE, null, surrogateKey);
 	}
 
 	/**
-	 * @return the sarogateKey
+	 * @return the surrogateKey
 	 */
-	public EditSarogateKey getSarogateKey() {
-		return sarogateKey;
+	public EditSurrogateKey getSurrogateKey() {
+		return surrogateKey;
 	}
 
 	/**
@@ -224,8 +221,7 @@ public class EditImplementEntity {
 	 *            削除するアトリビュート
 	 * @return 削除したアトリビュート。アトリビュートが存在しなかった場合はnullを返す。
 	 */
-	public EditImplementAttribute removeAttribute(
-			EditImplementAttribute attribute) {
+	public EditImplementAttribute removeAttribute(EditImplementAttribute attribute) {
 		int index = attributes.indexOf(attribute);
 		if (index >= 0) {
 			EditImplementAttribute removed = attributes.remove(index);
@@ -340,7 +336,8 @@ public class EditImplementEntity {
 	}
 
 	/**
-	 * @param implementName the implementName to set
+	 * @param implementName
+	 *            the implementName to set
 	 */
 	public void setImplementName(String implementName) {
 		this.implementName = implementName;
@@ -366,8 +363,7 @@ public class EditImplementEntity {
 	 * @param newValue
 	 *            変更後の値
 	 */
-	public void firePropertyChange(String propName, Object oldValue,
-			Object newValue) {
+	public void firePropertyChange(String propName, Object oldValue, Object newValue) {
 		listeners.firePropertyChange(propName, oldValue, newValue);
 	}
 

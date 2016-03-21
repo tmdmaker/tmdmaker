@@ -26,10 +26,10 @@ import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoEditPanel;
 import jp.sourceforge.tmdmaker.dialog.component.IndexSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
-import jp.sourceforge.tmdmaker.dialog.component.SarogateKeyPanel;
+import jp.sourceforge.tmdmaker.dialog.component.SurrogateKeyPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementEntity;
-import jp.sourceforge.tmdmaker.dialog.model.EditSarogateKey;
+import jp.sourceforge.tmdmaker.dialog.model.EditSurrogateKey;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
@@ -66,7 +66,7 @@ public class ImplementInfoEditDialog extends Dialog {
 	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
 	private ModelSelectPanel panel2;
 	private IndexSettingPanel panel3;
-	private SarogateKeyPanel panel4;
+	private SurrogateKeyPanel panel4;
 
 	private Button updateButton;
 
@@ -166,7 +166,7 @@ public class ImplementInfoEditDialog extends Dialog {
 		// panel3.initializeValue(editAttributeList, editedKeyModels);
 		panel3.updateTable();
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		panel4 = new SarogateKeyPanel(composite, SWT.NULL, implementModel);
+		panel4 = new SurrogateKeyPanel(composite, SWT.NULL, implementModel);
 		panel4.setLayoutData(gridData);
 		panel4.refreshVisual();
 		item2.setControl(composite);
@@ -186,8 +186,6 @@ public class ImplementInfoEditDialog extends Dialog {
 		editedValueEntity.setImplementName(panel1.getImplementName());
 		editedValueEntity.setImplementDerivationModels(panel2.getSelectModels());
 		editedValueEntity.setKeyModels(implementModel.getKeyModels());
-		// implementModel.getSarogateKey();
-		// editedKeyModels.getSarogateKey().copyFrom(e);
 		createEditAttributeResult();
 
 		super.okPressed();
@@ -222,8 +220,8 @@ public class ImplementInfoEditDialog extends Dialog {
 		return editedValueIdentifieres;
 	}
 
-	public EditSarogateKey getEditedSarogateKey() {
-		return implementModel.getSarogateKey();
+	public EditSurrogateKey getEditedSurrogateKey() {
+		return implementModel.getSurrogateKey();
 	}
 
 	/**
@@ -243,7 +241,7 @@ public class ImplementInfoEditDialog extends Dialog {
 				panel1.updateTable();
 				panel3.updateTable();
 				panel4.refreshVisual();
-			} else if (evt.getPropertyName().equals(EditImplementEntity.PROPERTY_SAROGATE)) {
+			} else if (evt.getPropertyName().equals(EditImplementEntity.PROPERTY_SURROGATE)) {
 				panel3.updateTable();
 				panel1.updateTable();
 			} else if (evt.getPropertyName().equals(EditImplementEntity.PROPERTY_KEYMODELS)) {

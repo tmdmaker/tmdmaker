@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,7 +78,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
+		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
 
 		return returnValue;

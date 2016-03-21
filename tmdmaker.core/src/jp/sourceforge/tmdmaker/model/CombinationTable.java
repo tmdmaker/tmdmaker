@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class CombinationTable extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
+		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
 		checkDuplicateTargetReusedIdentifieres();
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifieres
 				.entrySet()) {
@@ -55,8 +55,8 @@ public class CombinationTable extends AbstractEntityModel {
 	}
 
 	private Map.Entry<AbstractEntityModel, ReusedIdentifier> getSource() {
-		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super
-				.getReusedIdentifieres().entrySet().iterator();
+		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super.getReusedIdentifieres()
+				.entrySet().iterator();
 		if (it.hasNext()) {
 			return it.next();
 		}
@@ -64,8 +64,8 @@ public class CombinationTable extends AbstractEntityModel {
 	}
 
 	private Map.Entry<AbstractEntityModel, ReusedIdentifier> getTarget() {
-		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super
-				.getReusedIdentifieres().entrySet().iterator();
+		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super.getReusedIdentifieres()
+				.entrySet().iterator();
 
 		// sourceは読み飛ばす
 		if (!it.hasNext()) {

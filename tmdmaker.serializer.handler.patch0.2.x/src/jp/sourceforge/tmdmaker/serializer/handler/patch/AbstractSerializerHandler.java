@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.serializer.handler.patch;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +25,21 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Version;
 import jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler;
 
+/**
+ * Handlerの抽象クラス.
+ * 
+ * @author nakag
+ *
+ */
 public class AbstractSerializerHandler implements SerializerHandler {
 	protected static Logger logger;
 
+	/**
+	 * the constructor.
+	 */
 	public AbstractSerializerHandler() {
 		logger = LoggerFactory.getLogger(getClass().getName());
-		logger.debug("Patch Start.");
+		logger.debug("Handler Start.");
 	}
 
 	/**
@@ -88,12 +100,35 @@ public class AbstractSerializerHandler implements SerializerHandler {
 	 * @param serviceNo
 	 * @return 指定以下のバージョンの場合にtrueを返す
 	 */
-	protected boolean versionUnderEqual(Diagram in, int major, int minor,
-			int serviceNo) {
-		Version version = new Version(in.getVersion());
+	protected boolean versionUnderEqual(Diagram in, int major, int minor, int serviceNo) {
+		return versionUnderEqualByVersionString(in.getVersion(), major, minor, serviceNo);
+	}
+
+	/**
+	 * モデルのバージョンが指定値以下か判定する
+	 * 
+	 * @param in
+	 *            モデルのシリアライズ
+	 * @param major
+	 * @param minor
+	 * @param serviceNo
+	 * @return 指定以下のバージョンの場合にtrueを返す
+	 */
+	protected boolean versionUnderEqual(String in, int major, int minor, int serviceNo) {
+		Pattern pattern = Pattern.compile("(<version>)(.*?)(</version>)", Pattern.DOTALL);
+		Matcher matcher = pattern.matcher(in);
+		if (matcher.find()) {
+			String versionString = matcher.group(2);
+			return versionUnderEqualByVersionString(versionString, major, minor, serviceNo);
+		}
+		return false;
+	}
+
+	private boolean versionUnderEqualByVersionString(String versionString, int major, int minor, int serviceNo) {
+		Version version = new Version(versionString);
 		logger.info("version = " + version.getValue());
-		return version.getMajorVersion() == major
-				&& version.getMinorVersion() == minor
+		return version.getMajorVersion() == major && version.getMinorVersion() == minor
 				&& version.getServiceNo() <= serviceNo;
 	}
+
 }

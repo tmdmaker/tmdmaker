@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ package jp.sourceforge.tmdmaker.model;
  * 
  */
 @SuppressWarnings("serial")
-public class SarogateKeyRef extends SarogateKey {
-	private SarogateKey original;
+public class SurrogateKeyRef extends SurrogateKey {
+	private SurrogateKey original;
 
 	/**
 	 * コンストラクタ
@@ -31,7 +31,7 @@ public class SarogateKeyRef extends SarogateKey {
 	 * @param original
 	 *            参照元のサロゲートキー
 	 */
-	public SarogateKeyRef(SarogateKey original) {
+	public SurrogateKeyRef(SurrogateKey original) {
 		this.original = original;
 	}
 
@@ -48,6 +48,7 @@ public class SarogateKeyRef extends SarogateKey {
 		}
 		return returnName;
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -57,7 +58,7 @@ public class SarogateKeyRef extends SarogateKey {
 	public void setImplementName(String implementName) {
 		String oldValue = super.getImplementName();
 		if (implementName == null || !implementName.equals(oldValue)) {
-			super.setImplementName(implementName);			
+			super.setImplementName(implementName);
 		}
 	}
 
@@ -78,7 +79,7 @@ public class SarogateKeyRef extends SarogateKey {
 	/**
 	 * @return the original
 	 */
-	public SarogateKey getOriginal() {
+	public SurrogateKey getOriginal() {
 		return original;
 	}
 
@@ -86,17 +87,18 @@ public class SarogateKeyRef extends SarogateKey {
 	 * @param original
 	 *            the original to set
 	 */
-	public void setOriginal(SarogateKey original) {
+	public void setOriginal(SurrogateKey original) {
 		this.original = original;
 	}
 
 	/**
 	 * @return
-	 * @see jp.sourceforge.tmdmaker.model.SarogateKey#isEnabled()
+	 * @see jp.sourceforge.tmdmaker.model.SurrogateKey#isEnabled()
 	 */
 	public boolean isEnabled() {
 		return original.isEnabled();
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -110,6 +112,7 @@ public class SarogateKeyRef extends SarogateKey {
 		}
 		return returnValue;
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -128,7 +131,7 @@ public class SarogateKeyRef extends SarogateKey {
 		}
 		to.setImplementName(getImplementName());
 		to.setNullable(isNullable());
-//		to.setName(getName());
+		// to.setName(getName());
 
 	}
 

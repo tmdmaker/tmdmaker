@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.model.SarogateKey;
-import jp.sourceforge.tmdmaker.model.SarogateKeyRef;
+import jp.sourceforge.tmdmaker.model.SurrogateKey;
+import jp.sourceforge.tmdmaker.model.SurrogateKeyRef;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
@@ -55,8 +55,7 @@ public class ImplementRule {
 	 *            派生元
 	 * @return 実装しない派生モデルのリスト。対象が存在しない場合は空リストを返す。
 	 */
-	public static List<AbstractEntityModel> findNotImplementModel(
-			AbstractEntityModel model) {
+	public static List<AbstractEntityModel> findNotImplementModel(AbstractEntityModel model) {
 		List<AbstractEntityModel> subsets = new ArrayList<AbstractEntityModel>();
 		List<AbstractEntityModel> ves = new ArrayList<AbstractEntityModel>();
 		List<AbstractEntityModel> results = new ArrayList<AbstractEntityModel>();
@@ -76,15 +75,14 @@ public class ImplementRule {
 		return results;
 	}
 
-	private static void findNotImplementSubset(
-			List<AbstractEntityModel> results, AbstractEntityModel model) {
+	private static void findNotImplementSubset(List<AbstractEntityModel> results,
+			AbstractEntityModel model) {
 		SubsetType type = model.findSubsetType();
 		if (type == null) {
 			return;
 		}
 
-		for (AbstractConnectionModel connection : type
-				.getModelSourceConnections()) {
+		for (AbstractConnectionModel connection : type.getModelSourceConnections()) {
 			SubsetEntity subset = (SubsetEntity) connection.getTarget();
 			if (subset.isNotImplement()) {
 				results.add(subset);
@@ -93,10 +91,9 @@ public class ImplementRule {
 		}
 	}
 
-	private static void findNotImplementVirtualEntity(
-			List<AbstractEntityModel> results, AbstractEntityModel model) {
-		for (AbstractConnectionModel connection : model
-				.getModelSourceConnections()) {
+	private static void findNotImplementVirtualEntity(List<AbstractEntityModel> results,
+			AbstractEntityModel model) {
+		for (AbstractConnectionModel connection : model.getModelSourceConnections()) {
 			ConnectableElement e = connection.getTarget();
 			if (e instanceof VirtualEntity) {
 				VirtualEntity ve = (VirtualEntity) e;
@@ -115,12 +112,11 @@ public class ImplementRule {
 	 *            対象モデル
 	 * @return アトリビュートのリスト
 	 */
-	public static List<IAttribute> findAllImplementAttributes(
-			AbstractEntityModel model) {
+	public static List<IAttribute> findAllImplementAttributes(AbstractEntityModel model) {
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
-		SarogateKey sarogateKey = model.getKeyModels().getSarogateKey();
-		if (sarogateKey.isEnabled()) {
-			attributes.add(sarogateKey);
+		SurrogateKey surrogateKey = model.getKeyModels().getSurrogateKey();
+		if (surrogateKey.isEnabled()) {
+			attributes.add(surrogateKey);
 		}
 		// 個体指定子を追加
 		if (model instanceof Entity) {
@@ -130,23 +126,20 @@ public class ImplementRule {
 			attributes.add(((Detail) model).getDetailIdentifier());
 		}
 		if (model instanceof SubsetEntity) {
-			ReusedIdentifier reused = ((SubsetEntity) model)
-					.getOriginalReusedIdentifier();
+			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
 			for (IdentifierRef ref : reused.getUniqueIdentifieres()) {
 				attributes.add(ref);
 			}
 		}
 		// re-usedを追加
-		Map<AbstractEntityModel, ReusedIdentifier> reused = model
-				.getReusedIdentifieres();
-		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused
-				.entrySet()) {
+		Map<AbstractEntityModel, ReusedIdentifier> reused = model.getReusedIdentifieres();
+		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused.entrySet()) {
 			ReusedIdentifier ri = entry.getValue();
 			if (ri == null) {
 				continue;
 			}
-			if (ri.isSarogateKeyEnabled()) {
-				for (SarogateKeyRef s : ri.getSarogateKeys()) {
+			if (ri.isSurrogateKeyEnabled()) {
+				for (SurrogateKeyRef s : ri.getSurrogateKeys()) {
 					attributes.add(s);
 				}
 			} else {
@@ -173,15 +166,12 @@ public class ImplementRule {
 	 *            対象モデル（実装対象でないサブセットかみなしエンティティ）
 	 * @return 実装元モデル（候補含む）
 	 */
-	public static AbstractEntityModel findOriginalImplementModel(
-			AbstractEntityModel model) {
+	public static AbstractEntityModel findOriginalImplementModel(AbstractEntityModel model) {
 		if (model != null && model.isNotImplement()) {
 			if (model instanceof SubsetEntity) {
-				return findOriginalImplementModel(((SubsetEntity) model)
-						.getSuperset());
+				return findOriginalImplementModel(((SubsetEntity) model).getSuperset());
 			} else if (model instanceof VirtualEntity) {
-				return findOriginalImplementModel(((VirtualEntity) model)
-						.getRealEntity());
+				return findOriginalImplementModel(((VirtualEntity) model).getRealEntity());
 			} else {
 				return model;
 			}
@@ -213,8 +203,8 @@ public class ImplementRule {
 			identifier.setImplementName(identifier.getName());
 		}
 		if (identifier.getDataTypeDeclaration() == null) {
-			identifier.setDataTypeDeclaration(new DataTypeDeclaration(
-					StandardSQLDataType.NUMERIC, 10, 0));
+			identifier.setDataTypeDeclaration(
+					new DataTypeDeclaration(StandardSQLDataType.NUMERIC, 10, 0));
 		}
 	}
 
@@ -226,8 +216,8 @@ public class ImplementRule {
 	 */
 	public static void setEventDefaultAttributeValue(Attribute attribute) {
 		attribute.setImplementName(attribute.getName());
-		attribute.setDataTypeDeclaration(new DataTypeDeclaration(
-				StandardSQLDataType.DATE, null, null));
+		attribute.setDataTypeDeclaration(
+				new DataTypeDeclaration(StandardSQLDataType.DATE, null, null));
 
 	}
 
@@ -239,8 +229,8 @@ public class ImplementRule {
 	 */
 	public static void setResourceDefaultAttributeValue(Attribute attribute) {
 		attribute.setImplementName(attribute.getName());
-		attribute.setDataTypeDeclaration(new DataTypeDeclaration(
-				StandardSQLDataType.CHARACTER_VARYING, 10, null));
+		attribute.setDataTypeDeclaration(
+				new DataTypeDeclaration(StandardSQLDataType.CHARACTER_VARYING, 10, null));
 
 	}
 

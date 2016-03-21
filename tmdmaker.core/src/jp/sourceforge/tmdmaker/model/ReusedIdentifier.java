@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public class ReusedIdentifier implements Serializable {
 	/** 参照元の個体指定子（またはRe-usedキー） */
 	private List<IdentifierRef> identifieres = new ArrayList<IdentifierRef>();
 	/** 参照元のサロゲートキー */
-	private List<SarogateKeyRef> sarogateKeys = new ArrayList<SarogateKeyRef>();
+	private List<SurrogateKeyRef> surrogateKeys = new ArrayList<SurrogateKeyRef>();
 
 	/**
 	 * デフォルトコンストラクタ
@@ -44,35 +44,35 @@ public class ReusedIdentifier implements Serializable {
 	 * 
 	 * @param identifier
 	 *            参照元の個体指定子
-	 * @param sarogateKey
+	 * @param surrogateKey
 	 *            参照元のサロゲートキー
 	 */
-	public ReusedIdentifier(Identifier identifier, SarogateKey sarogateKey) {
+	public ReusedIdentifier(Identifier identifier, SurrogateKey surrogateKey) {
 		addIdentifier(identifier);
-		this.sarogateKeys.add(new SarogateKeyRef(sarogateKey));
+		this.surrogateKeys.add(new SurrogateKeyRef(surrogateKey));
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param sarogateKey
+	 * @param surrogateKey
 	 *            参照元のサロゲートキー
 	 */
-	public ReusedIdentifier(SarogateKey sarogateKey) {
-		this.sarogateKeys.add(new SarogateKeyRef(sarogateKey));
+	public ReusedIdentifier(SurrogateKey surrogateKey) {
+		this.surrogateKeys.add(new SurrogateKeyRef(surrogateKey));
 	}
 
 	/**
 	 * コンストラクタ. 再帰表が作成される時に利用する
 	 * 
-	 * @param sarogateKey1
+	 * @param surrogateKey1
 	 *            参照元のサロゲートキー
-	 * @param sarogateKey2
+	 * @param surrogateKey2
 	 *            参照元のサロゲートキー
 	 */
-	public ReusedIdentifier(SarogateKey sarogateKey1, SarogateKey sarogateKey2) {
-		this.sarogateKeys.add(new SarogateKeyRef(sarogateKey1));
-		this.sarogateKeys.add(new SarogateKeyRef(sarogateKey2));
+	public ReusedIdentifier(SurrogateKey surrogateKey1, SurrogateKey surrogateKey2) {
+		this.surrogateKeys.add(new SurrogateKeyRef(surrogateKey1));
+		this.surrogateKeys.add(new SurrogateKeyRef(surrogateKey2));
 	}
 
 	/**
@@ -85,25 +85,25 @@ public class ReusedIdentifier implements Serializable {
 	}
 
 	/**
-	 * 参照元の個体指定子（またはRe-usedキー）を返す。
-	 * sourceとtargetで重複する個体指定子は１つにまとめる。
+	 * 参照元の個体指定子（またはRe-usedキー）を返す。 sourceとtargetで重複する個体指定子は１つにまとめる。
+	 * 
 	 * @return 重複を排除した参照元の個体指定子（またはRe-usedキー）。
 	 */
 	public List<IdentifierRef> getUniqueIdentifieres() {
 		List<IdentifierRef> list = new ArrayList<IdentifierRef>(identifieres.size());
-		for(IdentifierRef i : identifieres) {
+		for (IdentifierRef i : identifieres) {
 			if (!i.isDuplicate()) {
 				list.add(i);
 			}
 		}
 		return Collections.unmodifiableList(list);
 	}
-	
+
 	/**
-	 * @return the sarogateKey
+	 * @return the surrogateKeys
 	 */
-	public List<SarogateKeyRef> getSarogateKeys() {
-		return Collections.unmodifiableList(sarogateKeys);
+	public List<SurrogateKeyRef> getSurrogateKeys() {
+		return Collections.unmodifiableList(surrogateKeys);
 	}
 
 	/**
@@ -130,10 +130,10 @@ public class ReusedIdentifier implements Serializable {
 		identifieres.clear();
 	}
 
-	public boolean isSarogateKeyEnabled() {
-		if (sarogateKeys != null && sarogateKeys.size() > 0) {
-			SarogateKeyRef sarogateKey = sarogateKeys.get(0);
-			return sarogateKey != null && sarogateKey.isEnabled();
+	public boolean isSurrogateKeyEnabled() {
+		if (surrogateKeys != null && surrogateKeys.size() > 0) {
+			SurrogateKeyRef surrogateKey = surrogateKeys.get(0);
+			return surrogateKey != null && surrogateKey.isEnabled();
 		} else {
 			return false;
 		}

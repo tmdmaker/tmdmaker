@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,8 +51,7 @@ public class SubsetEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		ReusedIdentifier returnValue = new ReusedIdentifier(
-				keyModels.getSarogateKey());
+		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
 
 		return returnValue;
@@ -75,8 +74,7 @@ public class SubsetEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return getModelTargetConnections().size() == 1
-				&& getModelSourceConnections().size() == 0;
+		return getModelTargetConnections().size() == 1 && getModelSourceConnections().size() == 0;
 	}
 
 	/**
@@ -124,10 +122,8 @@ public class SubsetEntity extends AbstractEntityModel {
 	 * @return 派生元モデル（スーパーセット）
 	 */
 	public AbstractEntityModel getSuperset() {
-		SubsetType type = (SubsetType) getModelTargetConnections().get(0)
-				.getSource();
-		return (AbstractEntityModel) type.getModelTargetConnections().get(0)
-				.getSource();
+		SubsetType type = (SubsetType) getModelTargetConnections().get(0).getSource();
+		return (AbstractEntityModel) type.getModelTargetConnections().get(0).getSource();
 	}
 
 	@Override

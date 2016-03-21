@@ -33,13 +33,13 @@ import org.eclipse.swt.layout.GridData;
  * @author nakag
  *
  */
-public class SarogateKeyPanel extends Composite {
+public class SurrogateKeyPanel extends Composite {
 	private EditImplementEntity entity;
-	private Button useSarogateKeyCheckBox = null;
+	private Button useSurrogateKeyCheckBox = null;
 	private Label nameLabel = null;
 	private Text inputNameText = null;
 
-	public SarogateKeyPanel(Composite parent, int style, EditImplementEntity entity) {
+	public SurrogateKeyPanel(Composite parent, int style, EditImplementEntity entity) {
 		super(parent, style);
 		this.entity = entity;
 		initialize();
@@ -58,12 +58,12 @@ public class SarogateKeyPanel extends Composite {
 		gridData.horizontalAlignment = SWT.LEFT;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
-		useSarogateKeyCheckBox = new Button(this, SWT.CHECK);
-		useSarogateKeyCheckBox.setText(Messages.AddSurrogateKey);
-		useSarogateKeyCheckBox.setLayoutData(gridData);
-		useSarogateKeyCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+		useSurrogateKeyCheckBox = new Button(this, SWT.CHECK);
+		useSurrogateKeyCheckBox.setText(Messages.AddSurrogateKey);
+		useSurrogateKeyCheckBox.setLayoutData(gridData);
+		useSurrogateKeyCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				entity.setSarogateKeyEnabled(useSarogateKeyCheckBox.getSelection());
+				entity.setSurrogateKeyEnabled(useSurrogateKeyCheckBox.getSelection());
 			}
 		});
 		nameLabel = new Label(this, SWT.NONE);
@@ -72,7 +72,7 @@ public class SarogateKeyPanel extends Composite {
 		inputNameText.setLayoutData(gridData1);
 		inputNameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
 			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
-				entity.setSarogateKeyName(inputNameText.getText());
+				entity.setSurrogateKeyName(inputNameText.getText());
 			}
 		});
 		this.setLayout(gridLayout);
@@ -80,13 +80,13 @@ public class SarogateKeyPanel extends Composite {
 	}
 
 	public void refreshVisual() {
-		if (entity.isSarogateKeyEnabled()) {
-			useSarogateKeyCheckBox.setSelection(true);
+		if (entity.isSurrogateKeyEnabled()) {
+			useSurrogateKeyCheckBox.setSelection(true);
 			inputNameText.setEnabled(true);
-			inputNameText.setText(entity.getSarogateKeyName());
+			inputNameText.setText(entity.getSurrogateKeyName());
 		} else {
-			useSarogateKeyCheckBox.setSelection(false);
-			inputNameText.setText(entity.getSarogateKeyName());
+			useSurrogateKeyCheckBox.setSelection(false);
+			inputNameText.setText(entity.getSurrogateKeyName());
 			inputNameText.setEnabled(false);
 		}
 	}
