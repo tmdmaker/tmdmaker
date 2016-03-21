@@ -225,8 +225,8 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 		// みなしスーパーセット
 		botEditor.click(20, 205);
-		botEditor.clickContextMenu("Virtual entity(TM')").clickContextMenu("Edir virtual superset");
-		shell = bot.shell("Edir superset");
+		botEditor.clickContextMenu("Virtual entity(TM')").clickContextMenu("Edit virtual superset");
+		shell = bot.shell("Edit virtual superset");
 		shell.activate();
 		sleep();
 		bot.textWithLabel("Virtual superset name").setText("すーぱーセット");

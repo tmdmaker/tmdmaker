@@ -111,7 +111,7 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.EditVirtualEntity);
+		getShell().setText(Messages.EditVirtualSuperset);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout();
