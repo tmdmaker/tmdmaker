@@ -145,7 +145,7 @@ public class IndexPanel extends Composite {
 		this.setLayout(gridLayout11);
 		createIndexNameComposite();
 		uniqueCheckBox = new Button(this, SWT.CHECK);
-		uniqueCheckBox.setText(Messages.IndexPanel_0);
+		uniqueCheckBox.setText(Messages.UniqueConstraint);
 		uniqueCheckBox.setLayoutData(gridData16);
 		uniqueCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -153,20 +153,20 @@ public class IndexPanel extends Composite {
 			}
 		});
 		masterCheckBox = new Button(this, SWT.CHECK);
-		masterCheckBox.setText(Messages.IndexPanel_1);
+		masterCheckBox.setText(Messages.SpecifyMasterKey);
 		masterCheckBox.setLayoutData(gridData17);
 		Label filler31 = new Label(this, SWT.NONE);
 		filler31.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		attributeSelectedLabel = new Label(this, SWT.NONE);
-		attributeSelectedLabel.setText(Messages.IndexPanel_2);
+		attributeSelectedLabel.setText(Messages.Select);
 		new Label(this, SWT.NONE);
 		attributeNotSelectedLabel = new Label(this, SWT.NONE);
 		attributeNotSelectedLabel
 				.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		attributeNotSelectedLabel.setText(Messages.IndexPanel_3);
+		attributeNotSelectedLabel.setText(Messages.Unselect);
 		upButton = new Button(this, SWT.NONE);
 		upButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		upButton.setText(Messages.IndexPanel_4);
+		upButton.setText(Messages.UpButton);
 		upButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				int selectionIndex = attributeSelectedList.getSelectionIndex();
@@ -218,7 +218,7 @@ public class IndexPanel extends Composite {
 		});
 		downButton = new Button(this, SWT.NONE);
 		downButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		downButton.setText(Messages.IndexPanel_5);
+		downButton.setText(Messages.DownButton);
 		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				int selectionIndex = attributeSelectedList.getSelectionIndex();
@@ -311,7 +311,7 @@ public class IndexPanel extends Composite {
 		indexNameComposite.setLayout(gridLayout2);
 		indexNameComposite.setLayoutData(gridData2);
 		indexNameLabel = new Label(indexNameComposite, SWT.NONE);
-		indexNameLabel.setText(Messages.IndexPanel_6);
+		indexNameLabel.setText(Messages.IndexName);
 		indexNameText = new Text(indexNameComposite, SWT.BORDER);
 		indexNameText.setLayoutData(gridData3);
 	}

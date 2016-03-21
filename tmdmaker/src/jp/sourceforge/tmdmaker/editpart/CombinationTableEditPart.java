@@ -110,7 +110,7 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 	@Override
 	protected ModelEditDialog<CombinationTable> getDialog()
 	{
-		return new CombinationTableEditDialog(getControllShell(), Messages.CombinationTableEditPart_0, getModel());
+		return new CombinationTableEditDialog(getControllShell(), Messages.EditCombinationTable, getModel());
 	}
 
 	/**

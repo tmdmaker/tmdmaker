@@ -94,7 +94,7 @@ public class DetailEditDialog extends ModelEditDialog<Detail> {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.DetailEditDialog_0);
+		getShell().setText(Messages.EditDetail);
 		Composite composite = new Composite(parent, SWT.NULL);
 
 		GridLayout gridLayout = new GridLayout();

@@ -72,11 +72,11 @@ public class ModelSelectPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		selectedLabel = new Label(this, SWT.NONE);
-		selectedLabel.setText(Messages.ModelSelectPanel_0);
+		selectedLabel.setText(Messages.Select);
 		Label filler = new Label(this, SWT.NONE);
 		filler.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		candidateLabel = new Label(this, SWT.NONE);
-		candidateLabel.setText(Messages.ModelSelectPanel_1);
+		candidateLabel.setText(Messages.Unselect);
 		selectedList = new List(this, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		selectedList.setLayoutData(gridData);
 		selectedList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {

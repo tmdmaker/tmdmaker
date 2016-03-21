@@ -36,6 +36,10 @@ import jp.sourceforge.tmdmaker.model.VirtualEntity;
  */
 public class AbstractEntityModelPropertySource extends AbstractPropertySource {
 
+	private static final String IMPLEMENT = "Implement"; //$NON-NLS-1$
+	private static final String ENTITY_TYPE = "EntityType"; //$NON-NLS-1$
+	private static final String IMPLEMENT_NAME = "ImplementName"; //$NON-NLS-1$
+	private static final String NAME = "Name"; //$NON-NLS-1$
 	private AbstractEntityModel model;
 
 	public AbstractEntityModelPropertySource(TMDEditor editor, AbstractEntityModel model) {
@@ -51,13 +55,10 @@ public class AbstractEntityModelPropertySource extends AbstractPropertySource {
 	static private IPropertyDescriptor[] propertyFields;
 	static {
 		propertyFields = new IPropertyDescriptor[] {
-				new TextPropertyDescriptor("Name", Messages.AbstractEntityModelPropertySource_0), //$NON-NLS-1$
-				new TextPropertyDescriptor("ImplementName", //$NON-NLS-1$
-						Messages.AbstractEntityModelPropertySource_1),
-				new TextPropertyDescriptor("EntityType", //$NON-NLS-1$
-						Messages.AbstractEntityModelPropertySource_2),
-				new TextPropertyDescriptor("Implement", //$NON-NLS-1$
-						Messages.AbstractEntityModelPropertySource_3) };
+				new TextPropertyDescriptor(NAME, Messages.ModelName),
+				new TextPropertyDescriptor(IMPLEMENT_NAME, Messages.ImplementationName),
+				new TextPropertyDescriptor(ENTITY_TYPE, Messages.EntityType),
+				new TextPropertyDescriptor(IMPLEMENT, Messages.Implementation) };
 	}
 
 	@Override
@@ -67,33 +68,32 @@ public class AbstractEntityModelPropertySource extends AbstractPropertySource {
 
 	@Override
 	public Object getPropertyValue(Object id) {
-		if (id.equals("Name")) { //$NON-NLS-1$
+		if (id.equals(NAME)) {
 			return canonicalize(model.getName());
 		}
-		if (id.equals("ImplementName")) { //$NON-NLS-1$
+		if (id.equals(IMPLEMENT_NAME)) {
 			return canonicalize(model.getImplementName());
 		}
-		if (id.equals("Implement")) { //$NON-NLS-1$
-			return model.isNotImplement() ? Messages.AbstractEntityModelPropertySource_4
-					: Messages.AbstractEntityModelPropertySource_5;
+		if (id.equals(IMPLEMENT)) {
+			return model.isNotImplement() ? Messages.NotToImplement : Messages.Implementation;
 		}
-		if (id.equals("EntityType")) { //$NON-NLS-1$
+		if (id.equals(ENTITY_TYPE)) {
 			if (model instanceof CombinationTable) {
-				return Messages.AbstractEntityModelPropertySource_6;
+				return Messages.CombinationTable;
 			} else if (model instanceof SubsetEntity) {
-				return Messages.AbstractEntityModelPropertySource_7;
+				return Messages.Subset;
 			} else if (model instanceof VirtualEntity) {
-				return Messages.AbstractEntityModelPropertySource_8;
+				return Messages.VirtualEntity;
 			} else if (model instanceof MultivalueOrEntity) {
-				return Messages.AbstractEntityModelPropertySource_9;
+				return Messages.MultivalueOR;
 			} else if (model instanceof Detail) {
-				return Messages.AbstractEntityModelPropertySource_10;
+				return Messages.MultivalueAndDetail;
 			} else if (model instanceof RecursiveTable) {
-				return Messages.AbstractEntityModelPropertySource_11;
+				return Messages.RecursiveTable;
 			} else if (model instanceof MappingList) {
-				return Messages.AbstractEntityModelPropertySource_12;
+				return Messages.MappingList;
 			} else if (model instanceof Laputa) {
-				return Messages.AbstractEntityModelPropertySource_13;
+				return Messages.Laputa;
 			}
 		}
 		return null;

@@ -29,6 +29,7 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  */
 public class DiagramPropertySource extends AbstractPropertySource {
 
+	private static final String DATABASE_NAME = "DatabaseName"; //$NON-NLS-1$
 	Diagram diagram;
 
 	public DiagramPropertySource(TMDEditor editor, Diagram diagram) {
@@ -44,20 +45,20 @@ public class DiagramPropertySource extends AbstractPropertySource {
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		return new IPropertyDescriptor[] {
-				new TextPropertyDescriptor("DatabaseName", Messages.DiagramPropertySource_0) }; //$NON-NLS-1$
+				new TextPropertyDescriptor(DATABASE_NAME, Messages.DatabaseName) };
 	}
 
 	@Override
 	public Object getPropertyValue(Object id) {
-		if (id.equals("DatabaseName")) { //$NON-NLS-1$
-			return diagram.getDatabaseName() != null ? diagram.getDatabaseName() : ""; //$NON-NLS-1$
+		if (id.equals(DATABASE_NAME)) {
+			return diagram.getDatabaseName() != null ? diagram.getDatabaseName() : "";
 		}
 		return null;
 	}
 
 	@Override
 	public boolean isPropertySet(Object id) {
-		if (id.equals("DatabaseName")) { //$NON-NLS-1$
+		if (id.equals(DATABASE_NAME)) {
 			return true;
 		}
 		return false;

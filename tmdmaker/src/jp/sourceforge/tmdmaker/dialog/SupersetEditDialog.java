@@ -44,6 +44,7 @@ public class SupersetEditDialog extends ModelEditDialog<AbstractEntityModel> {
 	private Text inputNameText;
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel;
+	private GridData gridData_1;
 
 	/**
 	 * コンストラクタ
@@ -77,14 +78,14 @@ public class SupersetEditDialog extends ModelEditDialog<AbstractEntityModel> {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.SupersetEditDialog_0);
+		getShell().setText(Messages.EditVirtualSuperset);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(2, false));
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gridData);
 		Label label = new Label(composite, SWT.NULL);
-		label.setText(Messages.SupersetEditDialog_1);
+		label.setText(Messages.ModelName);
 		inputNameText = new Text(composite, SWT.BORDER);
 		inputNameText.setText(entity.getName());
 		inputNameText.addModifyListener(new ModifyListener() {
@@ -93,9 +94,10 @@ public class SupersetEditDialog extends ModelEditDialog<AbstractEntityModel> {
 				entity.setName(inputNameText.getText());
 			}
 		});
-		gridData = new GridData(GridData.FILL_BOTH);
-		gridData.widthHint = 100;
-		inputNameText.setLayoutData(gridData);
+		gridData_1 = new GridData(GridData.FILL_BOTH);
+		gridData_1.grabExcessVerticalSpace = false;
+		gridData_1.widthHint = 100;
+		inputNameText.setLayoutData(gridData_1);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;

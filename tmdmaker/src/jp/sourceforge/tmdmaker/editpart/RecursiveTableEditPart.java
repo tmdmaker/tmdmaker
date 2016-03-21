@@ -89,7 +89,7 @@ public class RecursiveTableEditPart extends AbstractEntityModelEditPart<Recursiv
 	@Override
 	protected ModelEditDialog<RecursiveTable> getDialog()
 	{
-		return new TableEditDialog<RecursiveTable>(getControllShell(), Messages.RecursiveTableEditPart_0, getModel());
+		return new TableEditDialog<RecursiveTable>(getControllShell(), Messages.EditRecursiveTable, getModel());
 	}
 
 	/**

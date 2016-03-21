@@ -48,17 +48,18 @@ public class SarogateKeyPanel extends Composite {
 
 	private void initialize() {
 		GridData gridData1 = new GridData();
+		gridData1.grabExcessHorizontalSpace = true;
 		gridData1.horizontalAlignment = GridData.FILL;
 		gridData1.widthHint = 150;
 		gridData1.verticalAlignment = GridData.CENTER;
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 2;
 		gridData.verticalAlignment = GridData.CENTER;
-		gridData.horizontalAlignment = GridData.BEGINNING;
+		gridData.horizontalAlignment = SWT.LEFT;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		useSarogateKeyCheckBox = new Button(this, SWT.CHECK);
-		useSarogateKeyCheckBox.setText(Messages.SarogateKeyPanel_0);
+		useSarogateKeyCheckBox.setText(Messages.AddSurrogateKey);
 		useSarogateKeyCheckBox.setLayoutData(gridData);
 		useSarogateKeyCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -66,7 +67,7 @@ public class SarogateKeyPanel extends Composite {
 			}
 		});
 		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText(Messages.SarogateKeyPanel_1);
+		nameLabel.setText(Messages.ModelName);
 		inputNameText = new Text(this, SWT.BORDER);
 		inputNameText.setLayoutData(gridData1);
 		inputNameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {

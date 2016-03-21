@@ -39,7 +39,7 @@ public class MultivalueAndSupersetShowAction extends AbstractEntitySelectionActi
 	 */
 	public MultivalueAndSupersetShowAction(IWorkbenchPart part) {
 		super(part);
-		setText(Messages.MultivalueAndSupersetShowAction_0);
+		setText(Messages.ShowMultivalueAndSuperset);
 		setId(ID);
 	}
 
@@ -58,8 +58,8 @@ public class MultivalueAndSupersetShowAction extends AbstractEntitySelectionActi
 
 	@Override
 	public void run() {
-		MultivalueAndSupersetShowCommand command = new MultivalueAndSupersetShowCommand(getModel()
-				.getHeader2DetailRelationship());
+		MultivalueAndSupersetShowCommand command = new MultivalueAndSupersetShowCommand(
+				getModel().getHeader2DetailRelationship());
 		execute(command);
 	}
 

@@ -64,13 +64,13 @@ public class TMDEditorOutlineTreePartFactory implements EditPartFactory {
 			if (list.size() > 0){
 				if (list.get(0) instanceof Identifier){				
 					logger.debug("個体指定子のフォルダー用EditPartを返しました。");
-				    part = new FolderTreeEditPart<Identifier>(Messages.TMDEditorOutlineTreePartFactory_0);
+				    part = new FolderTreeEditPart<Identifier>(Messages.Identifier);
 				} else if (list.get(0) instanceof Attribute){
 					logger.debug("属性のフォルダー用EditPartを返しました。");
-				    part = new FolderTreeEditPart<Attribute>(Messages.TMDEditorOutlineTreePartFactory_1);
+				    part = new FolderTreeEditPart<Attribute>(Messages.Attribute);
 				} else if (list.get(0) instanceof KeyModel){
 					logger.debug("キーのフォルダー用EditPartを返しました。");
-				    part = new FolderTreeEditPart<KeyModel>(Messages.TMDEditorOutlineTreePartFactory_2);					
+				    part = new FolderTreeEditPart<KeyModel>(Messages.KeyDefinitions);					
 				}
 			}
 		}

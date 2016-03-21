@@ -114,13 +114,13 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 		gridData.widthHint = -1;
 		gridData.verticalAlignment = GridData.CENTER;
 		nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
-		nameAutoCreateCheckBox.setText(Messages.EntityNameAndIdentifierNameAndTypeSettingPanel_0);
+		nameAutoCreateCheckBox.setText(Messages.AutomaticGenerateEntityName);
 		nameAutoCreateCheckBox.setLayoutData(gridData9);
 		typeLabel = new Label(this, SWT.NONE);
-		typeLabel.setText(Messages.EntityNameAndIdentifierNameAndTypeSettingPanel_1);
+		typeLabel.setText(Messages.EntityType);
 		typeLabel.setLayoutData(gridData10);
 		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText(Messages.EntityNameAndIdentifierNameAndTypeSettingPanel_2);
+		nameLabel.setText(Messages.EntityName);
 		nameText = new Text(this, SWT.BORDER);
 		nameText.setLayoutData(gridData1);
 		nameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
@@ -142,7 +142,7 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 			}
 		});
 		identifierLabel = new Label(this, SWT.NONE);
-		identifierLabel.setText(Messages.EntityNameAndIdentifierNameAndTypeSettingPanel_4);
+		identifierLabel.setText(Messages.Identifier);
 		identifierText = new Text(this, SWT.BORDER);
 		identifierText.setLayoutData(gridData);
 		identifierText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
@@ -158,7 +158,7 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 			}
 		});
 		descButton = new Button(this, SWT.NONE);
-		descButton.setText(Messages.EntityNameAndIdentifierNameAndTypeSettingPanel_6);
+		descButton.setText(Messages.DescriptionButton);
 		descButton.setLayoutData(gridData11);
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -198,10 +198,10 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 			public void widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent e) {
 			}
 		});
-		typeCombo.add(Messages.EntityNameAndIdentifierNameAndTypeSettingPanel_7);
-		typeCombo.add(Messages.EntityNameAndIdentifierNameAndTypeSettingPanel_8);
+		typeCombo.add(Messages.Resource);
+		typeCombo.add(Messages.Event);
 		if (entity.isLatuta()) {
-			typeCombo.add(Messages.EntityNameAndIdentifierNameAndTypeSettingPanel_9);
+			typeCombo.add(Messages.Laputa);
 		}
 	}
 

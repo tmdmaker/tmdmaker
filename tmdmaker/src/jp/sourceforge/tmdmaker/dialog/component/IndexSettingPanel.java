@@ -77,10 +77,10 @@ public class IndexSettingPanel extends Composite {
 		indexTable.setLinesVisible(true);
 		addButton = new Button(this, SWT.NONE);
 		addButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		addButton.setText(Messages.IndexSettingPanel_0);
+		addButton.setText(Messages.AddButton);
 		updateButton = new Button(this, SWT.NONE);
 		updateButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		updateButton.setText(Messages.IndexSettingPanel_1);
+		updateButton.setText(Messages.UpdateButton);
 		updateButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectColumnIndex == -1) {
@@ -100,7 +100,7 @@ public class IndexSettingPanel extends Composite {
 			}
 		});
 		deleteButton = new Button(this, SWT.NONE);
-		deleteButton.setText(Messages.IndexSettingPanel_2);
+		deleteButton.setText(Messages.RemoveButton);
 		deleteButton.setLayoutData(gridData1);
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -127,7 +127,7 @@ public class IndexSettingPanel extends Composite {
 
 		TableColumn tableColumn = new TableColumn(indexTable, SWT.NONE);
 		tableColumn.setWidth(150);
-		tableColumn.setText(Messages.IndexSettingPanel_3);
+		tableColumn.setText(Messages.AttributeName);
 		this.setLayout(gridLayout);
 		this.setSize(new Point(318, 176));
 	}

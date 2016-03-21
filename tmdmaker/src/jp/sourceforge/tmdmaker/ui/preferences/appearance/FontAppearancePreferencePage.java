@@ -95,13 +95,13 @@ public class FontAppearancePreferencePage extends FieldEditorPreferencePage
 	protected void createFieldEditors() {
 		Composite parent = getFieldEditorParent();
 		Group colorGroup = new Group(parent, SWT.NONE);
-		colorGroup.setText(Messages.FontAppearancePreferencePage_0);
+		colorGroup.setText(Messages.ColorSettings);
 		colorGroup.setLayout(new GridLayout(1, true));
 		
 		colorFields = new Composite(colorGroup, SWT.NONE);
 		new Label(colorFields, SWT.NONE);
 		Label l = new Label(colorFields, SWT.NONE);
-		l.setText(Messages.FontAppearancePreferencePage_1);
+		l.setText(Messages.BorderFont);
 
 		for (ModelAppearance a : ModelAppearance.values()) {
 			fontFieldEditors.add(

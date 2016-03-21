@@ -42,7 +42,7 @@ public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 	 */
 	public ImplementInfoEditAction(IWorkbenchPart part) {
 		super(part);
-		setText(Messages.ImplementInfoEditAction_0);
+		setText(Messages.EditImplementInformation);
 		setId(ID);
 	}
 

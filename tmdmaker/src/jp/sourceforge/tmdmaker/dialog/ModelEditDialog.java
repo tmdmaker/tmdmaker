@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,8 @@ import org.eclipse.swt.widgets.Shell;
  * @author tohosaku
  * 
  */
-public abstract class ModelEditDialog<T extends AbstractEntityModel> extends Dialog implements PropertyChangeListener {
+public abstract class ModelEditDialog<T extends AbstractEntityModel> extends Dialog
+		implements PropertyChangeListener {
 
 	public ModelEditDialog(Shell parentShell) {
 		super(parentShell);
@@ -44,10 +45,10 @@ public abstract class ModelEditDialog<T extends AbstractEntityModel> extends Dia
 	public ModelEditDialog(IShellProvider parentShell) {
 		super(parentShell);
 	}
-	
+
 	/** 編集元エンティティ */
 	protected EditTable entity;
-	
+
 	/** 編集結果格納用 */
 	protected T editedValue;
 
@@ -61,8 +62,7 @@ public abstract class ModelEditDialog<T extends AbstractEntityModel> extends Dia
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
-	protected void okPressed()
-	{
+	protected void okPressed() {
 		super.okPressed();
 	}
 
@@ -74,12 +74,13 @@ public abstract class ModelEditDialog<T extends AbstractEntityModel> extends Dia
 	 */
 	@Override
 	public boolean close() {
-		entity.removePropertyChangeListener(this);
+		if (entity != null) {
+			entity.removePropertyChangeListener(this);
+		}
 		return super.close();
 	}
-	
-	protected EditTable getEditModel()
-	{
+
+	protected EditTable getEditModel() {
 		return entity;
 	}
 

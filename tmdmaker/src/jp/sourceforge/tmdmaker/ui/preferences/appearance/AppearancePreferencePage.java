@@ -85,11 +85,11 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 	protected void createFieldEditors() {
 		Composite parent = getFieldEditorParent();
 		Group colorGroup = new Group(parent, SWT.NONE);
-		colorGroup.setText(Messages.AppearancePreferencePage_0);
+		colorGroup.setText(Messages.ColorSettings);
 		colorGroup.setLayout(new GridLayout(1, true));
 
 		editor = new BooleanFieldEditor(AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED,
-				Messages.AppearancePreferencePage_1, colorGroup);
+				Messages.EnableColorSetting, colorGroup);
 
 		addField(editor);
 	}

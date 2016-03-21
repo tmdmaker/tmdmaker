@@ -99,7 +99,7 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	 */
 	private void initialize() {
 		identifierLabel = new Label(this, SWT.NONE);
-		identifierLabel.setText(Messages.EntityNameAndTypeSettingPanel_0);
+		identifierLabel.setText(Messages.Identifier);
 		GridData gridData11 = new GridData();
 		gridData11.horizontalAlignment = GridData.FILL;
 		gridData11.verticalAlignment = GridData.CENTER;
@@ -120,16 +120,16 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 		identifierText = new Text(this, SWT.BORDER);
 		identifierText.setLayoutData(gridData);
 		descButton = new Button(this, SWT.NONE);
-		descButton.setText(Messages.EntityNameAndTypeSettingPanel_1);
+		descButton.setText(Messages.DescriptionButton);
 		descButton.setLayoutData(gridData11);
 		nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
-		nameAutoCreateCheckBox.setText(Messages.EntityNameAndTypeSettingPanel_2);
+		nameAutoCreateCheckBox.setText(Messages.AutomaticGenerateEntityName);
 		nameAutoCreateCheckBox.setLayoutData(gridData9);
 		typeLabel = new Label(this, SWT.NONE);
-		typeLabel.setText(Messages.EntityNameAndTypeSettingPanel_3);
+		typeLabel.setText(Messages.EntityType);
 		typeLabel.setLayoutData(gridData10);
 		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText(Messages.EntityNameAndTypeSettingPanel_4);
+		nameLabel.setText(Messages.EntityName);
 		nameText = new Text(this, SWT.BORDER);
 		nameText.setLayoutData(gridData1);
 		createTypeCombo();
@@ -182,9 +182,9 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	 */
 	private void createTypeCombo() {
 		typeCombo = new Combo(this, SWT.READ_ONLY);
-		typeCombo.add(Messages.EntityNameAndTypeSettingPanel_7);
-		typeCombo.add(Messages.EntityNameAndTypeSettingPanel_8);
-		typeCombo.add(Messages.EntityNameAndTypeSettingPanel_9);
+		typeCombo.add(Messages.Resource);
+		typeCombo.add(Messages.Event);
+		typeCombo.add(Messages.Laputa);
 	}
 
 	/**

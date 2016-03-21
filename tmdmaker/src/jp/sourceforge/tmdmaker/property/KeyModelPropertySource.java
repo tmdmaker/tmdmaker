@@ -29,6 +29,9 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  */
 public class KeyModelPropertySource extends AbstractPropertySource {
 
+	private static final String IS_UNIQUE = "IsUnique"; // $NON-NLS-1$
+	private static final String IS_MASTER_KEY = "IsMasterKey"; //$NON-NLS-1$
+	private static final String NAME = "Name"; //$NON-NLS-1$
 	private KeyModel keymodel;
 
 	public KeyModelPropertySource(TMDEditor editor, KeyModel keymodel) {
@@ -44,10 +47,9 @@ public class KeyModelPropertySource extends AbstractPropertySource {
 	static private IPropertyDescriptor[] propertyFields;
 	static {
 		propertyFields = new IPropertyDescriptor[] {
-				new TextPropertyDescriptor("Name", Messages.KeyModelPropertySource_0), //$NON-NLS-1$
-				new TextPropertyDescriptor("IsMasterKey", Messages.KeyModelPropertySource_1), //$NON-NLS-1$
-				new TextPropertyDescriptor("IsUnique", Messages.KeyModelPropertySource_2) //$NON-NLS-1$
-		};
+				new TextPropertyDescriptor(NAME, Messages.ModelName),
+				new TextPropertyDescriptor(IS_MASTER_KEY, Messages.MasterKey),
+				new TextPropertyDescriptor(IS_UNIQUE, Messages.UniqueConstraint) };
 	}
 
 	@Override
@@ -57,16 +59,14 @@ public class KeyModelPropertySource extends AbstractPropertySource {
 
 	@Override
 	public Object getPropertyValue(Object id) {
-		if (id.equals("Name")) { //$NON-NLS-1$
+		if (id.equals(NAME)) {
 			return canonicalize(keymodel.getName());
 		}
-		if (id.equals("IsMasterKey")) { //$NON-NLS-1$
-			return keymodel.isMasterKey() ? Messages.KeyModelPropertySource_3
-					: Messages.KeyModelPropertySource_4;
+		if (id.equals(IS_MASTER_KEY)) {
+			return keymodel.isMasterKey() ? Messages.Yes : Messages.No;
 		}
-		if (id.equals("IsUnique")) { //$NON-NLS-1$
-			return keymodel.isUnique() ? Messages.KeyModelPropertySource_5
-					: Messages.KeyModelPropertySource_6;
+		if (id.equals(IS_UNIQUE)) {
+			return keymodel.isUnique() ? Messages.Yes : Messages.No;
 		}
 		return null;
 	}

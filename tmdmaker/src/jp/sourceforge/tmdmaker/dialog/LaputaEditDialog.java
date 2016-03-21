@@ -17,6 +17,13 @@ package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Shell;
+
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndIdentifierNameAndTypeSettingPanel;
@@ -24,13 +31,6 @@ import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * ラピュタ編集ダイアログ
@@ -78,15 +78,15 @@ public class LaputaEditDialog extends ModelEditDialog<Laputa> {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.LaputaEditDialog_0);
+		getShell().setText(Messages.EditLaputa);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite,
-				SWT.NULL, getEditModel());
+		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite, SWT.NULL,
+				getEditModel());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
@@ -114,10 +114,9 @@ public class LaputaEditDialog extends ModelEditDialog<Laputa> {
 
 		super.okPressed();
 	}
-	
+
 	@Override
-	protected EditEntity getEditModel()
-	{
-		return (EditEntity)entity;
+	protected EditEntity getEditModel() {
+		return (EditEntity) entity;
 	}
 }

@@ -97,37 +97,37 @@ public class AttributePanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		inputNameLabel = new Label(this, SWT.NONE);
-		inputNameLabel.setText(Messages.AttributePanel_0);
+		inputNameLabel.setText(Messages.ModelName);
 		inputNameLabel.setBounds(new Rectangle(0, -8, 41, 8));
 		inputNameText = new Text(this, SWT.BORDER);
 		inputNameText.setLayoutData(gridData8);
 		implementNameLabel = new Label(this, SWT.NONE);
-		implementNameLabel.setText(Messages.AttributePanel_1);
+		implementNameLabel.setText(Messages.ImplementationName);
 		implementNameText = new Text(this, SWT.BORDER);
 		implementNameText.setLayoutData(gridData10);
 		descriptionLabel = new Label(this, SWT.NONE);
-		descriptionLabel.setText(Messages.AttributePanel_2);
+		descriptionLabel.setText(Messages.Summary);
 		descriptionTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		descriptionTextArea.setLayoutData(gridData11);
 		dataLabel = new Label(this, SWT.NONE);
-		dataLabel.setText(Messages.AttributePanel_3);
+		dataLabel.setText(Messages.DataType);
 		createDataTypeComposite();
 		validationRuleLabel = new Label(this, SWT.NONE);
-		validationRuleLabel.setText(Messages.AttributePanel_4);
+		validationRuleLabel.setText(Messages.Prerequisite);
 		validationRuleTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		validationRuleTextArea.setLayoutData(gridData);
 		lockLabel = new Label(this, SWT.NONE);
-		lockLabel.setText(Messages.AttributePanel_5);
+		lockLabel.setText(Messages.Confidentiality);
 		lockTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		lockTextArea.setLayoutData(gridData5);
 		derivationRuleLabel = new Label(this, SWT.NONE);
-		derivationRuleLabel.setText(Messages.AttributePanel_6);
+		derivationRuleLabel.setText(Messages.Formula);
 		derivationRuleTextArea = new Text(this, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		derivationRuleTextArea.setLayoutData(gridData7);
 		new Label(this, SWT.NONE);
 		derivationCheckBox = new Button(this, SWT.CHECK);
 		derivationCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		derivationCheckBox.setText(Messages.AttributePanel_7);
+		derivationCheckBox.setText(Messages.ShowDuplication);
 		this.setLayout(gridLayout);
 		this.setSize(new Point(346, 489));
 	}
@@ -291,22 +291,22 @@ public class AttributePanel extends Composite {
 		dataTypeComposite.setLayout(gridLayout1);
 		createDataCombo();
 		pLabel = new Label(dataTypeComposite, SWT.NONE);
-		pLabel.setText(Messages.AttributePanel_8);
+		pLabel.setText(Messages.Size);
 		precisionText = new Text(dataTypeComposite, SWT.BORDER);
 		precisionText.setLayoutData(gridData3);
 		sLabel = new Label(dataTypeComposite, SWT.NONE);
-		sLabel.setText(Messages.AttributePanel_9);
+		sLabel.setText(Messages.Scale);
 		scaleText = new Text(dataTypeComposite, SWT.BORDER);
 		scaleText.setLayoutData(gridData4);
 
 		btnAutoIncrementCheckButton = new Button(dataTypeComposite, SWT.CHECK);
 		btnAutoIncrementCheckButton
 				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 4, 1));
-		btnAutoIncrementCheckButton.setText(Messages.AttributePanel_10);
+		btnAutoIncrementCheckButton.setText(Messages.Autoincrement);
 
 		Label lblNewLabel = new Label(dataTypeComposite, SWT.NONE);
 		lblNewLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		lblNewLabel.setText(Messages.AttributePanel_11);
+		lblNewLabel.setText(Messages.DefaultValue);
 
 		textDefaultValue = new Text(dataTypeComposite, SWT.BORDER);
 		textDefaultValue.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));

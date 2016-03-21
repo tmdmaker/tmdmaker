@@ -50,9 +50,9 @@ public class DetailIdentifierSettingPanel extends Composite {
 
 	private void initialize() {
 		GridData gridData1 = new GridData();
+		gridData1.grabExcessHorizontalSpace = true;
 		gridData1.horizontalAlignment = GridData.FILL;
 		gridData1.widthHint = 60;
-		gridData1.grabExcessHorizontalSpace = false;
 		gridData1.verticalAlignment = GridData.CENTER;
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
@@ -62,7 +62,8 @@ public class DetailIdentifierSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		identifierLabel = new Label(this, SWT.NONE);
-		identifierLabel.setText(Messages.DetailIdentifierSettingPanel_0);
+		identifierLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		identifierLabel.setText(Messages.Identifier);
 		identifierText = new Text(this, SWT.BORDER);
 		identifierText.setLayoutData(gridData);
 		identifierText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
@@ -71,7 +72,7 @@ public class DetailIdentifierSettingPanel extends Composite {
 			}
 		});
 		descButton = new Button(this, SWT.NONE);
-		descButton.setText(Messages.DetailIdentifierSettingPanel_1);
+		descButton.setText(Messages.DescriptionButton);
 		descButton.setLayoutData(gridData1);
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -88,7 +89,7 @@ public class DetailIdentifierSettingPanel extends Composite {
 		});
 		this.setLayout(gridLayout);
 		updateValue();
-		setSize(new Point(321, 32));
+		setSize(new Point(355, 32));
 	}
 
 	public void updateValue() {

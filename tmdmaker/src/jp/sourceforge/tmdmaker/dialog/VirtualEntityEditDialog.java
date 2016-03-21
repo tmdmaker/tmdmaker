@@ -91,7 +91,7 @@ public class VirtualEntityEditDialog extends ModelEditDialog<VirtualEntity> {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.VirtualEntityEditDialog_0);
+		getShell().setText(Messages.EditVirtualEntity);
 		Composite composite = new Composite(parent, SWT.NULL);
 
 		GridLayout gridLayout = new GridLayout();
@@ -103,9 +103,9 @@ public class VirtualEntityEditDialog extends ModelEditDialog<VirtualEntity> {
 		panel1.setLayoutData(gridData);
 
 		typeCombo = new Combo(composite, SWT.READ_ONLY);
-		typeCombo.add(Messages.VirtualEntityEditDialog_1);
-		typeCombo.add(Messages.VirtualEntityEditDialog_2);
-		typeCombo.add(Messages.VirtualEntityEditDialog_3);
+		typeCombo.add(Messages.Normal);
+		typeCombo.add(Messages.ResourceType);
+		typeCombo.add(Messages.EventType);
 		typeCombo.addSelectionListener(new SelectionAdapter() {
 
 			@Override

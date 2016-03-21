@@ -175,7 +175,7 @@ public class AttributeSettingPanel extends Composite {
 		});
 		TableColumn tableColumn = new TableColumn(attributeTable, SWT.NONE);
 		tableColumn.setWidth(200);
-		tableColumn.setText(Messages.AttributeSettingPanel_0);
+		tableColumn.setText(Messages.Attribute);
 		this.setLayout(gridLayout);
 		createControlComposite();
 		this.setSize(new Point(338, 213));
@@ -212,7 +212,7 @@ public class AttributeSettingPanel extends Composite {
 		controlComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
 		controlComposite.setLayout(new GridLayout());
 		newButton = new Button(controlComposite, SWT.NONE);
-		newButton.setText(Messages.AttributeSettingPanel_1);
+		newButton.setText(Messages.AddButton);
 		newButton.setLayoutData(gridData1);
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -222,7 +222,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		upButton = new Button(controlComposite, SWT.NONE);
-		upButton.setText(Messages.AttributeSettingPanel_2);
+		upButton.setText(Messages.UpButton);
 		upButton.setLayoutData(gridData2);
 		upButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -235,7 +235,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		downButton = new Button(controlComposite, SWT.NONE);
-		downButton.setText(Messages.AttributeSettingPanel_3);
+		downButton.setText(Messages.DownButton);
 		downButton.setLayoutData(gridData3);
 		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -248,7 +248,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		descButton = new Button(controlComposite, SWT.NONE);
-		descButton.setText(Messages.AttributeSettingPanel_4);
+		descButton.setText(Messages.DescriptionButton);
 		descButton.setLayoutData(gridData5);
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -267,7 +267,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		deleteButton = new Button(controlComposite, SWT.NONE);
-		deleteButton.setText(Messages.AttributeSettingPanel_5);
+		deleteButton.setText(Messages.RemoveButton);
 		deleteButton.setLayoutData(gridData4);
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -286,7 +286,7 @@ public class AttributeSettingPanel extends Composite {
 			}
 		});
 		identifierChangeButton = new Button(controlComposite, SWT.NONE);
-		identifierChangeButton.setText(Messages.AttributeSettingPanel_6);
+		identifierChangeButton.setText(Messages.ToIdentifier);
 		identifierChangeButton.setLayoutData(gridData6);
 		identifierChangeButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {

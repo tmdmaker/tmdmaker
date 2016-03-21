@@ -95,13 +95,13 @@ public class ColorAppearancePreferencePage extends FieldEditorPreferencePage
 	protected void createFieldEditors() {
 		Composite parent = getFieldEditorParent();
 		Group colorGroup = new Group(parent, SWT.NONE);
-		colorGroup.setText(Messages.ColorAppearancePreferencePage_0);
+		colorGroup.setText(Messages.ColorSettings);
 		colorGroup.setLayout(new GridLayout(1, true));
 
 		colorFields = new Composite(colorGroup, SWT.NONE);
 		new Label(colorFields, SWT.NONE);
 		Label l = new Label(colorFields, SWT.NONE);
-		l.setText(Messages.ColorAppearancePreferencePage_1);
+		l.setText(Messages.BackgroundColors);
 
 		for (ModelAppearance a : ModelAppearance.values()) {
 			colorFieldEditors.add(new ColorFieldEditor(a.getBackgroundColorPropertyName(),

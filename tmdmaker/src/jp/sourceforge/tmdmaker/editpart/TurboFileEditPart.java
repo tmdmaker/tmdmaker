@@ -76,7 +76,7 @@ public class TurboFileEditPart extends AbstractEntityModelEditPart<TurboFile>
 	 */
 	@Override
 	protected ModelEditDialog<TurboFile> getDialog() {
-		return new TableEditDialog<TurboFile>(getControllShell(), Messages.TurboFileEditPart_0,
+		return new TableEditDialog<TurboFile>(getControllShell(), Messages.EditTurboFile,
 				getModel());
 	}
 

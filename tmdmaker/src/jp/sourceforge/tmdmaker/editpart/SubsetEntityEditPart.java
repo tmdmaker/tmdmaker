@@ -141,7 +141,7 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 	@Override
 	protected ModelEditDialog<SubsetEntity> getDialog()
 	{
-		return new TableEditDialog<SubsetEntity>(getControllShell(), Messages.SubsetEntityEditPart_0, getModel());
+		return new TableEditDialog<SubsetEntity>(getControllShell(), Messages.EditSubset, getModel());
 	}
 
 	/**

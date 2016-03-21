@@ -15,9 +15,6 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.model.Cardinality;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -31,6 +28,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.model.Cardinality;
+
 /**
  * リレーションシップ編集ダイアログ
  * 
@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 public class RelationshipEditDialog extends Dialog {
-	private static final String NOT_MATCH = Messages.RelationshipEditDialog_0;
+	private static final String NOT_MATCH = Messages.NoRelationship;
 	private Cardinality sourceCardinality = Cardinality.ONE;
 	private Cardinality targetCardinality = Cardinality.ONE;
 	private boolean sourceNoInstance, targetNoInstance;
@@ -55,9 +55,9 @@ public class RelationshipEditDialog extends Dialog {
 	 *            Fromのエンティティ名
 	 * @param targetName
 	 *            Toのエンティティ名
+	 * @wbp.parser.constructor
 	 */
-	public RelationshipEditDialog(Shell parentShell, String sourceName,
-			String targetName) {
+	public RelationshipEditDialog(Shell parentShell, String sourceName, String targetName) {
 		super(parentShell);
 		this.sourceName = sourceName;
 		this.targetName = targetName;
@@ -81,9 +81,8 @@ public class RelationshipEditDialog extends Dialog {
 	 * @param targetNoInstance
 	 *            Toの0のカーディナリティ有無
 	 */
-	public RelationshipEditDialog(Shell parentShell, String sourceName,
-			String targetName, Cardinality sourceCardinaliry,
-			Cardinality targetCardinality, boolean sourceNoInstance,
+	public RelationshipEditDialog(Shell parentShell, String sourceName, String targetName,
+			Cardinality sourceCardinaliry, Cardinality targetCardinality, boolean sourceNoInstance,
 			boolean targetNoInstance) {
 		this(parentShell, sourceName, targetName);
 		this.sourceCardinality = sourceCardinaliry;
@@ -109,7 +108,7 @@ public class RelationshipEditDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.RelationshipEditDialog_1);
+		getShell().setText(Messages.EditRelationship);
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(5, false));
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -118,15 +117,13 @@ public class RelationshipEditDialog extends Dialog {
 		sourceCardinalityCombo = new Combo(composite, SWT.READ_ONLY);
 		sourceCardinalityCombo.add(Cardinality.ONE.getLabel());
 		sourceCardinalityCombo.add(Cardinality.MANY.getLabel());
-		sourceCardinalityCombo.select(sourceCardinalityCombo
-				.indexOf(sourceCardinality.getLabel()));
+		sourceCardinalityCombo.select(sourceCardinalityCombo.indexOf(sourceCardinality.getLabel()));
 		label = new Label(composite, SWT.NULL);
 		label.setText(":"); //$NON-NLS-1$
 		targetCardinalityCombo = new Combo(composite, SWT.READ_ONLY);
 		targetCardinalityCombo.add(Cardinality.ONE.getLabel());
 		targetCardinalityCombo.add(Cardinality.MANY.getLabel());
-		targetCardinalityCombo.select(targetCardinalityCombo
-				.indexOf(targetCardinality.getLabel()));
+		targetCardinalityCombo.select(targetCardinalityCombo.indexOf(targetCardinality.getLabel()));
 		label = new Label(composite, SWT.NULL);
 		label.setText(targetName);
 
@@ -159,7 +156,7 @@ public class RelationshipEditDialog extends Dialog {
 		targetCardinalityCheck = new Button(composite, SWT.CHECK);
 		targetCardinalityCheck.setSelection(this.targetNoInstance);
 		targetCardinalityCheck.addSelectionListener(new SelectionAdapter() {
-			
+
 			/**
 			 * 
 			 * {@inheritDoc}
@@ -224,5 +221,4 @@ public class RelationshipEditDialog extends Dialog {
 	public boolean isTargetNoInstance() {
 		return targetNoInstance;
 	}
-
 }

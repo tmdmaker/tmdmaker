@@ -46,7 +46,7 @@ public class DatabaseSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		databaseNameLabel = new Label(this, SWT.NONE);
-		databaseNameLabel.setText(Messages.DatabaseSettingPanel_0);
+		databaseNameLabel.setText(Messages.DatabaseName);
 		this.setLayout(gridLayout);
 		createDatabaseCombo();
 		setSize(new Point(217, 40));

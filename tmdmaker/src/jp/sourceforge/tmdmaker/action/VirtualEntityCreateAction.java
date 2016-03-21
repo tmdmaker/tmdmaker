@@ -44,7 +44,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	 */
 	public VirtualEntityCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText(Messages.VirtualEntityCreateAction_0);
+		setText(Messages.CreateVirtualEntity);
 		setId(ID);
 	}
 
@@ -55,13 +55,14 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		VirtualEntityCreateDialog dialog = new VirtualEntityCreateDialog(getPart().getViewer().getControl().getShell());
+		VirtualEntityCreateDialog dialog = new VirtualEntityCreateDialog(
+				getPart().getViewer().getControl().getShell());
 		if (dialog.open() == Dialog.OK) {
-			execute(new VirtualEntityCreateCommand(getModel(), dialog.getInputVirtualEntityName(), dialog.getInputVirtualEntityType()));
+			execute(new VirtualEntityCreateCommand(getModel(), dialog.getInputVirtualEntityName(),
+					dialog.getInputVirtualEntityType()));
 		}
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -80,7 +81,6 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		}
 	}
 
-
 	/**
 	 * みなしエンティティ作成.
 	 * 
@@ -97,8 +97,10 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		 * @param model
 		 *            みなしエンティティ作成対象
 		 */
-		public VirtualEntityCreateCommand(AbstractEntityModel model, String virtualEntityName, VirtualEntityType type) {
-			this.relationship = new Entity2VirtualEntityRelationship(model, virtualEntityName, type);
+		public VirtualEntityCreateCommand(AbstractEntityModel model, String virtualEntityName,
+				VirtualEntityType type) {
+			this.relationship = new Entity2VirtualEntityRelationship(model, virtualEntityName,
+					type);
 		}
 
 		/**

@@ -52,13 +52,14 @@ public class ImplementInfoSettingPanel extends Composite {
 		gridData1.verticalAlignment = GridData.CENTER;
 		gridData1.horizontalAlignment = GridData.FILL;
 		GridData gridData = new GridData();
+		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.horizontalSpan = 2;
 		gridData.verticalAlignment = GridData.CENTER;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		notImplementCheckBox = new Button(this, SWT.CHECK);
-		notImplementCheckBox.setText(Messages.ImplementInfoSettingPanel_0);
+		notImplementCheckBox.setText(Messages.NotToImplement);
 		notImplementCheckBox.setLayoutData(gridData);
 		notImplementCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -67,7 +68,8 @@ public class ImplementInfoSettingPanel extends Composite {
 			}
 		});
 		implementNameLabel = new Label(this, SWT.NONE);
-		implementNameLabel.setText(Messages.ImplementInfoSettingPanel_1);
+		implementNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		implementNameLabel.setText(Messages.ImplementationName);
 		implementNameText = new Text(this, SWT.BORDER);
 		implementNameText.setLayoutData(gridData1);
 		implementNameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
@@ -76,7 +78,7 @@ public class ImplementInfoSettingPanel extends Composite {
 			}
 		});
 		this.setLayout(gridLayout);
-		this.setSize(new Point(134, 49));
+		this.setSize(new Point(199, 52));
 		updateValue();
 	}
 

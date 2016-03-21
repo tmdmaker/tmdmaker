@@ -59,7 +59,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 		virtualSupersetNameLabel = new Label(this, SWT.NONE);
 		virtualSupersetNameLabel
 				.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		virtualSupersetNameLabel.setText(Messages.VirtualSupersetSettingPanel_0);
+		virtualSupersetNameLabel.setText(Messages.VirtualSupersetName);
 		virtualSupersetNameText = new Text(this, SWT.BORDER);
 		virtualSupersetNameText.setLayoutData(gridData);
 		createTypeComposite();
@@ -93,7 +93,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 		typeComposite.setLayoutData(gridData1);
 		typeComposite.setLayout(gridLayout1);
 		sameRadioButton = new Button(typeComposite, SWT.RADIO);
-		sameRadioButton.setText(Messages.VirtualSupersetSettingPanel_1);
+		sameRadioButton.setText(Messages.ApplyAttribute);
 		sameRadioButton.setLayoutData(gridData2);
 		sameRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -101,7 +101,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 			}
 		});
 		differentRadioButton = new Button(typeComposite, SWT.RADIO);
-		differentRadioButton.setText(Messages.VirtualSupersetSettingPanel_2);
+		differentRadioButton.setText(Messages.ApplyEntity);
 		differentRadioButton.setLayoutData(gridData5);
 		differentRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {

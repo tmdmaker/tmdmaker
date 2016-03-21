@@ -44,7 +44,7 @@ public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 	 */
 	public AutoSizeSettingAction(IWorkbenchPart part) {
 		super(part);
-		setText(Messages.AutoSizeSettingAction_0);
+		setText(Messages.AutomaticSizeAdjustment);
 		setId(ID);
 	}
 
@@ -71,12 +71,12 @@ public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 	@Override
 	protected boolean isTargetModel(Object selection) {
 		if (selection instanceof AbstractModelEditPart) {
-			return ((AbstractModelEditPart<?>)selection).canAutoSize();
+			return ((AbstractModelEditPart<?>) selection).canAutoSize();
 		} else {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 *

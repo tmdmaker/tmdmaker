@@ -1,5 +1,5 @@
 /*
- * Copyright 2009,2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class MultivalueAndSupersetHideAction extends AbstractEntitySelectionActi
 	 */
 	public MultivalueAndSupersetHideAction(IWorkbenchPart part) {
 		super(part);
-		setText(Messages.MultivalueAndSupersetHideAction_0);
+		setText(Messages.HideMultivalueAndSuperset);
 		setId(ID);
 	}
 
@@ -58,8 +58,8 @@ public class MultivalueAndSupersetHideAction extends AbstractEntitySelectionActi
 
 	@Override
 	public void run() {
-		MultivalueAndSupersetHideCommand command = new MultivalueAndSupersetHideCommand(getModel()
-				.getHeader2DetailRelationship());
+		MultivalueAndSupersetHideCommand command = new MultivalueAndSupersetHideCommand(
+				getModel().getHeader2DetailRelationship());
 		execute(command);
 	}
 

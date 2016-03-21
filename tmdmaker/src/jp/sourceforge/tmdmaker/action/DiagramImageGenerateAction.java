@@ -52,11 +52,10 @@ public class DiagramImageGenerateAction extends Action {
 	 * @param viewer
 	 *            ビューワ
 	 */
-	public DiagramImageGenerateAction(GraphicalViewer viewer,
-			IWorkbenchPart part) {
+	public DiagramImageGenerateAction(GraphicalViewer viewer, IWorkbenchPart part) {
 		this.viewer = viewer;
 		this.part = part;
-		setText(Messages.DiagramImageGenerateAction_0);
+		setText(Messages.GenerateImage);
 		setId(ID);
 		converter = new Draw2dToImageConverter();
 	}
@@ -69,13 +68,10 @@ public class DiagramImageGenerateAction extends Action {
 	@Override
 	public void run() {
 
-		FileDialog dialog = new FileDialog(viewer.getControl().getShell(),
-				SWT.SAVE);
+		FileDialog dialog = new FileDialog(viewer.getControl().getShell(), SWT.SAVE);
 		IFile editfile = TMDPlugin.getEditFile(part);
-		dialog.setFileName(editfile.getLocation().removeFileExtension()
-				.toOSString());
-		dialog.setFilterPath(editfile.getLocation().removeFirstSegments(1)
-				.toOSString());
+		dialog.setFileName(editfile.getLocation().removeFileExtension().toOSString());
+		dialog.setFilterPath(editfile.getLocation().removeFirstSegments(1).toOSString());
 		String[] extensions = converter.getExtensions();
 		dialog.setFilterExtensions(extensions);
 
@@ -89,29 +85,27 @@ public class DiagramImageGenerateAction extends Action {
 			}
 			FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) getViewer()
 					.getRootEditPart();
-			final IFigure figure = rootEditPart
-					.getLayer(LayerConstants.PRINTABLE_LAYERS);
+			final IFigure figure = rootEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS);
 			try {
-				new ProgressMonitorDialog(getViewer().getControl().getShell())
-						.run(false, // don't fork
-								false, // not cancelable
-								new WorkspaceModifyOperation() { // run this
-									// operation
+				new ProgressMonitorDialog(getViewer().getControl().getShell()).run(false, // don't
+																							// fork
+						false, // not cancelable
+						new WorkspaceModifyOperation() { // run this
+							// operation
 
-									@Override
-									public void execute(IProgressMonitor monitor) {
-										monitor.beginTask(Messages.DiagramImageGenerateAction_1, 1);
-										converter.execute(figure,
-												filePath.toString(), extension);
-										monitor.worked(1);
-										monitor.done();
-									}
-								});
+							@Override
+							public void execute(IProgressMonitor monitor) {
+								monitor.beginTask(Messages.Generating, 1);
+								converter.execute(figure, filePath.toString(), extension);
+								monitor.worked(1);
+								monitor.done();
+							}
+						});
 			} catch (Exception e) {
 				TMDPlugin.showErrorDialog(e);
 			}
 
-			TMDPlugin.showMessageDialog(getText() + Messages.DiagramImageGenerateAction_2);
+			TMDPlugin.showMessageDialog(getText() + Messages.Completion);
 
 			try {
 				TMDPlugin.refreshGenerateResource(filePath.toString());

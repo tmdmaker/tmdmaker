@@ -51,7 +51,7 @@ public class TableNameSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText(Messages.TableNameSettingPanel_0);
+		nameLabel.setText(Messages.ModelName);
 		nameText = new Text(this, SWT.BORDER);
 		nameText.setLayoutData(gridData);
 		nameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {

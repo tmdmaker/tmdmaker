@@ -44,7 +44,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	 */
 	public SubsetCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText(Messages.SubsetCreateAction_0);
+		setText(Messages.CreateSubset);
 		setId(ID);
 	}
 

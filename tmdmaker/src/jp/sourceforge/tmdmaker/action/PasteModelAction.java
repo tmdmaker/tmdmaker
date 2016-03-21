@@ -54,12 +54,12 @@ public class PasteModelAction extends SelectionAction {
 	protected void init() {
 		super.init();
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setText(Messages.PasteModelAction_0);
+		setText(Messages.Paste);
 		setId(ActionFactory.PASTE.getId());
 		setHoverImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
-		setDisabledImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
+		setDisabledImageDescriptor(
+				sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
 		setEnabled(false);
 	}
 

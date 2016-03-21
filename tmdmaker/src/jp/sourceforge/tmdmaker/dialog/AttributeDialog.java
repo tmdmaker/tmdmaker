@@ -15,10 +15,6 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.component.AttributePanel;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -29,6 +25,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.dialog.component.AttributePanel;
+import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 
 /**
  * アトリビュート編集ダイアログ
@@ -72,7 +72,7 @@ public class AttributeDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.AttributeDialog_0);
+		getShell().setText(Messages.EditAttribute);
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new AttributePanel(composite, SWT.NULL);
 		panel.initializeValue(original);

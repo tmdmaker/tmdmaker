@@ -46,8 +46,8 @@ public class EntityPropertySource extends AbstractEntityModelPropertySource {
 			return model.getImplementName() != null ? model.getImplementName() : ""; //$NON-NLS-1$
 		}
 		if (id.equals("Implement")) { //$NON-NLS-1$
-			return model.isNotImplement() ? Messages.EntityPropertySource_0
-					: Messages.EntityPropertySource_1;
+			return model.isNotImplement() ? Messages.NotToImplement
+					: Messages.Implementation;
 		}
 		if (id.equals("EntityType")) { //$NON-NLS-1$
 			return model.getEntityType().getTypeName();

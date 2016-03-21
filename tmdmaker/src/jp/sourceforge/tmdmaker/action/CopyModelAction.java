@@ -53,12 +53,12 @@ public class CopyModelAction extends AbstractMultipleSelectionAction {
 		super.init();
 		setText(""); //$NON-NLS-1$
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setText(Messages.CopyModelAction_0);
+		setText(Messages.Copy);
 		setId(ActionFactory.COPY.getId());
 		setHoverImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
-		setDisabledImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
+		setDisabledImageDescriptor(
+				sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
 		setEnabled(false);
 	}
 

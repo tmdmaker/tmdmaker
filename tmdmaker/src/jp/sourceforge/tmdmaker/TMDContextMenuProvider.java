@@ -88,20 +88,20 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 
 		// GEFActionConstants.addStandardActionGroups(menu);
 		ActionRegistry registry = getActionRegistry();
-		MenuManager subsetMenu = new MenuManager(Messages.TMDContextMenuProvider_0);
+		MenuManager subsetMenu = new MenuManager(Messages.Subset);
 		subsetMenu.add(registry.getAction(SubsetCreateAction.ID));
 		menu.add(subsetMenu);
 
 		menu.add(registry.getAction(SubsetTypeTurnAction.ID));
 
-		MenuManager multivalueMenu = new MenuManager(Messages.TMDContextMenuProvider_1);
+		MenuManager multivalueMenu = new MenuManager(Messages.Multivalue);
 		multivalueMenu.add(registry.getAction(MultivalueOrCreateAction.ID));
 		multivalueMenu.add(registry.getAction(MultivalueAndCreateAction.ID));
 		multivalueMenu.add(registry.getAction(MultivalueAndSupersetHideAction.ID));
 		multivalueMenu.add(registry.getAction(MultivalueAndSupersetShowAction.ID));
 		menu.add(multivalueMenu);
 
-		MenuManager tmdashMenu = new MenuManager(Messages.TMDContextMenuProvider_2);
+		MenuManager tmdashMenu = new MenuManager(Messages.VirtualConcept);
 		tmdashMenu.add(registry.getAction(VirtualEntityCreateAction.ID));
 		tmdashMenu.add(registry.getAction(VirtualSupersetCreateAction.ID));
 		menu.add(tmdashMenu);

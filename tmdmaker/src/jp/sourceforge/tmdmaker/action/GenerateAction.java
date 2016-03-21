@@ -89,7 +89,7 @@ public class GenerateAction extends SelectionAction {
 				String savePath = dialog.getSavePath();
 				generator.execute(savePath, dialog.getSelectedModels());
 				// generator.execute(dialog.getSavePath(), diagram);
-				TMDPlugin.showMessageDialog(generator.getGeneratorName() + Messages.GenerateAction_0);
+				TMDPlugin.showMessageDialog(generator.getGeneratorName() + Messages.Completion);
 				TMDPlugin.refreshGenerateResources(savePath);
 			} catch (Throwable t) {
 				TMDPlugin.showErrorDialog(t);

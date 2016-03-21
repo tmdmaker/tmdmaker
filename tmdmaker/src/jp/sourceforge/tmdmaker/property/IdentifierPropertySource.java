@@ -29,6 +29,11 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  */
 public class IdentifierPropertySource extends AbstractPropertySource {
 
+	private static final String SCALE = "Scale"; //$NON-NLS-1$
+	private static final String SIZE = "Size"; //$NON-NLS-1$
+	private static final String DATA_TYPE_DECLARATION = "DataTypeDeclaration"; //$NON-NLS-1$
+	private static final String IMPLEMENT_NAME = "ImplementName"; //$NON-NLS-1$
+	private static final String NAME = "Name"; //$NON-NLS-1$
 	private Identifier identifier;
 
 	public IdentifierPropertySource(TMDEditor editor, Identifier identifier) {
@@ -44,13 +49,11 @@ public class IdentifierPropertySource extends AbstractPropertySource {
 	static private IPropertyDescriptor[] propertyFields;
 	static {
 		propertyFields = new IPropertyDescriptor[] {
-				new TextPropertyDescriptor("Name", Messages.IdentifierPropertySource_0), //$NON-NLS-1$
-				new TextPropertyDescriptor("ImplementName", Messages.IdentifierPropertySource_1), //$NON-NLS-1$
-				new TextPropertyDescriptor("DataTypeDeclaration", //$NON-NLS-1$
-						Messages.IdentifierPropertySource_2),
-				new TextPropertyDescriptor("Size", Messages.IdentifierPropertySource_3), //$NON-NLS-1$
-				new TextPropertyDescriptor("Scale", Messages.IdentifierPropertySource_4) //$NON-NLS-1$
-		};
+				new TextPropertyDescriptor(NAME, Messages.ModelName),
+				new TextPropertyDescriptor(IMPLEMENT_NAME, Messages.ImplementationName),
+				new TextPropertyDescriptor(DATA_TYPE_DECLARATION, Messages.DataType),
+				new TextPropertyDescriptor(SIZE, Messages.Size),
+				new TextPropertyDescriptor(SCALE, Messages.Scale) };
 	}
 
 	@Override
@@ -60,21 +63,21 @@ public class IdentifierPropertySource extends AbstractPropertySource {
 
 	@Override
 	public Object getPropertyValue(Object id) {
-		if (id.equals("Name")) { //$NON-NLS-1$
+		if (id.equals(NAME)) {
 			return canonicalize(identifier.getName());
 		}
-		if (id.equals("ImplementName")) { //$NON-NLS-1$
+		if (id.equals(IMPLEMENT_NAME)) {
 			return canonicalize(identifier.getImplementName());
 		}
-		if (id.equals("DataTypeDeclaration")) { //$NON-NLS-1$
+		if (id.equals(DATA_TYPE_DECLARATION)) {
 			return identifier.getDataTypeDeclaration() != null
 					? identifier.getDataTypeDeclaration().getLogicalType().toString() : ""; //$NON-NLS-1$
 		}
-		if (id.equals("Size")) { //$NON-NLS-1$
+		if (id.equals(SIZE)) {
 			return identifier.getDataTypeDeclaration() != null
 					? identifier.getDataTypeDeclaration().getSize() : ""; //$NON-NLS-1$
 		}
-		if (id.equals("Scale")) { //$NON-NLS-1$
+		if (id.equals(SCALE)) {
 			return identifier.getDataTypeDeclaration() != null
 					? identifier.getDataTypeDeclaration().getScale() : ""; //$NON-NLS-1$
 		}

@@ -49,7 +49,7 @@ public class DatabaseSelectAction extends Action {
 	public DatabaseSelectAction(GraphicalViewer viewer) {
 		super();
 		this.viewer = viewer;
-		setText(Messages.DatabaseSelectAction_0);
+		setText(Messages.SelectDatabase);
 		setId(ID);
 		logger = LoggerFactory.getLogger(getClass());
 	}
@@ -65,14 +65,11 @@ public class DatabaseSelectAction extends Action {
 		try {
 			Diagram diagram = (Diagram) viewer.getContents().getModel();
 
-			DatabaseSelectDialog dialog = new DatabaseSelectDialog(viewer
-					.getControl().getShell(), diagram.getDatabaseName());
+			DatabaseSelectDialog dialog = new DatabaseSelectDialog(viewer.getControl().getShell(),
+					diagram.getDatabaseName());
 			if (dialog.open() == Dialog.OK) {
-				viewer.getEditDomain()
-						.getCommandStack()
-						.execute(
-								new DatabaseChangeCommand(diagram, dialog
-										.getSelectedDatabaseName()));
+				viewer.getEditDomain().getCommandStack().execute(
+						new DatabaseChangeCommand(diagram, dialog.getSelectedDatabaseName()));
 			}
 		} catch (Throwable t) {
 			logger.warn("exception when database select.", t); //$NON-NLS-1$

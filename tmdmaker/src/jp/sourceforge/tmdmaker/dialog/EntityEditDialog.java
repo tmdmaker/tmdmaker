@@ -91,15 +91,15 @@ public class EntityEditDialog extends ModelEditDialog<Entity> {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.EntityEditDialog_0);
+		getShell().setText(Messages.EditEntity);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite,
-				SWT.NULL, getEditModel());
+		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite, SWT.NULL,
+				getEditModel());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
@@ -138,11 +138,10 @@ public class EntityEditDialog extends ModelEditDialog<Entity> {
 		this.editedValue = entity.createEditedModel();
 		super.okPressed();
 	}
-	
+
 	@Override
-	protected EditEntity getEditModel()
-	{
-		return (EditEntity)entity;
+	protected EditEntity getEditModel() {
+		return (EditEntity) entity;
 	}
 
 }

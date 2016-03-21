@@ -90,7 +90,7 @@ public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList
 	@Override
 	protected ModelEditDialog<MappingList> getDialog()
 	{
-		return new TableEditDialog<MappingList>(getControllShell(), Messages.MappingListEditPart_0, getModel());
+		return new TableEditDialog<MappingList>(getControllShell(), Messages.EditMappingList, getModel());
 	}
 	
 	/**

@@ -48,7 +48,7 @@ public class CommonAttributeSettingAction extends Action {
 	public CommonAttributeSettingAction(GraphicalViewer viewer) {
 		super();
 		this.viewer = viewer;
-		setText(Messages.CommonAttributeSettingAction_0);
+		setText(Messages.CommonAttributeSettings);
 		setId(ID);
 	}
 
@@ -61,14 +61,11 @@ public class CommonAttributeSettingAction extends Action {
 	@Override
 	public void run() {
 		Diagram diagram = (Diagram) viewer.getContents().getModel();
-		CommonAttributeDialog dialog = new CommonAttributeDialog(viewer
-				.getControl().getShell(), diagram.getCommonAttributes());
+		CommonAttributeDialog dialog = new CommonAttributeDialog(viewer.getControl().getShell(),
+				diagram.getCommonAttributes());
 		if (dialog.open() == Dialog.OK) {
-			viewer.getEditDomain()
-					.getCommandStack()
-					.execute(
-							new CommonAttributeEditCommand(diagram, dialog
-									.getEditedAttributes()));
+			viewer.getEditDomain().getCommandStack()
+					.execute(new CommonAttributeEditCommand(diagram, dialog.getEditedAttributes()));
 		}
 	}
 
@@ -91,8 +88,7 @@ public class CommonAttributeSettingAction extends Action {
 		 * @param attributes
 		 *            共通属性
 		 */
-		public CommonAttributeEditCommand(Diagram diagram,
-				List<IAttribute> attributes) {
+		public CommonAttributeEditCommand(Diagram diagram, List<IAttribute> attributes) {
 			this.diagram = diagram;
 			this.oldAttributes = diagram.getCommonAttributes();
 			this.newAttributes = attributes;

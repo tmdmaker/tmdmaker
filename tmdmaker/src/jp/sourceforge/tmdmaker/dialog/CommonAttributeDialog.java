@@ -19,11 +19,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.model.EditCommonAttribute;
-import jp.sourceforge.tmdmaker.model.IAttribute;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -31,14 +26,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
+import jp.sourceforge.tmdmaker.dialog.model.EditCommonAttribute;
+import jp.sourceforge.tmdmaker.model.IAttribute;
+
 /**
  * 共通属性編集ダイアログ
  * 
  * @author nakaG
  * 
  */
-public class CommonAttributeDialog extends Dialog implements
-		PropertyChangeListener {
+public class CommonAttributeDialog extends Dialog implements PropertyChangeListener {
 	/** 編集用モデル */
 	private EditCommonAttribute model;
 	/** アトリビュート設定用 */
@@ -50,8 +49,7 @@ public class CommonAttributeDialog extends Dialog implements
 	 * @param parentShell
 	 *            親
 	 */
-	public CommonAttributeDialog(Shell parentShell,
-			List<IAttribute> commonAttributes) {
+	public CommonAttributeDialog(Shell parentShell, List<IAttribute> commonAttributes) {
 		super(parentShell);
 		model = new EditCommonAttribute(commonAttributes);
 		model.addPropertyChangeListener(this);
@@ -74,7 +72,7 @@ public class CommonAttributeDialog extends Dialog implements
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.CommonAttributeDialog_0);
+		getShell().setText(Messages.CommonAttributeSettings);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout();

@@ -15,14 +15,14 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.component.DatabaseSettingPanel;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.dialog.component.DatabaseSettingPanel;
 
 /**
  * データベース変更ダイアログ
@@ -62,7 +62,7 @@ public class DatabaseSelectDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.DatabaseSelectDialog_1);
+		getShell().setText(Messages.SelectDatabase);
 		Composite composite = new Composite(parent, SWT.NULL);
 
 		panel = new DatabaseSettingPanel(composite, SWT.NULL);
@@ -89,5 +89,4 @@ public class DatabaseSelectDialog extends Dialog {
 	public String getSelectedDatabaseName() {
 		return selectedDatabaseName;
 	}
-
 }

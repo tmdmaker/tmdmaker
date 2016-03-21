@@ -151,8 +151,8 @@ import jp.sourceforge.tmdmaker.treeeditpart.TMDEditorOutlineTreePartFactory;
  */
 public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IResourceChangeListener {
 
-	private static final String SAVE_ERROR = Messages.TMDEditor_11;
-	private static final String READ_ERROR = Messages.TMDEditor_12;
+	private static final String SAVE_ERROR = Messages.SaveError;
+	private static final String READ_ERROR = Messages.ReadError;
 
 	/**
 	 * アウトラインページ
@@ -191,7 +191,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 			lws.setContents(thumbnail);
 
 			// tree
-			logger.debug(Messages.TMDEditor_13);
+			logger.debug(Messages.TreeSettingsStartMessage);
 			EditPartViewer viewer = getViewer();
 			viewer.createControl(sash);
 			viewer.setEditDomain(tmdEditor.getEditDomain());
@@ -368,7 +368,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		logger.debug("getPaletteRoot() called"); //$NON-NLS-1$
 		PaletteRoot root = new PaletteRoot();
 
-		PaletteGroup toolGroup = new PaletteGroup(Messages.TMDEditor_0);
+		PaletteGroup toolGroup = new PaletteGroup(Messages.Tool);
 
 		ToolEntry tool = new SelectionToolEntry();
 		// カーソルキーでモデルを移動できるようにSelectionToolを拡張
@@ -380,11 +380,11 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		tool = new MarqueeToolEntry();
 		toolGroup.add(tool);
 
-		PaletteDrawer drawer = new PaletteDrawer(Messages.TMDEditor_1);
+		PaletteDrawer drawer = new PaletteDrawer(Messages.Create);
 
 		ImageDescriptor descriptor = TMDPlugin.getImageDescriptor("icons/new_entity.gif"); //$NON-NLS-1$
 
-		CreationToolEntry creationEntry = new CreationToolEntry(Messages.TMDEditor_2, Messages.TMDEditor_3,
+		CreationToolEntry creationEntry = new CreationToolEntry(Messages.Entity, Messages.Entity,
 				new SimpleFactory(Entity.class), descriptor, descriptor);
 		creationEntry.setToolClass(EntityCreationTool.class);
 
@@ -393,21 +393,22 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		descriptor = TMDPlugin.getImageDescriptor("icons/new_relationship.gif"); //$NON-NLS-1$
 
 		ConnectionCreationToolEntry connxCCreationEntry = new ConnectionCreationToolEntry(
-				Messages.TMDEditor_4, Messages.TMDEditor_5, null, descriptor, descriptor);
+				Messages.Relationship, Messages.Relationship, null, descriptor, descriptor);
 		connxCCreationEntry.setToolClass(TMDConnectionCreationTool.class);
 
 		drawer.add(connxCCreationEntry);
 
-		PaletteDrawer otherDrawer = new PaletteDrawer(Messages.TMDEditor_6);
+		PaletteDrawer otherDrawer = new PaletteDrawer(Messages.Other);
 		// ターボファイル作成
 		ImageDescriptor turboFileDescriptor = TMDPlugin.getImageDescriptor("icons/new_turbo.gif"); //$NON-NLS-1$
-		CreationToolEntry turboFileCreationEntry = new CreationToolEntry(Messages.TMDEditor_7, Messages.TMDEditor_8,
-				new SimpleFactory(TurboFile.class), turboFileDescriptor, turboFileDescriptor);
+		CreationToolEntry turboFileCreationEntry = new CreationToolEntry(Messages.TurboFile,
+				Messages.TurboFile, new SimpleFactory(TurboFile.class), turboFileDescriptor,
+				turboFileDescriptor);
 		otherDrawer.add(turboFileCreationEntry);
-		
+
 		// メモ作成
 		ImageDescriptor memoDescriptor = TMDPlugin.getImageDescriptor("icons/new_memo.gif"); //$NON-NLS-1$
-		CreationToolEntry memoCreationEntry = new CreationToolEntry(Messages.TMDEditor_9, Messages.TMDEditor_10,
+		CreationToolEntry memoCreationEntry = new CreationToolEntry(Messages.Memo, Messages.Memo,
 				new SimpleFactory(Memo.class), memoDescriptor, memoDescriptor);
 		otherDrawer.add(memoCreationEntry);
 

@@ -71,12 +71,12 @@ public class RulePreferencePage extends FieldEditorPreferencePage
 	@Override
 	protected void createFieldEditors() {
 		addField(new StringFieldEditor(RulePreferenceConstants.P_IDENTIFIER_SUFFIXES,
-				Messages.RulePreferencePage_0, getFieldEditorParent()));
+				Messages.IdentifierSuffixes, getFieldEditorParent()));
 		addField(new StringFieldEditor(RulePreferenceConstants.P_REPORT_SUFFIXES,
-				Messages.RulePreferencePage_1, getFieldEditorParent()));
+				Messages.ReportSuffixes, getFieldEditorParent()));
 		BooleanFieldEditor forenKeyEnabledEdior = new BooleanFieldEditor(
-				RulePreferenceConstants.P_FOREIGN_KEY_ENABLED, Messages.RulePreferencePage_2,
-				getFieldEditorParent());
+				RulePreferenceConstants.P_FOREIGN_KEY_ENABLED,
+				Messages.GenerateForeignKeyConstraint, getFieldEditorParent());
 		addField(forenKeyEnabledEdior);
 	}
 }

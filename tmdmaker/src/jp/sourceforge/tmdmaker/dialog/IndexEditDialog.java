@@ -48,6 +48,7 @@ public class IndexEditDialog extends Dialog {
 	 *            親
 	 * @param editAttributeList
 	 *            編集用アトリビュートのリスト
+	 * @wbp.parser.constructor
 	 */
 	public IndexEditDialog(Shell parentShell, String implementEntityName,
 			List<EditImplementAttribute> editAttributeList) {
@@ -58,7 +59,8 @@ public class IndexEditDialog extends Dialog {
 		this.keyModel.setName(createKeyName(implementEntityName, editAttributeList));
 	}
 
-	private String createKeyName(String implementEntityName, List<EditImplementAttribute> editAttributeList) {
+	private String createKeyName(String implementEntityName,
+			List<EditImplementAttribute> editAttributeList) {
 		String modelName = null;
 		int keyCount = 0;
 		if (editAttributeList != null && editAttributeList.size() > 0) {
@@ -107,7 +109,7 @@ public class IndexEditDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.IndexEditDialog_0);
+		getShell().setText(Messages.EditKey);
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new IndexPanel(composite, SWT.NULL);
 		panel.initializeValue(keyModel, attributes);

@@ -18,6 +18,14 @@ package jp.sourceforge.tmdmaker.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Shell;
+
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.SubsetSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditSubsetEntity;
@@ -36,14 +44,6 @@ import jp.sourceforge.tmdmaker.ui.command.SubsetDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.command.SubsetNameChangeCommand;
 import jp.sourceforge.tmdmaker.ui.command.SubsetTypeChangeCommand;
 import jp.sourceforge.tmdmaker.ui.command.SubsetTypeDeleteCommand;
-
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * サブセット作成ダイアログ.
@@ -99,7 +99,7 @@ public class SubsetCreateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText(Messages.SubsetCreateDialog_0);
+		getShell().setText(Messages.EditSubset);
 		Composite composite = new Composite(parent, SWT.NULL);
 		panel = new SubsetSettingPanel(composite, SWT.NULL);
 		panel.initializeValue(this.subsetType.equals(SubsetType.SubsetTypeValue.SAME),
@@ -195,8 +195,8 @@ public class SubsetCreateDialog extends Dialog {
 		return charLength + SPACE;
 	}
 
-	private void addSuitableSubsetEntityCommand(CompoundCommand ccommand,
-			AbstractEntityModel model, SubsetType subsetType, List<EditSubsetEntity> editSubsets) {
+	private void addSuitableSubsetEntityCommand(CompoundCommand ccommand, AbstractEntityModel model,
+			SubsetType subsetType, List<EditSubsetEntity> editSubsets) {
 		int subsetwidth = calcurateSubsetWidth(editSubsets);
 		int totalWidthHalf = editSubsets.size() * subsetwidth / 2;
 		int subsetX = totalWidthHalf * -1;
@@ -262,5 +262,4 @@ public class SubsetCreateDialog extends Dialog {
 					selectedPartitionAttribute, newExceptNull));
 		}
 	}
-
 }

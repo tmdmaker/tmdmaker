@@ -52,7 +52,7 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 	@Override
 	protected ModelEditDialog<MultivalueOrEntity> getDialog()
 	{
-		return new TableEditDialog<MultivalueOrEntity>(getControllShell(), Messages.MultivalueOrEditPart_0, getModel());
+		return new TableEditDialog<MultivalueOrEntity>(getControllShell(), Messages.EditMultivalueOr, getModel());
 	}
 	
 	/**

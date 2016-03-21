@@ -35,7 +35,7 @@ public class TMDMakerPreferencePage extends FieldEditorPreferencePage implements
 	public TMDMakerPreferencePage() {
 		super(GRID);
 		setPreferenceStore(TMDPlugin.getDefault().getPreferenceStore());
-		setDescription(Messages.TMDMakerPreferencePage_0);
+		setDescription(Messages.TMDMakerPreferencePage);
 	}
 
 	/**

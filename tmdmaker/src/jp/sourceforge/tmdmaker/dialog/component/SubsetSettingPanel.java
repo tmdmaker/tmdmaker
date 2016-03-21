@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.layout.FillLayout;
 
 /**
  * Subset setting panel.
@@ -77,13 +78,13 @@ public class SubsetSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		partitionCodeLabel = new Label(this, SWT.NONE);
-		partitionCodeLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-		partitionCodeLabel.setText(Messages.SubsetSettingPanel_0);
+		partitionCodeLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		partitionCodeLabel.setText(Messages.PartitionCode);
 		this.setLayout(gridLayout);
 		createPartitionSelectCombo();
 		createTypeGroup();
 		createSubsetContainerComposite();
-		this.setSize(new Point(268, 208));
+		this.setSize(new Point(300, 208));
 	}
 
 	/**
@@ -92,6 +93,7 @@ public class SubsetSettingPanel extends Composite {
 	 */
 	private void createPartitionSelectCombo() {
 		GridData gridData3 = new GridData();
+		gridData3.grabExcessHorizontalSpace = true;
 		gridData3.widthHint = 172;
 		gridData3.horizontalAlignment = SWT.FILL;
 		gridData3.verticalAlignment = SWT.CENTER;
@@ -104,20 +106,17 @@ public class SubsetSettingPanel extends Composite {
 	 *
 	 */
 	private void createTypeGroup() {
-		GridLayout gridLayout1 = new GridLayout();
-		gridLayout1.numColumns = 3;
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 2;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		typeGroup = new Group(this, SWT.NONE);
-		typeGroup.setText(Messages.SubsetSettingPanel_1);
-		typeGroup.setLayout(gridLayout1);
+		typeGroup.setText(Messages.SubsetType);
+		typeGroup.setLayout(new FillLayout(SWT.HORIZONTAL));
 		typeGroup.setLayoutData(gridData);
 		sameRadioButton = new Button(typeGroup, SWT.RADIO);
-		sameRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		sameRadioButton.setText(Messages.SubsetSettingPanel_2);
+		sameRadioButton.setText(Messages.SubsetTypeHometype);
 		sameRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				sameType = true;
@@ -127,8 +126,7 @@ public class SubsetSettingPanel extends Composite {
 			}
 		});
 		differenceRadioButton = new Button(typeGroup, SWT.RADIO);
-		differenceRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		differenceRadioButton.setText(Messages.SubsetSettingPanel_3);
+		differenceRadioButton.setText(Messages.SubsetTypeHeterotypic);
 		differenceRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				sameType = false;
@@ -136,8 +134,7 @@ public class SubsetSettingPanel extends Composite {
 			}
 		});
 		nullCheckBox = new Button(typeGroup, SWT.CHECK);
-		nullCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		nullCheckBox.setText(Messages.SubsetSettingPanel_4);
+		nullCheckBox.setText(Messages.SubsetTypeExcludeNull);
 		nullCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				exceptNull = !exceptNull;
@@ -151,6 +148,7 @@ public class SubsetSettingPanel extends Composite {
 	 */
 	private void createSubsetContainerComposite() {
 		GridData gridData2 = new GridData();
+		gridData2.grabExcessHorizontalSpace = true;
 		gridData2.heightHint = 88;
 		gridData2.widthHint = 136;
 		gridData2.horizontalAlignment = GridData.FILL;
@@ -236,7 +234,7 @@ public class SubsetSettingPanel extends Composite {
 		createSubsetControlComposite();
 		TableColumn tableColumn = new TableColumn(subsetTable, SWT.NONE);
 		tableColumn.setWidth(120);
-		tableColumn.setText(Messages.SubsetSettingPanel_5);
+		tableColumn.setText(Messages.SubsetName);
 		tableEditor = new TableEditor(subsetTable);
 		tableEditor.grabHorizontal = true;
 		tableEditor.horizontalAlignment = SWT.LEFT;
@@ -256,11 +254,11 @@ public class SubsetSettingPanel extends Composite {
 		subsetControlComposite.setLayout(new GridLayout());
 		newButton = new Button(subsetControlComposite, SWT.NONE);
 		newButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		newButton.setText(Messages.SubsetSettingPanel_6);
+		newButton.setText(Messages.AddButton);
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				EditSubsetEntity ese = new EditSubsetEntity();
-				ese.setName(Messages.SubsetSettingPanel_7
+				ese.setName(Messages.Subset
 						+ String.valueOf(subsetEntityList.size() + 1));
 				subsetEntityList.add(ese);
 				selectedIndex = subsetEntityList.size() - 1;
@@ -270,11 +268,15 @@ public class SubsetSettingPanel extends Composite {
 		});
 		deleteButton = new Button(subsetControlComposite, SWT.NONE);
 		deleteButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		deleteButton.setText(Messages.SubsetSettingPanel_8);
+		deleteButton.setText(Messages.RemoveButton);
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1) {
 					return;
+				}
+				Control oldEditor = tableEditor.getEditor();
+				if (oldEditor != null) {
+					oldEditor.dispose();
 				}
 				EditSubsetEntity deleted = subsetEntityList.remove(selectedIndex);
 				deletedSubsetEntityList.add(deleted);

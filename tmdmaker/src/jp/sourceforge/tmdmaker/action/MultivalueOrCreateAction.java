@@ -43,7 +43,7 @@ public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 	 */
 	public MultivalueOrCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText(Messages.MultivalueOrCreateAction_0);
+		setText(Messages.CreateMultivalueOr);
 		setId(ID);
 	}
 
@@ -55,8 +55,8 @@ public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 	@Override
 	public void run() {
 		// AbstractEntityEditPart part = getPart();
-		MultivalueOrEntityCreateDialog dialog = new MultivalueOrEntityCreateDialog(getPart()
-				.getViewer().getControl().getShell());
+		MultivalueOrEntityCreateDialog dialog = new MultivalueOrEntityCreateDialog(
+				getPart().getViewer().getControl().getShell());
 		if (dialog.open() == Dialog.OK) {
 			MultivalueOrCreateCommand command = new MultivalueOrCreateCommand(getModel(),
 					dialog.getInputTypeName());

@@ -42,7 +42,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 	 */
 	public SubsetTypeTurnAction(IWorkbenchPart part) {
 		super(part);
-		setText(Messages.SubsetTypeTurnAction_0);
+		setText(Messages.RotateSubsetType);
 		setId(ID);
 	}
 

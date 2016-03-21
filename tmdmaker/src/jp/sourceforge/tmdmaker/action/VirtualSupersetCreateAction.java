@@ -58,7 +58,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 	 */
 	public VirtualSupersetCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText(Messages.VirtualSupersetCreateAction_0);
+		setText(Messages.EditVirtualSuperset);
 		setId(ID);
 	}
 
@@ -87,8 +87,8 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 			}
 		}
 
-		VirtualSupersetCreateDialog dialog = new VirtualSupersetCreateDialog(getControl()
-				.getShell(), diagram, original, selectedModels);
+		VirtualSupersetCreateDialog dialog = new VirtualSupersetCreateDialog(
+				getControl().getShell(), diagram, original, selectedModels);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 			VirtualSuperset edited = dialog.getEditedValue();
@@ -100,17 +100,16 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 					return;
 				}
 
-				ccommand.add(new VirtualSupersetCreateCommand(diagram, edited.getName(), aggregator
-						.isApplyAttribute(), selection, pos.x, pos.y));
+				ccommand.add(new VirtualSupersetCreateCommand(diagram, edited.getName(),
+						aggregator.isApplyAttribute(), selection, pos.x, pos.y));
 
 			} else {
 				// みなしスーパーセット編集
 				ccommand.add(new ModelEditCommand(original, edited));
 
 				// 接点編集
-				ccommand.add(new VirtualSupersetTypeChangeCommand(
-						original.getVirtualSupersetType(), dialog.getEditedAggregator()
-								.isApplyAttribute()));
+				ccommand.add(new VirtualSupersetTypeChangeCommand(original.getVirtualSupersetType(),
+						dialog.getEditedAggregator().isApplyAttribute()));
 
 				// 接点との接続
 				List<AbstractEntityModel> notSelection = dialog.getNotSelection();

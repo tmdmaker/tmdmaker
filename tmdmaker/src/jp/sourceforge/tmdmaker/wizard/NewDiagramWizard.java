@@ -56,7 +56,7 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 	public NewDiagramWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		setWindowTitle(Messages.NewDiagramWizard_0);
+		setWindowTitle(Messages.CreateNewDiagram);
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public void addPages() {
-		page = new NewDiagramCreationPage(Messages.NewDiagramWizard_1, selection);
+		page = new NewDiagramCreationPage(Messages.NewDiagram, selection);
 		addPage(page);
 		super.addPages();
 
