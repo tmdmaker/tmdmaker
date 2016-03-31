@@ -27,10 +27,16 @@
 				<artifactId>tycho-p2-director-plugin</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
+					<formats>
+						<win32>zip</win32>
+						<linux>tar.gz</linux>
+						<macosx>tar.gz</macosx>
+					</formats>
 					<products>
 						<product>
 							<id>tmdmaker.rcp.product</id>
 							<archiveFileName>tmdmaker_for_rcp_${release-version}</archiveFileName>
+							<rootFolder>tmdmaker</rootFolder>
 							<rootFolders>
 								<win32>tmdmaker</win32>
 								<linux>tmdmaker</linux>
@@ -42,11 +48,16 @@
 
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<!-- install the product using the p2 director -->
+						<id>materialize-products</id>
 						<goals>
-							<!-- install the product using the p2 director -->
 							<goal>materialize-products</goal>
-							<!-- create zip file with the installed product -->
+						</goals>
+					</execution>
+					<execution>
+						<!-- create zip file with the installed product -->
+						<id>archive-products</id>
+						<goals>
 							<goal>archive-products</goal>
 						</goals>
 					</execution>

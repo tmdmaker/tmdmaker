@@ -22,6 +22,10 @@
          id="org.eclipse.gef"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.core.runtime.feature"
+         version="0.0.0"/>
+
    <plugin
          id="tmdmaker"
          download-size="0"

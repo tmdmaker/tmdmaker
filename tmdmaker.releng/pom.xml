@@ -19,7 +19,10 @@
 		<maven-dependency-plugin-version>2.10</maven-dependency-plugin-version>
 		<project-url>http://tmdmaker.osdn.jp/</project-url>
 	</properties>
-
+	<!-- <repositories> <repository> <id>eclipse-mars</id> <url>http://download.eclipse.org/releases/mars</url> 
+		<layout>p2</layout> </repository> <repository> <id>babel</id> <url>http://download.eclipse.org/technology/babel/update-site/R0.13.1/mars</url> 
+		<layout>p2</layout> </repository> <repository> <id>swtbot</id> <url>http://download.eclipse.org/technology/swtbot/releases/latest/</url> 
+		<layout>p2</layout> </repository> </repositories> -->
 	<build>
 		<pluginManagement>
 			<plugins>
