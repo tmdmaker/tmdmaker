@@ -36,7 +36,7 @@
          </property>
          <property
                name="windowImages"
-               value="/icons/window/tmd_icon_16_32bit.png,/icons/window/tmd_icon_32_32bit.png,/icons/window/tmd_icon_48_32bit.png,/icons/window/tmd_icon_64_32bit.png,/icons/window/tmd_icon_128_32bit.png">
+               value="icons/window/tmd_icon_16_32bit.png,icons/window/tmd_icon_32_32bit.png,icons/window/tmd_icon_48_32bit.png,icons/window/tmd_icon_64_32bit.png,icons/window/tmd_icon_128_32bit.png">
          </property>
          <property
                name="startupForegroundColor"
@@ -60,16 +60,11 @@
          </property>
          <property
                name="aboutImage" 
-               value="/icons/tmd_about.gif">
+               value="icons/tmd_about.gif">
           </property>
          <property
                name="aboutText"
-               value="TMD-Maker for Rich Client Platform.
-
-{0}.
-
-Copyright 2009-2015 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
- Licensed under the Apache License, Version 2.0">
+               value="%blurb">
          </property>
          <property
                name="preferenceCustomization"

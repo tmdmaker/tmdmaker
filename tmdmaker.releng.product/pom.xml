@@ -40,7 +40,7 @@
 							<rootFolders>
 								<win32>tmdmaker</win32>
 								<linux>tmdmaker</linux>
-								<macosx>TMD-Maker.app</macosx>
+								<macosx>TMD-Maker</macosx>
 							</rootFolders>
 						</product>
 					</products>

@@ -475,6 +475,13 @@ Copyright 2009-2015 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
       <feature id="org.eclipse.babel.nls_eclipse_ja"/>
       <feature id="org.eclipse.babel.nls_tools.gef_ja"/>
       <feature id="org.eclipse.equinox.p2.extras.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature"/>
+      <feature id="org.eclipse.equinox.p2.core.feature"/>
+      <feature id="org.eclipse.ecf.core.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
    </features>
 
    <configurations>

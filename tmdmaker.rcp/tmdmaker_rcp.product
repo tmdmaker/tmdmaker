@@ -41,7 +41,6 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
 
@@ -419,8 +418,6 @@
       <feature id="org.eclipse.e4.rcp"/>
       <feature id="tmdmaker.rcp.feature"/>
       <feature id="tmdmaker.feature"/>
-      <feature id="org.eclipse.babel.nls_eclipse_ja"/>
-      <feature id="org.eclipse.babel.nls_tools.gef_ja"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.eclipse.gef"/>
