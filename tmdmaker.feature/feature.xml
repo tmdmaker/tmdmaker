@@ -2,16 +2,16 @@
 <feature
       id="tmdmaker.feature"
       label="TMD-Maker Plug-in"
-      version="0.2.10.qualifier"
+      version="0.3.0.qualifier"
       provider-name="TMD-Maker Project"
       plugin="tmdmaker">
 
-   <description url="https://osdn.jp/projects/tmdmaker/">
+   <description url="http://tmdmaker.osdn.jp">
       TMD-Maker Plugin.
    </description>
 
-   <copyright url="http://tmdmaker.sourceforge.jp/">
-      (c) 2009-2016,TMD-Maker Project.
+   <copyright url="http://tmdmaker.osdn.jp">
+      TMD-Maker Plugin.
    </copyright>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">

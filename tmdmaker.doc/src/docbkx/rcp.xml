@@ -32,13 +32,13 @@
 			    <td>未提供</td><td>Linux</td><td>gtk</td><td>x86(32bit版)</td><td>-</td><td>-</td>
 			  </tr>
 			  <tr>
-			    <td>tmdmaker_for_rcp_x.y.z-linux.gtk.x86_64.zip</td><td>Linux</td><td>gtk</td><td>x86_64bit</td><td>○</td><td>○</td>
+			    <td>tmdmaker_for_rcp_x.y.z-linux.gtk.x86_64.tar.gz</td><td>Linux</td><td>gtk</td><td>x86_64bit</td><td>○</td><td>○</td>
 			  </tr>
 			  <tr>
 			    <td>tmdmaker_for_rcp_0.2.10-macosx.cocoa.x86.zip</td><td>Mac OS X</td><td>cocoa</td><td>x86(32bit版) サポート終了</td><td>○</td><td>-</td>
 			  </tr>
 			  <tr>
-			    <td>tmdmaker_for_rcp_x.y.z-macosx.cocoa.x86_64.zip</td><td>Mac OS X</td><td>cocoa</td><td>x86_64bit</td><td>○</td><td>○</td>
+			    <td>tmdmaker_for_rcp_x.y.z-macosx.cocoa.x86_64.tar.gz</td><td>Mac OS X</td><td>cocoa</td><td>x86_64bit</td><td>○</td><td>○</td>
 			  </tr>
 			  <tr>
 			    <td>未提供</td><td>solaris</td><td>gtk</td><td>sparc</td><td>-</td><td>-</td>

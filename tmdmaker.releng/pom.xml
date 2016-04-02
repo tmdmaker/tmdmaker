@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tmdmaker</groupId>
 	<artifactId>tmdmaker.releng</artifactId>
-	<version>0.2.10-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<tycho-version>0.24.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<release-version>0.2.10</release-version>
+		<release-version>0.3.0</release-version>
 		<os-jvm-flags />
 		<jacoco-version>0.7.5.201505241946</jacoco-version>
 		<antrun-version>1.8</antrun-version>
@@ -162,6 +162,9 @@
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-versions-plugin</artifactId>
 				<version>${tycho-version}</version>
+				<configuration>
+					<newVersion>0.3.0.qualifier</newVersion>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

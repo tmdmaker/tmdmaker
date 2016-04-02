@@ -2,11 +2,11 @@
 <feature
       id="tmdmaker.rcp.feature"
       label="TMD-Maker RCP Feature"
-      version="0.2.10.qualifier"
+      version="0.3.0.qualifier"
       provider-name="TMD-Maker Project"
       plugin="tmdmaker.rcp">
 
-   <description url="http://osdn.jp/projects/tmdmaker/">
+   <description url="http://tmdmaker.osdn.jp/">
       TMD-Maker for Rich Client Platform.
    </description>
 

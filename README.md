@@ -40,7 +40,7 @@ git clone https://github.com/tmdmaker/tmdmaker.git
 
 cd tmdmaker.releng
 
-mvn clean install
+mvn clean verify
 ```
 
 ## Installation
@@ -50,8 +50,8 @@ mvn clean install
 1. Run eclipse.
 
 ### RCP(java application)
-1. Unzip  tmdmaker.releng.product/target/products/`tmdmaker_for_rcp_`_**version**_-_**os**_._**ws**_._**arch**_.zip.
-1. Run tmdmaker (run TMD-Maker, for macosx).
+1. Extract  tmdmaker.releng.product/target/products/`tmdmaker_for_rcp_`_**version**_-_**os**_._**ws**_._**arch**_.zip/tar.gz.
+1. Run tmdmaker (run TMD-Maker.app, for macosx).
 
 ## Usage
 1. Create a project.
