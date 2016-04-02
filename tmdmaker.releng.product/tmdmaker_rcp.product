@@ -474,6 +474,7 @@ Copyright 2009-2015 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
       <feature id="org.eclipse.equinox.core.feature"/>
       <feature id="org.eclipse.babel.nls_eclipse_ja"/>
       <feature id="org.eclipse.babel.nls_tools.gef_ja"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature"/>
    </features>
 
    <configurations>
