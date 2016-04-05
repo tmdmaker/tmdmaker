@@ -10,6 +10,6 @@
 		<version>0.3.0-SNAPSHOT</version>
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
-	<name>TMD-Maker Pluginの日本語化プロジェクト</name>
-	<description>TMD-Maker Plugin Jananese Translation</description>
+	<description>TMD-Maker Pluginの日本語化プロジェクト</description>
+	<name>TMD-Maker Plugin Jananese Translation</name>
 </project>

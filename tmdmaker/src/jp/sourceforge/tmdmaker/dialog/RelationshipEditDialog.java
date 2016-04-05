@@ -55,7 +55,6 @@ public class RelationshipEditDialog extends Dialog {
 	 *            Fromのエンティティ名
 	 * @param targetName
 	 *            Toのエンティティ名
-	 * @wbp.parser.constructor
 	 */
 	public RelationshipEditDialog(Shell parentShell, String sourceName, String targetName) {
 		super(parentShell);

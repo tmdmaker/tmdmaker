@@ -48,7 +48,6 @@ public class IndexEditDialog extends Dialog {
 	 *            親
 	 * @param editAttributeList
 	 *            編集用アトリビュートのリスト
-	 * @wbp.parser.constructor
 	 */
 	public IndexEditDialog(Shell parentShell, String implementEntityName,
 			List<EditImplementAttribute> editAttributeList) {
