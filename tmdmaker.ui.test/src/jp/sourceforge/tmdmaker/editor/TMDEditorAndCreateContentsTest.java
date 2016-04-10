@@ -86,6 +86,11 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		botEditor.activateTool("Relationship");
 		assertEquals("Relationship", getActiveToolLabel());
 
+		botEditor.activateTool("Turbo file");
+		assertEquals("Turbo file", getActiveToolLabel());
+		
+		botEditor.activateTool("Memo");
+		assertEquals("Memo", getActiveToolLabel());		
 	}
 
 	private String getActiveToolLabel() {
@@ -237,6 +242,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		bot.button("OK").click();
 		sleep();
 
+		
 		Diagram diagram = tmdEditor.getRootModel();
 		Entity e1 = (Entity) diagram.getChildren().get(0);
 		assertEquals("顧客番号", e1.getIdentifier().getName());
@@ -251,6 +257,28 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		System.out.println(diagram.getChildren().size());
 		CombinationTable t1 = (CombinationTable) diagram.getChildren().get(2);
 		assertEquals("顧客.商品.対照表", t1.getName());
+
+		// ターボファイル
+		botEditor.activateTool("Turbo file");
+		botEditor.click(550, 100);
+		sleep();
+		botEditor.activateTool("Select");
+		botEditor.click(55, 55);
+		botEditor.click(555, 105);
+		sleep();
+		botEditor.activateTool("Select");
+		botEditor.click(305, 55);
+		botEditor.click(555, 105);
+		sleep();
+		botEditor.activateTool("Select");
+		botEditor.click(50, 250);
+		botEditor.click(555, 105);
+		sleep();
+		
+		// メモ
+		botEditor.activateTool("Memo");
+		botEditor.click(600, 90);
+		sleep();
 
 		botEditor.close();
 	}
