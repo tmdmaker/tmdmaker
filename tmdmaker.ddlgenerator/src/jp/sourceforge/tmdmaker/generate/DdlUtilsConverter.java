@@ -140,7 +140,11 @@ public class DdlUtilsConverter {
 	private Table convert(AbstractEntityModel entity) {
 		// テーブル名を指定
 		Table table = new Table();
-		table.setName(entity.getImplementName());
+		String tableName = entity.getImplementName();
+		if (tableName == null || tableName.length() == 0) {
+			tableName = entity.getName();
+		}
+		table.setName(tableName);
 		table.setDescription(entity.getName());
 
 		// 実装対象のアトリビュートをカラムとして追加
@@ -322,7 +326,11 @@ public class DdlUtilsConverter {
 	 */
 	private Column convert(IAttribute attribute) {
 		Column column = new Column();
-		column.setName(attribute.getImplementName());
+		String columnName = attribute.getImplementName();
+		if (columnName == null || columnName.length() == 0) {
+			columnName = attribute.getName();
+		}
+		column.setName(columnName);
 		DataTypeDeclaration dtd = attribute.getDataTypeDeclaration();
 		if (dtd != null) {
 			StandardSQLDataType dataType = dtd.getLogicalType();

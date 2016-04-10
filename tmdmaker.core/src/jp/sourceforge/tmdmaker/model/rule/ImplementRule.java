@@ -234,6 +234,24 @@ public class ImplementRule {
 
 	}
 
+	/**
+	 * サロゲートキーの初期値を設定する。
+	 * 
+	 * @param surrogateKey
+	 *            サロゲートキー
+	 */
+	public static void setSurrogateKeyDefaultValue(SurrogateKey surrogateKey) {
+		String implementName = surrogateKey.getImplementName();
+		if (ModelEditUtils.isEmpty(implementName)) {
+			surrogateKey.setImplementName(surrogateKey.getName());
+		}
+		DataTypeDeclaration dtd = surrogateKey.getDataTypeDeclaration();
+		if (dtd == null) {
+			surrogateKey.setDataTypeDeclaration(
+					new DataTypeDeclaration(StandardSQLDataType.NUMERIC, 10, 0));
+		}
+	}
+
 	public static boolean isForeignKeyEnabled() {
 		return foreignKeyEnabled;
 	}

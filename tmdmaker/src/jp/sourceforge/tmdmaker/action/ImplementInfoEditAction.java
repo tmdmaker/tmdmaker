@@ -15,18 +15,19 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.ui.IWorkbenchPart;
+
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ImplementInfoEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditSurrogateKey;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.SurrogateKey;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
-
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * 実装情報編集Action
@@ -63,14 +64,6 @@ public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 			CompoundCommand ccommand = new CompoundCommand();
 
 			ccommand.add(new ModelEditCommand(getModel(), dialog.getEditedValueEntity()));
-			// for (EditImplementAttribute ei : dialog
-			// .getEditedValueIdentifieres()) {
-			// Identifier newIdentifier = new Identifier();
-			// Identifier original = (Identifier) ei.getOriginalAttribute();
-			// ei.copyTo(newIdentifier);
-			// ccommand.add(new AttributeEditCommand(original, newIdentifier,
-			// ei.getContainerModel()));
-			// }
 
 			for (EditImplementAttribute ea : dialog.getEditedValueAttributes()) {
 				IAttribute original = ea.getOriginalAttribute();
@@ -82,6 +75,7 @@ public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 			SurrogateKey newSurrogateKey = new SurrogateKey();
 			EditSurrogateKey edited = dialog.getEditedSurrogateKey();
 			edited.copyTo(newSurrogateKey);
+			ImplementRule.setSurrogateKeyDefaultValue(newSurrogateKey);
 			SurrogateKey original = (SurrogateKey) edited.getOriginalAttribute();
 			ccommand.add(new AttributeEditCommand(original, newSurrogateKey,
 					edited.getContainerModel()));
