@@ -21,9 +21,9 @@ This method is a technique to make the database structure while at the same time
 ## Requirements
 
 ### plugin
-- java8
+- java6 or later(8 is recommended)
 
-- eclipse 3.5 or later(4.5 is recommended)
+- eclipse 3.4 or later(4.5 is recommended)
 
 - GEF 3.x（Eclipse Graphical Editing Framework）.Same version as the eclipse.
 

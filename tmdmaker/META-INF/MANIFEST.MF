@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  tmdmaker.imagegenerator;bundle-version="0.2.6",
  tmdmaker.core;bundle-version="0.2.9"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
  lib/slf4j-api-1.7.7.jar,
  lib/slf4j-simple-1.7.7.jar

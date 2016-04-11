@@ -6,7 +6,7 @@ Bundle-Version: 0.3.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  tmdmaker.core;bundle-version="0.2.9"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: jp.sourceforge.tmdmaker.generate,
  jp.sourceforge.tmdmaker.generate.attributelist,
  jp.sourceforge.tmdmaker.generate.keydefinitionlist,
