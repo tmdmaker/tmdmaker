@@ -27,4 +27,4 @@ script:
   - mvn -B clean install
 
 after_success:
-  - mvn coveralls:report
+  - mvn -B clean test jacoco:report coveralls:report
