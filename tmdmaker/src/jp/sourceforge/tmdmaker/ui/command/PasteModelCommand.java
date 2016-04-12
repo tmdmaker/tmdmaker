@@ -50,6 +50,8 @@ public class PasteModelCommand extends Command {
 		if (!(obj instanceof List<?>)) {
 			return false;
 		}
+		// CopyModelActionでAbstractEntityModelのListであることを保証
+		@SuppressWarnings("unchecked")
 		List<AbstractEntityModel> list = (List<AbstractEntityModel>) obj;
 		copyList.clear();
 		for (AbstractEntityModel m : list) {

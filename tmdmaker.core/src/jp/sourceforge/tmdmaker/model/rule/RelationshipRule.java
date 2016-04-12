@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.model.rule;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
@@ -26,9 +29,8 @@ import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jp.sourceforge.tmdmaker.model.TurboFileRelationship;
+import jp.sourceforge.tmdmaker.model.other.TurboFile;
 
 /**
  * 関係の文法に関するルールをまとめたクラス
@@ -38,11 +40,10 @@ import org.slf4j.LoggerFactory;
  */
 public class RelationshipRule {
 	/** logging */
-	private static Logger logger = LoggerFactory
-			.getLogger(RelationshipRule.class);
+	private static Logger logger = LoggerFactory.getLogger(RelationshipRule.class);
 
-	public static AbstractRelationship createRelationship(
-			AbstractEntityModel source, AbstractEntityModel target) {
+	public static AbstractRelationship createRelationship(AbstractEntityModel source,
+			AbstractEntityModel target) {
 		AbstractRelationship relationship = null;
 		// 再帰
 		if (isRecursive(source, target)) {
@@ -50,8 +51,7 @@ public class RelationshipRule {
 			relationship = new RecursiveRelationship(source);
 		} else if (isR2E(source, target)) {
 			logger.debug("RESOURCE:EVENT");
-			relationship = new TransfarReuseKeysToTargetRelationship(source,
-					target);
+			relationship = new TransfarReuseKeysToTargetRelationship(source, target);
 		} else if (isR2R(source, target) && !isSameOriginal(source, target)) {
 			logger.debug("RESOURCE:RESOURCE");
 			/* 対照表作成 */
@@ -60,6 +60,11 @@ public class RelationshipRule {
 			logger.debug("EVENT:EVENT");
 			/* 通常コネクション */
 			relationship = new Event2EventRelationship(source, target);
+		} else {
+			logger.debug("Not TM Relationship Rule");
+			if (isTurboFile(source, target)) {
+				relationship = new TurboFileRelationship(source, target);
+			}
 		}
 		return relationship;
 	}
@@ -71,8 +76,7 @@ public class RelationshipRule {
 	 * @param target
 	 * @return エンティティが同一インスタンスの場合にtrueを返す。
 	 */
-	private static boolean isRecursive(AbstractEntityModel source,
-			AbstractEntityModel target) {
+	private static boolean isRecursive(AbstractEntityModel source, AbstractEntityModel target) {
 		return source == target;
 	}
 
@@ -83,10 +87,8 @@ public class RelationshipRule {
 	 * @param target
 	 * @return RESOURCE:Rの場合にtrueを返す。
 	 */
-	private static boolean isR2R(AbstractEntityModel source,
-			AbstractEntityModel target) {
-		return EntityTypeRule.isResource(source)
-				&& EntityTypeRule.isResource(target);
+	private static boolean isR2R(AbstractEntityModel source, AbstractEntityModel target) {
+		return EntityTypeRule.isResource(source) && EntityTypeRule.isResource(target);
 	}
 
 	/**
@@ -96,14 +98,12 @@ public class RelationshipRule {
 	 * @param target
 	 * @return 同じエンティティを起源としたサブセット同士の場合にtrueを返す。
 	 */
-	private static boolean isSameOriginal(AbstractEntityModel source,
-			AbstractEntityModel target) {
+	private static boolean isSameOriginal(AbstractEntityModel source, AbstractEntityModel target) {
 		if (source instanceof SubsetEntity && target instanceof SubsetEntity) {
 			SubsetEntity sourceSubset = (SubsetEntity) source;
 			SubsetEntity targetSubset = (SubsetEntity) target;
 
-			return sourceSubset.getSuperset()
-					.equals(targetSubset.getSuperset());
+			return sourceSubset.getSuperset().equals(targetSubset.getSuperset());
 		} else {
 			return false;
 		}
@@ -116,12 +116,9 @@ public class RelationshipRule {
 	 * @param target
 	 * @return RESOURCE:Eの場合にtrueを返す。
 	 */
-	private static boolean isR2E(AbstractEntityModel source,
-			AbstractEntityModel target) {
-		return (EntityTypeRule.isEvent(source) && EntityTypeRule
-				.isResource(target))
-				|| (EntityTypeRule.isResource(source) && EntityTypeRule
-						.isEvent(target));
+	private static boolean isR2E(AbstractEntityModel source, AbstractEntityModel target) {
+		return (EntityTypeRule.isEvent(source) && EntityTypeRule.isResource(target))
+				|| (EntityTypeRule.isResource(source) && EntityTypeRule.isEvent(target));
 	}
 
 	/**
@@ -131,8 +128,7 @@ public class RelationshipRule {
 	 * @param target
 	 * @return EVENT:Eの場合にtrueを返す。
 	 */
-	private static boolean isE2E(AbstractEntityModel source,
-			AbstractEntityModel target) {
+	private static boolean isE2E(AbstractEntityModel source, AbstractEntityModel target) {
 		return EntityTypeRule.isEvent(source) && EntityTypeRule.isEvent(target);
 	}
 
@@ -145,8 +141,8 @@ public class RelationshipRule {
 	 *            接続先
 	 * @return 対照表
 	 */
-	public static CombinationTable createCombinationTable(
-			AbstractEntityModel source, AbstractEntityModel target) {
+	public static CombinationTable createCombinationTable(AbstractEntityModel source,
+			AbstractEntityModel target) {
 		CombinationTable table = new CombinationTable();
 		table.setEntityType(EntityType.RESOURCE);
 		table.setName(createCombinationTableName(source, target));
@@ -164,13 +160,10 @@ public class RelationshipRule {
 	 *            接続先
 	 * @return 対照表名
 	 */
-	private static String createCombinationTableName(
-			AbstractEntityModel source, AbstractEntityModel target) {
-		return source.getName().replace(
-				CombinationTable.COMBINATION_TABLE_SUFFIX, "")
-				+ "."
-				+ target.getName().replace(
-						CombinationTable.COMBINATION_TABLE_SUFFIX, "")
+	private static String createCombinationTableName(AbstractEntityModel source,
+			AbstractEntityModel target) {
+		return source.getName().replace(CombinationTable.COMBINATION_TABLE_SUFFIX, "") + "."
+				+ target.getName().replace(CombinationTable.COMBINATION_TABLE_SUFFIX, "")
 				+ CombinationTable.COMBINATION_TABLE_SUFFIX;
 
 	}
@@ -234,5 +227,17 @@ public class RelationshipRule {
 	private static String createRecursiveTableName(AbstractEntityModel model) {
 		String name = model.getName();
 		return name + "." + name + "." + "再帰表";
+	}
+
+	/**
+	 * エンティティがターボファイルかを判定する。
+	 *
+	 * @param source
+	 * @param target
+	 *
+	 * @return ターボファイルの場合にtrueを返す
+	 */
+	private static boolean isTurboFile(AbstractEntityModel source, AbstractEntityModel target) {
+		return (source instanceof TurboFile) || (target instanceof TurboFile);
 	}
 }

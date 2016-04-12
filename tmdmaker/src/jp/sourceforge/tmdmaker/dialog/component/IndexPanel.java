@@ -1,5 +1,20 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +30,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 
@@ -29,13 +45,15 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * @author nakaG
+ * Index panel.
+ * 
+ * @author nakag
  *
  */
 public class IndexPanel extends Composite {
-	private java.util.List<IAttribute> selectModels = null;  //  @jve:decl-index=0:
-	private java.util.List<IAttribute> notSelectModels = null;  //  @jve:decl-index=0:
-	
+	private java.util.List<IAttribute> selectModels = null;
+	private java.util.List<IAttribute> notSelectModels = null;
+
 	private Label attributeSelectedLabel = null;
 	private Label attributeNotSelectedLabel = null;
 	private List attributeSelectedList = null;
@@ -51,6 +69,7 @@ public class IndexPanel extends Composite {
 	private Button downButton = null;
 	private Button uniqueCheckBox = null;
 	private Button masterCheckBox = null;
+
 	public IndexPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
@@ -126,144 +145,130 @@ public class IndexPanel extends Composite {
 		this.setLayout(gridLayout11);
 		createIndexNameComposite();
 		uniqueCheckBox = new Button(this, SWT.CHECK);
-		uniqueCheckBox.setText("ユニーク制約");
+		uniqueCheckBox.setText(Messages.UniqueConstraint);
 		uniqueCheckBox.setLayoutData(gridData16);
-		uniqueCheckBox
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						masterCheckBox.setEnabled(uniqueCheckBox.getSelection());
-					}
-				});
+		uniqueCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				masterCheckBox.setEnabled(uniqueCheckBox.getSelection());
+			}
+		});
 		masterCheckBox = new Button(this, SWT.CHECK);
-		masterCheckBox.setText("マスターキーに指定");
+		masterCheckBox.setText(Messages.SpecifyMasterKey);
 		masterCheckBox.setLayoutData(gridData17);
 		Label filler31 = new Label(this, SWT.NONE);
 		filler31.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		attributeSelectedLabel = new Label(this, SWT.NONE);
-		attributeSelectedLabel.setText("選択");
-		Label filler8 = new Label(this, SWT.NONE);
+		attributeSelectedLabel.setText(Messages.Select);
+		new Label(this, SWT.NONE);
 		attributeNotSelectedLabel = new Label(this, SWT.NONE);
-		attributeNotSelectedLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		attributeNotSelectedLabel.setText("未選択");
+		attributeNotSelectedLabel
+				.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		attributeNotSelectedLabel.setText(Messages.Unselect);
 		upButton = new Button(this, SWT.NONE);
 		upButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		upButton.setText("上へ");
+		upButton.setText(Messages.UpButton);
 		upButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 				int selectionIndex = attributeSelectedList.getSelectionIndex();
 				if (selectionIndex <= 0) {
 					return;
 				}
 				IAttribute moved = selectModels.remove(selectionIndex);
-				selectModels.add(selectionIndex-1, moved);
+				selectModels.add(selectionIndex - 1, moved);
 				updateList();
-				attributeSelectedList.setSelection(selectionIndex-1);
+				attributeSelectedList.setSelection(selectionIndex - 1);
 			}
 		});
 		attributeSelectedList = new List(this, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		attributeSelectedList.setLayoutData(gridData4);
-		attributeSelectedList
-				.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
-					public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-						System.out.println("focusGained()"); // TODO Auto-generated Event stub focusGained()
-						selectButton.setEnabled(false);
-						removeButton.setEnabled(true);
-						selectAllButton.setEnabled(false);
-						removeAllButton.setEnabled(true);
-						upButton.setEnabled(true);
-						downButton.setEnabled(true);
-					}
-				});
+		attributeSelectedList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
+			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+				selectButton.setEnabled(false);
+				removeButton.setEnabled(true);
+				selectAllButton.setEnabled(false);
+				removeAllButton.setEnabled(true);
+				upButton.setEnabled(true);
+				downButton.setEnabled(true);
+			}
+		});
 		selectButton = new Button(this, SWT.NONE);
-		selectButton.setText("<");
+		selectButton.setText("<"); //$NON-NLS-1$
 		selectButton.setLayoutData(gridData8);
-		selectButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-						int selectionIndex = attributeNotSelectedList.getSelectionIndex();
-						if (selectionIndex == -1) {
-							return;
-						}
-						selectModels.add(notSelectModels.remove(selectionIndex));
-						updateList();
-					}
-				});
+		selectButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				int selectionIndex = attributeNotSelectedList.getSelectionIndex();
+				if (selectionIndex == -1) {
+					return;
+				}
+				selectModels.add(notSelectModels.remove(selectionIndex));
+				updateList();
+			}
+		});
 		attributeNotSelectedList = new List(this, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		attributeNotSelectedList.setLayoutData(gridData5);
-		attributeNotSelectedList
-				.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
-					public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-						System.out.println("focusGained()"); // TODO Auto-generated Event stub focusGained()
-						selectButton.setEnabled(true);
-						removeButton.setEnabled(false);
-						selectAllButton.setEnabled(true);
-						removeAllButton.setEnabled(false);
-						upButton.setEnabled(false);
-						downButton.setEnabled(false);
-					}
-				});
+		attributeNotSelectedList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
+			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+				selectButton.setEnabled(true);
+				removeButton.setEnabled(false);
+				selectAllButton.setEnabled(true);
+				removeAllButton.setEnabled(false);
+				upButton.setEnabled(false);
+				downButton.setEnabled(false);
+			}
+		});
 		downButton = new Button(this, SWT.NONE);
 		downButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		downButton.setText("下へ");
+		downButton.setText(Messages.DownButton);
 		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
 				int selectionIndex = attributeSelectedList.getSelectionIndex();
-				if (selectionIndex == -1 || selectionIndex == selectModels.size() -1) {
+				if (selectionIndex == -1 || selectionIndex == selectModels.size() - 1) {
 					return;
 				}
 				IAttribute moved = selectModels.remove(selectionIndex);
-				selectModels.add(selectionIndex+1, moved);
+				selectModels.add(selectionIndex + 1, moved);
 				updateList();
-				attributeSelectedList.setSelection(selectionIndex+1);
+				attributeSelectedList.setSelection(selectionIndex + 1);
 
 			}
 		});
 		removeButton = new Button(this, SWT.NONE);
-		removeButton.setText(">");
+		removeButton.setText(">"); //$NON-NLS-1$
 		removeButton.setLayoutData(gridData9);
-		removeButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-						int selectionIndex = attributeSelectedList.getSelectionIndex();
-						if (selectionIndex == -1) {
-							return;
-						}
-						notSelectModels.add(selectModels.remove(selectionIndex));
-						updateList();
-					}
-				});
+		removeButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				int selectionIndex = attributeSelectedList.getSelectionIndex();
+				if (selectionIndex == -1) {
+					return;
+				}
+				notSelectModels.add(selectModels.remove(selectionIndex));
+				updateList();
+			}
+		});
 		Label filler1 = new Label(this, SWT.NONE);
 		filler1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		selectAllButton = new Button(this, SWT.NONE);
-		selectAllButton.setText("<<");
+		selectAllButton.setText("<<"); //$NON-NLS-1$
 		selectAllButton.setLayoutData(gridData10);
-		selectAllButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-						selectModels.addAll(notSelectModels);
-						notSelectModels.clear();
-						updateList();
-					}
-				});
+		selectAllButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				selectModels.addAll(notSelectModels);
+				notSelectModels.clear();
+				updateList();
+			}
+		});
 		Label filler = new Label(this, SWT.NONE);
 		filler.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		removeAllButton = new Button(this, SWT.NONE);
-		removeAllButton.setText(">>");
+		removeAllButton.setText(">>"); //$NON-NLS-1$
 		removeAllButton.setLayoutData(gridData11);
-		removeAllButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						System.out.println("widgetSelected()"); // TODO Auto-generated Event stub widgetSelected()
-						notSelectModels.addAll(selectModels);
-						selectModels.clear();
-						updateList();
-					}
-				});
+		removeAllButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				notSelectModels.addAll(selectModels);
+				selectModels.clear();
+				updateList();
+			}
+		});
 		Label filler2 = new Label(this, SWT.NONE);
 		filler2.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		this.setSize(new Point(464, 225));
@@ -273,7 +278,7 @@ public class IndexPanel extends Composite {
 	}
 
 	/**
-	 * This method initializes indexNameComposite	
+	 * This method initializes indexNameComposite
 	 *
 	 */
 	private void createIndexNameComposite() {
@@ -306,7 +311,7 @@ public class IndexPanel extends Composite {
 		indexNameComposite.setLayout(gridLayout2);
 		indexNameComposite.setLayoutData(gridData2);
 		indexNameLabel = new Label(indexNameComposite, SWT.NONE);
-		indexNameLabel.setText("インデックス名");
+		indexNameLabel.setText(Messages.IndexName);
 		indexNameText = new Text(indexNameComposite, SWT.BORDER);
 		indexNameText.setLayoutData(gridData3);
 	}
@@ -319,11 +324,13 @@ public class IndexPanel extends Composite {
 	}
 
 	/**
-	 * @param attributeSelectedList the attributeSelectedList to set
+	 * @param attributeSelectedList
+	 *            the attributeSelectedList to set
 	 */
 	public void setAttributeSelectedList(List attributeSelectedList) {
 		this.attributeSelectedList = attributeSelectedList;
 	}
+
 	public void initializeValue(KeyModel keyModel, java.util.List<IAttribute> notSelectAttributes) {
 		indexNameText.setText(keyModel.getName());
 		selectModels = keyModel.getAttributes();
@@ -333,13 +340,14 @@ public class IndexPanel extends Composite {
 		masterCheckBox.setSelection(keyModel.isMasterKey());
 		updateList();
 	}
+
 	public void updateList() {
 		attributeSelectedList.removeAll();
 		attributeNotSelectedList.removeAll();
-		for (IAttribute a: selectModels) {
+		for (IAttribute a : selectModels) {
 			attributeSelectedList.add(a.getName());
 		}
-		for (IAttribute a:notSelectModels) {
+		for (IAttribute a : notSelectModels) {
 			attributeNotSelectedList.add(a.getName());
 		}
 	}
@@ -350,14 +358,16 @@ public class IndexPanel extends Composite {
 	public java.util.List<IAttribute> getSelectModels() {
 		return selectModels;
 	}
-	
+
 	public String getIndexName() {
 		return indexNameText.getText();
 	}
+
 	public boolean isUnique() {
 		return uniqueCheckBox.getSelection();
 	}
+
 	public boolean isMasterKey() {
 		return masterCheckBox.getSelection();
 	}
-}  //  @jve:decl-index=0:visual-constraint="0,0"
+}

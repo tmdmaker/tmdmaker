@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,14 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
-import jp.sourceforge.tmdmaker.dialog.component.DatabaseSettingPanel;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.dialog.component.DatabaseSettingPanel;
 
 /**
  * データベース変更ダイアログ
@@ -48,7 +49,7 @@ public class DatabaseSelectDialog extends Dialog {
 	public DatabaseSelectDialog(Shell parentShell, String originalDatabaseName) {
 		super(parentShell);
 		if (originalDatabaseName == null) {
-			this.originalDatabaseName = "";
+			this.originalDatabaseName = ""; //$NON-NLS-1$
 		} else {
 			this.originalDatabaseName = originalDatabaseName;
 		}
@@ -61,7 +62,7 @@ public class DatabaseSelectDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("データベース選択");
+		getShell().setText(Messages.SelectDatabase);
 		Composite composite = new Composite(parent, SWT.NULL);
 
 		panel = new DatabaseSettingPanel(composite, SWT.NULL);
@@ -88,5 +89,4 @@ public class DatabaseSelectDialog extends Dialog {
 	public String getSelectedDatabaseName() {
 		return selectedDatabaseName;
 	}
-
 }

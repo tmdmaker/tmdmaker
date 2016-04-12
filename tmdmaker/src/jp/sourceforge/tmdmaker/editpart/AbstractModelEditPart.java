@@ -28,8 +28,11 @@ import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -41,6 +44,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * エンティティ系モデルのコントローラの基底クラス
@@ -48,7 +52,8 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * @author nakaG
  * 
  */
-public abstract class AbstractModelEditPart<T extends ConnectableElement> extends AbstractTMDEditPart<T> implements NodeEditPart {
+public abstract class AbstractModelEditPart<T extends ConnectableElement>
+		extends AbstractTMDEditPart<T>implements NodeEditPart {
 
 	/** このコントローラで利用するアンカー */
 	private ConnectionAnchor anchor;
@@ -150,8 +155,8 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement> extend
 
 			Rectangle bounds = sourceFigure.getBounds();
 
-			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4), bounds.y
-					+ (bounds.height / 4), bounds.width / 2, bounds.height / 2);
+			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4),
+					bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
 			if (!centerRectangle.contains(location)) {
 				Point point = new XYChopboxAnchorHelper(bounds).getIntersectionPoint(location);
@@ -222,8 +227,8 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement> extend
 
 			Rectangle bounds = targetFigure.getBounds();
 
-			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4), bounds.y
-					+ (bounds.height / 4), bounds.width / 2, bounds.height / 2);
+			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4),
+					bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
 			if (!centerRectangle.contains(location)) {
 				Point point = new XYChopboxAnchorHelper(bounds).getIntersectionPoint(location);
@@ -457,16 +462,64 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement> extend
 	}
 
 	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 * モデルのサイズを自動調整可能か？
+	 *
+	 * @return 自動調整可能なモデルのコントローラはtrueを返す
 	 */
-	@Override
-	protected IFigure createFigure() {
-		EntityFigure figure = new EntityFigure();
-		updateFigure(figure);
+	public abstract boolean canAutoSize();
 
-		return figure;
+	/**
+	 * サブセットを作成可能か？
+	 *
+	 * @return サブセットを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateSubset() {
+		return getModel().canCreateSubset();
+	}
+
+	/**
+	 * 多値のORを作成可能か？
+	 *
+	 * @return 多値のORを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateMultivalueOr() {
+		return getModel().canCreateMultivalueOr();
+	}
+
+	/**
+	 * みなしエンティティを作成可能か？
+	 *
+	 * @return みなしエンティティを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateVirtualEntity() {
+		return getModel().canCreateVirtualEntity();
+	}
+
+	protected abstract ModelAppearance getAppearance();
+
+	protected Color getForegroundColor() {
+		return createForegroundColor(getAppearance());
+	}
+
+	protected Color getBackgroundColor() {
+		return createBackgroundColor(getAppearance());
+	}
+
+	private Color createBackgroundColor(ModelAppearance appearance) {
+		AppearanceSetting config = AppearanceSetting.getInstance();
+		if (config.isColorEnabled() && appearance != null) {
+			return new Color(null, config.getBackground(appearance));
+		} else {
+			return ColorConstants.white;
+		}
+	}
+
+	private Color createForegroundColor(ModelAppearance appearance) {
+		AppearanceSetting config = AppearanceSetting.getInstance();
+		if (config.isColorEnabled() && appearance != null) {
+			return new Color(null, config.getFont(appearance));
+		} else {
+			return ColorConstants.black;
+		}
 	}
 }

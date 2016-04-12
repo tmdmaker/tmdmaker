@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,21 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Shell;
+
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
-
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.FillLayout;
 
 /**
  * エンティティ新規作成ダイアログ
@@ -64,7 +65,7 @@ public class EntityCreateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("エンティティ新規作成");
+		getShell().setText(Messages.CreateEntity);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		FillLayout fl_composite = new FillLayout(SWT.HORIZONTAL);
@@ -116,17 +117,18 @@ public class EntityCreateDialog extends Dialog {
 	}
 
 	private boolean isEntityNameFilled() {
-		return this.inputEntityName != null
-				&& this.inputEntityName.length() > 0;
+		return this.inputEntityName != null && this.inputEntityName.length() > 0;
 	}
 
 	private boolean isIdentifierNameFilled() {
 		String inputIdentifierName = this.inputIdentifier.getName();
 		return inputIdentifierName != null && inputIdentifierName.length() > 0;
 	}
+
 	private boolean isLaputa() {
 		return this.inputEntityType.equals(EntityType.LAPUTA);
 	}
+
 	/**
 	 * @return the inputEntityType
 	 */
@@ -147,12 +149,14 @@ public class EntityCreateDialog extends Dialog {
 	public Identifier getInputIdentifier() {
 		return inputIdentifier;
 	}
+
 	public AbstractEntityModel getCreateModel() {
 		EntityRecognitionRule rule = EntityRecognitionRule.getInstance();
 		if (isLaputa()) {
 			return rule.createLaputa(getInputEntityName(), getInputIdentifier());
 		} else {
-			return rule.createEntity(getInputEntityName(), getInputIdentifier(), getInputEntityType());
+			return rule.createEntity(getInputEntityName(), getInputIdentifier(),
+					getInputEntityType());
 		}
 	}
 }

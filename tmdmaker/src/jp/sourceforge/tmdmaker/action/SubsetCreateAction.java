@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.AbstractSubsetTypeEditPart;
-import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
-import jp.sourceforge.tmdmaker.editpart.MultivalueAndSupersetEditPart;
-import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.SubsetType;
-import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
-
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.SubsetType;
+import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
 /**
  * サブセット作成アクション.
@@ -37,7 +34,7 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	/** サブセット作成アクションを表す定数 */
-	public static final String ID = "_SUBSET";
+	public static final String ID = "_SUBSET"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ.
@@ -47,7 +44,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	 */
 	public SubsetCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText("サブセット作成");
+		setText(Messages.CreateSubset);
 		setId(ID);
 	}
 
@@ -58,13 +55,12 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	protected boolean calculateEnabled() {
-		if (getSelectedObjects().size() == 1) {
-			Object selection = getSelectedObjects().get(0);
-			return selection instanceof AbstractModelEditPart
-					&& !(selection instanceof AbstractSubsetTypeEditPart)
-					&& !(selection instanceof MultivalueAndSupersetEditPart)
-					&& !(selection instanceof VirtualSupersetEditPart)
-					&& !(selection instanceof LaputaEditPart);
+		if (getSelectedObjects().size() != 1) {
+			return false;
+		}
+		Object selection = getSelectedObjects().get(0);
+		if (selection instanceof AbstractModelEditPart<?>) {
+			return ((AbstractModelEditPart<?>) selection).canCreateSubset();
 		} else {
 			return false;
 		}
@@ -82,8 +78,8 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		AbstractEntityModel model = getModel();
 		SubsetType subsetType = SubsetRule.setupSubsetType(model);
 
-		SubsetCreateDialog dialog = new SubsetCreateDialog(
-				part.getViewer().getControl().getShell(), subsetType, model);
+		SubsetCreateDialog dialog = new SubsetCreateDialog(part.getViewer().getControl().getShell(),
+				subsetType, model);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = dialog.getCcommand();
 			execute(ccommand);

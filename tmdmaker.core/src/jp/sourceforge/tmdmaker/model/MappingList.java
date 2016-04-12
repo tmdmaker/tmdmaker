@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class MappingList extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSarogateKey());
+		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifieres
 				.entrySet()) {
 			returnValue.addAll(rk.getValue().getIdentifires());
@@ -59,8 +59,7 @@ public class MappingList extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return getModelSourceConnections().size() == 0
-				&& getModelTargetConnections().size() == 1;
+		return getModelSourceConnections().size() == 0 && getModelTargetConnections().size() == 1;
 	}
 
 	/**

@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>tmdmaker.ui.test</artifactId>
+	<packaging>eclipse-test-plugin</packaging>
+	<parent>
+		<groupId>tmdmaker</groupId>
+		<artifactId>tmdmaker.releng</artifactId>
+		<version>0.3.0-SNAPSHOT</version>
+		<relativePath>../tmdmaker.releng</relativePath>
+	</parent>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				
+<!-- 				<version>${tycho-version}</version>
+				<configuration>
+					<useUIHarness>true</useUIHarness>
+					<useUIThread>false</useUIThread>
+					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
+					<appArgLine>-nl en</appArgLine>
+					<product>org.eclipse.platform.ide</product>
+					<application>org.eclipse.ui.ide.workbench</application>
+				</configuration>
+ -->			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	<description>TMD-MakerのUIテスト用プロジェクト</description>
+	<name>TMD-Maker UI Test Plugin</name>
+
+</project>

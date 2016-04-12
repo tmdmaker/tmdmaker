@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.extension.DialectProviderFactory;
 
 import org.eclipse.swt.layout.GridLayout;
@@ -26,7 +27,9 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.layout.GridData;
 
 /**
- * @author nakaG
+ * Database setting panel.
+ * 
+ * @author nakag
  *
  */
 public class DatabaseSettingPanel extends Composite {
@@ -43,14 +46,14 @@ public class DatabaseSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		databaseNameLabel = new Label(this, SWT.NONE);
-		databaseNameLabel.setText("データベース名");
+		databaseNameLabel.setText(Messages.DatabaseName);
 		this.setLayout(gridLayout);
 		createDatabaseCombo();
 		setSize(new Point(217, 40));
 	}
 
 	/**
-	 * This method initializes databaseCombo	
+	 * This method initializes databaseCombo
 	 *
 	 */
 	private void createDatabaseCombo() {
@@ -60,7 +63,7 @@ public class DatabaseSettingPanel extends Composite {
 		gridData.horizontalAlignment = GridData.FILL;
 		databaseCombo = new Combo(this, SWT.READ_ONLY);
 		databaseCombo.setLayoutData(gridData);
-		databaseCombo.add("");
+		databaseCombo.add(""); //$NON-NLS-1$
 		for (String database : DialectProviderFactory.getDialectProvider().getDatabaseList()) {
 			databaseCombo.add(database);
 		}
@@ -73,8 +76,9 @@ public class DatabaseSettingPanel extends Composite {
 		}
 		databaseCombo.select(index);
 	}
+
 	public String getSelectedDatabaseName() {
 		int index = databaseCombo.getSelectionIndex();
 		return databaseCombo.getItem(index);
 	}
-}  //  @jve:decl-index=0:visual-constraint="0,0"
+}

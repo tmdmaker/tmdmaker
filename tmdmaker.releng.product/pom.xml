@@ -6,15 +6,45 @@
 	<parent>
 		<groupId>tmdmaker</groupId>
 		<artifactId>tmdmaker.releng</artifactId>
-		<version>0.2.10-SNAPSHOT</version>
+		<version>0.3.0-SNAPSHOT</version>
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-repository-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<includeAllDependencies>true</includeAllDependencies>
+					<profileProperties>
+						<macosx-bundled>true</macosx-bundled>
+					</profileProperties>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-director-plugin</artifactId>
 				<version>${tycho-version}</version>
+				<configuration>
+					<formats>
+						<win32>zip</win32>
+						<linux>tar.gz</linux>
+						<macosx>tar.gz</macosx>
+					</formats>
+					<products>
+						<product>
+							<id>tmdmaker.rcp.product</id>
+							<archiveFileName>tmdmaker_for_rcp_${release-version}</archiveFileName>
+							<rootFolder>tmdmaker</rootFolder>
+							<rootFolders>
+								<win32>tmdmaker</win32>
+								<linux>tmdmaker</linux>
+								<macosx>TMD-Maker</macosx>
+							</rootFolders>
+						</product>
+					</products>
+				</configuration>
 
 				<executions>
 					<execution>
@@ -32,15 +62,6 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<products>
-						<product>
-							<id>tmdmaker.rcp.product</id>
-							<archiveFileName>tmdmaker_for_rcp_${release-version}</archiveFileName>
-							<rootFolder>tmdmaker</rootFolder>
-						</product>
-					</products>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

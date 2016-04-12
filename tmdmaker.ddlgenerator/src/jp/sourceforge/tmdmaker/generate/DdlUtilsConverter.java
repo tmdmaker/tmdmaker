@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.generate.internal.ForeignConstraints;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 import jp.sourceforge.tmdmaker.model.Diagram;
@@ -28,7 +29,7 @@ import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.KeyModel;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.model.SarogateKeyRef;
+import jp.sourceforge.tmdmaker.model.SurrogateKeyRef;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
@@ -52,8 +53,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DdlUtilsConverter {
 	/** logging */
-	private static Logger logger = LoggerFactory
-			.getLogger(DdlUtilsConverter.class);
+	private static Logger logger = LoggerFactory.getLogger(DdlUtilsConverter.class);
 
 	/** 外部キーのテーブル */
 	private List<ForeignConstraints> foreignConstraintsList;
@@ -140,7 +140,11 @@ public class DdlUtilsConverter {
 	private Table convert(AbstractEntityModel entity) {
 		// テーブル名を指定
 		Table table = new Table();
-		table.setName(entity.getImplementName());
+		String tableName = entity.getImplementName();
+		if (tableName == null || tableName.length() == 0) {
+			tableName = entity.getName();
+		}
+		table.setName(tableName);
 		table.setDescription(entity.getName());
 
 		// 実装対象のアトリビュートをカラムとして追加
@@ -153,8 +157,7 @@ public class DdlUtilsConverter {
 		/*
 		 * テーブル名 -> 参照テーブル名 -> リファレンス のリストを作成する。 あとでループして各テーブルで 外部キーを作成して追加する。
 		 */
-		this.foreignConstraintsList
-				.add(createForeignConstraints(entity, table));
+		this.foreignConstraintsList.add(createForeignConstraints(entity, table));
 
 		return table;
 	}
@@ -169,10 +172,8 @@ public class DdlUtilsConverter {
 	 * @param attributeColumnMap
 	 *            アトリビュートとカラムのマップ
 	 */
-	private void addColumns(AbstractEntityModel entity, Table table,
-			Map<IAttribute, Column> attributeColumnMap) {
-		List<IAttribute> attributes = ImplementRule
-				.findAllImplementAttributes(entity);
+	private void addColumns(AbstractEntityModel entity, Table table, Map<IAttribute, Column> attributeColumnMap) {
+		List<IAttribute> attributes = ImplementRule.findAllImplementAttributes(entity);
 		for (IAttribute a : attributes) {
 			Column column = convert(a);
 			table.addColumn(column);
@@ -188,20 +189,16 @@ public class DdlUtilsConverter {
 	 * @param table
 	 *            対象テーブル
 	 */
-	private ForeignConstraints createForeignConstraints(
-			AbstractEntityModel entity, Table table) {
-		System.out.println("createForeignConstraints " + entity.getName() + " "
-				+ table.getName());
+	private ForeignConstraints createForeignConstraints(AbstractEntityModel entity, Table table) {
+		System.out.println("createForeignConstraints " + entity.getName() + " " + table.getName());
 		ForeignConstraints foreignConstraints = new ForeignConstraints(table);
 
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity
-				.getReusedIdentifieres().entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity.getReusedIdentifieres().entrySet()) {
 
 			AbstractEntityModel foreignEntity = reusedMap.getKey();
 			ReusedIdentifier reused = reusedMap.getValue();
 
-			foreignConstraints.addForeignReference(
-					foreignEntity.getImplementName(), convert(reused),
+			foreignConstraints.addForeignReference(foreignEntity.getImplementName(), convert(reused),
 					isRecursive(reused));
 		}
 		return foreignConstraints;
@@ -209,7 +206,7 @@ public class DdlUtilsConverter {
 
 	private Boolean isRecursive(ReusedIdentifier reused) {
 		// Reused でサロゲートキーが2つあるのは再帰のときのみ。
-		int count = reused.getSarogateKeys().size();
+		int count = reused.getSurrogateKeys().size();
 		return (count == 2);
 	}
 
@@ -221,9 +218,9 @@ public class DdlUtilsConverter {
 	private List<Reference> convert(ReusedIdentifier reused) {
 		List<Reference> refences = new ArrayList<Reference>();
 
-		if (reused.isSarogateKeyEnabled()) {
+		if (reused.isSurrogateKeyEnabled()) {
 			// 再帰表の場合を考慮して1つ目のみを取得
-			SarogateKeyRef sref = reused.getSarogateKeys().get(0);
+			SurrogateKeyRef sref = reused.getSurrogateKeys().get(0);
 			Column localColumn = convert(sref);
 			Column originalColumn = convert(sref.getOriginal());
 			addReference(refences, localColumn, originalColumn);
@@ -246,12 +243,10 @@ public class DdlUtilsConverter {
 		}
 	}
 
-	private void addReference(List<Reference> refences, Column localColumn,
-			Column originalColumn) {
+	private void addReference(List<Reference> refences, Column localColumn, Column originalColumn) {
 		Reference reference = new Reference(localColumn, originalColumn);
 		refences.add(reference);
-		logger.debug("参照： " + localColumn.getName() + "->"
-				+ originalColumn.getName());
+		logger.debug("参照： " + localColumn.getName() + "->" + originalColumn.getName());
 	}
 
 	/**
@@ -264,8 +259,7 @@ public class DdlUtilsConverter {
 	 * @param attributeColumnMap
 	 *            アトリビュートとカラムのマップ
 	 */
-	private void addIndices(AbstractEntityModel entity, Table table,
-			Map<IAttribute, Column> attributeColumnMap) {
+	private void addIndices(AbstractEntityModel entity, Table table, Map<IAttribute, Column> attributeColumnMap) {
 		for (KeyModel idx : entity.getKeyModels()) {
 
 			// マスターキーはプライマリキーとして登録する
@@ -301,8 +295,7 @@ public class DdlUtilsConverter {
 	 *            TMD-Makerのアトリビュートモデル
 	 * @return DDLUtilsのインデックスモデル
 	 */
-	private Index convert(KeyModel key,
-			Map<IAttribute, Column> attributeColumnMap) {
+	private Index convert(KeyModel key, Map<IAttribute, Column> attributeColumnMap) {
 		Index index = null;
 		if (key.isUnique()) {
 			index = new UniqueIndex();
@@ -333,7 +326,11 @@ public class DdlUtilsConverter {
 	 */
 	private Column convert(IAttribute attribute) {
 		Column column = new Column();
-		column.setName(attribute.getImplementName());
+		String columnName = attribute.getImplementName();
+		if (columnName == null || columnName.length() == 0) {
+			columnName = attribute.getName();
+		}
+		column.setName(columnName);
 		DataTypeDeclaration dtd = attribute.getDataTypeDeclaration();
 		if (dtd != null) {
 			StandardSQLDataType dataType = dtd.getLogicalType();
@@ -364,8 +361,7 @@ public class DdlUtilsConverter {
 	 * @param commonAttributes
 	 *            共通属性
 	 */
-	public void addCommonColumns(Database database,
-			List<IAttribute> commonAttributes) {
+	public void addCommonColumns(Database database, List<IAttribute> commonAttributes) {
 		if (commonAttributes == null) {
 			return;
 		}

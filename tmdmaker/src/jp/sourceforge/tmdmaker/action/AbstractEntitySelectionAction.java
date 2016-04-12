@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.action;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.AbstractSubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
+import jp.sourceforge.tmdmaker.editpart.MemoEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -53,7 +54,8 @@ public abstract class AbstractEntitySelectionAction extends SelectionAction {
 			Object selection = getSelectedObjects().get(0);
 			return selection instanceof AbstractModelEditPart
 					&& !(selection instanceof AbstractSubsetTypeEditPart)
-					&& !(selection instanceof LaputaEditPart);
+					&& !(selection instanceof LaputaEditPart)
+					&& !(selection instanceof MemoEditPart);
 		} else {
 			return false;
 		}

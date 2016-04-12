@@ -23,6 +23,7 @@ import java.util.Map;
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Identifier;
@@ -33,32 +34,48 @@ import jp.sourceforge.tmdmaker.property.AbstractEntityModelPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * Entity系のeditpartの基底クラス
- * 
+ *
  * @author tohosaku
  *
  */
-public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel> extends AbstractModelEditPart<T> implements IPropertyAvailable {
+public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
+		extends AbstractModelEditPart<T>implements IPropertyAvailable {
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
+	@Override
+	protected IFigure createFigure() {
+		EntityFigure figure = new EntityFigure();
+		updateFigure(figure);
 
+		return figure;
+	}
+
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
+	 */
 	@Override
 	abstract protected void updateFigure(IFigure figure);
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -68,48 +85,52 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	@Override
 	protected void onDoubleClicked() {
 		ModelEditDialog<T> dialog = getDialog();
-		if (dialog.open() != Dialog.OK) return;		
-		CompoundCommand ccommand = createEditCommand(dialog.getEditAttributeList(), dialog.getEditedValue());
+		if (dialog.open() != Dialog.OK)
+			return;
+		CompoundCommand ccommand = createEditCommand(dialog.getEditAttributeList(),
+				dialog.getEditedValue());
 		executeEditCommand(ccommand);
 	}
-	
+
 	/**
 	 * 編集用ダイアログを取得する。
+	 *
 	 * @return ダイアログボックス
 	 */
 	protected abstract ModelEditDialog<T> getDialog();
 
 	/**
 	 * 編集用コマンドを生成する
+	 *
 	 * @param editAttributeList
 	 * @param editedValue
 	 * @return 編集用コマンド
 	 */
-	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue)
-	{
+	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
+			AbstractEntityModel editedValue) {
 		CompoundCommand ccommand = new CompoundCommand();
 		addAttributeEditCommands(ccommand, getModel(), editAttributeList);
 		ModelEditCommand command = new ModelEditCommand(getModel(), editedValue);
 		ccommand.add(command);
 		return ccommand;
 	}
-	
+
 	/**
 	 * 編集コマンドを実行する。
+	 *
 	 * @param command
 	 */
-	protected void executeEditCommand(Command command)
-	{
+	protected void executeEditCommand(Command command) {
 		getViewer().getEditDomain().getCommandStack().execute(command);
 	}
-	
+
 	/**
 	 * 自分自身が実装対象でない場合に実行するコマンドを生成する。
+	 * 
 	 * @param editedValue
 	 * @return
 	 */
-	protected Command getDeleteCommand(AbstractEntityModel editedValue)
-	{
+	protected Command getDeleteCommand(AbstractEntityModel editedValue) {
 		AbstractEntityModel table = getModel();
 		if (table.isNotImplement() && !editedValue.isNotImplement()) {
 			AbstractEntityModel original = ImplementRule.findOriginalImplementModel(table);
@@ -117,13 +138,13 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 		}
 		return null;
 	}
-	
+
 	/**
 	 * ダイアログ表示のためのShellを返す。
+	 *
 	 * @return ParentShell
 	 */
-	protected Shell getControllShell()
-	{
+	protected Shell getControllShell() {
 		return getViewer().getControl().getShell();
 	}
 
@@ -132,7 +153,8 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	 */
 	protected List<String> extractRelationship(T table) {
 		List<String> relationship = new ArrayList<String>();
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres().entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres()
+				.entrySet()) {
 			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
 				relationship.add(i.getName());
 			}
@@ -146,7 +168,8 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	 */
 	protected List<String> extractRelationship(T table, IdentifierRef original) {
 		List<String> relationship = new ArrayList<String>();
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres().entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres()
+				.entrySet()) {
 			for (IdentifierRef i : rk.getValue().getUniqueIdentifieres()) {
 				if (i.isSame(original)) {
 					// nothing
@@ -157,43 +180,13 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 		}
 		return relationship;
 	}
-	
+
 	@Override
 	abstract protected void createEditPolicies();
-	
-	protected Color getForegroundColor()
-	{
-		return createForegroundColor(getAppearance());
-	}
-	
-	protected Color getBackgroundColor()
-	{
-		return createBackgroundColor(getAppearance());
-	}
 
-	abstract protected ModelAppearance getAppearance();
-	
-	private Color createBackgroundColor(ModelAppearance appearance) {
-		AppearanceSetting config = AppearanceSetting.getInstance();
-		if (config.isColorEnabled()) {
-			return new Color(null, config.getBackground(appearance));
-		} else {
-			return ColorConstants.white;
-		}
-	}
-
-	private Color createForegroundColor(ModelAppearance appearance) {
-		AppearanceSetting config = AppearanceSetting.getInstance();
-		if (config.isColorEnabled()) {
-			return new Color(null, config.getFont(appearance));
-		} else {
-			return ColorConstants.black;
-		}
-	}
-	
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
 	@SuppressWarnings({ "rawtypes" })
@@ -201,7 +194,7 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	protected List getModelChildren() {
 		return getModel().getAttributes();
 	}
-	
+
 	public IPropertySource getPropertySource(TMDEditor editor) {
 		return new AbstractEntityModelPropertySource(editor, this.getModel());
 	}
@@ -214,7 +207,6 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	@Override
 	protected void refreshVisuals() {
 		logger.debug(getClass().toString() + "#refreshVisuals()");
-		super.refreshVisuals();
 		Constraint constraint = getModel().getConstraint();
 		Rectangle bounds = ConstraintConverter.toRectangle(constraint);
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
@@ -222,5 +214,14 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 		updateFigure(getFigure());
 		refreshChildren();
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#canAutoSize()
+	 */
+	@Override
+	public boolean canAutoSize() {
+		return true;
+	}
 }

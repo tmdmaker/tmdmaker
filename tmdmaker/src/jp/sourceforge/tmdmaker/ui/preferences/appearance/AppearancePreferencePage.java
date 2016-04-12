@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,19 +18,18 @@ package jp.sourceforge.tmdmaker.ui.preferences.appearance;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.TMDPlugin;
-
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.TMDPlugin;
 
 /**
  * 外観設定ページ
@@ -62,7 +61,6 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -87,57 +85,13 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 	protected void createFieldEditors() {
 		Composite parent = getFieldEditorParent();
 		Group colorGroup = new Group(parent, SWT.NONE);
-		colorGroup.setText("色設定");
+		colorGroup.setText(Messages.ColorSettings);
 		colorGroup.setLayout(new GridLayout(1, true));
-		GridData colorGd = new GridData(GridData.FILL_HORIZONTAL);
-		colorGd.horizontalSpan = 2;
-		colorGroup.setLayoutData(colorGd);
 
 		editor = new BooleanFieldEditor(AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED,
-				"モデルの色設定を有効にする :", colorGroup) {
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.jface.preference.BooleanFieldEditor#valueChanged(
-			 * boolean, boolean)
-			 */
-			@Override
-			protected void valueChanged(boolean oldValue, boolean newValue) {
-				setColorFieldsEnabled(newValue);
-				super.valueChanged(oldValue, newValue);
-			}
-
-		};
+				Messages.EnableColorSetting, colorGroup);
 
 		addField(editor);
-		colorFields = new Composite(colorGroup, SWT.NONE);
-		new Label(colorFields, SWT.NONE);
-		Label l = new Label(colorFields, SWT.NONE);
-		l.setText("背景色");
-
-		for (ModelAppearance a : ModelAppearance.values()) {
-			colorFieldEditors.add(new ColorFieldEditor(a.getBackgroundColorPropertyName(), a
-					.getLabel(), colorFields));
-		}
-
-		for (ColorFieldEditor e : colorFieldEditors) {
-			addField(e);
-		}
-		new Label(colorFields, SWT.NONE);
-		l = new Label(colorFields, SWT.NONE);
-		l.setText("罫線・フォント");
-
-		for (ModelAppearance a : ModelAppearance.values()) {
-			fontFieldEditors.add(new ColorFieldEditor(a.getFontColorPropertyName(), a.getLabel(),
-					colorFields));
-		}
-
-		for (ColorFieldEditor e : fontFieldEditors) {
-			addField(e);
-		}
-
 	}
 
 	private void setColorFieldsEnabled(boolean enabled) {
@@ -147,7 +101,6 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 		for (ColorFieldEditor e : fontFieldEditors) {
 			e.setEnabled(enabled, colorFields);
 		}
-
 	}
 
 	/**
@@ -160,5 +113,4 @@ public class AppearancePreferencePage extends FieldEditorPreferencePage implemen
 		super.performDefaults();
 		setColorFieldsEnabled(editor.getBooleanValue());
 	}
-
 }

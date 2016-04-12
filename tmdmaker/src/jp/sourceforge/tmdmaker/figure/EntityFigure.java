@@ -55,7 +55,7 @@ public class EntityFigure extends Figure {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param notImplement
 	 *            実装するか？
 	 */
@@ -185,15 +185,28 @@ public class EntityFigure extends Figure {
 		@Override
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
 			super.paint(figure, graphics, insets);
-			if (identifierCompartmentFigure.getChildren().size() > 0
-					|| attributeCompartmentFigure.getChildren().size() > 0) {
+			boolean identifierNotEmpty = identifierCompartmentFigure.getChildren().size() > 0;
+			boolean attributeNotEmpty = attributeCompartmentFigure.getChildren().size() > 0;
+			if (identifierNotEmpty || attributeNotEmpty) {
 				Rectangle rect1 = titleCompartmentFigure.getBounds();
-				Rectangle rect2 = identifierCompartmentFigure.getBounds();
-				Point p = tempRect.getTopLeft().getCopy();
-				p.x = p.x + rect2.width + 2;
-				p.y = p.y + rect1.height + 2;
-				Point p2 = tempRect.getBottomLeft().getCopy();
-				p2.x = p2.x + rect2.width + 2;
+				Rectangle rect2 = null;
+				Point p = null;
+				Point p2 = null;
+				if (identifierNotEmpty) {
+					rect2 = identifierCompartmentFigure.getBounds();
+					p = tempRect.getTopLeft().getCopy();
+					p.x = p.x + rect2.width + 2;
+					p.y = p.y + rect1.height + 2;
+					p2 = tempRect.getBottomLeft().getCopy();
+					p2.x = p2.x + rect2.width + 2;
+				} else {
+					rect2 = attributeCompartmentFigure.getBounds();
+					p = tempRect.getTopLeft().getCopy();
+					p.x = p.x  + 2;
+					p.y = p.y  + rect1.height  + 2;
+					p2 = tempRect.getBottomLeft().getCopy();
+					p2.x = p2.x + 2;
+				}
 				graphics.drawLine(p, p2);
 			}
 			if (notImplement) {
@@ -221,7 +234,8 @@ public class EntityFigure extends Figure {
 		}
 
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
-			if (((IFigure) figure.getChildren().get(0)).getChildren().size() > 0) {
+			if (((IFigure) figure.getChildren().get(0)).getChildren().size() > 0
+					|| ((IFigure) figure.getChildren().get(1)).getChildren().size() > 0) {
 				graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(),
 						tempRect.getTopRight());
 			}

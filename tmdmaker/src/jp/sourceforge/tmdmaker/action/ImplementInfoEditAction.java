@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,19 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import jp.sourceforge.tmdmaker.dialog.ImplementInfoEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
-import jp.sourceforge.tmdmaker.dialog.model.EditSarogateKey;
-import jp.sourceforge.tmdmaker.model.IAttribute;
-import jp.sourceforge.tmdmaker.model.SarogateKey;
-import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
-
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.dialog.ImplementInfoEditDialog;
+import jp.sourceforge.tmdmaker.dialog.model.EditImplementAttribute;
+import jp.sourceforge.tmdmaker.dialog.model.EditSurrogateKey;
+import jp.sourceforge.tmdmaker.model.IAttribute;
+import jp.sourceforge.tmdmaker.model.SurrogateKey;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
+import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
 
 /**
  * 実装情報編集Action
@@ -34,14 +36,17 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
-	public static final String ID = "ImplementInfoEditAction";
+	public static final String ID = "ImplementInfoEditAction"; //$NON-NLS-1$
+
 	/**
 	 * コンストラクタ
-	 * @param part エディター
+	 * 
+	 * @param part
+	 *            エディター
 	 */
 	public ImplementInfoEditAction(IWorkbenchPart part) {
 		super(part);
-		setText("実装情報編集");
+		setText(Messages.EditImplementInformation);
 		setId(ID);
 	}
 
@@ -52,35 +57,28 @@ public class ImplementInfoEditAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		ImplementInfoEditDialog dialog = new ImplementInfoEditDialog(getPart()
-				.getViewer().getControl().getShell(), getModel());
+		ImplementInfoEditDialog dialog = new ImplementInfoEditDialog(
+				getPart().getViewer().getControl().getShell(), getModel());
 		if (dialog.open() == Dialog.OK) {
 
 			CompoundCommand ccommand = new CompoundCommand();
 
-			ccommand.add(new ModelEditCommand(getModel(), dialog
-					.getEditedValueEntity()));
-//			for (EditImplementAttribute ei : dialog
-//					.getEditedValueIdentifieres()) {
-//				Identifier newIdentifier = new Identifier();
-//				Identifier original = (Identifier) ei.getOriginalAttribute();
-//				ei.copyTo(newIdentifier);
-//				ccommand.add(new AttributeEditCommand(original, newIdentifier,
-//						ei.getContainerModel()));
-//			}
+			ccommand.add(new ModelEditCommand(getModel(), dialog.getEditedValueEntity()));
 
 			for (EditImplementAttribute ea : dialog.getEditedValueAttributes()) {
 				IAttribute original = ea.getOriginalAttribute();
 				IAttribute newAttribute = original.getCopy();
 				ea.copyTo(newAttribute);
-				ccommand.add(new AttributeEditCommand(original, newAttribute,
-						ea.getContainerModel()));
+				ccommand.add(
+						new AttributeEditCommand(original, newAttribute, ea.getContainerModel()));
 			}
-			SarogateKey newSarogateKey = new SarogateKey();
-			EditSarogateKey edited = dialog.getEditedSarogateKey();
-			edited.copyTo(newSarogateKey);
-			SarogateKey original = (SarogateKey) edited.getOriginalAttribute();
-			ccommand.add(new AttributeEditCommand(original, newSarogateKey, edited.getContainerModel()));
+			SurrogateKey newSurrogateKey = new SurrogateKey();
+			EditSurrogateKey edited = dialog.getEditedSurrogateKey();
+			edited.copyTo(newSurrogateKey);
+			ImplementRule.setSurrogateKeyDefaultValue(newSurrogateKey);
+			SurrogateKey original = (SurrogateKey) edited.getOriginalAttribute();
+			ccommand.add(new AttributeEditCommand(original, newSurrogateKey,
+					edited.getContainerModel()));
 			execute(ccommand);
 		}
 	}

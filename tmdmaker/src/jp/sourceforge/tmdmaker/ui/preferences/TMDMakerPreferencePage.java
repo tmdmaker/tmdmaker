@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.ui.preferences;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -34,7 +35,7 @@ public class TMDMakerPreferencePage extends FieldEditorPreferencePage implements
 	public TMDMakerPreferencePage() {
 		super(GRID);
 		setPreferenceStore(TMDPlugin.getDefault().getPreferenceStore());
-		setDescription("TMD-Makerの設定ページです");
+		setDescription(Messages.TMDMakerPreferencePage);
 	}
 
 	/**

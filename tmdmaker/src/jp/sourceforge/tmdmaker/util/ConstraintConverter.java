@@ -38,4 +38,8 @@ public class ConstraintConverter {
 		return new Constraint(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 	}
 
+	public static Constraint toConstraintWithoutHeightWidth(Rectangle rectangle) {
+		return new Constraint(rectangle.x, rectangle.y, -1, -1);
+	}
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -88,7 +89,7 @@ public class RecursiveTableEditPart extends AbstractEntityModelEditPart<Recursiv
 	@Override
 	protected ModelEditDialog<RecursiveTable> getDialog()
 	{
-		return new TableEditDialog<RecursiveTable>(getControllShell(), "再帰表編集", getModel());
+		return new TableEditDialog<RecursiveTable>(getControllShell(), Messages.EditRecursiveTable, getModel());
 	}
 
 	/**

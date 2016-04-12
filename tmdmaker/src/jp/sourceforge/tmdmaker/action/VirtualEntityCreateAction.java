@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import jp.sourceforge.tmdmaker.dialog.VirtualEntityCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.AbstractSubsetTypeEditPart;
-import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
-import jp.sourceforge.tmdmaker.editpart.MultivalueAndSupersetEditPart;
-import jp.sourceforge.tmdmaker.editpart.VirtualSupersetEditPart;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
-import jp.sourceforge.tmdmaker.model.VirtualEntityType;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.dialog.VirtualEntityCreateDialog;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
+import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 
 /**
  * みなしエンティティ作成アクション.
@@ -37,7 +34,7 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	/** みなしエンティティ作成アクションを表す定数 */
-	public static final String ID = "_VE";
+	public static final String ID = "_VE"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ.
@@ -47,7 +44,7 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	 */
 	public VirtualEntityCreateAction(IWorkbenchPart part) {
 		super(part);
-		setText("みなしEntity作成");
+		setText(Messages.CreateVirtualEntity);
 		setId(ID);
 	}
 
@@ -58,13 +55,14 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	public void run() {
-		VirtualEntityCreateDialog dialog = new VirtualEntityCreateDialog(getPart().getViewer().getControl().getShell());
+		VirtualEntityCreateDialog dialog = new VirtualEntityCreateDialog(
+				getPart().getViewer().getControl().getShell());
 		if (dialog.open() == Dialog.OK) {
-			execute(new VirtualEntityCreateCommand(getModel(), dialog.getInputVirtualEntityName(), dialog.getInputVirtualEntityType()));
+			execute(new VirtualEntityCreateCommand(getModel(), dialog.getInputVirtualEntityName(),
+					dialog.getInputVirtualEntityType()));
 		}
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -72,18 +70,16 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	protected boolean calculateEnabled() {
-		if (getSelectedObjects().size() == 1) {
-			Object selection = getSelectedObjects().get(0);
-			return selection instanceof AbstractModelEditPart
-					&& !(selection instanceof AbstractSubsetTypeEditPart)
-					&& !(selection instanceof MultivalueAndSupersetEditPart)
-					&& !(selection instanceof VirtualSupersetEditPart)
-					&& !(selection instanceof LaputaEditPart);
+		if (getSelectedObjects().size() != 1) {
+			return false;
+		}
+		Object selection = getSelectedObjects().get(0);
+		if (selection instanceof AbstractModelEditPart<?>) {
+			return ((AbstractModelEditPart<?>) selection).canCreateVirtualEntity();
 		} else {
 			return false;
 		}
 	}
-
 
 	/**
 	 * みなしエンティティ作成.
@@ -101,8 +97,10 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		 * @param model
 		 *            みなしエンティティ作成対象
 		 */
-		public VirtualEntityCreateCommand(AbstractEntityModel model, String virtualEntityName, VirtualEntityType type) {
-			this.relationship = new Entity2VirtualEntityRelationship(model, virtualEntityName, type);
+		public VirtualEntityCreateCommand(AbstractEntityModel model, String virtualEntityName,
+				VirtualEntityType type) {
+			this.relationship = new Entity2VirtualEntityRelationship(model, virtualEntityName,
+					type);
 		}
 
 		/**

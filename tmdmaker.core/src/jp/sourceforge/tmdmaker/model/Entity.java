@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ public class Entity extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		return new ReusedIdentifier(this.identifier, keyModels.getSarogateKey());
+		return new ReusedIdentifier(this.identifier, keyModels.getSurrogateKey());
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class Entity extends AbstractEntityModel {
 		int i = getIdentifier().getName().length();
 		return Math.max(super.calcurateMaxIdentifierRefSize(), i);
 	}
-	
+
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);

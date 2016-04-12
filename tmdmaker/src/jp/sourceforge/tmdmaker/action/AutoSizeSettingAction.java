@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,17 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
-import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
-import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Constraint;
-import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.Constraint;
+import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
 
 /**
  * モデルのサイズを自動調整に設定するAction
@@ -32,7 +34,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
-	public static final String ID = "AutoSizeSettingAction";
+	public static final String ID = "AutoSizeSettingAction"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -42,7 +44,7 @@ public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 	 */
 	public AutoSizeSettingAction(IWorkbenchPart part) {
 		super(part);
-		setText("サイズの自動調整");
+		setText(Messages.AutomaticSizeAdjustment);
 		setId(ID);
 	}
 
@@ -55,7 +57,7 @@ public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 	@Override
 	public void run() {
 		CompoundCommand ccommand = new CompoundCommand();
-		for (AbstractEntityModel m : getSelectedModelList()) {
+		for (ConnectableElement m : getSelectedElementList()) {
 			Constraint constraint = m.getConstraint().getCopy();
 			constraint.height = -1;
 			constraint.width = -1;
@@ -68,13 +70,33 @@ public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 
 	@Override
 	protected boolean isTargetModel(Object selection) {
-		if (super.isTargetModel(selection)) {
-			return !(selection instanceof SubsetTypeEditPart)
-					&& !(selection instanceof MultivalueAndAggregatorEditPart)
-					&& !(selection instanceof LaputaEditPart);
+		if (selection instanceof AbstractModelEditPart) {
+			return ((AbstractModelEditPart<?>) selection).canAutoSize();
 		} else {
 			return false;
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.action.AbstractMultipleSelectionAction#calculateEnabled()
+	 */
+	@Override
+	protected boolean calculateEnabled() {
+		return getSelectedElementList().size() >= 1;
+	}
+
+	protected List<ConnectableElement> getSelectedElementList() {
+		List<ConnectableElement> list = new ArrayList<ConnectableElement>();
+		for (Object selection : getSelectedObjects()) {
+			if (isTargetModel(selection)) {
+				Object model = ((AbstractModelEditPart<?>) selection).getModel();
+				if (model instanceof ConnectableElement) {
+					list.add((ConnectableElement) model);
+				}
+			}
+		}
+		return list;
+	}
 }

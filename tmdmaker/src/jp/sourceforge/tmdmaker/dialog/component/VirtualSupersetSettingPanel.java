@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 
 import org.eclipse.swt.SWT;
@@ -27,6 +28,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * Virtualsuperset setting panel.
+ * 
+ * @author nakag
+ *
+ */
 public class VirtualSupersetSettingPanel extends Composite {
 	private boolean applyAttribute = false;
 	private Label virtualSupersetNameLabel = null;
@@ -34,6 +41,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 	private Composite typeComposite = null;
 	private Button sameRadioButton = null;
 	private Button differentRadioButton = null;
+
 	public VirtualSupersetSettingPanel(Composite parent, int style) {
 		super(parent, style);
 		initialize();
@@ -49,8 +57,9 @@ public class VirtualSupersetSettingPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		virtualSupersetNameLabel = new Label(this, SWT.NONE);
-		virtualSupersetNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		virtualSupersetNameLabel.setText("みなしスーパーセット名");
+		virtualSupersetNameLabel
+				.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		virtualSupersetNameLabel.setText(Messages.VirtualSupersetName);
 		virtualSupersetNameText = new Text(this, SWT.BORDER);
 		virtualSupersetNameText.setLayoutData(gridData);
 		createTypeComposite();
@@ -59,7 +68,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 	}
 
 	/**
-	 * This method initializes typeComposite	
+	 * This method initializes typeComposite
 	 *
 	 */
 	private void createTypeComposite() {
@@ -84,23 +93,21 @@ public class VirtualSupersetSettingPanel extends Composite {
 		typeComposite.setLayoutData(gridData1);
 		typeComposite.setLayout(gridLayout1);
 		sameRadioButton = new Button(typeComposite, SWT.RADIO);
-		sameRadioButton.setText("アトリビュートに適用");
+		sameRadioButton.setText(Messages.ApplyAttribute);
 		sameRadioButton.setLayoutData(gridData2);
-		sameRadioButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						applyAttribute = true;
-					}
-				});
+		sameRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				applyAttribute = true;
+			}
+		});
 		differentRadioButton = new Button(typeComposite, SWT.RADIO);
-		differentRadioButton.setText("エンティティに適用");
+		differentRadioButton.setText(Messages.ApplyEntity);
 		differentRadioButton.setLayoutData(gridData5);
-		differentRadioButton
-				.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-					public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-						applyAttribute = false;
-					}
-				});
+		differentRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				applyAttribute = false;
+			}
+		});
 	}
 
 	public void initializeValue(VirtualSuperset superset) {
@@ -116,6 +123,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 			sameRadioButton.setSelection(applyAttribute);
 		}
 	}
+
 	public String getVirtualSupersetName() {
 		return virtualSupersetNameText.getText();
 	}
@@ -126,11 +134,13 @@ public class VirtualSupersetSettingPanel extends Composite {
 	public boolean isApplyAttributeSelected() {
 		return applyAttribute;
 	}
+
 	public void addNameModifyListener(ModifyListener listener) {
 		virtualSupersetNameText.addModifyListener(listener);
 	}
+
 	public void removeNameModifyListener(ModifyListener listener) {
 		virtualSupersetNameText.removeModifyListener(listener);
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+}

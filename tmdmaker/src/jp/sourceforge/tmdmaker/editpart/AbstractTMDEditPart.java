@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,23 +74,32 @@ public abstract class AbstractTMDEditPart<T extends ModelElement> extends Abstra
 	 */
 	@Override
 	public void performRequest(Request req) {
-		logger.debug(getClass().toString() + req.getType());
-		if (req.getType().equals(RequestConstants.REQ_OPEN)) {
+		Object requestType = req.getType();
+		logger.debug(getClass() + " " + requestType);
+		if (requestType.equals(RequestConstants.REQ_OPEN)) {
 			onDoubleClicked();
+		} else if (requestType.equals(RequestConstants.REQ_DIRECT_EDIT)) {
+			onDirectEdit();
 		} else {
 			super.performRequest(req);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public T getModel(){
-		return (T)super.getModel();
+	public T getModel() {
+		return (T) super.getModel();
 	}
-	
+
 	/**
 	 * ダブルクリック時の処理をサブクラスで実装する
 	 */
 	protected abstract void onDoubleClicked();
 
+	/**
+	 * ダイレクトエディット時の処理（必要なサブクラスのみ実装）
+	 */
+	protected void onDirectEdit() {
+
+	}
 }

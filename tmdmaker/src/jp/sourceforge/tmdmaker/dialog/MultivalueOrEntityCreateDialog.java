@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import jp.sourceforge.tmdmaker.Messages;
+
 /**
  * 多値のORのエンティティ作成ダイアログ
  * 
@@ -51,6 +53,7 @@ public class MultivalueOrEntityCreateDialog extends Dialog {
 			}
 		}
 	};
+	private GridData gridData_1;
 
 	/**
 	 * コンストラクタ
@@ -69,19 +72,20 @@ public class MultivalueOrEntityCreateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("MO作成");
+		getShell().setText(Messages.CreateMultivalueOr);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(2, false));
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gridData);
 		Label label = new Label(composite, SWT.NULL);
-		label.setText("種別名");
+		label.setText(Messages.MultivalueName);
 		typeName = new Text(composite, SWT.BORDER);
 		typeName.addModifyListener(listener);
-		gridData = new GridData(GridData.FILL_BOTH);
-		gridData.widthHint = 100;
-		typeName.setLayoutData(gridData);
+		gridData_1 = new GridData(GridData.FILL_BOTH);
+		gridData_1.grabExcessVerticalSpace = false;
+		gridData_1.widthHint = 100;
+		typeName.setLayoutData(gridData_1);
 		composite.pack();
 		return composite;
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.action;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.CommonAttributeDialog;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.IAttribute;
@@ -36,7 +37,7 @@ public class CommonAttributeSettingAction extends Action {
 	/** ビューワ */
 	private GraphicalViewer viewer;
 	/** ID */
-	public static final String ID = "CommonAtributeSettingAction";
+	public static final String ID = "CommonAtributeSettingAction"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -47,7 +48,7 @@ public class CommonAttributeSettingAction extends Action {
 	public CommonAttributeSettingAction(GraphicalViewer viewer) {
 		super();
 		this.viewer = viewer;
-		setText("共通属性定義");
+		setText(Messages.CommonAttributeSettings);
 		setId(ID);
 	}
 
@@ -60,14 +61,11 @@ public class CommonAttributeSettingAction extends Action {
 	@Override
 	public void run() {
 		Diagram diagram = (Diagram) viewer.getContents().getModel();
-		CommonAttributeDialog dialog = new CommonAttributeDialog(viewer
-				.getControl().getShell(), diagram.getCommonAttributes());
+		CommonAttributeDialog dialog = new CommonAttributeDialog(viewer.getControl().getShell(),
+				diagram.getCommonAttributes());
 		if (dialog.open() == Dialog.OK) {
-			viewer.getEditDomain()
-					.getCommandStack()
-					.execute(
-							new CommonAttributeEditCommand(diagram, dialog
-									.getEditedAttributes()));
+			viewer.getEditDomain().getCommandStack()
+					.execute(new CommonAttributeEditCommand(diagram, dialog.getEditedAttributes()));
 		}
 	}
 
@@ -90,8 +88,7 @@ public class CommonAttributeSettingAction extends Action {
 		 * @param attributes
 		 *            共通属性
 		 */
-		public CommonAttributeEditCommand(Diagram diagram,
-				List<IAttribute> attributes) {
+		public CommonAttributeEditCommand(Diagram diagram, List<IAttribute> attributes) {
 			this.diagram = diagram;
 			this.oldAttributes = diagram.getCommonAttributes();
 			this.newAttributes = attributes;

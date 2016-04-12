@@ -173,4 +173,34 @@ public class VirtualSuperset extends AbstractEntityModel {
 	public boolean hasSubset() {
 		return getVirtualSupersetType() != null;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateSubset()
+	 */
+	@Override
+	public boolean canCreateSubset() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateMultivalueOr()
+	 */
+	@Override
+	public boolean canCreateMultivalueOr() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateVirtualEntity()
+	 */
+	@Override
+	public boolean canCreateVirtualEntity() {
+		return false;
+	}
 }

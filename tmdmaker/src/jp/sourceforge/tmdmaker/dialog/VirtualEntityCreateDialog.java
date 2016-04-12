@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -57,6 +58,7 @@ public class VirtualEntityCreateDialog extends Dialog {
 	};
 	/** 種別設定用 */
 	private Combo typeCombo;
+	private GridData gridData_1;
 
 	/**
 	 * コンストラクタ
@@ -75,24 +77,31 @@ public class VirtualEntityCreateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("みなしエンティティ作成");
+		getShell().setText(Messages.CreateVirtualEntity);
 
 		Composite composite = new Composite(parent, SWT.NULL);
-		composite.setLayout(new GridLayout(3, false));
+		GridLayout gl_composite = new GridLayout(3, false);
+		gl_composite.verticalSpacing = 3;
+		gl_composite.horizontalSpacing = 3;
+		composite.setLayout(gl_composite);
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gridData);
 		Label label = new Label(composite, SWT.NULL);
-		label.setText("みなしエンティティ名");
-		gridData = new GridData(GridData.FILL_BOTH);
-		gridData.widthHint = 100;
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		label.setText(Messages.VirtualEntityName);
+		gridData_1 = new GridData(GridData.FILL_BOTH);
+		gridData_1.verticalAlignment = SWT.CENTER;
+		gridData_1.grabExcessVerticalSpace = false;
+		gridData_1.widthHint = 100;
 		virtualEntityName = new Text(composite, SWT.BORDER);
-		virtualEntityName.setLayoutData(gridData);
+		virtualEntityName.setLayoutData(gridData_1);
 		virtualEntityName.addModifyListener(listener);
 		
 		typeCombo = new Combo(composite, SWT.READ_ONLY);
-		typeCombo.add("通常");
-		typeCombo.add("リソースタイプ");
-		typeCombo.add("イベントタイプ");
+		typeCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		typeCombo.add(Messages.Normal);
+		typeCombo.add(Messages.ResourceType);
+		typeCombo.add(Messages.EventType);
 		typeCombo.select(0);
 		
 		composite.pack();

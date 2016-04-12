@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,8 @@ public enum EntityType {
 	MA("多値のAND", "MA"),
 	/** みなしエンティティ */
 	VE("みなしエンティティ", "VE"),
-	LAPUTA("ラピュタ", "");
+	LAPUTA("ラピュタ", ""),
+	TURBO("ターボファイル", "TB");
 	
 	/** ダイアグラム表示用 */
 	private String label;

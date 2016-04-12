@@ -128,6 +128,7 @@ public final class SVGImage extends AbstractRenderedImage {
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(BufferedImage.class)) {
 			BufferedImage buffImg = null;

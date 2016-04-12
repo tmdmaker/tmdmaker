@@ -39,21 +39,20 @@ import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * みなしスーパーセットのコントローラ
- * 
+ *
  * @author nakaG
- * 
+ *
  */
 public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<VirtualSuperset> {
-	
+
 	/**
 	 * コンストラクタ
 	 */
-	public VirtualSupersetEditPart(VirtualSuperset entity)
-	{
+	public VirtualSupersetEditPart(VirtualSuperset entity) {
 		super();
 		setModel(entity);
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -78,7 +77,7 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 	protected ModelAppearance getAppearance() {
 		return ModelAppearance.SUPERSET_COLOR;
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -88,15 +87,11 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 	@Override
 	protected void onDoubleClicked() {
 		AbstractEntityModel entity = getModel();
-		SupersetEditDialog dialog = new SupersetEditDialog(getViewer()
-				.getControl().getShell(), entity);
+		SupersetEditDialog dialog = new SupersetEditDialog(getViewer().getControl().getShell(),
+				entity);
 		if (dialog.open() == Dialog.OK) {
-			getViewer()
-					.getEditDomain()
-					.getCommandStack()
-					.execute(
-							new ModelEditCommand(entity, dialog
-									.getEditedValue()));
+			getViewer().getEditDomain().getCommandStack()
+					.execute(new ModelEditCommand(entity, dialog.getEditedValue()));
 		}
 	}
 
@@ -114,10 +109,8 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new VirtualSupersetComponentEditPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new ReconnectableNodeEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new VirtualSupersetComponentEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ReconnectableNodeEditPolicy());
 
 	}
 
@@ -127,8 +120,7 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 	 * @author nakaG
 	 * 
 	 */
-	private static class VirtualSupersetComponentEditPolicy extends
-			ComponentEditPolicy {
+	private static class VirtualSupersetComponentEditPolicy extends ComponentEditPolicy {
 		/**
 		 * 
 		 * {@inheritDoc}
@@ -142,8 +134,7 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 			VirtualSupersetType aggregator = model.getVirtualSupersetType();
 
 			CompoundCommand ccommand = new CompoundCommand();
-			ccommand.add(new VirtualSupersetTypeDeleteCommand(diagram,
-					aggregator));
+			ccommand.add(new VirtualSupersetTypeDeleteCommand(diagram, aggregator));
 			ccommand.add(new ModelDeleteCommand(diagram, model));
 			return ccommand.unwrap();
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
@@ -90,7 +91,7 @@ public class VirtualEntityEditDialog extends ModelEditDialog<VirtualEntity> {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("みなしエンティティ編集");
+		getShell().setText(Messages.EditVirtualEntity);
 		Composite composite = new Composite(parent, SWT.NULL);
 
 		GridLayout gridLayout = new GridLayout();
@@ -102,9 +103,9 @@ public class VirtualEntityEditDialog extends ModelEditDialog<VirtualEntity> {
 		panel1.setLayoutData(gridData);
 
 		typeCombo = new Combo(composite, SWT.READ_ONLY);
-		typeCombo.add("通常");
-		typeCombo.add("リソースタイプ");
-		typeCombo.add("イベントタイプ");
+		typeCombo.add(Messages.Normal);
+		typeCombo.add(Messages.ResourceType);
+		typeCombo.add(Messages.EventType);
 		typeCombo.addSelectionListener(new SelectionAdapter() {
 
 			@Override

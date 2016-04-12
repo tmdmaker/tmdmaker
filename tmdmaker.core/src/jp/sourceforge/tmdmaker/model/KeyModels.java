@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public class KeyModels implements Iterable<KeyModel> {
 	/** マスターキーとして指定したキーモデル */
 	private KeyModel masterKey;
 	/** サロゲートキー */
-	private SarogateKey sarogateKey;
+	private SurrogateKey surrogateKey;
 
 	/**
 	 * @return the masterKey
@@ -144,21 +144,21 @@ public class KeyModels implements Iterable<KeyModel> {
 	}
 
 	/**
-	 * @return the sarogateKey
+	 * @return the surrogateKey
 	 */
-	public SarogateKey getSarogateKey() {
-		if (sarogateKey == null) {
-			sarogateKey = new SarogateKey();
+	public SurrogateKey getSurrogateKey() {
+		if (surrogateKey == null) {
+			surrogateKey = new SurrogateKey();
 		}
-		return sarogateKey;
+		return surrogateKey;
 	}
 
 	/**
-	 * @param sarogateKey
-	 *            the sarogateKey to set
+	 * @param surrogateKey
+	 *            the surrogateKey to set
 	 */
-	protected void setSarogateKey(SarogateKey sarogateKey) {
-		this.sarogateKey = sarogateKey;
+	protected void setSurrogateKey(SurrogateKey surrogateKey) {
+		this.surrogateKey = surrogateKey;
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class KeyModels implements Iterable<KeyModel> {
 	 */
 	public void copyTo(KeyModels to) {
 		// to.setMasterKey(getMasterKey());
-		to.setSarogateKey(getSarogateKey());
+		to.setSurrogateKey(getSurrogateKey());
 		for (KeyModel k : this) {
 			to.add(k.getCopy());
 		}

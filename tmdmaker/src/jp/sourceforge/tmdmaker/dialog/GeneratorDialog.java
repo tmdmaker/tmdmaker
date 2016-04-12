@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,6 @@ package jp.sourceforge.tmdmaker.dialog;
 
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,6 +30,10 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.dialog.component.ModelSelectPanel;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 /**
  * ダイアグラムを元に何かを生成する際のダイアログ
@@ -51,11 +52,12 @@ public class GeneratorDialog extends Dialog {
 
 	/**
 	 * コンストラクタ
-	 * @param parentShell 親
+	 * 
+	 * @param parentShell
+	 *            親
 	 */
-	public GeneratorDialog(Shell parentShell, String defaultSavePath,
-			String generatorName, List<AbstractEntityModel> selectModels,
-			List<AbstractEntityModel> notSelectModels) {
+	public GeneratorDialog(Shell parentShell, String defaultSavePath, String generatorName,
+			List<AbstractEntityModel> selectModels, List<AbstractEntityModel> notSelectModels) {
 		super(parentShell);
 		this.defaultSavePath = defaultSavePath;
 		this.generatorName = generatorName;
@@ -79,7 +81,7 @@ public class GeneratorDialog extends Dialog {
 
 		GridData gridData = new GridData();
 		Label pathLabel = new Label(composite, SWT.NONE);
-		pathLabel.setText("出力先");
+		pathLabel.setText(Messages.Destination);
 		gridData.horizontalSpan = 2;
 		pathLabel.setLayoutData(gridData);
 
@@ -92,7 +94,7 @@ public class GeneratorDialog extends Dialog {
 		// savePathInputText.setEnabled(false);
 
 		Button button = new Button(composite, SWT.NULL);
-		button.setText("出力先変更");
+		button.setText(Messages.Redirection);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			/**
@@ -102,10 +104,8 @@ public class GeneratorDialog extends Dialog {
 			 */
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
 				super.widgetSelected(e);
-				DirectoryDialog dialog = new DirectoryDialog(getShell(),
-						SWT.SAVE);
+				DirectoryDialog dialog = new DirectoryDialog(getShell(), SWT.SAVE);
 				String rootDir = dialog.open();
 				if (rootDir != null) {
 					savePathInputText.setText(rootDir);
@@ -113,8 +113,6 @@ public class GeneratorDialog extends Dialog {
 			}
 
 		});
-		gridData = new GridData();
-		button.setLayoutData(gridData);
 
 		gridData = new GridData();
 		Label filler = new Label(composite, SWT.NONE);
@@ -123,7 +121,7 @@ public class GeneratorDialog extends Dialog {
 
 		gridData = new GridData();
 		Label modelLabel = new Label(composite, SWT.NONE);
-		modelLabel.setText("出力モデル");
+		modelLabel.setText(Messages.OutputModel);
 		gridData.horizontalSpan = 2;
 		modelLabel.setLayoutData(gridData);
 
@@ -162,5 +160,4 @@ public class GeneratorDialog extends Dialog {
 	public List<AbstractEntityModel> getSelectedModels() {
 		return selectedModels;
 	}
-
 }

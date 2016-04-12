@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.EntityNameAndIdentifierNameAndTypeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
@@ -90,15 +91,15 @@ public class EntityEditDialog extends ModelEditDialog<Entity> {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("エンティティ編集");
+		getShell().setText(Messages.EditEntity);
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite,
-				SWT.NULL, getEditModel());
+		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite, SWT.NULL,
+				getEditModel());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
@@ -137,11 +138,10 @@ public class EntityEditDialog extends ModelEditDialog<Entity> {
 		this.editedValue = entity.createEditedModel();
 		super.okPressed();
 	}
-	
+
 	@Override
-	protected EditEntity getEditModel()
-	{
-		return (EditEntity)entity;
+	protected EditEntity getEditModel() {
+		return (EditEntity) entity;
 	}
 
 }

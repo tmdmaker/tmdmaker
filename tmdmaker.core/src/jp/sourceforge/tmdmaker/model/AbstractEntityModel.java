@@ -88,7 +88,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param reusedIdentifieres
 	 *            the reusedIdentifieres to set
 	 */
-	public void setReusedIdentifieres(Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres) {
+	public void setReusedIdentifieres(
+			Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres) {
 		this.reusedIdentifieres = reusedIdentifieres;
 	}
 
@@ -226,12 +227,14 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @return VirtualSupersetType。存在しない場合はnullを返す。
 	 */
 	public VirtualSupersetType findVirtualSupersetType() {
-		List<AbstractConnectionModel> results = findRelationshipFromSourceConnections(Entity2VirtualSupersetTypeRelationship.class);
+		List<AbstractConnectionModel> results = findRelationshipFromSourceConnections(
+				Entity2VirtualSupersetTypeRelationship.class);
 		if (results.size() != 0) {
 			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results.get(0))
 					.getTarget();
 		}
-		results = findRelationshipFromTargetConnections(Entity2VirtualSupersetTypeRelationship.class);
+		results = findRelationshipFromTargetConnections(
+				Entity2VirtualSupersetTypeRelationship.class);
 		if (results.size() != 0) {
 			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results.get(0))
 					.getTarget();
@@ -467,14 +470,6 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		this.keyModels = keyModels;
 	}
 
-	public void move(int x, int y) {
-		Constraint oldPosition = getConstraint();
-		Constraint newPosition = oldPosition.getCopy();
-		newPosition.x = x;
-		newPosition.y = y;
-		setConstraint(newPosition);
-	}
-
 	public int calcurateMaxIdentifierRefSize() {
 		int rx = 0;
 		final int RMARK_SIZE = 3;
@@ -572,4 +567,35 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			getDiagram().removeChild(subsetType);
 		}
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#canCreateSubset()
+	 */
+	@Override
+	public boolean canCreateSubset() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#canCreateMultivalueOr()
+	 */
+	@Override
+	public boolean canCreateMultivalueOr() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#canCreateVirtualEntity()
+	 */
+	@Override
+	public boolean canCreateVirtualEntity() {
+		return true;
+	}
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.dialog.component;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
@@ -113,18 +114,17 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 		gridData.widthHint = -1;
 		gridData.verticalAlignment = GridData.CENTER;
 		nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
-		nameAutoCreateCheckBox.setText("個体指定子からエンティティ名等を自動生成");
+		nameAutoCreateCheckBox.setText(Messages.AutomaticGenerateEntityName);
 		nameAutoCreateCheckBox.setLayoutData(gridData9);
 		typeLabel = new Label(this, SWT.NONE);
-		typeLabel.setText("類別");
+		typeLabel.setText(Messages.EntityType);
 		typeLabel.setLayoutData(gridData10);
 		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("エンティティ名");
+		nameLabel.setText(Messages.EntityName);
 		nameText = new Text(this, SWT.BORDER);
 		nameText.setLayoutData(gridData1);
 		nameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
 			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
-				System.out.println("nameText#modifyText()"); 
 				Text t = (Text) e.widget;
 				entity.setName(t.getText());
 			}
@@ -142,12 +142,11 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 			}
 		});
 		identifierLabel = new Label(this, SWT.NONE);
-		identifierLabel.setText("個体指定子");
+		identifierLabel.setText(Messages.Identifier);
 		identifierText = new Text(this, SWT.BORDER);
 		identifierText.setLayoutData(gridData);
 		identifierText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
 			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
-				System.out.println("identifierText#modifyText()");
 				Text t = (Text) e.widget;
 				entity.setIdentifierName(t.getText());
 				if (nameAutoCreateCheckBox.getSelection()) {
@@ -159,7 +158,7 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 			}
 		});
 		descButton = new Button(this, SWT.NONE);
-		descButton.setText("詳細");
+		descButton.setText(Messages.DescriptionButton);
 		descButton.setLayoutData(gridData11);
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -199,10 +198,10 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 			public void widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent e) {
 			}
 		});
-		typeCombo.add("リソース");
-		typeCombo.add("イベント");
+		typeCombo.add(Messages.Resource);
+		typeCombo.add(Messages.Event);
 		if (entity.isLatuta()) {
-			typeCombo.add("不明");
+			typeCombo.add(Messages.Laputa);
 		}
 	}
 
@@ -230,4 +229,4 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 		}
 	}
 
-} // @jve:decl-index=0:visual-constraint="-17,-17"
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.eclipse.gef.commands.Command;
  * @author nakaG
  * 
  */
-public class ModelAddCommand extends Command {
+public class EntityModelAddCommand extends Command {
 	/** 親 */
 	private Diagram diagram;
 	/** 作成対象 */
@@ -36,7 +36,7 @@ public class ModelAddCommand extends Command {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param diagram
 	 *            親
 	 * @param x
@@ -44,7 +44,24 @@ public class ModelAddCommand extends Command {
 	 * @param y
 	 *            Y座標
 	 */
-	public ModelAddCommand(Diagram diagram, int x, int y) {
+	public EntityModelAddCommand(Diagram diagram, AbstractEntityModel model, int x, int y) {
+		this.diagram = diagram;
+		this.model = model;
+		this.x = x;
+		this.y = y;
+	}
+
+	/**
+	 * コンストラクタ
+	 *
+	 * @param diagram
+	 *            親
+	 * @param x
+	 *            X座標
+	 * @param y
+	 *            Y座標
+	 */
+	public EntityModelAddCommand(Diagram diagram, int x, int y) {
 		this.diagram = diagram;
 		this.x = x;
 		this.y = y;

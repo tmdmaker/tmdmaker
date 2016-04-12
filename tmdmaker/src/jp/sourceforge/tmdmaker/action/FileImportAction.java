@@ -21,7 +21,7 @@ import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.importer.FileImporter;
-import jp.sourceforge.tmdmaker.ui.command.ModelAddCommand;
+import jp.sourceforge.tmdmaker.ui.command.EntityModelAddCommand;
 
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Point;
@@ -60,8 +60,8 @@ public class FileImportAction extends Action {
 	 */
 	@Override
 	public void run() {
-		Viewport viewport = (Viewport) ((FreeformGraphicalRootEditPart) viewer
-				.getRootEditPart()).getFigure();
+		Viewport viewport = (Viewport) ((FreeformGraphicalRootEditPart) viewer.getRootEditPart())
+				.getFigure();
 		Point p = viewport.getViewLocation();
 		FileDialog dialog = new FileDialog(viewer.getControl().getShell());
 
@@ -70,21 +70,19 @@ public class FileImportAction extends Action {
 			try {
 				List<AbstractEntityModel> l = importer.importEntities(filePath);
 
-				viewer.getEditDomain().getCommandStack()
-						.execute(getCreateCommands(l, p));
+				viewer.getEditDomain().getCommandStack().execute(getCreateCommands(l, p));
 			} catch (Throwable t) {
 				TMDPlugin.showErrorDialog(t);
 			}
 		}
 	}
 
-
 	private Command getCreateCommands(List<AbstractEntityModel> list, Point p) {
 		CompoundCommand ccommand = new CompoundCommand();
 		Diagram diagram = (Diagram) viewer.getContents().getModel();
 		int i = 0;
 		for (AbstractEntityModel model : list) {
-			ModelAddCommand c = new ModelAddCommand(diagram, p.x + i, p.y + i);
+			EntityModelAddCommand c = new EntityModelAddCommand(diagram, p.x + i, p.y + i);
 			i += 5;
 			c.setModel(model);
 			ccommand.add(c);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.DatabaseSelectDialog;
 import jp.sourceforge.tmdmaker.model.Diagram;
 
@@ -35,7 +36,7 @@ public class DatabaseSelectAction extends Action {
 	/** ビューワ */
 	private GraphicalViewer viewer;
 	/** ID */
-	public static final String ID = "DatabaseSelectAction";
+	public static final String ID = "DatabaseSelectAction"; //$NON-NLS-1$
 	/** logging */
 	public static Logger logger;
 
@@ -48,7 +49,7 @@ public class DatabaseSelectAction extends Action {
 	public DatabaseSelectAction(GraphicalViewer viewer) {
 		super();
 		this.viewer = viewer;
-		setText("データベースを選択");
+		setText(Messages.SelectDatabase);
 		setId(ID);
 		logger = LoggerFactory.getLogger(getClass());
 	}
@@ -60,21 +61,18 @@ public class DatabaseSelectAction extends Action {
 	 */
 	@Override
 	public void run() {
-		logger.debug("database select");
+		logger.debug("database select"); //$NON-NLS-1$
 		try {
 			Diagram diagram = (Diagram) viewer.getContents().getModel();
 
-			DatabaseSelectDialog dialog = new DatabaseSelectDialog(viewer
-					.getControl().getShell(), diagram.getDatabaseName());
+			DatabaseSelectDialog dialog = new DatabaseSelectDialog(viewer.getControl().getShell(),
+					diagram.getDatabaseName());
 			if (dialog.open() == Dialog.OK) {
-				viewer.getEditDomain()
-						.getCommandStack()
-						.execute(
-								new DatabaseChangeCommand(diagram, dialog
-										.getSelectedDatabaseName()));
+				viewer.getEditDomain().getCommandStack().execute(
+						new DatabaseChangeCommand(diagram, dialog.getSelectedDatabaseName()));
 			}
 		} catch (Throwable t) {
-			logger.warn("exception when database select.", t);
+			logger.warn("exception when database select.", t); //$NON-NLS-1$
 		}
 	}
 

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.tmdmaker.generate.Activator;
-import jp.sourceforge.tmdmaker.generate.HtmlGeneratorUtils;
+import jp.sourceforge.tmdmaker.generate.internal.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
 import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException;

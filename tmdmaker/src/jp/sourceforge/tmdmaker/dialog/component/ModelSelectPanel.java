@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 
 import java.util.ArrayList;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 import org.eclipse.swt.SWT;
@@ -30,13 +31,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 
 /**
+ * Model select panel.
  * 
- * @author nakaG
+ * @author nakag
  *
  */
 public class ModelSelectPanel extends Composite {
-	private java.util.List<AbstractEntityModel> selectModels = null;  //  @jve:decl-index=0:
-	private java.util.List<AbstractEntityModel> notSelectModels = null;  //  @jve:decl-index=0:
+	private java.util.List<AbstractEntityModel> selectModels = null;
+	private java.util.List<AbstractEntityModel> notSelectModels = null;
 	private List selectedList = null;
 	private List candidateList = null;
 	private Label selectedLabel = null;
@@ -70,12 +72,12 @@ public class ModelSelectPanel extends Composite {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		selectedLabel = new Label(this, SWT.NONE);
-		selectedLabel.setText("選択");
+		selectedLabel.setText(Messages.Select);
 		Label filler = new Label(this, SWT.NONE);
 		filler.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		candidateLabel = new Label(this, SWT.NONE);
-		candidateLabel.setText("未選択");
-		selectedList = new List(this, SWT.MULTI|SWT.BORDER|SWT.V_SCROLL|SWT.H_SCROLL);
+		candidateLabel.setText(Messages.Unselect);
+		selectedList = new List(this, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		selectedList.setLayoutData(gridData);
 		selectedList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
@@ -87,7 +89,7 @@ public class ModelSelectPanel extends Composite {
 			}
 		});
 		createButtonsComposite();
-		candidateList = new List(this, SWT.MULTI|SWT.BORDER|SWT.V_SCROLL|SWT.H_SCROLL);
+		candidateList = new List(this, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		candidateList.setLayoutData(gridData1);
 		candidateList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
@@ -101,11 +103,14 @@ public class ModelSelectPanel extends Composite {
 		this.setLayout(gridLayout);
 		this.setSize(new Point(409, 159));
 	}
-	public void initializeValue(java.util.List<AbstractEntityModel> selectModels, java.util.List<AbstractEntityModel> notSelectModels) {
+
+	public void initializeValue(java.util.List<AbstractEntityModel> selectModels,
+			java.util.List<AbstractEntityModel> notSelectModels) {
 		this.selectModels = selectModels;
 		this.notSelectModels = notSelectModels;
 		updateList();
 	}
+
 	private void updateList() {
 		selectedList.removeAll();
 		candidateList.removeAll();
@@ -114,7 +119,7 @@ public class ModelSelectPanel extends Composite {
 		}
 		for (AbstractEntityModel m : this.notSelectModels) {
 			candidateList.add(m.getName());
-		}		
+		}
 	}
 
 	/**
@@ -132,7 +137,7 @@ public class ModelSelectPanel extends Composite {
 	}
 
 	/**
-	 * This method initializes buttonsComposite	
+	 * This method initializes buttonsComposite
 	 *
 	 */
 	private void createButtonsComposite() {
@@ -149,7 +154,7 @@ public class ModelSelectPanel extends Composite {
 		buttonsComposite.setLayoutData(gridData6);
 		buttonsComposite.setLayout(rowLayout);
 		selectButton = new Button(buttonsComposite, SWT.NONE);
-		selectButton.setText("<");
+		selectButton.setText("<"); //$NON-NLS-1$
 		selectButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				int[] selectedIndices = candidateList.getSelectionIndices();
@@ -167,7 +172,7 @@ public class ModelSelectPanel extends Composite {
 		});
 
 		removeButton = new Button(buttonsComposite, SWT.NONE);
-		removeButton.setText(">");
+		removeButton.setText(">"); //$NON-NLS-1$
 		removeButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				int[] selectedIndices = selectedList.getSelectionIndices();
@@ -185,7 +190,7 @@ public class ModelSelectPanel extends Composite {
 		});
 
 		selectAllButton = new Button(buttonsComposite, SWT.NONE);
-		selectAllButton.setText("<<");
+		selectAllButton.setText("<<"); //$NON-NLS-1$
 		selectAllButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				selectModels.addAll(notSelectModels);
@@ -195,7 +200,7 @@ public class ModelSelectPanel extends Composite {
 		});
 
 		removeAllButton = new Button(buttonsComposite, SWT.NONE);
-		removeAllButton.setText(">>");
+		removeAllButton.setText(">>"); //$NON-NLS-1$
 		removeAllButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				notSelectModels.addAll(selectModels);
@@ -205,5 +210,5 @@ public class ModelSelectPanel extends Composite {
 		});
 
 	}
-	
-}  //  @jve:decl-index=0:visual-constraint="64,37"
+
+}

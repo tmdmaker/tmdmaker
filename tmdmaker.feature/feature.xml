@@ -2,21 +2,37 @@
 <feature
       id="tmdmaker.feature"
       label="TMD-Maker Plug-in"
-      version="0.2.10.qualifier"
+      version="0.3.0.qualifier"
       provider-name="TMD-Maker Project"
       plugin="tmdmaker">
 
-   <description url="http://sourceforge.jp/projects/tmdmaker/">
+   <description url="http://tmdmaker.osdn.jp">
       TMD-Maker Plugin.
    </description>
 
-   <copyright url="http://tmdmaker.sourceforge.jp/">
-      (c) 2009-2015,TMD-Maker Project.
+   <copyright url="http://tmdmaker.osdn.jp">
+      TMD-Maker Plugin.
    </copyright>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">
       Apache License Version 2.0
    </license>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.core.expressions"/>
+      <import plugin="tmdmaker.imagegenerator" version="0.2.6" match="greaterOrEqual"/>
+      <import plugin="tmdmaker.core" version="0.2.9" match="greaterOrEqual"/>
+      <import plugin="tmdmaker.ddlgenerator" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="tmdmaker.htmlgenerator" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="tmdmaker" version="0.2.10" match="greaterOrEqual"/>
+   </requires>
 
    <plugin
          id="tmdmaker"
@@ -79,6 +95,14 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="tmdmaker.nl_ja"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>

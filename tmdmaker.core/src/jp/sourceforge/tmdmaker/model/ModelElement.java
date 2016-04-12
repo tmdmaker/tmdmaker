@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author nakaG
  */
 @SuppressWarnings("serial")
-public class ModelElement implements Serializable,IAcceptor {
+public class ModelElement implements Serializable, IAcceptor {
 	/** 名称プロパティ定数 */
 	public static final String PROPERTY_NAME = "_property_name";
 	/** 領域プロパティ定数 */
@@ -57,8 +57,7 @@ public class ModelElement implements Serializable,IAcceptor {
 	 * @param newValue
 	 *            変更後の値
 	 */
-	public void firePropertyChange(String propName, Object oldValue,
-			Object newValue) {
+	public void firePropertyChange(String propName, Object oldValue, Object newValue) {
 		listeners.firePropertyChange(propName, oldValue, newValue);
 	}
 
@@ -104,8 +103,40 @@ public class ModelElement implements Serializable,IAcceptor {
 		this.constraint = constraint;
 		firePropertyChange(PROPERTY_CONSTRAINT, oldValue, constraint);
 	}
-	
+
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	public void move(int x, int y) {
+		Constraint oldPosition = getConstraint();
+		Constraint newPosition = oldPosition.getCopy();
+		newPosition.x = x;
+		newPosition.y = y;
+		setConstraint(newPosition);
+	}
+	/**
+	 * サブセットを作成可能か？
+	 *
+	 * @return サブセットを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateSubset() {
+		return false;
+	}
+	/**
+	 * 多値のORを作成可能か？
+	 *
+	 * @return 多値のORを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateMultivalueOr() {
+		return false;
+	}
+	/**
+	 * みなしエンティティを作成可能か？
+	 *
+	 * @return みなしエンティティを作成可能な場合はtrueを返す
+	 */
+	public boolean canCreateVirtualEntity() {
+		return false;
 	}
 }

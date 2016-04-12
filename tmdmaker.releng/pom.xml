@@ -3,19 +3,26 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tmdmaker</groupId>
 	<artifactId>tmdmaker.releng</artifactId>
-	<version>0.2.10-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>0.22.0</tycho-version>
+		<tycho-version>0.24.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<release-version>0.2.10</release-version>
+		<release-version>0.3.0</release-version>
 		<os-jvm-flags />
-		<jacoco-version>0.7.2.201409121644</jacoco-version>
-		<antrun-version>1.7</antrun-version>
-		<project-url>http://tmdmaker.sourceforge.jp/</project-url>
+		<jacoco-version>0.7.6.201602180812</jacoco-version>
+		<antrun-version>1.8</antrun-version>
+		<ant-contrib-version>20020829</ant-contrib-version>
+		<docbkx-maven-plugin-version>2.0.16</docbkx-maven-plugin-version>
+		<docbook-xml-verson>5.0-all</docbook-xml-verson>
+		<maven-dependency-plugin-version>2.10</maven-dependency-plugin-version>
+		<project-url>http://tmdmaker.osdn.jp/</project-url>
 	</properties>
-
+	<!-- <repositories> <repository> <id>eclipse-mars</id> <url>http://download.eclipse.org/releases/mars</url> 
+		<layout>p2</layout> </repository> <repository> <id>babel</id> <url>http://download.eclipse.org/technology/babel/update-site/R0.13.1/mars</url> 
+		<layout>p2</layout> </repository> <repository> <id>swtbot</id> <url>http://download.eclipse.org/technology/swtbot/releases/latest/</url> 
+		<layout>p2</layout> </repository> </repositories> -->
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -58,7 +65,7 @@
 						<dependency>
 							<groupId>org.apache.maven.wagon</groupId>
 							<artifactId>wagon-ssh</artifactId>
-							<version>2.8</version>
+							<version>2.10</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -71,6 +78,14 @@
 				<artifactId>tycho-maven-plugin</artifactId>
 				<version>${tycho-version}</version>
 				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<compilerVersion>1.8</compilerVersion>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -103,14 +118,20 @@
 						<environment>
 							<os>macosx</os>
 							<ws>cocoa</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
+
+					<dependency-resolution>
+						<extraRequirements>
+							<requirement>
+								<type>eclipse-feature</type>
+								<id>org.eclipse.e4.rcp</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+						</extraRequirements>
+					</dependency-resolution>
+
 				</configuration>
 			</plugin>
 			<plugin>
@@ -119,19 +140,30 @@
 				<version>${tycho-version}</version>
 				<configuration>
 					<useUIHarness>true</useUIHarness>
-					<useUIThread>true</useUIThread>
-
+					<useUIThread>false</useUIThread>
+					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
+					<product>org.eclipse.platform.ide</product>
+					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
 					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
+					<appArgLine>-nl en</appArgLine>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>4.1.0</version>
 				<configuration>
 					<jacocoReports>
 						<jacocoReport>../tmdmaker.doc/target/site/jacoco/report/jacoco.xml</jacocoReport>
 					</jacocoReports>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-versions-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<newVersion>0.3.0.qualifier</newVersion>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -154,6 +186,7 @@
 		<module>../tmdmaker.core</module>
 		<module>../tmdmaker.imagegenerator</module>
 		<module>../tmdmaker</module>
+		<module>../tmdmaker.nl_ja</module>
 		<module>../tmdmaker.csv</module>
 		<module>../tmdmaker.ddlgenerator</module>
 		<module>../tmdmaker.htmlgenerator</module>
@@ -169,6 +202,7 @@
 		<module>../tmdmaker.rcp.feature</module>
 		<module>../tmdmaker.core.test</module>
 		<module>../tmdmaker.test</module>
+		<module>../tmdmaker.ui.test</module>
 		<module>../tmdmaker.doc</module>
 	</modules>
 
@@ -205,7 +239,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.8</version>
+				<version>2.9</version>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -223,7 +257,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.13</version>
+				<version>2.17</version>
 				<configuration>
 					<configLocation>sun_check_eclipse.xml</configLocation>
 				</configuration>
@@ -231,7 +265,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.3</version>
+				<version>3.6</version>
 				<configuration>
 					<aggregate>true</aggregate>
 					<linkXref>true</linkXref>
@@ -243,7 +277,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.18.1</version>
+				<version>2.19.1</version>
 				<inherited>false</inherited>
 				<configuration>
 					<aggregate>true</aggregate>
@@ -253,7 +287,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.0.3</version>
 			</plugin>
 
 			<plugin>
@@ -274,7 +308,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.1</version>
+				<version>2.10.3</version>
 				<configuration>
 					<excludePackageNames>org.eclipse.gmf.*</excludePackageNames>
 				</configuration>
@@ -294,7 +328,7 @@
 	<distributionManagement>
 		<site>
 			<id>tmdmaker-site</id>
-			<url>scp://shell.sourceforge.jp/home/groups/t/tm/tmdmaker/htdocs/${project.artifactId}</url>
+			<url>scp://shell.osdn.jp/home/groups/t/tm/tmdmaker/htdocs/${project.artifactId}</url>
 		</site>
 	</distributionManagement>
 
@@ -302,15 +336,15 @@
 	<description>TMD-Makerの親POM用プロジェクト</description>
 	<organization>
 		<name>TMD-Maker Project</name>
-		<url>http://tmdmaker.sourceforge.jp</url>
+		<url>http://tmdmaker.osdn.jp</url>
 	</organization>
 	<scm>
-		<connection>scm:git:git://git.sourceforge.jp/gitroot/tmdmaker/tmdmaker.git</connection>
-		<url>http://sourceforge.jp/projects/tmdmaker/scm/git/tmdmaker/tree/develop/tmdmaker.releng/</url>
+		<connection>scm:git:git://git.osdn.jp/gitroot/tmdmaker/tmdmaker.git</connection>
+		<url>http://osdn.jp/projects/tmdmaker/scm/git/tmdmaker/tree/develop/tmdmaker.releng/</url>
 	</scm>
 	<issueManagement>
-		<system>sourceforge.jp</system>
-		<url>http://sourceforge.jp/projects/tmdmaker/ticket/</url>
+		<system>osdn.jp</system>
+		<url>http://osdn.jp/projects/tmdmaker/ticket/</url>
 	</issueManagement>
 	<ciManagement>
 		<system>travis-ci</system>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009,2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
 
@@ -28,7 +29,7 @@ import org.eclipse.ui.IWorkbenchPart;
  *
  */
 public class MultivalueAndSupersetHideAction extends AbstractEntitySelectionAction {
-	public static final String ID = "_MVA_SE_HIDE";
+	public static final String ID = "_MVA_SE_HIDE"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -38,7 +39,7 @@ public class MultivalueAndSupersetHideAction extends AbstractEntitySelectionActi
 	 */
 	public MultivalueAndSupersetHideAction(IWorkbenchPart part) {
 		super(part);
-		setText("多値のANDのスーパーセットを非表示");
+		setText(Messages.HideMultivalueAndSuperset);
 		setId(ID);
 	}
 
@@ -57,8 +58,8 @@ public class MultivalueAndSupersetHideAction extends AbstractEntitySelectionActi
 
 	@Override
 	public void run() {
-		MultivalueAndSupersetHideCommand command = new MultivalueAndSupersetHideCommand(getModel()
-				.getHeader2DetailRelationship());
+		MultivalueAndSupersetHideCommand command = new MultivalueAndSupersetHideCommand(
+				getModel().getHeader2DetailRelationship());
 		execute(command);
 	}
 

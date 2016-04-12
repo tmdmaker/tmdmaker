@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,21 +18,19 @@ package jp.sourceforge.tmdmaker.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.dialog.GeneratorDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.LaputaEditPart;
-import jp.sourceforge.tmdmaker.editpart.MultivalueAndAggregatorEditPart;
-import jp.sourceforge.tmdmaker.editpart.SubsetTypeEditPart;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.generate.Generator;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.Dialog;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.TMDEditor;
+import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.dialog.GeneratorDialog;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
 
 /**
  * 設定されたGeneratorを実行するAction
@@ -54,8 +52,7 @@ public class GenerateAction extends SelectionAction {
 	 * @param generator
 	 *            generator
 	 */
-	public GenerateAction(TMDEditor editor, GraphicalViewer viewer,
-			Generator generator) {
+	public GenerateAction(TMDEditor editor, GraphicalViewer viewer, Generator generator) {
 		super(editor);
 		this.generator = generator;
 		this.viewer = viewer;
@@ -84,23 +81,22 @@ public class GenerateAction extends SelectionAction {
 		Diagram diagram = (Diagram) viewer.getContents().getModel();
 		List<AbstractEntityModel> selectedModels = getSelectedModelList();
 
-		GeneratorDialog dialog = new GeneratorDialog(getWorkbenchPart()
-				.getSite().getShell(), getSavePath(), generator
-				.getGeneratorName(), selectedModels, getNotSelectedModelList(
-				diagram, selectedModels));
+		GeneratorDialog dialog = new GeneratorDialog(getWorkbenchPart().getSite().getShell(),
+				getSavePath(), generator.getGeneratorName(), selectedModels,
+				getNotSelectedModelList(diagram, selectedModels));
 		if (dialog.open() == Dialog.OK) {
 			try {
 				String savePath = dialog.getSavePath();
 				generator.execute(savePath, dialog.getSelectedModels());
 				// generator.execute(dialog.getSavePath(), diagram);
-				TMDPlugin.showMessageDialog(generator.getGeneratorName()
-						+ " 完了");
+				TMDPlugin.showMessageDialog(generator.getGeneratorName() + Messages.Completion);
 				TMDPlugin.refreshGenerateResources(savePath);
 			} catch (Throwable t) {
 				TMDPlugin.showErrorDialog(t);
 			}
 		}
 	}
+
 	private String getSavePath() {
 		IFile file = TMDPlugin.getEditFile(getWorkbenchPart());
 		return file.getLocation().removeLastSegments(1).toOSString();
@@ -109,12 +105,12 @@ public class GenerateAction extends SelectionAction {
 	private List<AbstractEntityModel> getSelectedModelList() {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Object selection : getSelectedObjects()) {
-			if (selection instanceof AbstractModelEditPart
-					&& !(selection instanceof SubsetTypeEditPart)
-					&& !(selection instanceof MultivalueAndAggregatorEditPart)
-					&& !(selection instanceof LaputaEditPart)) {
-				AbstractEntityModel model = (AbstractEntityModel) ((AbstractModelEditPart<?>) selection)
-						.getModel();
+			if (selection instanceof AbstractModelEditPart) {
+				Object obj = ((AbstractModelEditPart<?>) selection).getModel();
+				if (!(obj instanceof AbstractEntityModel)) {
+					continue;
+				}
+				AbstractEntityModel model = (AbstractEntityModel) obj;
 				if (generator.isImplementModelOnly()) {
 					if (!model.isNotImplement()) {
 						list.add(model);

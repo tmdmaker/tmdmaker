@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package jp.sourceforge.tmdmaker.dialog.model;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.IAttribute;
-import jp.sourceforge.tmdmaker.model.SarogateKey;
+import jp.sourceforge.tmdmaker.model.SurrogateKey;
 
 /**
  * 編集用サロゲートキー
@@ -26,7 +26,7 @@ import jp.sourceforge.tmdmaker.model.SarogateKey;
  * @author nakaG
  * 
  */
-public class EditSarogateKey extends EditImplementAttribute {
+public class EditSurrogateKey extends EditImplementAttribute {
 	private boolean enabled;
 	private boolean added;
 
@@ -38,8 +38,8 @@ public class EditSarogateKey extends EditImplementAttribute {
 	 * @param original
 	 *            サロゲートキー
 	 */
-	public EditSarogateKey(AbstractEntityModel containerModel,
-			SarogateKey original) {
+	public EditSurrogateKey(AbstractEntityModel containerModel,
+			SurrogateKey original) {
 		super(containerModel, original);
 		if (original == null) {
 			enabled = false;
@@ -82,7 +82,7 @@ public class EditSarogateKey extends EditImplementAttribute {
 	 */
 	@Override
 	public Attribute getOriginalAttribute() {
-		SarogateKey sarogeteKey = (SarogateKey) super.getOriginalAttribute();
+		SurrogateKey sarogeteKey = (SurrogateKey) super.getOriginalAttribute();
 		if (added) {
 			getEditAttribute().copyTo(sarogeteKey);
 		}
@@ -97,8 +97,8 @@ public class EditSarogateKey extends EditImplementAttribute {
 	@Override
 	public void copyTo(IAttribute to) {
 		super.copyTo(to);
-		if (to instanceof SarogateKey) {
-			((SarogateKey) to).setEnabled(enabled);
+		if (to instanceof SurrogateKey) {
+			((SurrogateKey) to).setEnabled(enabled);
 		}
 	}
 
@@ -110,7 +110,7 @@ public class EditSarogateKey extends EditImplementAttribute {
 	@Override
 	public void copyToOriginal() {
 		super.copyToOriginal();
-		((SarogateKey) getOriginalAttribute()).setEnabled(enabled);
+		((SurrogateKey) getOriginalAttribute()).setEnabled(enabled);
 	}
 
 	/**
@@ -124,8 +124,8 @@ public class EditSarogateKey extends EditImplementAttribute {
 		if (this == obj) {
 			return true;
 		}
-		if (obj instanceof EditSarogateKey) {
-			EditSarogateKey other = (EditSarogateKey) obj;
+		if (obj instanceof EditSurrogateKey) {
+			EditSurrogateKey other = (EditSurrogateKey) obj;
 			return super.equals(other) &&
 					getEditAttribute().equals(other.getEditAttribute());
 		}

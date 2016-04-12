@@ -1,5 +1,5 @@
 /*
- * Copyright 2009,2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.CombinationTableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
@@ -58,7 +59,7 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
-		logger.debug(getClass() + "#updateFigure()");
+		logger.debug(getClass() + "#updateFigure()"); //$NON-NLS-1$
 		EntityFigure entityFigure = (EntityFigure) figure;
 		CombinationTable table = getModel();
 
@@ -97,7 +98,7 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
+		logger.debug(getClass() + "#onDoubleClicked()"); //$NON-NLS-1$
 		
 		ModelEditDialog<CombinationTable> dialog = getDialog();
 		if (dialog.open() != Dialog.OK) return;
@@ -109,7 +110,7 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 	@Override
 	protected ModelEditDialog<CombinationTable> getDialog()
 	{
-		return new CombinationTableEditDialog(getControllShell(), "対照表編集", getModel());
+		return new CombinationTableEditDialog(getControllShell(), Messages.EditCombinationTable, getModel());
 	}
 
 	/**

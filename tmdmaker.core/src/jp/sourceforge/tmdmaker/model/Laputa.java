@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,4 +96,46 @@ public class Laputa extends AbstractEntityModel {
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#isNotImplement()
+	 */
+	@Override
+	public boolean isNotImplement() {
+		// Laputaは実装しない
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateSubset()
+	 */
+	@Override
+	public boolean canCreateSubset() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateMultivalueOr()
+	 */
+	@Override
+	public boolean canCreateMultivalueOr() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateVirtualEntity()
+	 */
+	@Override
+	public boolean canCreateVirtualEntity() {
+		return false;
+	}
+
 }

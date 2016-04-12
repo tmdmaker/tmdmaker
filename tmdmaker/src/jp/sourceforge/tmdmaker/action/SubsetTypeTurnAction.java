@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.AbstractSubsetTypeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractSubsetType;
@@ -31,7 +32,7 @@ import org.eclipse.ui.IWorkbenchPart;
 public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 
 	/** サブセット種類を回転アクションを表す定数 */
-	public static final String ID = "_SUBSETTYPE";
+	public static final String ID = "_SUBSETTYPE"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ.
@@ -41,7 +42,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 	 */
 	public SubsetTypeTurnAction(IWorkbenchPart part) {
 		super(part);
-		setText("サブセット種類を回転");
+		setText(Messages.RotateSubsetType);
 		setId(ID);
 	}
 
@@ -70,7 +71,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 	@Override
 	public void run() {
 		AbstractModelEditPart<?> part = getPart();
-		AbstractSubsetType model = (AbstractSubsetType) part.getModel();
+		AbstractSubsetType<?> model = (AbstractSubsetType<?>) part.getModel();
 
 		execute(new SubsetTypeChangeCommand(model));
 	}
@@ -82,7 +83,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 	 *
 	 */
 	private static class SubsetTypeChangeCommand extends Command {
-		private AbstractSubsetType model;
+		private AbstractSubsetType<?> model;
 		private boolean oldVertical;
 		private boolean newVertical;
 
@@ -92,7 +93,7 @@ public class SubsetTypeTurnAction extends AbstractEntitySelectionAction {
 		 * @param model
 		 *            対象となるサブセット種類.
 		 */
-		public SubsetTypeChangeCommand(AbstractSubsetType model) {
+		public SubsetTypeChangeCommand(AbstractSubsetType<?> model) {
 			this.model = model;
 			oldVertical = model.isVertical();
 			newVertical = !oldVertical;

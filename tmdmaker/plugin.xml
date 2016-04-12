@@ -45,6 +45,18 @@
             name="Appearance">
       </page>
       <page
+            category="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance"
+            class="jp.sourceforge.tmdmaker.ui.preferences.appearance.ColorAppearancePreferencePage"
+            id="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance.color"
+            name="Color Appearance">
+      </page>
+      <page
+            category="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance"
+            class="jp.sourceforge.tmdmaker.ui.preferences.appearance.FontAppearancePreferencePage"
+            id="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance.font"
+            name="Font Appearance">
+      </page>
+      <page
             category="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage"
             class="jp.sourceforge.tmdmaker.ui.preferences.rule.RulePreferencePage"
             id="jp.sourceforge.tmdmaker.ui.preferences.TMDMakerPreferencePage.rule"

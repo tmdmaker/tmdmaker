@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +22,13 @@ package jp.sourceforge.tmdmaker.model;
  * 
  */
 @SuppressWarnings("serial")
-public class SarogateKey extends Attribute {
+public class SurrogateKey extends Attribute {
 	private boolean enabled;
 
 	/**
 	 * デフォルトコンストラクタ
 	 */
-	public SarogateKey() {
+	public SurrogateKey() {
 		setName("");
 	}
 
@@ -54,7 +54,7 @@ public class SarogateKey extends Attribute {
 	 */
 	@Override
 	public void copyTo(IAttribute to) {
-		SarogateKey to1 = (SarogateKey) to;
+		SurrogateKey to1 = (SurrogateKey) to;
 		to1.setDerivationRule(getDerivationRule());
 		to1.setDescription(getDescription());
 		to1.setLock(getLock());
@@ -78,7 +78,7 @@ public class SarogateKey extends Attribute {
 	 */
 	@Override
 	public IAttribute getCopy() {
-		SarogateKey copy = new SarogateKey();
+		SurrogateKey copy = new SurrogateKey();
 		copyTo(copy);
 		return copy;
 	}

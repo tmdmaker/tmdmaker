@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
@@ -68,8 +69,6 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
-		logger.debug(getClass() + "#updateFigure()");
-
 		EntityFigure entityFigure = (EntityFigure) figure;
 		SubsetEntity entity = getModel();
 		
@@ -108,7 +107,6 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(SubsetType.PROPERTY_PARTITION)) {
-			logger.debug(getClass() + ":" + SubsetType.PROPERTY_PARTITION);
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);
@@ -143,7 +141,7 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 	@Override
 	protected ModelEditDialog<SubsetEntity> getDialog()
 	{
-		return new TableEditDialog<SubsetEntity>(getControllShell(), "サブセット表編集", getModel());
+		return new TableEditDialog<SubsetEntity>(getControllShell(), Messages.EditSubset, getModel());
 	}
 
 	/**

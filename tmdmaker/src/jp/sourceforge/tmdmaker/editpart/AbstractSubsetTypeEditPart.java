@@ -19,15 +19,16 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collections;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
-import jp.sourceforge.tmdmaker.model.AbstractSubsetType;
-import jp.sourceforge.tmdmaker.model.ConnectableElement;
-
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.Request;
+
+import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
+import jp.sourceforge.tmdmaker.model.AbstractSubsetType;
+import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 /**
  * スーパーセットとサブセットとの接点のEditPartの基底クラス.
@@ -35,7 +36,8 @@ import org.eclipse.gef.Request;
  * @author nakag
  *
  */
-public abstract class AbstractSubsetTypeEditPart<T extends ConnectableElement> extends AbstractModelEditPart<T> {
+public abstract class AbstractSubsetTypeEditPart<T extends ConnectableElement>
+		extends AbstractModelEditPart<T> {
 
 	/**
 	 * コンストラクタ.
@@ -143,10 +145,30 @@ public abstract class AbstractSubsetTypeEditPart<T extends ConnectableElement> e
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
 	protected void createEditPolicies() {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#canAutoSize()
+	 */
+	@Override
+	public boolean canAutoSize() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#getAppearance()
+	 */
+	@Override
+	protected ModelAppearance getAppearance() {
+		return null;
 	}
 }

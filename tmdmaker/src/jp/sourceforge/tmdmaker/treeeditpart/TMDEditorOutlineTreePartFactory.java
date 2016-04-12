@@ -1,7 +1,23 @@
+/*
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.treeeditpart;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.KeyModel;
@@ -48,13 +64,13 @@ public class TMDEditorOutlineTreePartFactory implements EditPartFactory {
 			if (list.size() > 0){
 				if (list.get(0) instanceof Identifier){				
 					logger.debug("個体指定子のフォルダー用EditPartを返しました。");
-				    part = new FolderTreeEditPart<Identifier>("個体指定子");
+				    part = new FolderTreeEditPart<Identifier>(Messages.Identifier);
 				} else if (list.get(0) instanceof Attribute){
 					logger.debug("属性のフォルダー用EditPartを返しました。");
-				    part = new FolderTreeEditPart<Attribute>("属性");
+				    part = new FolderTreeEditPart<Attribute>(Messages.Attribute);
 				} else if (list.get(0) instanceof KeyModel){
 					logger.debug("キーのフォルダー用EditPartを返しました。");
-				    part = new FolderTreeEditPart<KeyModel>("キー定義");					
+				    part = new FolderTreeEditPart<KeyModel>(Messages.KeyDefinitions);					
 				}
 			}
 		}
