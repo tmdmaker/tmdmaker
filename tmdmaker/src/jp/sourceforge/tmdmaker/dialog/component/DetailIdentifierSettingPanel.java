@@ -41,6 +41,7 @@ public class DetailIdentifierSettingPanel extends Composite {
 	private Label identifierLabel = null;
 	private Text identifierText = null;
 	private Button descButton = null;
+	private Button isDetailIdentifierEnabledCheckButton = null;
 
 	public DetailIdentifierSettingPanel(Composite parent, int style, EditEntity entity) {
 		super(parent, style);
@@ -89,7 +90,14 @@ public class DetailIdentifierSettingPanel extends Composite {
 		});
 		this.setLayout(gridLayout);
 		updateValue();
-		setSize(new Point(355, 32));
+		setSize(new Point(355, 66));
+		
+		isDetailIdentifierEnabledCheckButton = new Button(this, SWT.CHECK);
+		isDetailIdentifierEnabledCheckButton.setSelection(true);
+		isDetailIdentifierEnabledCheckButton.setEnabled(false);
+		isDetailIdentifierEnabledCheckButton.setText(Messages.IsDetailIdentifierEnabled);
+		new Label(this, SWT.NONE);
+		new Label(this, SWT.NONE);
 	}
 
 	public void updateValue() {

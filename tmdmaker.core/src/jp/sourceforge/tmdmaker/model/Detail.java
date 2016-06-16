@@ -28,6 +28,9 @@ public class Detail extends AbstractEntityModel {
 
 	/** DTLの個体指定子 */
 	private Identifier detailIdentifier = new Identifier();
+	
+	/** DTLの個体指定子を使用するか？ */
+	private boolean isDetailIdentifierEnabled = true;
 
 	// public Detail() {
 	// detailIdentifier.setParent(this);
@@ -63,6 +66,45 @@ public class Detail extends AbstractEntityModel {
 		this.detailIdentifier = detailIdentifier;
 		// this.detailIdentifier.setParent(this);
 		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, detailIdentifier);
+	}
+	
+	/**
+	 * DTLの個体指定子の使用有無を設定する。
+	 * HDR以外のRe-UsedのIdentifierがある場合以外はfalseに設定できない。
+	 * 変更になった場合は、他のEntityに変化を波及させる必要がある。
+	 * 
+	 * @param enabled
+	 */
+	public void setDetailIdentifierEnabled(boolean enabled)
+	{
+		if(enabled)
+		{
+			isDetailIdentifierEnabled = enabled;
+		}
+		else if(canDisableDetailIdentifierEnabled()){		    	
+				isDetailIdentifierEnabled = enabled;			
+		}
+	}
+	
+	/**
+	 * DTLの個体指定子が使用されているかを返す。
+	 * 
+	 * @return
+	 */
+	public boolean isDetailIdentifierEnabled()
+	{
+		return isDetailIdentifierEnabled;
+	}
+	
+	/**
+	 * DTLの個体指定子を使用できないようにできるかどうかを返す。
+	 * HDR以外のRe-UsedのIdentifierがある場合はtrueを返す。
+	 * 
+	 * @return
+	 */
+	public boolean canDisableDetailIdentifierEnabled()
+	{
+		return getReusedIdentifieres().size() > 0;
 	}
 
 	/**
@@ -101,7 +143,10 @@ public class Detail extends AbstractEntityModel {
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
 		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
-		returnValue.addIdentifier(detailIdentifier);
+		if (isDetailIdentifierEnabled)
+		{
+		    returnValue.addIdentifier(detailIdentifier);
+		}
 		return returnValue;
 	}
 
@@ -122,7 +167,7 @@ public class Detail extends AbstractEntityModel {
 	 */
 	@Override
 	public void copyTo(AbstractEntityModel to) {
-		if (to instanceof Detail) {
+		if (to instanceof Detail && isDetailIdentifierEnabled) {
 			Detail toDetail = (Detail) to;
 			toDetail.setDetailIdentifierName(getDetailIdentifier().getName());
 			toDetail.getDetailIdentifier().copyFrom(getDetailIdentifier());

@@ -131,11 +131,11 @@ public class EditEntity extends EditTable {
 		return latuta;
 	}
 
-	public boolean isDetail() {
+	private boolean isDetail() {
 		return detail;
 	}
 
-	public boolean isEntity() {
+	private boolean isEntity() {
 		return !latuta && !detail;
 	}
 
