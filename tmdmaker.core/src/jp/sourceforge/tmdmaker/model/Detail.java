@@ -23,6 +23,7 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class Detail extends AbstractEntityModel {
+
 	/** HDRモデルのRe-used */
 	private ReusedIdentifier originalReusedIdentifier;
 
@@ -36,7 +37,7 @@ public class Detail extends AbstractEntityModel {
 	// detailIdentifier.setParent(this);
 	// }
 	/**
-	 * DTLの個体指定子名を設定する
+	 * DTLの個体指定子名(明細番号)を設定する
 	 * 
 	 * @param name
 	 */
@@ -50,6 +51,8 @@ public class Detail extends AbstractEntityModel {
 	}
 
 	/**
+	 * DTLの個体指定子名(明細番号)を返す
+	 * 
 	 * @return the detailIdentifier
 	 */
 	public Identifier getDetailIdentifier() {
@@ -87,7 +90,7 @@ public class Detail extends AbstractEntityModel {
 	}
 	
 	/**
-	 * DTLの個体指定子が使用されているかを返す。
+	 * DTLの個体指定子(明細番号)が使用されているかを返す。
 	 * 
 	 * @return
 	 */
@@ -97,14 +100,14 @@ public class Detail extends AbstractEntityModel {
 	}
 	
 	/**
-	 * DTLの個体指定子を使用できないようにできるかどうかを返す。
+	 * DTLの個体指定子(明細番号)を使用できないようにできるかどうかを返す。
 	 * HDR以外のRe-UsedのIdentifierがある場合はtrueを返す。
 	 * 
 	 * @return
 	 */
 	public boolean canDisableDetailIdentifierEnabled()
 	{
-		return getReusedIdentifieres().size() > 0;
+		return getReusedIdentifieres().size() > 1;
 	}
 
 	/**

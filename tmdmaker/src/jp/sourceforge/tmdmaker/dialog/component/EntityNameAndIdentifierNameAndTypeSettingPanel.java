@@ -200,7 +200,7 @@ public class EntityNameAndIdentifierNameAndTypeSettingPanel extends Composite {
 		});
 		typeCombo.add(Messages.Resource);
 		typeCombo.add(Messages.Event);
-		if (entity.isLatuta()) {
+		if (entity.isLaputa()) {
 			typeCombo.add(Messages.Laputa);
 		}
 	}
