@@ -123,7 +123,9 @@ public class ImplementRule {
 			attributes.add(((Entity) model).getIdentifier());
 		}
 		if (model instanceof Detail) {
-			attributes.add(((Detail) model).getDetailIdentifier());
+			if (((Detail) model).isDetailIdentifierEnabled()){
+				attributes.add(((Detail) model).getDetailIdentifier());
+			}
 		}
 		if (model instanceof SubsetEntity) {
 			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();

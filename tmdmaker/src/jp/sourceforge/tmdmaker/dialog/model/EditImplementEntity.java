@@ -80,8 +80,9 @@ public class EditImplementEntity {
 			attributes.add(new EditImplementAttribute(model, ((Entity) model).getIdentifier()));
 		}
 		if (model instanceof Detail) {
-			attributes
-					.add(new EditImplementAttribute(model, ((Detail) model).getDetailIdentifier()));
+			if (((Detail) model).isDetailIdentifierEnabled()){
+				attributes.add(new EditImplementAttribute(model, ((Detail) model).getDetailIdentifier()));
+			}
 		}
 		if (model instanceof SubsetEntity) {
 			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();

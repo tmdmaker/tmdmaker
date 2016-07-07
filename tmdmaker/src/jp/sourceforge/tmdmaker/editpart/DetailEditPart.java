@@ -72,7 +72,9 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 		IdentifierRef original = entity.getOriginalReusedIdentifier()
 				.getUniqueIdentifieres().get(0);
 		entityFigure.setIdentifier(original.getName());
-		entityFigure.setIdentifier(entity.getDetailIdentifier().getName());
+		if (entity.isDetailIdentifierEnabled()){
+			entityFigure.setIdentifier(entity.getDetailIdentifier().getName());			
+		}
 		entityFigure.addRelationship(extractRelationship(entity, original));
 	}
 
