@@ -80,13 +80,10 @@ public class Detail extends AbstractEntityModel {
 	 */
 	public void setDetailIdentifierEnabled(boolean enabled)
 	{
-		if(enabled)
-		{
-			isDetailIdentifierEnabled = enabled;
-		}
-		else if(canDisableDetailIdentifierEnabled()){		    	
-				isDetailIdentifierEnabled = enabled;			
-		}
+		if (isDetailIdentifierEnabled() == enabled) return;
+		// canDisableDetailIdentifierEnabled() で不用意な書き換えを制御したいがダイアログ書き換えのタイミングの
+		// 問題で難しい。
+		isDetailIdentifierEnabled = enabled;
 	}
 	
 	/**
@@ -170,11 +167,10 @@ public class Detail extends AbstractEntityModel {
 	 */
 	@Override
 	public void copyTo(AbstractEntityModel to) {
-		if (to instanceof Detail && isDetailIdentifierEnabled) {
-			Detail toDetail = (Detail) to;
-			toDetail.setDetailIdentifierName(getDetailIdentifier().getName());
-			toDetail.getDetailIdentifier().copyFrom(getDetailIdentifier());
-		}
+		Detail toDetail = (Detail) to;
+		toDetail.setDetailIdentifierEnabled(isDetailIdentifierEnabled());
+		toDetail.setDetailIdentifierName(getDetailIdentifier().getName());
+		toDetail.getDetailIdentifier().copyFrom(getDetailIdentifier());
 		super.copyTo(to);
 	}
 

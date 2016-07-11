@@ -26,6 +26,9 @@ import jp.sourceforge.tmdmaker.model.Identifier;
  * 
  */
 public class EditDetail extends EditEntity {
+	
+	private boolean editedIsDetailIdentifierEnabled;
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -34,6 +37,7 @@ public class EditDetail extends EditEntity {
 	 */
 	public EditDetail(Detail entity) {
 		super(entity);
+		editedIsDetailIdentifierEnabled = entity.isDetailIdentifierEnabled();
 	}
 
 	/**
@@ -44,15 +48,16 @@ public class EditDetail extends EditEntity {
 	 */
 	@Override
 	protected void copySpecialTo(AbstractEntityModel to) {
-			Detail edited = (Detail) to;
-			Identifier newIdentifier = new Identifier();
-			getEditIdentifier().copyTo(newIdentifier);
-			edited.setDetailIdentifier(newIdentifier);
-			edited.setEntityType(getType());
+		Detail edited = (Detail) to;
+		Identifier newIdentifier = new Identifier();
+		getEditIdentifier().copyTo(newIdentifier);
+		edited.setDetailIdentifier(newIdentifier);
+		edited.setEntityType(getType());
+		edited.setDetailIdentifierEnabled(isDetailIdentifierEnabled());
 	}
 
 	public boolean isDetailIdentifierEnabled() {
-		return ((Detail)this.entity).isDetailIdentifierEnabled();
+		return editedIsDetailIdentifierEnabled;
 	}
 
 	public boolean canDisableDetailIdentifierEnabled() {
@@ -61,6 +66,6 @@ public class EditDetail extends EditEntity {
 
 	public void setDetailIdentifierEnabled(boolean enabled)
 	{
-		((Detail)this.entity).setDetailIdentifierEnabled(enabled);
+		editedIsDetailIdentifierEnabled = enabled;
 	}
 }
