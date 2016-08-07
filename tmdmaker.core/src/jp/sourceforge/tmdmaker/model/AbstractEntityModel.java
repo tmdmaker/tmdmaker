@@ -21,6 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
 /**
@@ -31,7 +34,9 @@ import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractEntityModel extends ConnectableElement {
-
+	
+	private static Logger logger = LoggerFactory.getLogger(AbstractEntityModel.class);
+	
 	/** 親モデル */
 	private Diagram diagram;
 	public static final String PROPERTY_ATTRIBUTE_REORDER = "p_attribute_reorder";
@@ -293,24 +298,12 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		if (getEntityType().equals(EntityType.RESOURCE)) {
 			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
 			notifyIdentifierChangedToConnections(getModelTargetConnections(), callConnection);
-			// for (AbstractConnectionModel<?> con :
-			// getModelTargetConnections()) {
-			//
-			// if (con instanceof IdentifierChangeListener && con !=
-			// callConnection ) {
-			// ((IdentifierChangeListener) con).awareReUseKeysChanged();
-			// }
-			// }
 		} else {
 			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
-			for (AbstractConnectionModel con : getModelTargetConnections()) {
-				if (con instanceof IdentifierChangeListener
-						&& con instanceof Event2EventRelationship && con != callConnection) {
-					((IdentifierChangeListener) con).identifierChanged();
-				}
-			}
+			List<AbstractConnectionModel> targetcons = 
+					findRelationshipFromTargetConnections(Event2EventRelationship.class);
+			notifyIdentifierChangedToConnections(targetcons, callConnection);
 		}
-
 	}
 
 	/**
@@ -326,6 +319,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		for (AbstractConnectionModel con : connections) {
 			if (con instanceof IdentifierChangeListener && con != callConnection) {
 				((IdentifierChangeListener) con).identifierChanged();
+				logger.debug(getName() + "から" + con.getClass().toString() + "に通知しました。" );
 			}
 		}
 	}

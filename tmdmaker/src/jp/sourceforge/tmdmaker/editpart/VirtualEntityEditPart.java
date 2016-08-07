@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
@@ -25,6 +26,7 @@ import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
@@ -91,6 +93,18 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 		entityFigure.setEntityType(EntityType.VE.getLabel());
 		entityFigure.addRelationship(extractRelationship(entity));
 		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
+	}
+	
+	/**
+	 * @param table
+	 */
+	protected List<String> extractRelationship(VirtualEntity table) {
+		List<String> relationship = new ArrayList<String>();
+
+		for (Identifier i : table.getOriginalReusedIdentifier().getUniqueIdentifieres()) {
+			relationship.add(i.getName());
+		}
+		return relationship;
 	}
 
 	@Override

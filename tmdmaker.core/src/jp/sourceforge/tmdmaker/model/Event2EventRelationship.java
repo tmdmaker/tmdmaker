@@ -215,6 +215,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void identifierChanged() {
+		createRelationship(); // Detailの明細番号の有無を切換えるため。
 		if (hasMappingList()) {
 			table.fireIdentifierChanged(this);
 		} else {

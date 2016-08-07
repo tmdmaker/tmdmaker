@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 
 /**
@@ -26,6 +29,9 @@ import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 @SuppressWarnings("serial")
 public class Entity2VirtualEntityRelationship extends
 		TransfarReuseKeysToTargetRelationship {
+	
+	private static Logger logger = LoggerFactory.getLogger(Entity2VirtualEntityRelationship.class);
+	
 	/** みなしエンティティ */
 	private VirtualEntity ve;
 
@@ -44,7 +50,7 @@ public class Entity2VirtualEntityRelationship extends
 		setTarget(ve);
 
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -77,4 +83,18 @@ public class Entity2VirtualEntityRelationship extends
 		return getTarget().isDeletable();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see jp.sourceforge.tmdmaker.model.IdentifierChangeListener#identifierChanged()
+	 */
+	@Override
+	public void identifierChanged() {
+		logger.debug("VEの生成元の個体識別子が変更になったため再設定。");
+		ve.setOriginalReusedIdentifier(getSource().createReusedIdentifier());
+		for (IdentifierRef r : getSource().createReusedIdentifier().getIdentifires()){
+			logger.debug(r.getName());
+		}
+	}
 }

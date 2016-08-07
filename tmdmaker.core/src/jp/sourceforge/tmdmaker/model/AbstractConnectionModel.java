@@ -23,6 +23,8 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractConnectionModel extends ConnectableElement {
+	
+
 	/** 接続先モデル */
 	private ConnectableElement source;
 	/** 接続先モデル */

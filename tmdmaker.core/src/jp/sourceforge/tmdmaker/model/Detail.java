@@ -84,6 +84,7 @@ public class Detail extends AbstractEntityModel {
 		// canDisableDetailIdentifierEnabled() で不用意な書き換えを制御したいがダイアログ書き換えのタイミングの
 		// 問題で難しい。
 		isDetailIdentifierEnabled = enabled;
+		fireIdentifierChanged(null);
 	}
 	
 	/**
@@ -142,7 +143,9 @@ public class Detail extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
+		if (originalReusedIdentifier != null){
+			returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
+		}
 		if (isDetailIdentifierEnabled)
 		{
 		    returnValue.addIdentifier(detailIdentifier);

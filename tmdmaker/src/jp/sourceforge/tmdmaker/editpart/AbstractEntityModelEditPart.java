@@ -38,7 +38,6 @@ import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
@@ -198,23 +197,19 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	public IPropertySource getPropertySource(TMDEditor editor) {
 		return new AbstractEntityModelPropertySource(editor, this.getModel());
 	}
-
+	
 	/**
-	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#refreshVisuals()
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#convert(jp.sourceforge.tmdmaker.model.Constraint)
 	 */
 	@Override
-	protected void refreshVisuals() {
-		logger.debug(getClass().toString() + "#refreshVisuals()");
-		Constraint constraint = getModel().getConstraint();
-		Rectangle bounds = ConstraintConverter.toRectangle(constraint);
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
-
-		updateFigure(getFigure());
-		refreshChildren();
+	protected Rectangle convert(Constraint constraint)
+	{
+		return ConstraintConverter.toRectangle(constraint);
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 *

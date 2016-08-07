@@ -42,6 +42,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	public void setOriginalReusedIdentifier(ReusedIdentifier originalReusedIdentifier) {
 		this.originalReusedIdentifier = originalReusedIdentifier;
+		firePropertyChange(PROPERTY_REUSED, null, null);
 	}
 
 	/**
