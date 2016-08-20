@@ -11,18 +11,26 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<release-version>0.3.0</release-version>
 		<os-jvm-flags />
-		<jacoco-version>0.7.6.201602180812</jacoco-version>
+		<jacoco-version>0.7.7.201606060606</jacoco-version>
 		<antrun-version>1.8</antrun-version>
 		<ant-contrib-version>20020829</ant-contrib-version>
-		<docbkx-maven-plugin-version>2.0.16</docbkx-maven-plugin-version>
+		<docbkx-maven-plugin-version>2.0.17</docbkx-maven-plugin-version>
 		<docbook-xml-verson>5.0-all</docbook-xml-verson>
 		<maven-dependency-plugin-version>2.10</maven-dependency-plugin-version>
+		<maven-site-plugin-version>3.5</maven-site-plugin-version>
+		<wagon-ssh-version>2.10</wagon-ssh-version>
+		<coveralls-maven-plugin-version>4.2.0</coveralls-maven-plugin-version>
+		<maven-project-info-reports-plugin-version>2.9</maven-project-info-reports-plugin-version>
+		<maven-checkstyle-plugin-version>2.17</maven-checkstyle-plugin-version>
+		<maven-pmd-plugin-version>3.6</maven-pmd-plugin-version>
+		<maven-surefire-report-plugin-version>2.19.1</maven-surefire-report-plugin-version>
+		<findbugs-maven-plugin-version>3.0.4</findbugs-maven-plugin-version>
+		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
+		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
+		<maven-javadoc-plugin-version>2.10.4</maven-javadoc-plugin-version>
 		<project-url>http://tmdmaker.osdn.jp/</project-url>
 	</properties>
-	<!-- <repositories> <repository> <id>eclipse-mars</id> <url>http://download.eclipse.org/releases/mars</url> 
-		<layout>p2</layout> </repository> <repository> <id>babel</id> <url>http://download.eclipse.org/technology/babel/update-site/R0.13.1/mars</url> 
-		<layout>p2</layout> </repository> <repository> <id>swtbot</id> <url>http://download.eclipse.org/technology/swtbot/releases/latest/</url> 
-		<layout>p2</layout> </repository> </repositories> -->
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -47,7 +55,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
-					<version>3.4</version>
+					<version>${maven-site-plugin-version}</version>
 					<configuration>
 						<locales>ja</locales>
 						<inputEncoding>UTF-8</inputEncoding>
@@ -65,7 +73,7 @@
 						<dependency>
 							<groupId>org.apache.maven.wagon</groupId>
 							<artifactId>wagon-ssh</artifactId>
-							<version>2.10</version>
+							<version>${wagon-ssh-version}</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -151,7 +159,7 @@
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>4.1.0</version>
+				<version>${coveralls-maven-plugin-version}</version>
 				<configuration>
 					<jacocoReports>
 						<jacocoReport>../tmdmaker.doc/target/site/jacoco/report/jacoco.xml</jacocoReport>
@@ -239,7 +247,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.9</version>
+				<version>${maven-project-info-reports-plugin-version}</version>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -257,7 +265,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
+				<version>${maven-checkstyle-plugin-version}</version>
 				<configuration>
 					<configLocation>sun_check_eclipse.xml</configLocation>
 				</configuration>
@@ -265,7 +273,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.6</version>
+				<version>${maven-pmd-plugin-version}</version>
 				<configuration>
 					<aggregate>true</aggregate>
 					<linkXref>true</linkXref>
@@ -277,7 +285,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.19.1</version>
+				<version>${maven-surefire-report-plugin-version}</version>
 				<inherited>false</inherited>
 				<configuration>
 					<aggregate>true</aggregate>
@@ -287,13 +295,13 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.3</version>
+				<version>${findbugs-maven-plugin-version}</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>taglist-maven-plugin</artifactId>
-				<version>2.4</version>
+				<version>${taglist-maven-plugin-version}</version>
 				<configuration>
 					<aggregate>true</aggregate>
 				</configuration>
@@ -301,14 +309,12 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jdepend-maven-plugin</artifactId>
-				<version>2.0</version>
+				<version>${jdepend-maven-plugin-version}</version>
 			</plugin>
-			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>javancss-maven-plugin</artifactId> 
-				<version>2.1</version> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
+				<version>${maven-javadoc-plugin-version}</version>
 				<configuration>
 					<excludePackageNames>org.eclipse.gmf.*</excludePackageNames>
 				</configuration>
