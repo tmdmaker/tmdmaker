@@ -58,17 +58,19 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
 		Bundle ideBundle = Platform.getBundle(IDE_WORKBENCH);
 		declareWorkbenchImage(configurer, ideBundle,
-				IDE.SharedImages.IMG_OBJ_PROJECT, PATH_OBJECT + "prj_obj.gif", //$NON-NLS-1$
+				IDE.SharedImages.IMG_OBJ_PROJECT, PATH_OBJECT + "prj_obj.png", //$NON-NLS-1$
 				true);
 		declareWorkbenchImage(configurer, ideBundle,
 				IDE.SharedImages.IMG_OBJ_PROJECT_CLOSED, PATH_OBJECT
-						+ "cprj_obj.gif", true); //$NON-NLS-1$
+						+ "cprj_obj.png", true); //$NON-NLS-1$
 	}
 
 	private void declareWorkbenchImage(IWorkbenchConfigurer configurer_p,
 			Bundle ideBundle, String symbolicName, String path, boolean shared) {
 		URL url = ideBundle.getEntry(path);
+		
 		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
+		
 		configurer_p.declareImage(symbolicName, desc, shared);
 	}
 
