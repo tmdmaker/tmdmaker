@@ -54,7 +54,10 @@
 						<configuration>
 							<target>
 								<delete file="${project.build.directory}/repository/content.jar" />
+								<delete file="${project.build.directory}/repository/content.xml.xz" />
 								<delete file="${project.build.directory}/repository/artifacts.jar" />
+								<delete file="${project.build.directory}/repository/artifacts.xml.xz" />
+								<delete file="${project.build.directory}/repository/p2.index" />
 								<delete
 									file="${project.build.directory}/repository/features/tmdmaker.feature_${release-version}.${buildQualifier}.jar" />
 							</target>
