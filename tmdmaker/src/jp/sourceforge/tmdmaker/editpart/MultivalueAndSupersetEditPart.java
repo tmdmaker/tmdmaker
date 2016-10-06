@@ -89,16 +89,9 @@ public class MultivalueAndSupersetEditPart
 
 		entityFigure.setEntityName(entity.getName());
 		entityFigure.setEntityType(EntityType.MA.getLabel());
-		// figure.setIdentifier(entity.getIdentifier().getName());
-		IdentifierRef identifierRef = entity.getReusedIdentifieres().entrySet().iterator().next()
-				.getValue().getUniqueIdentifieres().get(0);
+		IdentifierRef identifierRef = entity.getReusedIdentifiers().entrySet().iterator().next()
+				.getValue().getUniqueIdentifiers().get(0);
 		entityFigure.setIdentifier(identifierRef.getName());
-		// for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : entity
-		// .getReusedIdentifieres().entrySet()) {
-		// for (Identifier i : rk.getValue().getIdentifires()) {
-		// entityFigure.addRelationship(i.getName());
-		// }
-		// }
 		for (IAttribute a : atts) {
 			entityFigure.addAttribute(a.getName());
 		}

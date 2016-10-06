@@ -152,9 +152,9 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	 */
 	protected List<String> extractRelationship(T table) {
 		List<String> relationship = new ArrayList<String>();
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres()
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifiers()
 				.entrySet()) {
-			for (Identifier i : rk.getValue().getUniqueIdentifieres()) {
+			for (Identifier i : rk.getValue().getUniqueIdentifiers()) {
 				relationship.add(i.getName());
 			}
 		}
@@ -167,9 +167,9 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	 */
 	protected List<String> extractRelationship(T table, IdentifierRef original) {
 		List<String> relationship = new ArrayList<String>();
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifieres()
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : table.getReusedIdentifiers()
 				.entrySet()) {
-			for (IdentifierRef i : rk.getValue().getUniqueIdentifieres()) {
+			for (IdentifierRef i : rk.getValue().getUniqueIdentifiers()) {
 				if (i.isSame(original)) {
 					// nothing
 				} else {

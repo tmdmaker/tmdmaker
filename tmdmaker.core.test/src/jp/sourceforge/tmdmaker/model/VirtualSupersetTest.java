@@ -86,9 +86,9 @@ public class VirtualSupersetTest {
 		assertEquals(false, vsp1.isDeletable());
 
 		VirtualSupersetType type1 = vsp1.getVirtualSupersetType();
-		assertEquals(2, type1.getReusedIdentifieres().size());
+		assertEquals(2, type1.getReusedIdentifiers().size());
 		VirtualSupersetType type2 = vsp2.getVirtualSupersetType();
-		assertEquals(2, type2.getReusedIdentifieres().size());
+		assertEquals(2, type2.getReusedIdentifiers().size());
 		assertEquals(false, type2.isVertical());
 		type2.setVertical(true);
 		assertEquals(true, type2.isVertical());

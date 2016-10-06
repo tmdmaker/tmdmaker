@@ -129,12 +129,12 @@ public class ImplementRule {
 		}
 		if (model instanceof SubsetEntity) {
 			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
-			for (IdentifierRef ref : reused.getUniqueIdentifieres()) {
+			for (IdentifierRef ref : reused.getUniqueIdentifiers()) {
 				attributes.add(ref);
 			}
 		}
 		// re-usedを追加
-		Map<AbstractEntityModel, ReusedIdentifier> reused = model.getReusedIdentifieres();
+		Map<AbstractEntityModel, ReusedIdentifier> reused = model.getReusedIdentifiers();
 		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused.entrySet()) {
 			ReusedIdentifier ri = entry.getValue();
 			if (ri == null) {
@@ -145,7 +145,7 @@ public class ImplementRule {
 					attributes.add(s);
 				}
 			} else {
-				for (IdentifierRef ref : ri.getUniqueIdentifieres()) {
+				for (IdentifierRef ref : ri.getUniqueIdentifiers()) {
 					attributes.add(ref);
 				}
 			}

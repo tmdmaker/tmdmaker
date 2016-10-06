@@ -15,6 +15,11 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import java.util.Map.Entry;
+
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+
 /**
  * 多値のANDのディテール
  * 
@@ -24,6 +29,8 @@ package jp.sourceforge.tmdmaker.model;
 @SuppressWarnings("serial")
 public class Detail extends AbstractEntityModel {
 
+	//private static Logger logger = LoggerFactory.getLogger(Detail.class);
+
 	/** HDRモデルのRe-used */
 	private ReusedIdentifier originalReusedIdentifier;
 
@@ -31,11 +38,11 @@ public class Detail extends AbstractEntityModel {
 	private Identifier detailIdentifier = new Identifier();
 	
 	/** DTLの個体指定子を使用するか？ */
-	private boolean isDetailIdentifierEnabled = true;
+	private boolean isDetailIdentifierEnabled;
 
-	// public Detail() {
-	// detailIdentifier.setParent(this);
-	// }
+	public Detail() {
+		isDetailIdentifierEnabled = true;
+	}
 	/**
 	 * DTLの個体指定子名(明細番号)を設定する
 	 * 
@@ -105,7 +112,7 @@ public class Detail extends AbstractEntityModel {
 	 */
 	public boolean canDisableDetailIdentifierEnabled()
 	{
-		return getReusedIdentifieres().size() > 1;
+		return getReusedIdentifiers().size() > 1;
 	}
 
 	/**
@@ -143,12 +150,17 @@ public class Detail extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		if (originalReusedIdentifier != null){
-			returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
-		}
 		if (isDetailIdentifierEnabled)
 		{
+			if (originalReusedIdentifier != null){
+				returnValue.addAll(this.originalReusedIdentifier.getIdentifiers());
+			}
 		    returnValue.addIdentifier(detailIdentifier);
+		}
+		else{
+			for (Entry<AbstractEntityModel, ReusedIdentifier > ref: this.reusedIdentifiers.entrySet()){
+				returnValue.addAll(ref.getValue().getIdentifiers());
+			}
 		}
 		return returnValue;
 	}
@@ -199,7 +211,7 @@ public class Detail extends AbstractEntityModel {
 
 	private int calcurateMaxOriginalIdentifierRefSize() {
 		int i = 0;
-		for (IdentifierRef ir : originalReusedIdentifier.getUniqueIdentifieres()) {
+		for (IdentifierRef ir : originalReusedIdentifier.getUniqueIdentifiers()) {
 			i = Math.max(ir.getName().length(), i);
 		}
 		return i;

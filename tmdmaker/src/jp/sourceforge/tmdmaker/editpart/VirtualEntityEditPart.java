@@ -101,7 +101,7 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 	protected List<String> extractRelationship(VirtualEntity table) {
 		List<String> relationship = new ArrayList<String>();
 
-		for (Identifier i : table.getOriginalReusedIdentifier().getUniqueIdentifieres()) {
+		for (Identifier i : table.getOriginalReusedIdentifier().getUniqueIdentifiers()) {
 			relationship.add(i.getName());
 		}
 		return relationship;

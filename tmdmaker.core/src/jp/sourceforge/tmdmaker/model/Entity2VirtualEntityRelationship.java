@@ -93,7 +93,7 @@ public class Entity2VirtualEntityRelationship extends
 	public void identifierChanged() {
 		logger.debug("VEの生成元の個体識別子が変更になったため再設定。");
 		ve.setOriginalReusedIdentifier(getSource().createReusedIdentifier());
-		for (IdentifierRef r : getSource().createReusedIdentifier().getIdentifires()){
+		for (IdentifierRef r : getSource().createReusedIdentifier().getIdentifiers()){
 			logger.debug(r.getName());
 		}
 	}

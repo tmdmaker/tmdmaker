@@ -124,8 +124,8 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	}
 
 	protected void setIdentifiers() {
-		for (ReusedIdentifier r : getModel().getReusedIdentifieres().values()) {
-			for (Identifier i : r.getIdentifires()) {
+		for (ReusedIdentifier r : getModel().getReusedIdentifiers().values()) {
+			for (Identifier i : r.getIdentifiers()) {
 				identifiers.add(i);
 			}
 		}

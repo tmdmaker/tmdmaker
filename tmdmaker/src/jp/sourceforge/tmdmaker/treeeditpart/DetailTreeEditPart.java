@@ -48,14 +48,14 @@ public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart<Detail> 
 	@Override
 	protected void setIdentifiers() {
 		Detail detail = getModel();
-		IdentifierRef original = detail.getOriginalReusedIdentifier().getUniqueIdentifieres().get(0);
+		IdentifierRef original = detail.getOriginalReusedIdentifier().getUniqueIdentifiers().get(0);
 		addOriginalIdentifier(original);
 		if (detail.isDetailIdentifierEnabled()){
 		    identifiers.add(detail.getDetailIdentifier());
 		}
 
-		for (ReusedIdentifier r : detail.getReusedIdentifieres().values()) {
-			for (IdentifierRef i : r.getUniqueIdentifieres()) {
+		for (ReusedIdentifier r : detail.getReusedIdentifiers().values()) {
+			for (IdentifierRef i : r.getUniqueIdentifiers()) {
 				if (!i.isSame(original)) {
 					identifiers.add(i);
 				}

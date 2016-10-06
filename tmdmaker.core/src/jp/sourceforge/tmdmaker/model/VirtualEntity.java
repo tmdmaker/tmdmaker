@@ -80,7 +80,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
+		returnValue.addAll(this.originalReusedIdentifier.getIdentifiers());
 
 		return returnValue;
 	}

@@ -57,7 +57,7 @@ public class SubsetRule {
 		int x = ((rx + ax) * CHAR_SIZE) / 2;
 
 		// y軸の位置
-		int identifierCount = model.getReusedIdentifieres().size();
+		int identifierCount = model.getReusedIdentifiers().size();
 		if (model instanceof Entity) {
 			identifierCount++;
 		}
