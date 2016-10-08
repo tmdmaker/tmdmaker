@@ -154,6 +154,7 @@ public class Messages extends NLS {
 	public static String VirtualSuperset;
 	public static String VirtualSupersetName;
 	public static String Yes;
+	public static String IsDetailIdentifierEnabled;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

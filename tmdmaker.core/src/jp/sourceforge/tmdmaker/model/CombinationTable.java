@@ -40,22 +40,22 @@ public class CombinationTable extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		checkDuplicateTargetReusedIdentifieres();
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifieres
+		checkDuplicateTargetReusedIdentifiers();
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifiers
 				.entrySet()) {
-			returnValue.addAll(rk.getValue().getIdentifires());
+			returnValue.addAll(rk.getValue().getIdentifiers());
 		}
 		return returnValue;
 	}
 
 	@Override
-	public Map<AbstractEntityModel, ReusedIdentifier> getReusedIdentifieres() {
-		checkDuplicateTargetReusedIdentifieres();
-		return super.getReusedIdentifieres();
+	public Map<AbstractEntityModel, ReusedIdentifier> getReusedIdentifiers() {
+		checkDuplicateTargetReusedIdentifiers();
+		return super.getReusedIdentifiers();
 	}
 
 	private Map.Entry<AbstractEntityModel, ReusedIdentifier> getSource() {
-		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super.getReusedIdentifieres()
+		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super.getReusedIdentifiers()
 				.entrySet().iterator();
 		if (it.hasNext()) {
 			return it.next();
@@ -64,7 +64,7 @@ public class CombinationTable extends AbstractEntityModel {
 	}
 
 	private Map.Entry<AbstractEntityModel, ReusedIdentifier> getTarget() {
-		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super.getReusedIdentifieres()
+		Iterator<Map.Entry<AbstractEntityModel, ReusedIdentifier>> it = super.getReusedIdentifiers()
 				.entrySet().iterator();
 
 		// sourceは読み飛ばす
@@ -79,13 +79,13 @@ public class CombinationTable extends AbstractEntityModel {
 		return null;
 	}
 
-	private void checkDuplicateTargetReusedIdentifieres() {
+	private void checkDuplicateTargetReusedIdentifiers() {
 		Map.Entry<AbstractEntityModel, ReusedIdentifier> source = getSource();
 		Map.Entry<AbstractEntityModel, ReusedIdentifier> target = getTarget();
 		if (source == null || target == null) {
 			return;
 		}
-		for (IdentifierRef i : target.getValue().getIdentifires()) {
+		for (IdentifierRef i : target.getValue().getIdentifiers()) {
 			if (containIdentifier(source.getValue(), i)) {
 				i.setDuplicate(true);
 			} else {
@@ -96,7 +96,7 @@ public class CombinationTable extends AbstractEntityModel {
 
 	private boolean containIdentifier(ReusedIdentifier source, IdentifierRef target) {
 
-		for (IdentifierRef s : source.getIdentifires()) {
+		for (IdentifierRef s : source.getIdentifiers()) {
 			// sourceに存在するIdentifierと同じのIdentifierがtargetに存在する場合は、
 			// そのIdentifier省略する。
 			// TODO 現状では名称の一致をもって同一Identifierとみなす
@@ -189,7 +189,7 @@ public class CombinationTable extends AbstractEntityModel {
 	 */
 	@Override
 	public void fireIdentifierChanged(AbstractConnectionModel callConnection) {
-		checkDuplicateTargetReusedIdentifieres();
+		checkDuplicateTargetReusedIdentifiers();
 		super.fireIdentifierChanged(callConnection);
 	}
 

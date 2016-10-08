@@ -138,7 +138,7 @@ public class SubsetTest {
 		SubsetEntity s1 = subsetType.getSubsetList().get(0);
 		SubsetEntity s2 = subsetType.getSubsetList().get(1);
 		e1.setIdentifierName("テスト1番号1");
-		assertEquals("テスト1番号1", s1.getOriginalReusedIdentifier().getIdentifires().get(0).getName());
-		assertEquals("テスト1番号1", s2.getOriginalReusedIdentifier().getIdentifires().get(0).getName());
+		assertEquals("テスト1番号1", s1.getOriginalReusedIdentifier().getIdentifiers().get(0).getName());
+		assertEquals("テスト1番号1", s2.getOriginalReusedIdentifier().getIdentifiers().get(0).getName());
 	}
 }

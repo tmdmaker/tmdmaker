@@ -193,7 +193,7 @@ public class DdlUtilsConverter {
 		System.out.println("createForeignConstraints " + entity.getName() + " " + table.getName());
 		ForeignConstraints foreignConstraints = new ForeignConstraints(table);
 
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity.getReusedIdentifieres().entrySet()) {
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity.getReusedIdentifiers().entrySet()) {
 
 			AbstractEntityModel foreignEntity = reusedMap.getKey();
 			ReusedIdentifier reused = reusedMap.getValue();
@@ -226,7 +226,7 @@ public class DdlUtilsConverter {
 			addReference(refences, localColumn, originalColumn);
 			return refences;
 		} else {
-			List<IdentifierRef> list = reused.getUniqueIdentifieres();
+			List<IdentifierRef> list = reused.getUniqueIdentifiers();
 			int reusedCount = list.size();
 			// 再帰表は同一Reused×2となっているため1つ目のみを取得する
 			if (isRecursive(reused)) {

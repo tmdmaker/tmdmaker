@@ -45,7 +45,9 @@ public class SubsetType2SubsetRelationship extends RelatedRelationship
 	 */
 	@Override
 	public void identifierChanged() {
-		((AbstractEntityModel) getTarget()).fireIdentifierChanged(this);
+		SubsetEntity subset = (SubsetEntity) getTarget();
+		subset.setOriginalReusedIdentifier(getOriginal().createReusedIdentifier());
+		subset.fireIdentifierChanged(this);
 	}
 
 	private AbstractEntityModel getOriginal() {

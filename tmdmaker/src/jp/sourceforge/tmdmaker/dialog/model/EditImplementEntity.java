@@ -80,18 +80,19 @@ public class EditImplementEntity {
 			attributes.add(new EditImplementAttribute(model, ((Entity) model).getIdentifier()));
 		}
 		if (model instanceof Detail) {
-			attributes
-					.add(new EditImplementAttribute(model, ((Detail) model).getDetailIdentifier()));
+			if (((Detail) model).isDetailIdentifierEnabled()){
+				attributes.add(new EditImplementAttribute(model, ((Detail) model).getDetailIdentifier()));
+			}
 		}
 		if (model instanceof SubsetEntity) {
 			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
-			for (IdentifierRef ref : reused.getUniqueIdentifieres()) {
+			for (IdentifierRef ref : reused.getUniqueIdentifiers()) {
 				attributes.add(new EditImplementAttribute(model, ref));
 			}
 
 		}
 		// Re-usedをカラムとして追加
-		Map<AbstractEntityModel, ReusedIdentifier> reused = model.getReusedIdentifieres();
+		Map<AbstractEntityModel, ReusedIdentifier> reused = model.getReusedIdentifiers();
 		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused.entrySet()) {
 			ReusedIdentifier ri = entry.getValue();
 			if (ri.isSurrogateKeyEnabled()) {
@@ -103,7 +104,7 @@ public class EditImplementEntity {
 			} else {
 				System.out.println("not ri.isSurrogateKeyEnabled()");
 				// 個体指定子の参照をカラムとして使用
-				for (IdentifierRef ref : ri.getUniqueIdentifieres()) {
+				for (IdentifierRef ref : ri.getUniqueIdentifiers()) {
 					attributes.add(new EditImplementAttribute(model, ref));
 				}
 			}

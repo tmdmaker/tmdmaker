@@ -45,9 +45,9 @@ public class MultivalueOrEntity extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifieres
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifiers
 				.entrySet()) {
-			returnValue.addAll(rk.getValue().getIdentifires());
+			returnValue.addAll(rk.getValue().getIdentifiers());
 		}
 		return returnValue;
 	}

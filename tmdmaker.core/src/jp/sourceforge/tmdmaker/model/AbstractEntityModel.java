@@ -21,6 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
 /**
@@ -31,7 +34,9 @@ import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractEntityModel extends ConnectableElement {
-
+	
+	private static Logger logger = LoggerFactory.getLogger(AbstractEntityModel.class);
+	
 	/** 親モデル */
 	private Diagram diagram;
 	public static final String PROPERTY_ATTRIBUTE_REORDER = "p_attribute_reorder";
@@ -41,7 +46,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public static final String PROPERTY_NOT_IMPLEMENT = "p_notImplement";
 	/** 個体指定子プロパティ定数 */
 	public static final String PROPERTY_IDENTIFIER = "_property_identifier";
-	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
+	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifiers = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
 	/** アトリビュート */
 	protected List<IAttribute> attributes = new ArrayList<IAttribute>();
 	/** エンティティ種類 */
@@ -78,19 +83,19 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	}
 
 	/**
-	 * @return the reusedIdentifieres
+	 * @return the reusedIdentifiers
 	 */
-	public Map<AbstractEntityModel, ReusedIdentifier> getReusedIdentifieres() {
-		return Collections.unmodifiableMap(reusedIdentifieres);
+	public Map<AbstractEntityModel, ReusedIdentifier> getReusedIdentifiers() {
+		return Collections.unmodifiableMap(reusedIdentifiers);
 	}
 
 	/**
-	 * @param reusedIdentifieres
-	 *            the reusedIdentifieres to set
+	 * @param reusedIdentifiers
+	 *            the reusedIdentifiers to set
 	 */
-	public void setReusedIdentifieres(
-			Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres) {
-		this.reusedIdentifieres = reusedIdentifieres;
+	public void setReusedIdentifiers(
+			Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifiers) {
+		this.reusedIdentifiers = reusedIdentifiers;
 	}
 
 	/**
@@ -112,7 +117,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            取得元モデルから得たReused
 	 */
 	protected void addReusedIdentifier(AbstractEntityModel source, ReusedIdentifier reused) {
-		ReusedIdentifier added = this.reusedIdentifieres.put(source, reused);
+		ReusedIdentifier added = this.reusedIdentifiers.put(source, reused);
 		firePropertyChange(PROPERTY_REUSED, null, added);
 	}
 
@@ -124,7 +129,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @return 削除したReused個体指定子
 	 */
 	public ReusedIdentifier removeReusedIdentifier(AbstractEntityModel source) {
-		ReusedIdentifier removed = this.reusedIdentifieres.remove(source);
+		ReusedIdentifier removed = this.reusedIdentifiers.remove(source);
 		firePropertyChange(PROPERTY_REUSED, removed, null);
 		return removed;
 	}
@@ -293,24 +298,12 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		if (getEntityType().equals(EntityType.RESOURCE)) {
 			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
 			notifyIdentifierChangedToConnections(getModelTargetConnections(), callConnection);
-			// for (AbstractConnectionModel<?> con :
-			// getModelTargetConnections()) {
-			//
-			// if (con instanceof IdentifierChangeListener && con !=
-			// callConnection ) {
-			// ((IdentifierChangeListener) con).awareReUseKeysChanged();
-			// }
-			// }
 		} else {
 			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
-			for (AbstractConnectionModel con : getModelTargetConnections()) {
-				if (con instanceof IdentifierChangeListener
-						&& con instanceof Event2EventRelationship && con != callConnection) {
-					((IdentifierChangeListener) con).identifierChanged();
-				}
-			}
+			List<AbstractConnectionModel> targetcons = 
+					findRelationshipFromTargetConnections(Event2EventRelationship.class);
+			notifyIdentifierChangedToConnections(targetcons, callConnection);
 		}
-
 	}
 
 	/**
@@ -326,6 +319,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		for (AbstractConnectionModel con : connections) {
 			if (con instanceof IdentifierChangeListener && con != callConnection) {
 				((IdentifierChangeListener) con).identifierChanged();
+				logger.debug(getName() + "から" + con.getClass().toString() + "に通知しました。" );
 			}
 		}
 	}
@@ -473,10 +467,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public int calcurateMaxIdentifierRefSize() {
 		int rx = 0;
 		final int RMARK_SIZE = 3;
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> e : getReusedIdentifieres()
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> e : getReusedIdentifiers()
 				.entrySet()) {
 			ReusedIdentifier ri = e.getValue();
-			for (IdentifierRef i : ri.getUniqueIdentifieres()) {
+			for (IdentifierRef i : ri.getUniqueIdentifiers()) {
 				rx = Math.max(i.getName().length() + RMARK_SIZE, rx);
 			}
 		}

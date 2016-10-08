@@ -79,7 +79,7 @@ public class MultivalueAndTest {
 		assertEquals(true, sp != null);
 		Detail dtl = (Detail) r1.getTarget();
 		assertEquals(true, dtl.isDeletable());
-		assertEquals(e1.getIdentifier(), dtl.getOriginalReusedIdentifier().getIdentifires().get(0)
+		assertEquals(e1.getIdentifier(), dtl.getOriginalReusedIdentifier().getIdentifiers().get(0)
 				.getOriginal());
 		assertEquals(false, dtl.isEntityTypeEditable());
 
@@ -92,33 +92,33 @@ public class MultivalueAndTest {
 
 		// Detailへの個体指定子変更伝播
 		e1.setIdentifierName("テスト1番号変更");
-		Map<AbstractEntityModel, ReusedIdentifier> reused1 = dtl.getReusedIdentifieres();
+		Map<AbstractEntityModel, ReusedIdentifier> reused1 = dtl.getReusedIdentifiers();
 		assertEquals(2, reused1.size());
 		ReusedIdentifier ri1 = reused1.get(e1);
-		assertEquals("テスト1番号変更", ri1.getIdentifires().get(0).getName());
-		Map<AbstractEntityModel, ReusedIdentifier> reused2 = e3.getReusedIdentifieres();
+		assertEquals("テスト1番号変更", ri1.getIdentifiers().get(0).getName());
+		Map<AbstractEntityModel, ReusedIdentifier> reused2 = e3.getReusedIdentifiers();
 		assertEquals(1, reused2.size());
 		ReusedIdentifier dri1 = reused2.get(dtl);
-		assertEquals(2, dri1.getIdentifires().size());
-		assertEquals("テスト1番号変更", dri1.getIdentifires().get(0).getName());
-		assertEquals("テスト1明細番号", dri1.getIdentifires().get(1).getName());
+		assertEquals(2, dri1.getIdentifiers().size());
+		assertEquals("テスト1番号変更", dri1.getIdentifiers().get(0).getName());
+		assertEquals("テスト1明細番号", dri1.getIdentifiers().get(1).getName());
 
 		// Detailからの個体指定子変更伝播
 		dtl.setDetailIdentifierName("テスト1明細番号変更");
-		Map<AbstractEntityModel, ReusedIdentifier> reused3 = e3.getReusedIdentifieres();
+		Map<AbstractEntityModel, ReusedIdentifier> reused3 = e3.getReusedIdentifiers();
 		assertEquals(1, reused3.size());
 		ReusedIdentifier dri2 = reused3.get(dtl);
-		assertEquals(2, dri2.getIdentifires().size());
-		assertEquals("テスト1番号変更", dri2.getIdentifires().get(0).getName());
-		assertEquals("テスト1明細番号変更", dri2.getIdentifires().get(1).getName());
+		assertEquals(2, dri2.getIdentifiers().size());
+		assertEquals("テスト1番号変更", dri2.getIdentifiers().get(0).getName());
+		assertEquals("テスト1明細番号変更", dri2.getIdentifiers().get(1).getName());
 
 		dtl.setDetailIdentifier(new Identifier("テスト1明細番号変更2"));
-		Map<AbstractEntityModel, ReusedIdentifier> reused4 = e3.getReusedIdentifieres();
+		Map<AbstractEntityModel, ReusedIdentifier> reused4 = e3.getReusedIdentifiers();
 		assertEquals(1, reused4.size());
 		ReusedIdentifier dri3 = reused4.get(dtl);
-		assertEquals(2, dri3.getIdentifires().size());
-		assertEquals("テスト1番号変更", dri3.getIdentifires().get(0).getName());
-		assertEquals("テスト1明細番号変更", dri3.getIdentifires().get(1).getName()); // 伝播しない
+		assertEquals(2, dri3.getIdentifiers().size());
+		assertEquals("テスト1番号変更", dri3.getIdentifiers().get(0).getName());
+		assertEquals("テスト1明細番号変更", dri3.getIdentifiers().get(1).getName()); // 伝播しない
 
 	}
 }
