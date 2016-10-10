@@ -1,5 +1,7 @@
-設計文書
-=========
+「${diagram_name}」設計文書
+============${delimiter}
+
+${description}
 
 .. toctree::
    :maxdepth: 1
