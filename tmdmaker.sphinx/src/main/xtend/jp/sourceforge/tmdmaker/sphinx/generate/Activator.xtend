@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+
 package jp.sourceforge.tmdmaker.sphinx.generate
 
 import org.eclipse.core.runtime.Plugin
@@ -23,6 +25,7 @@ import org.osgi.framework.BundleContext
  * 
  * TMDごとに、リレーションシップの検証表、アトリビュートリスト、キーの定義表を生成する。
  * 
+ * @author tohosaku
  */
 class Activator extends Plugin {
 	// The plug-in ID

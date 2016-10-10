@@ -1,3 +1,19 @@
+/*
+ * Copyright 2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
 package jp.sourceforge.tmdmaker.sphinx.relationshiplist
 
 import java.io.File
@@ -11,6 +27,11 @@ import jp.sourceforge.tmdmaker.model.RecursiveRelationship
 import jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils
 import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
 
+/**
+ * Relationship の検証表を生成する。
+ * 
+ * @author tohosaku
+ */
 class RelationshipListRstGenerator {
 	
 	def execute(File outputdir, List<AbstractEntityModel> models) {

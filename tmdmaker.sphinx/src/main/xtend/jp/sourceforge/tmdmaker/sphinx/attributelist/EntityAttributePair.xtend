@@ -1,7 +1,5 @@
-package jp.sourceforge.tmdmaker.sphinx.attributelist
-
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +13,8 @@ package jp.sourceforge.tmdmaker.sphinx.attributelist
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package jp.sourceforge.tmdmaker.sphinx.attributelist
+
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel
 import jp.sourceforge.tmdmaker.model.IAttribute
 import org.eclipse.xtend.lib.annotations.Accessors

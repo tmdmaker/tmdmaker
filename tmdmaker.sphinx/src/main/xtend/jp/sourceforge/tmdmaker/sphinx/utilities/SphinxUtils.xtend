@@ -1,7 +1,5 @@
-package jp.sourceforge.tmdmaker.sphinx.utilities
-
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +13,9 @@ package jp.sourceforge.tmdmaker.sphinx.utilities
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+package jp.sourceforge.tmdmaker.sphinx.utilities
+
 import java.io.Closeable
 import java.io.File
 import java.io.FileOutputStream
