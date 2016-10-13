@@ -28,10 +28,14 @@ import java.io.Serializable;
 public class ModelElement implements Serializable, IAcceptor {
 	/** 名称プロパティ定数 */
 	public static final String PROPERTY_NAME = "_property_name";
+	/** 説明プロパティ定数 */
+	public static final String PROPERTY_DESCRIPTION = "_property_description";
 	/** 領域プロパティ定数 */
 	public static final String PROPERTY_CONSTRAINT = "_property_constraint";
 	/** オブジェクトの名称 */
 	private String name;
+	/** オブジェクトの説明 */
+	private String description;
 	/** オブジェクトの領域 */
 	private Constraint constraint;
 	/** プロパティ変更通知用 */
@@ -85,6 +89,22 @@ public class ModelElement implements Serializable, IAcceptor {
 	public void setName(String name) {
 		this.name = name;
 		firePropertyChange(PROPERTY_NAME, null, name);
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+		firePropertyChange(PROPERTY_DESCRIPTION, null, description);
 	}
 
 	/**
