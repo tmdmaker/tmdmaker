@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tmdmaker</groupId>
 	<artifactId>tmdmaker.releng</artifactId>
-	<version>0.3.1-SNAPSHOT</version>
+	<version>0.4.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<tycho-version>0.25.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<release-version>0.3.1</release-version>
+		<release-version>0.4.0</release-version>
 		<os-jvm-flags />
 		<jacoco-version>0.7.7.201606060606</jacoco-version>
 		<antrun-version>1.8</antrun-version>
@@ -171,7 +171,7 @@
 				<artifactId>tycho-versions-plugin</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
-					<newVersion>0.3.1.qualifier</newVersion>
+					<newVersion>0.4.0.qualifier</newVersion>
 				</configuration>
 			</plugin>
 		</plugins>
