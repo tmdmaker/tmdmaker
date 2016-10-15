@@ -17,12 +17,17 @@ package jp.sourceforge.tmdmaker.editor;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -99,6 +104,8 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 	@Test
 	public void testCreateResourceEntity() {
+		maximizeActiveWindow();
+		maximizeActiveEditor();
 		botEditor.activateTool("Entity");
 		botEditor.click(50, 50);
 		SWTBotShell shell = bot.shell("Create a new entity");
@@ -286,4 +293,24 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 	private void sleep() {
 		bot.sleep(300);
 	}
+	private void maximizeActiveWindow() {
+        final Shell activeShell = bot.activeShell().widget;
+        VoidResult maximizeShell = new VoidResult() {
+            @Override
+            public void run() {
+                    activeShell.setMaximized(true);
+            }
+        };
+        UIThreadRunnable.syncExec(maximizeShell);
+    }
+
+	private void maximizeActiveEditor() {
+        VoidResult maximizeShell = new VoidResult() {
+            @Override
+            public void run() {
+            	PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().setPartState(botEditor.getReference(), IWorkbenchPage.STATE_MAXIMIZED);            }
+        };
+        UIThreadRunnable.syncExec(maximizeShell);
+    }
+
 }

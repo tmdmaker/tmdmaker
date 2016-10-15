@@ -15,6 +15,11 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import java.util.Map.Entry;
+
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+
 /**
  * 多値のANDのディテール
  * 
@@ -23,17 +28,23 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class Detail extends AbstractEntityModel {
+
+	//private static Logger logger = LoggerFactory.getLogger(Detail.class);
+
 	/** HDRモデルのRe-used */
 	private ReusedIdentifier originalReusedIdentifier;
 
 	/** DTLの個体指定子 */
 	private Identifier detailIdentifier = new Identifier();
+	
+	/** DTLの個体指定子を使用するか？ */
+	private boolean isDetailIdentifierEnabled;
 
-	// public Detail() {
-	// detailIdentifier.setParent(this);
-	// }
+	public Detail() {
+		isDetailIdentifierEnabled = true;
+	}
 	/**
-	 * DTLの個体指定子名を設定する
+	 * DTLの個体指定子名(明細番号)を設定する
 	 * 
 	 * @param name
 	 */
@@ -47,6 +58,8 @@ public class Detail extends AbstractEntityModel {
 	}
 
 	/**
+	 * DTLの個体指定子名(明細番号)を返す
+	 * 
 	 * @return the detailIdentifier
 	 */
 	public Identifier getDetailIdentifier() {
@@ -63,6 +76,43 @@ public class Detail extends AbstractEntityModel {
 		this.detailIdentifier = detailIdentifier;
 		// this.detailIdentifier.setParent(this);
 		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, detailIdentifier);
+	}
+	
+	/**
+	 * DTLの個体指定子の使用有無を設定する。
+	 * HDR以外のRe-UsedのIdentifierがある場合以外はfalseに設定できない。
+	 * 変更になった場合は、他のEntityに変化を波及させる必要がある。
+	 * 
+	 * @param enabled
+	 */
+	public void setDetailIdentifierEnabled(boolean enabled)
+	{
+		if (isDetailIdentifierEnabled() == enabled) return;
+		// canDisableDetailIdentifierEnabled() で不用意な書き換えを制御したいがダイアログ書き換えのタイミングの
+		// 問題で難しい。
+		isDetailIdentifierEnabled = enabled;
+		fireIdentifierChanged(null);
+	}
+	
+	/**
+	 * DTLの個体指定子(明細番号)が使用されているかを返す。
+	 * 
+	 * @return
+	 */
+	public boolean isDetailIdentifierEnabled()
+	{
+		return isDetailIdentifierEnabled;
+	}
+	
+	/**
+	 * DTLの個体指定子(明細番号)を使用できないようにできるかどうかを返す。
+	 * HDR以外のRe-UsedのIdentifierがある場合はtrueを返す。
+	 * 
+	 * @return
+	 */
+	public boolean canDisableDetailIdentifierEnabled()
+	{
+		return getReusedIdentifiers().size() > 1;
 	}
 
 	/**
@@ -100,8 +150,18 @@ public class Detail extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
-		returnValue.addIdentifier(detailIdentifier);
+		if (isDetailIdentifierEnabled)
+		{
+			if (originalReusedIdentifier != null){
+				returnValue.addAll(this.originalReusedIdentifier.getIdentifiers());
+			}
+		    returnValue.addIdentifier(detailIdentifier);
+		}
+		else{
+			for (Entry<AbstractEntityModel, ReusedIdentifier > ref: this.reusedIdentifiers.entrySet()){
+				returnValue.addAll(ref.getValue().getIdentifiers());
+			}
+		}
 		return returnValue;
 	}
 
@@ -122,11 +182,10 @@ public class Detail extends AbstractEntityModel {
 	 */
 	@Override
 	public void copyTo(AbstractEntityModel to) {
-		if (to instanceof Detail) {
-			Detail toDetail = (Detail) to;
-			toDetail.setDetailIdentifierName(getDetailIdentifier().getName());
-			toDetail.getDetailIdentifier().copyFrom(getDetailIdentifier());
-		}
+		Detail toDetail = (Detail) to;
+		toDetail.setDetailIdentifierEnabled(isDetailIdentifierEnabled());
+		toDetail.setDetailIdentifierName(getDetailIdentifier().getName());
+		toDetail.getDetailIdentifier().copyFrom(getDetailIdentifier());
 		super.copyTo(to);
 	}
 
@@ -152,7 +211,7 @@ public class Detail extends AbstractEntityModel {
 
 	private int calcurateMaxOriginalIdentifierRefSize() {
 		int i = 0;
-		for (IdentifierRef ir : originalReusedIdentifier.getUniqueIdentifieres()) {
+		for (IdentifierRef ir : originalReusedIdentifier.getUniqueIdentifiers()) {
 			i = Math.max(ir.getName().length(), i);
 		}
 		return i;

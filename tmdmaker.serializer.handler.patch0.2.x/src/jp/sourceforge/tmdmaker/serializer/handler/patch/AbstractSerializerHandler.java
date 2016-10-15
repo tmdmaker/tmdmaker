@@ -127,8 +127,28 @@ public class AbstractSerializerHandler implements SerializerHandler {
 	private boolean versionUnderEqualByVersionString(String versionString, int major, int minor, int serviceNo) {
 		Version version = new Version(versionString);
 		logger.info("version = " + version.getValue());
-		return version.getMajorVersion() == major && version.getMinorVersion() == minor
-				&& version.getServiceNo() <= serviceNo;
+		
+		if (version.getMajorVersion() != major)
+		{
+			return version.getMajorVersion() < major;
+		}
+		else
+		{
+			if (version.getMinorVersion() != minor)
+			{
+				return version.getMinorVersion() < minor;
+			}
+			else
+			{
+				if (version.getServiceNo() != serviceNo)
+				{
+					return version.getServiceNo() < serviceNo;
+				}
+				else
+				{
+					return true;
+				}
+			}
+		}
 	}
-
 }

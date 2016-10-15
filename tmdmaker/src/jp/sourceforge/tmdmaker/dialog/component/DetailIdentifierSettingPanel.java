@@ -18,7 +18,7 @@ package jp.sourceforge.tmdmaker.dialog.component;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
+import jp.sourceforge.tmdmaker.dialog.model.EditDetail;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -37,14 +37,15 @@ import org.eclipse.swt.widgets.Text;
  *
  */
 public class DetailIdentifierSettingPanel extends Composite {
-	private EditEntity entity;
+	private EditDetail detail;
 	private Label identifierLabel = null;
 	private Text identifierText = null;
 	private Button descButton = null;
+	private Button isDetailIdentifierEnabledCheckBox = null;
 
-	public DetailIdentifierSettingPanel(Composite parent, int style, EditEntity entity) {
+	public DetailIdentifierSettingPanel(Composite parent, int style, EditDetail entity) {
 		super(parent, style);
-		this.entity = entity;
+		this.detail = entity;
 		initialize();
 	}
 
@@ -68,7 +69,7 @@ public class DetailIdentifierSettingPanel extends Composite {
 		identifierText.setLayoutData(gridData);
 		identifierText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
 			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
-				entity.setIdentifierName(((Text) e.widget).getText());
+				detail.setIdentifierName(((Text) e.widget).getText());
 			}
 		});
 		descButton = new Button(this, SWT.NONE);
@@ -77,11 +78,11 @@ public class DetailIdentifierSettingPanel extends Composite {
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				AttributeDialog dialog = new AttributeDialog(getShell(),
-						entity.getEditIdentifier());
+						detail.getEditIdentifier());
 				if (dialog.open() == Dialog.OK) {
 					EditAttribute edited = dialog.getEditedValue();
 					if (edited.isEdited()) {
-						entity.updateEditIdentifier(edited);
+						detail.updateEditIdentifier(edited);
 						identifierText.setText(edited.getName());
 					}
 				}
@@ -89,11 +90,27 @@ public class DetailIdentifierSettingPanel extends Composite {
 		});
 		this.setLayout(gridLayout);
 		updateValue();
-		setSize(new Point(355, 32));
+		setSize(new Point(355, 66));
+		
+		isDetailIdentifierEnabledCheckBox = new Button(this, SWT.CHECK);
+		isDetailIdentifierEnabledCheckBox.setSelection(detail.isDetailIdentifierEnabled());
+		isDetailIdentifierEnabledCheckBox.setEnabled(detail.canDisableDetailIdentifierEnabled());
+		isDetailIdentifierEnabledCheckBox.setText(Messages.IsDetailIdentifierEnabled);
+		isDetailIdentifierEnabledCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				boolean enabled = isDetailIdentifierEnabledCheckBox.getSelection();
+				detail.setDetailIdentifierEnabled(enabled);
+				identifierText.setEnabled(enabled);
+				descButton.setEnabled(enabled);
+			}
+		});
+		
+		identifierText.setEnabled(detail.isDetailIdentifierEnabled());
+		descButton.setEnabled(detail.isDetailIdentifierEnabled());
 	}
 
 	public void updateValue() {
-		identifierText.setText(entity.getEditIdentifier().getName());
+		identifierText.setText(detail.getEditIdentifier().getName());
 	}
 
 }

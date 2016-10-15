@@ -81,10 +81,10 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 			// do nothing
 		} else {
 			if (entity.isSupersetAnEntity()) {
-				entityFigure.setIdentifier(entity.getOriginalReusedIdentifier().getUniqueIdentifieres()
+				entityFigure.setIdentifier(entity.getOriginalReusedIdentifier().getUniqueIdentifiers()
 						.get(0).getName());
 			} else {
-				for (Identifier i : entity.getOriginalReusedIdentifier().getUniqueIdentifieres()) {
+				for (Identifier i : entity.getOriginalReusedIdentifier().getUniqueIdentifiers()) {
 					entityFigure.addRelationship(i.getName());
 				}
 			}

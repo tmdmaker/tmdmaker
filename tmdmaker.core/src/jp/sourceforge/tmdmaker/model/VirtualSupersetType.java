@@ -31,7 +31,7 @@ public class VirtualSupersetType extends AbstractSubsetType<VirtualSuperset> {
 	/** スーパーセットタイプ */
 	public static final String PROPERTY_SUPERSET_TYPE = "_property_superset_type";
 	/** 個体指定子プロパティ定数 */
-	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifieres = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
+	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifiers = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
 
 	/** アトリビュートに適用するか */
 	private boolean applyAttribute = false;
@@ -81,7 +81,7 @@ public class VirtualSupersetType extends AbstractSubsetType<VirtualSuperset> {
 	 *            取得元モデルから得たReused.
 	 */
 	protected void addReusedIdentifier(AbstractEntityModel source, ReusedIdentifier reused) {
-		this.reusedIdentifieres.put(source, reused);
+		this.reusedIdentifiers.put(source, reused);
 		notifyRelationshipChanged();
 	}
 
@@ -93,7 +93,7 @@ public class VirtualSupersetType extends AbstractSubsetType<VirtualSuperset> {
 	 * @return 削除したReused.
 	 */
 	public ReusedIdentifier removeReusedIdentifier(AbstractEntityModel source) {
-		ReusedIdentifier removed = this.reusedIdentifieres.remove(source);
+		ReusedIdentifier removed = this.reusedIdentifiers.remove(source);
 		notifyRelationshipChanged();
 		return removed;
 	}
@@ -107,10 +107,10 @@ public class VirtualSupersetType extends AbstractSubsetType<VirtualSuperset> {
 	}
 
 	/**
-	 * @return the reusedIdentifieres.
+	 * @return the reusedIdentifiers.
 	 */
-	public Map<AbstractEntityModel, ReusedIdentifier> getReusedIdentifieres() {
-		return reusedIdentifieres;
+	public Map<AbstractEntityModel, ReusedIdentifier> getReusedIdentifiers() {
+		return reusedIdentifiers;
 	}
 
 	/**

@@ -148,9 +148,11 @@ public class AttributeListHtmlGenerator implements Generator {
 			}
 			if (m instanceof Detail) {
 				Detail d = (Detail) m;
-				Identifier i = d.getDetailIdentifier();
-				EntityAttributePair pair = new EntityAttributePair(d, i);
-				attributes.put(pair.createAttributeFileKey(), pair);
+				if (d.isDetailIdentifierEnabled()) {
+					Identifier i = d.getDetailIdentifier();
+					EntityAttributePair pair = new EntityAttributePair(d, i);
+					attributes.put(pair.createAttributeFileKey(), pair);
+				}
 			}
 			for (IAttribute a : m.getAttributes()) {
 				EntityAttributePair pair = new EntityAttributePair(m, a);

@@ -102,6 +102,8 @@ public class RecursiveRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void identifierChanged() {
+		table.removeReusedIdentifier(getSource());
+		table.addCreationIdentifier(getSource());
 		table.fireIdentifierChanged(this);
 	}
 

@@ -52,7 +52,7 @@ public class SubsetEntity extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
+		returnValue.addAll(this.originalReusedIdentifier.getIdentifiers());
 
 		return returnValue;
 	}
@@ -83,7 +83,7 @@ public class SubsetEntity extends AbstractEntityModel {
 	 * @return サブセット元がエンティティの場合にtrueを返す。
 	 */
 	public boolean isSupersetAnEntity() {
-		return this.originalReusedIdentifier.getIdentifires().size() == 1;
+		return this.originalReusedIdentifier.getIdentifiers().size() == 1;
 	}
 
 	/**

@@ -396,13 +396,17 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	protected void refreshVisuals() {
-		logger.debug(getClass().toString() + "#refreshVisuals()");
+		logger.debug(getClass().toString() + "(" + getModel().getName() + ") #refreshVisuals()");
 		super.refreshVisuals();
 		Constraint constraint = getModel().getConstraint();
-		Rectangle bounds = ConstraintConverter.toRectangleWithoutHeightWidth(constraint);
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), convert(constraint));
 
 		updateFigure(getFigure());
+	}
+	
+	protected Rectangle convert(Constraint constraint)
+	{
+		return ConstraintConverter.toRectangleWithoutHeightWidth(constraint);
 	}
 
 	public void updateAppearance() {

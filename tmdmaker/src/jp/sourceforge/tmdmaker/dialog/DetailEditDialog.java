@@ -22,7 +22,7 @@ import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.DetailIdentifierSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
-import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
+import jp.sourceforge.tmdmaker.dialog.model.EditDetail;
 import jp.sourceforge.tmdmaker.model.Detail;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -61,7 +61,7 @@ public class DetailEditDialog extends ModelEditDialog<Detail> {
 	 */
 	public DetailEditDialog(Shell parentShell, Detail original) {
 		super(parentShell);
-		entity = new EditEntity(original);
+		entity = new EditDetail(original);
 		entity.addPropertyChangeListener(this);
 	}
 
@@ -73,9 +73,9 @@ public class DetailEditDialog extends ModelEditDialog<Detail> {
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(EditEntity.PROPERTY_ATTRIBUTES)) {
+		if (evt.getPropertyName().equals(EditDetail.PROPERTY_ATTRIBUTES)) {
 			panel2.updateAttributeTable();
-		} else if (evt.getPropertyName().equals(EditEntity.PROPERTY_UP_IDENTIFIER)) {
+		} else if (evt.getPropertyName().equals(EditDetail.PROPERTY_UP_IDENTIFIER)) {
 			panel3.updateValue();
 			panel2.updateAttributeTable();
 		}
@@ -134,7 +134,7 @@ public class DetailEditDialog extends ModelEditDialog<Detail> {
 	}
 
 	@Override
-	protected EditEntity getEditModel() {
-		return (EditEntity) entity;
+	protected EditDetail getEditModel() {
+		return (EditDetail) entity;
 	}
 }

@@ -62,7 +62,7 @@ public class ImplementInfoEditDialog extends Dialog {
 	/** 編集結果格納用 */
 	private AbstractEntityModel editedValueEntity;
 	private List<EditImplementAttribute> editedValueAttributes = new ArrayList<EditImplementAttribute>();
-	private List<EditImplementAttribute> editedValueIdentifieres = new ArrayList<EditImplementAttribute>();
+	private List<EditImplementAttribute> editedValueIdentifiers = new ArrayList<EditImplementAttribute>();
 	private Map<AbstractEntityModel, List<EditImplementAttribute>> otherModelAttributesMap = new HashMap<AbstractEntityModel, List<EditImplementAttribute>>();
 	private ModelSelectPanel panel2;
 	private IndexSettingPanel panel3;
@@ -214,10 +214,10 @@ public class ImplementInfoEditDialog extends Dialog {
 	}
 
 	/**
-	 * @return the editedValueIdentifieres
+	 * @return the editedValueIdentifiers
 	 */
-	public List<EditImplementAttribute> getEditedValueIdentifieres() {
-		return editedValueIdentifieres;
+	public List<EditImplementAttribute> getEditedValueIdentifiers() {
+		return editedValueIdentifiers;
 	}
 
 	public EditSurrogateKey getEditedSurrogateKey() {

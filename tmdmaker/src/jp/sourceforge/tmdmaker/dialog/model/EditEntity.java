@@ -35,7 +35,6 @@ public class EditEntity extends EditTable {
 	/** 編集対象の個体指定子 */
 	protected EditAttribute editIdentifier;
 	private boolean latuta;
-	private boolean detail;
 
 	/**
 	 * コンストラクタ
@@ -51,9 +50,8 @@ public class EditEntity extends EditTable {
 	public EditEntity(Detail entity) {
 		super(entity);
 		this.editIdentifier = new EditAttribute(entity.getDetailIdentifier());
-		this.detail = true;
 	}
-
+	
 	public EditEntity(Laputa entity) {
 		super(entity);
 		this.editIdentifier = new EditAttribute(entity.getIdentifier());
@@ -127,16 +125,8 @@ public class EditEntity extends EditTable {
 		this.editIdentifier = editIdentifier;
 	}
 
-	public boolean isLatuta() {
+	public boolean isLaputa() {
 		return latuta;
-	}
-
-	public boolean isDetail() {
-		return detail;
-	}
-
-	public boolean isEntity() {
-		return !latuta && !detail;
 	}
 
 	/**
@@ -158,18 +148,11 @@ public class EditEntity extends EditTable {
 	 */
 	@Override
 	protected void copySpecialTo(AbstractEntityModel to) {
-		if (isEntity()) {
+		if (!isLaputa()) {
 			Entity edited = (Entity) to;
 			Identifier newIdentifier = new Identifier();
 			getEditIdentifier().copyTo(newIdentifier);
 			edited.setIdentifier(newIdentifier);
-		}
-		if (isDetail()) {
-			Detail edited = (Detail) to;
-			Identifier newIdentifier = new Identifier();
-			getEditIdentifier().copyTo(newIdentifier);
-			edited.setDetailIdentifier(newIdentifier);
-			edited.setEntityType(getType());
 		}
 	}
 

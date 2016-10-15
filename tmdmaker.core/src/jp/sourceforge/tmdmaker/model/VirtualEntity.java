@@ -42,6 +42,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	 */
 	public void setOriginalReusedIdentifier(ReusedIdentifier originalReusedIdentifier) {
 		this.originalReusedIdentifier = originalReusedIdentifier;
+		firePropertyChange(PROPERTY_REUSED, null, null);
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class VirtualEntity extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		returnValue.addAll(this.originalReusedIdentifier.getIdentifires());
+		returnValue.addAll(this.originalReusedIdentifier.getIdentifiers());
 
 		return returnValue;
 	}

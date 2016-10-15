@@ -34,9 +34,9 @@ public class RecursiveTable extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifieres
+		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> rk : this.reusedIdentifiers
 				.entrySet()) {
-			returnValue.addAll(rk.getValue().getIdentifires());
+			returnValue.addAll(rk.getValue().getIdentifiers());
 		}
 		return returnValue;
 	}
@@ -50,8 +50,8 @@ public class RecursiveTable extends AbstractEntityModel {
 	@Override
 	public void addReusedIdentifier(AbstractEntityModel source) {
 		ReusedIdentifier added = new ReusedIdentifier(keyModels.getSurrogateKey());
-		added.addAll(source.createReusedIdentifier().getIdentifires());
-		this.reusedIdentifieres.put(source, added);
+		added.addAll(source.createReusedIdentifier().getIdentifiers());
+		this.reusedIdentifiers.put(source, added);
 		firePropertyChange(PROPERTY_REUSED, null, added);
 	}
 
@@ -64,9 +64,9 @@ public class RecursiveTable extends AbstractEntityModel {
 	public void addCreationIdentifier(AbstractEntityModel source) {
 		SurrogateKey surrogateKey = source.getKeyModels().getSurrogateKey();
 		ReusedIdentifier added = new ReusedIdentifier(surrogateKey, surrogateKey);
-		added.addAll(source.createReusedIdentifier().getIdentifires());
-		added.addAll(source.createReusedIdentifier().getIdentifires());
-		this.reusedIdentifieres.put(source, added);
+		added.addAll(source.createReusedIdentifier().getIdentifiers());
+		added.addAll(source.createReusedIdentifier().getIdentifiers());
+		this.reusedIdentifiers.put(source, added);
 		firePropertyChange(PROPERTY_REUSED, null, added);
 	}
 

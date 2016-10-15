@@ -29,7 +29,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ReusedIdentifier implements Serializable {
 	/** 参照元の個体指定子（またはRe-usedキー） */
-	private List<IdentifierRef> identifieres = new ArrayList<IdentifierRef>();
+	private List<IdentifierRef> identifiers = new ArrayList<IdentifierRef>();
 	/** 参照元のサロゲートキー */
 	private List<SurrogateKeyRef> surrogateKeys = new ArrayList<SurrogateKeyRef>();
 
@@ -80,8 +80,8 @@ public class ReusedIdentifier implements Serializable {
 	 * 
 	 * @return 参照元の個体指定子（またはRe-usedキー）
 	 */
-	public List<IdentifierRef> getIdentifires() {
-		return Collections.unmodifiableList(identifieres);
+	public List<IdentifierRef> getIdentifiers() {
+		return Collections.unmodifiableList(identifiers);
 	}
 
 	/**
@@ -89,9 +89,9 @@ public class ReusedIdentifier implements Serializable {
 	 * 
 	 * @return 重複を排除した参照元の個体指定子（またはRe-usedキー）。
 	 */
-	public List<IdentifierRef> getUniqueIdentifieres() {
-		List<IdentifierRef> list = new ArrayList<IdentifierRef>(identifieres.size());
-		for (IdentifierRef i : identifieres) {
+	public List<IdentifierRef> getUniqueIdentifiers() {
+		List<IdentifierRef> list = new ArrayList<IdentifierRef>(identifiers.size());
+		for (IdentifierRef i : identifiers) {
 			if (!i.isDuplicate()) {
 				list.add(i);
 			}
@@ -109,25 +109,25 @@ public class ReusedIdentifier implements Serializable {
 	/**
 	 * 参照元の個体指定子（またはRe-usedキー）を追加する
 	 * 
-	 * @param identifieres
+	 * @param identifiers
 	 *            参照元の個体指定子（またはRe-usedキー）
 	 */
-	public void addAll(List<IdentifierRef> identifieres) {
-		for (IdentifierRef i : identifieres) {
-			this.identifieres.add(new IdentifierRef(i));
+	public void addAll(List<IdentifierRef> identifiers) {
+		for (IdentifierRef i : identifiers) {
+			this.identifiers.add(new IdentifierRef(i));
 		}
 	}
 
 	public void addIdentifier(Identifier identifier) {
 		IdentifierRef identifierRef = new IdentifierRef(identifier);
-		this.identifieres.add(identifierRef);
+		this.identifiers.add(identifierRef);
 	}
 
 	/**
 	 * オブジェクトを破棄する
 	 */
 	public void dispose() {
-		identifieres.clear();
+		identifiers.clear();
 	}
 
 	public boolean isSurrogateKeyEnabled() {

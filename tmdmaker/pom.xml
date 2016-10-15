@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>tmdmaker</groupId>
 		<artifactId>tmdmaker.releng</artifactId>
-		<version>0.3.0-SNAPSHOT</version>
+		<version>0.3.1-SNAPSHOT</version>
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
 	<name>TMD-Maker Plugin</name>
