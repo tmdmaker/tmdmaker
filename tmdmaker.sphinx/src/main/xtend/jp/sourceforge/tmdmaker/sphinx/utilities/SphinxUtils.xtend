@@ -102,12 +102,10 @@ class SphinxUtils {
 	 * @param closeable主にストリーム
 	 */
 	def static void close(Closeable closeable) {
-		if (closeable !== null) {
-			try {
-				closeable.close()
-			} catch (Exception e) {
-				//logger.warn(e.getMessage())
-			}
+		try {
+			closeable?.close()
+		} catch (Exception e) {
+			//logger.warn(e.getMessage())
 		}
 	}
 	
