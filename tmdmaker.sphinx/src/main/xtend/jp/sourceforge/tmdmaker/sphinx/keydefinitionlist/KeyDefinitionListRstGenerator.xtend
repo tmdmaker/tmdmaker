@@ -19,16 +19,15 @@ package jp.sourceforge.tmdmaker.sphinx.keydefinitionlist
 import java.util.List
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel
 import java.io.File
-import jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils
 import jp.sourceforge.tmdmaker.model.IAttribute
 import jp.sourceforge.tmdmaker.model.KeyModel
-import java.util.ArrayList
 import java.util.LinkedHashMap
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule
 import org.apache.commons.lang.StringUtils
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration
 import java.util.Map
 import jp.sourceforge.tmdmaker.model.KeyModels
+import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
 
 /**
  * キーの定義表を生成する。
@@ -37,29 +36,23 @@ import jp.sourceforge.tmdmaker.model.KeyModels
  */
 class KeyDefinitionListRstGenerator {
 	
-	def static execute(File outputdir, List<AbstractEntityModel> models) {
+	def static generateKeyDefinitionList(List<AbstractEntityModel> models, File outputdir) {
 		
 		// 出力ディレクトリを生成する
 		val keysDir = new File(outputdir, "keys")
 		keysDir.mkdirs()
 
-		SphinxUtils.writeFile(
-			new File(outputdir, "key_list.rst"),
-			keyList(models).toString
-		)
+		keyList(models).writeTo(new File(outputdir, "key_list.rst"))
 		
 		models.forEach[m|
-			SphinxUtils.writeFile(
-				new File(keysDir, m.implementName + ".rst"),
-				keys(m,
-					ImplementRule.findAllImplementAttributes(m).map[a|
+			keys(m,ImplementRule.findAllImplementAttributes(m).map[a|
 						#{
 						"name"          -> a.name,
 						"implementName" -> a.implementName,
 						"type"          -> datatype(a.dataTypeDeclaration).toString,
-						"null"          -> nullable(a.nullable)}]
-				).toString
-			)
+						"null"          -> nullable(a.nullable)}])
+				.writeTo(new File(keysDir, m.implementName + ".rst"))
+				
 		]
 	}
 	
@@ -83,14 +76,10 @@ class KeyDefinitionListRstGenerator {
 	def static private createData(AbstractEntityModel model) {
 		var attributes = ImplementRule.findAllImplementAttributes(model)
 		var data       = new LinkedHashMap<IAttribute, List<KeyDefinitionMapping>>()
-		for (a : attributes) {
-			var list = new ArrayList<KeyDefinitionMapping>();
-			for (k : model.keyModels) {
-				list.add(new KeyDefinitionMapping(a, k));
-			}
-			data.put(a, list);
-		}
-		data;
+		attributes.fold(data)[d,a|
+			d.put(a,model.keyModels.map[k|new KeyDefinitionMapping(a, k)].toList);
+			d
+		]
 	}
 	
 	def private static keyList(List<AbstractEntityModel> entities) '''
@@ -138,7 +127,7 @@ class KeyDefinitionListRstGenerator {
 		     «FOR h: keyHeader(m.keyModels)»
 		     - «h»
 		     «ENDFOR»
-		   «FOR mapping: createData(m).entrySet()»
+		   «FOR mapping: m.createData.entrySet()»
 		   * - «mapping.key.name»
 		     «FOR rm: mapping.value»
 		     - «rm.keyOrder»
@@ -150,7 +139,7 @@ class KeyDefinitionListRstGenerator {
 	'''
 	
 	def static private keyHeader(KeyModels keys){
-		keys.indexed.map[item| if (item.value.masterKey == true) "N/M" else (item.key + 1).toString]
+		keys.indexed.map[item| if (item.value.masterKey) "N/M" else (item.key + 1).toString]
 	}
 }
 

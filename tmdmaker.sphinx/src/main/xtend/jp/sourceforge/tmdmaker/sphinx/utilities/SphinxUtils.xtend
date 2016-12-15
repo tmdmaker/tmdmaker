@@ -19,13 +19,13 @@ package jp.sourceforge.tmdmaker.sphinx.utilities
 import java.io.Closeable
 import java.io.File
 import java.io.InputStream
-import java.io.OutputStream
 import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException
 //import org.slf4j.Logger
 //import org.slf4j.LoggerFactory
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel
 import java.io.FileWriter
 import java.io.IOException
+import java.io.FileOutputStream
 
 /** 
  * Utilityクラス
@@ -42,8 +42,10 @@ class SphinxUtils {
 	 * @param in入力ストリーム
 	 * @param out出力ストリーム
 	 */
-	def static void copyStream(InputStream in, OutputStream out) {
+	def static void copyTo(InputStream in, File file) {
+		var FileOutputStream out = null
 		try {
+			out = new FileOutputStream(file)
 			var byte[] buf = newByteArrayOfSize(in.available())
 			in.read(buf)
 			out.write(buf)
@@ -77,14 +79,14 @@ class SphinxUtils {
 	}
 	
 	/**
-	 * 指定したファイルにテキストを書き込む
+	 * テキストを指定したファイルに書き込む
 	 */
-	def static writeFile(File file, String content){
+	def static writeTo(CharSequence content, File file){
 		var FileWriter filewriter = null
 		
 		try {
 			filewriter = new FileWriter(file)
-			filewriter.write(content)
+			filewriter.write(content.toString)
 		} catch (IOException e) {
 			println(e);
 		} finally {

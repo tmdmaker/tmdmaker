@@ -19,12 +19,11 @@ package jp.sourceforge.tmdmaker.sphinx.generate
 import jp.sourceforge.tmdmaker.model.generate.Generator
 import java.util.List
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel
-import jp.sourceforge.tmdmaker.sphinx.attributelist.AttributeListRstGenerator
-import jp.sourceforge.tmdmaker.sphinx.keydefinitionlist.KeyDefinitionListRstGenerator
-import jp.sourceforge.tmdmaker.sphinx.relationshiplist.RelationshipListRstGenerator
 import java.io.File
-import java.io.FileOutputStream
-import jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils
+import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
+import static extension jp.sourceforge.tmdmaker.sphinx.attributelist.AttributeListRstGenerator.*
+import static extension jp.sourceforge.tmdmaker.sphinx.keydefinitionlist.KeyDefinitionListRstGenerator.*
+import static extension jp.sourceforge.tmdmaker.sphinx.relationshiplist.RelationshipListRstGenerator.*
 import java.util.Calendar
 import org.apache.commons.lang.StringUtils
 import jp.sourceforge.tmdmaker.model.Diagram
@@ -36,23 +35,26 @@ import jp.sourceforge.tmdmaker.model.Diagram
  */
 class DocGenerator implements Generator {
 	
+	private Diagram diagram
+	
 	override execute(String rootDir, List<AbstractEntityModel> models) {
 		
 		val outputdir    = new File(rootDir, "doc")
 		outputdir.mkdirs()
 		
-		outputConfig(outputdir, models)
-		outputIndex(outputdir, models)
-
-		SphinxUtils.copyStream(this.class.getResourceAsStream("make.bat")
-							, new FileOutputStream(new File(outputdir, "make.bat")))
-		SphinxUtils.copyStream(this.class.getResourceAsStream("Makefile")
-							, new FileOutputStream(new File(outputdir, "Makefile")))
-
-		AttributeListRstGenerator.execute(outputdir,     models)
-		KeyDefinitionListRstGenerator.execute(outputdir, models.filter[m| m.isNotImplement == false].toList)
-		RelationshipListRstGenerator.execute(outputdir,  models)
+		this.diagram = models.head.diagram
 		
+		outputConfig(outputdir)
+		outputIndex(outputdir)
+
+		this.class.getResourceAsStream("make.bat").copyTo(new File(outputdir, "make.bat"))
+		this.class.getResourceAsStream("Makefile").copyTo(new File(outputdir, "Makefile"))
+
+		models => [
+			generateAttributeList(outputdir)
+			filter[m| m.isNotImplement == false].toList.generateKeyDefinitionList(outputdir)
+			generateRelationshipList(outputdir)
+		]
 	}
 	
 	override getGeneratorName() {
@@ -67,15 +69,15 @@ class DocGenerator implements Generator {
 		false
 	}
 
-	def private void outputIndex(File outputDir, List<AbstractEntityModel> models){
-		val diagram = models.get(0).diagram
-		SphinxUtils.writeFile(new File(outputDir, "index.rst"),index(diagram).toString)
-    }
+	def private void outputIndex(File outputDir){
+		index(diagram).writeTo(new File(outputDir, "index.rst"))
+	}
 	
-	def private void outputConfig(File outputDir, List<AbstractEntityModel> models){
-		val diagram = models.get(0).diagram
-		var cal = Calendar.instance
-		SphinxUtils.writeFile(new File(outputDir, "conf.py"),conf_py(diagram.name,System.getProperty("user.name"),cal.get(Calendar.YEAR).toString).toString)
+	def private void outputConfig(File outputDir){
+		val year   = Calendar.instance.get(Calendar.YEAR)
+		val author = System.getProperty("user.name")
+		
+		confPy(diagram.name,year,author).writeTo(new File(outputDir, "conf.py"))
 	}
 	
 	def private index(Diagram diagram) '''
@@ -92,7 +94,7 @@ class DocGenerator implements Generator {
 		   relationship_list
 	'''
 	
-	def private conf_py(String diagram_name, String year, String author) '''
+	def private confPy(String diagram_name, int year, String author) '''
 		#!/usr/bin/env python3
 		# -*- coding: utf-8 -*-
 		extensions = []

@@ -22,8 +22,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel
 import jp.sourceforge.tmdmaker.model.Entity
 import org.apache.commons.lang.StringUtils
 import jp.sourceforge.tmdmaker.model.IAttribute
-import java.util.Map
-import jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils
+import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
 
 /**
  * アトリビュートリストを生成する
@@ -32,64 +31,58 @@ import jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils
  */
 public class AttributeListRstGenerator {
 	
-	def static void execute(File outputdir, List<AbstractEntityModel> models) {
-		val attributes = findAllAttributes(models)
-		
+	def static void generateAttributeList(List<AbstractEntityModel> models, File outputdir) {
 		// 出力ディレクトリを生成する
 		val attributesDir = new File(outputdir, "attribute_list")
 		attributesDir.mkdirs()
 		
-		SphinxUtils.writeFile(new File(outputdir, "attribute_list.rst"),
-				  attribute_list(attributes).toString
-		)
+		models.attributeList
+			  .writeTo(new File(outputdir, "attribute_list.rst"))
 		
-		attributes.mapValues[v|v.entrySet()]
-				  .values
-				  .flatten
-				  .forEach[e| SphinxUtils.writeFile(new File(attributesDir, e.key + ".rst"),
-				  						attribute(e.value.attribute,e.value.model).toString
-				  )]
-	}
-	
-	def static private findAllAttributes(List<AbstractEntityModel> models) {
-		models.filter[it.attributes.length > 0]
-			  .toMap[it.name]
-			  .mapValues[m| m.attributes.map[new EntityAttributePair(m, it)]
-						 			 	.toMap[it.createAttributeFileKey()]]
+		models.forEach[model|
+			model.attributes.forEach[attr|
+				attr.generateRst(model)
+				    .writeTo(new File(attributesDir, '''«attr.getFileName(model)».rst'''))
+			]
+		]
 	}
 	
 	/**
 	 * アトリビュートリストのトップページを生成する
 	 */
-	def static private attribute_list(Map<String,Map<String,EntityAttributePair>> attributes) '''
+	def static private attributeList(List<AbstractEntityModel> models) '''
 		アトリビュートリスト
 		=====================
 		
-		«FOR attr : attributes.entrySet()»
-		«attr.key»
+		«FOR model : models»
+		«FOR attr : model.attributes»
+		«attr.name»
 		-------------------------------------------------------
 		
 		.. toctree::
 		   :maxdepth: 1
 		
-		    «FOR entry : attr.value.entrySet()»
-		    attribute_list/«entry.value.createAttributeFileKey()»
-		    «ENDFOR»
+		    attribute_list/«attr.getFileName(model)»
 		
 		«ENDFOR»
+		«ENDFOR»
 	'''
+	
+	def static private getFileName(IAttribute attribute, AbstractEntityModel entity){
+		'''«entity.implementName»_«attribute.implementName»'''
+	}
 	
 	/**
 	 * 各アトリビュートのページを生成する
 	 */
-	def static private attribute(IAttribute attribute, AbstractEntityModel entity) '''
+	def static private generateRst(IAttribute attribute, AbstractEntityModel model) '''
 		«attribute.name»
 		«StringUtils.repeat("=", attribute.name.length * 2)»
 		
 		所属エンティティ
 		----------------
 		
-		«entity.name» «IF entity instanceof Entity»(«(entity as Entity).entityType.typeName»)«ENDIF»
+		«model.name» «IF model instanceof Entity»(«(model as Entity).entityType.typeName»)«ENDIF»
 			
 		摘要
 		----

@@ -23,10 +23,10 @@ import java.util.ArrayList
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel
 import jp.sourceforge.tmdmaker.model.RecursiveTable
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship
-import jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils
 import java.util.HashMap
 import java.util.Map
 import org.eclipse.xtend.lib.annotations.Accessors
+import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
 
 /**
  * Relationship の検証表を生成する。
@@ -35,11 +35,11 @@ import org.eclipse.xtend.lib.annotations.Accessors
  */
 class RelationshipListRstGenerator {
 	
-	def static execute(File outputdir, List<AbstractEntityModel> models) {
+	def static generateRelationshipList(List<AbstractEntityModel> models, File outputdir) {
 		
         outputdir.mkdirs()
         
-		val relationshipMappingMap = createData(models)
+		val relationshipMappingMap = models.createData
 		
 		var table = new HashMap<AbstractEntityModel,ArrayList<String>>
 		for (mapping: relationshipMappingMap.entrySet())
@@ -57,9 +57,7 @@ class RelationshipListRstGenerator {
 			table.put(mapping.key,row)
 		}
 	
-		SphinxUtils.writeFile(
-			new File(outputdir, "relationship_list.rst"),
-			relationshipList(table).toString)
+		relationshipList(table).writeTo(new File(outputdir, "relationship_list.rst"))
 	}
 	
 	def static private cellValue(boolean isWrite, boolean relationship)
@@ -81,14 +79,10 @@ class RelationshipListRstGenerator {
 	
 	def static private createData(List<AbstractEntityModel> models) {
 		var relationshipMappingMap = new LinkedHashMap<AbstractEntityModel, List<RelationshipMapping>>()
-		for (source : models) {
-			var relationshipMappingList = new ArrayList<RelationshipMapping>()
-			for (target : models) {
-				relationshipMappingList.add(new RelationshipMapping(source,target))
-			}
-			relationshipMappingMap.put(source, relationshipMappingList)
-		}
-		relationshipMappingMap
+		models.fold(relationshipMappingMap)[rm,source|
+			rm.put(source,models.map[target|new RelationshipMapping(source,target)]);
+			rm
+		]
 	}
 	
 	def static private relationshipList(Map<AbstractEntityModel,ArrayList<String>> table) '''
