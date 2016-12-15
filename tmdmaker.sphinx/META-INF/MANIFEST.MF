@@ -11,11 +11,6 @@ Require-Bundle: tmdmaker.core;bundle-version="0.2.9",
  org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy
 Export-Package: jp.sourceforge.tmdmaker.sphinx.generate
-Import-Package: org.apache.velocity,
- org.apache.velocity.context,
- org.apache.velocity.app,
- org.apache.velocity.runtime,
- org.apache.velocity.runtime.log,
- org.apache.commons.lang,
+Import-Package: org.apache.commons.lang,
  org.slf4j,
  org.apache.commons.logging

@@ -21,11 +21,11 @@ import java.util.List
 import java.util.LinkedHashMap
 import java.util.ArrayList
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel
-import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException
 import jp.sourceforge.tmdmaker.model.RecursiveTable
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship
 import jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils
-import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
+import java.util.HashMap
+import java.util.Map
 
 /**
  * Relationship の検証表を生成する。
@@ -36,23 +36,41 @@ class RelationshipListRstGenerator {
 	
 	def execute(File outputdir, List<AbstractEntityModel> models) {
 		
-		var context   = SphinxUtils.getVecityContext()
-        
         outputdir.mkdirs()
         
 		val relationshipMappingMap = createData(models)
-
-		context => [
-			put("entities", relationshipMappingMap.keySet())
-			put("mappings", relationshipMappingMap.entrySet())
-			try {
-				applyTemplate("relationship_list.rst",
-					this.class,
-					new File(outputdir, "relationship_list.rst"))
-			} catch (Exception e) {
-				throw new GeneratorRuntimeException(e)
+		
+		var table = new HashMap<AbstractEntityModel,ArrayList<String>>
+		for (mapping: relationshipMappingMap.entrySet())
+		{
+			var row = new ArrayList<String>
+			var isWrite = true
+			for (rm: mapping.value)
+			{
+				if (isWrite == true)
+				{
+					if(rm.relationship == true)
+					{
+						row.add("○")
+					}
+					else{
+						row.add("×")
+					}
+				}
+				else{
+					row.add("\\-")
+				}
+				if (rm.target == mapping.key)
+				{
+					isWrite = false
+				}
 			}
-		]
+			table.put(mapping.key,row)
+		}
+	
+		SphinxUtils.writeFile(
+			new File(outputdir, "relationship_list.rst"),
+			relationshipList(table).toString)
 	}
 	
 	def private createData(List<AbstractEntityModel> models) {
@@ -66,6 +84,25 @@ class RelationshipListRstGenerator {
 		}
 		relationshipMappingMap
 	}
+	
+	def private relationshipList(Map<AbstractEntityModel,ArrayList<String>> table) '''
+		リレーションシップの検証表
+		===========================
+		
+		.. list-table::
+		   :header-rows: 1
+		
+		   * - 
+		     «FOR entity : table.keySet()»
+		     - «entity.name»
+		     «ENDFOR»
+		   «FOR mapping : table.entrySet()»
+		   * - «mapping.key.name»
+		     «FOR rm : mapping.value»
+		     - «rm»
+		     «ENDFOR»
+		«ENDFOR»
+	'''
 }
 
 class RelationshipMapping {
