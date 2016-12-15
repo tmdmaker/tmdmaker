@@ -201,6 +201,7 @@
 		<module>../tmdmaker.serializer</module>
 		<module>../tmdmaker.serializer.handler.patch</module>
 		<module>../tmdmaker.ui.menu</module>
+		<module>../tmdmaker.sphinx</module>
 		<module>../tmdmaker.feature</module>
 		<module>../tmdmaker.releng.plugin</module>
 		<module>../tmdmaker.releng.product</module>
