@@ -26,6 +26,7 @@ import jp.sourceforge.tmdmaker.model.RecursiveRelationship
 import jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils
 import java.util.HashMap
 import java.util.Map
+import org.eclipse.xtend.lib.annotations.Accessors
 
 /**
  * Relationship の検証表を生成する。
@@ -47,19 +48,7 @@ class RelationshipListRstGenerator {
 			var isWrite = true
 			for (rm: mapping.value)
 			{
-				if (isWrite == true)
-				{
-					if(rm.relationship == true)
-					{
-						row.add("○")
-					}
-					else{
-						row.add("×")
-					}
-				}
-				else{
-					row.add("\\-")
-				}
+				row.add(cellValue(isWrite,rm.relationship))
 				if (rm.target == mapping.key)
 				{
 					isWrite = false
@@ -71,6 +60,23 @@ class RelationshipListRstGenerator {
 		SphinxUtils.writeFile(
 			new File(outputdir, "relationship_list.rst"),
 			relationshipList(table).toString)
+	}
+	
+	def private cellValue(boolean isWrite, boolean relationship)
+	{
+		if (isWrite == true)
+		{
+			if(relationship == true)
+			{
+				"○"
+			}
+			else{
+				"×"
+			}
+		}
+		else{
+			"\\-"
+		}		
 	}
 	
 	def private createData(List<AbstractEntityModel> models) {
@@ -108,9 +114,9 @@ class RelationshipListRstGenerator {
 class RelationshipMapping {
 	
 	/** 比較元 */
-	private AbstractEntityModel source
+	@Accessors(PUBLIC_GETTER) AbstractEntityModel source
 	/** 比較先 */
-	private AbstractEntityModel target
+	@Accessors(PUBLIC_GETTER) AbstractEntityModel target
 	/** リレーションシップ有無 */
 	private boolean relationship = false
 	
@@ -124,11 +130,10 @@ class RelationshipMapping {
 		this.source = source
 		this.target = target
 
-		if (hasRecursiveRelationship()) {
-			relationship = true
-		} else if (hasRelationshipAsSource()) {
-			relationship = true
-		} else if (hasRelationshipAsTarget()) {
+		if (   hasRecursiveRelationship()
+			|| hasRelationshipAsSource()
+			|| hasRelationshipAsTarget()
+		) {
 			relationship = true
 		} else {
 			relationship = false
@@ -143,7 +148,7 @@ class RelationshipMapping {
 	 * 
 	 * @return 比較元・先が再帰表とそのリレーションシップ元である場合にtrueを返す
 	 */
-	def boolean isRecursiveTablePair() {
+	def private isRecursiveTablePair() {
 		if (target instanceof RecursiveTable) {
 			return (target as RecursiveTable).isSource(source)
 		} else if (source instanceof RecursiveTable) {
@@ -158,44 +163,26 @@ class RelationshipMapping {
 	 * @return 再帰表を作成している場合にtrueを返す
 	 */
 	def hasRecursiveRelationship() {
-		if (source == target) {
-			for (connection : source.modelSourceConnections) {
-				if (connection instanceof RecursiveRelationship) {
-					return true
-				}
-			}
-		}
-		false
+		source == target &&
+		source.modelSourceConnections.exists[c| c instanceof RecursiveRelationship]
 	}
 
 	/**
-	 * 接続元としてリレーションシップを作成しているか？
+	 * 比較元が接続元、比較先が接続先としてリレーションシップを作成しているか？
 	 * 
 	 * @return リレーションシップを作成している場合にtrueを返す
 	 */
 	def private boolean hasRelationshipAsSource() {
-		var hasRelationship = false;
-		for (connection : source.modelSourceConnections) {
-			if (connection.target.equals(target)) {
-				hasRelationship = true
-			}
-		}
-		hasRelationship
+		source.modelSourceConnections.exists[c|c.target.equals(target)]
 	}
 
 	/**
-	 * 接続先としてリレーションシップを作成しているか？
+	 * 比較元が接続先、比較先が接続元としてリレーションシップを作成しているか？
 	 * 
 	 * @return リレーションシップを作成している場合にtrueを返す
 	 */
 	def private hasRelationshipAsTarget() {
-		var hasRelationship = false
-		for (connection : source.modelTargetConnections) {
-			if (connection.source.equals(target)) {
-				hasRelationship = true
-			}
-		}
-		hasRelationship
+		source.modelTargetConnections.exists[c|c.source.equals(target)]
 	}
 
 	/**
@@ -203,19 +190,5 @@ class RelationshipMapping {
 	 */
 	def isRelationship() {
 		relationship
-	}
-
-	/**
-	 * @return the source
-	 */
-	def getSource() {
-		source
-	}
-
-	/**
-	 * @return the target
-	 */
-	def getTarget() {
-		target
 	}
 }
