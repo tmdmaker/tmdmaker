@@ -35,7 +35,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
  */
 class RelationshipListRstGenerator {
 	
-	def execute(File outputdir, List<AbstractEntityModel> models) {
+	def static execute(File outputdir, List<AbstractEntityModel> models) {
 		
         outputdir.mkdirs()
         
@@ -62,7 +62,7 @@ class RelationshipListRstGenerator {
 			relationshipList(table).toString)
 	}
 	
-	def private cellValue(boolean isWrite, boolean relationship)
+	def static private cellValue(boolean isWrite, boolean relationship)
 	{
 		if (isWrite == true)
 		{
@@ -79,7 +79,7 @@ class RelationshipListRstGenerator {
 		}		
 	}
 	
-	def private createData(List<AbstractEntityModel> models) {
+	def static private createData(List<AbstractEntityModel> models) {
 		var relationshipMappingMap = new LinkedHashMap<AbstractEntityModel, List<RelationshipMapping>>()
 		for (source : models) {
 			var relationshipMappingList = new ArrayList<RelationshipMapping>()
@@ -91,7 +91,7 @@ class RelationshipListRstGenerator {
 		relationshipMappingMap
 	}
 	
-	def private relationshipList(Map<AbstractEntityModel,ArrayList<String>> table) '''
+	def static private relationshipList(Map<AbstractEntityModel,ArrayList<String>> table) '''
 		リレーションシップの検証表
 		===========================
 		

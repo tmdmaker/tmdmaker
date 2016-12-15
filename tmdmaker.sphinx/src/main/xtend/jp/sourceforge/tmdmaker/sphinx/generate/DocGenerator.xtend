@@ -49,9 +49,9 @@ class DocGenerator implements Generator {
 		SphinxUtils.copyStream(this.class.getResourceAsStream("Makefile")
 							, new FileOutputStream(new File(outputdir, "Makefile")))
 
-		(new AttributeListRstGenerator).execute(outputdir,     models)
-		(new KeyDefinitionListRstGenerator).execute(outputdir, models.filter[m| m.isNotImplement == false].toList)
-		(new RelationshipListRstGenerator).execute(outputdir,  models)
+		AttributeListRstGenerator.execute(outputdir,     models)
+		KeyDefinitionListRstGenerator.execute(outputdir, models.filter[m| m.isNotImplement == false].toList)
+		RelationshipListRstGenerator.execute(outputdir,  models)
 		
 	}
 	

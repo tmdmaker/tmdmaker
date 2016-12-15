@@ -37,7 +37,7 @@ import jp.sourceforge.tmdmaker.model.KeyModels
  */
 class KeyDefinitionListRstGenerator {
 	
-	def execute(File outputdir, List<AbstractEntityModel> models) {
+	def static execute(File outputdir, List<AbstractEntityModel> models) {
 		
 		// 出力ディレクトリを生成する
 		val keysDir = new File(outputdir, "keys")
@@ -45,7 +45,7 @@ class KeyDefinitionListRstGenerator {
 
 		SphinxUtils.writeFile(
 			new File(outputdir, "key_list.rst"),
-			key_list(models).toString
+			keyList(models).toString
 		)
 		
 		models.forEach[m|
@@ -63,7 +63,7 @@ class KeyDefinitionListRstGenerator {
 		]
 	}
 	
-	def private datatype(DataTypeDeclaration t)
+	def static private datatype(DataTypeDeclaration t)
 	{
 		if (t.size == null){
 			t.logicalType.getName()
@@ -76,11 +76,11 @@ class KeyDefinitionListRstGenerator {
 		}
 	}
 	
-	def private nullable(boolean n){
+	def static private nullable(boolean n){
 		if (n) "許容" else  "禁止"
 	}
 	
-	def private createData(AbstractEntityModel model) {
+	def static private createData(AbstractEntityModel model) {
 		var attributes = ImplementRule.findAllImplementAttributes(model)
 		var data       = new LinkedHashMap<IAttribute, List<KeyDefinitionMapping>>()
 		for (a : attributes) {
@@ -93,7 +93,7 @@ class KeyDefinitionListRstGenerator {
 		data;
 	}
 	
-	def key_list(List<AbstractEntityModel> entities) '''
+	def private static keyList(List<AbstractEntityModel> entities) '''
 		テーブル設計とキーの定義書
 		=============================
 		
@@ -105,7 +105,7 @@ class KeyDefinitionListRstGenerator {
 		«ENDFOR»
 	'''
 	
-	def keys(AbstractEntityModel m, List<Map<String,String>> columns)'''
+	def private static keys(AbstractEntityModel m, List<Map<String,String>> columns)'''
 		«m.name»
 		«StringUtils.repeat("=", m.name.length * 2)»
 		
@@ -135,7 +135,7 @@ class KeyDefinitionListRstGenerator {
 		   :header-rows: 1
 		
 		   * - データ
-		     «FOR h: key_header(m.keyModels)»
+		     «FOR h: keyHeader(m.keyModels)»
 		     - «h»
 		     «ENDFOR»
 		   «FOR mapping: createData(m).entrySet()»
@@ -149,7 +149,7 @@ class KeyDefinitionListRstGenerator {
 		«ENDIF»
 	'''
 	
-	def private key_header(KeyModels keys){
+	def static private keyHeader(KeyModels keys){
 		keys.indexed.map[item| if (item.value.masterKey == true) "N/M" else (item.key + 1).toString]
 	}
 }

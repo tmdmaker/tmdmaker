@@ -32,7 +32,7 @@ import jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils
  */
 public class AttributeListRstGenerator {
 	
-	def void execute(File outputdir, List<AbstractEntityModel> models) {
+	def static void execute(File outputdir, List<AbstractEntityModel> models) {
 		val attributes = findAllAttributes(models)
 		
 		// 出力ディレクトリを生成する
@@ -51,7 +51,7 @@ public class AttributeListRstGenerator {
 				  )]
 	}
 	
-	def private findAllAttributes(List<AbstractEntityModel> models) {
+	def static private findAllAttributes(List<AbstractEntityModel> models) {
 		models.filter[it.attributes.length > 0]
 			  .toMap[it.name]
 			  .mapValues[m| m.attributes.map[new EntityAttributePair(m, it)]
@@ -61,7 +61,7 @@ public class AttributeListRstGenerator {
 	/**
 	 * アトリビュートリストのトップページを生成する
 	 */
-	def private attribute_list(Map<String,Map<String,EntityAttributePair>> attributes) '''
+	def static private attribute_list(Map<String,Map<String,EntityAttributePair>> attributes) '''
 		アトリビュートリスト
 		=====================
 		
@@ -82,7 +82,7 @@ public class AttributeListRstGenerator {
 	/**
 	 * 各アトリビュートのページを生成する
 	 */
-	def private attribute(IAttribute attribute, AbstractEntityModel entity) '''
+	def static private attribute(IAttribute attribute, AbstractEntityModel entity) '''
 		«attribute.name»
 		«StringUtils.repeat("=", attribute.name.length * 2)»
 		
