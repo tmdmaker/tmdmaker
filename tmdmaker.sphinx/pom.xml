@@ -15,6 +15,16 @@
 		<xtend-version>2.10.0</xtend-version>
 	</properties>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/xtend/</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+					<exclude>**/*.xtend</exclude>
+					<exclude>**/*.class</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<sourceDirectory>src/main/xtend/</sourceDirectory>
 		<plugins>
 			<plugin>
