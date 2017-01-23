@@ -199,7 +199,7 @@
 		<module>../tmdmaker.ddlgenerator</module>
 		<module>../tmdmaker.htmlgenerator</module>
 		<module>../tmdmaker.serializer</module>
-		<module>../tmdmaker.serializer.handler.patch0.2.x</module>
+		<module>../tmdmaker.serializer.handler.patch</module>
 		<module>../tmdmaker.ui.menu</module>
 		<module>../tmdmaker.feature</module>
 		<module>../tmdmaker.releng.plugin</module>
