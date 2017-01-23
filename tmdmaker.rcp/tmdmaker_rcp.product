@@ -410,7 +410,7 @@
       <plugin id="tmdmaker.imagegenerator"/>
       <plugin id="tmdmaker.rcp"/>
       <plugin id="tmdmaker.serializer"/>
-      <plugin id="tmdmaker.serializer.handler.patch0.2.x"/>
+      <plugin id="tmdmaker.serializer.handler.patch"/>
       <plugin id="tmdmaker.ui.menu"/>
    </plugins>
 
