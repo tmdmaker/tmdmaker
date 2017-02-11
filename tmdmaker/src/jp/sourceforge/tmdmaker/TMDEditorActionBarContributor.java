@@ -70,21 +70,21 @@ public class TMDEditorActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.BOTTOM));
 		RetargetAction gridAction = new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY,
 				"&Grid", IAction.AS_CHECK_BOX);
-		gridAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/grid.gif"));
+		gridAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/grid.gif")); //$NON-NLS-1$
 		addRetargetAction(gridAction);
 
 		RetargetAction rulerAction = new RetargetAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY,
 				"&Rulers", IAction.AS_CHECK_BOX);
-		rulerAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/ruler.gif"));
+		rulerAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/ruler.gif")); //$NON-NLS-1$
 		addRetargetAction(rulerAction);
 
 		RetargetAction snapAction = new RetargetAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY,
 				"Snap to Geo&metry", IAction.AS_CHECK_BOX);
-		snapAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/snap.gif"));
+		snapAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/snap.gif")); //$NON-NLS-1$
 		addRetargetAction(snapAction);
 
 		RetargetAction autoSizeAction = new RetargetAction(AutoSizeSettingAction.ID, "&AutoSize");
-		autoSizeAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/autosize.gif"));
+		autoSizeAction.setImageDescriptor(TMDPlugin.getImageDescriptor("icons/autosize.gif")); //$NON-NLS-1$
 		addRetargetAction(autoSizeAction);
 
 		addRetargetAction(new ZoomInRetargetAction());

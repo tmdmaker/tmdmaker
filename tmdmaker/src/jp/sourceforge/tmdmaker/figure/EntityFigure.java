@@ -109,7 +109,7 @@ public class EntityFigure extends Figure {
 	}
 
 	public void addRelationship(String relationship) {
-		this.identifierCompartmentFigure.add(createAttributeLabel(relationship + "(R)"));
+		this.identifierCompartmentFigure.add(createAttributeLabel(relationship + "(R)")); //$NON-NLS-1$
 	}
 
 	public void addRelationship(List<String> relationship) {

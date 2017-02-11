@@ -134,22 +134,15 @@ public class ImplementInfoEditDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				for (Map.Entry<AbstractEntityModel, List<EditImplementAttribute>> entry : otherModelAttributesMap
 						.entrySet()) {
-					System.out.println("remove all other model"); //$NON-NLS-1$
 					editAttributeList.removeAll(entry.getValue());
 				}
 				for (AbstractEntityModel m : panel2.getSelectModels()) {
-					System.out.println(m);
-					System.out.println(m.getName());
 					List<EditImplementAttribute> list = otherModelAttributesMap.get(m);
-					System.out.println("add other model"); //$NON-NLS-1$
 					if (list != null) {
-						System.out.println("add other model attributes"); //$NON-NLS-1$
 						editAttributeList.addAll(list);
 					}
 				}
-				System.out.println("update"); //$NON-NLS-1$
 				panel1.updateTable();
-				// panel3.initializeValue(editAttributeList, editedKeyModels);
 			}
 		});
 

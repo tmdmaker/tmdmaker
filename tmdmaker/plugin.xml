@@ -30,7 +30,7 @@
             id="tmdmaker.wizard.newdiagramwizard"
             name="%wizard.name.0">
          <description>
-            新規のTMダイアグラムを作成します
+            %wizard.description
          </description>
       </wizard>
    </extension>

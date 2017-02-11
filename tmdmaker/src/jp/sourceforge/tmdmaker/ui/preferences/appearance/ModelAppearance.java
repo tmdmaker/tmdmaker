@@ -26,21 +26,21 @@ import jp.sourceforge.tmdmaker.Messages;
  * 
  */
 public enum ModelAppearance {
-	RESOURCE(Messages.Resource, "resourceEntity", new RGB(0, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
-	EVENT(Messages.Event, "eventEntity", new RGB(255, 204, 204), new RGB(0, 0, 0)), //$NON-NLS-2$
-	COMBINATION_TABLE(Messages.CombinationTable, "combinationTable", new RGB(153, 255, 153), new RGB(0, 0, 0)), //$NON-NLS-2$
-	MAPPING_LIST(Messages.MappingList, "mappingList", new RGB(0, 102, 204),	 new RGB(0, 0, 0)), //$NON-NLS-2$
-	RECURSIVE_TABLE(Messages.RecursiveTable, "recursiveTable", new RGB(255, 153, 51), new RGB(0, 0, 0)), //$NON-NLS-2$
-	RESOURCE_SUBSET(Messages.ResourceSubset, "resourceSubset", new RGB(0, 204, 204), new RGB(0, 0, 0)), //$NON-NLS-2$
-	EVENT_SUBSET(Messages.EventSubset, "eventSubset", new RGB(255, 153, 153), new RGB(0, 0, 0)), //$NON-NLS-2$
-	MULTIVALUE_OR(Messages.MultivalueOR, "multivalueOr", new RGB(255, 255, 102), new RGB(0, 0, 0)), //$NON-NLS-2$
-	VIRTUAL_ENTITY(Messages.VirtualEntity, "virtualEntity", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
-	RESOURCE_VIRTUAL_ENTITY(Messages.ResourceVirtualEntity, "resourceVirtualEntity", new RGB(204, 204, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
-	EVENT_VIRTUAL_ENTITY(Messages.EventVirtualEntity, "eventVirtualEntity", new RGB(255, 204, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
-	SUPERSET_COLOR(Messages.VirtualSuperset, "supersetColor", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
-	LAPUTA_COLOR(Messages.Laputa, "laputaColor", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
-	TURBO_FILE_COLOR(Messages.TurboFile, "turboFileColor", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$
-	MEMO_COLOR(Messages.Memo, "memoColor", new RGB(204, 255, 255), new RGB(0, 0, 0));
+	RESOURCE(Messages.Resource, "resourceEntity", new RGB(0, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	EVENT(Messages.Event, "eventEntity", new RGB(255, 204, 204), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	COMBINATION_TABLE(Messages.CombinationTable, "combinationTable", new RGB(153, 255, 153), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	MAPPING_LIST(Messages.MappingList, "mappingList", new RGB(0, 102, 204),	 new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	RECURSIVE_TABLE(Messages.RecursiveTable, "recursiveTable", new RGB(255, 153, 51), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	RESOURCE_SUBSET(Messages.ResourceSubset, "resourceSubset", new RGB(0, 204, 204), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	EVENT_SUBSET(Messages.EventSubset, "eventSubset", new RGB(255, 153, 153), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	MULTIVALUE_OR(Messages.MultivalueOR, "multivalueOr", new RGB(255, 255, 102), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	VIRTUAL_ENTITY(Messages.VirtualEntity, "virtualEntity", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	RESOURCE_VIRTUAL_ENTITY(Messages.ResourceVirtualEntity, "resourceVirtualEntity", new RGB(204, 204, 255), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	EVENT_VIRTUAL_ENTITY(Messages.EventVirtualEntity, "eventVirtualEntity", new RGB(255, 204, 255), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	SUPERSET_COLOR(Messages.VirtualSuperset, "supersetColor", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	LAPUTA_COLOR(Messages.Laputa, "laputaColor", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	TURBO_FILE_COLOR(Messages.TurboFile, "turboFileColor", new RGB(255, 255, 255), new RGB(0, 0, 0)), //$NON-NLS-2$ //$NON-NLS-1$
+	MEMO_COLOR(Messages.Memo, "memoColor", new RGB(204, 255, 255), new RGB(0, 0, 0)); //$NON-NLS-1$
 
 	/** 設定ページ用のラベル */
 	private String label;

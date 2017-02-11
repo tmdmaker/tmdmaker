@@ -66,16 +66,16 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	private static Map<Type, String> icons = new HashMap<Type, String>();
 
 	static {
-		icons.put(CombinationTable.class, "icons/outline/combination_table.png");
-		icons.put(SubsetEntity.class, "icons/outline/subset_resource.png");
-		icons.put(VirtualEntity.class, "icons/outline/virtual_entity.png");
-		icons.put(MultivalueOrEntity.class, "icons/outline/multivalue_or.png");
-		icons.put(Detail.class, "icons/outline/detail.png");
-		icons.put(RecursiveTable.class, "icons/outline/recursive_table.png");
-		icons.put(MappingList.class, "icons/outline/mapping_list.png");
-		icons.put(Laputa.class, "icons/outline/laputa.png");
-		icons.put(VirtualSuperset.class, "icons/outline/virtual_entity.png");
-		icons.put(TurboFile.class, "icons/outline/virtual_entity.png");
+		icons.put(CombinationTable.class, "icons/outline/combination_table.png"); //$NON-NLS-1$
+		icons.put(SubsetEntity.class, "icons/outline/subset_resource.png"); //$NON-NLS-1$
+		icons.put(VirtualEntity.class, "icons/outline/virtual_entity.png"); //$NON-NLS-1$
+		icons.put(MultivalueOrEntity.class, "icons/outline/multivalue_or.png"); //$NON-NLS-1$
+		icons.put(Detail.class, "icons/outline/detail.png"); //$NON-NLS-1$
+		icons.put(RecursiveTable.class, "icons/outline/recursive_table.png"); //$NON-NLS-1$
+		icons.put(MappingList.class, "icons/outline/mapping_list.png"); //$NON-NLS-1$
+		icons.put(Laputa.class, "icons/outline/laputa.png"); //$NON-NLS-1$
+		icons.put(VirtualSuperset.class, "icons/outline/virtual_entity.png"); //$NON-NLS-1$
+		icons.put(TurboFile.class, "icons/outline/virtual_entity.png"); //$NON-NLS-1$
 	}
 
 	public AbstractEntityModelTreeEditPart(T model) {

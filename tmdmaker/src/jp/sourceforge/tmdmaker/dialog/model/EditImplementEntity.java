@@ -46,9 +46,9 @@ import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
 public class EditImplementEntity {
 	/** プロパティ変更通知用 */
 	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-	public static final String PROPERTY_ATTRIBUTES = "attributes";
-	public static final String PROPERTY_SURROGATE = "surrogate";
-	public static final String PROPERTY_KEYMODELS = "keymodels";
+	public static final String PROPERTY_ATTRIBUTES = "attributes"; //$NON-NLS-1$
+	public static final String PROPERTY_SURROGATE = "surrogate"; //$NON-NLS-1$
+	public static final String PROPERTY_KEYMODELS = "keymodels"; //$NON-NLS-1$
 	// private AbstractEntityModel model;
 	private EditSurrogateKey surrogateKey;
 	private List<EditImplementAttribute> attributes = new ArrayList<EditImplementAttribute>();
@@ -97,12 +97,10 @@ public class EditImplementEntity {
 			ReusedIdentifier ri = entry.getValue();
 			if (ri.isSurrogateKeyEnabled()) {
 				// サロゲートキーをカラムとして使用
-				System.out.println("ri.isSurrogateKeyEnabled()");
 				for (SurrogateKeyRef s : ri.getSurrogateKeys()) {
 					attributes.add(new EditImplementAttribute(model, s));
 				}
 			} else {
-				System.out.println("not ri.isSurrogateKeyEnabled()");
 				// 個体指定子の参照をカラムとして使用
 				for (IdentifierRef ref : ri.getUniqueIdentifiers()) {
 					attributes.add(new EditImplementAttribute(model, ref));

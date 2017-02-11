@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
@@ -61,7 +62,7 @@ import jp.sourceforge.tmdmaker.util.ConstraintConverter;
  * @author nakaG
  * 
  */
-public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPropertyAvailable {
+public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPropertyAvailable {
 
 	/**
 	 * コンストラクタ
@@ -93,9 +94,7 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramEditPolicy());
-		// installEditPolicy(EditPolicy.LAYOUT_ROLE, new
-		// DiagramEditPolicy((XYLayout) getContentPane().getLayoutManager()));
-		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy());
+		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$
 	}
 
 	/**
@@ -129,7 +128,6 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -140,14 +138,6 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 	 */
 	private class DiagramEditPolicy extends XYLayoutEditPolicy {
 
-		// /**
-		// *
-		// */
-		// public DiagramEditPolicy(XYLayout layout) {
-		// super();
-		// setXyLayout(layout);
-		// }
-
 		/**
 		 * 
 		 * {@inheritDoc}
@@ -157,7 +147,6 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 		@Override
 		protected EditPolicy createChildEditPolicy(EditPart child) {
 			logger.debug(getClass() + "#createChildEditPolicy()");
-			// return new NonResizableEditPolicy();
 			return new ResizableEditPolicy();
 		}
 
@@ -194,7 +183,7 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 		 */
 		@Override
 		protected Command getCreateCommand(CreateRequest request) {
-			logger.debug(getClass() + "#getCreateCommand()"+ request.getNewObjectType());
+			logger.debug(getClass() + "#getCreateCommand()" + request.getNewObjectType());
 			Rectangle constraint = (Rectangle) getConstraintFor(request);
 			ConnectableElement model = (ConnectableElement) request.getNewObject();
 			model.setConstraint(ConstraintConverter.toConstraintWithoutHeightWidth(constraint));
@@ -216,17 +205,15 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 		private EntityModelAddCommand createTurboFileCommand(Rectangle constraint,
 				ConnectableElement model) {
 			TurboFile turbo = (TurboFile) model;
-			turbo.setName("ターボファイル");
+			turbo.setName(Messages.TurboFile);
 			return new EntityModelAddCommand(getModel(), turbo, constraint.x, constraint.y);
 		}
 
 		private Command createMemoCommand(Rectangle constraint, ConnectableElement model) {
 			Memo memo = (Memo) model;
-			final String DEFAULT_MEMO_TEXT = "Memo";
-
 			CompoundCommand command = new CompoundCommand();
 			command.add(new MemoAddCommand(getModel(), memo, constraint.x, constraint.y));
-			command.add(new MemoChangeCommand(memo, DEFAULT_MEMO_TEXT));
+			command.add(new MemoChangeCommand(memo, Messages.Memo));
 			return command;
 		}
 	}

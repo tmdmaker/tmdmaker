@@ -62,8 +62,6 @@ public class ModelConstraintChangeCommand extends Command {
 		this.model = model;
 		this.oldConstraint = model.getConstraint();
 		this.constraint = model.getConstraint().getTranslated(newX, newY);
-		System.out.println("old constraint x,y="+oldConstraint.x + "," + oldConstraint.y);
-		System.out.println("new constraint x,y="+constraint.x + "," + constraint.y);
 	}
 
 	/**

@@ -44,7 +44,7 @@ public class KeyModelTreeEditPart extends AbstractTreeEditPart implements Proper
 
 	@Override
 	protected Image getImage() {
-		return TMDPlugin.getImage("icons/outline/key.png");
+		return TMDPlugin.getImage("icons/outline/key.png"); //$NON-NLS-1$
 	}
 
 	@Override

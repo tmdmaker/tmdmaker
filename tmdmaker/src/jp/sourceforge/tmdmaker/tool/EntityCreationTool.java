@@ -21,6 +21,8 @@ import jp.sourceforge.tmdmaker.ui.command.EntityModelAddCommand;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.jface.dialogs.Dialog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * エンティティ作成ツール
@@ -29,6 +31,18 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class EntityCreationTool extends CreationTool {
+	/** logging */
+	protected static Logger logger;
+	
+	
+	/**
+	 * コンストラクタ.
+	 */
+	public EntityCreationTool() {
+		super();
+		logger = LoggerFactory.getLogger(getClass());
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -40,7 +54,7 @@ public class EntityCreationTool extends CreationTool {
 
 		boolean added = false;
 		if (stateTransition(STATE_DRAG | STATE_DRAG_IN_PROGRESS, STATE_TERMINAL)) {
-			System.out.println(getState());
+			logger.debug("startTransition = " + getState());
 			eraseTargetFeedback();
 			unlockTargetEditPart();
 

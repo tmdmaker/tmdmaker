@@ -43,10 +43,6 @@ public class Entity2SubsetTypeCreateCommand extends Command {
 		this.model2subsetRelationship = new Entity2SubsetTypeRelationship(this.model,
 				this.subsetType);
 		this.subsetType.setPartitionAttribute(partitionAttribute);
-		// this.model2subsetRelationship
-		// .setPartitionAttribute(partitionAttribute);
-		System.out.println("model x,y="+model.getConstraint().x + "," + model.getConstraint().y);
-		System.out.println("subsettype x,y="+subsetType.getConstraint().x + "," + subsetType.getConstraint().y);
 	}
 
 	/**

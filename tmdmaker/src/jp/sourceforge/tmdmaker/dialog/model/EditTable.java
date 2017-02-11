@@ -20,6 +20,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IAttribute;
@@ -36,9 +37,9 @@ public class EditTable {
 
 	/** プロパティ変更通知用 */
 	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-	public static final String PROPERTY_NAME = "_edit_property_name";
-	public static final String PROPERTY_ATTRIBUTES = "_edit_property_attributes";
-	public static final String PROPERTY_TYPE = "_edit_property_type";
+	public static final String PROPERTY_NAME = "_edit_property_name"; //$NON-NLS-1$
+	public static final String PROPERTY_ATTRIBUTES = "_edit_property_attributes"; //$NON-NLS-1$
+	public static final String PROPERTY_TYPE = "_edit_property_type"; //$NON-NLS-1$
 
 	/** 編集対象のエンティティ */
 	protected AbstractEntityModel entity;
@@ -164,7 +165,7 @@ public class EditTable {
 	 *            編集用アトリビュート
 	 */
 	protected void setDefaultValue(EditAttribute attribute) {
-		attribute.setName("アトリビュート" + String.valueOf(attributes.size() + 1));
+		attribute.setName(Messages.EditTable_DefaultAttributeName + String.valueOf(attributes.size() + 1));
 		attribute.setDataType(StandardSQLDataType.CHARACTER_VARYING);
 		attribute.setImplementName(attribute.getName());
 		attribute.setSize("10");

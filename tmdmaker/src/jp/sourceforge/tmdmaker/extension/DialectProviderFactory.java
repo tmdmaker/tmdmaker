@@ -28,7 +28,7 @@ import jp.sourceforge.tmdmaker.model.dialect.DialectProvider;
  */
 public class DialectProviderFactory {
 	private static PluginExtensionPointFactory<DialectProvider> factory = new PluginExtensionPointFactory<DialectProvider>(
-			"tmdmaker.dialect.provider");
+			"tmdmaker.dialect.provider"); //$NON-NLS-1$
 
 	private static final DialectProvider EMPTY = new DialectProvider() {
 

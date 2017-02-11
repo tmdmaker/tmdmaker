@@ -51,8 +51,8 @@ import org.osgi.framework.BundleContext;
 public class TMDPlugin extends AbstractUIPlugin {
 
 	/** The plug-in ID */
-	public static final String PLUGIN_ID = "tmdmaker";
-	public static final String IMPORTER_PLUGIN_ID = "tmdmaker.importers";
+	public static final String PLUGIN_ID = "tmdmaker"; //$NON-NLS-1$
+	public static final String IMPORTER_PLUGIN_ID = "tmdmaker.importers"; //$NON-NLS-1$
 
 	/** The shared instance */
 	private static TMDPlugin plugin;
@@ -147,7 +147,7 @@ public class TMDPlugin extends AbstractUIPlugin {
 		MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION
 				| SWT.OK);
-		messageBox.setText("情報");
+		messageBox.setText(Messages.TMDPlugin_InformationTitle);
 		messageBox.setMessage(message);
 		messageBox.open();
 	}
@@ -159,7 +159,7 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 *            表示対象の例外
 	 */
 	public static void showErrorDialog(Throwable t) {
-		showErrorDialog("エラーが発生しました", t);
+		showErrorDialog(Messages.TMDPlugin_ErrorMessage, t);
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class TMDPlugin extends AbstractUIPlugin {
 		log(t);
 
 		ErrorDialog.openError(PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getShell(), "エラー", message, status);
+				.getActiveWorkbenchWindow().getShell(), Messages.TMDPlugin_ErrorTitle, message, status);
 	}
 
 	/**

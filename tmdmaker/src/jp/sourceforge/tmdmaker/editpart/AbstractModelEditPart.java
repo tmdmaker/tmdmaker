@@ -199,7 +199,7 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		System.out.println("getTargetConnectionAnchor(Request request)");
+		logger.debug("getTargetConnectionAnchor(Request request)");
 		if (request instanceof ReconnectRequest) {
 			ReconnectRequest reconnectRequest = (ReconnectRequest) request;
 			ConnectionEditPart connectionEditPart = reconnectRequest.getConnectionEditPart();

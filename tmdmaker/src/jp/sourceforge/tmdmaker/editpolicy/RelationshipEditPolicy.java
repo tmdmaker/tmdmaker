@@ -72,11 +72,11 @@ public class RelationshipEditPolicy extends ConnectionEditPolicy {
 		}
 
 		public void setFromText(String text) {
-			from.setText("from:" + text);
+			from.setText("from:" + text); //$NON-NLS-1$
 		}
 
 		public void setToText(String text) {
-			to.setText("to:" + text);
+			to.setText("to:" + text); //$NON-NLS-1$
 		}
 
 		private Dimension max(Dimension from, Dimension to) {

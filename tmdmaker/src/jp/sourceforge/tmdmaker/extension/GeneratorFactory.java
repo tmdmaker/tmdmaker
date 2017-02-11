@@ -31,7 +31,7 @@ public class GeneratorFactory {
 
 	static {
 		factory = new PluginExtensionPointFactory<Generator>(
-				"tmdmaker.generators",
+				"tmdmaker.generators", //$NON-NLS-1$
 				new Comparator<Generator>() {
 
 					/**

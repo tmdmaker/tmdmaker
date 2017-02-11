@@ -70,7 +70,7 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements
 	private String createAttributeName(Attribute attribute) {
 		StringBuilder name = new StringBuilder(attribute.getName());
 		if (attribute.isDerivation()) {
-			name.append("(D)");
+			name.append("(D)"); //$NON-NLS-1$
 		}
 		return name.toString();
 	}
@@ -99,7 +99,6 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements
 		if (dialog.open() == Dialog.OK) {
 			EditAttribute edited = dialog.getEditedValue();
 			if (edited.isEdited()) {
-				System.out.println("edited");
 				Attribute editedValueAttribute = new Attribute();
 				edited.copyTo(editedValueAttribute);
 				IAttribute original = edited.getOriginalAttribute();

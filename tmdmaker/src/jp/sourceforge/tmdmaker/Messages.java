@@ -38,6 +38,8 @@ public class Messages extends NLS {
 	public static String BorderFont;
 	public static String ColorSettings;
 	public static String CombinationTable;
+	public static String CombinationTable_FTruth;
+	public static String CombinationTable_LTruth;
 	public static String CommonAttributeSettings;
 	public static String Completion;
 	public static String Confidentiality;
@@ -67,6 +69,7 @@ public class Messages extends NLS {
 	public static String EditRecursiveTable;
 	public static String EditRelationship;
 	public static String EditSubset;
+	public static String EditTable_DefaultAttributeName;
 	public static String EditTurboFile;
 	public static String EditVirtualEntity;
 	public static String EditVirtualSuperset;
@@ -99,6 +102,8 @@ public class Messages extends NLS {
 	public static String MultivalueName;
 	public static String MultivalueOR;
 	public static String NewDiagram;
+	public static String NewDiagramWizardTitle;
+	public static String NewDiagramWizardDescription;
 	public static String No;
 	public static String NoRelationship;
 	public static String Normal;
@@ -140,6 +145,9 @@ public class Messages extends NLS {
 	public static String Summary;
 	public static String TableDesign;
 	public static String TMDMakerPreferencePage;
+	public static String TMDPlugin_ErrorMessage;
+	public static String TMDPlugin_ErrorTitle;
+	public static String TMDPlugin_InformationTitle;
 	public static String ToIdentifier;
 	public static String Tool;
 	public static String TreeSettingsStartMessage;

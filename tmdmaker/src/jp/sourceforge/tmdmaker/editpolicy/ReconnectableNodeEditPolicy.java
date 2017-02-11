@@ -54,13 +54,13 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 		AbstractConnectionModel connection = (AbstractConnectionModel) request
 				.getConnectionEditPart().getModel();
 		if (connection.getSource() == connection.getTarget()) {
-			System.out.println("source == target");
+			logger.debug("source == target");
 			return null;
 		}
 		AbstractEntityModel newSource = (AbstractEntityModel) request
 				.getTarget().getModel();
 		if (!connection.getSource().equals(newSource)) {
-			System.out.println("source not equals newSource");
+			logger.debug("source not equals newSource");
 			return null;
 		}
 		Point location = new Point(request.getLocation());
@@ -77,7 +77,7 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 				bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4),
 				bounds.width / 2, bounds.height / 2);
 		if (!centerRectangle.contains(location)) {
-			System.out.println("not center");
+			logger.debug("not center");
 			Point point = new XYChopboxAnchorHelper(bounds)
 					.getIntersectionPoint(location);
 			xp = 100 * (point.x - bounds.x) / bounds.width;
@@ -96,13 +96,13 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 		AbstractConnectionModel connection = (AbstractConnectionModel) request
 				.getConnectionEditPart().getModel();
 		if (connection.getSource() == connection.getTarget()) {
-			System.out.println("source == target");
+			logger.debug("source == target");
 			return null;
 		}
 		AbstractEntityModel newTarget = (AbstractEntityModel) request
 				.getTarget().getModel();
 		if (!connection.getTarget().equals(newTarget)) {
-			System.out.println("target not equals newTarget");
+			logger.debug("target not equals newTarget");
 			return null;
 		}
 		Point location = new Point(request.getLocation());
@@ -120,7 +120,7 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 				bounds.width / 2, bounds.height / 2);
 
 		if (!centerRectangle.contains(location)) {
-			System.out.println("not center");
+			logger.debug("not center");
 			Point point = new XYChopboxAnchorHelper(bounds)
 					.getIntersectionPoint(location);
 			xp = 100 * (point.x - bounds.x) / bounds.width;

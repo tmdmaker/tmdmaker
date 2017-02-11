@@ -140,9 +140,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 	private Point getControlCursorLocation() {
 		Control control = getControl();
 		Point pos = control.getDisplay().getCursorLocation();
-		System.out.println(pos);
 		pos = control.toControl(pos);
-		System.out.println(pos);
 		pos.x = pos.x - 200;
 		pos.y = pos.y - 100;
 		return pos;

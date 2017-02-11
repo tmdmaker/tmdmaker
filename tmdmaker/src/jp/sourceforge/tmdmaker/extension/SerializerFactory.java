@@ -25,7 +25,7 @@ import jp.sourceforge.tmdmaker.model.persistence.Serializer;
  */
 public class SerializerFactory {
 	private static PluginExtensionPointFactory<Serializer> factory = new PluginExtensionPointFactory<Serializer>(
-			"tmdmaker.persisitence.serializer");
+			"tmdmaker.persisitence.serializer"); //$NON-NLS-1$
 
 	/**
 	 * シリアライザを取得する

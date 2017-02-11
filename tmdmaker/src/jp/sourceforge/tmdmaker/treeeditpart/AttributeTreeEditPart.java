@@ -64,7 +64,7 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart implements Prope
 
 	@Override
 	protected Image getImage() {
-		return TMDPlugin.getImage("icons/outline/attribute.png");
+		return TMDPlugin.getImage("icons/outline/attribute.png"); //$NON-NLS-1$
 	}
 
 	@Override
