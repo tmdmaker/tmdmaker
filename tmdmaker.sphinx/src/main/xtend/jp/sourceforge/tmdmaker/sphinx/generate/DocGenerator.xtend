@@ -70,7 +70,7 @@ class DocGenerator implements Generator {
 	}
 
 	def private void outputIndex(File outputDir){
-		index(diagram).writeTo(new File(outputDir, "index.rst"))
+		index(diagram.name, diagram.description).writeTo(new File(outputDir, "index.rst"))
 	}
 	
 	def private void outputConfig(File outputDir){
@@ -80,11 +80,11 @@ class DocGenerator implements Generator {
 		confPy(diagram.name,year,author).writeTo(new File(outputDir, "conf.py"))
 	}
 	
-	def private index(Diagram diagram) '''
-		「«diagram.name»${diagram_name}」設計文書
-		«StringUtils.repeat("=", diagram.name.length * 2)»============
+	def private index(String diagram_name, String description) '''
+		«IF diagram_name !== null»「«diagram_name»」«ENDIF»設計文書
+		«IF diagram_name !== null»«StringUtils.repeat("=", diagram_name.length * 2)»«ENDIF»============
 		
-		«diagram.description»
+		«description»
 		
 		.. toctree::
 		   :maxdepth: 1
