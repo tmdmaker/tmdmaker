@@ -41,6 +41,8 @@
       </win>
    </launcher>
 
+   <intro introId="tmdmaker.rcp.intro"/>
+
    <vm>
    </vm>
 

@@ -46,6 +46,8 @@ Copyright 2009-2015 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
       </win>
    </launcher>
 
+   <intro introId="tmdmaker.rcp.intro"/>
+
    <vm>
    </vm>
 

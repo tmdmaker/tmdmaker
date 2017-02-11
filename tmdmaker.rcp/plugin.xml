@@ -16,6 +16,7 @@
       <perspective
             class="jp.sourceforge.tmdmaker.rcp.Perspective"
             fixed="true"
+            icon="icons/window/tmd_icon_16_32bit.png"
             id="tmdmaker.rcp.perspective"
             name="%perspective.name">
       </perspective>
@@ -78,11 +79,29 @@
             locationURI="menu:org.eclipse.ui.main.menu">
          <menu
                label="%menu.label">
-            <command
-                  commandId="org.eclipse.ui.newWizard"
-                  label="%command.label"
-                  style="push">
-            </command>
+            <menu
+                  label="新規">
+               <command
+                     commandId="org.eclipse.ui.newWizard"
+                     label="プロジェクト"
+                     style="push"
+                     tooltip="新規プロジェクト">
+                  <parameter
+                        name="newWizardId"
+                        value="tmdmaker.rcp.wizard.project">
+                  </parameter>
+               </command>
+               <command
+                     commandId="org.eclipse.ui.newWizard"
+                     label="ファイル"
+                     style="push"
+                     tooltip="新規ファイル">
+                  <parameter
+                        name="newWizardId"
+                        value="tmdmaker.wizard.newdiagramwizard">
+                  </parameter>
+               </command>
+            </menu>
             <separator
                   name="tmdmaker.rcp.separator1"
                   visible="true">
@@ -168,6 +187,16 @@
          <menu
                label="%menu.label.2">
             <command
+                  commandId="org.eclipse.ui.help.quickStartAction"
+                  icon="icons/welcome16.gif"
+                  label="Welcome"
+                  style="push">
+            </command>
+            <separator
+                  name="tmdmaker.rcp.separator1"
+                  visible="true">
+            </separator>
+            <command
                   commandId="org.eclipse.ui.help.aboutAction"
                   label="%command.label.14"
                   style="push">
@@ -181,8 +210,23 @@
                id="tmdmaker.rcp.toolbar1">
             <command
                   commandId="org.eclipse.ui.newWizard"
-                  label="%command.label.11"
-                  style="push">
+                  label="新規プロジェクト"
+                  style="push"
+                  tooltip="新規プロジェクト">
+               <parameter
+                     name="newWizardId"
+                     value="tmdmaker.rcp.wizard.project">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.newWizard"
+                  label="新規ファイル"
+                  style="push"
+                  tooltip="新規ファイル">
+               <parameter
+                     name="newWizardId"
+                     value="tmdmaker.wizard.newdiagramwizard">
+               </parameter>
             </command>
             <separator
                   name="tmdmaker.rcp.separator1"
@@ -211,6 +255,44 @@
             productId="tmdmaker.rcp.product"
             splashId="tmdmaker.rcp.splashHandler">
       </splashHandlerProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard"
+            icon="icons/new.gif"
+            id="tmdmaker.rcp.wizard.project"
+            name="プロジェクト"
+            project="false">
+         <description>
+            新規のプロジェクト・リソースを作成します
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            id="tmdmaker.rcp.intro">
+      </intro>
+      <introProductBinding
+            introId="tmdmaker.rcp.intro"
+            productId="tmdmaker.rcp.product">
+      </introProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.config">
+      <config
+            content="introContent.xml"
+            id="tmdmaker.rcp.config"
+            introId="tmdmaker.rcp.intro">
+         <presentation
+               home-page-id="root">
+            <implementation
+                  kind="html">
+            </implementation>
+         </presentation>
+      </config>
    </extension>
 
 </plugin>
