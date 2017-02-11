@@ -26,7 +26,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="tmdmaker.rcp.application"
-            name="TMD-Maker for RCP">
+            name="%product.name.0">
          <property
                name="tmdmaker.rcp"
                value="TMD-Maker for RCP">
@@ -80,12 +80,12 @@
          <menu
                label="%menu.label">
             <menu
-                  label="新規">
+                  label="%menu.label.3">
                <command
                      commandId="org.eclipse.ui.newWizard"
-                     label="プロジェクト"
+                     label="%command.label.15"
                      style="push"
-                     tooltip="新規プロジェクト">
+                     tooltip="%command.tooltip">
                   <parameter
                         name="newWizardId"
                         value="tmdmaker.rcp.wizard.project">
@@ -93,9 +93,9 @@
                </command>
                <command
                      commandId="org.eclipse.ui.newWizard"
-                     label="ファイル"
+                     label="%command.label.16"
                      style="push"
-                     tooltip="新規ファイル">
+                     tooltip="%command.tooltip.0">
                   <parameter
                         name="newWizardId"
                         value="tmdmaker.wizard.newdiagramwizard">
@@ -189,7 +189,7 @@
             <command
                   commandId="org.eclipse.ui.help.quickStartAction"
                   icon="icons/welcome16.gif"
-                  label="Welcome"
+                  label="%command.label.17"
                   style="push">
             </command>
             <separator
@@ -210,9 +210,9 @@
                id="tmdmaker.rcp.toolbar1">
             <command
                   commandId="org.eclipse.ui.newWizard"
-                  label="新規プロジェクト"
+                  label="%command.label.18"
                   style="push"
-                  tooltip="新規プロジェクト">
+                  tooltip="%command.tooltip.1">
                <parameter
                      name="newWizardId"
                      value="tmdmaker.rcp.wizard.project">
@@ -220,9 +220,9 @@
             </command>
             <command
                   commandId="org.eclipse.ui.newWizard"
-                  label="新規ファイル"
+                  label="%command.label.19"
                   style="push"
-                  tooltip="新規ファイル">
+                  tooltip="%command.tooltip.2">
                <parameter
                      name="newWizardId"
                      value="tmdmaker.wizard.newdiagramwizard">
@@ -262,10 +262,10 @@
             class="org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard"
             icon="icons/new.gif"
             id="tmdmaker.rcp.wizard.project"
-            name="プロジェクト"
+            name="%wizard.name"
             project="false">
          <description>
-            新規のプロジェクト・リソースを作成します
+            %wizard.description
          </description>
       </wizard>
    </extension>
@@ -283,7 +283,7 @@
    <extension
          point="org.eclipse.ui.intro.config">
       <config
-            content="introContent.xml"
+            content="%welcome.page"
             id="tmdmaker.rcp.config"
             introId="tmdmaker.rcp.intro">
          <presentation

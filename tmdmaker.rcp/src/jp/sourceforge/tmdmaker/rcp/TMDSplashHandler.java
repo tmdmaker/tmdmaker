@@ -77,8 +77,8 @@ public class TMDSplashHandler extends BasicSplashHandler {
 				foregroundColorInteger & 0xFF));
 
 		// バージョン表示
-		String buildIdLocString = product.getProperty("buildIdLocation");
-		String buildId = product.getProperty("buildId");
+		String buildIdLocString = product.getProperty("buildIdLocation"); //$NON-NLS-1$
+		String buildId = product.getProperty("buildId"); //$NON-NLS-1$
 		Rectangle buildIdRectangle = StringConverter.asRectangle(
 				buildIdLocString, new Rectangle(322, 190, 100, 40));
 
