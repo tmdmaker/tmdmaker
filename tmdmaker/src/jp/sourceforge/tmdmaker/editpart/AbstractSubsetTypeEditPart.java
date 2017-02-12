@@ -28,6 +28,7 @@ import org.eclipse.gef.Request;
 import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
 import jp.sourceforge.tmdmaker.model.AbstractSubsetType;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.CenterAnchor;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 /**

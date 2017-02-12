@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
+
 /**
  * モデルを接続するコネクションの基底クラス
  * 
@@ -23,17 +25,24 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractConnectionModel extends ConnectableElement {
-	
 
 	/** 接続先モデル */
-	private ConnectableElement source;
+	protected ConnectableElement source;
 	/** 接続先モデル */
-	private ConnectableElement target;
-	/** 接続 */
-	protected int sourceXp = -1;
-	protected int sourceYp = -1;
-	protected int targetXp = -1;
-	protected int targetYp = -1;
+	protected ConnectableElement target;
+	/** Source側接続 */
+	protected AnchorConstraint sourceAnchorConstraint = new AnchorConstraint();
+	/** Target側接続 */
+	protected AnchorConstraint targetAnchorConstraint = new AnchorConstraint();
+	@Deprecated
+	int sourceXp = -1;
+	@Deprecated
+	int sourceYp = -1;
+	@Deprecated
+	int targetXp = -1;
+	@Deprecated
+	int targetYp = -1;
+
 	/** 接続元多重度プロパティ定数 */
 	public static final String PROPERTY_SOURCE_CARDINALITY = "_property_source_cardinality";
 	/** 接続先多重度プロパティ定数 */
@@ -151,32 +160,26 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	 */
 	public abstract String getTargetName();
 
-	public int getSourceXp() {
-		return sourceXp;
+	public void setSourceAnchorConstraint(AnchorConstraint sourceAnchorConstraint) {
+		AnchorConstraint oldSourceAnchorConstraint = this.sourceAnchorConstraint;
+		this.sourceAnchorConstraint = sourceAnchorConstraint;
+		firePropertyChange(PROPERTY_CONNECTION, oldSourceAnchorConstraint,
+				this.sourceAnchorConstraint);
 	}
 
-	public int getSourceYp() {
-		return sourceYp;
+	public AnchorConstraint getSourceAnchorConstraint() {
+		return sourceAnchorConstraint;
 	}
 
-	public int getTargetXp() {
-		return targetXp;
+	public void setTargetAnchorConstraint(AnchorConstraint targetAnchorConstraint) {
+		AnchorConstraint oldTargetAnchorConstraint = this.targetAnchorConstraint;
+		this.targetAnchorConstraint = targetAnchorConstraint;
+		firePropertyChange(PROPERTY_CONNECTION, oldTargetAnchorConstraint,
+				this.targetAnchorConstraint);
 	}
 
-	public int getTargetYp() {
-		return targetYp;
-	}
-
-	public void setSourceLocationp(int sourceXp, int sourceYp) {
-		this.sourceXp = sourceXp;
-		this.sourceYp = sourceYp;
-		firePropertyChange(PROPERTY_CONNECTION, null, null);
-	}
-
-	public void setTargetLocationp(int targetXp, int targetYp) {
-		this.targetXp = targetXp;
-		this.targetYp = targetYp;
-		firePropertyChange(PROPERTY_CONNECTION, null, null);
+	public AnchorConstraint getTargetAnchorConstraint() {
+		return targetAnchorConstraint;
 	}
 
 	/**
@@ -185,7 +188,7 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	 * @return 接続済みの場合にtrueを返す。
 	 */
 	public boolean isConnected() {
-		return source != null && source.getModelSourceConnections().contains(this)
-				&& target != null && target.getModelTargetConnections().contains(this);
+		return source != null && source.getModelSourceConnections().contains(this) && target != null
+				&& target.getModelTargetConnections().contains(this);
 	}
 }

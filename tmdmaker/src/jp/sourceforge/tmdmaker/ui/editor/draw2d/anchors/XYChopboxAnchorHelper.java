@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.editpart;
+package jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+
+import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
 
 /**
  * XYChopboxAnchor用のヘルパークラス
@@ -25,10 +27,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * 
  */
 public class XYChopboxAnchorHelper {
-	int rightSide;
-	int leftSide;
-	int topSide;
-	int bottomSide;
+	private int rightSide;
+	private int leftSide;
+	private int topSide;
+	private int bottomSide;
+	private Rectangle bounds;
 
 	/**
 	 * コンストラクタ
@@ -37,6 +40,7 @@ public class XYChopboxAnchorHelper {
 	 *            モデルの領域
 	 */
 	public XYChopboxAnchorHelper(Rectangle r) {
+		this.bounds = r;
 		rightSide = r.x + r.width;
 		topSide = r.y + r.height;
 		leftSide = r.x;
@@ -60,13 +64,42 @@ public class XYChopboxAnchorHelper {
 	}
 
 	/**
+	 * AchorConstraintの取得
+	 * 
+	 * @param location
+	 *            カーソル地点
+	 * @return モデルの領域とカーソル地点を考慮したAchorConstraint
+	 */
+	public AnchorConstraint calculateAnchorConstraint(Point location) {
+		Rectangle centerRectangle = RectangleUtils.calculateCenter(bounds);
+		if (centerRectangle.contains(location)) {
+			return new AnchorConstraint();
+		}
+		return calculateIntersectAnchorConstraint(location);
+	}
+
+	/**
+	 * 交点のAchorConstraintの取得
+	 * 
+	 * @param s
+	 *            カーソル地点
+	 * @return モデルの領域とカーソル地点の交点のAchorConstraint
+	 */
+	private AnchorConstraint calculateIntersectAnchorConstraint(Point s) {
+		Point point = getIntersectionPoint(s);
+		int xp = 100 * (point.x - bounds.x) / bounds.width;
+		int yp = 100 * (point.y - bounds.y) / bounds.height;
+		return new AnchorConstraint(xp, yp);
+	}
+
+	/**
 	 * 交点の取得
 	 * 
 	 * @param s
 	 *            カーソル地点
 	 * @return モデルの領域とカーソル地点との交点
 	 */
-	public Point getIntersectionPoint(Point s) {
+	private Point getIntersectionPoint(Point s) {
 
 		int x = 0;
 		int dx = 0;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,22 @@
  */
 package jp.sourceforge.tmdmaker.editpolicy;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.XYChopboxAnchorHelper;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.ui.command.SourceConnectionReconnectCommand;
-import jp.sourceforge.tmdmaker.ui.command.TargetConnectionReconnectCommand;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
+import jp.sourceforge.tmdmaker.ui.command.SourceConnectionReconnectCommand;
+import jp.sourceforge.tmdmaker.ui.command.TargetConnectionReconnectCommand;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchorHelper;
 
 /**
  * リレーションの接続位置を変更可能なノード（エンティティ系モデル）用のEditPolicy
@@ -41,8 +41,7 @@ import org.slf4j.LoggerFactory;
 public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	/** logging */
-	protected static Logger logger = LoggerFactory
-			.getLogger(TMDModelGraphicalNodeEditPolicy.class);
+	protected static Logger logger = LoggerFactory.getLogger(TMDModelGraphicalNodeEditPolicy.class);
 
 	/**
 	 * {@inheritDoc}
@@ -57,8 +56,7 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 			logger.debug("source == target");
 			return null;
 		}
-		AbstractEntityModel newSource = (AbstractEntityModel) request
-				.getTarget().getModel();
+		AbstractEntityModel newSource = (AbstractEntityModel) request.getTarget().getModel();
 		if (!connection.getSource().equals(newSource)) {
 			logger.debug("source not equals newSource");
 			return null;
@@ -69,21 +67,9 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 		IFigure sourceFigure = sourceEditPart.getFigure();
 		sourceFigure.translateToRelative(location);
 
-		int xp = -1;
-		int yp = -1;
-
-		Rectangle bounds = sourceFigure.getBounds();
-		Rectangle centerRectangle = new Rectangle(
-				bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4),
-				bounds.width / 2, bounds.height / 2);
-		if (!centerRectangle.contains(location)) {
-			logger.debug("not center");
-			Point point = new XYChopboxAnchorHelper(bounds)
-					.getIntersectionPoint(location);
-			xp = 100 * (point.x - bounds.x) / bounds.width;
-			yp = 100 * (point.y - bounds.y) / bounds.height;
-		}
-		return new SourceConnectionReconnectCommand(connection, xp, yp);
+		AnchorConstraint newAnchorConstraint = new XYChopboxAnchorHelper(sourceFigure.getBounds())
+				.calculateAnchorConstraint(location);
+		return new SourceConnectionReconnectCommand(connection, newAnchorConstraint);
 	}
 
 	/**
@@ -99,8 +85,7 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 			logger.debug("source == target");
 			return null;
 		}
-		AbstractEntityModel newTarget = (AbstractEntityModel) request
-				.getTarget().getModel();
+		AbstractEntityModel newTarget = (AbstractEntityModel) request.getTarget().getModel();
 		if (!connection.getTarget().equals(newTarget)) {
 			logger.debug("target not equals newTarget");
 			return null;
@@ -111,22 +96,9 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 		IFigure targetFigure = targetEditPart.getFigure();
 		targetFigure.translateToRelative(location);
 
-		int xp = -1;
-		int yp = -1;
-
-		Rectangle bounds = targetFigure.getBounds();
-		Rectangle centerRectangle = new Rectangle(
-				bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4),
-				bounds.width / 2, bounds.height / 2);
-
-		if (!centerRectangle.contains(location)) {
-			logger.debug("not center");
-			Point point = new XYChopboxAnchorHelper(bounds)
-					.getIntersectionPoint(location);
-			xp = 100 * (point.x - bounds.x) / bounds.width;
-			yp = 100 * (point.y - bounds.y) / bounds.height;
-		}
-		return new TargetConnectionReconnectCommand(connection, xp, yp);
+		AnchorConstraint newAnchorConstraint = new XYChopboxAnchorHelper(targetFigure.getBounds())
+				.calculateAnchorConstraint(location);
+		return new TargetConnectionReconnectCommand(connection, newAnchorConstraint);
 	}
 
 	/**
@@ -145,8 +117,7 @@ public class ReconnectableNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	@Override
-	protected Command getConnectionCompleteCommand(
-			CreateConnectionRequest request) {
+	protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
 		return null;
 	}
 

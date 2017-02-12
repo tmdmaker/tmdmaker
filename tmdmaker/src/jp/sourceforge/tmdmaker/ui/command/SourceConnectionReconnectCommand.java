@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,10 @@
  */
 package jp.sourceforge.tmdmaker.ui.command;
 
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-
 import org.eclipse.gef.commands.Command;
+
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
 
 /**
  * リレーションシップ等のコネクションのソースを再接続するCommand
@@ -28,32 +29,24 @@ import org.eclipse.gef.commands.Command;
 public class SourceConnectionReconnectCommand extends Command {
 	/** 再接続対象 */
 	private AbstractConnectionModel relationship;
-	/** x位置 */
-	private int xp;
-	/** y位置 */
-	private int yp;
-	/** 変更前x */
-	private int oldXp;
-	/** 変更前y */
-	private int oldYp;
+	/** 変更後位置 */
+	private AnchorConstraint newAnchorConstraint;
+	/** 変更前位置 */
+	private AnchorConstraint oldAnchorConstraint;
 
 	/**
 	 * コンストラクタ
 	 * 
 	 * @param relationship
 	 *            再接続対象
-	 * @param xp
-	 *            x位置
-	 * @param yp
-	 *            y位置
+	 * @param newAnchorConstraint
+	 *            再接続位置
 	 */
-	public SourceConnectionReconnectCommand(
-			AbstractConnectionModel relationship, int xp, int yp) {
+	public SourceConnectionReconnectCommand(AbstractConnectionModel relationship,
+			AnchorConstraint newAnchorConstraint) {
 		this.relationship = relationship;
-		this.xp = xp;
-		this.yp = yp;
-		this.oldXp = relationship.getSourceXp();
-		this.oldYp = relationship.getSourceYp();
+		this.newAnchorConstraint = newAnchorConstraint;
+		this.oldAnchorConstraint = relationship.getSourceAnchorConstraint();
 	}
 
 	/**
@@ -63,7 +56,7 @@ public class SourceConnectionReconnectCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		relationship.setSourceLocationp(xp, yp);
+		relationship.setSourceAnchorConstraint(newAnchorConstraint);
 	}
 
 	/**
@@ -73,6 +66,6 @@ public class SourceConnectionReconnectCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		relationship.setSourceLocationp(oldXp, oldYp);
+		relationship.setSourceAnchorConstraint(oldAnchorConstraint);
 	}
 }

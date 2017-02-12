@@ -6,6 +6,7 @@ Bundle-Version: 0.4.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
 Export-Package: jp.sourceforge.tmdmaker.model,
+ jp.sourceforge.tmdmaker.model.constraint,
  jp.sourceforge.tmdmaker.model.dialect,
  jp.sourceforge.tmdmaker.model.generate,
  jp.sourceforge.tmdmaker.model.importer,

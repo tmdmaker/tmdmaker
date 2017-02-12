@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,14 +31,14 @@ import jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler;
  * @author nakag
  *
  */
-public class AbstractSerializerHandler implements SerializerHandler {
+public abstract class AbstractSerializerHandler implements SerializerHandler {
 	protected static Logger logger;
 
 	/**
 	 * the constructor.
 	 */
 	public AbstractSerializerHandler() {
-		logger = LoggerFactory.getLogger(getClass().getName());
+		logger = LoggerFactory.getLogger(getClass());
 		logger.debug("Handler Start.");
 	}
 

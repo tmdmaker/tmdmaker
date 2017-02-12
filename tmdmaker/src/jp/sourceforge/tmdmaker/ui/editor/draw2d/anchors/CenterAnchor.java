@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.editpart;
+package jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.IFigure;
