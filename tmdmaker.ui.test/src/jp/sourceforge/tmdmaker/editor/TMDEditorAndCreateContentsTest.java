@@ -61,7 +61,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 		} catch (WidgetNotFoundException e) {
 			// do nothing
-			e.printStackTrace();
+			System.out.println("Welcome view not found." + e.getMessage());
 		}
 	}
 
