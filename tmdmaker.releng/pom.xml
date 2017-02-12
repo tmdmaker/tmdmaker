@@ -153,7 +153,7 @@
 					<product>org.eclipse.platform.ide</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
 					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
-					<appArgLine>-nl en</appArgLine>
+					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>
 			</plugin>
 			<plugin>

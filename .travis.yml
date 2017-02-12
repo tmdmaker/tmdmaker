@@ -27,4 +27,4 @@ script:
   - mvn -B clean install -Dtycho.disableP2Mirrors=true
 
 after_success:
-  - mvn -B clean install jacoco:report coveralls:report
+  - mvn -B  jacoco:report coveralls:report

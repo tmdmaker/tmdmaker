@@ -68,7 +68,9 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+		sleep();
 		project.createProject(PROJECT_NAME);
+		sleep();
 		tmDiagram.createFile(PROJECT_NAME, FILE_NAME);
 		botEditor = bot.gefEditor(FILE_NAME);
 		tmdEditor = (TMDEditor) botEditor.getReference().getEditor(false);
