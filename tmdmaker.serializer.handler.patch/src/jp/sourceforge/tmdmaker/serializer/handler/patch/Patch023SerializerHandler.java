@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.model.AnchorConstraintConverter;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 
 /**
@@ -58,26 +59,17 @@ public class Patch023SerializerHandler extends AbstractSerializerHandler {
 		convertRelatedRelationships(model.getModelTargetConnections());
 	}
 
-	private void convertRelatedRelationships(
-			List<AbstractConnectionModel> connections) {
+	private void convertRelatedRelationships(List<AbstractConnectionModel> connections) {
+		AnchorConstraintConverter converter = new AnchorConstraintConverter();
 		for (AbstractConnectionModel c : connections) {
 			if (c instanceof RelatedRelationship) {
 				logger.debug("convertRelatedRelationships():" + c.toString());
-				convertLocationIfNeeds(c);
+				converter.convertNullLocationPoint(c);
 			}
 			if (c instanceof Entity2SubsetTypeRelationship) {
-				logger.debug("convertRelatedRelationships():" + c.toString());
-				convertLocationIfNeeds(c);
+				logger.debug("convertEntity2SubsetTypeRelationships():" + c.toString());
+				converter.convertNullLocationPoint(c);
 			}
-		}
-	}
-
-	private void convertLocationIfNeeds(AbstractConnectionModel connection) {
-		if (connection.getSourceXp() == 0 && connection.getSourceYp() == 0
-				|| connection.getTargetXp() == 0
-				&& connection.getTargetYp() == 0) {
-			connection.setSourceLocationp(-1, -1);
-			connection.setTargetLocationp(-1, -1);
 		}
 	}
 }
