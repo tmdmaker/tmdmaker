@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.editpart.AttributeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.ui.command.AttributeMoveCommand;
-import jp.sourceforge.tmdmaker.ui.command.AttributeTransferCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeMoveCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeTransferCommand;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -36,8 +36,7 @@ import org.slf4j.LoggerFactory;
  */
 public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	/** logging */
-	private static Logger logger = LoggerFactory
-			.getLogger(EntityLayoutEditPolicy.class);
+	private static Logger logger = LoggerFactory.getLogger(EntityLayoutEditPolicy.class);
 
 	/**
 	 * 
@@ -74,11 +73,10 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 			logger.debug("after is null or not AttributeEditPart." + after);
 			return null;
 		}
-		AbstractEntityModel newEntity = (AbstractEntityModel) newEntityEditPart
-				.getModel();
+		AbstractEntityModel newEntity = (AbstractEntityModel) newEntityEditPart.getModel();
 
-		AttributeTransferCommand command = new AttributeTransferCommand(toMove,
-				originalEntity, oldIndex, newEntity, newIndex);
+		AttributeTransferCommand command = new AttributeTransferCommand(toMove, originalEntity,
+				oldIndex, newEntity, newIndex);
 
 		return command;
 	}

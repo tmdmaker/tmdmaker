@@ -28,9 +28,9 @@ import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
-import jp.sourceforge.tmdmaker.ui.command.SourceConnectionReconnectCommand;
-import jp.sourceforge.tmdmaker.ui.command.TargetConnectionReconnectCommand;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchorHelper;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SourceConnectionReconnectCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TargetConnectionReconnectCommand;
 
 /**
  * リレーションの接続位置を変更可能なノード（エンティティ系モデル）用のEditPolicy

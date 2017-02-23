@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,16 +82,17 @@ public class Constraint implements Serializable {
 		y += dy;
 		return this;
 	}
+
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("x=" + x);
 		buf.append(",");
-		buf.append("y="+y);
+		buf.append("y=" + y);
 		buf.append(",");
-		buf.append("h="+height);
+		buf.append("h=" + height);
 		buf.append(",");
-		buf.append("w="+ width);
+		buf.append("w=" + width);
 		return buf.toString();
 	}
 }

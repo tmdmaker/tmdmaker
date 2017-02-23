@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,8 @@ import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
-import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.SubsetTypeDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ImplementDerivationModelsDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
@@ -51,16 +51,15 @@ import org.eclipse.gef.requests.GroupRequest;
  * 
  */
 public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEntity> {
-	
+
 	/**
 	 * コンストラクタ
 	 */
-	public SubsetEntityEditPart(SubsetEntity entity)
-	{
+	public SubsetEntityEditPart(SubsetEntity entity) {
 		super();
 		setModel(entity);
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -71,7 +70,7 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		SubsetEntity entity = getModel();
-		
+
 		entityFigure.setNotImplement(entity.isNotImplement());
 
 		entityFigure.removeAllRelationship();
@@ -81,8 +80,8 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 			// do nothing
 		} else {
 			if (entity.isSupersetAnEntity()) {
-				entityFigure.setIdentifier(entity.getOriginalReusedIdentifier().getUniqueIdentifiers()
-						.get(0).getName());
+				entityFigure.setIdentifier(entity.getOriginalReusedIdentifier()
+						.getUniqueIdentifiers().get(0).getName());
 			} else {
 				for (Identifier i : entity.getOriginalReusedIdentifier().getUniqueIdentifiers()) {
 					entityFigure.addRelationship(i.getName());
@@ -103,7 +102,7 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 		}
 		return appearance;
 	}
-	
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(SubsetType.PROPERTY_PARTITION)) {
@@ -127,21 +126,20 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 	}
 
 	@Override
-	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue)
-	{
+	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
+			AbstractEntityModel editedValue) {
 		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
-		Command deleteCommand    = getDeleteCommand(editedValue);
-		if (deleteCommand != null)
-		{
+		Command deleteCommand = getDeleteCommand(editedValue);
+		if (deleteCommand != null) {
 			ccommand.add(deleteCommand);
 		}
 		return ccommand;
 	}
-	
+
 	@Override
-	protected ModelEditDialog<SubsetEntity> getDialog()
-	{
-		return new TableEditDialog<SubsetEntity>(getControllShell(), Messages.EditSubset, getModel());
+	protected ModelEditDialog<SubsetEntity> getDialog() {
+		return new TableEditDialog<SubsetEntity>(getControllShell(), Messages.EditSubset,
+				getModel());
 	}
 
 	/**

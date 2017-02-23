@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +20,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.views.properties.IPropertySource;
+
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.property.AbstractEntityModelPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
-import jp.sourceforge.tmdmaker.util.ConstraintConverter;
-
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.views.properties.IPropertySource;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ImplementDerivationModelsDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
 
 /**
  * Entity系のeditpartの基底クラス
@@ -51,7 +48,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
  *
  */
 public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
-		extends AbstractModelEditPart<T>implements IPropertyAvailable {
+		extends AbstractModelEditPart<T> implements IPropertyAvailable {
 	/**
 	 *
 	 * {@inheritDoc}
@@ -197,19 +194,7 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	public IPropertySource getPropertySource(TMDEditor editor) {
 		return new AbstractEntityModelPropertySource(editor, this.getModel());
 	}
-	
-	/**
-	 * 
-	 * {@inheritDoc}
-	 *
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#convert(jp.sourceforge.tmdmaker.model.Constraint)
-	 */
-	@Override
-	protected Rectangle convert(Constraint constraint)
-	{
-		return ConstraintConverter.toRectangle(constraint);
-	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 *

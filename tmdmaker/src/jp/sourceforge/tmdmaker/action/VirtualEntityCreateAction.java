@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
-import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.VirtualEntityCreateDialog;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
-import jp.sourceforge.tmdmaker.model.VirtualEntityType;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintAdjusterCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.RelationshipConnectionCommand;
 
 /**
  * みなしエンティティ作成アクション.
@@ -58,8 +58,12 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		VirtualEntityCreateDialog dialog = new VirtualEntityCreateDialog(
 				getPart().getViewer().getControl().getShell());
 		if (dialog.open() == Dialog.OK) {
-			execute(new VirtualEntityCreateCommand(getModel(), dialog.getInputVirtualEntityName(),
-					dialog.getInputVirtualEntityType()));
+			CompoundCommand ccommand = new CompoundCommand();
+			Entity2VirtualEntityRelationship relationship = new Entity2VirtualEntityRelationship(getModel(), dialog.getInputVirtualEntityName(),
+					dialog.getInputVirtualEntityType());
+			ccommand.add(new RelationshipConnectionCommand(relationship));
+			ccommand.add(new ConstraintAdjusterCommand(relationship, 100, 0));
+			execute(ccommand);
 		}
 	}
 
@@ -81,47 +85,4 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		}
 	}
 
-	/**
-	 * みなしエンティティ作成.
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class VirtualEntityCreateCommand extends Command {
-		/** みなしエンティティへのリレーションシップ */
-		private Entity2VirtualEntityRelationship relationship;
-
-		/**
-		 * コンストラクタ.
-		 * 
-		 * @param model
-		 *            みなしエンティティ作成対象
-		 */
-		public VirtualEntityCreateCommand(AbstractEntityModel model, String virtualEntityName,
-				VirtualEntityType type) {
-			this.relationship = new Entity2VirtualEntityRelationship(model, virtualEntityName,
-					type);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			relationship.connect();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			relationship.disconnect();
-		}
-
-	}
 }

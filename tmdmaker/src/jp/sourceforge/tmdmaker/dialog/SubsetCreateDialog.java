@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,14 +36,14 @@ import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
-import jp.sourceforge.tmdmaker.ui.command.Entity2SubsetTypeCreateCommand;
-import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
-import jp.sourceforge.tmdmaker.ui.command.SubsetCreateCommand;
-import jp.sourceforge.tmdmaker.ui.command.SubsetDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.SubsetNameChangeCommand;
-import jp.sourceforge.tmdmaker.ui.command.SubsetTypeChangeCommand;
-import jp.sourceforge.tmdmaker.ui.command.SubsetTypeDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.Entity2SubsetTypeCreateCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ImplementDerivationModelsDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetCreateCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetNameChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetTypeChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetTypeDeleteCommand;
 
 /**
  * サブセット作成ダイアログ.
@@ -207,7 +207,7 @@ public class SubsetCreateDialog extends Dialog {
 				Command command = new SubsetCreateCommand(model, subsetType, subset);
 				ccommand.add(command);
 
-				command = new ModelConstraintChangeCommand(subset, subsetX, SUBSET_Y);
+				command = new ConstraintChangeCommand(subset, subsetX, SUBSET_Y);
 				ccommand.add(command);
 			} else if (e.isNameChanged()) {
 				SubsetEntity subsetEntity = e.getOriginal();

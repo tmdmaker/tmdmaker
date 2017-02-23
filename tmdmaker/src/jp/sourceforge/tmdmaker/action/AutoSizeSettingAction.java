@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
-import jp.sourceforge.tmdmaker.model.Constraint;
-import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintChangeCommand;
 
 /**
  * モデルのサイズを自動調整に設定するAction
@@ -58,10 +58,7 @@ public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 	public void run() {
 		CompoundCommand ccommand = new CompoundCommand();
 		for (ConnectableElement m : getSelectedElementList()) {
-			Constraint constraint = m.getConstraint().getCopy();
-			constraint.height = -1;
-			constraint.width = -1;
-			ccommand.add(new ModelConstraintChangeCommand(m, constraint));
+			ccommand.add(new ConstraintChangeCommand(m, ConstraintConverter.getResetRectangle(m)));
 		}
 		if (!ccommand.isEmpty()) {
 			execute(ccommand.unwrap());

@@ -38,16 +38,15 @@ import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
-import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
-import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchor;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchorHelper;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeEditCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
-import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
 /**
  * エンティティ系モデルのコントローラの基底クラス
@@ -362,15 +361,14 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	protected void refreshVisuals() {
 		logger.debug(getClass().toString() + "(" + getModel().getName() + ") #refreshVisuals()");
 		super.refreshVisuals();
-		Constraint constraint = getModel().getConstraint();
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(),
-				convert(constraint));
+				convert(getModel()));
 
 		updateFigure(getFigure());
 	}
 
-	protected Rectangle convert(Constraint constraint) {
-		return ConstraintConverter.toRectangleWithoutHeightWidth(constraint);
+	protected Rectangle convert(T model) {
+		return ConstraintConverter.getRectangle(model);
 	}
 
 	public void updateAppearance() {

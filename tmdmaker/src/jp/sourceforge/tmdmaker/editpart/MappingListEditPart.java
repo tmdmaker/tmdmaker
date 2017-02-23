@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.MappingList;
-import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
@@ -39,12 +39,11 @@ import org.eclipse.gef.requests.GroupRequest;
  * 
  */
 public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList> {
-	
+
 	/**
 	 * コンストラクタ
 	 */
-	public  MappingListEditPart(MappingList table)
-	{
+	public MappingListEditPart(MappingList table) {
 		super();
 		setModel(table);
 	}
@@ -59,19 +58,19 @@ public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		MappingList table = getModel();
-		
+
 		entityFigure.setNotImplement(table.isNotImplement());
 		entityFigure.removeAllRelationship();
 		entityFigure.setEntityName(table.getName());
 		entityFigure.addRelationship(extractRelationship(table));
 		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
-	
+
 	@Override
 	protected ModelAppearance getAppearance() {
 		return ModelAppearance.MAPPING_LIST;
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -80,26 +79,23 @@ public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new MappingListComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new MappingListComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new ReconnectableNodeEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ReconnectableNodeEditPolicy());
 	}
 
 	@Override
-	protected ModelEditDialog<MappingList> getDialog()
-	{
-		return new TableEditDialog<MappingList>(getControllShell(), Messages.EditMappingList, getModel());
+	protected ModelEditDialog<MappingList> getDialog() {
+		return new TableEditDialog<MappingList>(getControllShell(), Messages.EditMappingList,
+				getModel());
 	}
-	
+
 	/**
 	 * 
 	 * @author nakaG
 	 * 
 	 */
-	private static class MappingListComponentEditPolicy extends
-			ComponentEditPolicy {
+	private static class MappingListComponentEditPolicy extends ComponentEditPolicy {
 		/**
 		 * 
 		 * {@inheritDoc}

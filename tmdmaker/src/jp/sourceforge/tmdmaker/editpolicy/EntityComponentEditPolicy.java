@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.editpolicy;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.ui.command.ConnectableElementDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectableElementDeleteCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
@@ -38,8 +38,8 @@ public class EntityComponentEditPolicy extends ComponentEditPolicy {
 	 */
 	@Override
 	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-		return new EntityDeleteCommand((Diagram) getHost().getParent()
-				.getModel(), (AbstractEntityModel) getHost().getModel());
+		return new EntityDeleteCommand((Diagram) getHost().getParent().getModel(),
+				(AbstractEntityModel) getHost().getModel());
 	}
 
 	/**
@@ -48,8 +48,7 @@ public class EntityComponentEditPolicy extends ComponentEditPolicy {
 	 * @author nakaG
 	 * 
 	 */
-	private static class EntityDeleteCommand extends
-			ConnectableElementDeleteCommand {
+	private static class EntityDeleteCommand extends ConnectableElementDeleteCommand {
 		private AbstractEntityModel model;
 
 		public EntityDeleteCommand(Diagram diagram, AbstractEntityModel model) {
@@ -80,5 +79,5 @@ public class EntityComponentEditPolicy extends ComponentEditPolicy {
 			attathConnections(targetConnections);
 		}
 	}
-	
+
 }

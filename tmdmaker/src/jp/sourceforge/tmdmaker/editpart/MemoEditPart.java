@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,12 +37,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 import jp.sourceforge.tmdmaker.figure.MemoFigure;
-import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.other.Memo;
-import jp.sourceforge.tmdmaker.ui.command.MemoChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.MemoChangeCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
-import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
 /**
  * メモのコントローラ
@@ -61,21 +59,6 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	public MemoEditPart(Memo model) {
 		super();
 		setModel(model);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#refreshVisuals()
-	 */
-	@Override
-	protected void refreshVisuals() {
-		logger.debug(getClass() + "#refreshVisuals()");
-		Constraint constraint = getModel().getConstraint();
-		Rectangle bounds = ConstraintConverter.toRectangle(constraint);
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
-
-		updateFigure(getFigure());
 	}
 
 	/**
