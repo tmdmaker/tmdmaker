@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -157,7 +157,6 @@ public class Event2EventRelationship extends AbstractRelationship {
 		}
 		setCenterMark(true);
 
-		table.setConstraint(sourceEntity.getConstraint().getTranslated(100, 100));
 		Diagram diagram = sourceEntity.getDiagram();
 		diagram.addChild(table);
 
@@ -223,12 +222,16 @@ public class Event2EventRelationship extends AbstractRelationship {
 		}
 	}
 
-	private boolean hasMappingList() {
+	public boolean hasMappingList() {
 		return getSourceCardinality().equals(Cardinality.MANY);
 	}
 
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	public MappingList getMappingList() {
+		return this.table;
 	}
 }

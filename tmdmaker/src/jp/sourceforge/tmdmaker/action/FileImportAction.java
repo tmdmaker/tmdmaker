@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.importer.FileImporter;
-import jp.sourceforge.tmdmaker.ui.command.EntityModelAddCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityModelAddCommand;
 
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Point;

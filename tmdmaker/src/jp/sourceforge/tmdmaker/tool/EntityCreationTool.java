@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 package jp.sourceforge.tmdmaker.tool;
 
 import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog;
-import jp.sourceforge.tmdmaker.ui.command.EntityModelAddCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityModelAddCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.tools.CreationTool;
@@ -33,8 +33,7 @@ import org.slf4j.LoggerFactory;
 public class EntityCreationTool extends CreationTool {
 	/** logging */
 	protected static Logger logger;
-	
-	
+
 	/**
 	 * コンストラクタ.
 	 */

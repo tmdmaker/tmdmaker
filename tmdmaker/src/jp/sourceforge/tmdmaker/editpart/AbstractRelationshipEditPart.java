@@ -19,12 +19,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.ConnectableElement;
-import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchor;
-
 import org.eclipse.draw2d.AbstractConnectionAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -36,6 +30,13 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.AnchorConstraintManager;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchor;
 
 /**
  * リレーションシップのコントローラの基底クラス
@@ -187,13 +188,13 @@ public abstract class AbstractRelationshipEditPart extends AbstractConnectionEdi
 		ConnectionAnchor sourceAnchor = this.getConnectionFigure().getSourceAnchor();
 
 		if (sourceAnchor instanceof XYChopboxAnchor) {
-			((XYChopboxAnchor) sourceAnchor).setLocation(relationship.getSourceAnchorConstraint());
+			((XYChopboxAnchor) sourceAnchor).setLocation(AnchorConstraintManager.getSourceAnchorConstraint(relationship));
 		}
 
 		ConnectionAnchor targetAnchor = this.getConnectionFigure().getTargetAnchor();
 
 		if (targetAnchor instanceof XYChopboxAnchor) {
-			((XYChopboxAnchor) targetAnchor).setLocation(relationship.getTargetAnchorConstraint());
+			((XYChopboxAnchor) targetAnchor).setLocation(AnchorConstraintManager.getTargetAnchorConstraint(relationship));
 		}
 	}
 

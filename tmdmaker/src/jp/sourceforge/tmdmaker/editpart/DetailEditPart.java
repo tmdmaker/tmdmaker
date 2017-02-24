@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
-import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
@@ -38,19 +38,17 @@ import org.eclipse.gef.requests.GroupRequest;
  * 
  */
 public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
-	
+
 	/**
 	 * コンストラクタ
 	 */
-	public DetailEditPart(Detail entity)
-	{
+	public DetailEditPart(Detail entity) {
 		super();
 		setModel(entity);
 	}
 
 	@Override
-	protected ModelEditDialog<Detail> getDialog()
-	{
+	protected ModelEditDialog<Detail> getDialog() {
 		return new DetailEditDialog(getControllShell(), getModel());
 	}
 
@@ -69,11 +67,10 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 		entityFigure.removeAllRelationship();
 
 		entityFigure.setEntityName(entity.getName());
-		IdentifierRef original = entity.getOriginalReusedIdentifier()
-				.getUniqueIdentifiers().get(0);
+		IdentifierRef original = entity.getOriginalReusedIdentifier().getUniqueIdentifiers().get(0);
 		entityFigure.setIdentifier(original.getName());
-		if (entity.isDetailIdentifierEnabled()){
-			entityFigure.setIdentifier(entity.getDetailIdentifier().getName());			
+		if (entity.isDetailIdentifierEnabled()) {
+			entityFigure.setIdentifier(entity.getDetailIdentifier().getName());
 		}
 		entityFigure.addRelationship(extractRelationship(entity, original));
 	}
@@ -86,10 +83,8 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new DetailComponentEditPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new TMDModelGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DetailComponentEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
@@ -108,8 +103,7 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
 			Detail model = (Detail) getHost().getModel();
-			return new TableDeleteCommand(model, model
-					.getModelTargetConnections().get(0));
+			return new TableDeleteCommand(model, model.getModelTargetConnections().get(0));
 
 		}
 	}

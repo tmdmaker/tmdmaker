@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ import jp.sourceforge.tmdmaker.model.SurrogateKey;
 import jp.sourceforge.tmdmaker.model.SurrogateKeyRef;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
-import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
 
 /**
  * エンティティ実装情報の編集用
@@ -80,8 +79,9 @@ public class EditImplementEntity {
 			attributes.add(new EditImplementAttribute(model, ((Entity) model).getIdentifier()));
 		}
 		if (model instanceof Detail) {
-			if (((Detail) model).isDetailIdentifierEnabled()){
-				attributes.add(new EditImplementAttribute(model, ((Detail) model).getDetailIdentifier()));
+			if (((Detail) model).isDetailIdentifierEnabled()) {
+				attributes.add(
+						new EditImplementAttribute(model, ((Detail) model).getDetailIdentifier()));
 			}
 		}
 		if (model instanceof SubsetEntity) {

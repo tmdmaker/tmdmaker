@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,10 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.command.VirtualSubsetAddCommand;
-import jp.sourceforge.tmdmaker.ui.command.VirtualSubsetDisconnectCommand;
-import jp.sourceforge.tmdmaker.ui.command.VirtualSupersetTypeChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetAddCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetDisconnectCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeChangeCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -76,8 +76,8 @@ public class VirtualSupersetTypeEditPart extends AbstractSubsetTypeEditPart<Virt
 		VirtualSuperset superset = type.getSuperset();
 		Diagram diagram = superset.getDiagram();
 		List<AbstractEntityModel> list = type.getSubsetList();
-		VirtualSupersetCreateDialog dialog = new VirtualSupersetCreateDialog(getViewer()
-				.getControl().getShell(), diagram, superset, list);
+		VirtualSupersetCreateDialog dialog = new VirtualSupersetCreateDialog(
+				getViewer().getControl().getShell(), diagram, superset, list);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
 			VirtualSuperset edited = dialog.getEditedValue();

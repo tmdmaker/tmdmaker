@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
-import jp.sourceforge.tmdmaker.ui.command.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ImplementDerivationModelsDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
@@ -48,34 +48,31 @@ import org.eclipse.gef.requests.GroupRequest;
  * 
  */
 public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEntity> {
-	
+
 	/**
 	 * コンストラクタ
 	 */
-	public VirtualEntityEditPart(VirtualEntity entity)
-	{
+	public VirtualEntityEditPart(VirtualEntity entity) {
 		super();
 		setModel(entity);
 	}
-	
+
 	@Override
-	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue)
-	{
+	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
+			AbstractEntityModel editedValue) {
 		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
-		Command deleteCommand    = getDeleteCommand(editedValue);
-		if (deleteCommand != null)
-		{
+		Command deleteCommand = getDeleteCommand(editedValue);
+		if (deleteCommand != null) {
 			ccommand.add(deleteCommand);
 		}
 		return ccommand;
 	}
-	
+
 	@Override
-	protected ModelEditDialog<VirtualEntity> getDialog()
-	{
+	protected ModelEditDialog<VirtualEntity> getDialog() {
 		return new VirtualEntityEditDialog(getControllShell(), getModel());
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -94,7 +91,7 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 		entityFigure.addRelationship(extractRelationship(entity));
 		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
-	
+
 	/**
 	 * @param table
 	 */
@@ -112,15 +109,14 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 		ModelAppearance appearance = null;
 		if (getModel().getVirtualEntityType().equals(VirtualEntityType.RESOURCE)) {
 			appearance = ModelAppearance.RESOURCE_VIRTUAL_ENTITY;
-		} else if (getModel().getVirtualEntityType()
-				.equals(VirtualEntityType.EVENT)) {
+		} else if (getModel().getVirtualEntityType().equals(VirtualEntityType.EVENT)) {
 			appearance = ModelAppearance.EVENT_SUBSET;
 		} else {
 			appearance = ModelAppearance.VIRTUAL_ENTITY;
 		}
 		return appearance;
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -129,11 +125,9 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new VirtualEntityComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new VirtualEntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new ReconnectableNodeEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ReconnectableNodeEditPolicy());
 	}
 
 	/**
@@ -141,8 +135,7 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 	 * @author nakaG
 	 * 
 	 */
-	private static class VirtualEntityComponentEditPolicy extends
-			ComponentEditPolicy {
+	private static class VirtualEntityComponentEditPolicy extends ComponentEditPolicy {
 
 		/**
 		 * {@inheritDoc}
@@ -154,14 +147,11 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 			VirtualEntity model = (VirtualEntity) getHost().getModel();
 			CompoundCommand ccommand = new CompoundCommand();
 			if (model.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule
-						.findOriginalImplementModel(model);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(model,
-						original));
+				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(model);
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
 			}
 
-			ccommand.add(new TableDeleteCommand(model, model
-					.getModelTargetConnections().get(0)));
+			ccommand.add(new TableDeleteCommand(model, model.getModelTargetConnections().get(0)));
 
 			return ccommand;
 		}

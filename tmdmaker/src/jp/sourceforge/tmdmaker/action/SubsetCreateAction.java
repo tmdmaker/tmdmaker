@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.adjuster.SubsetTypeAdjuster;
 
 /**
  * サブセット作成アクション.
@@ -77,7 +78,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		AbstractModelEditPart<? extends AbstractEntityModel> part = getPart();
 		AbstractEntityModel model = getModel();
 		SubsetType subsetType = SubsetRule.setupSubsetType(model);
-
+		new SubsetTypeAdjuster(model, subsetType).adjust();
 		SubsetCreateDialog dialog = new SubsetCreateDialog(part.getViewer().getControl().getShell(),
 				subsetType, model);
 		if (dialog.open() == Dialog.OK) {

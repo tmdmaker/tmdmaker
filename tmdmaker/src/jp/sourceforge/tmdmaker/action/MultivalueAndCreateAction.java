@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.action;
 
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.ui.IWorkbenchPart;
+
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.editpart.EntityEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
@@ -23,14 +26,14 @@ import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Cardinality;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
+import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
+import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
 import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
-import jp.sourceforge.tmdmaker.ui.command.ConnectionCreateCommand;
-import jp.sourceforge.tmdmaker.ui.command.ConnectionDeleteCommand;
-
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.ui.IWorkbenchPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionCreateCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintAdjusterCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.RelationshipConnectionCommand;
 
 /**
  * 多値のAND(HDR-DTL)作成アクション
@@ -77,10 +80,17 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 	@Override
 	public void run() {
 		AbstractEntityModel model = getModel();
+		Header2DetailRelationship relationship = new Header2DetailRelationship(model);
+		Detail detail = relationship.getDetail();
+		MultivalueAndAggregator aggregator = relationship.getAggregator();
+		MultivalueAndSuperset superset = relationship.getMultivalueAndSuperset();
+
 		CompoundCommand ccommand = new CompoundCommand();
-		// Detailとスーパーセットを追加してHeaderと接続
-		HeaderDetailCreateCommand command = new HeaderDetailCreateCommand(model);
-		ccommand.add(command);
+		ccommand.add(new RelationshipConnectionCommand(relationship));
+		ccommand.add(new ConstraintAdjusterCommand(model, detail, 100, 0));
+		ccommand.add(new ConstraintAdjusterCommand(model, superset, 64, -80));
+		ccommand.add(new ConstraintAdjusterCommand(model, aggregator, 75, -30));
+
 		// 多値のリレーションをHeaderから削除してDetailと再接続
 		if (EntityTypeRule.isEvent(model)) {
 			for (AbstractConnectionModel con : model.getModelTargetConnections()) {
@@ -90,7 +100,6 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 						AbstractEntityModel source = relation.getSource();
 						ConnectionDeleteCommand command2 = new ConnectionDeleteCommand(relation);
 						ccommand.add(command2);
-						Detail detail = (Detail) command.getRelationship().getTarget();
 						AbstractRelationship newRelation = RelationshipRule
 								.createRelationship(source, detail);
 						newRelation.setTargetCardinality(Cardinality.MANY);
@@ -102,49 +111,5 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 			}
 		}
 		execute(ccommand.unwrap());
-	}
-
-	/**
-	 * HDR-DTLを作成するコマンド
-	 */
-	private static class HeaderDetailCreateCommand extends Command {
-		/** リレーションシップ */
-		private Header2DetailRelationship relationship;
-
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param header
-		 *            ヘッダーとなるモデル
-		 */
-		public HeaderDetailCreateCommand(AbstractEntityModel header) {
-			relationship = new Header2DetailRelationship(header);
-			relationship.setTargetCardinality(Cardinality.MANY);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			relationship.connect();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			relationship.disconnect();
-		}
-
-		public Header2DetailRelationship getRelationship() {
-			return relationship;
-		}
-
 	}
 }

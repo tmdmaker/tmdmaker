@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.editpolicy;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
-import jp.sourceforge.tmdmaker.ui.command.ConnectionCreateCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionCreateCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
@@ -28,8 +28,7 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
  * @author nakaG
  * 
  */
-public class TMDModelGraphicalNodeEditPolicy extends
-		ReconnectableNodeEditPolicy {
+public class TMDModelGraphicalNodeEditPolicy extends ReconnectableNodeEditPolicy {
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -40,8 +39,6 @@ public class TMDModelGraphicalNodeEditPolicy extends
 	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
 		logger.debug(getClass() + "#getConnectionCreateCommand()");
 		ConnectionCreateCommand command = new ConnectionCreateCommand();
-		// command.setConnection((AbstractConnectionModel)
-		// request.getNewObject());
 		command.setSource(getAbstractEntityModel());
 		request.setStartCommand(command);
 		return command;
@@ -53,18 +50,14 @@ public class TMDModelGraphicalNodeEditPolicy extends
 	 * 
 	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
-	protected Command getConnectionCompleteCommand(
-			CreateConnectionRequest request) {
+	protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
 		logger.debug(getClass() + "#getConnectionCompleteCommand()");
 
-		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request
-				.getStartCommand();
-		AbstractEntityModel source = (AbstractEntityModel) startCommand
-				.getSource();
+		ConnectionCreateCommand startCommand = (ConnectionCreateCommand) request.getStartCommand();
+		AbstractEntityModel source = (AbstractEntityModel) startCommand.getSource();
 		AbstractEntityModel target = (AbstractEntityModel) getHost().getModel();
 		startCommand.setTarget(target);
-		startCommand.setConnection(RelationshipRule.createRelationship(source,
-				target));
+		startCommand.setConnection(RelationshipRule.createRelationship(source, target));
 
 		return startCommand;
 	}

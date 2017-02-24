@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,13 +31,12 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.model.SurrogateKey;
-import jp.sourceforge.tmdmaker.model.SurrogateKeyRef;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
+import jp.sourceforge.tmdmaker.model.SurrogateKey;
+import jp.sourceforge.tmdmaker.model.SurrogateKeyRef;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
-import jp.sourceforge.tmdmaker.model.util.ModelEditUtils;
 
 /**
  * 実装に関するルールをまとめたクラス
@@ -123,7 +122,7 @@ public class ImplementRule {
 			attributes.add(((Entity) model).getIdentifier());
 		}
 		if (model instanceof Detail) {
-			if (((Detail) model).isDetailIdentifierEnabled()){
+			if (((Detail) model).isDetailIdentifierEnabled()) {
 				attributes.add(((Detail) model).getDetailIdentifier());
 			}
 		}
@@ -189,7 +188,7 @@ public class ImplementRule {
 	 *            エンティティ系モデル
 	 */
 	public static void setModelDefaultValue(AbstractEntityModel model) {
-		if (ModelEditUtils.isEmpty(model.getImplementName())) {
+		if (isEmpty(model.getImplementName())) {
 			model.setImplementName(model.getName());
 		}
 	}
@@ -201,7 +200,7 @@ public class ImplementRule {
 	 *            個体指定子
 	 */
 	public static void setIdentifierDefaultValue(Identifier identifier) {
-		if (ModelEditUtils.isEmpty(identifier.getImplementName())) {
+		if (isEmpty(identifier.getImplementName())) {
 			identifier.setImplementName(identifier.getName());
 		}
 		if (identifier.getDataTypeDeclaration() == null) {
@@ -244,7 +243,7 @@ public class ImplementRule {
 	 */
 	public static void setSurrogateKeyDefaultValue(SurrogateKey surrogateKey) {
 		String implementName = surrogateKey.getImplementName();
-		if (ModelEditUtils.isEmpty(implementName)) {
+		if (isEmpty(implementName)) {
 			surrogateKey.setImplementName(surrogateKey.getName());
 		}
 		DataTypeDeclaration dtd = surrogateKey.getDataTypeDeclaration();
@@ -262,4 +261,14 @@ public class ImplementRule {
 		ImplementRule.foreignKeyEnabled = foreignKeyEnabled;
 	}
 
+	/**
+	 * 文字列が空から判定する。
+	 * 
+	 * @param value
+	 *            文字列
+	 * @return NULLか空文字の場合にtrueを返す
+	 */
+	private static boolean isEmpty(String value) {
+		return value == null || value.length() == 0;
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,7 @@ import jp.sourceforge.tmdmaker.model.rule.MultivalueRule;
  * 
  */
 @SuppressWarnings("serial")
-public class MultivalueOrRelationship extends
-		TransfarReuseKeysToTargetRelationship {
+public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelationship {
 	/** MO */
 	private MultivalueOrEntity table;
 
@@ -40,8 +39,7 @@ public class MultivalueOrRelationship extends
 	public MultivalueOrRelationship(AbstractEntityModel source, String typeName) {
 		setSource(source);
 
-		MultivalueOrEntity target = MultivalueRule.createMultivalueOrEntity(
-				getSource(), typeName);
+		MultivalueOrEntity target = MultivalueRule.createMultivalueOrEntity(getSource(), typeName);
 
 		setTargetCardinality(Cardinality.MANY);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.property.AttributePropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -41,17 +41,17 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * @author nakaG
  * 
  */
-public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements IPropertyAvailable {
-	
+public class AttributeEditPart extends AbstractTMDEditPart<Attribute>
+		implements IPropertyAvailable {
+
 	/**
 	 * コンストラクタ
 	 */
-	public AttributeEditPart(Attribute attribute)
-	{
+	public AttributeEditPart(Attribute attribute) {
 		super();
 		setModel(attribute);
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -67,6 +67,7 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements
 		label.setLabelAlignment(PositionConstants.LEFT);
 		return label;
 	}
+
 	private String createAttributeName(Attribute attribute) {
 		StringBuilder name = new StringBuilder(attribute.getName());
 		if (attribute.isDerivation()) {
@@ -74,6 +75,7 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements
 		}
 		return name.toString();
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -94,21 +96,18 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements
 	@Override
 	protected void onDoubleClicked() {
 		EditAttribute edit = new EditAttribute(getModel());
-		AttributeDialog dialog = new AttributeDialog(getViewer().getControl()
-				.getShell(), edit);
+		AttributeDialog dialog = new AttributeDialog(getViewer().getControl().getShell(), edit);
 		if (dialog.open() == Dialog.OK) {
 			EditAttribute edited = dialog.getEditedValue();
 			if (edited.isEdited()) {
 				Attribute editedValueAttribute = new Attribute();
 				edited.copyTo(editedValueAttribute);
 				IAttribute original = edited.getOriginalAttribute();
-				AbstractEntityModel entity = (AbstractEntityModel) getParent()
-						.getModel();
-				AttributeEditCommand editCommand = new AttributeEditCommand(
-						original, editedValueAttribute, entity);
+				AbstractEntityModel entity = (AbstractEntityModel) getParent().getModel();
+				AttributeEditCommand editCommand = new AttributeEditCommand(original,
+						editedValueAttribute, entity);
 
-				getViewer().getEditDomain().getCommandStack().execute(
-						editCommand);
+				getViewer().getEditDomain().getCommandStack().execute(editCommand);
 			}
 		}
 
@@ -129,7 +128,7 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements
 			logger.warn("Not Handle Event Occured.");
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -151,7 +150,7 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute> implements
 	protected void handleNameChange(PropertyChangeEvent evt) {
 		refreshVisuals();
 	}
-	
+
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {
 		return new AttributePropertySource(editor, this.getModel());

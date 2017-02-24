@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,10 +40,9 @@ public class MultivalueRule {
 	 *            種別名
 	 * @return 多値のORのモデル
 	 */
-	public static MultivalueOrEntity createMultivalueOrEntity(
-			AbstractEntityModel source, String typeName) {
+	public static MultivalueOrEntity createMultivalueOrEntity(AbstractEntityModel source,
+			String typeName) {
 		MultivalueOrEntity target = new MultivalueOrEntity();
-		target.setConstraint(source.getConstraint().getTranslated(50, 0));
 		target.setName(source.getName() + "." + typeName);
 		target.setEntityType(source.getEntityType());
 		target.addAttribute(createTypeCode(typeName));
@@ -62,8 +61,8 @@ public class MultivalueRule {
 		Attribute attribute = new Attribute();
 		attribute.setName(typeName + "コード");
 		attribute.setImplementName(attribute.getName());
-		attribute.setDataTypeDeclaration(new DataTypeDeclaration(
-				StandardSQLDataType.SMALLINT, null, null));
+		attribute.setDataTypeDeclaration(
+				new DataTypeDeclaration(StandardSQLDataType.SMALLINT, null, null));
 
 		return attribute;
 	}
@@ -79,10 +78,8 @@ public class MultivalueRule {
 		Detail detail = new Detail();
 		detail.setName(header.getName() + "DTL");
 		detail.setEntityType(header.getEntityType());
-		detail.setConstraint(header.getConstraint().getTranslated(100, 0));
 		detail.setOriginalReusedIdentifier(header.createReusedIdentifier());
-		detail.getDetailIdentifier().copyFrom(
-				createDetailIdentifier(header.getName()));
+		detail.getDetailIdentifier().copyFrom(createDetailIdentifier(header.getName()));
 		ImplementRule.setModelDefaultValue(detail);
 		return detail;
 	}
@@ -108,11 +105,9 @@ public class MultivalueRule {
 	 *            派生元のモデル
 	 * @return 多値のANDのSuperset
 	 */
-	public static MultivalueAndSuperset createMultivalueAndSuperset(
-			AbstractEntityModel header) {
+	public static MultivalueAndSuperset createMultivalueAndSuperset(AbstractEntityModel header) {
 		MultivalueAndSuperset superset = new MultivalueAndSuperset();
 		superset.setEntityType(header.getEntityType());
-		superset.setConstraint(header.getConstraint().getTranslated(64, -80));
 		superset.setName(header.getName());
 		superset.addReusedIdentifier(header);
 

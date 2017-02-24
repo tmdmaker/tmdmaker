@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,12 +51,12 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 		setSource(header);
 		detail = MultivalueRule.createDetail(header);
 		setTarget(detail);
+		setTargetCardinality(Cardinality.MANY);
 
 		superset = MultivalueRule.createMultivalueAndSuperset(header);
 		superset.setDetail(detail);
 
 		aggregator = new MultivalueAndAggregator();
-		aggregator.setConstraint(header.getConstraint().getTranslated(75, -30));
 
 		superset2aggregator = new RelatedRelationship(superset, aggregator);
 
@@ -166,11 +166,15 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 		return getTarget().isDeletable();
 	}
 
-	MultivalueAndSuperset getMultivalueAndSuperset() {
+	public MultivalueAndSuperset getMultivalueAndSuperset() {
 		return superset;
 	}
-	
-	MultivalueAndAggregator getAggregator() {
+
+	public MultivalueAndAggregator getAggregator() {
 		return aggregator;
+	}
+
+	public Detail getDetail() {
+		return detail;
 	}
 }

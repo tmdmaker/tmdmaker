@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
-import jp.sourceforge.tmdmaker.ui.command.ConnectionCreateCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionCreateCommand;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.tools.ConnectionCreationTool;
@@ -55,14 +55,11 @@ public class TMDConnectionCreationTool extends ConnectionCreationTool {
 			AbstractEntityModel target = relationship.getTarget();
 
 			RelationshipEditDialog dialog = new RelationshipEditDialog(
-					getCurrentViewer().getControl().getShell(),
-					source.getName(), target.getName());
+					getCurrentViewer().getControl().getShell(), source.getName(), target.getName());
 			if (dialog.open() == Dialog.OK) {
-				relationship
-						.setSourceCardinality(dialog.getSourceCardinality());
+				relationship.setSourceCardinality(dialog.getSourceCardinality());
 				relationship.setSourceNoInstance(dialog.isSourceNoInstance());
-				relationship
-						.setTargetCardinality(dialog.getTargetCardinality());
+				relationship.setTargetCardinality(dialog.getTargetCardinality());
 				relationship.setTargetNoInstance(dialog.isTargetNoInstance());
 
 			} else {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
-import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
@@ -45,12 +45,11 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 	/**
 	 * コンストラクタ
 	 */
-	public CombinationTableEditPart(CombinationTable table)
-	{
+	public CombinationTableEditPart(CombinationTable table) {
 		super();
 		setModel(table);
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -64,11 +63,11 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 		CombinationTable table = getModel();
 
 		entityFigure.setEntityType(table.getCombinationTableType().getLabel());
-		
+
 		entityFigure.setNotImplement(table.isNotImplement());
 		entityFigure.removeAllRelationship();
 		entityFigure.setEntityName(table.getName());
-		
+
 		entityFigure.addRelationship(extractRelationship(table));
 		entityFigure.setColor(getForegroundColor(), getBackgroundColor());
 	}
@@ -77,7 +76,7 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 	protected ModelAppearance getAppearance() {
 		return ModelAppearance.COMBINATION_TABLE;
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -99,18 +98,20 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 	@Override
 	protected void onDoubleClicked() {
 		logger.debug(getClass() + "#onDoubleClicked()"); //$NON-NLS-1$
-		
+
 		ModelEditDialog<CombinationTable> dialog = getDialog();
-		if (dialog.open() != Dialog.OK) return;
-		
-		CompoundCommand ccommand = createEditCommand(dialog.getEditAttributeList(), dialog.getEditedValue());
+		if (dialog.open() != Dialog.OK)
+			return;
+
+		CompoundCommand ccommand = createEditCommand(dialog.getEditAttributeList(),
+				dialog.getEditedValue());
 		executeEditCommand(ccommand.unwrap());
 	}
-	
+
 	@Override
-	protected ModelEditDialog<CombinationTable> getDialog()
-	{
-		return new CombinationTableEditDialog(getControllShell(), Messages.EditCombinationTable, getModel());
+	protected ModelEditDialog<CombinationTable> getDialog() {
+		return new CombinationTableEditDialog(getControllShell(), Messages.EditCombinationTable,
+				getModel());
 	}
 
 	/**

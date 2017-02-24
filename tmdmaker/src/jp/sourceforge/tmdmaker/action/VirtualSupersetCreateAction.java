@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,7 @@ package jp.sourceforge.tmdmaker.action;
 
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.VirtualSupersetCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Constraint;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-import jp.sourceforge.tmdmaker.ui.command.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.command.VirtualSubsetAddCommand;
-import jp.sourceforge.tmdmaker.ui.command.VirtualSubsetDisconnectCommand;
-import jp.sourceforge.tmdmaker.ui.command.VirtualSupersetTypeChangeCommand;
-
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editparts.AbstractEditPart;
@@ -39,6 +25,21 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.dialog.VirtualSupersetCreateDialog;
+import jp.sourceforge.tmdmaker.editpart.AbstractEntityModelEditPart;
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.VirtualSuperset;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetAddCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetDisconnectCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeChangeCommand;
 
 /**
  * みなしスーパーセット作成アクション.
@@ -99,10 +100,9 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 				if (selection.size() == 0) {
 					return;
 				}
-
+				// TODO: virtual superset作成処理をリファクタリング
 				ccommand.add(new VirtualSupersetCreateCommand(diagram, edited.getName(),
 						aggregator.isApplyAttribute(), selection, pos.x, pos.y));
-
 			} else {
 				// みなしスーパーセット編集
 				ccommand.add(new ModelEditCommand(original, edited));
@@ -212,7 +212,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 		private VirtualSuperset model;
 		private int x;
 		private int y;
-		private Constraint typeConstraint;
+		private Rectangle typeConstraint;
 
 		public VirtualSupersetCreateCommand(Diagram diagram, String virtualSupersetName,
 				boolean applyAttribute, List<AbstractEntityModel> subsets, int x, int y) {
@@ -222,8 +222,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 			this.subsets = subsets;
 			this.x = x;
 			this.y = y;
-			Constraint supersetConstraint = new Constraint(x, y, -1, -1);
-			typeConstraint = supersetConstraint.getTranslated(0, 50);
+			typeConstraint = new Rectangle(x, y + 50, -1, -1);
 		}
 
 		/**
@@ -236,7 +235,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 			model = diagram.createVirtualSuperset(virtualSupersetName, subsets);
 			model.move(x, y);
 			VirtualSupersetType type = model.getVirtualSupersetType();
-			type.setConstraint(typeConstraint);
+			ConstraintConverter.setConstraint(type, typeConstraint);
 			type.setApplyAttribute(applyAttribute);
 		}
 

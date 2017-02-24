@@ -19,9 +19,9 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AnchorConstraintMigrator;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.AnchorConstraintConverter;
 
 /**
  * モデルのバージョン0.4.0へのバージョンアップ
@@ -30,6 +30,7 @@ import jp.sourceforge.tmdmaker.model.AnchorConstraintConverter;
  * 
  */
 public class Patch040SerializerHandler extends AbstractSerializerHandler {
+
 
 	/**
 	 * 
@@ -58,7 +59,7 @@ public class Patch040SerializerHandler extends AbstractSerializerHandler {
 	}
 
 	private void convertRelatedRelationships(List<AbstractConnectionModel> connections) {
-		AnchorConstraintConverter converter = new AnchorConstraintConverter();
+		AnchorConstraintMigrator converter = new AnchorConstraintMigrator();
 		for (AbstractConnectionModel c : connections) {
 			converter.convertNullLocationPoint(c);
 		}
