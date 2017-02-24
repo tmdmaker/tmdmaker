@@ -19,6 +19,7 @@ import org.eclipse.gef.commands.Command;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.AnchorConstraintManager;
 
 /**
  * リレーションシップ等のコネクションのターゲットを再接続するCommand
@@ -46,7 +47,8 @@ public class TargetConnectionReconnectCommand extends Command {
 			AnchorConstraint newAnchorConstraint) {
 		this.relationship = relationship;
 		this.newAnchorConstraint = newAnchorConstraint;
-		this.oldAnchorConstraint = relationship.getTargetAnchorConstraint();
+		this.oldAnchorConstraint = AnchorConstraintManager
+				.getTargetAnchorConstraint(relationship);
 	}
 
 	/**
@@ -56,7 +58,7 @@ public class TargetConnectionReconnectCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		relationship.setTargetAnchorConstraint(newAnchorConstraint);
+		AnchorConstraintManager.setTargetAnchorConstraint(relationship, newAnchorConstraint);
 	}
 
 	/**
@@ -66,7 +68,7 @@ public class TargetConnectionReconnectCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		relationship.setTargetAnchorConstraint(oldAnchorConstraint);
+		AnchorConstraintManager.setTargetAnchorConstraint(relationship, oldAnchorConstraint);
 	}
 
 }

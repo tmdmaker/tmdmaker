@@ -41,6 +41,7 @@ import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.AnchorConstraintManager;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchor;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchorHelper;
@@ -116,7 +117,7 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 		AbstractConnectionModel relationship = (AbstractConnectionModel) connection.getModel();
 
 		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
-				relationship.getSourceAnchorConstraint());
+				AnchorConstraintManager.getSourceAnchorConstraint(relationship));
 		return anchor;
 	}
 
@@ -166,7 +167,7 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		AbstractConnectionModel relationship = (AbstractConnectionModel) connection.getModel();
 		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
-				relationship.getTargetAnchorConstraint());
+				AnchorConstraintManager.getTargetAnchorConstraint(relationship));
 
 		return anchor;
 	}
