@@ -24,7 +24,7 @@ import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
  *
  */
 @Deprecated
-public class AnchorConstraintConverter {
+public class AnchorConstraintMigrator {
 	/**
 	 * データ移行.
 	 * 

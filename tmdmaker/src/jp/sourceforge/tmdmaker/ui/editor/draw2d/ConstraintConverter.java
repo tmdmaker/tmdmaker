@@ -17,8 +17,8 @@ package jp.sourceforge.tmdmaker.ui.editor.draw2d;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.model.constraint.Constraint;
 
 /**
  * TMD-MakerのモデルとGEFのモデルの制約の変換用クラス

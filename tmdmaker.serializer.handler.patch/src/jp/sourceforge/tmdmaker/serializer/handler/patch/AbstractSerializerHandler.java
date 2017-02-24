@@ -32,7 +32,7 @@ import jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler;
  *
  */
 public abstract class AbstractSerializerHandler implements SerializerHandler {
-	protected static Logger logger;
+	protected Logger logger;
 
 	/**
 	 * the constructor.

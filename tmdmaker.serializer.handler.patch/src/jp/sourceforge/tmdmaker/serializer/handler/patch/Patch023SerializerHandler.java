@@ -22,7 +22,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.AnchorConstraintConverter;
+import jp.sourceforge.tmdmaker.model.AnchorConstraintMigrator;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 
 /**
@@ -60,7 +60,7 @@ public class Patch023SerializerHandler extends AbstractSerializerHandler {
 	}
 
 	private void convertRelatedRelationships(List<AbstractConnectionModel> connections) {
-		AnchorConstraintConverter converter = new AnchorConstraintConverter();
+		AnchorConstraintMigrator converter = new AnchorConstraintMigrator();
 		for (AbstractConnectionModel c : connections) {
 			if (c instanceof RelatedRelationship) {
 				logger.debug("convertRelatedRelationships():" + c.toString());
