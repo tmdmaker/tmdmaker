@@ -21,69 +21,93 @@
 		</site>
 	</distributionManagement>
 
+	<dependencies>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.core</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.csv</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.ddlgenerator</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.htmlgenerator</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.imagegenerator</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.rcp</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.serializer</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.serializer.handler.patch</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.ui.menu</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.core.test</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.test</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>tmdmaker.ui.test</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>${antrun-version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.jacoco</groupId>
-						<artifactId>org.jacoco.ant</artifactId>
-						<version>${jacoco-version}</version>
-					</dependency>
-					<dependency>
-						<groupId>ant-contrib</groupId>
-						<artifactId>ant-contrib</artifactId>
-						<version>${ant-contrib-version}</version>
-					</dependency>
-				</dependencies>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>jacoco-report</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
+						<id>report-aggregate</id>
+						<phase>verify</phase>
 						<configuration>
-							<target>
-								<taskdef name="jacoco-report" classname="org.jacoco.ant.ReportTask"
-									classpathref="maven.plugin.classpath" />
-								<taskdef classpathref="maven.runtime.classpath"
-									resource="net/sf/antcontrib/antcontrib.properties" />
-
-								<echo message="Executing jacoco report" />
-								<trycatch>
-									<try>
-										<jacoco-report>
-											<executiondata>
-												<file file="../tmdmaker.core.test/target/jacoco.exec" />
-												<file file="../tmdmaker.test/target/jacoco.exec" />
-												<file file="../tmdmaker.ui.test/target/jacoco.exec" />
-											</executiondata>
-
-											<structure name="TMD-Maker">
-												<classfiles>
-													<fileset dir="../tmdmaker.core/target/classes" />
-													<fileset dir="../tmdmaker/target/classes" />
-												</classfiles>
-												<sourcefiles encoding="UTF-8">
-													<fileset dir="../tmdmaker.core/src" />
-													<fileset dir="../tmdmaker/src" />
-												</sourcefiles>
-											</structure>
-											<html destdir="${project.build.directory}/site/jacoco/report" />
-											<xml
-												destfile="${project.build.directory}/site/jacoco/report/jacoco.xml" />
-										</jacoco-report>
-									</try>
-									<catch>
-										<echo>skipping jacoco report</echo>
-									</catch>
-								</trycatch>
-							</target>
+							<title>TMD-Maker Coverage Report</title>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco/report</outputDirectory>
 						</configuration>
+						<goals>
+							<goal>report-aggregate</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

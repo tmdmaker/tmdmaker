@@ -69,6 +69,12 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		sleep();
+		UIThreadRunnable.syncExec(new VoidResult() {
+			public void run() {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().forceActive();
+			}
+		});
+
 		project.createProject(PROJECT_NAME);
 		sleep();
 		tmDiagram.createFile(PROJECT_NAME, FILE_NAME);
@@ -95,9 +101,9 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 		botEditor.activateTool("Turbo file");
 		assertEquals("Turbo file", getActiveToolLabel());
-		
+
 		botEditor.activateTool("Memo");
-		assertEquals("Memo", getActiveToolLabel());		
+		assertEquals("Memo", getActiveToolLabel());
 	}
 
 	private String getActiveToolLabel() {
@@ -251,7 +257,6 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		bot.button("OK").click();
 		sleep();
 
-		
 		Diagram diagram = tmdEditor.getRootModel();
 		Entity e1 = (Entity) diagram.getChildren().get(0);
 		assertEquals("顧客番号", e1.getIdentifier().getName());
@@ -283,7 +288,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		botEditor.click(50, 250);
 		botEditor.click(555, 105);
 		sleep();
-		
+
 		// メモ
 		botEditor.activateTool("Memo");
 		botEditor.click(600, 90);
@@ -295,24 +300,27 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 	private void sleep() {
 		bot.sleep(300);
 	}
+
 	private void maximizeActiveWindow() {
-        final Shell activeShell = bot.activeShell().widget;
-        VoidResult maximizeShell = new VoidResult() {
-            @Override
-            public void run() {
-                    activeShell.setMaximized(true);
-            }
-        };
-        UIThreadRunnable.syncExec(maximizeShell);
-    }
+		final Shell activeShell = bot.activeShell().widget;
+		VoidResult maximizeShell = new VoidResult() {
+			@Override
+			public void run() {
+				activeShell.setMaximized(true);
+			}
+		};
+		UIThreadRunnable.syncExec(maximizeShell);
+	}
 
 	private void maximizeActiveEditor() {
-        VoidResult maximizeShell = new VoidResult() {
-            @Override
-            public void run() {
-            	PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().setPartState(botEditor.getReference(), IWorkbenchPage.STATE_MAXIMIZED);            }
-        };
-        UIThreadRunnable.syncExec(maximizeShell);
-    }
+		VoidResult maximizeShell = new VoidResult() {
+			@Override
+			public void run() {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+						.setPartState(botEditor.getReference(), IWorkbenchPage.STATE_MAXIMIZED);
+			}
+		};
+		UIThreadRunnable.syncExec(maximizeShell);
+	}
 
 }

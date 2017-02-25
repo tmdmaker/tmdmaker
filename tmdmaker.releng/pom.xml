@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<release-version>0.4.0</release-version>
 		<os-jvm-flags />
-		<jacoco-version>0.7.7.201606060606</jacoco-version>
+		<jacoco-version>0.7.9</jacoco-version>
 		<antrun-version>1.8</antrun-version>
 		<ant-contrib-version>20020829</ant-contrib-version>
 		<docbkx-maven-plugin-version>2.0.17</docbkx-maven-plugin-version>
