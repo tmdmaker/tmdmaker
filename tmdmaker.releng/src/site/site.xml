@@ -23,7 +23,7 @@
 
   <body>
     <links>
-      <item name="${project.name}" href="${project.url}"/>
+      <item name="${this.name}" href="${this.url}"/>
       <item name="webサイトtop" href="../index.html"/>
     </links>
     <menu ref="parent" inherit="top"/>

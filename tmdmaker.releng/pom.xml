@@ -13,16 +13,15 @@
 		<os-jvm-flags />
 		<jacoco-version>0.7.9</jacoco-version>
 		<antrun-version>1.8</antrun-version>
-		<ant-contrib-version>20020829</ant-contrib-version>
 		<docbkx-maven-plugin-version>2.0.17</docbkx-maven-plugin-version>
 		<docbook-xml-verson>5.0-all</docbook-xml-verson>
-		<maven-dependency-plugin-version>2.10</maven-dependency-plugin-version>
-		<maven-site-plugin-version>3.5</maven-site-plugin-version>
+		<maven-dependency-plugin-version>3.0.0</maven-dependency-plugin-version>
+		<maven-site-plugin-version>3.6</maven-site-plugin-version>
 		<wagon-ssh-version>2.10</wagon-ssh-version>
-		<coveralls-maven-plugin-version>4.2.0</coveralls-maven-plugin-version>
+		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
 		<maven-project-info-reports-plugin-version>2.9</maven-project-info-reports-plugin-version>
 		<maven-checkstyle-plugin-version>2.17</maven-checkstyle-plugin-version>
-		<maven-pmd-plugin-version>3.6</maven-pmd-plugin-version>
+		<maven-pmd-plugin-version>3.7</maven-pmd-plugin-version>
 		<maven-surefire-report-plugin-version>2.19.1</maven-surefire-report-plugin-version>
 		<findbugs-maven-plugin-version>3.0.4</findbugs-maven-plugin-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
@@ -318,6 +317,7 @@
 				<version>${maven-javadoc-plugin-version}</version>
 				<configuration>
 					<excludePackageNames>org.eclipse.gmf.*</excludePackageNames>
+					<failOnError>false</failOnError>
 				</configuration>
 				<reportSets>
 					<reportSet>
