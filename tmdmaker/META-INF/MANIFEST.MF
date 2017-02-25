@@ -21,3 +21,4 @@ Bundle-Localization: plugin
 Bundle-Vendor: %Provider
 Export-Package: jp.sourceforge.tmdmaker,
  jp.sourceforge.tmdmaker.extension
+Import-Package: org.apache.commons.lang

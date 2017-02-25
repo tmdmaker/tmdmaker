@@ -54,6 +54,7 @@ public class Messages extends NLS {
 	public static String DatabaseName;
 	public static String DataType;
 	public static String DefaultValue;
+	public static String Description;
 	public static String DescriptionButton;
 	public static String Destination;
 	public static String DownButton;
