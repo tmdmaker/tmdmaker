@@ -104,6 +104,9 @@
 						<configuration>
 							<title>TMD-Maker Coverage Report</title>
 							<outputDirectory>${project.reporting.outputDirectory}/jacoco/report</outputDirectory>
+							<excludes>
+								<exclude>**/org/eclipse/gmf/**/*.class</exclude>
+							</excludes>
 						</configuration>
 						<goals>
 							<goal>report-aggregate</goal>

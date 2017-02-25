@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>0.25.0</tycho-version>
+		<tycho-version>1.0.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<release-version>0.4.0</release-version>
 		<os-jvm-flags />
@@ -93,6 +93,7 @@
 				<version>${tycho-version}</version>
 				<configuration>
 					<compilerVersion>1.8</compilerVersion>
+					<useProjectSettings>false</useProjectSettings>
 				</configuration>
 			</plugin>
 			<plugin>
