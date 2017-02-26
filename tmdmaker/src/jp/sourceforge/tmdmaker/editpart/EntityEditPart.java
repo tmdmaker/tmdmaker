@@ -16,9 +16,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -26,13 +24,10 @@ import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.property.EntityPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
@@ -105,28 +100,5 @@ public class EntityEditPart extends AbstractEntityModelEditPart<Entity> implemen
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {
 		return new EntityPropertySource(editor, this.getModel());
-	}
-	
-	/**
-	 * エンティティ削除系EditPolicy
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class EntityEditPolicy extends AbstractEntityModelEditPolicy<Entity> {
-		@Override
-		protected ModelEditDialog<Entity> getDialog() {
-			return new EntityEditDialog(getControllShell(), getModel());
-		}
-		
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			return new EntityDeleteCommand<Entity>(getDiagram(), getModel());
-		}
 	}
 }

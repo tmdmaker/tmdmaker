@@ -16,33 +16,19 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import java.beans.PropertyChangeEvent;
-import java.util.List;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.SubsetEntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
-import jp.sourceforge.tmdmaker.model.SubsetType2SubsetRelationship;
-import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * サブセットのコントローラ
@@ -123,133 +109,5 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new SubsetEntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-	}
-
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class SubsetEntityComponentEditPolicy extends AbstractEntityModelEditPolicy<SubsetEntity> {
-		@Override
-		protected ModelEditDialog<SubsetEntity> getDialog() {
-			return new TableEditDialog<SubsetEntity>(getControllShell(), Messages.EditSubset,
-					getModel());
-		}
-
-		
-		/**
-		 * 自分自身が実装対象でない場合に実行するコマンドを生成する。
-		 * 
-		 * @param editedValue
-		 * @return
-		 */
-		private Command getDeleteCommand(AbstractEntityModel editedValue) {
-			AbstractEntityModel table = getModel();
-			if (table.isNotImplement() && !editedValue.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(table);
-				return new ImplementDerivationModelsDeleteCommand(table, original);
-			}
-			return null;
-		}
-		
-		@Override
-		protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
-				AbstractEntityModel editedValue) {
-			CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
-			Command deleteCommand = getDeleteCommand(editedValue);
-			if (deleteCommand != null) {
-				ccommand.add(deleteCommand);
-			}
-			return ccommand;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			CompoundCommand ccommand = new CompoundCommand();
-			SubsetEntityDeleteCommand command1 = new SubsetEntityDeleteCommand(getDiagram(), getModel());
-			ccommand.add(command1);
-			if (getModel().isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(getModel());
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(getModel(), original));
-			}
-			SubsetType2SubsetRelationship relationship = (SubsetType2SubsetRelationship) getModel()
-					.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class)
-					.get(0);
-			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(getDiagram(),
-					(SubsetType) relationship.getSource());
-			ccommand.add(command2);
-			return ccommand;
-		}
-	}
-
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class SubsetEntityDeleteCommand extends Command {
-		/** 親 */
-		private Diagram diagram;
-		/** 削除対象 */
-		private SubsetEntity model;
-		/** サブセットタイプとのコネクション */
-		private SubsetType2SubsetRelationship subsetType2SubsetEntityRelationship;
-
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param diagram
-		 *            親
-		 * @param model
-		 *            削除対象
-		 */
-		public SubsetEntityDeleteCommand(Diagram diagram, SubsetEntity model) {
-			super();
-			this.diagram = diagram;
-			this.model = model;
-			this.subsetType2SubsetEntityRelationship = (SubsetType2SubsetRelationship) this.model
-					.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class)
-					.get(0);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#canExecute()
-		 */
-		@Override
-		public boolean canExecute() {
-			return model.isDeletable();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#execute()
-		 */
-		@Override
-		public void execute() {
-			this.subsetType2SubsetEntityRelationship.disconnect();
-			this.diagram.removeChild(this.model);
-
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.commands.Command#undo()
-		 */
-		@Override
-		public void undo() {
-			this.diagram.addChild(this.model);
-			this.subsetType2SubsetEntityRelationship.connect();
-		}
-
 	}
 }

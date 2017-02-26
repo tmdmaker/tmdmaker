@@ -23,8 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.slf4j.LoggerFactory;
@@ -78,9 +84,12 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 		icons.put(TurboFile.class, "icons/outline/virtual_entity.png"); //$NON-NLS-1$
 	}
 
-	public AbstractEntityModelTreeEditPart(T model) {
+	protected EditPolicy componentPolicy;
+	
+	public AbstractEntityModelTreeEditPart(T model, EditPolicy policy) {
 		super();
 		setModel(model);
+		this.componentPolicy = policy;
 	}
 
 	// getModel()でツリー要素の対象モデルのインスタンスが取れる。
@@ -89,6 +98,40 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	public T getModel() {
 		return (T) super.getModel();
 	}
+	
+	@Override
+	public DragTracker getDragTracker(Request request) {
+		return new SelectEditPartTracker(this);
+	}
+	
+	@Override
+	public void performRequest(Request request) {
+		if (request.getType() == RequestConstants.REQ_OPEN) {
+			Command ccommand = getCommand(request);
+			executeEditCommand(ccommand);
+		}
+	}
+	
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, this.componentPolicy);
+	}
+	
+	/**
+	 * 編集コマンドを実行する。
+	 *
+	 * @param command
+	 */
+	protected void executeEditCommand(Command command) {
+		getViewer().getEditDomain().getCommandStack().execute(command);
+	}
+
 
 	List<List<?>> children = new ArrayList<List<?>>();
 	List<Identifier> identifiers = new ArrayList<Identifier>();

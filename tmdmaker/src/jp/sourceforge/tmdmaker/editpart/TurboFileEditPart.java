@@ -17,19 +17,13 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.GroupRequest;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TurboFileEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 /**
@@ -92,29 +86,5 @@ public class TurboFileEditPart extends AbstractEntityModelEditPart<TurboFile>
 	@Override
 	protected ModelAppearance getAppearance() {
 		return ModelAppearance.TURBO_FILE_COLOR;
-	}
-
-	/**
-	 * エンティティ削除系EditPolicy
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class TurboFileEditPolicy extends AbstractEntityModelEditPolicy<TurboFile> {
-		@Override
-		protected ModelEditDialog<TurboFile> getDialog() {
-			return new TableEditDialog<TurboFile>(getControllShell(), Messages.EditTurboFile,
-					getModel());
-		}
-		
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			return new EntityDeleteCommand<TurboFile>(getDiagram(), getModel());
-		}
 	}
 }

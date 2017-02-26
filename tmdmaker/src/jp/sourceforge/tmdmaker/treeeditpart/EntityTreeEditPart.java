@@ -10,6 +10,7 @@ import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.property.EntityPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -24,8 +25,8 @@ public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart<Entity> 
 	 * コンストラクタ
 	 * @param model
 	 */
-	public EntityTreeEditPart(Entity model) {
-		super(model);
+	public EntityTreeEditPart(Entity model, EditPolicy policy) {
+		super(model, policy);
 	}
 
 	@Override

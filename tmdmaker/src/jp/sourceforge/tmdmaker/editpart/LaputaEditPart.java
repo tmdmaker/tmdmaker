@@ -15,19 +15,14 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.dialog.LaputaEditDialog;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.LaputaEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.Laputa;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * ラピュタのコントローラ
@@ -79,28 +74,5 @@ public class LaputaEditPart extends AbstractEntityModelEditPart<Laputa> {
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new LaputaEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-	}
-	
-	/**
-	 * エンティティ削除系EditPolicy
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class LaputaEditPolicy extends AbstractEntityModelEditPolicy<Laputa> {
-		@Override
-		protected ModelEditDialog<Laputa> getDialog() {
-			return new LaputaEditDialog(getControllShell(), getModel());
-		}
-		
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			return new EntityDeleteCommand<Laputa>(getDiagram(), getModel());
-		}
 	}
 }

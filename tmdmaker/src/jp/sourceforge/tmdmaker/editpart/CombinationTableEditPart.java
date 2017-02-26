@@ -15,22 +15,15 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.CombinationTableEditDialog;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.CombinationTableComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * 対照表のコントローラ
@@ -86,32 +79,5 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new CombinationTableComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-	}
-
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class CombinationTableComponentEditPolicy extends AbstractEntityModelEditPolicy<CombinationTable> {
-		
-		@Override
-		protected ModelEditDialog<CombinationTable> getDialog()
-		{
-			return new CombinationTableEditDialog(getControllShell(), Messages.EditCombinationTable, getModel());
-		}
-		
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			AbstractConnectionModel creationRelationship = (AbstractConnectionModel) getModel()
-					.findCreationRelationship().getSource();
-			return new TableDeleteCommand(getModel(), creationRelationship);
-		}
 	}
 }
