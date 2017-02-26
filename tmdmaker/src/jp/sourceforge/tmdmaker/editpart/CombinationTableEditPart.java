@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.CombinationTableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -29,10 +30,7 @@ import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * 対照表のコントローラ
@@ -91,35 +89,18 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
-	 */
-	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()"); //$NON-NLS-1$
-
-		ModelEditDialog<CombinationTable> dialog = getDialog();
-		if (dialog.open() != Dialog.OK)
-			return;
-
-		CompoundCommand ccommand = createEditCommand(dialog.getEditAttributeList(),
-				dialog.getEditedValue());
-		executeEditCommand(ccommand.unwrap());
-	}
-
-	@Override
-	protected ModelEditDialog<CombinationTable> getDialog() {
-		return new CombinationTableEditDialog(getControllShell(), Messages.EditCombinationTable,
-				getModel());
-	}
-
-	/**
 	 * 
 	 * @author nakaG
 	 * 
 	 */
-	private static class CombinationTableComponentEditPolicy extends ComponentEditPolicy {
+	private static class CombinationTableComponentEditPolicy extends AbstractEntityModelEditPolicy<CombinationTable> {
+		
+		@Override
+		protected ModelEditDialog<CombinationTable> getDialog()
+		{
+			return new CombinationTableEditDialog(getControllShell(), Messages.EditCombinationTable, getModel());
+		}
+		
 		/**
 		 * 
 		 * {@inheritDoc}
@@ -128,10 +109,9 @@ public class CombinationTableEditPart extends AbstractEntityModelEditPart<Combin
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			CombinationTable model = (CombinationTable) getHost().getModel();
-			AbstractConnectionModel creationRelationship = (AbstractConnectionModel) model
+			AbstractConnectionModel creationRelationship = (AbstractConnectionModel) getModel()
 					.findCreationRelationship().getSource();
-			return new TableDeleteCommand(model, creationRelationship);
+			return new TableDeleteCommand(getModel(), creationRelationship);
 		}
 	}
 }

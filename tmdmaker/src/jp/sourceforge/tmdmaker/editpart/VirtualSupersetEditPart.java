@@ -17,10 +17,10 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
@@ -33,7 +33,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
@@ -95,12 +94,6 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 		}
 	}
 
-	@Override
-	protected ModelEditDialog<VirtualSuperset> getDialog() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -111,7 +104,6 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new VirtualSupersetComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ReconnectableNodeEditPolicy());
-
 	}
 
 	/**
@@ -120,7 +112,13 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 	 * @author nakaG
 	 * 
 	 */
-	private static class VirtualSupersetComponentEditPolicy extends ComponentEditPolicy {
+	private static class VirtualSupersetComponentEditPolicy extends AbstractEntityModelEditPolicy<VirtualSuperset> {
+		
+		@Override
+		protected ModelEditDialog<VirtualSuperset> getDialog() {
+			return null;
+		}
+
 		/**
 		 * 
 		 * {@inheritDoc}
@@ -129,15 +127,12 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			VirtualSuperset model = (VirtualSuperset) getHost().getModel();
-			Diagram diagram = model.getDiagram();
-			VirtualSupersetType aggregator = model.getVirtualSupersetType();
+			VirtualSupersetType aggregator = getModel().getVirtualSupersetType();
 
 			CompoundCommand ccommand = new CompoundCommand();
-			ccommand.add(new VirtualSupersetTypeDeleteCommand(diagram, aggregator));
-			ccommand.add(new ModelDeleteCommand(diagram, model));
+			ccommand.add(new VirtualSupersetTypeDeleteCommand(getDiagram(), aggregator));
+			ccommand.add(new ModelDeleteCommand(getDiagram(), getModel()));
 			return ccommand.unwrap();
 		}
-
 	}
 }

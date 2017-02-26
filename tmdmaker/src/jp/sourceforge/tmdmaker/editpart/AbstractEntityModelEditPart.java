@@ -21,25 +21,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
-import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 import jp.sourceforge.tmdmaker.property.AbstractEntityModelPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
 
 /**
  * Entity系のeditpartの基底クラス
@@ -80,35 +74,9 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	 */
 	@Override
 	protected void onDoubleClicked() {
-		ModelEditDialog<T> dialog = getDialog();
-		if (dialog.open() != Dialog.OK)
-			return;
-		CompoundCommand ccommand = createEditCommand(dialog.getEditAttributeList(),
-				dialog.getEditedValue());
+		Request req = new Request(RequestConstants.REQ_OPEN);
+		Command ccommand = getCommand(req);
 		executeEditCommand(ccommand);
-	}
-
-	/**
-	 * 編集用ダイアログを取得する。
-	 *
-	 * @return ダイアログボックス
-	 */
-	protected abstract ModelEditDialog<T> getDialog();
-
-	/**
-	 * 編集用コマンドを生成する
-	 *
-	 * @param editAttributeList
-	 * @param editedValue
-	 * @return 編集用コマンド
-	 */
-	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
-			AbstractEntityModel editedValue) {
-		CompoundCommand ccommand = new CompoundCommand();
-		addAttributeEditCommands(ccommand, getModel(), editAttributeList);
-		ModelEditCommand command = new ModelEditCommand(getModel(), editedValue);
-		ccommand.add(command);
-		return ccommand;
 	}
 
 	/**
@@ -118,30 +86,6 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	 */
 	protected void executeEditCommand(Command command) {
 		getViewer().getEditDomain().getCommandStack().execute(command);
-	}
-
-	/**
-	 * 自分自身が実装対象でない場合に実行するコマンドを生成する。
-	 * 
-	 * @param editedValue
-	 * @return
-	 */
-	protected Command getDeleteCommand(AbstractEntityModel editedValue) {
-		AbstractEntityModel table = getModel();
-		if (table.isNotImplement() && !editedValue.isNotImplement()) {
-			AbstractEntityModel original = ImplementRule.findOriginalImplementModel(table);
-			return new ImplementDerivationModelsDeleteCommand(table, original);
-		}
-		return null;
-	}
-
-	/**
-	 * ダイアログ表示のためのShellを返す。
-	 *
-	 * @return ParentShell
-	 */
-	protected Shell getControllShell() {
-		return getViewer().getControl().getShell();
 	}
 
 	/**

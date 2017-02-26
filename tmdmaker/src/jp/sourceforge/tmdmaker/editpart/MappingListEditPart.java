@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -29,7 +30,6 @@ import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
@@ -84,18 +84,18 @@ public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ReconnectableNodeEditPolicy());
 	}
 
-	@Override
-	protected ModelEditDialog<MappingList> getDialog() {
-		return new TableEditDialog<MappingList>(getControllShell(), Messages.EditMappingList,
-				getModel());
-	}
-
 	/**
 	 * 
 	 * @author nakaG
 	 * 
 	 */
-	private static class MappingListComponentEditPolicy extends ComponentEditPolicy {
+	private static class MappingListComponentEditPolicy extends AbstractEntityModelEditPolicy<MappingList> {
+		@Override
+		protected ModelEditDialog<MappingList> getDialog() {
+			return new TableEditDialog<MappingList>(getControllShell(), Messages.EditMappingList,
+					getModel());
+		}
+
 		/**
 		 * 
 		 * {@inheritDoc}
@@ -104,11 +104,9 @@ public class MappingListEditPart extends AbstractEntityModelEditPart<MappingList
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			MappingList model = (MappingList) getHost().getModel();
-			AbstractConnectionModel creationRelationship = (AbstractConnectionModel) model
+			AbstractConnectionModel creationRelationship = (AbstractConnectionModel) getModel()
 					.findCreationRelationship().getSource();
-			return new TableDeleteCommand(model, creationRelationship);
+			return new TableDeleteCommand(getModel(), creationRelationship);
 		}
-
 	}
 }

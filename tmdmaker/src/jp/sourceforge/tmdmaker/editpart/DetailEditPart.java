@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.editpart;
 
 import jp.sourceforge.tmdmaker.dialog.DetailEditDialog;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -28,7 +29,6 @@ import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
@@ -45,11 +45,6 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 	public DetailEditPart(Detail entity) {
 		super();
 		setModel(entity);
-	}
-
-	@Override
-	protected ModelEditDialog<Detail> getDialog() {
-		return new DetailEditDialog(getControllShell(), getModel());
 	}
 
 	/**
@@ -93,8 +88,13 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 	 * @author nakaG
 	 * 
 	 */
-	private static class DetailComponentEditPolicy extends ComponentEditPolicy {
-
+	private static class DetailComponentEditPolicy extends AbstractEntityModelEditPolicy<Detail> {
+		@Override
+		protected ModelEditDialog<Detail> getDialog()
+		{
+			return new DetailEditDialog(getControllShell(), getModel());
+		}
+		
 		/**
 		 * {@inheritDoc}
 		 * 
@@ -102,9 +102,7 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			Detail model = (Detail) getHost().getModel();
-			return new TableDeleteCommand(model, model.getModelTargetConnections().get(0));
-
+			return new TableDeleteCommand(getModel(), getModel().getModelTargetConnections().get(0));
 		}
 	}
 

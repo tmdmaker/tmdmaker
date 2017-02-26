@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -28,7 +29,6 @@ import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
@@ -83,18 +83,17 @@ public class RecursiveTableEditPart extends AbstractEntityModelEditPart<Recursiv
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	@Override
-	protected ModelEditDialog<RecursiveTable> getDialog() {
-		return new TableEditDialog<RecursiveTable>(getControllShell(), Messages.EditRecursiveTable,
-				getModel());
-	}
-
 	/**
 	 * 
 	 * @author nakaG
 	 * 
 	 */
-	private static class RecursiveTableComponentEditPolicy extends ComponentEditPolicy {
+	private static class RecursiveTableComponentEditPolicy extends AbstractEntityModelEditPolicy<RecursiveTable> {
+		@Override
+		protected ModelEditDialog<RecursiveTable> getDialog() {
+			return new TableEditDialog<RecursiveTable>(getControllShell(), Messages.EditRecursiveTable,
+					getModel());
+		}
 
 		/**
 		 * 
@@ -104,9 +103,7 @@ public class RecursiveTableEditPart extends AbstractEntityModelEditPart<Recursiv
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			RecursiveTable model = (RecursiveTable) getHost().getModel();
-			return new TableDeleteCommand(model, model.getModelTargetConnections().get(0));
+			return new TableDeleteCommand(getModel(), getModel().getModelTargetConnections().get(0));
 		}
-
 	}
 }

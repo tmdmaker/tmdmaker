@@ -22,6 +22,7 @@ import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -41,7 +42,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
@@ -125,29 +125,44 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	@Override
-	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
-			AbstractEntityModel editedValue) {
-		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
-		Command deleteCommand = getDeleteCommand(editedValue);
-		if (deleteCommand != null) {
-			ccommand.add(deleteCommand);
-		}
-		return ccommand;
-	}
-
-	@Override
-	protected ModelEditDialog<SubsetEntity> getDialog() {
-		return new TableEditDialog<SubsetEntity>(getControllShell(), Messages.EditSubset,
-				getModel());
-	}
-
 	/**
 	 * 
 	 * @author nakaG
 	 * 
 	 */
-	private static class SubsetEntityComponentEditPolicy extends ComponentEditPolicy {
+	private static class SubsetEntityComponentEditPolicy extends AbstractEntityModelEditPolicy<SubsetEntity> {
+		@Override
+		protected ModelEditDialog<SubsetEntity> getDialog() {
+			return new TableEditDialog<SubsetEntity>(getControllShell(), Messages.EditSubset,
+					getModel());
+		}
+
+		
+		/**
+		 * 自分自身が実装対象でない場合に実行するコマンドを生成する。
+		 * 
+		 * @param editedValue
+		 * @return
+		 */
+		private Command getDeleteCommand(AbstractEntityModel editedValue) {
+			AbstractEntityModel table = getModel();
+			if (table.isNotImplement() && !editedValue.isNotImplement()) {
+				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(table);
+				return new ImplementDerivationModelsDeleteCommand(table, original);
+			}
+			return null;
+		}
+		
+		@Override
+		protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
+				AbstractEntityModel editedValue) {
+			CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
+			Command deleteCommand = getDeleteCommand(editedValue);
+			if (deleteCommand != null) {
+				ccommand.add(deleteCommand);
+			}
+			return ccommand;
+		}
 
 		/**
 		 * {@inheritDoc}
@@ -157,23 +172,20 @@ public class SubsetEntityEditPart extends AbstractEntityModelEditPart<SubsetEnti
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
 			CompoundCommand ccommand = new CompoundCommand();
-			Diagram diagram = (Diagram) getHost().getParent().getModel();
-			SubsetEntity model = (SubsetEntity) getHost().getModel();
-			SubsetEntityDeleteCommand command1 = new SubsetEntityDeleteCommand(diagram, model);
+			SubsetEntityDeleteCommand command1 = new SubsetEntityDeleteCommand(getDiagram(), getModel());
 			ccommand.add(command1);
-			if (model.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(model);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
+			if (getModel().isNotImplement()) {
+				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(getModel());
+				ccommand.add(new ImplementDerivationModelsDeleteCommand(getModel(), original));
 			}
-			SubsetType2SubsetRelationship relationship = (SubsetType2SubsetRelationship) model
+			SubsetType2SubsetRelationship relationship = (SubsetType2SubsetRelationship) getModel()
 					.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class)
 					.get(0);
-			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(diagram,
+			SubsetTypeDeleteCommand command2 = new SubsetTypeDeleteCommand(getDiagram(),
 					(SubsetType) relationship.getSource());
 			ccommand.add(command2);
 			return ccommand;
 		}
-
 	}
 
 	/**

@@ -19,6 +19,7 @@ import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -33,7 +34,6 @@ import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
@@ -115,8 +115,12 @@ public class MultivalueAndSupersetEditPart
 	 * @author nakaG
 	 * 
 	 */
-	private static class SupersetComponentEditPolicy extends ComponentEditPolicy {
-
+	private static class SupersetComponentEditPolicy extends AbstractEntityModelEditPolicy<MultivalueAndSuperset> {
+		@Override
+		protected ModelEditDialog<MultivalueAndSuperset> getDialog() {
+			return null;
+		}
+		
 		/**
 		 * {@inheritDoc}
 		 * 
@@ -124,9 +128,8 @@ public class MultivalueAndSupersetEditPart
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			MultivalueAndSuperset model = (MultivalueAndSuperset) getHost().getModel();
-			return new TableDeleteCommand(model,
-					model.getDetail().getModelTargetConnections().get(0));
+			return new TableDeleteCommand(getModel(),
+					getModel().getDetail().getModelTargetConnections().get(0));
 		}
 
 	}
@@ -137,9 +140,4 @@ public class MultivalueAndSupersetEditPart
 		return null;
 	}
 
-	@Override
-	protected ModelEditDialog<MultivalueAndSuperset> getDialog() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

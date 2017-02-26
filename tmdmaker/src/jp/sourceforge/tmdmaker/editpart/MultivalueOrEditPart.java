@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -29,7 +30,6 @@ import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
@@ -46,12 +46,6 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 	public MultivalueOrEditPart(MultivalueOrEntity entity) {
 		super();
 		setModel(entity);
-	}
-
-	@Override
-	protected ModelEditDialog<MultivalueOrEntity> getDialog() {
-		return new TableEditDialog<MultivalueOrEntity>(getControllShell(),
-				Messages.EditMultivalueOr, getModel());
 	}
 
 	/**
@@ -96,7 +90,12 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 	 * @author nakaG
 	 * 
 	 */
-	private static class MultivalueOrEntityComponentEditPolicy extends ComponentEditPolicy {
+	private static class MultivalueOrEntityComponentEditPolicy extends AbstractEntityModelEditPolicy<MultivalueOrEntity> {
+		@Override
+		protected ModelEditDialog<MultivalueOrEntity> getDialog() {
+			return new TableEditDialog<MultivalueOrEntity>(getControllShell(),
+					Messages.EditMultivalueOr, getModel());
+		}
 
 		/**
 		 * {@inheritDoc}
@@ -105,10 +104,7 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 		 */
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			MultivalueOrEntity model = (MultivalueOrEntity) getHost().getModel();
-			return new TableDeleteCommand(model, model.getModelTargetConnections().get(0));
+			return new TableDeleteCommand(getModel(), getModel().getModelTargetConnections().get(0));
 		}
-
 	}
-
 }
