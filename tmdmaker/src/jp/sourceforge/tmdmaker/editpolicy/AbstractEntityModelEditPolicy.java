@@ -47,8 +47,8 @@ public abstract class AbstractEntityModelEditPolicy<T extends AbstractEntityMode
 		{
 			ModelEditDialog<T> dialog = getDialog();
 			if (dialog.open() != Dialog.OK) return null;
-			CompoundCommand ccommand = createEditCommand(dialog.getEditAttributeList(), dialog.getEditedValue());
-			return ccommand.unwrap();
+			Command command = createEditCommand(dialog.getEditAttributeList(), dialog.getEditedValue());
+			return command;
 		}
 		else{
 			return super.getCommand(request);
@@ -62,12 +62,12 @@ public abstract class AbstractEntityModelEditPolicy<T extends AbstractEntityMode
 	 * @param editedValue
 	 * @return 編集用コマンド
 	 */
-	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue) {
+	protected Command createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue) {
 		CompoundCommand ccommand = new CompoundCommand();
 		addAttributeEditCommands(ccommand, getModel(), editAttributeList);
 		ModelEditCommand command = new ModelEditCommand(getModel(), editedValue);
 		ccommand.add(command);
-		return ccommand;
+		return ccommand.unwrap();
 	}
 	
 	/**

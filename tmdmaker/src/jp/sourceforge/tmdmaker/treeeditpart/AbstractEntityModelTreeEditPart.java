@@ -107,8 +107,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	@Override
 	public void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_OPEN) {
-			Command ccommand = getCommand(request);
-			executeEditCommand(ccommand);
+			executeEditCommand(getCommand(request));
 		}
 	}
 	
@@ -131,7 +130,6 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	protected void executeEditCommand(Command command) {
 		getViewer().getEditDomain().getCommandStack().execute(command);
 	}
-
 
 	List<List<?>> children = new ArrayList<List<?>>();
 	List<Identifier> identifiers = new ArrayList<Identifier>();

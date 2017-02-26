@@ -29,27 +29,69 @@ import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.slf4j.LoggerFactory;
+import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.gef.tools.SelectEditPartTracker;
 
 public class AttributeTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener,IPropertyAvailable {
 	
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(AttributeTreeEditPart.class);
 	
+	protected EditPolicy componentPolicy;
+	
 	/**
 	 * コンストラクタ
 	 * @param attribute
 	 */
-	public AttributeTreeEditPart(Attribute attribute)
+	public AttributeTreeEditPart(Attribute attribute, EditPolicy policy)
 	{
 		super();
 		setModel(attribute);
+		this.componentPolicy = policy;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, this.componentPolicy);
 	}
 	
 	@Override
 	public Attribute getModel() {
 		return (Attribute) super.getModel();
 	}
-
+	
+	@Override
+	public DragTracker getDragTracker(Request request) {
+		return new SelectEditPartTracker(this);
+	}
+	
+	@Override
+	public void performRequest(Request request) {
+		if (request.getType() == RequestConstants.REQ_OPEN) {
+			Command ccommand = getCommand(request);
+			executeEditCommand(ccommand);
+		}
+	}
+	
+	/**
+	 * 編集コマンドを実行する。
+	 *
+	 * @param command
+	 */
+	protected void executeEditCommand(Command command) {
+		getViewer().getEditDomain().getCommandStack().execute(command);
+	}
+	
 	@Override
 	protected String getText() {
 		ModelElement model = getModel();

@@ -63,14 +63,15 @@ public class SubsetEntityComponentEditPolicy extends AbstractEntityModelEditPoli
 	}
 	
 	@Override
-	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
+	protected Command createEditCommand(List<EditAttribute> editAttributeList,
 			AbstractEntityModel editedValue) {
-		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
+		CompoundCommand ccommand = new CompoundCommand();
+		ccommand.add(super.createEditCommand(editAttributeList, editedValue));
 		Command deleteCommand = getDeleteCommand(editedValue);
 		if (deleteCommand != null) {
 			ccommand.add(deleteCommand);
 		}
-		return ccommand;
+		return ccommand.unwrap();
 	}
 
 	/**

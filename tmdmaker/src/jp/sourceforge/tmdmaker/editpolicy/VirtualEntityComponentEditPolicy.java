@@ -58,14 +58,15 @@ public class VirtualEntityComponentEditPolicy extends AbstractEntityModelEditPol
 	}
 	
 	@Override
-	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
+	protected Command createEditCommand(List<EditAttribute> editAttributeList,
 			AbstractEntityModel editedValue) {
-		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
+		CompoundCommand ccommand = new CompoundCommand();
+		ccommand.add(super.createEditCommand(editAttributeList, editedValue));
 		Command deleteCommand = getDeleteCommand(editedValue);
 		if (deleteCommand != null) {
 			ccommand.add(deleteCommand);
 		}
-		return ccommand;
+		return ccommand.unwrap();
 	}
 
 	
@@ -84,7 +85,7 @@ public class VirtualEntityComponentEditPolicy extends AbstractEntityModelEditPol
 
 		ccommand.add(new TableDeleteCommand(getModel(),getModel().getModelTargetConnections().get(0)));
 
-		return ccommand;
+		return ccommand.unwrap();
 	}
 
 }

@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.treeeditpart;
 
 import org.eclipse.gef.EditPart;
 
+import jp.sourceforge.tmdmaker.editpolicy.AttributeComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.CombinationTableComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.DetailComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityEditPolicy;
@@ -87,7 +88,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(Attribute attribute) {
-		part = new AttributeTreeEditPart(attribute);
+		part = new AttributeTreeEditPart(attribute, new AttributeComponentEditPolicy());
 	}
 
 	@Override

@@ -15,19 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.VirtualSupersetComponentEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * みなしスーパーセットのコントローラ
@@ -68,23 +65,6 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 	@Override
 	protected ModelAppearance getAppearance() {
 		return ModelAppearance.SUPERSET_COLOR;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#onDoubleClicked()
-	 */
-	@Override
-	protected void onDoubleClicked() {
-		AbstractEntityModel entity = getModel();
-		SupersetEditDialog dialog = new SupersetEditDialog(getViewer().getControl().getShell(),
-				entity);
-		if (dialog.open() == Dialog.OK) {
-			getViewer().getEditDomain().getCommandStack()
-					.execute(new ModelEditCommand(entity, dialog.getEditedValue()));
-		}
 	}
 
 	/**

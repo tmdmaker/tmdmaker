@@ -21,7 +21,7 @@ import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.model.EditTable;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.VirtualSuperset;
+import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.Text;
  * @author nakaG
  * 
  */
-public class SupersetEditDialog extends ModelEditDialog<VirtualSuperset> {
+public class MultivalueAndSupersetEditDialog extends ModelEditDialog<MultivalueAndSuperset> {
 	/** 名称入力欄 */
 	private Text inputNameText;
 	/** 実装可否設定用 */
@@ -55,7 +55,7 @@ public class SupersetEditDialog extends ModelEditDialog<VirtualSuperset> {
 	 * @param original
 	 *            編集元モデル
 	 */
-	public SupersetEditDialog(Shell parentShell, AbstractEntityModel original) {
+	public MultivalueAndSupersetEditDialog(Shell parentShell, AbstractEntityModel original) {
 		super(parentShell);
 		entity = new EditTable(original);
 		entity.addPropertyChangeListener(this);

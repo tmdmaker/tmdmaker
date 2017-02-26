@@ -15,14 +15,20 @@
  */
 package jp.sourceforge.tmdmaker.editpolicy;
 
+import java.util.List;
+
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.GroupRequest;
 
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
+import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
+import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeDeleteCommand;
 
 /**
@@ -33,9 +39,16 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeDelete
  */
 public class VirtualSupersetComponentEditPolicy extends AbstractEntityModelEditPolicy<VirtualSuperset> {
 	
+	ModelEditDialog<VirtualSuperset> dialog;
+	
 	@Override
 	protected ModelEditDialog<VirtualSuperset> getDialog() {
-		return null;
+		dialog = new SupersetEditDialog(getControllShell(), getModel());
+		return dialog;
+	}
+	
+	protected Command createEditCommand(List<EditAttribute> editAttributeList, AbstractEntityModel editedValue) {
+		return new ModelEditCommand(getModel(), dialog.getEditedValue());
 	}
 
 	/**

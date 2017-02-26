@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
@@ -65,28 +62,6 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 	 */
 	@Override
 	abstract protected void updateFigure(IFigure figure);
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
-	 */
-	@Override
-	protected void onDoubleClicked() {
-		Request req = new Request(RequestConstants.REQ_OPEN);
-		Command ccommand = getCommand(req);
-		executeEditCommand(ccommand);
-	}
-
-	/**
-	 * 編集コマンドを実行する。
-	 *
-	 * @param command
-	 */
-	protected void executeEditCommand(Command command) {
-		getViewer().getEditDomain().getCommandStack().execute(command);
-	}
 
 	/**
 	 * @param table

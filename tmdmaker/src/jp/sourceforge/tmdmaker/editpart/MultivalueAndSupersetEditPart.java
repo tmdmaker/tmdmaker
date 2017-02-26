@@ -18,7 +18,7 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
+import jp.sourceforge.tmdmaker.dialog.MultivalueAndSupersetEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -33,6 +33,7 @@ import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
@@ -53,24 +54,7 @@ public class MultivalueAndSupersetEditPart
 		super();
 		setModel(entity);
 	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
-	 */
-	@Override
-	protected void onDoubleClicked() {
-		AbstractEntityModel entity = getModel();
-		SupersetEditDialog dialog = new SupersetEditDialog(getViewer().getControl().getShell(),
-				entity);
-		if (dialog.open() == Dialog.OK) {
-			getViewer().getEditDomain().getCommandStack()
-					.execute(new ModelEditCommand(entity, dialog.getEditedValue()));
-		}
-	}
-
+	
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -107,7 +91,6 @@ public class MultivalueAndSupersetEditPart
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new SupersetComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ReconnectableNodeEditPolicy());
-
 	}
 
 	/**
@@ -118,6 +101,25 @@ public class MultivalueAndSupersetEditPart
 	private static class SupersetComponentEditPolicy extends AbstractEntityModelEditPolicy<MultivalueAndSuperset> {
 		@Override
 		protected ModelEditDialog<MultivalueAndSuperset> getDialog() {
+			return new MultivalueAndSupersetEditDialog(getControllShell(), getModel());
+		}
+		
+		/**
+		 * 
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.gef.editparts.AbstractEditPart#getCommand(org.eclipse.gef.Request)
+		 */
+		@Override
+		public Command getCommand(Request request) {
+			if (REQ_OPEN.equals(request.getType())){
+				AbstractEntityModel entity = getModel();
+				ModelEditDialog<MultivalueAndSuperset> dialog = getDialog();
+				
+				if (dialog.open() == Dialog.OK) {
+					return new ModelEditCommand(entity, dialog.getEditedValue());
+				}
+			}
 			return null;
 		}
 		
@@ -131,12 +133,10 @@ public class MultivalueAndSupersetEditPart
 			return new TableDeleteCommand(getModel(),
 					getModel().getDetail().getModelTargetConnections().get(0));
 		}
-
 	}
 
 	@Override
 	protected ModelAppearance getAppearance() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
