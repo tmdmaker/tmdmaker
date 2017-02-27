@@ -56,6 +56,7 @@ import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
+import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.gef.ui.actions.DirectEditAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -115,6 +116,7 @@ import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
 import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
 import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
+import jp.sourceforge.tmdmaker.action.OpenDialogAction;
 import jp.sourceforge.tmdmaker.action.PasteModelAction;
 import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
 import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
@@ -538,8 +540,17 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 
 		@SuppressWarnings("unchecked")
 		List<String> selectionActions = getSelectionActions();
+		
+		// オープンアクション
+		SelectionAction selectionAction = new OpenDialogAction((IWorkbenchPart)this);
+		setupSelectionAction(registry, selectionActions, selectionAction);
+		
+		// 削除アクション
+		selectionAction = new DeleteAction((IWorkbenchPart)this);
+		setupSelectionAction(registry, selectionActions, selectionAction);
+		
 
-		SelectionAction selectionAction = new SubsetCreateAction(this);
+		selectionAction = new SubsetCreateAction(this);
 		setupSelectionAction(registry, selectionActions, selectionAction);
 
 		selectionAction = new SubsetTypeTurnAction(this);

@@ -28,24 +28,19 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.swt.graphics.Color;
 
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
-import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.AnchorConstraintManager;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchor;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchorHelper;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeEditCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
@@ -393,30 +388,6 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 *            更新するFigure
 	 */
 	protected abstract void updateFigure(IFigure figure);
-
-	/**
-	 * アトリビュート編集コマンドを作成する
-	 * 
-	 * @param ccommand
-	 *            コマンド
-	 * @param entity
-	 *            モデル
-	 * @param editAttributeList
-	 *            編集したアトリビュートリスト
-	 */
-	protected void addAttributeEditCommands(CompoundCommand ccommand, AbstractEntityModel entity,
-			List<EditAttribute> editAttributeList) {
-		for (EditAttribute ea : editAttributeList) {
-			IAttribute original = ea.getOriginalAttribute();
-			if (ea.isEdited() && !ea.isAdded()) {
-				Attribute editedValueAttribute = new Attribute();
-				ea.copyTo(editedValueAttribute);
-				AttributeEditCommand editCommand = new AttributeEditCommand(original,
-						editedValueAttribute, entity);
-				ccommand.add(editCommand);
-			}
-		}
-	}
 
 	/**
 	 * {@inheritDoc}

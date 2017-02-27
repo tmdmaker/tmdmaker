@@ -40,16 +40,6 @@ public class MultivalueAndAggregatorEditPart extends
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
-	 */
-	@Override
-	protected void onDoubleClicked() {
-		// Nothing to do.
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#updateFigure(org.eclipse.draw2d.IFigure)
 	 */
 	@Override

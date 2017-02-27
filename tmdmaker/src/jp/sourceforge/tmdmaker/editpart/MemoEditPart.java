@@ -22,6 +22,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
@@ -90,17 +91,22 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	}
 
 	/**
-	 *
 	 * {@inheritDoc}
-	 *
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#onDoubleClicked()
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
 	 */
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		onDirectEdit();
+	public void performRequest(Request request) {
+		logger.debug(getClass() + " " + request.getType());
+		if (REQ_OPEN.equals(request.getType())) {
+			onDirectEdit();
+		} else if (REQ_DIRECT_EDIT.equals(request.getType())) {
+			onDirectEdit();
+		} else {
+			super.performRequest(request);
+		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 *

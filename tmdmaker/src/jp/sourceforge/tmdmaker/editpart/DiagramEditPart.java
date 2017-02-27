@@ -122,16 +122,6 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#onDoubleClicked()
-	 */
-	@Override
-	protected void onDoubleClicked() {
-
-	}
-
-	/**
 	 * 
 	 * @author nakaG
 	 * 

@@ -15,22 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.MultivalueOrEntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * 多値のORのコントローラ
@@ -46,12 +40,6 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 	public MultivalueOrEditPart(MultivalueOrEntity entity) {
 		super();
 		setModel(entity);
-	}
-
-	@Override
-	protected ModelEditDialog<MultivalueOrEntity> getDialog() {
-		return new TableEditDialog<MultivalueOrEntity>(getControllShell(),
-				Messages.EditMultivalueOr, getModel());
 	}
 
 	/**
@@ -91,24 +79,5 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class MultivalueOrEntityComponentEditPolicy extends ComponentEditPolicy {
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			MultivalueOrEntity model = (MultivalueOrEntity) getHost().getModel();
-			return new TableDeleteCommand(model, model.getModelTargetConnections().get(0));
-		}
-
-	}
 
 }

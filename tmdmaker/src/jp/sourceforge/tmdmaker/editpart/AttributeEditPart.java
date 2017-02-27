@@ -18,21 +18,17 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.editpolicy.AttributeComponentEditPolicy;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.property.AttributePropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
@@ -84,33 +80,7 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute>
 	 */
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#onDoubleClicked()
-	 */
-	@Override
-	protected void onDoubleClicked() {
-		EditAttribute edit = new EditAttribute(getModel());
-		AttributeDialog dialog = new AttributeDialog(getViewer().getControl().getShell(), edit);
-		if (dialog.open() == Dialog.OK) {
-			EditAttribute edited = dialog.getEditedValue();
-			if (edited.isEdited()) {
-				Attribute editedValueAttribute = new Attribute();
-				edited.copyTo(editedValueAttribute);
-				IAttribute original = edited.getOriginalAttribute();
-				AbstractEntityModel entity = (AbstractEntityModel) getParent().getModel();
-				AttributeEditCommand editCommand = new AttributeEditCommand(original,
-						editedValueAttribute, entity);
-
-				getViewer().getEditDomain().getCommandStack().execute(editCommand);
-			}
-		}
-
+		installEditPolicy(EditPolicy.COMPONENT_ROLE,new AttributeComponentEditPolicy());
 	}
 
 	/**

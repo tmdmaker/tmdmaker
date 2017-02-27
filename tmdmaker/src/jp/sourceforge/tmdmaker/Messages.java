@@ -110,6 +110,7 @@ public class Messages extends NLS {
 	public static String Normal;
 	public static String NotToImplement;
 	public static String Null;
+	public static String Open;
 	public static String Other;
 	public static String OutputModel;
 	public static String PartitionCode;

@@ -23,7 +23,8 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
@@ -73,21 +74,24 @@ public class SubsetTypeEditPart extends AbstractSubsetTypeEditPart<SubsetType> {
 	}
 
 	/**
-	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#onDoubleClicked()
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getCommand(org.eclipse.gef.Request)
 	 */
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		SubsetType subsetType = getModel();
-		AbstractEntityModel model = subsetType.getSuperset();
+	public Command getCommand(Request request) {
+		if (REQ_OPEN.equals(request.getType())){
+			logger.debug(getClass() + "#getCommand(req)");
+			SubsetType subsetType = getModel();
+			AbstractEntityModel model = subsetType.getSuperset();
 
-		SubsetCreateDialog dialog = new SubsetCreateDialog(getViewer().getControl().getShell(),
-				subsetType, model);
-		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = dialog.getCcommand();
-			getViewer().getEditDomain().getCommandStack().execute(ccommand);
+			SubsetCreateDialog dialog = new SubsetCreateDialog(getViewer().getControl().getShell(),
+					subsetType, model);
+			if (dialog.open() == Dialog.OK) {
+				return dialog.getCcommand();
+			}
 		}
+		return null;
 	}
 }

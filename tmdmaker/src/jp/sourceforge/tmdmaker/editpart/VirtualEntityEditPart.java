@@ -18,28 +18,18 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.VirtualEntityEditDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.VirtualEntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
-import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * みなしエンティティのコントローラ
@@ -55,22 +45,6 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 	public VirtualEntityEditPart(VirtualEntity entity) {
 		super();
 		setModel(entity);
-	}
-
-	@Override
-	protected CompoundCommand createEditCommand(List<EditAttribute> editAttributeList,
-			AbstractEntityModel editedValue) {
-		CompoundCommand ccommand = super.createEditCommand(editAttributeList, editedValue);
-		Command deleteCommand = getDeleteCommand(editedValue);
-		if (deleteCommand != null) {
-			ccommand.add(deleteCommand);
-		}
-		return ccommand;
-	}
-
-	@Override
-	protected ModelEditDialog<VirtualEntity> getDialog() {
-		return new VirtualEntityEditDialog(getControllShell(), getModel());
 	}
 
 	/**
@@ -128,33 +102,5 @@ public class VirtualEntityEditPart extends AbstractEntityModelEditPart<VirtualEn
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new VirtualEntityComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ReconnectableNodeEditPolicy());
-	}
-
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class VirtualEntityComponentEditPolicy extends ComponentEditPolicy {
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			VirtualEntity model = (VirtualEntity) getHost().getModel();
-			CompoundCommand ccommand = new CompoundCommand();
-			if (model.isNotImplement()) {
-				AbstractEntityModel original = ImplementRule.findOriginalImplementModel(model);
-				ccommand.add(new ImplementDerivationModelsDeleteCommand(model, original));
-			}
-
-			ccommand.add(new TableDeleteCommand(model, model.getModelTargetConnections().get(0)));
-
-			return ccommand;
-		}
-
 	}
 }

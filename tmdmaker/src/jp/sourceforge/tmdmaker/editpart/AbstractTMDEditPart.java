@@ -21,6 +21,7 @@ import jp.sourceforge.tmdmaker.model.ModelElement;
 
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +78,7 @@ public abstract class AbstractTMDEditPart<T extends ModelElement> extends Abstra
 		Object requestType = req.getType();
 		logger.debug(getClass() + " " + requestType);
 		if (requestType.equals(RequestConstants.REQ_OPEN)) {
-			onDoubleClicked();
+			executeEditCommand(getCommand(req));
 		} else if (requestType.equals(RequestConstants.REQ_DIRECT_EDIT)) {
 			onDirectEdit();
 		} else {
@@ -90,12 +91,16 @@ public abstract class AbstractTMDEditPart<T extends ModelElement> extends Abstra
 	public T getModel() {
 		return (T) super.getModel();
 	}
-
+	
 	/**
-	 * ダブルクリック時の処理をサブクラスで実装する
+	 * 編集コマンドを実行する。
+	 *
+	 * @param command
 	 */
-	protected abstract void onDoubleClicked();
-
+	protected void executeEditCommand(Command command) {
+		getViewer().getEditDomain().getCommandStack().execute(command);
+	}
+	
 	/**
 	 * ダイレクトエディット時の処理（必要なサブクラスのみ実装）
 	 */

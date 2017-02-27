@@ -15,21 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.dialog.DetailEditDialog;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
+import jp.sourceforge.tmdmaker.editpolicy.DetailComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * ディテールのコントローラ
@@ -45,11 +40,6 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 	public DetailEditPart(Detail entity) {
 		super();
 		setModel(entity);
-	}
-
-	@Override
-	protected ModelEditDialog<Detail> getDialog() {
-		return new DetailEditDialog(getControllShell(), getModel());
 	}
 
 	/**
@@ -88,29 +78,8 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class DetailComponentEditPolicy extends ComponentEditPolicy {
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			Detail model = (Detail) getHost().getModel();
-			return new TableDeleteCommand(model, model.getModelTargetConnections().get(0));
-
-		}
-	}
-
 	@Override
 	protected ModelAppearance getAppearance() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

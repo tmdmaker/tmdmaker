@@ -17,6 +17,18 @@ package jp.sourceforge.tmdmaker.treeeditpart;
 
 import org.eclipse.gef.EditPart;
 
+import jp.sourceforge.tmdmaker.editpolicy.AttributeComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.CombinationTableComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.DetailComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityEditComponentPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.LaputaComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.MappingListComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.MultivalueOrEntityComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.RecursiveTableComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.SubsetEntityComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TurboFileComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.VirtualEntityComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.VirtualSupersetComponentEditPolicy;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
@@ -76,17 +88,17 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(Attribute attribute) {
-		part = new AttributeTreeEditPart(attribute);
+		part = new AttributeTreeEditPart(attribute, new AttributeComponentEditPolicy());
 	}
 
 	@Override
 	public void visit(CombinationTable entity) {
-		part = new AbstractEntityModelTreeEditPart<CombinationTable>(entity);
+		part = new AbstractEntityModelTreeEditPart<CombinationTable>(entity, new CombinationTableComponentEditPolicy());
 	}
 
 	@Override
 	public void visit(Detail entity) {
-		part = new DetailTreeEditPart(entity);
+		part = new DetailTreeEditPart(entity, new DetailComponentEditPolicy());
 	}
 
 	@Override
@@ -96,7 +108,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(Entity entity) {
-		part = new EntityTreeEditPart(entity);
+		part = new EntityTreeEditPart(entity, new EntityEditComponentPolicy());
 	}
 
 	@Override
@@ -116,17 +128,17 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(Laputa entity) {
-		part = new AbstractEntityModelTreeEditPart<Laputa>(entity);
+		part = new AbstractEntityModelTreeEditPart<Laputa>(entity, new LaputaComponentEditPolicy());
 	}
 
 	@Override
 	public void visit(MappingList entity) {
-		part = new AbstractEntityModelTreeEditPart<MappingList>(entity);
+		part = new AbstractEntityModelTreeEditPart<MappingList>(entity, new MappingListComponentEditPolicy());
 	}
 
 	@Override
 	public void visit(AbstractEntityModel entity) {
-		part = new AbstractEntityModelTreeEditPart<AbstractEntityModel>(entity);
+		part = new AbstractEntityModelTreeEditPart<AbstractEntityModel>(entity, null);
 	}
 
 	@Override
@@ -141,7 +153,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(MultivalueOrEntity entity) {
-		part = new AbstractEntityModelTreeEditPart<MultivalueOrEntity>(entity);
+		part = new AbstractEntityModelTreeEditPart<MultivalueOrEntity>(entity, new MultivalueOrEntityComponentEditPolicy());
 	}
 
 	@Override
@@ -151,7 +163,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(RecursiveTable entity) {
-		part = new AbstractEntityModelTreeEditPart<RecursiveTable>(entity);
+		part = new AbstractEntityModelTreeEditPart<RecursiveTable>(entity, new RecursiveTableComponentEditPolicy());
 	}
 
 	@Override
@@ -161,7 +173,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(SubsetEntity entity) {
-		part = new AbstractEntityModelTreeEditPart<SubsetEntity>(entity);
+		part = new AbstractEntityModelTreeEditPart<SubsetEntity>(entity, new SubsetEntityComponentEditPolicy());
 	}
 
 	@Override
@@ -171,12 +183,12 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(VirtualEntity entity) {
-		part = new AbstractEntityModelTreeEditPart<VirtualEntity>(entity);
+		part = new AbstractEntityModelTreeEditPart<VirtualEntity>(entity, new VirtualEntityComponentEditPolicy());
 	}
 
 	@Override
 	public void visit(VirtualSuperset entity) {
-		part = new AbstractEntityModelTreeEditPart<VirtualSuperset>(entity);
+		part = new AbstractEntityModelTreeEditPart<VirtualSuperset>(entity, new VirtualSupersetComponentEditPolicy());
 	}
 
 	@Override
@@ -211,7 +223,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 	 */
 	@Override
 	public void visit(TurboFile entity) {
-		part = new AbstractEntityModelTreeEditPart<TurboFile>(entity);
+		part = new AbstractEntityModelTreeEditPart<TurboFile>(entity,new TurboFileComponentEditPolicy());
 	}
 
 	/**

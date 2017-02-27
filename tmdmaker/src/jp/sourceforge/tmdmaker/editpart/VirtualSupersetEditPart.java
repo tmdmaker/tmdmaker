@@ -15,27 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.VirtualSupersetComponentEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
-import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * みなしスーパーセットのコントローラ
@@ -82,62 +71,11 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#onDoubleClicked()
-	 */
-	@Override
-	protected void onDoubleClicked() {
-		AbstractEntityModel entity = getModel();
-		SupersetEditDialog dialog = new SupersetEditDialog(getViewer().getControl().getShell(),
-				entity);
-		if (dialog.open() == Dialog.OK) {
-			getViewer().getEditDomain().getCommandStack()
-					.execute(new ModelEditCommand(entity, dialog.getEditedValue()));
-		}
-	}
-
-	@Override
-	protected ModelEditDialog<VirtualSuperset> getDialog() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new VirtualSupersetComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ReconnectableNodeEditPolicy());
-
-	}
-
-	/**
-	 * みなしスーパーセットのComponentEditPolicy
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class VirtualSupersetComponentEditPolicy extends ComponentEditPolicy {
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			VirtualSuperset model = (VirtualSuperset) getHost().getModel();
-			Diagram diagram = model.getDiagram();
-			VirtualSupersetType aggregator = model.getVirtualSupersetType();
-
-			CompoundCommand ccommand = new CompoundCommand();
-			ccommand.add(new VirtualSupersetTypeDeleteCommand(diagram, aggregator));
-			ccommand.add(new ModelDeleteCommand(diagram, model));
-			return ccommand.unwrap();
-		}
-
 	}
 }

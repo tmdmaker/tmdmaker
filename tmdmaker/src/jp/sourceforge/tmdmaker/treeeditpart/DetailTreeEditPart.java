@@ -17,6 +17,8 @@ package jp.sourceforge.tmdmaker.treeeditpart;
 
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.gef.EditPolicy;
+
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
@@ -35,8 +37,8 @@ public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart<Detail> 
 	 * コンストラクタ
 	 * @param model
 	 */
-	public DetailTreeEditPart(Detail model) {
-		super(model);
+	public DetailTreeEditPart(Detail model, EditPolicy policy) {
+		super(model, policy);
 	}
 
 	/**
