@@ -29,7 +29,7 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityDeleteCommand;
  * @author nakaG
  * 
  */
-public class LaputaEditPolicy extends AbstractEntityModelEditPolicy<Laputa> {
+public class LaputaComponentEditPolicy extends AbstractEntityModelEditPolicy<Laputa> {
 	@Override
 	protected ModelEditDialog<Laputa> getDialog() {
 		return new LaputaEditDialog(getControllShell(), getModel());

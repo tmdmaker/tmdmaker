@@ -16,7 +16,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.LaputaEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.LaputaComponentEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
@@ -72,7 +72,7 @@ public class LaputaEditPart extends AbstractEntityModelEditPart<Laputa> {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new LaputaEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new LaputaComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 }

@@ -20,13 +20,13 @@ import org.eclipse.gef.EditPart;
 import jp.sourceforge.tmdmaker.editpolicy.AttributeComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.CombinationTableComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.DetailComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.EntityEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.LaputaEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityEditComponentPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.LaputaComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.MappingListComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.MultivalueOrEntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.RecursiveTableComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.SubsetEntityComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.TurboFileEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TurboFileComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.VirtualEntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.VirtualSupersetComponentEditPolicy;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -108,7 +108,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(Entity entity) {
-		part = new EntityTreeEditPart(entity, new EntityEditPolicy());
+		part = new EntityTreeEditPart(entity, new EntityEditComponentPolicy());
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 
 	@Override
 	public void visit(Laputa entity) {
-		part = new AbstractEntityModelTreeEditPart<Laputa>(entity, new LaputaEditPolicy());
+		part = new AbstractEntityModelTreeEditPart<Laputa>(entity, new LaputaComponentEditPolicy());
 	}
 
 	@Override
@@ -223,7 +223,7 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 	 */
 	@Override
 	public void visit(TurboFile entity) {
-		part = new AbstractEntityModelTreeEditPart<TurboFile>(entity,new TurboFileEditPolicy());
+		part = new AbstractEntityModelTreeEditPart<TurboFile>(entity,new TurboFileComponentEditPolicy());
 	}
 
 	/**

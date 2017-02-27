@@ -20,7 +20,7 @@ import org.eclipse.gef.EditPolicy;
 
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.TurboFileEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TurboFileComponentEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
@@ -73,7 +73,7 @@ public class TurboFileEditPart extends AbstractEntityModelEditPart<TurboFile>
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new TurboFileEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new TurboFileComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}

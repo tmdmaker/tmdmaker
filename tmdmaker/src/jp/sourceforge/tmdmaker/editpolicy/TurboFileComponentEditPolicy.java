@@ -18,9 +18,10 @@ package jp.sourceforge.tmdmaker.editpolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 
-import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityDeleteCommand;
 
 /**
@@ -29,10 +30,11 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityDeleteCommand;
  * @author nakaG
  * 
  */
-public class EntityEditPolicy extends AbstractEntityModelEditPolicy<Entity> {
+public class TurboFileComponentEditPolicy extends AbstractEntityModelEditPolicy<TurboFile> {
 	@Override
-	protected ModelEditDialog<Entity> getDialog() {
-		return new EntityEditDialog(getControllShell(), getModel());
+	protected ModelEditDialog<TurboFile> getDialog() {
+		return new TableEditDialog<TurboFile>(getControllShell(), Messages.EditTurboFile,
+				getModel());
 	}
 	
 	/**
@@ -42,6 +44,6 @@ public class EntityEditPolicy extends AbstractEntityModelEditPolicy<Entity> {
 	 */
 	@Override
 	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-		return new EntityDeleteCommand<Entity>(getDiagram(), getModel());
+		return new EntityDeleteCommand<TurboFile>(getDiagram(), getModel());
 	}
 }
