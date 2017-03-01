@@ -208,7 +208,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		// サブセット
 		botEditor.activateTool("Select");
 		botEditor.click(303, 55);
-		botEditor.clickContextMenu("Subset");
+		//botEditor.clickContextMenu("Subset");
 		botEditor.clickContextMenu("Create subset");
 		shell = bot.shell("Edit subset");
 		shell.activate();
@@ -243,9 +243,9 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		bot.button("OK").click();
 		sleep();
 
-		// みなしスーパーセット
+		/* みなしスーパーセット */
 		botEditor.click(20, 205);
-		botEditor.clickContextMenu("Virtual entity(TM')").clickContextMenu("Edit virtual superset");
+		botEditor.clickContextMenu("Edit virtual superset");
 		shell = bot.shell("Edit virtual superset");
 		shell.activate();
 		sleep();

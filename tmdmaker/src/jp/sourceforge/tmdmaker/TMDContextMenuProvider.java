@@ -108,6 +108,7 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 			}
 			
 			if (list.size() > 1){
+					menu.add(registry.getAction(VirtualSupersetCreateAction.ID));
 					menu.add(new Separator("generate")); //$NON-NLS-1$
 					menu.add(registry.getAction(DiagramImageGenerateAction.ID));
 
@@ -158,7 +159,7 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 			}
 			else {
 				menu.add(registry.getAction(DatabaseSelectAction.ID));
-				
+				menu.add(registry.getAction(VirtualSupersetCreateAction.ID));				
 				menu.add(new Separator("generate")); //$NON-NLS-1$
 				menu.add(registry.getAction(DiagramImageGenerateAction.ID));
 
