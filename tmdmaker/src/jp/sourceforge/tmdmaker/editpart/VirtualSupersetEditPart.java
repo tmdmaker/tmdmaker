@@ -15,27 +15,23 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editpolicies.ComponentEditPolicy;
+import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.dialogs.Dialog;
+
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
-
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
-import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * みなしスーパーセットのコントローラ
@@ -97,7 +93,6 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 
 	@Override
 	protected ModelEditDialog<VirtualSuperset> getDialog() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -130,13 +125,7 @@ public class VirtualSupersetEditPart extends AbstractEntityModelEditPart<Virtual
 		@Override
 		protected Command createDeleteCommand(GroupRequest deleteRequest) {
 			VirtualSuperset model = (VirtualSuperset) getHost().getModel();
-			Diagram diagram = model.getDiagram();
-			VirtualSupersetType aggregator = model.getVirtualSupersetType();
-
-			CompoundCommand ccommand = new CompoundCommand();
-			ccommand.add(new VirtualSupersetTypeDeleteCommand(diagram, aggregator));
-			ccommand.add(new ModelDeleteCommand(diagram, model));
-			return ccommand.unwrap();
+			return new ConnectionDeleteCommand(model.getCreationRelationship());
 		}
 
 	}

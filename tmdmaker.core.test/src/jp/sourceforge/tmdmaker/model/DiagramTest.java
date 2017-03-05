@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class DiagramTest {
 		list.add(e1);
 		list.add(e2);
 		VirtualSuperset vsp = diagram.createVirtualSuperset("スーパーセット", list);
-		RelatedRelationship t2v = (RelatedRelationship) vsp.getModelTargetConnections().get(0);
+		VirtualSupersetType2VirtualSupersetRelationship t2v = (VirtualSupersetType2VirtualSupersetRelationship) vsp.getModelTargetConnections().get(0);
 		VirtualSupersetType type = vsp.getVirtualSupersetType();
 		Entity2VirtualSupersetTypeRelationship m2t1 = (Entity2VirtualSupersetTypeRelationship) type
 				.getModelTargetConnections().get(0);

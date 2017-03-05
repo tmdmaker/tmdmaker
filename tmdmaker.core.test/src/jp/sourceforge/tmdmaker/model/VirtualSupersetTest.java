@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,14 +53,11 @@ public class VirtualSupersetTest {
 		assertEquals(true, vsp.hasSubset());
 		assertEquals(2, vsp.getVirtualSubsetRelationshipList().size());
 
-		vsp.disconnectSubset(e2);
-		assertEquals(1, vsp.getVirtualSubsetList().size());
-		vsp.disconnectSubset(e1);
+		vsp.getCreationRelationship().disconnect();
 		assertEquals(0, vsp.getVirtualSubsetList().size());
 		assertEquals(false, vsp.hasSubset());
-		vsp.disconnectSubset(e1);
 		VirtualSupersetType type2 = vsp.getVirtualSupersetType();
-		if (type2 == null) {
+		if (!diagram.getChildren().contains(type2)) {
 			return;
 		}
 

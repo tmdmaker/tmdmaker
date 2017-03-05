@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,13 +53,14 @@ public class Version {
 				minorVersion = Integer.parseInt(values[1]);
 				serviceNo = Integer.parseInt(values[2]);
 			}
-			if (value.length() == 4) {
-				qualifier = values[3];				
+			if (values.length == 4) {
+				qualifier = values[3];
 			} else {
 				qualifier = "";
 			}
 		}
 	}
+
 	private String[] split(String value) {
 		StringTokenizer token = new StringTokenizer(value, ".");
 		List<String> list = new ArrayList<String>();
@@ -69,6 +70,7 @@ public class Version {
 		String[] arrays = new String[list.size()];
 		return list.toArray(arrays);
 	}
+
 	/**
 	 * @return the value
 	 */
@@ -76,20 +78,34 @@ public class Version {
 		return value;
 	}
 
-	public int getMajorVersion() {
-		return majorVersion;
-	}
-
-	public int getMinorVersion() {
-		return minorVersion;
-	}
-
-	public int getServiceNo() {
-		return serviceNo;
-	}
-
-	public String getBuildNo() {
+	/**
+	 * @return the qualifier.
+	 */
+	public String getQualifier() {
 		return qualifier;
 	}
 
+	/**
+	 * バージョン番号が引数で指定したバージョン以下？
+	 * 
+	 * @param major
+	 *            メジャーバージョン
+	 * @param minor
+	 *            マイナーバージョン
+	 * @param serviceNo
+	 *            サービスバージョン
+	 * @return バージョン番号が引数以下の場合にTrueを返す。
+	 */
+	public boolean versionUnderEqual(int major, int minor, int serviceNo) {
+		if (this.majorVersion != major) {
+			return this.majorVersion < major;
+		}
+		if (this.minorVersion != minor) {
+			return this.minorVersion < minor;
+		}
+		if (this.serviceNo != serviceNo) {
+			return this.serviceNo < serviceNo;
+		}
+		return true;
+	}
 }

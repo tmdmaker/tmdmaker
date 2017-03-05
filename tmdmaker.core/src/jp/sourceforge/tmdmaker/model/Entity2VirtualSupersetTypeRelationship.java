@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,8 +47,11 @@ public class Entity2VirtualSupersetTypeRelationship extends RelatedRelationship
 	 */
 	@Override
 	public void identifierChanged() {
-		((AbstractEntityModel) getTarget().getModelSourceConnections().get(0)
-				.getTarget()).fireIdentifierChanged(this);
+		VirtualSupersetType type = (VirtualSupersetType) getTarget();
+		VirtualSuperset superset = type.getSuperset();
+		if (superset != null) {
+			superset.fireIdentifierChanged(this);
+		}
 	}
 
 	/**
@@ -63,8 +66,8 @@ public class Entity2VirtualSupersetTypeRelationship extends RelatedRelationship
 			((VirtualSupersetType) getTarget())
 					.addReusedIdentifier((AbstractEntityModel) getSource());
 		} else {
-			((VirtualSupersetType) getTarget()).addReusedIdentifier(
-					(AbstractEntityModel) getSource(), targetIdentifier);
+			((VirtualSupersetType) getTarget())
+					.addReusedIdentifier((AbstractEntityModel) getSource(), targetIdentifier);
 			targetIdentifier = null;
 		}
 	}
@@ -80,6 +83,7 @@ public class Entity2VirtualSupersetTypeRelationship extends RelatedRelationship
 				.removeReusedIdentifier((AbstractEntityModel) getSource());
 		super.detachTarget();
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -91,6 +95,7 @@ public class Entity2VirtualSupersetTypeRelationship extends RelatedRelationship
 		// 各エンティティ -> スーパーセットタイプ -> スーパーセットの順で接続しているため表示順序が逆になっている
 		return getTarget().getModelSourceConnections().get(0).getTarget().getName();
 	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -102,6 +107,12 @@ public class Entity2VirtualSupersetTypeRelationship extends RelatedRelationship
 		return getSource().getName();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.RelatedRelationship#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
