@@ -35,6 +35,9 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	/** みなしスーパーセットタイプとみなしサブセットとのリレーションシップ */
 	private List<Entity2VirtualSupersetTypeRelationship> subset2typeRelationshipList;
 
+	public VirtualSupersetType2VirtualSupersetRelationship() {
+	}
+
 	/**
 	 * Constructor.
 	 * 
@@ -45,10 +48,8 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	 */
 	public VirtualSupersetType2VirtualSupersetRelationship(String virtualSupersetName,
 			List<AbstractEntityModel> subsets) {
-		this.superset = VirtualEntityRule.createVirtualSuperset(virtualSupersetName);
-		this.type = new VirtualSupersetType();
-		setSource(type);
-		setTarget(superset);
+		setSource(new VirtualSupersetType());
+		setTarget(VirtualEntityRule.createVirtualSuperset(virtualSupersetName));
 		this.subset2typeRelationshipList = new ArrayList<Entity2VirtualSupersetTypeRelationship>();
 		for (AbstractEntityModel s : subsets) {
 			Entity2VirtualSupersetTypeRelationship r = new Entity2VirtualSupersetTypeRelationship(s,
@@ -197,6 +198,18 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	public void setSubset2typeRelationshipList(
 			List<Entity2VirtualSupersetTypeRelationship> subset2typeRelationshipList) {
 		this.subset2typeRelationshipList = subset2typeRelationshipList;
+	}
+
+	@Override
+	public void setSource(ConnectableElement source) {
+		super.setSource(source);
+		this.type = (VirtualSupersetType) source;
+	}
+
+	@Override
+	public void setTarget(ConnectableElement target) {
+		super.setTarget(target);
+		this.superset = (VirtualSuperset) target;
 	}
 
 }

@@ -46,7 +46,7 @@ public class VirtualSuperset extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return true;
+		return getModelSourceConnections().size() == 0;
 	}
 
 	/**
