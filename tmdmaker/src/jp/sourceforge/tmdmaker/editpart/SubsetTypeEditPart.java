@@ -92,6 +92,6 @@ public class SubsetTypeEditPart extends AbstractSubsetTypeEditPart<SubsetType> {
 				return dialog.getCcommand();
 			}
 		}
-		return null;
+		return super.getCommand(request);
 	}
 }

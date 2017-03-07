@@ -76,7 +76,7 @@ public class VirtualSupersetTypeEditPart extends AbstractSubsetTypeEditPart<Virt
 	@Override
 	public Command getCommand(Request request) {
 		if (!REQ_OPEN.equals(request.getType()))
-			return null;
+			return super.getCommand(request);
 
 		VirtualSupersetType type = getModel();
 		VirtualSuperset superset = type.getSuperset();
