@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
+
 import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.VirtualSupersetComponentEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -22,9 +25,6 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
-
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.EditPolicy;
 
 /**
  * みなしスーパーセットのコントローラ

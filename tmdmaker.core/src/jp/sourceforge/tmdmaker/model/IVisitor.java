@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,4 +54,5 @@ public interface IVisitor {
 	void visit(Memo model);
 	void visit(TurboFile entity);
 	void visit(TurboFileRelationship relationship);
+	void visit(VirtualSupersetType2VirtualSupersetRelationship relationship);
 }

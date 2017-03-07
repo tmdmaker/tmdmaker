@@ -35,6 +35,9 @@ public class ConstraintConverter {
 	 * @return
 	 */
 	public static Rectangle getRectangle(ModelElement model) {
+		if (model == null) {
+			return null;
+		}
 		Constraint constraint = model.getConstraint();
 		if (constraint == null) {
 			return null;

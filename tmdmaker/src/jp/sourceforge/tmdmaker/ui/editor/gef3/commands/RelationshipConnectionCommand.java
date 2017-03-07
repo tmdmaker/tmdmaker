@@ -17,7 +17,7 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.commands;
 
 import org.eclipse.gef.commands.Command;
 
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 
 /**
  * GEFのコネクションツールを利用せずに作成済みのRelationshipを接続するCommand.
@@ -26,9 +26,9 @@ import jp.sourceforge.tmdmaker.model.AbstractRelationship;
  *
  */
 public class RelationshipConnectionCommand extends Command {
-	private AbstractRelationship relationship;
+	private AbstractConnectionModel relationship;
 
-	public RelationshipConnectionCommand(AbstractRelationship relationship) {
+	public RelationshipConnectionCommand(AbstractConnectionModel relationship) {
 		this.relationship = relationship;
 	}
 

@@ -18,22 +18,22 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.dialogs.Dialog;
+
 import jp.sourceforge.tmdmaker.dialog.VirtualSupersetCreateDialog;
 import jp.sourceforge.tmdmaker.figure.SubsetTypeFigure;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetAddCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetDisconnectCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetReplaceCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeChangeCommand;
-
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * みなしスーパーセット種類（同一(=)/相違マーク(×)）のコントローラ.
@@ -66,7 +66,7 @@ public class VirtualSupersetTypeEditPart extends AbstractSubsetTypeEditPart<Virt
 		sf.setVertical(model.isVertical());
 		sf.setSameType(model.isApplyAttribute());
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -75,38 +75,35 @@ public class VirtualSupersetTypeEditPart extends AbstractSubsetTypeEditPart<Virt
 	 */
 	@Override
 	public Command getCommand(Request request) {
-		if (!REQ_OPEN.equals(request.getType())) return null;
-		
+		if (!REQ_OPEN.equals(request.getType()))
+			return null;
+
 		VirtualSupersetType type = getModel();
 		VirtualSuperset superset = type.getSuperset();
 		Diagram diagram = superset.getDiagram();
 		List<AbstractEntityModel> list = type.getSubsetList();
 		VirtualSupersetCreateDialog dialog = new VirtualSupersetCreateDialog(
 				getViewer().getControl().getShell(), diagram, superset, list);
-		
-		if (dialog.open() != Dialog.OK) return null;
-		
+		if (dialog.open() != Dialog.OK)
+			return null;
+
 		CompoundCommand ccommand = new CompoundCommand();
-		// みなしスーパーセット編集
-		ccommand.add(new ModelEditCommand(superset, dialog.getEditedValue()));
+		List<AbstractEntityModel> selectedList = dialog.getSelection();
+		if (selectedList.size() == 0) {
+			ccommand.add(new ConnectionDeleteCommand(superset.getCreationRelationship()));
+		} else {
+			VirtualSuperset edited = dialog.getEditedValue();
+			// みなしスーパーセット編集
+			ccommand.add(new ModelEditCommand(superset, edited));
+
 			// 接点編集
-		ccommand.add(new VirtualSupersetTypeChangeCommand(superset.getVirtualSupersetType(),
-				dialog.getEditedAggregator().isApplyAttribute()));
+			ccommand.add(new VirtualSupersetTypeChangeCommand(superset.getVirtualSupersetType(),
+					dialog.getEditedAggregator().isApplyAttribute()));
+
 			// 接点との接続
-		List<AbstractEntityModel> notSelection = dialog.getNotSelection();
-		List<AbstractEntityModel> selectedList = superset.getVirtualSubsetList();
-		// 未接続のみなしサブセットとの接続
-		for (AbstractEntityModel s : dialog.getSelection()) {
-			if (!selectedList.contains(s)) {
-				ccommand.add(new VirtualSubsetAddCommand(superset, s));
-			}
+			ccommand.add(new VirtualSubsetReplaceCommand(superset, dialog.getSelection()));
 		}
-		// 接続していたが未選択に変更したサブセットとの接続を解除
-		for (AbstractEntityModel m : superset.getVirtualSubsetList()) {
-			if (notSelection.contains(m)) {
-				ccommand.add(new VirtualSubsetDisconnectCommand(superset, m));
-			}
-		}
+
 		return ccommand;
 	}
 

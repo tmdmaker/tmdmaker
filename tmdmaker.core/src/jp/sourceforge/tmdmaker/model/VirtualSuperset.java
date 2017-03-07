@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ public class VirtualSuperset extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -58,7 +57,6 @@ public class VirtualSuperset extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isEntityTypeEditable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -80,11 +78,12 @@ public class VirtualSuperset extends AbstractEntityModel {
 	 *
 	 * @return みなしスーパーセット種類とみなしサブセット間のリレーションシップ.
 	 */
-	public List<AbstractConnectionModel> getVirtualSubsetRelationshipList() {
-		List<AbstractConnectionModel> results = new ArrayList<AbstractConnectionModel>();
-		results.addAll(getVirtualSupersetType().getModelTargetConnections());
-
-		return results;
+	public List<Entity2VirtualSupersetTypeRelationship> getVirtualSubsetRelationshipList() {
+		VirtualSupersetType2VirtualSupersetRelationship r = getCreationRelationship();
+		if (r != null) {
+			return r.getSubset2typeRelationshipList();
+		}
+		return null;
 	}
 
 	/**
@@ -93,8 +92,9 @@ public class VirtualSuperset extends AbstractEntityModel {
 	 * @return みなしスーパーセット種類.
 	 */
 	public VirtualSupersetType getVirtualSupersetType() {
-		if (getModelTargetConnections().size() != 0) {
-			return (VirtualSupersetType) getModelTargetConnections().get(0).getSource();
+		VirtualSupersetType2VirtualSupersetRelationship r = getCreationRelationship();
+		if (r != null) {
+			return r.getType();
 		}
 		return null;
 	}
@@ -111,63 +111,15 @@ public class VirtualSuperset extends AbstractEntityModel {
 		return copy;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
-	}
-
-	private boolean isTypeConnected() {
-		return getModelTargetConnections().size() != 0;
-	}
-
-	/**
-	 * サブセットと接続する.
-	 *
-	 * @param subset
-	 *            接続するサブセット.
-	 */
-	public void connectSubset(AbstractEntityModel subset) {
-		if (!isTypeConnected()) {
-			addVirtualSupersetType();
-		}
-		VirtualSupersetType type = getVirtualSupersetType();
-		new Entity2VirtualSupersetTypeRelationship(subset, type).connect();
-	}
-
-	/**
-	 * サブセットとの接続を解除する.
-	 *
-	 * @param subset
-	 *            接続解除するサブセット.
-	 */
-	public void disconnectSubset(AbstractEntityModel subset) {
-		VirtualSupersetType type = getVirtualSupersetType();
-		if (type == null) {
-			return;
-		}
-		for (AbstractConnectionModel c : type.getModelTargetConnections()) {
-			if (c.getSource().equals(subset)) {
-				c.disconnect();
-				break;
-			}
-		}
-		if (type.getModelTargetConnections().size() == 0) {
-			removeVirtualSupersetType();
-		}
-	}
-
-	private void removeVirtualSupersetType() {
-		AbstractConnectionModel r = getModelTargetConnections().get(0);
-		VirtualSupersetType type = getVirtualSupersetType();
-		r.disconnect();
-		getDiagram().removeChild(type);
-	}
-
-	private void addVirtualSupersetType() {
-		VirtualSupersetType type = new VirtualSupersetType();
-		getDiagram().addChild(type);
-		RelatedRelationship r = new RelatedRelationship(type, this);
-		r.connect();
 	}
 
 	public boolean hasSubset() {
@@ -175,6 +127,7 @@ public class VirtualSuperset extends AbstractEntityModel {
 	}
 
 	/**
+	 * 
 	 * {@inheritDoc}
 	 *
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#canCreateSubset()
@@ -202,5 +155,18 @@ public class VirtualSuperset extends AbstractEntityModel {
 	@Override
 	public boolean canCreateVirtualEntity() {
 		return false;
+	}
+
+	/**
+	 * みなしスーパーセット作成時のリレーションシップを返す.
+	 * 
+	 * @return
+	 */
+	public VirtualSupersetType2VirtualSupersetRelationship getCreationRelationship() {
+		if (getModelTargetConnections().size() > 0) {
+			return (VirtualSupersetType2VirtualSupersetRelationship) getModelTargetConnections()
+					.get(0);
+		}
+		return null;
 	}
 }

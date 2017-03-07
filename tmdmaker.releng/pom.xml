@@ -150,7 +150,7 @@
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>false</useUIThread>
 					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
-					<product>org.eclipse.platform.ide</product>
+					<product>tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
 					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
@@ -213,6 +213,7 @@
 		<module>../tmdmaker.test</module>
 		<module>../tmdmaker.ui.test</module>
 		<module>../tmdmaker.doc</module>
+		<module>../tmdmaker.serializer.test</module>
 	</modules>
 
 	<developers>

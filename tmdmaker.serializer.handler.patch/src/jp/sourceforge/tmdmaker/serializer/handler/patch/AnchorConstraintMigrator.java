@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model;
+package jp.sourceforge.tmdmaker.serializer.handler.patch;
 
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
 
 /**
@@ -23,7 +24,6 @@ import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
  * @author nakag
  *
  */
-@Deprecated
 public class AnchorConstraintMigrator {
 	/**
 	 * データ移行.

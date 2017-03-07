@@ -18,7 +18,6 @@ package jp.sourceforge.tmdmaker.editpolicy;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.GroupRequest;
 
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
@@ -26,10 +25,8 @@ import jp.sourceforge.tmdmaker.dialog.SupersetEditDialog;
 import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeDeleteCommand;
 
 /**
  * みなしスーパーセットのComponentEditPolicy
@@ -59,11 +56,7 @@ public class VirtualSupersetComponentEditPolicy extends AbstractEntityModelEditP
 	 */
 	@Override
 	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-		VirtualSupersetType aggregator = getModel().getVirtualSupersetType();
-
-		CompoundCommand ccommand = new CompoundCommand();
-		ccommand.add(new VirtualSupersetTypeDeleteCommand(getDiagram(), aggregator));
-		ccommand.add(new ModelDeleteCommand(getDiagram(), getModel()));
-		return ccommand.unwrap();
+		VirtualSuperset model = (VirtualSuperset) getHost().getModel();
+		return new ConnectionDeleteCommand(model.getCreationRelationship());
 	}
 }

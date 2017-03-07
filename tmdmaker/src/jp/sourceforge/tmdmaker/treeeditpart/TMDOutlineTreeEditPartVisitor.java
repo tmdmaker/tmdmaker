@@ -57,6 +57,7 @@ import jp.sourceforge.tmdmaker.model.TurboFileRelationship;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetType2VirtualSupersetRelationship;
 import jp.sourceforge.tmdmaker.model.other.Memo;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
 
@@ -68,10 +69,10 @@ import jp.sourceforge.tmdmaker.model.other.TurboFile;
  * @author tohosaku
  *
  */
-public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
+public class TMDOutlineTreeEditPartVisitor implements IVisitor {
 
 	private EditPart part = null;
-	
+
 	public EditPart getEditPart() {
 		return part;
 	}
@@ -235,5 +236,9 @@ public class TMDOutlineTreeEditPartVisitor  implements IVisitor{
 	public void visit(TurboFileRelationship relationship) {
 		part = null;
 	}
-	
+
+	@Override
+	public void visit(VirtualSupersetType2VirtualSupersetRelationship relationship) {
+		part = null;
+	}
 }

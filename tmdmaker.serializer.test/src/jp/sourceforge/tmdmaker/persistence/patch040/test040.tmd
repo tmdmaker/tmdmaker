@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jp.sourceforge.tmdmaker.model.Diagram>
+  <listeners serialization="custom">
+    <java.beans.PropertyChangeSupport>
+      <default>
+        <source class="jp.sourceforge.tmdmaker.model.Diagram" reference="../../../.."/>
+        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+      </default>
+      <null/>
+    </java.beans.PropertyChangeSupport>
+  </listeners>
+  <version>0.4.0.201702022229</version>
+  <children>
+    <jp.sourceforge.tmdmaker.model.Entity>
+      <name>111</name>
+      <constraint>
+        <x>66</x>
+        <y>82</y>
+        <width>-1</width>
+        <height>-1</height>
+      </constraint>
+      <listeners serialization="custom">
+        <java.beans.PropertyChangeSupport>
+          <default>
+            <source class="jp.sourceforge.tmdmaker.model.Entity" reference="../../../.."/>
+            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+          </default>
+          <null/>
+        </java.beans.PropertyChangeSupport>
+      </listeners>
+      <sourceConnections>
+        <jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship>
+          <listeners serialization="custom">
+            <java.beans.PropertyChangeSupport>
+              <default>
+                <source class="jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship" reference="../../../.."/>
+                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              </default>
+              <null/>
+            </java.beans.PropertyChangeSupport>
+          </listeners>
+          <sourceConnections>
+            <jp.sourceforge.tmdmaker.model.RelatedRelationship>
+              <listeners serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="jp.sourceforge.tmdmaker.model.RelatedRelationship" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </listeners>
+              <sourceConnections/>
+              <targetConnections/>
+              <source class="jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship" reference="../../.."/>
+              <target class="jp.sourceforge.tmdmaker.model.CombinationTable">
+                <name>111.2222.対照表</name>
+                <constraint>
+                  <x>178</x>
+                  <y>181</y>
+                  <width>-1</width>
+                  <height>-1</height>
+                </constraint>
+                <listeners serialization="custom">
+                  <java.beans.PropertyChangeSupport>
+                    <default>
+                      <source class="jp.sourceforge.tmdmaker.model.CombinationTable" reference="../../../.."/>
+                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                    </default>
+                    <null/>
+                  </java.beans.PropertyChangeSupport>
+                </listeners>
+                <sourceConnections>
+                  <jp.sourceforge.tmdmaker.model.TurboFileRelationship>
+                    <listeners serialization="custom">
+                      <java.beans.PropertyChangeSupport>
+                        <default>
+                          <source class="jp.sourceforge.tmdmaker.model.TurboFileRelationship" reference="../../../.."/>
+                          <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                        </default>
+                        <null/>
+                      </java.beans.PropertyChangeSupport>
+                    </listeners>
+                    <sourceConnections/>
+                    <targetConnections/>
+                    <source class="jp.sourceforge.tmdmaker.model.CombinationTable" reference="../../.."/>
+                    <target class="jp.sourceforge.tmdmaker.model.other.TurboFile">
+                      <name>ターボファイル</name>
+                      <constraint>
+                        <x>451</x>
+                        <y>264</y>
+                        <width>-1</width>
+                        <height>-1</height>
+                      </constraint>
+                      <listeners serialization="custom">
+                        <java.beans.PropertyChangeSupport>
+                          <default>
+                            <source class="jp.sourceforge.tmdmaker.model.other.TurboFile" reference="../../../.."/>
+                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                          </default>
+                          <null/>
+                        </java.beans.PropertyChangeSupport>
+                      </listeners>
+                      <sourceConnections/>
+                      <targetConnections>
+                        <jp.sourceforge.tmdmaker.model.TurboFileRelationship reference="../../.."/>
+                      </targetConnections>
+                      <diagram reference="../../../../../../../../../../.."/>
+                      <reusedIdentifiers class="linked-hash-map">
+                        <entry>
+                          <jp.sourceforge.tmdmaker.model.CombinationTable reference="../../../../../.."/>
+                          <jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                            <identifiers>
+                              <jp.sourceforge.tmdmaker.model.IdentifierRef>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="jp.sourceforge.tmdmaker.model.IdentifierRef" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <description></description>
+                                <derivation>false</derivation>
+                                <nullable>false</nullable>
+                                <original class="jp.sourceforge.tmdmaker.model.IdentifierRef">
+                                  <listeners serialization="custom">
+                                    <java.beans.PropertyChangeSupport>
+                                      <default>
+                                        <source class="jp.sourceforge.tmdmaker.model.IdentifierRef" reference="../../../.."/>
+                                        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                      </default>
+                                      <null/>
+                                    </java.beans.PropertyChangeSupport>
+                                  </listeners>
+                                  <description></description>
+                                  <derivation>false</derivation>
+                                  <nullable>false</nullable>
+                                  <original>
+                                    <name>111</name>
+                                    <listeners serialization="custom">
+                                      <java.beans.PropertyChangeSupport>
+                                        <default>
+                                          <source class="jp.sourceforge.tmdmaker.model.Identifier" reference="../../../.."/>
+                                          <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                        </default>
+                                        <null/>
+                                      </java.beans.PropertyChangeSupport>
+                                    </listeners>
+                                    <description></description>
+                                    <dataTypeDeclaration>
+                                      <logicalType>NUMERIC</logicalType>
+                                      <size>10</size>
+                                      <scale>0</scale>
+                                    </dataTypeDeclaration>
+                                    <derivation>false</derivation>
+                                    <implementName>111</implementName>
+                                    <nullable>false</nullable>
+                                  </original>
+                                </original>
+                              </jp.sourceforge.tmdmaker.model.IdentifierRef>
+                              <jp.sourceforge.tmdmaker.model.IdentifierRef>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="jp.sourceforge.tmdmaker.model.IdentifierRef" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <description></description>
+                                <derivation>false</derivation>
+                                <nullable>false</nullable>
+                                <original class="jp.sourceforge.tmdmaker.model.IdentifierRef">
+                                  <listeners serialization="custom">
+                                    <java.beans.PropertyChangeSupport>
+                                      <default>
+                                        <source class="jp.sourceforge.tmdmaker.model.IdentifierRef" reference="../../../.."/>
+                                        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                      </default>
+                                      <null/>
+                                    </java.beans.PropertyChangeSupport>
+                                  </listeners>
+                                  <description></description>
+                                  <derivation>false</derivation>
+                                  <nullable>false</nullable>
+                                  <original>
+                                    <name>2222</name>
+                                    <listeners serialization="custom">
+                                      <java.beans.PropertyChangeSupport>
+                                        <default>
+                                          <source class="jp.sourceforge.tmdmaker.model.Identifier" reference="../../../.."/>
+                                          <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                        </default>
+                                        <null/>
+                                      </java.beans.PropertyChangeSupport>
+                                    </listeners>
+                                    <description></description>
+                                    <dataTypeDeclaration>
+                                      <logicalType>NUMERIC</logicalType>
+                                      <size>10</size>
+                                      <scale>0</scale>
+                                    </dataTypeDeclaration>
+                                    <derivation>false</derivation>
+                                    <implementName>2222</implementName>
+                                    <nullable>false</nullable>
+                                  </original>
+                                  <duplicate>false</duplicate>
+                                </original>
+                              </jp.sourceforge.tmdmaker.model.IdentifierRef>
+                            </identifiers>
+                            <surrogateKeys>
+                              <jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                                <name></name>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="jp.sourceforge.tmdmaker.model.SurrogateKeyRef" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <description></description>
+                                <derivation>false</derivation>
+                                <nullable>false</nullable>
+                                <enabled>false</enabled>
+                                <original>
+                                  <name></name>
+                                  <listeners serialization="custom">
+                                    <java.beans.PropertyChangeSupport>
+                                      <default>
+                                        <source class="jp.sourceforge.tmdmaker.model.SurrogateKey" reference="../../../.."/>
+                                        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                      </default>
+                                      <null/>
+                                    </java.beans.PropertyChangeSupport>
+                                  </listeners>
+                                  <description></description>
+                                  <derivation>false</derivation>
+                                  <nullable>false</nullable>
+                                  <enabled>false</enabled>
+                                </original>
+                              </jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                            </surrogateKeys>
+                          </jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                        </entry>
+                      </reusedIdentifiers>
+                      <attributes/>
+                      <entityType>RESOURCE</entityType>
+                      <notImplement>false</notImplement>
+                      <implementName></implementName>
+                      <implementDerivationModels/>
+                      <keyModels>
+                        <keys/>
+                      </keyModels>
+                    </target>
+                    <sourceXp>-1</sourceXp>
+                    <sourceYp>-1</sourceYp>
+                    <targetXp>34</targetXp>
+                    <targetYp>0</targetYp>
+                    <sourceCardinality>ONE</sourceCardinality>
+                    <targetCardinality>ONE</targetCardinality>
+                    <sourceNoInstance>false</sourceNoInstance>
+                    <targetNoInstance>false</targetNoInstance>
+                    <centerMark>false</centerMark>
+                  </jp.sourceforge.tmdmaker.model.TurboFileRelationship>
+                </sourceConnections>
+                <targetConnections>
+                  <jp.sourceforge.tmdmaker.model.RelatedRelationship reference="../../.."/>
+                </targetConnections>
+                <diagram reference="../../../../../../../.."/>
+                <reusedIdentifiers class="linked-hash-map">
+                  <entry>
+                    <jp.sourceforge.tmdmaker.model.Entity reference="../../../../../../../.."/>
+                    <jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                      <identifiers>
+                        <jp.sourceforge.tmdmaker.model.IdentifierRef reference="../../../../../sourceConnections/jp.sourceforge.tmdmaker.model.TurboFileRelationship/target/reusedIdentifiers/entry/jp.sourceforge.tmdmaker.model.ReusedIdentifier/identifiers/jp.sourceforge.tmdmaker.model.IdentifierRef/original"/>
+                      </identifiers>
+                      <surrogateKeys>
+                        <jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                          <name></name>
+                          <listeners serialization="custom">
+                            <java.beans.PropertyChangeSupport>
+                              <default>
+                                <source class="jp.sourceforge.tmdmaker.model.SurrogateKeyRef" reference="../../../.."/>
+                                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                              </default>
+                              <null/>
+                            </java.beans.PropertyChangeSupport>
+                          </listeners>
+                          <description></description>
+                          <derivation>false</derivation>
+                          <nullable>false</nullable>
+                          <enabled>false</enabled>
+                          <original>
+                            <name></name>
+                            <listeners serialization="custom">
+                              <java.beans.PropertyChangeSupport>
+                                <default>
+                                  <source class="jp.sourceforge.tmdmaker.model.SurrogateKey" reference="../../../.."/>
+                                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                </default>
+                                <null/>
+                              </java.beans.PropertyChangeSupport>
+                            </listeners>
+                            <description></description>
+                            <derivation>false</derivation>
+                            <nullable>false</nullable>
+                            <enabled>false</enabled>
+                          </original>
+                        </jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                      </surrogateKeys>
+                    </jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                  </entry>
+                  <entry>
+                    <jp.sourceforge.tmdmaker.model.Entity>
+                      <name>2222</name>
+                      <constraint>
+                        <x>350</x>
+                        <y>99</y>
+                        <width>-1</width>
+                        <height>-1</height>
+                      </constraint>
+                      <listeners serialization="custom">
+                        <java.beans.PropertyChangeSupport>
+                          <default>
+                            <source class="jp.sourceforge.tmdmaker.model.Entity" reference="../../../.."/>
+                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                          </default>
+                          <null/>
+                        </java.beans.PropertyChangeSupport>
+                      </listeners>
+                      <sourceConnections>
+                        <jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship>
+                          <listeners serialization="custom">
+                            <java.beans.PropertyChangeSupport>
+                              <default>
+                                <source class="jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship" reference="../../../.."/>
+                                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                              </default>
+                              <null/>
+                            </java.beans.PropertyChangeSupport>
+                          </listeners>
+                          <sourceConnections/>
+                          <targetConnections/>
+                          <source class="jp.sourceforge.tmdmaker.model.Entity" reference="../../.."/>
+                          <target class="jp.sourceforge.tmdmaker.model.VirtualSupersetType">
+                            <constraint>
+                              <x>277</x>
+                              <y>82</y>
+                              <width>-1</width>
+                              <height>-1</height>
+                            </constraint>
+                            <listeners serialization="custom">
+                              <java.beans.PropertyChangeSupport>
+                                <default>
+                                  <source class="jp.sourceforge.tmdmaker.model.VirtualSupersetType" reference="../../../.."/>
+                                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                </default>
+                                <null/>
+                              </java.beans.PropertyChangeSupport>
+                            </listeners>
+                            <sourceConnections>
+                              <jp.sourceforge.tmdmaker.model.RelatedRelationship>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="jp.sourceforge.tmdmaker.model.RelatedRelationship" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <sourceConnections/>
+                                <targetConnections/>
+                                <source class="jp.sourceforge.tmdmaker.model.VirtualSupersetType" reference="../../.."/>
+                                <target class="jp.sourceforge.tmdmaker.model.VirtualSuperset">
+                                  <name>みなしスーパーセット</name>
+                                  <constraint>
+                                    <x>277</x>
+                                    <y>32</y>
+                                    <width>-1</width>
+                                    <height>-1</height>
+                                  </constraint>
+                                  <listeners serialization="custom">
+                                    <java.beans.PropertyChangeSupport>
+                                      <default>
+                                        <source class="jp.sourceforge.tmdmaker.model.VirtualSuperset" reference="../../../.."/>
+                                        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                      </default>
+                                      <null/>
+                                    </java.beans.PropertyChangeSupport>
+                                  </listeners>
+                                  <sourceConnections/>
+                                  <targetConnections>
+                                    <jp.sourceforge.tmdmaker.model.RelatedRelationship reference="../../.."/>
+                                  </targetConnections>
+                                  <diagram reference="../../../../../../../../../../../../../../../../.."/>
+                                  <reusedIdentifiers class="linked-hash-map"/>
+                                  <attributes/>
+                                  <entityType>RESOURCE</entityType>
+                                  <notImplement>false</notImplement>
+                                  <implementName>みなしスーパーセット</implementName>
+                                  <implementDerivationModels/>
+                                  <keyModels>
+                                    <keys/>
+                                  </keyModels>
+                                </target>
+                                <sourceXp>-1</sourceXp>
+                                <sourceYp>-1</sourceYp>
+                                <targetXp>-1</targetXp>
+                                <targetYp>-1</targetYp>
+                              </jp.sourceforge.tmdmaker.model.RelatedRelationship>
+                            </sourceConnections>
+                            <targetConnections>
+                              <jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <sourceConnections/>
+                                <targetConnections/>
+                                <source class="jp.sourceforge.tmdmaker.model.Entity" reference="../../../../../../../../../../../../../.."/>
+                                <target class="jp.sourceforge.tmdmaker.model.VirtualSupersetType" reference="../../.."/>
+                                <sourceXp>-1</sourceXp>
+                                <sourceYp>-1</sourceYp>
+                                <targetXp>-1</targetXp>
+                                <targetYp>-1</targetYp>
+                              </jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship>
+                              <jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship reference="../../.."/>
+                            </targetConnections>
+                            <vertical>false</vertical>
+                            <reusedIdentifiers class="linked-hash-map">
+                              <entry>
+                                <jp.sourceforge.tmdmaker.model.Entity reference="../../../../../../../../../../../../../.."/>
+                                <jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                                  <identifiers>
+                                    <jp.sourceforge.tmdmaker.model.IdentifierRef>
+                                      <listeners serialization="custom">
+                                        <java.beans.PropertyChangeSupport>
+                                          <default>
+                                            <source class="jp.sourceforge.tmdmaker.model.IdentifierRef" reference="../../../.."/>
+                                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                          </default>
+                                          <null/>
+                                        </java.beans.PropertyChangeSupport>
+                                      </listeners>
+                                      <description></description>
+                                      <derivation>false</derivation>
+                                      <nullable>false</nullable>
+                                      <original reference="../../../../../../../../../../../../sourceConnections/jp.sourceforge.tmdmaker.model.TurboFileRelationship/target/reusedIdentifiers/entry/jp.sourceforge.tmdmaker.model.ReusedIdentifier/identifiers/jp.sourceforge.tmdmaker.model.IdentifierRef/original/original"/>
+                                    </jp.sourceforge.tmdmaker.model.IdentifierRef>
+                                  </identifiers>
+                                  <surrogateKeys>
+                                    <jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                                      <name></name>
+                                      <listeners serialization="custom">
+                                        <java.beans.PropertyChangeSupport>
+                                          <default>
+                                            <source class="jp.sourceforge.tmdmaker.model.SurrogateKeyRef" reference="../../../.."/>
+                                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                          </default>
+                                          <null/>
+                                        </java.beans.PropertyChangeSupport>
+                                      </listeners>
+                                      <description></description>
+                                      <derivation>false</derivation>
+                                      <nullable>false</nullable>
+                                      <enabled>false</enabled>
+                                      <original reference="../../../../../../../../../../../entry/jp.sourceforge.tmdmaker.model.ReusedIdentifier/surrogateKeys/jp.sourceforge.tmdmaker.model.SurrogateKeyRef/original"/>
+                                    </jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                                  </surrogateKeys>
+                                </jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                              </entry>
+                              <entry>
+                                <jp.sourceforge.tmdmaker.model.Entity reference="../../../../../.."/>
+                                <jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                                  <identifiers>
+                                    <jp.sourceforge.tmdmaker.model.IdentifierRef>
+                                      <listeners serialization="custom">
+                                        <java.beans.PropertyChangeSupport>
+                                          <default>
+                                            <source class="jp.sourceforge.tmdmaker.model.IdentifierRef" reference="../../../.."/>
+                                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                          </default>
+                                          <null/>
+                                        </java.beans.PropertyChangeSupport>
+                                      </listeners>
+                                      <description></description>
+                                      <derivation>false</derivation>
+                                      <nullable>false</nullable>
+                                      <original reference="../../../../../../../../../../../../sourceConnections/jp.sourceforge.tmdmaker.model.TurboFileRelationship/target/reusedIdentifiers/entry/jp.sourceforge.tmdmaker.model.ReusedIdentifier/identifiers/jp.sourceforge.tmdmaker.model.IdentifierRef[2]/original/original"/>
+                                    </jp.sourceforge.tmdmaker.model.IdentifierRef>
+                                  </identifiers>
+                                  <surrogateKeys>
+                                    <jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                                      <name></name>
+                                      <listeners serialization="custom">
+                                        <java.beans.PropertyChangeSupport>
+                                          <default>
+                                            <source class="jp.sourceforge.tmdmaker.model.SurrogateKeyRef" reference="../../../.."/>
+                                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                          </default>
+                                          <null/>
+                                        </java.beans.PropertyChangeSupport>
+                                      </listeners>
+                                      <description></description>
+                                      <derivation>false</derivation>
+                                      <nullable>false</nullable>
+                                      <enabled>false</enabled>
+                                      <original>
+                                        <name></name>
+                                        <listeners serialization="custom">
+                                          <java.beans.PropertyChangeSupport>
+                                            <default>
+                                              <source class="jp.sourceforge.tmdmaker.model.SurrogateKey" reference="../../../.."/>
+                                              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                            </default>
+                                            <null/>
+                                          </java.beans.PropertyChangeSupport>
+                                        </listeners>
+                                        <description></description>
+                                        <derivation>false</derivation>
+                                        <nullable>false</nullable>
+                                        <enabled>false</enabled>
+                                      </original>
+                                    </jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                                  </surrogateKeys>
+                                </jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                              </entry>
+                            </reusedIdentifiers>
+                            <applyAttribute>true</applyAttribute>
+                          </target>
+                          <sourceXp>-1</sourceXp>
+                          <sourceYp>-1</sourceYp>
+                          <targetXp>-1</targetXp>
+                          <targetYp>-1</targetYp>
+                        </jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship>
+                      </sourceConnections>
+                      <targetConnections>
+                        <jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship reference="../../../../../../../.."/>
+                      </targetConnections>
+                      <diagram reference="../../../../../../../../../../.."/>
+                      <reusedIdentifiers class="linked-hash-map"/>
+                      <attributes>
+                        <jp.sourceforge.tmdmaker.model.Attribute>
+                          <name>2222名称</name>
+                          <listeners serialization="custom">
+                            <java.beans.PropertyChangeSupport>
+                              <default>
+                                <source class="jp.sourceforge.tmdmaker.model.Attribute" reference="../../../.."/>
+                                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                              </default>
+                              <null/>
+                            </java.beans.PropertyChangeSupport>
+                          </listeners>
+                          <description></description>
+                          <dataTypeDeclaration>
+                            <logicalType>CHARACTER_VARYING</logicalType>
+                            <size>10</size>
+                          </dataTypeDeclaration>
+                          <derivation>false</derivation>
+                          <implementName>2222名称</implementName>
+                          <nullable>false</nullable>
+                        </jp.sourceforge.tmdmaker.model.Attribute>
+                      </attributes>
+                      <entityType>RESOURCE</entityType>
+                      <notImplement>false</notImplement>
+                      <implementName>2222</implementName>
+                      <implementDerivationModels/>
+                      <keyModels>
+                        <keys/>
+                        <surrogateKey reference="../../sourceConnections/jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship/target/reusedIdentifiers/entry[2]/jp.sourceforge.tmdmaker.model.ReusedIdentifier/surrogateKeys/jp.sourceforge.tmdmaker.model.SurrogateKeyRef/original"/>
+                      </keyModels>
+                      <physicalName></physicalName>
+                      <description></description>
+                      <identifier reference="../../../../sourceConnections/jp.sourceforge.tmdmaker.model.TurboFileRelationship/target/reusedIdentifiers/entry/jp.sourceforge.tmdmaker.model.ReusedIdentifier/identifiers/jp.sourceforge.tmdmaker.model.IdentifierRef[2]/original/original"/>
+                    </jp.sourceforge.tmdmaker.model.Entity>
+                    <jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                      <identifiers>
+                        <jp.sourceforge.tmdmaker.model.IdentifierRef reference="../../../../../sourceConnections/jp.sourceforge.tmdmaker.model.TurboFileRelationship/target/reusedIdentifiers/entry/jp.sourceforge.tmdmaker.model.ReusedIdentifier/identifiers/jp.sourceforge.tmdmaker.model.IdentifierRef[2]/original"/>
+                      </identifiers>
+                      <surrogateKeys>
+                        <jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                          <name></name>
+                          <listeners serialization="custom">
+                            <java.beans.PropertyChangeSupport>
+                              <default>
+                                <source class="jp.sourceforge.tmdmaker.model.SurrogateKeyRef" reference="../../../.."/>
+                                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                              </default>
+                              <null/>
+                            </java.beans.PropertyChangeSupport>
+                          </listeners>
+                          <description></description>
+                          <derivation>false</derivation>
+                          <nullable>false</nullable>
+                          <enabled>false</enabled>
+                          <original reference="../../../../jp.sourceforge.tmdmaker.model.Entity/sourceConnections/jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship/target/reusedIdentifiers/entry[2]/jp.sourceforge.tmdmaker.model.ReusedIdentifier/surrogateKeys/jp.sourceforge.tmdmaker.model.SurrogateKeyRef/original"/>
+                        </jp.sourceforge.tmdmaker.model.SurrogateKeyRef>
+                      </surrogateKeys>
+                    </jp.sourceforge.tmdmaker.model.ReusedIdentifier>
+                  </entry>
+                </reusedIdentifiers>
+                <attributes/>
+                <entityType>RESOURCE</entityType>
+                <notImplement>false</notImplement>
+                <implementName>111.2222.対照表</implementName>
+                <implementDerivationModels/>
+                <keyModels>
+                  <keys/>
+                  <surrogateKey reference="../../sourceConnections/jp.sourceforge.tmdmaker.model.TurboFileRelationship/target/reusedIdentifiers/entry/jp.sourceforge.tmdmaker.model.ReusedIdentifier/surrogateKeys/jp.sourceforge.tmdmaker.model.SurrogateKeyRef/original"/>
+                </keyModels>
+                <combinationTableType>L_TRUTH</combinationTableType>
+              </target>
+              <sourceXp>-1</sourceXp>
+              <sourceYp>-1</sourceYp>
+              <targetXp>35</targetXp>
+              <targetYp>0</targetYp>
+            </jp.sourceforge.tmdmaker.model.RelatedRelationship>
+          </sourceConnections>
+          <targetConnections/>
+          <source class="jp.sourceforge.tmdmaker.model.Entity" reference="../../.."/>
+          <target class="jp.sourceforge.tmdmaker.model.Entity" reference="../sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/jp.sourceforge.tmdmaker.model.Entity"/>
+          <sourceXp>84</sourceXp>
+          <sourceYp>100</sourceYp>
+          <targetXp>-1</targetXp>
+          <targetYp>-1</targetYp>
+          <sourceCardinality>ONE</sourceCardinality>
+          <targetCardinality>ONE</targetCardinality>
+          <sourceNoInstance>false</sourceNoInstance>
+          <targetNoInstance>false</targetNoInstance>
+          <centerMark>true</centerMark>
+          <table reference="../sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target"/>
+          <combinationTableConnection reference="../sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship"/>
+        </jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship>
+        <jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship reference="../jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship/sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/jp.sourceforge.tmdmaker.model.Entity/sourceConnections/jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship/target/targetConnections/jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship"/>
+      </sourceConnections>
+      <targetConnections/>
+      <diagram reference="../../.."/>
+      <reusedIdentifiers class="linked-hash-map"/>
+      <attributes>
+        <jp.sourceforge.tmdmaker.model.Attribute>
+          <name>111名称</name>
+          <listeners serialization="custom">
+            <java.beans.PropertyChangeSupport>
+              <default>
+                <source class="jp.sourceforge.tmdmaker.model.Attribute" reference="../../../.."/>
+                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              </default>
+              <null/>
+            </java.beans.PropertyChangeSupport>
+          </listeners>
+          <description></description>
+          <dataTypeDeclaration>
+            <logicalType>CHARACTER_VARYING</logicalType>
+            <size>10</size>
+          </dataTypeDeclaration>
+          <derivation>false</derivation>
+          <implementName>111名称</implementName>
+          <nullable>false</nullable>
+        </jp.sourceforge.tmdmaker.model.Attribute>
+      </attributes>
+      <entityType>RESOURCE</entityType>
+      <notImplement>false</notImplement>
+      <implementName>111</implementName>
+      <implementDerivationModels/>
+      <keyModels>
+        <keys/>
+        <surrogateKey reference="../../sourceConnections/jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship/sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target/reusedIdentifiers/entry/jp.sourceforge.tmdmaker.model.ReusedIdentifier/surrogateKeys/jp.sourceforge.tmdmaker.model.SurrogateKeyRef/original"/>
+      </keyModels>
+      <physicalName></physicalName>
+      <description></description>
+      <identifier reference="../sourceConnections/jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship/sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target/sourceConnections/jp.sourceforge.tmdmaker.model.TurboFileRelationship/target/reusedIdentifiers/entry/jp.sourceforge.tmdmaker.model.ReusedIdentifier/identifiers/jp.sourceforge.tmdmaker.model.IdentifierRef/original/original"/>
+    </jp.sourceforge.tmdmaker.model.Entity>
+    <jp.sourceforge.tmdmaker.model.Entity reference="../jp.sourceforge.tmdmaker.model.Entity/sourceConnections/jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship/sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/jp.sourceforge.tmdmaker.model.Entity"/>
+    <jp.sourceforge.tmdmaker.model.CombinationTable reference="../jp.sourceforge.tmdmaker.model.Entity/sourceConnections/jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship/sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target"/>
+    <jp.sourceforge.tmdmaker.model.other.TurboFile reference="../jp.sourceforge.tmdmaker.model.Entity/sourceConnections/jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship/sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target/sourceConnections/jp.sourceforge.tmdmaker.model.TurboFileRelationship/target"/>
+    <jp.sourceforge.tmdmaker.model.VirtualSuperset reference="../jp.sourceforge.tmdmaker.model.Entity/sourceConnections/jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship/sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/jp.sourceforge.tmdmaker.model.Entity/sourceConnections/jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship/target/sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target"/>
+    <jp.sourceforge.tmdmaker.model.VirtualSupersetType reference="../jp.sourceforge.tmdmaker.model.Entity/sourceConnections/jp.sourceforge.tmdmaker.model.Resource2ResourceRelationship/sourceConnections/jp.sourceforge.tmdmaker.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/jp.sourceforge.tmdmaker.model.Entity/sourceConnections/jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship/target"/>
+  </children>
+  <commonAttributes/>
+</jp.sourceforge.tmdmaker.model.Diagram>

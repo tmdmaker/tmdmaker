@@ -101,7 +101,7 @@ public abstract class AbstractSerializerHandler implements SerializerHandler {
 	 * @return 指定以下のバージョンの場合にtrueを返す
 	 */
 	protected boolean versionUnderEqual(Diagram in, int major, int minor, int serviceNo) {
-		return versionUnderEqualByVersionString(in.getVersion(), major, minor, serviceNo);
+		return new Version(in.getVersion()).versionUnderEqual(major, minor, serviceNo);
 	}
 
 	/**
@@ -119,36 +119,8 @@ public abstract class AbstractSerializerHandler implements SerializerHandler {
 		Matcher matcher = pattern.matcher(in);
 		if (matcher.find()) {
 			String versionString = matcher.group(2);
-			return versionUnderEqualByVersionString(versionString, major, minor, serviceNo);
+			return new Version(versionString).versionUnderEqual(major, minor, serviceNo);
 		}
 		return false;
-	}
-
-	private boolean versionUnderEqualByVersionString(String versionString, int major, int minor, int serviceNo) {
-		Version version = new Version(versionString);
-		logger.info("version = " + version.getValue());
-		
-		if (version.getMajorVersion() != major)
-		{
-			return version.getMajorVersion() < major;
-		}
-		else
-		{
-			if (version.getMinorVersion() != minor)
-			{
-				return version.getMinorVersion() < minor;
-			}
-			else
-			{
-				if (version.getServiceNo() != serviceNo)
-				{
-					return version.getServiceNo() < serviceNo;
-				}
-				else
-				{
-					return true;
-				}
-			}
-		}
 	}
 }

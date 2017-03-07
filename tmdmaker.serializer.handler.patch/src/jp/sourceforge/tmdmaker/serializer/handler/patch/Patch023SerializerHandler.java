@@ -22,7 +22,6 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.AnchorConstraintMigrator;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 
 /**

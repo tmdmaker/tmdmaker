@@ -35,13 +35,13 @@ public abstract class AbstractConnectionModel extends ConnectableElement {
 	/** Target側接続 */
 	protected AnchorConstraint targetAnchorConstraint = new AnchorConstraint();
 	@Deprecated
-	int sourceXp = -1;
+	public int sourceXp = -1;
 	@Deprecated
-	int sourceYp = -1;
+	public int sourceYp = -1;
 	@Deprecated
-	int targetXp = -1;
+	public int targetXp = -1;
 	@Deprecated
-	int targetYp = -1;
+	public int targetYp = -1;
 
 	/** 接続元多重度プロパティ定数 */
 	public static final String PROPERTY_SOURCE_CARDINALITY = "_property_source_cardinality";
