@@ -206,24 +206,6 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 		visitor.visit(this);
 	}
 
-	public boolean removeSubsetEntity(SubsetEntity subsetEntity) {
-		if (!subsetEntity.isDeletable()) {
-			return false;
-		}
-		for (SubsetEntity s : getSubsetList()) {
-			if (s.equals(subsetEntity)) {
-				Diagram diagram = subsetEntity.getDiagram();
-				SubsetType2SubsetRelationship r = (SubsetType2SubsetRelationship) s
-						.findRelationshipFromTargetConnections(SubsetType2SubsetRelationship.class)
-						.get(0);
-				r.disconnect();
-				diagram.removeChild(subsetEntity);
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public boolean hasSubsetEntity() {
 		return getModelSourceConnections().size() != 0;
 	}
