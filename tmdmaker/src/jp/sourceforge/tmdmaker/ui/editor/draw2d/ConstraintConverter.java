@@ -103,4 +103,15 @@ public class ConstraintConverter {
 		c.y = c.y + 10;
 		model.setConstraint(c);
 	}
+
+	/**
+	 * モデルの位置が初期値か？.
+	 * 
+	 * @param model
+	 * @return 初期値の場合にtrueを返す.
+	 */
+	public static boolean isInitialPosition(ModelElement model) {
+		Constraint c = model.getConstraint();
+		return c.x == 0 && c.y == 0;
+	}
 }

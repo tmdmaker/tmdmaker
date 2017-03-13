@@ -44,7 +44,9 @@ public class RecursiveTableAdjuster implements ConstraintAdjuster {
 	public void adjust() {
 		AbstractEntityModel source = relationship.getSource();
 		RecursiveTable table = relationship.getTable();
-		ConstraintConverter.setTranslatedConstraint(table, source, 100, 0);
+		if (ConstraintConverter.isInitialPosition(table)) {
+			ConstraintConverter.setTranslatedConstraint(table, source, 100, 0);
+		}
 	}
 
 }

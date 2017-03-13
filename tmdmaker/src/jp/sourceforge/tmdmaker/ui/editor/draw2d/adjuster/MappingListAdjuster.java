@@ -45,7 +45,9 @@ public class MappingListAdjuster implements ConstraintAdjuster {
 		if (relationship.hasMappingList()) {
 			AbstractEntityModel source = relationship.getSource();
 			MappingList mappingList = relationship.getMappingList();
-			ConstraintConverter.setTranslatedConstraint(mappingList, source, 100, 100);
+			if (ConstraintConverter.isInitialPosition(mappingList)) {
+				ConstraintConverter.setTranslatedConstraint(mappingList, source, 100, 100);
+			}
 		}
 	}
 }

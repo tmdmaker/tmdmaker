@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.commands;
 
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Cardinality;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintAdjuster;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintAdjusterFactory;
 
 import org.eclipse.gef.commands.Command;
 
@@ -50,6 +52,8 @@ public class RelationshipEditCommand extends Command {
 		this.model.setSourceCardinality(this.sourceCardinality);
 		this.model.setTargetNoInstance(this.targetNoInstance);
 		this.model.setTargetCardinality(this.targetCardinality);
+		ConstraintAdjuster adjuster = ConstraintAdjusterFactory.getAdjuster(this.model);
+		adjuster.adjust();
 	}
 
 	/**
