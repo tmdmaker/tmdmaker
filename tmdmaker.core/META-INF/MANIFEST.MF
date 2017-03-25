@@ -12,7 +12,15 @@ Export-Package: jp.sourceforge.tmdmaker.model,
  jp.sourceforge.tmdmaker.model.importer,
  jp.sourceforge.tmdmaker.model.other,
  jp.sourceforge.tmdmaker.model.persistence,
- jp.sourceforge.tmdmaker.model.rule
-Bundle-ClassPath: lib/slf4j-api-1.7.7.jar,
- lib/slf4j-simple-1.7.7.jar,
- .
+ jp.sourceforge.tmdmaker.model.rule,
+ org.apache.commons.logging,
+ org.apache.commons.logging.impl,
+ org.slf4j,
+ org.slf4j.event,
+ org.slf4j.helpers,
+ org.slf4j.impl,
+ org.slf4j.spi
+Bundle-ClassPath: .,
+ lib/slf4j-api-1.7.25.jar,
+ lib/slf4j-simple-1.7.25.jar,
+ lib/jcl-over-slf4j-1.7.25.jar

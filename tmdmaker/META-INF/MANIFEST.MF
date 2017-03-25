@@ -15,10 +15,8 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
- lib/slf4j-api-1.7.7.jar,
- lib/slf4j-simple-1.7.7.jar
+ lib/commons-lang-2.6.jar
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider
 Export-Package: jp.sourceforge.tmdmaker,
  jp.sourceforge.tmdmaker.extension
-Import-Package: org.apache.commons.lang

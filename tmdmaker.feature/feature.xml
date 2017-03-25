@@ -25,13 +25,19 @@
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.draw2d"/>
-      <import plugin="org.eclipse.core.expressions"/>
       <import plugin="tmdmaker.imagegenerator" version="0.2.6" match="greaterOrEqual"/>
       <import plugin="tmdmaker.core" version="0.2.9" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="tmdmaker" version="0.2.8" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.expressions"/>
+      <import plugin="tmdmaker" version="0.2.5" match="greaterOrEqual"/>
       <import plugin="tmdmaker.ddlgenerator" version="0.2.5" match="greaterOrEqual"/>
       <import plugin="tmdmaker.htmlgenerator" version="0.2.5" match="greaterOrEqual"/>
       <import plugin="tmdmaker" version="0.2.10" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtend.lib" version="2.11.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.commons.lang"/>
+      <import plugin="org.slf4j.api"/>
+      <import plugin="org.apache.commons.logging"/>
    </requires>
 
    <plugin
