@@ -69,7 +69,7 @@ public class Entity2SubsetTypeRelationshipEditPart extends AbstractRelationshipE
 		if (partitionAttribute != null) {
 			String name = null;
 			if (relationship.isExceptNull()) {
-				name = "NULL(" + partitionAttribute.getName() + ")";
+				name = "NULL(" + partitionAttribute.getName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
 				name = partitionAttribute.getName();
 			}

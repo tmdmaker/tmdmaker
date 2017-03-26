@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.thoughtworks.xstream.XStream;
+
 import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
 import jp.sourceforge.tmdmaker.model.persistence.Serializer;
 import jp.sourceforge.tmdmaker.persistence.handler.SerializerHandler;
-
-import com.thoughtworks.xstream.XStream;
 
 /**
  * XStreamを使ったTMDシリアライズ用クラス
@@ -38,6 +41,9 @@ import com.thoughtworks.xstream.XStream;
 public class XStreamSerializer implements Serializer {
 	/** ファイルのエンコーディング */
 	private static final String ENCODING = "UTF-8";
+
+	/** logging */
+	private static Logger logger = LoggerFactory.getLogger(XStreamSerializer.class);
 
 	/** handlerを取得するためのfactory */
 	private PluginExtensionPointFactory<SerializerHandler> factory = new PluginExtensionPointFactory<SerializerHandler>(
@@ -55,7 +61,7 @@ public class XStreamSerializer implements Serializer {
 			Diagram before = fireBeforeSerialize(obj);
 			return serializeAsStream(before, before.getClass().getClassLoader());
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage());
 			throw new SerializationException(e);
 		}
 	}
@@ -70,8 +76,7 @@ public class XStreamSerializer implements Serializer {
 	 * @return TMD入力ストリーム
 	 * @throws UnsupportedEncodingException
 	 */
-	private InputStream serializeAsStream(Object obj, ClassLoader loader)
-			throws UnsupportedEncodingException {
+	private InputStream serializeAsStream(Object obj, ClassLoader loader) throws UnsupportedEncodingException {
 		String xml = serializeAsString(obj, loader);
 		return new ByteArrayInputStream(xml.getBytes(ENCODING));
 	}
@@ -89,8 +94,7 @@ public class XStreamSerializer implements Serializer {
 	private String serializeAsString(Object obj, ClassLoader loader) {
 		XStream xstream = new XStream();
 		xstream.setClassLoader(loader);
-		String result = "<?xml version=\"1.0\" encoding=\"" + ENCODING
-				+ "\"?>\n" + xstream.toXML(obj);
+		String result = "<?xml version=\"1.0\" encoding=\"" + ENCODING + "\"?>\n" + xstream.toXML(obj);
 
 		return fireAfterSerialize(result);
 	}
@@ -105,17 +109,16 @@ public class XStreamSerializer implements Serializer {
 	public Diagram deserialize(InputStream in) {
 		try {
 			String xml = loadStream(in, ENCODING);
-			System.out.println(getVersionFromXml(xml));
+			logger.debug(getVersionFromXml(xml));
 
 			String converted = fireBeforeDeserialize(xml);
-			Diagram diagram = (Diagram) deserialize(new ByteArrayInputStream(
-					converted.getBytes(ENCODING)), this.getClass()
-					.getClassLoader());
+			Diagram diagram = (Diagram) deserialize(new ByteArrayInputStream(converted.getBytes(ENCODING)),
+					this.getClass().getClassLoader());
 			fireAfterDeserialize(diagram);
 
 			return diagram;
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage());
 			throw new SerializationException(e);
 		}
 	}
@@ -160,9 +163,7 @@ public class XStreamSerializer implements Serializer {
 		if (xml.indexOf(VERSION_START_TAG) == -1) {
 			return "";
 		}
-		return xml.substring(
-				xml.indexOf(VERSION_START_TAG) + VERSION_START_TAG.length(),
-				xml.indexOf(VERSION_END_TAG));
+		return xml.substring(xml.indexOf(VERSION_START_TAG) + VERSION_START_TAG.length(), xml.indexOf(VERSION_END_TAG));
 	}
 
 	/**
@@ -175,8 +176,7 @@ public class XStreamSerializer implements Serializer {
 	 * @return TMD
 	 * @throws UnsupportedEncodingException
 	 */
-	private Object deserialize(InputStream in, ClassLoader loader)
-			throws UnsupportedEncodingException {
+	private Object deserialize(InputStream in, ClassLoader loader) throws UnsupportedEncodingException {
 		XStream xstream = new XStream();
 		xstream.setClassLoader(loader);
 
@@ -190,13 +190,13 @@ public class XStreamSerializer implements Serializer {
 			in.read(buf);
 			return new String(buf, encoding);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage());
 			throw new SerializationException(e);
 		} finally {
 			try {
 				in.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage());
 			}
 		}
 	}

@@ -51,7 +51,6 @@ public class AppearanceSetting {
 	 */
 	public void setColorEnabled(boolean colorEnabled) {
 		this.colorEnabled = colorEnabled;
-		System.out.println("setColorEnabled = " + colorEnabled);
 	}
 
 	private Map<ModelAppearance, Colors> colorMap = new HashMap<ModelAppearance, Colors>();

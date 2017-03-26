@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.3.1" useFeatures="true" includeLaunchers="true">
+<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.4.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/icons/tmd_about.gif"/>
@@ -45,6 +45,8 @@ Copyright 2009-2015 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
             winExtraLargeHigh="/icons/launcher/tmd_icon_256.bmp"/>
       </win>
    </launcher>
+
+   <intro introId="tmdmaker.rcp.intro"/>
 
    <vm>
    </vm>
@@ -457,7 +459,7 @@ Copyright 2009-2015 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
       <plugin id="tmdmaker.rcp"/>
       <plugin id="tmdmaker.rcp.nl_ja" fragment="true"/>
       <plugin id="tmdmaker.serializer"/>
-      <plugin id="tmdmaker.serializer.handler.patch0.2.x"/>
+      <plugin id="tmdmaker.serializer.handler.patch"/>
       <plugin id="tmdmaker.ui.menu"/>
    </plugins>
 

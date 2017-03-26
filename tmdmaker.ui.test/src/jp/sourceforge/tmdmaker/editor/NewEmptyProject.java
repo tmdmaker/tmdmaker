@@ -11,9 +11,10 @@ public class NewEmptyProject {
 
 	public void createProject(String projectName) throws Exception {
 		bot.menu("File").menu("New").menu("Project...").click();
-
+		bot.sleep(300);
 		SWTBotShell shell = bot.shell("New Project");
 		shell.activate();
+		bot.sleep(300);
 		SWTBotTree projectSelectionTree = bot.tree();
 		projectSelectionTree.expandNode("General").expandNode("Project")
 				.select();
@@ -28,6 +29,7 @@ public class NewEmptyProject {
 
 		});
 		bot.button("Next >").click();
+		bot.sleep(300);
 		bot.textWithLabel("Project name:").setText(projectName);
 		bot.button("Finish").click();
 		bot.waitUntil(Conditions.shellCloses(shell));

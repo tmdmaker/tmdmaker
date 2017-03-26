@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,17 +46,13 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	 * @param target
 	 *            ターゲット
 	 */
-	public Resource2ResourceRelationship(AbstractEntityModel source,
-			AbstractEntityModel target) {
+	public Resource2ResourceRelationship(AbstractEntityModel source, AbstractEntityModel target) {
 		setSource(source);
 		setTarget(target);
 
 		this.table = RelationshipRule.createCombinationTable(source, target);
-		this.table
-				.setConstraint(source.getConstraint().getTranslated(100, 100));
 
-		this.combinationTableConnection = new RelatedRelationship(this,
-				this.table);
+		this.combinationTableConnection = new RelatedRelationship(this, this.table);
 		this.setCenterMark(true);
 	}
 
@@ -120,8 +116,8 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	public void identifierChanged() {
 		table.fireIdentifierChanged(this);
 	}
-	
-	CombinationTable getTable() {
+
+	public CombinationTable getTable() {
 		return table;
 	}
 }

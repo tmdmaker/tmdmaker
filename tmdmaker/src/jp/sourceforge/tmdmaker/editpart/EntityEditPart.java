@@ -16,9 +16,7 @@
 package jp.sourceforge.tmdmaker.editpart;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.EntityEditComponentPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
@@ -93,17 +91,12 @@ public class EntityEditPart extends AbstractEntityModelEditPart<Entity> implemen
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new EntityComponentEditPolicy());
+				new EntityEditComponentPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	@Override
-	protected ModelEditDialog<Entity> getDialog() {
-		return new EntityEditDialog(getControllShell(), getModel());
-	}
-	
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {
 		return new EntityPropertySource(editor, this.getModel());

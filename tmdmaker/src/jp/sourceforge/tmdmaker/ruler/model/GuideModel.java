@@ -26,7 +26,7 @@ import java.io.Serializable;
  * 
  */
 public class GuideModel implements Serializable {
-	public static final String PROPERTY_POSITION = "property_position";
+	public static final String PROPERTY_POSITION = "property_position"; //$NON-NLS-1$
 	private static final long serialVersionUID = 1L;
 	/** ガイドの位置 */
 	int position;

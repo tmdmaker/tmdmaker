@@ -17,6 +17,7 @@ package jp.sourceforge.tmdmaker.dialog;
 
 import java.beans.PropertyChangeEvent;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.component.AttributeSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.ImplementInfoSettingPanel;
 import jp.sourceforge.tmdmaker.dialog.component.TableNameSettingPanel;
@@ -123,8 +124,8 @@ public class CombinationTableEditDialog extends ModelEditDialog<CombinationTable
 		panel1.setLayoutData(gridData);
 
 		typeCombo = new Combo(composite, SWT.READ_ONLY);
-		typeCombo.add("L-真");
-		typeCombo.add("F-真");
+		typeCombo.add(Messages.CombinationTable_LTruth);
+		typeCombo.add(Messages.CombinationTable_FTruth);
 		typeCombo.addSelectionListener(new SelectionAdapter() {
 
 			@Override

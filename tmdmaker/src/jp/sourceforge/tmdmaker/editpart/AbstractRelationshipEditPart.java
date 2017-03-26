@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.ConnectableElement;
-import jp.sourceforge.tmdmaker.model.ModelElement;
-
 import org.eclipse.draw2d.AbstractConnectionAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -36,18 +31,23 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.AnchorConstraintManager;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchor;
+
 /**
  * リレーションシップのコントローラの基底クラス
  * 
  * @author nakaG
  * 
  */
-public abstract class AbstractRelationshipEditPart extends
-		AbstractConnectionEditPart implements NodeEditPart,
-		PropertyChangeListener {
+public abstract class AbstractRelationshipEditPart extends AbstractConnectionEditPart
+		implements NodeEditPart, PropertyChangeListener {
 	/** logging */
-	protected static Logger logger = LoggerFactory
-			.getLogger(AbstractModelEditPart.class);
+	protected static Logger logger = LoggerFactory.getLogger(AbstractModelEditPart.class);
 	/** リレーションシップのアンカー */
 	private ConnectionAnchor anchor;
 
@@ -67,8 +67,7 @@ public abstract class AbstractRelationshipEditPart extends
 		if (anchor == null) {
 
 			// anchor = new ChopboxAnchor(getFigure());
-			anchor = new PolylineConnectionAnchor(
-					(PolylineConnection) getFigure());
+			anchor = new PolylineConnectionAnchor((PolylineConnection) getFigure());
 		}
 		return anchor;
 	}
@@ -80,8 +79,7 @@ public abstract class AbstractRelationshipEditPart extends
 	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
 	@Override
-	public ConnectionAnchor getSourceConnectionAnchor(
-			ConnectionEditPart connection) {
+	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
@@ -103,8 +101,7 @@ public abstract class AbstractRelationshipEditPart extends
 	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
 	@Override
-	public ConnectionAnchor getTargetConnectionAnchor(
-			ConnectionEditPart connection) {
+	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
@@ -127,16 +124,13 @@ public abstract class AbstractRelationshipEditPart extends
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(
-				AbstractEntityModel.PROPERTY_CONSTRAINT)) {
+		if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_CONSTRAINT)) {
 			logger.debug("Connection AbstractEntityModel.P_CONSTRAINT");
 			refreshVisuals();
-		} else if (evt.getPropertyName().equals(
-				ConnectableElement.P_SOURCE_CONNECTION)) {
+		} else if (evt.getPropertyName().equals(ConnectableElement.P_SOURCE_CONNECTION)) {
 			logger.debug("Connection AbstractEntityModel.P_SOURCE_CONNECTION");
 			refreshSourceConnections();
-		} else if (evt.getPropertyName().equals(
-				ConnectableElement.P_TARGET_CONNECTION)) {
+		} else if (evt.getPropertyName().equals(ConnectableElement.P_TARGET_CONNECTION)) {
 			logger.debug("Connection AbstractEntityModel.P_TARGET_CONNECTION");
 			refreshTargetConnections();
 		}
@@ -191,22 +185,17 @@ public abstract class AbstractRelationshipEditPart extends
 	protected void calculateAnchorLocation() {
 		AbstractConnectionModel relationship = (AbstractConnectionModel) getModel();
 
-		ConnectionAnchor sourceAnchor = this.getConnectionFigure()
-				.getSourceAnchor();
+		ConnectionAnchor sourceAnchor = this.getConnectionFigure().getSourceAnchor();
 
 		if (sourceAnchor instanceof XYChopboxAnchor) {
-			((XYChopboxAnchor) sourceAnchor).setLocation(
-					relationship.getSourceXp(), relationship.getSourceYp());
+			((XYChopboxAnchor) sourceAnchor).setLocation(AnchorConstraintManager.getSourceAnchorConstraint(relationship));
 		}
 
-		ConnectionAnchor targetAnchor = this.getConnectionFigure()
-				.getTargetAnchor();
+		ConnectionAnchor targetAnchor = this.getConnectionFigure().getTargetAnchor();
 
 		if (targetAnchor instanceof XYChopboxAnchor) {
-			((XYChopboxAnchor) targetAnchor).setLocation(
-					relationship.getTargetXp(), relationship.getTargetYp());
+			((XYChopboxAnchor) targetAnchor).setLocation(AnchorConstraintManager.getTargetAnchorConstraint(relationship));
 		}
-
 	}
 
 	/**
@@ -214,8 +203,7 @@ public abstract class AbstractRelationshipEditPart extends
 	 * @author nakaG
 	 * 
 	 */
-	protected static class PolylineConnectionAnchor extends
-			AbstractConnectionAnchor {
+	protected static class PolylineConnectionAnchor extends AbstractConnectionAnchor {
 		/** コネクション */
 		private PolylineConnection owner;
 
@@ -263,7 +251,5 @@ public abstract class AbstractRelationshipEditPart extends
 				return getLocation(null);
 			}
 		}
-
 	}
-
 }

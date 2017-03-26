@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,20 +18,6 @@ package jp.sourceforge.tmdmaker.editpart;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.figure.EntityFigure;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.ConnectableElement;
-import jp.sourceforge.tmdmaker.model.Constraint;
-import jp.sourceforge.tmdmaker.model.IAttribute;
-import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.ui.command.AttributeEditCommand;
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
-import jp.sourceforge.tmdmaker.util.ConstraintConverter;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -42,9 +28,21 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.swt.graphics.Color;
+
+import jp.sourceforge.tmdmaker.figure.EntityFigure;
+import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.ConnectableElement;
+import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.AnchorConstraintManager;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchor;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchorHelper;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearanceSetting;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 /**
  * エンティティ系モデルのコントローラの基底クラス
@@ -53,7 +51,7 @@ import org.eclipse.swt.graphics.Color;
  * 
  */
 public abstract class AbstractModelEditPart<T extends ConnectableElement>
-		extends AbstractTMDEditPart<T>implements NodeEditPart {
+		extends AbstractTMDEditPart<T> implements NodeEditPart {
 
 	/** このコントローラで利用するアンカー */
 	private ConnectionAnchor anchor;
@@ -111,13 +109,10 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-		// if (!(connection instanceof RelationshipEditPart)) {
-		// return new ChopboxAnchor(this.getFigure());
-		// }
 		AbstractConnectionModel relationship = (AbstractConnectionModel) connection.getModel();
 
-		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(), relationship.getSourceXp(),
-				relationship.getSourceYp());
+		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
+				AnchorConstraintManager.getSourceAnchorConstraint(relationship));
 		return anchor;
 	}
 
@@ -129,45 +124,32 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		IFigure thisFigure = this.getFigure();
 		if (request instanceof ReconnectRequest) {
 			ReconnectRequest reconnectRequest = (ReconnectRequest) request;
 
 			ConnectionEditPart connectionEditPart = reconnectRequest.getConnectionEditPart();
 
-			// if (!(connectionEditPart instanceof RelationshipEditPart)) {
-			// return new ChopboxAnchor(this.getFigure());
-			// }
 			AbstractConnectionModel relationship = (AbstractConnectionModel) connectionEditPart
 					.getModel();
 			if (relationship.getSource() == relationship.getTarget()) {
-				return new XYChopboxAnchor(this.getFigure());
+				return new XYChopboxAnchor(thisFigure);
 			}
 			EditPart editPart = reconnectRequest.getTarget();
 			if (editPart == null || !editPart.getModel().equals(relationship.getSource())) {
-				return new XYChopboxAnchor(this.getFigure());
+				return new XYChopboxAnchor(thisFigure);
 			}
 
 			Point location = new Point(reconnectRequest.getLocation());
-			this.getFigure().translateToRelative(location);
+			thisFigure.translateToRelative(location);
 			IFigure sourceFigure = ((AbstractModelEditPart<?>) connectionEditPart.getSource())
 					.getFigure();
-			XYChopboxAnchor anchor = new XYChopboxAnchor(getFigure());
-
-			Rectangle bounds = sourceFigure.getBounds();
-
-			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4),
-					bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
-
-			if (!centerRectangle.contains(location)) {
-				Point point = new XYChopboxAnchorHelper(bounds).getIntersectionPoint(location);
-				int xp = 100 * (point.x - bounds.x) / bounds.width;
-				int yp = 100 * (point.y - bounds.y) / bounds.height;
-				anchor.setLocation(xp, yp);
-			}
-			return anchor;
+			AnchorConstraint newAnchorConstraint = new XYChopboxAnchorHelper(
+					sourceFigure.getBounds()).calculateAnchorConstraint(location);
+			return new XYChopboxAnchor(thisFigure, newAnchorConstraint);
 		}
 
-		return new XYChopboxAnchor(getFigure());
+		return new XYChopboxAnchor(thisFigure);
 	}
 
 	/**
@@ -178,15 +160,9 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-		// if (!(connection instanceof RelationshipEditPart)) {
-		// return new ChopboxAnchor(this.getFigure());
-		// }
 		AbstractConnectionModel relationship = (AbstractConnectionModel) connection.getModel();
-		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(), relationship.getTargetXp(),
-				relationship.getTargetYp());
-
-		if (relationship.getTargetXp() != -1 && relationship.getTargetYp() != -1) {
-		}
+		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
+				AnchorConstraintManager.getTargetAnchorConstraint(relationship));
 
 		return anchor;
 	}
@@ -199,48 +175,31 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		System.out.println("getTargetConnectionAnchor(Request request)");
+		logger.debug("getTargetConnectionAnchor(Request request)");
+		IFigure thisFigure = this.getFigure();
 		if (request instanceof ReconnectRequest) {
 			ReconnectRequest reconnectRequest = (ReconnectRequest) request;
 			ConnectionEditPart connectionEditPart = reconnectRequest.getConnectionEditPart();
 
-			// if (!(connectionEditPart instanceof RelationshipEditPart)) {
-			// return new ChopboxAnchor(this.getFigure());
-			// }
 			AbstractConnectionModel relationship = (AbstractConnectionModel) connectionEditPart
 					.getModel();
 			if (relationship.getSource() == relationship.getTarget()) {
-				return new XYChopboxAnchor(this.getFigure());
+				return new XYChopboxAnchor(thisFigure);
 			}
 			EditPart editPart = reconnectRequest.getTarget();
 
 			if (editPart == null || !editPart.getModel().equals(relationship.getTarget())) {
-				return new XYChopboxAnchor(this.getFigure());
+				return new XYChopboxAnchor(thisFigure);
 			}
 			Point location = new Point(reconnectRequest.getLocation());
-			this.getFigure().translateToRelative(location);
+			thisFigure.translateToRelative(location);
 			IFigure targetFigure = ((AbstractModelEditPart<?>) connectionEditPart.getTarget())
 					.getFigure();
-
-			XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
-					relationship.getTargetXp(), relationship.getTargetYp());
-
-			Rectangle bounds = targetFigure.getBounds();
-
-			Rectangle centerRectangle = new Rectangle(bounds.x + (bounds.width / 4),
-					bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
-
-			if (!centerRectangle.contains(location)) {
-				Point point = new XYChopboxAnchorHelper(bounds).getIntersectionPoint(location);
-				int xp = 100 * (point.x - bounds.x) / bounds.width;
-				int yp = 100 * (point.y - bounds.y) / bounds.height;
-
-				anchor.setLocation(xp, yp);
-			}
-
-			return anchor;
+			AnchorConstraint newAnchorConstraint = new XYChopboxAnchorHelper(
+					targetFigure.getBounds()).calculateAnchorConstraint(location);
+			return new XYChopboxAnchor(thisFigure, newAnchorConstraint);
 		}
-		return new XYChopboxAnchor(getFigure());
+		return new XYChopboxAnchor(thisFigure);
 	}
 
 	/**
@@ -398,15 +357,14 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	protected void refreshVisuals() {
 		logger.debug(getClass().toString() + "(" + getModel().getName() + ") #refreshVisuals()");
 		super.refreshVisuals();
-		Constraint constraint = getModel().getConstraint();
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), convert(constraint));
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(),
+				convert(getModel()));
 
 		updateFigure(getFigure());
 	}
-	
-	protected Rectangle convert(Constraint constraint)
-	{
-		return ConstraintConverter.toRectangleWithoutHeightWidth(constraint);
+
+	protected Rectangle convert(T model) {
+		return ConstraintConverter.getRectangle(model);
 	}
 
 	public void updateAppearance() {
@@ -430,30 +388,6 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 *            更新するFigure
 	 */
 	protected abstract void updateFigure(IFigure figure);
-
-	/**
-	 * アトリビュート編集コマンドを作成する
-	 * 
-	 * @param ccommand
-	 *            コマンド
-	 * @param entity
-	 *            モデル
-	 * @param editAttributeList
-	 *            編集したアトリビュートリスト
-	 */
-	protected void addAttributeEditCommands(CompoundCommand ccommand, AbstractEntityModel entity,
-			List<EditAttribute> editAttributeList) {
-		for (EditAttribute ea : editAttributeList) {
-			IAttribute original = ea.getOriginalAttribute();
-			if (ea.isEdited() && !ea.isAdded()) {
-				Attribute editedValueAttribute = new Attribute();
-				ea.copyTo(editedValueAttribute);
-				AttributeEditCommand editCommand = new AttributeEditCommand(original,
-						editedValueAttribute, entity);
-				ccommand.add(editCommand);
-			}
-		}
-	}
 
 	/**
 	 * {@inheritDoc}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,15 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.RecursiveTableComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
-import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * 再帰表のコントローラ
@@ -42,12 +36,11 @@ public class RecursiveTableEditPart extends AbstractEntityModelEditPart<Recursiv
 	/**
 	 * コンストラクタ
 	 */
-	public RecursiveTableEditPart(RecursiveTable table)
-	{
+	public RecursiveTableEditPart(RecursiveTable table) {
 		super();
 		setModel(table);
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -58,7 +51,7 @@ public class RecursiveTableEditPart extends AbstractEntityModelEditPart<Recursiv
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		RecursiveTable table = getModel();
-		
+
 		entityFigure.setNotImplement(table.isNotImplement());
 		entityFigure.removeAllRelationship();
 		entityFigure.setEntityName(table.getName());
@@ -70,7 +63,7 @@ public class RecursiveTableEditPart extends AbstractEntityModelEditPart<Recursiv
 	protected ModelAppearance getAppearance() {
 		return ModelAppearance.RECURSIVE_TABLE;
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -79,39 +72,8 @@ public class RecursiveTableEditPart extends AbstractEntityModelEditPart<Recursiv
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new RecursiveTableComponentEditPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new TMDModelGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RecursiveTableComponentEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
-	}
-
-	@Override
-	protected ModelEditDialog<RecursiveTable> getDialog()
-	{
-		return new TableEditDialog<RecursiveTable>(getControllShell(), Messages.EditRecursiveTable, getModel());
-	}
-
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class RecursiveTableComponentEditPolicy extends
-			ComponentEditPolicy {
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			RecursiveTable model = (RecursiveTable) getHost().getModel();
-			return new TableDeleteCommand(model, model
-					.getModelTargetConnections().get(0));
-		}
-
 	}
 }

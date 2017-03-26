@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
@@ -49,11 +50,11 @@ import jp.sourceforge.tmdmaker.model.other.Memo;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.property.DiagramPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.command.EntityModelAddCommand;
-import jp.sourceforge.tmdmaker.ui.command.MemoAddCommand;
-import jp.sourceforge.tmdmaker.ui.command.MemoChangeCommand;
-import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
-import jp.sourceforge.tmdmaker.util.ConstraintConverter;
+import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityModelAddCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.MemoAddCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.MemoChangeCommand;
 
 /**
  * Diagramのコントローラ
@@ -61,7 +62,7 @@ import jp.sourceforge.tmdmaker.util.ConstraintConverter;
  * @author nakaG
  * 
  */
-public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPropertyAvailable {
+public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPropertyAvailable {
 
 	/**
 	 * コンストラクタ
@@ -93,9 +94,7 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramEditPolicy());
-		// installEditPolicy(EditPolicy.LAYOUT_ROLE, new
-		// DiagramEditPolicy((XYLayout) getContentPane().getLayoutManager()));
-		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy());
+		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$
 	}
 
 	/**
@@ -123,30 +122,11 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#onDoubleClicked()
-	 */
-	@Override
-	protected void onDoubleClicked() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
 	 * 
 	 * @author nakaG
 	 * 
 	 */
 	private class DiagramEditPolicy extends XYLayoutEditPolicy {
-
-		// /**
-		// *
-		// */
-		// public DiagramEditPolicy(XYLayout layout) {
-		// super();
-		// setXyLayout(layout);
-		// }
 
 		/**
 		 * 
@@ -157,7 +137,6 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 		@Override
 		protected EditPolicy createChildEditPolicy(EditPart child) {
 			logger.debug(getClass() + "#createChildEditPolicy()");
-			// return new NonResizableEditPolicy();
 			return new ResizableEditPolicy();
 		}
 
@@ -169,21 +148,21 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 		 *      java.lang.Object)
 		 */
 		@Override
-		protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
+		protected Command createChangeConstraintCommand(EditPart child, Object rectangle) {
 			logger.debug(getClass() + "#createChangeConstraintCommand()");
-			ModelConstraintChangeCommand command = new ModelConstraintChangeCommand(
+			ConstraintChangeCommand command = new ConstraintChangeCommand(
 					(ModelElement) child.getModel(),
-					ConstraintConverter.toConstraint((Rectangle) constraint));
+					(Rectangle) rectangle);
 			return command;
 		}
 
 		@Override
 		protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child,
-				Object constraint) {
+				Object rectangle) {
 			logger.debug("resizedirection:" + request.getResizeDirection());
 			logger.debug("NORTH_SOUTH/EAST_WEST:" + PositionConstants.NORTH_SOUTH + "/"
 					+ PositionConstants.EAST_WEST);
-			return super.createChangeConstraintCommand(request, child, constraint);
+			return super.createChangeConstraintCommand(request, child, rectangle);
 		}
 
 		/**
@@ -194,39 +173,36 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram>implements IPro
 		 */
 		@Override
 		protected Command getCreateCommand(CreateRequest request) {
-			logger.debug(getClass() + "#getCreateCommand()"+ request.getNewObjectType());
-			Rectangle constraint = (Rectangle) getConstraintFor(request);
+			logger.debug(getClass() + "#getCreateCommand()" + request.getNewObjectType());
+			Rectangle rectangle = (Rectangle) getConstraintFor(request);
 			ConnectableElement model = (ConnectableElement) request.getNewObject();
-			model.setConstraint(ConstraintConverter.toConstraintWithoutHeightWidth(constraint));
-			logger.debug(model.getConstraint().toString());
+			ConstraintConverter.setConstraint(model, rectangle.resize(-1, -1));
 			if (model instanceof TurboFile) {
-				return createTurboFileCommand(constraint, model);
+				return createTurboFileCommand(rectangle, model);
 			}
 			// EntityまたはLaputa
 			if (model instanceof AbstractEntityModel) {
-				return new EntityModelAddCommand(getModel(), constraint.x, constraint.y);
+				return new EntityModelAddCommand(getModel(), rectangle.x, rectangle.y);
 			}
 			// Memo
 			if (model instanceof Memo) {
-				return createMemoCommand(constraint, model);
+				return createMemoCommand(rectangle, model);
 			}
 			return null;
 		}
 
-		private EntityModelAddCommand createTurboFileCommand(Rectangle constraint,
+		private EntityModelAddCommand createTurboFileCommand(Rectangle rectangle,
 				ConnectableElement model) {
 			TurboFile turbo = (TurboFile) model;
-			turbo.setName("ターボファイル");
-			return new EntityModelAddCommand(getModel(), turbo, constraint.x, constraint.y);
+			turbo.setName(Messages.TurboFile);
+			return new EntityModelAddCommand(getModel(), turbo, rectangle.x, rectangle.y);
 		}
 
-		private Command createMemoCommand(Rectangle constraint, ConnectableElement model) {
+		private Command createMemoCommand(Rectangle rectangle, ConnectableElement model) {
 			Memo memo = (Memo) model;
-			final String DEFAULT_MEMO_TEXT = "Memo";
-
 			CompoundCommand command = new CompoundCommand();
-			command.add(new MemoAddCommand(getModel(), memo, constraint.x, constraint.y));
-			command.add(new MemoChangeCommand(memo, DEFAULT_MEMO_TEXT));
+			command.add(new MemoAddCommand(getModel(), memo, rectangle.x, rectangle.y));
+			command.add(new MemoChangeCommand(memo, Messages.Memo));
 			return command;
 		}
 	}

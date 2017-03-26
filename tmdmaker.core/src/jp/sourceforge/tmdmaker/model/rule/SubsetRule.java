@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 package jp.sourceforge.tmdmaker.model.rule;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Constraint;
-import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 
@@ -45,29 +43,8 @@ public class SubsetRule {
 			subsetType = new SubsetType();
 			subsetType.setSubsetType(SubsetType.SubsetTypeValue.SAME);
 			subsetType.setExceptNull(false);
-			subsetType.setConstraint(calculateSubsetTypePosition(model));
 		}
 		return subsetType;
-	}
-
-	private static Constraint calculateSubsetTypePosition(AbstractEntityModel model) {
-		final int MODE_TO_TYPE_DISTANCE = 70;
-		int rx = model.calcurateMaxIdentifierRefSize();
-		int ax = model.calcurateMaxAttributeNameSize();
-		int x = ((rx + ax) * CHAR_SIZE) / 2;
-
-		// y軸の位置
-		int identifierCount = model.getReusedIdentifiers().size();
-		if (model instanceof Entity) {
-			identifierCount++;
-		}
-
-		int attributeCount = model.getAttributes().size();
-		int acount = Math.max(identifierCount, attributeCount);
-		int y = MODE_TO_TYPE_DISTANCE + CHAR_SIZE * acount;
-		Constraint constraint = model.getConstraint().getTranslated(x, y);
-
-		return constraint;
 	}
 
 	/**

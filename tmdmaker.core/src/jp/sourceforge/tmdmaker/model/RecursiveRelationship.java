@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@ public class RecursiveRelationship extends AbstractRelationship {
 		setSource(source);
 		this.diagram = getSource().getDiagram();
 		this.table = RelationshipRule.createRecursiveTable(source);
-		table.setConstraint(source.getConstraint().getTranslated(100, 0));
 		setTarget(table);
 	}
 
@@ -110,5 +109,9 @@ public class RecursiveRelationship extends AbstractRelationship {
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	public RecursiveTable getTable() {
+		return table;
 	}
 }

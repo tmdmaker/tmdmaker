@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.MultivalueOrEntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
-import jp.sourceforge.tmdmaker.ui.command.TableDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * 多値のORのコントローラ
@@ -39,22 +33,15 @@ import org.eclipse.gef.requests.GroupRequest;
  * 
  */
 public class MultivalueOrEditPart extends AbstractEntityModelEditPart<MultivalueOrEntity> {
-	
+
 	/**
 	 * コンストラクタ
 	 */
-	public MultivalueOrEditPart(MultivalueOrEntity entity)
-	{
+	public MultivalueOrEditPart(MultivalueOrEntity entity) {
 		super();
 		setModel(entity);
 	}
 
-	@Override
-	protected ModelEditDialog<MultivalueOrEntity> getDialog()
-	{
-		return new TableEditDialog<MultivalueOrEntity>(getControllShell(), Messages.EditMultivalueOr, getModel());
-	}
-	
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -65,7 +52,7 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 	protected void updateFigure(IFigure figure) {
 		EntityFigure entityFigure = (EntityFigure) figure;
 		MultivalueOrEntity entity = getModel();
-		
+
 		entityFigure.setNotImplement(entity.isNotImplement());
 		entityFigure.removeAllRelationship();
 		entityFigure.setEntityName(entity.getName());
@@ -78,7 +65,7 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 	protected ModelAppearance getAppearance() {
 		return ModelAppearance.MULTIVALUE_OR;
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -87,34 +74,10 @@ public class MultivalueOrEditPart extends AbstractEntityModelEditPart<Multivalue
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new MultivalueOrEntityComponentEditPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new TMDModelGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new MultivalueOrEntityComponentEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 
-	/**
-	 * 
-	 * @author nakaG
-	 * 
-	 */
-	private static class MultivalueOrEntityComponentEditPolicy extends
-			ComponentEditPolicy {
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-		 */
-		@Override
-		protected Command createDeleteCommand(GroupRequest deleteRequest) {
-			MultivalueOrEntity model = (MultivalueOrEntity) getHost()
-					.getModel();
-			return new TableDeleteCommand(model, model
-					.getModelTargetConnections().get(0));
-		}
-
-	}
 
 }

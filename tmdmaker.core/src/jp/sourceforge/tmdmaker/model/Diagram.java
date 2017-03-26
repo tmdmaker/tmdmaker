@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
-import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 
 /**
  * TMのダイアグラムを表すクラス
@@ -201,12 +200,9 @@ public class Diagram extends ModelElement {
 	 */
 	public VirtualSuperset createVirtualSuperset(String virtualSupersetName,
 			List<AbstractEntityModel> virtualSubsets) {
-		VirtualSuperset superset = VirtualEntityRule.createVirtualSuperset(virtualSupersetName);
-		this.addChild(superset);
-		for (AbstractEntityModel m : virtualSubsets) {
-			superset.connectSubset(m);
-		}
-		// supersetとtypeの配置は別途moveメソッドで実施を想定
+		VirtualSupersetType2VirtualSupersetRelationship r = new VirtualSupersetType2VirtualSupersetRelationship(virtualSupersetName, virtualSubsets);
+		VirtualSuperset superset = r.getSuperset();
+		r.connect();
 		return superset;
 	}
 
@@ -214,6 +210,16 @@ public class Diagram extends ModelElement {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (ModelElement m : getChildren()) {
 			if (m instanceof AbstractEntityModel && !excludes.contains(m)) {
+				list.add((AbstractEntityModel)m);
+			}
+		}
+		return list;
+	}
+
+	public List<AbstractEntityModel> findModelByName(String name) {
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		for (ModelElement m : getChildren()) {
+			if (m instanceof AbstractEntityModel && name.equals(m.getName())) {
 				list.add((AbstractEntityModel)m);
 			}
 		}

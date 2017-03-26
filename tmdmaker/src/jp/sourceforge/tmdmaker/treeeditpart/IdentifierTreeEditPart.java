@@ -48,7 +48,7 @@ public class IdentifierTreeEditPart extends AbstractTreeEditPart implements Prop
 
 	@Override
 	protected Image getImage() {
-		return TMDPlugin.getImage("icons/outline/identifier.png");
+		return TMDPlugin.getImage("icons/outline/identifier.png"); //$NON-NLS-1$
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class IdentifierTreeEditPart extends AbstractTreeEditPart implements Prop
 		if (evt.getPropertyName().equals(Identifier.PROPERTY_NAME)) {
 			refreshVisuals();
 	    } else {
-			logger.warn("Not Handle Event Occured.");
+			logger.warn("Not Handle Event Occured."); //$NON-NLS-1$
 		}
 	}
 

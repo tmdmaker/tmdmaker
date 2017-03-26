@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Cardinality;
-import jp.sourceforge.tmdmaker.ui.command.ConnectionDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.command.RelationshipEditCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.RelationshipEditCommand;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -44,16 +44,15 @@ import org.eclipse.jface.dialogs.Dialog;
  * 
  */
 public class RelationshipEditPart extends AbstractRelationshipEditPart {
-	
+
 	/**
 	 * コンストラクタ
 	 */
-	public RelationshipEditPart(AbstractRelationship relationship)
-	{
+	public RelationshipEditPart(AbstractRelationship relationship) {
 		super();
 		setModel(relationship);
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -76,16 +75,14 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	protected void updateFigure(RelationshipFigure connection) {
 		AbstractRelationship model = (AbstractRelationship) getModel();
 
-		connection.createSourceDecoration(model.getSourceCardinality().equals(
-				Cardinality.MANY));
+		connection.createSourceDecoration(model.getSourceCardinality().equals(Cardinality.MANY));
 		if (model.isSourceNoInstance()) {
 			connection.createSourceZeroCardinalityDecoration();
 		} else {
 			connection.removeSourceZeroCardinalityDecoration();
 		}
 
-		connection.createTargetDecoration(model.getTargetCardinality().equals(
-				Cardinality.MANY));
+		connection.createTargetDecoration(model.getTargetCardinality().equals(Cardinality.MANY));
 		if (model.isTargetNoInstance()) {
 			connection.createTargetZeroCardinalityDecoration();
 		} else {
@@ -124,16 +121,14 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
-				new ConnectionEndpointEditPolicy());
-		installEditPolicy(EditPolicy.CONNECTION_ROLE,
-				new RelationshipEditPolicy() {
-					protected Command getDeleteCommand(GroupRequest request) {
-						ConnectionDeleteCommand cmd = new ConnectionDeleteCommand(
-								(AbstractConnectionModel) getModel());
-						return cmd;
-					}
-				});
+		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
+		installEditPolicy(EditPolicy.CONNECTION_ROLE, new RelationshipEditPolicy() {
+			protected Command getDeleteCommand(GroupRequest request) {
+				ConnectionDeleteCommand cmd = new ConnectionDeleteCommand(
+						(AbstractConnectionModel) getModel());
+				return cmd;
+			}
+		});
 	}
 
 	/**
@@ -143,8 +138,8 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 		AbstractRelationship model = (AbstractRelationship) getModel();
 		AbstractEntityModel source = model.getSource();
 		AbstractEntityModel target = model.getTarget();
-		RelationshipEditDialog dialog = new RelationshipEditDialog(getViewer()
-				.getControl().getShell(), source.getName(), target.getName(),
+		RelationshipEditDialog dialog = new RelationshipEditDialog(
+				getViewer().getControl().getShell(), source.getName(), target.getName(),
 				model.getSourceCardinality(), model.getTargetCardinality(),
 				model.isSourceNoInstance(), model.isTargetNoInstance());
 		if (dialog.open() == Dialog.OK) {
@@ -167,14 +162,12 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(
-				AbstractConnectionModel.PROPERTY_SOURCE_CARDINALITY)) {
+		if (evt.getPropertyName().equals(AbstractConnectionModel.PROPERTY_SOURCE_CARDINALITY)) {
 			refreshVisuals();
-		} else if (evt.getPropertyName().equals(
-				AbstractConnectionModel.PROPERTY_TARGET_CARDINALITY)) {
+		} else if (evt.getPropertyName()
+				.equals(AbstractConnectionModel.PROPERTY_TARGET_CARDINALITY)) {
 			refreshVisuals();
-		} else if (evt.getPropertyName().equals(
-				AbstractConnectionModel.PROPERTY_CONNECTION)) {
+		} else if (evt.getPropertyName().equals(AbstractConnectionModel.PROPERTY_CONNECTION)) {
 			refreshVisuals();
 		} else {
 			super.propertyChange(evt);

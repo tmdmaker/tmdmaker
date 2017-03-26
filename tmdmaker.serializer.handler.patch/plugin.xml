@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="tmdmaker.serializer.handler">
+      <handler
+            class="jp.sourceforge.tmdmaker.serializer.handler.patch.Patch023SerializerHandler"
+            name="Patch023SerializerHandler">
+      </handler>
+      <handler
+            class="jp.sourceforge.tmdmaker.serializer.handler.patch.Patch024SerializerHandler"
+            name="Patch024SerializerHandler">
+      </handler>
+      <handler
+            class="jp.sourceforge.tmdmaker.serializer.handler.patch.Patch026SerializerHandler"
+            name="Patch026SerializerHandler">
+      </handler>
+      <handler
+            class="jp.sourceforge.tmdmaker.serializer.handler.patch.Patch030SerializerHandler"
+            name="Patch030SerializerHandler">
+      </handler>
+      <handler
+            class="jp.sourceforge.tmdmaker.serializer.handler.patch.Patch031SerializerHandler"
+            name="Patch031SerializerHandler">
+      </handler>
+      <handler
+            class="jp.sourceforge.tmdmaker.serializer.handler.patch.Patch040SerializerHandler"
+            name="Patch040SerializerHandler">
+      </handler>
+   </extension>
+
+</plugin>

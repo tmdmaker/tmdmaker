@@ -23,8 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.slf4j.LoggerFactory;
@@ -66,21 +72,24 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	private static Map<Type, String> icons = new HashMap<Type, String>();
 
 	static {
-		icons.put(CombinationTable.class, "icons/outline/combination_table.png");
-		icons.put(SubsetEntity.class, "icons/outline/subset_resource.png");
-		icons.put(VirtualEntity.class, "icons/outline/virtual_entity.png");
-		icons.put(MultivalueOrEntity.class, "icons/outline/multivalue_or.png");
-		icons.put(Detail.class, "icons/outline/detail.png");
-		icons.put(RecursiveTable.class, "icons/outline/recursive_table.png");
-		icons.put(MappingList.class, "icons/outline/mapping_list.png");
-		icons.put(Laputa.class, "icons/outline/laputa.png");
-		icons.put(VirtualSuperset.class, "icons/outline/virtual_entity.png");
-		icons.put(TurboFile.class, "icons/outline/virtual_entity.png");
+		icons.put(CombinationTable.class, "icons/outline/combination_table.png"); //$NON-NLS-1$
+		icons.put(SubsetEntity.class, "icons/outline/subset_resource.png"); //$NON-NLS-1$
+		icons.put(VirtualEntity.class, "icons/outline/virtual_entity.png"); //$NON-NLS-1$
+		icons.put(MultivalueOrEntity.class, "icons/outline/multivalue_or.png"); //$NON-NLS-1$
+		icons.put(Detail.class, "icons/outline/detail.png"); //$NON-NLS-1$
+		icons.put(RecursiveTable.class, "icons/outline/recursive_table.png"); //$NON-NLS-1$
+		icons.put(MappingList.class, "icons/outline/mapping_list.png"); //$NON-NLS-1$
+		icons.put(Laputa.class, "icons/outline/laputa.png"); //$NON-NLS-1$
+		icons.put(VirtualSuperset.class, "icons/outline/virtual_entity.png"); //$NON-NLS-1$
+		icons.put(TurboFile.class, "icons/outline/virtual_entity.png"); //$NON-NLS-1$
 	}
 
-	public AbstractEntityModelTreeEditPart(T model) {
+	protected EditPolicy componentPolicy;
+	
+	public AbstractEntityModelTreeEditPart(T model, EditPolicy policy) {
 		super();
 		setModel(model);
+		this.componentPolicy = policy;
 	}
 
 	// getModel()でツリー要素の対象モデルのインスタンスが取れる。
@@ -88,6 +97,38 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	@Override
 	public T getModel() {
 		return (T) super.getModel();
+	}
+	
+	@Override
+	public DragTracker getDragTracker(Request request) {
+		return new SelectEditPartTracker(this);
+	}
+	
+	@Override
+	public void performRequest(Request request) {
+		if (request.getType() == RequestConstants.REQ_OPEN) {
+			executeEditCommand(getCommand(request));
+		}
+	}
+	
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, this.componentPolicy);
+	}
+	
+	/**
+	 * 編集コマンドを実行する。
+	 *
+	 * @param command
+	 */
+	protected void executeEditCommand(Command command) {
+		getViewer().getEditDomain().getCommandStack().execute(command);
 	}
 
 	List<List<?>> children = new ArrayList<List<?>>();

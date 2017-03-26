@@ -24,6 +24,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.sourceforge.tmdmaker.model.constraint.Constraint;
 import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
 /**
@@ -535,31 +536,6 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		r2.connect();
 		getDiagram().addChild(subset);
 		return subset;
-	}
-
-	public boolean removeSubset(SubsetEntity subset) {
-		if (!subset.isDeletable()) {
-			return false;
-		}
-		SubsetType subsetType = findSubsetType();
-		if (subsetType == null) {
-			return false;
-		}
-		if (subsetType.removeSubsetEntity(subset)) {
-			removeSubsetTypeIfEmpty(subsetType);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private void removeSubsetTypeIfEmpty(SubsetType subsetType) {
-		if (!subsetType.hasSubsetEntity()) {
-			Entity2SubsetTypeRelationship r = (Entity2SubsetTypeRelationship) subsetType
-					.getModelTargetConnections().get(0);
-			r.disconnect();
-			getDiagram().removeChild(subsetType);
-		}
 	}
 
 	/**

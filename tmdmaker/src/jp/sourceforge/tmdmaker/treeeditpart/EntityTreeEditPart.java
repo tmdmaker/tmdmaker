@@ -10,6 +10,7 @@ import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.property.EntityPropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -24,8 +25,8 @@ public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart<Entity> 
 	 * コンストラクタ
 	 * @param model
 	 */
-	public EntityTreeEditPart(Entity model) {
-		super(model);
+	public EntityTreeEditPart(Entity model, EditPolicy policy) {
+		super(model, policy);
 	}
 
 	@Override
@@ -49,11 +50,11 @@ public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart<Entity> 
 	@Override
 	protected Image getImage() {
 		if (getModel().getEntityType() == EntityType.RESOURCE){
-			return TMDPlugin.getImage("icons/outline/resource.png");
+			return TMDPlugin.getImage("icons/outline/resource.png"); //$NON-NLS-1$
 		}else if(getModel().getEntityType() == EntityType.EVENT){
-			return TMDPlugin.getImage("icons/outline/event.png");
+			return TMDPlugin.getImage("icons/outline/event.png"); //$NON-NLS-1$
 		}else if(getModel().getEntityType() == EntityType.MO){
-			return TMDPlugin.getImage("icons/outline/multi_or.png");
+			return TMDPlugin.getImage("icons/outline/multi_or.png"); //$NON-NLS-1$
 		}
 		return super.getImage();
 	}

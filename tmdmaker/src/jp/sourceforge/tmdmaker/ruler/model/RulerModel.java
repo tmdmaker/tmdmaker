@@ -30,8 +30,8 @@ import org.eclipse.gef.rulers.RulerProvider;
  * 
  */
 public class RulerModel implements Serializable {
-	public static final String PROPERTY_CHILDREN = "property_children";
-	public static final String PROPERTY_UNIT = "property_unit";
+	public static final String PROPERTY_CHILDREN = "property_children"; //$NON-NLS-1$
+	public static final String PROPERTY_UNIT = "property_unit"; //$NON-NLS-1$
 	private static final long serialVersionUID = 1L;
 	/** プロパティ変更通知リスナー */
 	protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);

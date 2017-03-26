@@ -40,13 +40,13 @@ public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart implements
 			return "";
 		}
 		else{
-			return model.getName() + "(R)";
+			return model.getName() + "(R)"; //$NON-NLS-1$
 		}
 	}
 
 	@Override
 	protected Image getImage() {
-		return TMDPlugin.getImage("icons/outline/identifier.png");
+		return TMDPlugin.getImage("icons/outline/identifier.png"); //$NON-NLS-1$
 	}
 
 	@Override

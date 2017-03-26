@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,10 @@ import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
  * 
  */
 @SuppressWarnings("serial")
-public class Entity2VirtualEntityRelationship extends
-		TransfarReuseKeysToTargetRelationship {
-	
+public class Entity2VirtualEntityRelationship extends TransfarReuseKeysToTargetRelationship {
+
 	private static Logger logger = LoggerFactory.getLogger(Entity2VirtualEntityRelationship.class);
-	
+
 	/** みなしエンティティ */
 	private VirtualEntity ve;
 
@@ -41,16 +40,15 @@ public class Entity2VirtualEntityRelationship extends
 	 * @param source
 	 *            みなしエンティティ作成対象
 	 */
-	public Entity2VirtualEntityRelationship(AbstractEntityModel source,
-			String virtualEntityName, VirtualEntityType type) {
+	public Entity2VirtualEntityRelationship(AbstractEntityModel source, String virtualEntityName,
+			VirtualEntityType type) {
 		setSource(source);
 		ve = VirtualEntityRule.createVirtualEntity(source, virtualEntityName);
-		ve.setConstraint(source.getConstraint().getTranslated(100, 0));
 		ve.setVirtualEntityType(type);
 		setTarget(ve);
 
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -93,7 +91,7 @@ public class Entity2VirtualEntityRelationship extends
 	public void identifierChanged() {
 		logger.debug("VEの生成元の個体識別子が変更になったため再設定。");
 		ve.setOriginalReusedIdentifier(getSource().createReusedIdentifier());
-		for (IdentifierRef r : getSource().createReusedIdentifier().getIdentifiers()){
+		for (IdentifierRef r : getSource().createReusedIdentifier().getIdentifiers()) {
 			logger.debug(r.getName());
 		}
 	}

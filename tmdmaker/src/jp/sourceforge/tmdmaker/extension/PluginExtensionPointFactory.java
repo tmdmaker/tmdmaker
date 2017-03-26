@@ -158,7 +158,7 @@ public class PluginExtensionPointFactory<T> {
 	private void addExsecutableExtensionsFromExtension(IExtension ex) {
 		for (IConfigurationElement ce : ex.getConfigurationElements()) {
 			try {
-				instanceList.add((T) ce.createExecutableExtension("class"));
+				instanceList.add((T) ce.createExecutableExtension("class")); //$NON-NLS-1$
 			} catch (CoreException e) {
 				logger.warn(e.getMessage());
 				throw new PluginExtensionPointRuntimeException(e);

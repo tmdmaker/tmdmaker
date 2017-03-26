@@ -29,6 +29,9 @@
             icon="icons/entity.gif"
             id="tmdmaker.wizard.newdiagramwizard"
             name="%wizard.name.0">
+         <description>
+            %wizard.description
+         </description>
       </wizard>
    </extension>
    <extension

@@ -15,10 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.editpart;
 
-import jp.sourceforge.tmdmaker.dialog.LaputaEditDialog;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.LaputaComponentEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
@@ -67,12 +65,6 @@ public class LaputaEditPart extends AbstractEntityModelEditPart<Laputa> {
 		return ModelAppearance.LAPUTA_COLOR;
 	}
 
-	@Override
-	protected ModelEditDialog<Laputa> getDialog()
-	{
-	    return new LaputaEditDialog(getControllShell(), getModel());
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -80,8 +72,7 @@ public class LaputaEditPart extends AbstractEntityModelEditPart<Laputa> {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new EntityComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new LaputaComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}
 }

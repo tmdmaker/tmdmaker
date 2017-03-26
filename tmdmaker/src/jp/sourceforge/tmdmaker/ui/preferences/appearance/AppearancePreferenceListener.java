@@ -22,6 +22,8 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.graphics.RGB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 外観リスナー
@@ -30,6 +32,12 @@ import org.eclipse.swt.graphics.RGB;
  * 
  */
 public class AppearancePreferenceListener implements IPreferenceListener {
+	/** logging */
+	private static Logger logger;
+
+	public AppearancePreferenceListener() {
+		logger = LoggerFactory.getLogger(getClass());
+	}
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -42,19 +50,19 @@ public class AppearancePreferenceListener implements IPreferenceListener {
 
 		if (event.getProperty().equals(
 				AppearancePreferenceConstants.P_ENTITY_COLOR_ENABLED)) {
-			System.out.println("P_ENTITY_COLOR_ENABLED");
+			logger.debug("P_ENTITY_COLOR_ENABLED");
 			config.setColorEnabled(convertBooleanIfNeed(event.getNewValue()));
 			TMDPlugin.getDefault().update();
 			return;
 		}
 		for (ModelAppearance a : ModelAppearance.values()) {
 			if (event.getProperty().equals(a.getBackgroundColorPropertyName())) {
-				System.out.println(a.getBackgroundColorPropertyName());
+				logger.debug(a.getBackgroundColorPropertyName());
 				RGB background = convertRGBIfNeed(event.getNewValue());
 				config.setBackground(a, background);
 				TMDPlugin.getDefault().update();
 			} else if (event.getProperty().equals(a.getFontColorPropertyName())) {
-				System.out.println(a.getFontColorPropertyName());
+				logger.debug(a.getFontColorPropertyName());
 				RGB font = convertRGBIfNeed(event.getNewValue());
 				config.setFont(a, font);
 				TMDPlugin.getDefault().update();
@@ -71,7 +79,7 @@ public class AppearancePreferenceListener implements IPreferenceListener {
 	}
 
 	private boolean convertBooleanIfNeed(Object value) {
-		System.out.println(value);
+		logger.debug("original value = " + value);
 		if (value instanceof Boolean) {
 			return (Boolean) value;
 		}

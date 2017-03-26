@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,14 @@
  */
 package jp.sourceforge.tmdmaker.tool;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.ui.command.ModelConstraintChangeCommand;
-
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.SelectionTool;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
+
+import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintChangeCommand;
 
 /**
  * カーソルキーでモデルを移動できるSelectionTool
@@ -73,8 +72,7 @@ public class MovableSelectionTool extends SelectionTool {
 		for (Object selection : getCurrentViewer().getSelectedEditParts()) {
 			if (selection instanceof AbstractModelEditPart) {
 				AbstractModelEditPart<?> part = (AbstractModelEditPart<?>) selection;
-				command.add(new ModelConstraintChangeCommand(
-						(ModelElement) part.getModel(), p.x, p.y));
+				command.add(new ConstraintChangeCommand(part.getModel(), p.x, p.y));
 			}
 		}
 		if (!command.isEmpty()) {

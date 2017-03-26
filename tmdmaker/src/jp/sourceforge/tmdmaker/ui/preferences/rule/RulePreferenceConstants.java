@@ -23,10 +23,10 @@ package jp.sourceforge.tmdmaker.ui.preferences.rule;
 public class RulePreferenceConstants {
 
 	// Rule
-	public static final String P_IDENTIFIER_SUFFIXES = "identifierSuffixesPreference";
+	public static final String P_IDENTIFIER_SUFFIXES = "identifierSuffixesPreference"; //$NON-NLS-1$
 
-	public static final String P_REPORT_SUFFIXES = "reportSuffixesPreference";
+	public static final String P_REPORT_SUFFIXES = "reportSuffixesPreference"; //$NON-NLS-1$
 
-	public static final String P_FOREIGN_KEY_ENABLED = "foreignKeyEnablePreference";
+	public static final String P_FOREIGN_KEY_ENABLED = "foreignKeyEnablePreference"; //$NON-NLS-1$
 
 }

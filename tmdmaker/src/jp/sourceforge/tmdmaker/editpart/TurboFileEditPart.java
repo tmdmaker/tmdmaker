@@ -18,12 +18,9 @@ package jp.sourceforge.tmdmaker.editpart;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.EntityComponentEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.editpolicy.TurboFileComponentEditPolicy;
 import jp.sourceforge.tmdmaker.figure.EntityFigure;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
@@ -72,22 +69,11 @@ public class TurboFileEditPart extends AbstractEntityModelEditPart<TurboFile>
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityModelEditPart#getDialog()
-	 */
-	@Override
-	protected ModelEditDialog<TurboFile> getDialog() {
-		return new TableEditDialog<TurboFile>(getControllShell(), Messages.EditTurboFile,
-				getModel());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
 	 * @see jp.sourceforge.tmdmaker.editpart.AbstractEntityModelEditPart#createEditPolicies()
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new EntityComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new TurboFileComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
 	}

@@ -17,6 +17,8 @@ package jp.sourceforge.tmdmaker.model;
 
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.model.constraint.Constraint;
+
 /**
  * サブセットとスーパーセットとの接点クラス
  *

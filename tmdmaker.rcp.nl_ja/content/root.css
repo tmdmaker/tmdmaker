@@ -1,0 +1,34 @@
+img {
+	width: 48px;
+	height: 48px;
+	vertical-align: middle;
+	}
+
+/* Give some space for main div.*/	
+.page-style {
+	text-align: center;
+	margin-top:50px;
+	}
+	
+/* satisfy Mozilla */	
+body > div.page-style {
+	padding-left:5%;
+	}
+
+#content {
+	text-align:left;
+	width:60em;
+	}
+
+#content .item {
+	padding-top:2%;
+}
+
+.icon {
+	width:16px;
+	height:16px;
+}
+
+
+		
+

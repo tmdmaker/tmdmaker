@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
@@ -37,12 +38,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 import jp.sourceforge.tmdmaker.figure.MemoFigure;
-import jp.sourceforge.tmdmaker.model.Constraint;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.other.Memo;
-import jp.sourceforge.tmdmaker.ui.command.MemoChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.MemoChangeCommand;
 import jp.sourceforge.tmdmaker.ui.preferences.appearance.ModelAppearance;
-import jp.sourceforge.tmdmaker.util.ConstraintConverter;
 
 /**
  * メモのコントローラ
@@ -61,21 +60,6 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	public MemoEditPart(Memo model) {
 		super();
 		setModel(model);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart#refreshVisuals()
-	 */
-	@Override
-	protected void refreshVisuals() {
-		logger.debug(getClass() + "#refreshVisuals()");
-		Constraint constraint = getModel().getConstraint();
-		Rectangle bounds = ConstraintConverter.toRectangle(constraint);
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
-
-		updateFigure(getFigure());
 	}
 
 	/**
@@ -107,17 +91,22 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	}
 
 	/**
-	 *
 	 * {@inheritDoc}
-	 *
-	 * @see jp.sourceforge.tmdmaker.editpart.AbstractTMDEditPart#onDoubleClicked()
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
 	 */
 	@Override
-	protected void onDoubleClicked() {
-		logger.debug(getClass() + "#onDoubleClicked()");
-		onDirectEdit();
+	public void performRequest(Request request) {
+		logger.debug(getClass() + " " + request.getType());
+		if (REQ_OPEN.equals(request.getType())) {
+			onDirectEdit();
+		} else if (REQ_DIRECT_EDIT.equals(request.getType())) {
+			onDirectEdit();
+		} else {
+			super.performRequest(request);
+		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 *

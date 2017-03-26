@@ -29,7 +29,7 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  */
 public class KeyModelPropertySource extends AbstractPropertySource {
 
-	private static final String IS_UNIQUE = "IsUnique"; // $NON-NLS-1$
+	private static final String IS_UNIQUE = "IsUnique"; //$NON-NLS-1$
 	private static final String IS_MASTER_KEY = "IsMasterKey"; //$NON-NLS-1$
 	private static final String NAME = "Name"; //$NON-NLS-1$
 	private KeyModel keymodel;

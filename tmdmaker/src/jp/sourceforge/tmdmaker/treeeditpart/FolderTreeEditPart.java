@@ -39,7 +39,7 @@ public class FolderTreeEditPart<T> extends AbstractTreeEditPart implements Prope
 	
 	@Override
 	protected Image getImage() {
-		return TMDPlugin.getImage("icons/outline/folder.png");
+		return TMDPlugin.getImage("icons/outline/folder.png"); //$NON-NLS-1$
 	}
 
 	@Override

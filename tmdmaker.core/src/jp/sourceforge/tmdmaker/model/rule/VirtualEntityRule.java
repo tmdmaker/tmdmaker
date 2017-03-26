@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +35,7 @@ public class VirtualEntityRule {
 	 *            みなしエンティティ名
 	 * @return みなしエンティティ
 	 */
-	public static VirtualEntity createVirtualEntity(AbstractEntityModel model,
-			String name) {
+	public static VirtualEntity createVirtualEntity(AbstractEntityModel model, String name) {
 		VirtualEntity ve = new VirtualEntity();
 		ve.setName(name);
 		ve.setOriginalReusedIdentifier(model.createReusedIdentifier());
@@ -59,14 +58,4 @@ public class VirtualEntityRule {
 
 		return superset;
 	}
-	// public static void addVirtualSuperset(Diagram diagram, VirtualSuperset
-	// superset, int x, int y) {
-	// superset.setConstraint(new Rectangle(x, y, -1, -1));
-	// diagram.addChild(superset);
-	// }
-	// public static void addVirtualSuperset(Diagram diagram, VirtualSuperset
-	// superset) {
-	// diagram.addChild(superset);
-	// }
-
 }

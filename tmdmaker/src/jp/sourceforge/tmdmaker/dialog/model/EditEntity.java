@@ -30,8 +30,8 @@ import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
  * 
  */
 public class EditEntity extends EditTable {
-	public static final String PROPERTY_IDENTIFIER = "_edit_property_identifier";
-	public static final String PROPERTY_UP_IDENTIFIER = "_edit_property_up_identifier";
+	public static final String PROPERTY_IDENTIFIER = "_edit_property_identifier"; //$NON-NLS-1$
+	public static final String PROPERTY_UP_IDENTIFIER = "_edit_property_up_identifier"; //$NON-NLS-1$
 	/** 編集対象の個体指定子 */
 	protected EditAttribute editIdentifier;
 	private boolean latuta;

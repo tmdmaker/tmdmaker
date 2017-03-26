@@ -22,5 +22,5 @@ package jp.sourceforge.tmdmaker.ui.preferences.appearance;
  * 
  */
 public class AppearancePreferenceConstants {
-	public static final String P_ENTITY_COLOR_ENABLED = "entityColorEnablePreference";
+	public static final String P_ENTITY_COLOR_ENABLED = "entityColorEnablePreference"; //$NON-NLS-1$
 }

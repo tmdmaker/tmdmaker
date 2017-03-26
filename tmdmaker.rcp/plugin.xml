@@ -16,6 +16,7 @@
       <perspective
             class="jp.sourceforge.tmdmaker.rcp.Perspective"
             fixed="true"
+            icon="icons/window/tmd_icon_16_32bit.png"
             id="tmdmaker.rcp.perspective"
             name="%perspective.name">
       </perspective>
@@ -25,7 +26,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="tmdmaker.rcp.application"
-            name="TMD-Maker for RCP">
+            name="%product.name.0">
          <property
                name="tmdmaker.rcp"
                value="TMD-Maker for RCP">
@@ -52,7 +53,7 @@
          </property>
          <property 
                name="buildId"
-               value="Ver.0.3.1">
+               value="Ver.0.4.0">
          </property>
          <property 
                name="buildIdLocation" 
@@ -78,11 +79,29 @@
             locationURI="menu:org.eclipse.ui.main.menu">
          <menu
                label="%menu.label">
-            <command
-                  commandId="org.eclipse.ui.newWizard"
-                  label="%command.label"
-                  style="push">
-            </command>
+            <menu
+                  label="%menu.label.3">
+               <command
+                     commandId="org.eclipse.ui.newWizard"
+                     label="%command.label.15"
+                     style="push"
+                     tooltip="%command.tooltip">
+                  <parameter
+                        name="newWizardId"
+                        value="tmdmaker.rcp.wizard.project">
+                  </parameter>
+               </command>
+               <command
+                     commandId="org.eclipse.ui.newWizard"
+                     label="%command.label.16"
+                     style="push"
+                     tooltip="%command.tooltip.0">
+                  <parameter
+                        name="newWizardId"
+                        value="tmdmaker.wizard.newdiagramwizard">
+                  </parameter>
+               </command>
+            </menu>
             <separator
                   name="tmdmaker.rcp.separator1"
                   visible="true">
@@ -168,6 +187,16 @@
          <menu
                label="%menu.label.2">
             <command
+                  commandId="org.eclipse.ui.help.quickStartAction"
+                  icon="icons/welcome16.gif"
+                  label="%command.label.17"
+                  style="push">
+            </command>
+            <separator
+                  name="tmdmaker.rcp.separator1"
+                  visible="true">
+            </separator>
+            <command
                   commandId="org.eclipse.ui.help.aboutAction"
                   label="%command.label.14"
                   style="push">
@@ -181,8 +210,23 @@
                id="tmdmaker.rcp.toolbar1">
             <command
                   commandId="org.eclipse.ui.newWizard"
-                  label="%command.label.11"
-                  style="push">
+                  label="%command.label.18"
+                  style="push"
+                  tooltip="%command.tooltip.1">
+               <parameter
+                     name="newWizardId"
+                     value="tmdmaker.rcp.wizard.project">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.newWizard"
+                  label="%command.label.19"
+                  style="push"
+                  tooltip="%command.tooltip.2">
+               <parameter
+                     name="newWizardId"
+                     value="tmdmaker.wizard.newdiagramwizard">
+               </parameter>
             </command>
             <separator
                   name="tmdmaker.rcp.separator1"
@@ -211,6 +255,44 @@
             productId="tmdmaker.rcp.product"
             splashId="tmdmaker.rcp.splashHandler">
       </splashHandlerProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard"
+            icon="icons/new.gif"
+            id="tmdmaker.rcp.wizard.project"
+            name="%wizard.name"
+            project="false">
+         <description>
+            %wizard.description
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            id="tmdmaker.rcp.intro">
+      </intro>
+      <introProductBinding
+            introId="tmdmaker.rcp.intro"
+            productId="tmdmaker.rcp.product">
+      </introProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.config">
+      <config
+            content="%welcome.page"
+            id="tmdmaker.rcp.config"
+            introId="tmdmaker.rcp.intro">
+         <presentation
+               home-page-id="root">
+            <implementation
+                  kind="html">
+            </implementation>
+         </presentation>
+      </config>
    </extension>
 
 </plugin>

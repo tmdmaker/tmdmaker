@@ -110,6 +110,8 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 			super(string, selection);
 			setFileExtension("tmd"); //$NON-NLS-1$
 			setFileName("diagram.tmd"); //$NON-NLS-1$
+			setTitle(Messages.NewDiagramWizardTitle);
+			setDescription(Messages.NewDiagramWizardDescription);
 		}
 
 		/**
