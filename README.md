@@ -21,14 +21,14 @@ This method is a technique to make the database structure while at the same time
 ## Requirements
 
 ### plugin
-- java6 or later(8 is recommended)
+- java6 or later(java8 is recommended).
 
-- eclipse 3.4 or later(4.6 is recommended)
+- eclipse 3.4 or later(eclipse 4.6 is recommended).
 
 - GEF 3.x（Eclipse Graphical Editing Framework）.Same version as the eclipse.
 
-- (Optional) Xtend IDE 2.11. If you use tmdmaker sphinx plugin.
- 
+- (Optional) Xtend IDE 2.11 and JavaSE8 ExecutionEnvirnment(Eclipse 4.4 or later).If you use tmdmaker sphinx plugin.
+
 ### RCP(java application)
 - java8
 
