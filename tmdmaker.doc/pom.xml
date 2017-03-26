@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>tmdmaker</groupId>
 		<artifactId>tmdmaker.releng</artifactId>
-		<version>0.4.0-SNAPSHOT</version>
+		<version>0.5.0-SNAPSHOT</version>
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
 

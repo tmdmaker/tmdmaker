@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker for RCP nl_ja
 Bundle-SymbolicName: tmdmaker.rcp.nl_ja
-Bundle-Version: 0.4.0.qualifier
+Bundle-Version: 0.5.0.qualifier
 Fragment-Host: tmdmaker.rcp;bundle-version="0.2.9"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: TMD-Maker Project
