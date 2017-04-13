@@ -17,13 +17,13 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 
 import org.eclipse.gef.EditPolicy;
 
-import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.TurboFileComponentEditPolicy;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.TurboFileFigure;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.TMDModelGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.TurboFileComponentEditPolicy;
 
 /**
  * ターボファイルのコントローラ

@@ -21,10 +21,10 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
-import jp.sourceforge.tmdmaker.editpolicy.RelationshipEditPolicy;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.relationship.RelatedRelationshipFigure;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.RelationshipEditPolicy;
 
 /**
  * リレーションシップを表すコネクションとのリレーションシップのコントローラ

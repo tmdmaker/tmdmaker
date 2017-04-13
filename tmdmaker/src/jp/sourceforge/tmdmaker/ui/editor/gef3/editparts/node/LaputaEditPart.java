@@ -17,11 +17,11 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 
 import org.eclipse.gef.EditPolicy;
 
-import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.LaputaComponentEditPolicy;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.LaputaFigure;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.LaputaComponentEditPolicy;
 
 /**
  * ラピュタのコントローラ

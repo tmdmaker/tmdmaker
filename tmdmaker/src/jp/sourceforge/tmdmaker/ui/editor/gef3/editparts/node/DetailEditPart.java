@@ -17,12 +17,12 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 
 import org.eclipse.gef.EditPolicy;
 
-import jp.sourceforge.tmdmaker.editpolicy.DetailComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.DetailFigure;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.DetailComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.TMDModelGraphicalNodeEditPolicy;
 
 /**
  * ディテールのコントローラ

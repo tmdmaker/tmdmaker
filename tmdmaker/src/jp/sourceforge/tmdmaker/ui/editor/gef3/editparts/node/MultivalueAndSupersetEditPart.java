@@ -23,14 +23,14 @@ import org.eclipse.jface.dialogs.Dialog;
 
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.MultivalueAndSupersetEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.AbstractEntityModelEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.MultivalueAndSupersetFigure;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.AbstractEntityModelEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.ReconnectableNodeEditPolicy;
 
 /**
  * 多値のANDの概念的スーパーセットのコントローラ

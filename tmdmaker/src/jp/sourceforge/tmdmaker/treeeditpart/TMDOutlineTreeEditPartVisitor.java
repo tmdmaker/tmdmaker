@@ -17,18 +17,6 @@ package jp.sourceforge.tmdmaker.treeeditpart;
 
 import org.eclipse.gef.EditPart;
 
-import jp.sourceforge.tmdmaker.editpolicy.AttributeComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.CombinationTableComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.DetailComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.EntityEditComponentPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.LaputaComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.MappingListComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.MultivalueOrEntityComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.RecursiveTableComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.SubsetEntityComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.TurboFileComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.VirtualEntityComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.VirtualSupersetComponentEditPolicy;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
@@ -60,6 +48,18 @@ import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType2VirtualSupersetRelationship;
 import jp.sourceforge.tmdmaker.model.other.Memo;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.AttributeComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.CombinationTableComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.DetailComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityEditComponentPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.LaputaComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.MappingListComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.MultivalueOrEntityComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.RecursiveTableComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.SubsetEntityComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.TurboFileComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.VirtualEntityComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.VirtualSupersetComponentEditPolicy;
 
 /**
  * 

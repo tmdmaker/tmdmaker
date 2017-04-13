@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.editpolicy;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 
 import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.CombinationTableEditDialog;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.CombinationTable;
+import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
+import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 
 /**
@@ -30,14 +29,13 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
  * @author nakaG
  * 
  */
-public class CombinationTableComponentEditPolicy extends AbstractEntityModelEditPolicy<CombinationTable> {
-	
+public class RecursiveTableComponentEditPolicy extends AbstractEntityModelEditPolicy<RecursiveTable> {
 	@Override
-	protected ModelEditDialog<CombinationTable> getDialog()
-	{
-		return new CombinationTableEditDialog(getControllShell(), Messages.EditCombinationTable, getModel());
+	protected ModelEditDialog<RecursiveTable> getDialog() {
+		return new TableEditDialog<RecursiveTable>(getControllShell(), Messages.EditRecursiveTable,
+				getModel());
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -46,8 +44,6 @@ public class CombinationTableComponentEditPolicy extends AbstractEntityModelEdit
 	 */
 	@Override
 	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-		AbstractConnectionModel creationRelationship = (AbstractConnectionModel) getModel()
-				.findCreationRelationship().getSource();
-		return new TableDeleteCommand(getModel(), creationRelationship);
+		return new TableDeleteCommand(getModel(), getModel().getModelTargetConnections().get(0));
 	}
 }

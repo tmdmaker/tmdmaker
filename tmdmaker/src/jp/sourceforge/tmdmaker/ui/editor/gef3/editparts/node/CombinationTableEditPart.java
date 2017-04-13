@@ -17,12 +17,12 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 
 import org.eclipse.gef.EditPolicy;
 
-import jp.sourceforge.tmdmaker.editpolicy.CombinationTableComponentEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.EntityLayoutEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.CombinationTableFigure;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.CombinationTableComponentEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityLayoutEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.TMDModelGraphicalNodeEditPolicy;
 
 /**
  * 対照表のコントローラ

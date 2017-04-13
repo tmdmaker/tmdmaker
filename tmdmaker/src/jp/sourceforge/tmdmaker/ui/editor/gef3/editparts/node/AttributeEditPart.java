@@ -18,11 +18,11 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 import java.beans.PropertyChangeEvent;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.editpolicy.AttributeComponentEditPolicy;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.property.AttributePropertySource;
 import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.AttributeComponentEditPolicy;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;

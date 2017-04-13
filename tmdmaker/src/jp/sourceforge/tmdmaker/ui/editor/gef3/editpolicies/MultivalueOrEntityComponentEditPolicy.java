@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.editpolicy;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
@@ -21,7 +21,7 @@ import org.eclipse.gef.requests.GroupRequest;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.model.RecursiveTable;
+import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 
 /**
@@ -29,15 +29,14 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
  * @author nakaG
  * 
  */
-public class RecursiveTableComponentEditPolicy extends AbstractEntityModelEditPolicy<RecursiveTable> {
+public class MultivalueOrEntityComponentEditPolicy extends AbstractEntityModelEditPolicy<MultivalueOrEntity> {
 	@Override
-	protected ModelEditDialog<RecursiveTable> getDialog() {
-		return new TableEditDialog<RecursiveTable>(getControllShell(), Messages.EditRecursiveTable,
-				getModel());
+	protected ModelEditDialog<MultivalueOrEntity> getDialog() {
+		return new TableEditDialog<MultivalueOrEntity>(getControllShell(),
+				Messages.EditMultivalueOr, getModel());
 	}
 
 	/**
-	 * 
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)

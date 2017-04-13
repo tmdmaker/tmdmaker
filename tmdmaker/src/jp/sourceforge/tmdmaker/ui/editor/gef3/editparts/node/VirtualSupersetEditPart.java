@@ -17,11 +17,11 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 
 import org.eclipse.gef.EditPolicy;
 
-import jp.sourceforge.tmdmaker.editpolicy.ReconnectableNodeEditPolicy;
-import jp.sourceforge.tmdmaker.editpolicy.VirtualSupersetComponentEditPolicy;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.VirtualSupersetFigure;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.ReconnectableNodeEditPolicy;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.VirtualSupersetComponentEditPolicy;
 
 /**
  * みなしスーパーセットのコントローラ

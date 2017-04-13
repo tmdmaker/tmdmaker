@@ -28,13 +28,13 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
 import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
-import jp.sourceforge.tmdmaker.editpolicy.RelationshipEditPolicy;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.relationship.RelationshipFigure;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.RelationshipEditCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.RelationshipEditPolicy;
 
 /**
  * リレーションシップのコントローラ

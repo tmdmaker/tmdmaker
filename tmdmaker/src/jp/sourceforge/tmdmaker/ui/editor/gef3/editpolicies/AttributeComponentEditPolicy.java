@@ -1,4 +1,4 @@
-package jp.sourceforge.tmdmaker.editpolicy;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;

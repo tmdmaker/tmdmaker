@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.editpolicy;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.AbstractRelationshipEditPart;

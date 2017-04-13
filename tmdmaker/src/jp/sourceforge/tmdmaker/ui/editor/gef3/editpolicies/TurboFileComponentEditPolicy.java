@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.editpolicy;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
@@ -21,32 +21,29 @@ import org.eclipse.gef.requests.GroupRequest;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
-import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.MappingList;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
+import jp.sourceforge.tmdmaker.model.other.TurboFile;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityDeleteCommand;
 
 /**
+ * エンティティ削除系EditPolicy
  * 
  * @author nakaG
  * 
  */
-public class MappingListComponentEditPolicy extends AbstractEntityModelEditPolicy<MappingList> {
+public class TurboFileComponentEditPolicy extends AbstractEntityModelEditPolicy<TurboFile> {
 	@Override
-	protected ModelEditDialog<MappingList> getDialog() {
-		return new TableEditDialog<MappingList>(getControllShell(), Messages.EditMappingList,
+	protected ModelEditDialog<TurboFile> getDialog() {
+		return new TableEditDialog<TurboFile>(getControllShell(), Messages.EditTurboFile,
 				getModel());
 	}
-
+	
 	/**
-	 * 
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
 	 */
 	@Override
 	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-		AbstractConnectionModel creationRelationship = (AbstractConnectionModel) getModel()
-				.findCreationRelationship().getSource();
-		return new TableDeleteCommand(getModel(), creationRelationship);
+		return new EntityDeleteCommand<TurboFile>(getDiagram(), getModel());
 	}
 }
