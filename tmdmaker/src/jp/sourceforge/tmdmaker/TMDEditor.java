@@ -137,13 +137,13 @@ import jp.sourceforge.tmdmaker.model.persistence.Serializer;
 import jp.sourceforge.tmdmaker.property.TMDEditorPropertySourceProvider;
 import jp.sourceforge.tmdmaker.ruler.TMDRulerProvider;
 import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
-import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
-import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
-import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
 import jp.sourceforge.tmdmaker.treeeditpart.TMDEditorOutlineTreePartFactory;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.DiagramEditPart;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.tools.EntityCreationTool;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.tools.MovableSelectionTool;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.tools.TMDConnectionCreationTool;
 
 /**
  * TMDエディター

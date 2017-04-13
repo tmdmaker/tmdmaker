@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.tool;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.tools;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.CompoundCommand;
