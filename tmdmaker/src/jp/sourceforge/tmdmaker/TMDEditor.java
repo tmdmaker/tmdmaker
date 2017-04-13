@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,27 +104,6 @@ import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
-import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
-import jp.sourceforge.tmdmaker.action.CopyModelAction;
-import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
-import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
-import jp.sourceforge.tmdmaker.action.FileImportAction;
-import jp.sourceforge.tmdmaker.action.GenerateAction;
-import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
-import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
-import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
-import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
-import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
-import jp.sourceforge.tmdmaker.action.OpenDialogAction;
-import jp.sourceforge.tmdmaker.action.PasteModelAction;
-import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
-import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
-import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
-import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
-import jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
 import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.extension.SerializerFactory;
@@ -137,13 +116,34 @@ import jp.sourceforge.tmdmaker.model.other.Memo;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.model.persistence.SerializationException;
 import jp.sourceforge.tmdmaker.model.persistence.Serializer;
-import jp.sourceforge.tmdmaker.property.TMDEditorPropertySourceProvider;
-import jp.sourceforge.tmdmaker.ruler.TMDRulerProvider;
-import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
-import jp.sourceforge.tmdmaker.tool.EntityCreationTool;
-import jp.sourceforge.tmdmaker.tool.MovableSelectionTool;
-import jp.sourceforge.tmdmaker.tool.TMDConnectionCreationTool;
-import jp.sourceforge.tmdmaker.treeeditpart.TMDEditorOutlineTreePartFactory;
+import jp.sourceforge.tmdmaker.ui.actions.AutoSizeSettingAction;
+import jp.sourceforge.tmdmaker.ui.actions.CommonAttributeSettingAction;
+import jp.sourceforge.tmdmaker.ui.actions.CopyModelAction;
+import jp.sourceforge.tmdmaker.ui.actions.DatabaseSelectAction;
+import jp.sourceforge.tmdmaker.ui.actions.DiagramImageGenerateAction;
+import jp.sourceforge.tmdmaker.ui.actions.FileImportAction;
+import jp.sourceforge.tmdmaker.ui.actions.GenerateAction;
+import jp.sourceforge.tmdmaker.ui.actions.ImplementInfoEditAction;
+import jp.sourceforge.tmdmaker.ui.actions.MultivalueAndCreateAction;
+import jp.sourceforge.tmdmaker.ui.actions.MultivalueAndSupersetHideAction;
+import jp.sourceforge.tmdmaker.ui.actions.MultivalueAndSupersetShowAction;
+import jp.sourceforge.tmdmaker.ui.actions.MultivalueOrCreateAction;
+import jp.sourceforge.tmdmaker.ui.actions.OpenDialogAction;
+import jp.sourceforge.tmdmaker.ui.actions.PasteModelAction;
+import jp.sourceforge.tmdmaker.ui.actions.SubsetCreateAction;
+import jp.sourceforge.tmdmaker.ui.actions.SubsetTypeTurnAction;
+import jp.sourceforge.tmdmaker.ui.actions.VirtualEntityCreateAction;
+import jp.sourceforge.tmdmaker.ui.actions.VirtualSupersetCreateAction;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.DiagramEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.TMDEditPartFactory;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.TMDRulerProvider;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.models.RulerModel;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.tools.EntityCreationTool;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.tools.MovableSelectionTool;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.tools.TMDConnectionCreationTool;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts.TMDEditorOutlineTreePartFactory;
+import jp.sourceforge.tmdmaker.ui.views.properties.TMDEditorPropertySourceProvider;
 
 /**
  * TMDエディター

@@ -1,12 +1,13 @@
 package jp.sourceforge.tmdmaker.dialog.model;
 
 import static org.junit.Assert.*;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
-import jp.sourceforge.tmdmaker.dialog.model.EditEntity;
+
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EditEntity;
 
 import org.junit.Test;
 

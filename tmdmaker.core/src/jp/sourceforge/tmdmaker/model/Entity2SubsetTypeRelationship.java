@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,7 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	 * @param target
 	 *            サブセット種類
 	 */
-	public Entity2SubsetTypeRelationship(AbstractEntityModel source,
-			ConnectableElement target) {
+	public Entity2SubsetTypeRelationship(AbstractEntityModel source, ConnectableElement target) {
 		setSource(source);
 		setTarget(target);
 	}
@@ -46,6 +45,17 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 		return ((SubsetType) getTarget()).getPartitionAttribute();
 	}
 
+	public String getPartitionAttributeName() {
+		IAttribute partitionAttribute = getPartitionAttribute();
+		if (partitionAttribute == null) {
+			return "";
+		}
+		if (isExceptNull()) {
+			return "NULL(" + partitionAttribute.getName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return partitionAttribute.getName();
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -53,8 +63,7 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	 */
 	@Override
 	public void identifierChanged() {
-		for (AbstractConnectionModel con : getTarget()
-				.getModelSourceConnections()) {
+		for (AbstractConnectionModel con : getTarget().getModelSourceConnections()) {
 			if (con instanceof IdentifierChangeListener) {
 				((IdentifierChangeListener) con).identifierChanged();
 			}
@@ -68,7 +77,6 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	 */
 	@Override
 	public boolean isDeletable() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -107,8 +115,7 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	public String getTargetName() {
 		StringBuilder builder = new StringBuilder();
 		boolean first = true;
-		for (AbstractConnectionModel c : getTarget()
-				.getModelSourceConnections()) {
+		for (AbstractConnectionModel c : getTarget().getModelSourceConnections()) {
 			if (first) {
 				first = false;
 			} else {

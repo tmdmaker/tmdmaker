@@ -25,7 +25,7 @@
       </category>
       <wizard
             category="tmdmaker.category"
-            class="jp.sourceforge.tmdmaker.wizard.NewDiagramWizard"
+            class="jp.sourceforge.tmdmaker.ui.wizard.NewDiagramWizard"
             icon="icons/entity.gif"
             id="tmdmaker.wizard.newdiagramwizard"
             name="%wizard.name.0">

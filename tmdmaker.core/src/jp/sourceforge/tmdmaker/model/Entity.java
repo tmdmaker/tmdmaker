@@ -166,4 +166,10 @@ public class Entity extends AbstractEntityModel {
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
+
+	@Override
+	public boolean canCreateMultivalueAnd() {
+		return true;
+	}
+	
 }
