@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -111,7 +111,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 	}
 
 	@Test
-	public void testCreateResourceEntity() {
+	public void testCreateEntity() {
 		maximizeActiveWindow();
 		maximizeActiveEditor();
 		botEditor.activateTool("Entity");
@@ -208,7 +208,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		// サブセット
 		botEditor.activateTool("Select");
 		botEditor.click(303, 55);
-		//botEditor.clickContextMenu("Subset");
+		// botEditor.clickContextMenu("Subset");
 		botEditor.clickContextMenu("Create subset");
 		shell = bot.shell("Edit subset");
 		shell.activate();
@@ -271,22 +271,30 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		System.out.println(diagram.getChildren().size());
 		CombinationTable t1 = (CombinationTable) diagram.getChildren().get(2);
 		assertEquals("顧客.商品.対照表", t1.getName());
+		botEditor.close();
+	}
+
+	@Test
+	public void testCreateNotEntity() {
+		maximizeActiveWindow();
+		maximizeActiveEditor();
+		botEditor.activateTool("Entity");
+		botEditor.click(50, 50);
+		SWTBotShell shell = bot.shell("Create a new entity");
+		shell.activate();
+		bot.text(0).setFocus();
+		bot.text(0).setText("顧客番号");
+		bot.comboBox(0).setSelection(0);
+		bot.button("OK").click();
+		sleep();
 
 		// ターボファイル
 		botEditor.activateTool("Turbo file");
-		botEditor.click(550, 100);
+		botEditor.click(350, 100);
 		sleep();
-		botEditor.activateTool("Select");
+		botEditor.activateTool("Relationship");
 		botEditor.click(55, 55);
-		botEditor.click(555, 105);
-		sleep();
-		botEditor.activateTool("Select");
-		botEditor.click(305, 55);
-		botEditor.click(555, 105);
-		sleep();
-		botEditor.activateTool("Select");
-		botEditor.click(50, 250);
-		botEditor.click(555, 105);
+		botEditor.click(355, 105);
 		sleep();
 
 		// メモ
