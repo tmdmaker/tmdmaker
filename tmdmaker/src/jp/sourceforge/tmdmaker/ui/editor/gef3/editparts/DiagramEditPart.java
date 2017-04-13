@@ -152,8 +152,7 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 		protected Command createChangeConstraintCommand(EditPart child, Object rectangle) {
 			logger.debug(getClass() + "#createChangeConstraintCommand()");
 			ConstraintChangeCommand command = new ConstraintChangeCommand(
-					(ModelElement) child.getModel(),
-					(Rectangle) rectangle);
+					(ModelElement) child.getModel(), (Rectangle) rectangle);
 			return command;
 		}
 
@@ -175,9 +174,9 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 		@Override
 		protected Command getCreateCommand(CreateRequest request) {
 			logger.debug(getClass() + "#getCreateCommand()" + request.getNewObjectType());
-			Rectangle rectangle = (Rectangle) getConstraintFor(request);
+			Rectangle rectangle = getTrimmedRectangle(request);
 			ConnectableElement model = (ConnectableElement) request.getNewObject();
-			ConstraintConverter.setConstraint(model, rectangle.resize(-1, -1));
+			ConstraintConverter.setConstraint(model, rectangle);
 			if (model instanceof TurboFile) {
 				return createTurboFileCommand(rectangle, model);
 			}
@@ -190,6 +189,13 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 				return createMemoCommand(rectangle, model);
 			}
 			return null;
+		}
+
+		private Rectangle getTrimmedRectangle(CreateRequest request) {
+			Rectangle rectangle = (Rectangle) getConstraintFor(request);
+			rectangle.height = -1;
+			rectangle.width = -1;
+			return rectangle;
 		}
 
 		private EntityModelAddCommand createTurboFileCommand(Rectangle rectangle,
