@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.treeeditpart;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 
 import java.util.List;
 

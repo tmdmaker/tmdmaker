@@ -1,4 +1,4 @@
-package jp.sourceforge.tmdmaker.treeeditpart;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 
 import java.beans.PropertyChangeListener;
 

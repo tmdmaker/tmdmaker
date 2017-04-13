@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.treeeditpart;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 
 import java.beans.PropertyChangeListener;
 
@@ -45,7 +45,7 @@ public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart<Detail> 
 	 * 
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.treeeditpart.AbstractEntityModelTreeEditPart#setIdentifiers()
+	 * @see jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts.AbstractEntityModelTreeEditPart#setIdentifiers()
 	 */
 	@Override
 	protected void setIdentifiers() {
