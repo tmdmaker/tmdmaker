@@ -13,35 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.ruler.command;
-
-import jp.sourceforge.tmdmaker.ruler.model.GuideModel;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.commands;
 
 import org.eclipse.gef.commands.Command;
 
+import jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.models.GuideModel;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.models.RulerModel;
+
 /**
- * ルーラーのガイドを移動するCommand
+ * ルーラーにガイドを作成するCommand
  * 
  * @author nakaG
  * 
  */
-public class MoveGuideCommand extends Command {
-	/** 移動するガイド */
+public class CreateGuideCommand extends Command {
+	/** 作成するガイド */
 	private GuideModel guide;
-	/** 移動先の位置 */
-	private int positionDelta;
+	/** ガイドを作成するルーラー */
+	private RulerModel parent;
+	/** ガイドの位置 */
+	private int position;
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param guide
-	 *            移動するガイド
-	 * @param positionDelta
-	 *            移動先の位置
+	 * @param parent
+	 *            ルーラーモデル
+	 * @param position
+	 *            ガイドの位置
 	 */
-	public MoveGuideCommand(GuideModel guide, int positionDelta) {
-		this.guide = guide;
-		this.positionDelta = positionDelta;
+	public CreateGuideCommand(RulerModel parent, int position) {
+		this.parent = parent;
+		this.position = position;
 	}
 
 	/**
@@ -52,7 +55,11 @@ public class MoveGuideCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		guide.setPosition(guide.getPosition() + positionDelta);
+		if (guide == null) {
+			guide = new GuideModel();
+		}
+		guide.setPosition(position);
+		parent.addGuide(guide);
 	}
 
 	/**
@@ -63,6 +70,6 @@ public class MoveGuideCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		guide.setPosition(guide.getPosition() - positionDelta);
+		parent.removeGuide(guide);
 	}
 }

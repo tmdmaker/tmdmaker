@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.ruler;
+package jp.sourceforge.tmdmaker.ui.editor.gef3.rulers;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.ruler.command.CreateGuideCommand;
-import jp.sourceforge.tmdmaker.ruler.command.DeleteGuideCommand;
-import jp.sourceforge.tmdmaker.ruler.command.MoveGuideCommand;
-import jp.sourceforge.tmdmaker.ruler.model.GuideModel;
-import jp.sourceforge.tmdmaker.ruler.model.RulerModel;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.commands.CreateGuideCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.commands.DeleteGuideCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.commands.MoveGuideCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.models.GuideModel;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.rulers.models.RulerModel;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.rulers.RulerChangeListener;
