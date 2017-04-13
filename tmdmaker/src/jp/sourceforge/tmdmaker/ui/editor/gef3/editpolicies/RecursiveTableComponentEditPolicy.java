@@ -19,9 +19,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 
 import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.TableEditDialog;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
+import jp.sourceforge.tmdmaker.ui.dialogs.ModelEditDialog;
+import jp.sourceforge.tmdmaker.ui.dialogs.TableEditDialog;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 
 /**

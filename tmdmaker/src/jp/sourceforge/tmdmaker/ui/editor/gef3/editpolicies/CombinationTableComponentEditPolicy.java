@@ -19,10 +19,10 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 
 import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.dialog.CombinationTableEditDialog;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
+import jp.sourceforge.tmdmaker.ui.dialogs.CombinationTableEditDialog;
+import jp.sourceforge.tmdmaker.ui.dialogs.ModelEditDialog;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TableDeleteCommand;
 
 /**

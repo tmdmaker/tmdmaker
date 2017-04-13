@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.ui.editor.gef3.tools;
 
-import jp.sourceforge.tmdmaker.dialog.EntityCreateDialog;
+import jp.sourceforge.tmdmaker.ui.dialogs.EntityCreateDialog;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityModelAddCommand;
 
 import org.eclipse.gef.commands.Command;

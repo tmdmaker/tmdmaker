@@ -15,8 +15,6 @@
  */
 package jp.sourceforge.tmdmaker;
 
-import jp.sourceforge.tmdmaker.action.AutoSizeSettingAction;
-
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -34,6 +32,8 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
+
+import jp.sourceforge.tmdmaker.ui.actions.AutoSizeSettingAction;
 
 /**
  * TMDiagramエディターのActionBarContributor

@@ -17,9 +17,9 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 
 import java.beans.PropertyChangeEvent;
 
-import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.SubsetType;
+import jp.sourceforge.tmdmaker.ui.dialogs.SubsetCreateDialog;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.SubsetTypeFigure;
 
 import org.eclipse.draw2d.IFigure;

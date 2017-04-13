@@ -15,10 +15,10 @@
  */
 package jp.sourceforge.tmdmaker.ui.editor.gef3.tools;
 
-import jp.sourceforge.tmdmaker.dialog.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
+import jp.sourceforge.tmdmaker.ui.dialogs.RelationshipEditDialog;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionCreateCommand;
 
 import org.eclipse.gef.commands.Command;

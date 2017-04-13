@@ -3,11 +3,11 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
 
-import jp.sourceforge.tmdmaker.dialog.AttributeDialog;
-import jp.sourceforge.tmdmaker.dialog.model.EditAttribute;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.IAttribute;
+import jp.sourceforge.tmdmaker.ui.dialogs.AttributeDialog;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeEditCommand;
 
 public class AttributeComponentEditPolicy extends AbstractTMDComponentEditPolicy<Attribute> {

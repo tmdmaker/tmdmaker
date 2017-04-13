@@ -8,8 +8,8 @@ import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
-import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.property.KeyModelPropertySource;
+import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
+import jp.sourceforge.tmdmaker.ui.views.properties.KeyModelPropertySource;
 
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;

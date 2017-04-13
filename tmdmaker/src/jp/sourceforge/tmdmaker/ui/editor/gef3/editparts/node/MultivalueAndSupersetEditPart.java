@@ -21,10 +21,10 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.dialogs.Dialog;
 
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
-import jp.sourceforge.tmdmaker.dialog.MultivalueAndSupersetEditDialog;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
+import jp.sourceforge.tmdmaker.ui.dialogs.ModelEditDialog;
+import jp.sourceforge.tmdmaker.ui.dialogs.MultivalueAndSupersetEditDialog;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.MultivalueAndSupersetFigure;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;

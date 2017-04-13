@@ -20,13 +20,13 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.property.EntityPropertySource;
-import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.EntityFigure;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityEditComponentPolicy;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.TMDModelGraphicalNodeEditPolicy;
+import jp.sourceforge.tmdmaker.ui.views.properties.EntityPropertySource;
+import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
  * エンティティのコントローラ

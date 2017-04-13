@@ -18,9 +18,9 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 
-import jp.sourceforge.tmdmaker.dialog.EntityEditDialog;
-import jp.sourceforge.tmdmaker.dialog.ModelEditDialog;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.ui.dialogs.EntityEditDialog;
+import jp.sourceforge.tmdmaker.ui.dialogs.ModelEditDialog;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityDeleteCommand;
 
 /**

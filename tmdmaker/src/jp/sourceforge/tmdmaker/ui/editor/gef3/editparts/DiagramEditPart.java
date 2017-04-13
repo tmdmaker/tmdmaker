@@ -48,14 +48,14 @@ import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.other.Memo;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
-import jp.sourceforge.tmdmaker.property.DiagramPropertySource;
-import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintChangeCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityModelAddCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.MemoAddCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.MemoChangeCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractTMDEditPart;
+import jp.sourceforge.tmdmaker.ui.views.properties.DiagramPropertySource;
+import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
  * Diagramのコントローラ

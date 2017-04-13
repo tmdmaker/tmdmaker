@@ -54,8 +54,8 @@ import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
-import jp.sourceforge.tmdmaker.property.AbstractEntityModelPropertySource;
-import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
+import jp.sourceforge.tmdmaker.ui.views.properties.AbstractEntityModelPropertySource;
+import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
  * Entity系モデルのtreeeditpartクラス
@@ -434,7 +434,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.property.IPropertyAvailable#getPropertySource(jp.sourceforge.tmdmaker.TMDEditor)
+	 * @see jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable#getPropertySource(jp.sourceforge.tmdmaker.TMDEditor)
 	 */
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {

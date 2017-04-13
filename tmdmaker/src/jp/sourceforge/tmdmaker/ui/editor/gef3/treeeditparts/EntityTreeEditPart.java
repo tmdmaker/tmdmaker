@@ -7,8 +7,8 @@ import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.property.EntityPropertySource;
-import jp.sourceforge.tmdmaker.property.IPropertyAvailable;
+import jp.sourceforge.tmdmaker.ui.views.properties.EntityPropertySource;
+import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.swt.graphics.Image;
