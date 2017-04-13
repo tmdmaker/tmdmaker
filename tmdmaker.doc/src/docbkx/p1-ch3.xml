@@ -16,25 +16,25 @@
 				<para>もしもあなたの環境に対応したファイルがなければ、<application xl:href="http://sourceforge.jp/ticket/newticket.php?group_id=4743&amp;display_mode=simple&amp;type=17673">新規チケット</application>でリクエストをください。</para>
 			</listitem>
 			<listitem>
-				<para>Java 6 Runtime</para>
+				<para>Java 6 Runtime以降（セキュリティを考慮してJava8以降の最新版をお勧めします）</para>
 			</listitem>
 		</itemizedlist>
 		<!-- http://sourceforge.jp/ticket/newticket.php?group_id=4743&display_mode=simple&type=17673サポートリクエスト -->
 		<orderedlist>
 			<title>新規インストール</title>
 			<listitem>
-				<para>Java 6 Runtimeのインストール</para>
+				<para>Java Runtimeのインストール</para>
 				<para><application xl:href="http://www.java.com/ja/download/">Javaのサイト</application>から各自の環境に対応するファイルをダウンロードする。</para>
 				<para>ダウンロードしたファイルをダブルクリックして、あとは指示に従って進めればインストールできるでしょう。</para>
 				<para>既にインストール済みの人は、さっさと先に進みましょう。</para>
 			</listitem>
 			<listitem>
 				<para>TMD-Maker for RCPのインストール</para>
-				<para><application xl:href="http://sourceforge.jp/projects/tmdmaker/releases/">tmdmaker_rcp</application>のダウンロードサイトで各自の環境に合ったファイルを選んでダウンロードしたら、ダウンロードしたファイルを解凍して任意の場所に置く。</para>
+				<para><application xl:href="http://osdn.net/projects/tmdmaker/releases/">tmdmaker_rcp</application>のダウンロードサイトで各自の環境に合ったファイルを選んでダウンロードしたら、ダウンロードしたファイルを解凍して任意の場所に置く。</para>
 			</listitem>
 			<listitem>
 				<para>TMD-Maker for RCPの起動</para>
-				<para>解凍したフォルダを開いて、tmdmaker.exeをダブルクリックする。</para>
+				<para>解凍したフォルダを開いて、tmdmaker.exeをダブルクリックする(mac版はTMD-Maker.app)。</para>
 				<para>画面が出たらおめでとう！インストールは完了です。</para>
 				<imageobject>
 					<imagedata fileref="images/install_complete_rcp.jpg"/>

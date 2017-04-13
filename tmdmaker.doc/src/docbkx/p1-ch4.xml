@@ -9,14 +9,14 @@
 		<itemizedlist>
 			<listitem>
 				<para>対応OS</para>
-				<para>恐らくJava6が動作するOSなら動作します</para>
+				<para>恐らくJava6以降が動作するOSなら動作します</para>
 			</listitem>
 			<listitem>
-				<para>Java 6 Runtime　または Java 6 SDK</para>
+				<para>Java 6 Runtime　または Java 6 SDK 以降（セキュリティを考慮してJava8以降の最新版をお勧めします）</para>
 			</listitem>
 			<listitem>
-				<para>Eclipse 3.4 以上（4.3推奨）</para>
-				<para>現在、Eclipse 4.3.0で開発しています。またPluginの動作確認では、バージョン3.4.2を使用していますので、多分バージョン3.5以降と4.2以降で動作します。もしかしたらまだバージョン3.3でも動作するかも知れません。</para>
+				<para>Eclipse 3.4 以上（4.6推奨）</para>
+				<para>現在、Eclipse 4.6.3で開発しています。またPluginの動作確認では、バージョン3.4.2以降を使用していますので、多分バージョン3.5以降と4.2以降で動作します。もしかしたらまだバージョン3.3でも動作するかも知れません。</para>
 			</listitem>
 			<listitem>
 				<para>GEF(Eclipse Graphical Editing Framework)</para>
@@ -27,9 +27,9 @@
 		<orderedlist>
 			<title>新規インストール</title>
 			<listitem>
-				<para>Java 6 Runtime or SDKのインストール</para>
+				<para>Java Runtime or SDKのインストール</para>
 				<para>Runtimeをインストールする場合は、<application xl:href="http://www.java.com/ja/download/">こちら</application>から各自の環境に対応するファイルをダウンロードする。</para>
-				<para>SDKをインストールする場合は、<application xl:href="http://java.sun.com/javase/ja/6/download.html">こちら（の一番左）</application>から各自の環境に対応するファイルをダウンロードする。</para>
+				<para>SDKをインストールする場合は、<application xl:href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">こちら</application>から各自の環境に対応するファイルをダウンロードする。</para>
 				<para>ダウンロードしたファイルをダブルクリックして、あとは指示に従って進めればインストールできるでしょう。</para>
 				<para>既にインストール済みの人は、さっさと先に進みましょう。</para>
 			</listitem>
@@ -47,12 +47,12 @@
 			</listitem>
 			<listitem>
 				<para>TMD-Maker Pluginのインストール</para>
-				<para><application xl:href="http://sourceforge.jp/projects/tmdmaker/releases/">tmdmaker_plugin</application>のダウンロードサイトからtmdmaker_X.Y.Z.zip(X.Y.Zは任意のバージョン)をダウンロードする。</para>
-				<para>ダウンロードしたファイルを解凍し、同梱されているtmdmaker_X.Y.Z.jar、tmdmaker.ddlgenerator_X.Y.Z.jar、 tmdmaker.htmlgenerator_X.Y.Z.jarの3つのjarファイルをeclipseのplugins（またはdropins）フォルダに置く。</para>
+				<para><application xl:href="http://osdn.net/projects/tmdmaker/releases/">tmdmaker_plugin</application>のダウンロードサイトからtmdmaker_X.Y.Z.zip(X.Y.Zは任意のバージョン)をダウンロードする。</para>
+				<para>ダウンロードしたファイルを解凍し、同梱されているjarファイルをeclipseのplugins（またはdropins）フォルダに置く。</para>
 				<tip>
 					<title>TMD-Maker Pluginのお勧めインストール方法</title>
-					<para>tmdmaker_X.Y.Z.zipを解凍すると、tmdmaker_X.Y.Z → eclipse → plugins → tmdmaker～_X.Y.Z.jar というフォルダ構成になっています。</para>
-					<para>このフォルダ構成のままdropinsフォルダに置けば、他のプラグインと混在することがないので、バージョンアップの際等にとても便利です。</para>
+					<para>tmdmaker_X.Y.Z.zipを解凍すると、tmdmaker_X.Y.Z → plugins/features → tmdmaker～_X.Y.Z.jar というフォルダ構成になっています。</para>
+					<para>このtmdmaker_X.Y.Zフォルダをそのままdropinsフォルダに置けば、他のプラグインと混在することがないので、バージョンアップの際等にとても便利です。</para>
 				</tip>
 			</listitem>
 			<listitem>

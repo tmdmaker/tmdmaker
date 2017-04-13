@@ -8,6 +8,7 @@
   <bannerLeft>
     <name>TMD-Maker</name>
   </bannerLeft>
+  <googleAnalyticsAccountId>UA-96558945-1</googleAnalyticsAccountId>
   <custom>
     <fluidoSkin>
       <leftColumnClass>span3</leftColumnClass>
