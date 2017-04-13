@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package jp.sourceforge.tmdmaker.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
 
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -29,8 +29,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author nakaG
  * 
  */
-public abstract class AbstractMultipleSelectionAction extends
-		AbstractEntitySelectionAction {
+public abstract class AbstractMultipleSelectionAction extends AbstractEntitySelectionAction {
 	/**
 	 * コンストラクタ
 	 * 
@@ -61,7 +60,7 @@ public abstract class AbstractMultipleSelectionAction extends
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Object selection : getSelectedObjects()) {
 			if (isTargetModel(selection)) {
-				Object model = ((AbstractModelEditPart<?>) selection).getModel();
+				Object model = getPart().getModel();
 				if (model instanceof AbstractEntityModel) {
 					list.add((AbstractEntityModel) model);
 				}

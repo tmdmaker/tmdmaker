@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
  */
 package jp.sourceforge.tmdmaker.editpolicy;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.AttributeEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeMoveCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeTransferCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AttributeEditPart;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;

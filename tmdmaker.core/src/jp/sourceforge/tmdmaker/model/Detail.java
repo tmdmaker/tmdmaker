@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,6 @@ package jp.sourceforge.tmdmaker.model;
 
 import java.util.Map.Entry;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-
 /**
  * 多値のANDのディテール
  * 
@@ -29,20 +26,19 @@ import java.util.Map.Entry;
 @SuppressWarnings("serial")
 public class Detail extends AbstractEntityModel {
 
-	//private static Logger logger = LoggerFactory.getLogger(Detail.class);
-
 	/** HDRモデルのRe-used */
 	private ReusedIdentifier originalReusedIdentifier;
 
 	/** DTLの個体指定子 */
 	private Identifier detailIdentifier = new Identifier();
-	
+
 	/** DTLの個体指定子を使用するか？ */
 	private boolean isDetailIdentifierEnabled;
 
 	public Detail() {
 		isDetailIdentifierEnabled = true;
 	}
+
 	/**
 	 * DTLの個体指定子名(明細番号)を設定する
 	 * 
@@ -77,41 +73,40 @@ public class Detail extends AbstractEntityModel {
 		// this.detailIdentifier.setParent(this);
 		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, detailIdentifier);
 	}
-	
+
 	/**
 	 * DTLの個体指定子の使用有無を設定する。
+	 * 
 	 * HDR以外のRe-UsedのIdentifierがある場合以外はfalseに設定できない。
 	 * 変更になった場合は、他のEntityに変化を波及させる必要がある。
 	 * 
 	 * @param enabled
 	 */
-	public void setDetailIdentifierEnabled(boolean enabled)
-	{
-		if (isDetailIdentifierEnabled() == enabled) return;
+	public void setDetailIdentifierEnabled(boolean enabled) {
+		if (isDetailIdentifierEnabled() == enabled)
+			return;
 		// canDisableDetailIdentifierEnabled() で不用意な書き換えを制御したいがダイアログ書き換えのタイミングの
 		// 問題で難しい。
 		isDetailIdentifierEnabled = enabled;
 		fireIdentifierChanged(null);
 	}
-	
+
 	/**
 	 * DTLの個体指定子(明細番号)が使用されているかを返す。
 	 * 
 	 * @return
 	 */
-	public boolean isDetailIdentifierEnabled()
-	{
+	public boolean isDetailIdentifierEnabled() {
 		return isDetailIdentifierEnabled;
 	}
-	
+
 	/**
 	 * DTLの個体指定子(明細番号)を使用できないようにできるかどうかを返す。
 	 * HDR以外のRe-UsedのIdentifierがある場合はtrueを返す。
 	 * 
 	 * @return
 	 */
-	public boolean canDisableDetailIdentifierEnabled()
-	{
+	public boolean canDisableDetailIdentifierEnabled() {
 		return getReusedIdentifiers().size() > 1;
 	}
 
@@ -120,6 +115,14 @@ public class Detail extends AbstractEntityModel {
 	 */
 	public ReusedIdentifier getOriginalReusedIdentifier() {
 		return originalReusedIdentifier;
+	}
+
+	/**
+	 * 
+	 * @return the IdentifierRef
+	 */
+	public IdentifierRef getOriginalUniqueIdentifierRef() {
+		return getOriginalReusedIdentifier().getUniqueIdentifiers().get(0);
 	}
 
 	/**
@@ -150,15 +153,14 @@ public class Detail extends AbstractEntityModel {
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
 		ReusedIdentifier returnValue = new ReusedIdentifier(keyModels.getSurrogateKey());
-		if (isDetailIdentifierEnabled)
-		{
-			if (originalReusedIdentifier != null){
+		if (isDetailIdentifierEnabled) {
+			if (originalReusedIdentifier != null) {
 				returnValue.addAll(this.originalReusedIdentifier.getIdentifiers());
 			}
-		    returnValue.addIdentifier(detailIdentifier);
-		}
-		else{
-			for (Entry<AbstractEntityModel, ReusedIdentifier > ref: this.reusedIdentifiers.entrySet()){
+			returnValue.addIdentifier(detailIdentifier);
+		} else {
+			for (Entry<AbstractEntityModel, ReusedIdentifier> ref : this.reusedIdentifiers
+					.entrySet()) {
 				returnValue.addAll(ref.getValue().getIdentifiers());
 			}
 		}

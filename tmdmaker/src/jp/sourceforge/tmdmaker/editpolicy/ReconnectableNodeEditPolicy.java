@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,13 @@ import org.eclipse.gef.requests.ReconnectRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.constraint.AnchorConstraint;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.anchors.XYChopboxAnchorHelper;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SourceConnectionReconnectCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.TargetConnectionReconnectCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
 
 /**
  * リレーションの接続位置を変更可能なノード（エンティティ系モデル）用のEditPolicy

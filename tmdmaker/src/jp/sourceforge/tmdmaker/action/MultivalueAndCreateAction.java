@@ -19,7 +19,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;
 
 import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.editpart.EntityEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
@@ -34,6 +33,7 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintAdjusterCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.RelationshipConnectionCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
 
 /**
  * 多値のAND(HDR-DTL)作成アクション
@@ -64,9 +64,12 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 	 */
 	@Override
 	protected boolean calculateEnabled() {
-		if (getSelectedObjects().size() == 1) {
-			Object selection = getSelectedObjects().get(0);
-			return selection instanceof EntityEditPart;
+		if (getSelectedObjects().size() != 1) {
+			return false;
+		}
+		Object selection = getSelectedObjects().get(0);
+		if (selection instanceof AbstractModelEditPart<?>) {
+			return getPart().canCreateMultivalueAnd();
 		} else {
 			return false;
 		}

@@ -22,10 +22,10 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;
 
 import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
 
 /**
  * モデルのサイズを自動調整に設定するAction
@@ -68,7 +68,7 @@ public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 	@Override
 	protected boolean isTargetModel(Object selection) {
 		if (selection instanceof AbstractModelEditPart) {
-			return ((AbstractModelEditPart<?>) selection).canAutoSize();
+			return getPart().canAutoSize();
 		} else {
 			return false;
 		}
@@ -88,7 +88,7 @@ public class AutoSizeSettingAction extends AbstractMultipleSelectionAction {
 		List<ConnectableElement> list = new ArrayList<ConnectableElement>();
 		for (Object selection : getSelectedObjects()) {
 			if (isTargetModel(selection)) {
-				Object model = ((AbstractModelEditPart<?>) selection).getModel();
+				Object model = getPart().getModel();
 				if (model instanceof ConnectableElement) {
 					list.add((ConnectableElement) model);
 				}

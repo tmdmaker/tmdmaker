@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,10 @@ import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.eclipse.gef.EditPart;
+import org.junit.Before;
+import org.junit.Test;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
@@ -47,10 +51,27 @@ import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-
-import org.eclipse.gef.EditPart;
-import org.junit.Before;
-import org.junit.Test;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.DiagramEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.TMDEditPartFactory;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AttributeEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.CombinationTableEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.DetailEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.EntityEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.LaputaEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.MappingListEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.MultivalueAndAggregatorEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.MultivalueAndSupersetEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.MultivalueOrEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.RecursiveTableEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.SubsetEntityEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.SubsetTypeEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.VirtualEntityEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.VirtualSupersetEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.VirtualSupersetTypeEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.Entity2SubsetTypeRelationshipEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.RecursiveRelationshipEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.RelatedRelationshipEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.RelationshipEditPart;
 
 /**
  * TMDEditPartFactoryのテストクラス.
@@ -91,7 +112,7 @@ public class TMDEditPartFactoryTest {
 
 	/**
 	 * Test method for
-	 * {@link jp.sourceforge.tmdmaker.editpart.TMDEditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)}
+	 * {@link jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.TMDEditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)}
 	 * .
 	 */
 	@Test
@@ -160,15 +181,12 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(RelationshipEditPart.class));
 
-		Entity2SubsetTypeRelationship r1 = new Entity2SubsetTypeRelationship(
-				e1, subsetType);
+		Entity2SubsetTypeRelationship r1 = new Entity2SubsetTypeRelationship(e1, subsetType);
 		r1.connect();
 		editPart = factory.createEditPart(null, r1);
-		assertThat(editPart,
-				instanceOf(Entity2SubsetTypeRelationshipEditPart.class));
+		assertThat(editPart, instanceOf(Entity2SubsetTypeRelationshipEditPart.class));
 
-		o = (Entity2VirtualSupersetTypeRelationship) vtype
-				.getModelTargetConnections().get(0);
+		o = (Entity2VirtualSupersetTypeRelationship) vtype.getModelTargetConnections().get(0);
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(RelatedRelationshipEditPart.class));
 

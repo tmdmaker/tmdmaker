@@ -26,9 +26,6 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.VirtualSupersetCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractEntityModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
-import jp.sourceforge.tmdmaker.editpart.DiagramEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
@@ -40,6 +37,9 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.RelationshipConnectionCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetReplaceCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.DiagramEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractEntityModelEditPart;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
 
 /**
  * みなしスーパーセット作成アクション.

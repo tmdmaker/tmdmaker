@@ -21,11 +21,11 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.SubsetCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.adjuster.SubsetTypeAdjuster;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
 
 /**
  * サブセット作成アクション.
@@ -61,7 +61,7 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 		}
 		Object selection = getSelectedObjects().get(0);
 		if (selection instanceof AbstractModelEditPart<?>) {
-			return ((AbstractModelEditPart<?>) selection).canCreateSubset();
+			return getPart().canCreateSubset();
 		} else {
 			return false;
 		}

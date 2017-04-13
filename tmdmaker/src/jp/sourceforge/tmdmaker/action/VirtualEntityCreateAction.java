@@ -21,10 +21,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.VirtualEntityCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintAdjusterCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.RelationshipConnectionCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
 
 /**
  * みなしエンティティ作成アクション.
@@ -59,7 +59,8 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 				getPart().getViewer().getControl().getShell());
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = new CompoundCommand();
-			Entity2VirtualEntityRelationship relationship = new Entity2VirtualEntityRelationship(getModel(), dialog.getInputVirtualEntityName(),
+			Entity2VirtualEntityRelationship relationship = new Entity2VirtualEntityRelationship(
+					getModel(), dialog.getInputVirtualEntityName(),
 					dialog.getInputVirtualEntityType());
 			ccommand.add(new RelationshipConnectionCommand(relationship));
 			ccommand.add(new ConstraintAdjusterCommand(relationship, 100, 0));
@@ -79,10 +80,9 @@ public class VirtualEntityCreateAction extends AbstractEntitySelectionAction {
 		}
 		Object selection = getSelectedObjects().get(0);
 		if (selection instanceof AbstractModelEditPart<?>) {
-			return ((AbstractModelEditPart<?>) selection).canCreateVirtualEntity();
+			return getPart().canCreateVirtualEntity();
 		} else {
 			return false;
 		}
 	}
-
 }

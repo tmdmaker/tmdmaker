@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.editpolicy;
 
-import jp.sourceforge.tmdmaker.editpart.AbstractRelationshipEditPart;
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.AbstractRelationshipEditPart;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -105,8 +105,7 @@ public class RelationshipEditPolicy extends ConnectionEditPolicy {
 			if (getLocation().equals(np))
 				return;
 
-			Dimension d = max(from.getPreferredSize(), to.getPreferredSize())
-					.getCopy();
+			Dimension d = max(from.getPreferredSize(), to.getPreferredSize()).getCopy();
 
 			d.width = (int) (d.width * 1.25);
 			d.height = d.height * 2 + 2;
@@ -155,12 +154,8 @@ public class RelationshipEditPolicy extends ConnectionEditPolicy {
 	 */
 	protected void showHintFeedback(LocationRequest request) {
 		showHint();
-		getHint().setFromText(
-				((AbstractConnectionModel) getHost().getModel())
-						.getSourceName());
-		getHint().setToText(
-				((AbstractConnectionModel) getHost().getModel())
-						.getTargetName());
+		getHint().setFromText(((AbstractConnectionModel) getHost().getModel()).getSourceName());
+		getHint().setToText(((AbstractConnectionModel) getHost().getModel()).getTargetName());
 		getHint().setLocation(request.getLocation());
 	}
 

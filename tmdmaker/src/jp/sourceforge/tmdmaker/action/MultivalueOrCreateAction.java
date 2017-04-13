@@ -21,10 +21,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.dialog.MultivalueOrEntityCreateDialog;
-import jp.sourceforge.tmdmaker.editpart.AbstractModelEditPart;
 import jp.sourceforge.tmdmaker.model.MultivalueOrRelationship;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintAdjusterCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.RelationshipConnectionCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
 
 /**
  * 多値のOR作成アクション.
@@ -78,7 +78,7 @@ public class MultivalueOrCreateAction extends AbstractEntitySelectionAction {
 		}
 		Object selection = getSelectedObjects().get(0);
 		if (selection instanceof AbstractModelEditPart<?>) {
-			return ((AbstractModelEditPart<?>) selection).canCreateMultivalueOr();
+			return getPart().canCreateMultivalueOr();
 		} else {
 			return false;
 		}

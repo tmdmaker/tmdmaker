@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,24 +72,16 @@ public class SubsetTest {
 		SubsetEntity s2 = subsetType.getSubsetList().get(1);
 		assertEquals("サブセット1", s1.getName());
 		assertEquals("サブセット2", s2.getName());
-		assertThat(
-				((Entity2SubsetTypeRelationship) subsetType.getModelTargetConnections().get(0))
-						.getSourceName(),
-				equalTo(e1.getName()));
-		assertThat(
-				((Entity2SubsetTypeRelationship) subsetType.getModelTargetConnections().get(0))
-						.getTargetName(),
-				equalTo(s1.getName() + "," + s2.getName()));
+		assertThat(((Entity2SubsetTypeRelationship) subsetType.getModelTargetConnections().get(0))
+				.getSourceName(), equalTo(e1.getName()));
+		assertThat(((Entity2SubsetTypeRelationship) subsetType.getModelTargetConnections().get(0))
+				.getTargetName(), equalTo(s1.getName() + "," + s2.getName()));
 		assertThat(subsetType.getModelSourceConnections().get(0),
 				instanceOf(SubsetType2SubsetRelationship.class));
-		assertThat(
-				((SubsetType2SubsetRelationship) subsetType.getModelSourceConnections().get(0))
-						.getSourceName(),
-				equalTo(e1.getName()));
-		assertThat(
-				((SubsetType2SubsetRelationship) subsetType.getModelSourceConnections().get(0))
-						.getTargetName(),
-				equalTo(s1.getName()));
+		assertThat(((SubsetType2SubsetRelationship) subsetType.getModelSourceConnections().get(0))
+				.getSourceName(), equalTo(e1.getName()));
+		assertThat(((SubsetType2SubsetRelationship) subsetType.getModelSourceConnections().get(0))
+				.getTargetName(), equalTo(s1.getName()));
 	}
 
 	@Test
@@ -105,9 +97,12 @@ public class SubsetTest {
 
 		Entity2SubsetTypeRelationship r1 = (Entity2SubsetTypeRelationship) subsetType
 				.getModelTargetConnections().get(0);
-		assertEquals(a2, r1.getPartitionAttribute());
-		assertEquals(false, r1.isExceptNull());
+		assertEquals("テスト属性2", r1.getPartitionAttributeName());
+		subsetType.setExceptNull(true);
+		assertEquals("NULL(テスト属性2)", r1.getPartitionAttributeName());
 		assertThat(r1.isDeletable(), is(true));
+		subsetType.setPartitionAttribute(null);
+		assertEquals("", r1.getPartitionAttributeName());
 	}
 
 	@Test
