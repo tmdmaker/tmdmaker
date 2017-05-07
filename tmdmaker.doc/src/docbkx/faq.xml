@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter 
+		xml:id="faq" 
+		xmlns="http://docbook.org/ns/docbook"
+		xmlns:xml="http://www.w3.org/XML/1998/namespace"  
+		xmlns:xl="http://www.w3.org/1999/xlink" 
+		xml:lang="ja">	
+		<title>TMD-Maker よくあるご質問</title>
+
+		<itemizedlist>
+			<title>動かない。。。</title>
+			<listitem>
+				<para>TMD-MakerのRCP版が起動しない</para>
+				<para>Javaがインストールされているか確認してください。</para>
+				<para>コマンドプロンプト、またはターミナルで以下のコマンドを実行してみてください。</para>
+				<para>java -version</para>
+				<para>java version "1.8.〜"と表示されれば動くはず。</para>
+				<para>表示されない場合はJava8のインストールか、javaコマンドへのパス設定を見直してください。</para>
+			</listitem>
+			<listitem>
+				<para>Windows環境でTMD-MakerのRCP版が起動しない</para>
+				<para>32bit版と64bit版の違いかもしれません。</para>
+				<para>コマンドプロンプトで以下のコマンドを実行してみてください。</para>
+				<para>java -version</para>
+				<para>32bit〜と表示された場合は、x86版、64bit〜と表示された場合は、x86_64版をダウンロードしてみてください。</para>
+			</listitem>
+			<listitem>
+				<para>TMD-MakerのPlugin版が起動しない</para>
+				<para>必要なプラグインがインストールされていないかも知れません。</para>
+				<para>Help -> About Eclipse SDK -> Plug-in Detailの一覧にGEFとTMD-Makerが存在することを確認してください。</para>
+				<para>もしもプラグインがインストールされていなかったら</para>
+				<para>Help -> Install New SoftwareからGEF 3.xをインストールしてみてください。</para>
+			</listitem>
+		</itemizedlist>
+		<itemizedlist>
+			<title>使い方が。。。</title>
+			<listitem>
+				<para>TMD-Makerのダイアグラムを開いたらソースのXMLが表示される。</para>
+				<para>対象ファイルを右クリック -> Open With -> TM Diagram Editor でダイアグラムが表示できると思います。</para>
+			</listitem>
+			<listitem>
+				<para>リソースN-イベント1 のリレーションに対応表が作れないのが辛い</para>
+				<para>それは多値のAND(Header-Detail)に該当するのではないでしょうか？</para>
+				<para>Eventエンティティを右クリックして データの多値 -> 多値のAND(HDR-DTL)作成 を指定してみてください。</para>
+			</listitem>
+		</itemizedlist>
+	</chapter>
+		

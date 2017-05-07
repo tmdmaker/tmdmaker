@@ -77,5 +77,6 @@
 		<xi:include href="rcp.xml"/>
 		<xi:include href="database.xml"/>
 		<xi:include href="csvformat.xml"/>
+		<xi:include href="faq.xml"/>
 	</part>
 </book>
