@@ -120,7 +120,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("顧客番号");
-		bot.comboBox(0).setSelection(0);
+		bot.radio(0).click();
 		bot.button("OK").click();
 		sleep();
 
@@ -130,7 +130,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("商品番号");
-		bot.comboBox(0).setSelection(0);
+		bot.radio(0).click();
 		bot.button("OK").click();
 		sleep();
 
@@ -148,7 +148,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("受注ID");
-		bot.comboBox(0).setSelection(1);
+		bot.radio(1).click();
 		bot.button("OK").click();
 		sleep();
 
@@ -158,7 +158,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("請求ID");
-		bot.comboBox(0).setSelection(1);
+		bot.radio(1).click();
 		bot.button("OK").click();
 		sleep();
 
@@ -168,7 +168,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("発送ID");
-		bot.comboBox(0).setSelection(1);
+		bot.radio(1).click();
 		bot.button("OK").click();
 		sleep();
 
@@ -185,7 +185,8 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		sleep();
 		shell = bot.shell("Edit relationship");
 		shell.activate();
-		bot.comboBox(0).setSelection(1);
+		bot.radio("N", 0).click();
+		bot.radio("N", 1).click();
 		bot.button("OK").click();
 		sleep();
 
@@ -196,6 +197,8 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		sleep();
 		shell = bot.shell("Edit relationship");
 		shell.activate();
+		bot.checkBox("No relationship", 0).select();
+		bot.checkBox("No relationship", 1).select();
 		bot.button("OK").click();
 		sleep();
 
@@ -284,7 +287,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		shell.activate();
 		bot.text(0).setFocus();
 		bot.text(0).setText("顧客番号");
-		bot.comboBox(0).setSelection(0);
+		bot.radio(0).click();
 		bot.button("OK").click();
 		sleep();
 
@@ -302,6 +305,25 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		botEditor.click(600, 90);
 		sleep();
 
+		// ラピュタ
+		botEditor.activateTool("Entity");
+		botEditor.click(150, 150);
+		shell = bot.shell("Create a new entity");
+		shell.activate();
+		bot.text(0).setFocus();
+		bot.radio(2).click();
+		bot.button("OK").click();
+		sleep();
+
+		botEditor.activateTool("Entity");
+		botEditor.click(250, 250);
+		shell = bot.shell("Create a new entity");
+		shell.activate();
+		bot.text(0).setFocus();
+		bot.text(0).setText("ラピュタ番号");
+		bot.radio(2).click();
+		bot.button("OK").click();
+		sleep();
 		botEditor.close();
 	}
 

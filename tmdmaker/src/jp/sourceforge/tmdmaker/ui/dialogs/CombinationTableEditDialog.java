@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,6 @@ package jp.sourceforge.tmdmaker.ui.dialogs;
 
 import java.beans.PropertyChangeEvent;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.model.CombinationTable;
-import jp.sourceforge.tmdmaker.model.CombinationTableType;
-import jp.sourceforge.tmdmaker.ui.dialogs.components.AttributeSettingPanel;
-import jp.sourceforge.tmdmaker.ui.dialogs.components.ImplementInfoSettingPanel;
-import jp.sourceforge.tmdmaker.ui.dialogs.components.TableNameSettingPanel;
-import jp.sourceforge.tmdmaker.ui.dialogs.models.EditCombinationTable;
-import jp.sourceforge.tmdmaker.ui.dialogs.models.EditTable;
-
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,10 +24,18 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+
+import jp.sourceforge.tmdmaker.model.CombinationTable;
+import jp.sourceforge.tmdmaker.model.CombinationTableType;
+import jp.sourceforge.tmdmaker.ui.dialogs.components.AttributeSettingPanel;
+import jp.sourceforge.tmdmaker.ui.dialogs.components.CombinationTableTypePanel;
+import jp.sourceforge.tmdmaker.ui.dialogs.components.ImplementInfoSettingPanel;
+import jp.sourceforge.tmdmaker.ui.dialogs.components.TableNameSettingPanel;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EditCombinationTable;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EditTable;
 
 /**
  * 対照表編集ダイアログ
@@ -44,7 +43,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author nakaG
  * 
  */
-public class CombinationTableEditDialog extends ModelEditDialog<CombinationTable>  {
+public class CombinationTableEditDialog extends ModelEditDialog<CombinationTable> {
 	/** ダイアログタイトル */
 	private String title;
 	/** 表名設定用 */
@@ -53,9 +52,8 @@ public class CombinationTableEditDialog extends ModelEditDialog<CombinationTable
 	private AttributeSettingPanel panel2;
 	/** 実装可否設定用 */
 	private ImplementInfoSettingPanel panel3;
-
 	/** 対照表種別設定用 */
-	private Combo typeCombo;
+	private CombinationTableTypePanel panel4;
 
 	/**
 	 * コンストラクタ
@@ -67,8 +65,7 @@ public class CombinationTableEditDialog extends ModelEditDialog<CombinationTable
 	 * @param original
 	 *            編集対象モデル
 	 */
-	public CombinationTableEditDialog(Shell parentShell, String title,
-			CombinationTable original) {
+	public CombinationTableEditDialog(Shell parentShell, String title, CombinationTable original) {
 		super(parentShell);
 		this.title = title;
 		entity = new EditCombinationTable(original);
@@ -123,20 +120,20 @@ public class CombinationTableEditDialog extends ModelEditDialog<CombinationTable
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 
-		typeCombo = new Combo(composite, SWT.READ_ONLY);
-		typeCombo.add(Messages.CombinationTable_LTruth);
-		typeCombo.add(Messages.CombinationTable_FTruth);
-		typeCombo.addSelectionListener(new SelectionAdapter() {
-
+		panel4 = new CombinationTableTypePanel(composite, SWT.NULL);
+		gridData = new GridData(GridData.FILL_BOTH);
+		panel4.setLayoutData(gridData);
+		panel4.getBtnRadioButton_0().addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (typeCombo.getSelectionIndex() == 0) {
-					getEditModel().setCombinationTableType(CombinationTableType.L_TRUTH);
-				} else {
-					getEditModel().setCombinationTableType(CombinationTableType.F_TRUTH);
-				}
+				getEditModel().setCombinationTableType(CombinationTableType.L_TRUTH);
 			}
-
+		});
+		panel4.getBtnRadioButton_1().addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				getEditModel().setCombinationTableType(CombinationTableType.F_TRUTH);
+			}
 		});
 
 		panel3 = new ImplementInfoSettingPanel(composite, SWT.NULL, entity);
@@ -151,21 +148,18 @@ public class CombinationTableEditDialog extends ModelEditDialog<CombinationTable
 
 		composite.pack();
 
-		initializeTypeCombo();
+		initializeCombinationTableType();
 
 		return composite;
 	}
-	
+
 	/**
 	 * ダイアログへ初期値を設定する
 	 */
-	private void initializeTypeCombo() {
-		if (getEditModel().getCombinationTableType().equals(
-				CombinationTableType.L_TRUTH)) {
-			typeCombo.select(0);
-		} else {
-			typeCombo.select(1);
-		}
+	private void initializeCombinationTableType() {
+		CombinationTableType type = getEditModel().getCombinationTableType();
+		panel4.getBtnRadioButton_0().setSelection(CombinationTableType.L_TRUTH.equals(type));
+		panel4.getBtnRadioButton_1().setSelection(CombinationTableType.F_TRUTH.equals(type));
 	}
 
 	/**
@@ -181,8 +175,7 @@ public class CombinationTableEditDialog extends ModelEditDialog<CombinationTable
 	}
 
 	@Override
-	protected EditCombinationTable getEditModel()
-	{
-		return (EditCombinationTable)entity;
+	protected EditCombinationTable getEditModel() {
+		return (EditCombinationTable) entity;
 	}
 }

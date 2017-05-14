@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,6 @@ package jp.sourceforge.tmdmaker.ui.dialogs;
 
 import java.beans.PropertyChangeEvent;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.ui.dialogs.components.AttributeSettingPanel;
-import jp.sourceforge.tmdmaker.ui.dialogs.components.EntityNameAndIdentifierNameAndTypeSettingPanel;
-import jp.sourceforge.tmdmaker.ui.dialogs.components.ImplementInfoSettingPanel;
-import jp.sourceforge.tmdmaker.ui.dialogs.models.EditEntity;
-
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -33,6 +26,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.ui.dialogs.components.AttributeSettingPanel;
+import jp.sourceforge.tmdmaker.ui.dialogs.components.EntityEditSettingPanel;
+import jp.sourceforge.tmdmaker.ui.dialogs.components.ImplementInfoSettingPanel;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EditEntity;
+
 /**
  * エンティティ編集ダイアログ
  * 
@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class EntityEditDialog extends ModelEditDialog<Entity> {
 	/** エンティティ名、個体指定子、エンティティ種類設定用 */
-	private EntityNameAndIdentifierNameAndTypeSettingPanel panel1;
+	private EntityEditSettingPanel panel1;
 	/** アトリビュート設定用 */
 	private AttributeSettingPanel panel2;
 	/** 実装可否設定用 */
@@ -77,7 +77,7 @@ public class EntityEditDialog extends ModelEditDialog<Entity> {
 			panel1.updateValue();
 			panel2.updateAttributeTable();
 		}
-		// panel3.updateValue();
+
 		Button okButton = getButton(IDialogConstants.OK_ID);
 		if (okButton != null) {
 			okButton.setEnabled(entity.isValid());
@@ -98,8 +98,7 @@ public class EntityEditDialog extends ModelEditDialog<Entity> {
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 
-		panel1 = new EntityNameAndIdentifierNameAndTypeSettingPanel(composite, SWT.NULL,
-				getEditModel());
+		panel1 = new EntityEditSettingPanel(composite, SWT.NULL, getEditModel());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel1.setLayoutData(gridData);
 

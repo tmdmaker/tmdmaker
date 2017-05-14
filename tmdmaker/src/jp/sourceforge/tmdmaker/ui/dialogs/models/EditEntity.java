@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
 import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
 
 /**
@@ -51,7 +52,7 @@ public class EditEntity extends EditTable {
 		super(entity);
 		this.editIdentifier = new EditAttribute(entity.getDetailIdentifier());
 	}
-	
+
 	public EditEntity(Laputa entity) {
 		super(entity);
 		this.editIdentifier = new EditAttribute(entity.getIdentifier());
@@ -185,4 +186,18 @@ public class EditEntity extends EditTable {
 			firePropertyChange(PROPERTY_ATTRIBUTES, null, ea);
 		}
 	}
+
+	private ModelName createEntityNameFromIdentifier() {
+		return new Identifier(editIdentifier.getName()).createEntityName();
+	}
+
+	public boolean hasAutoCreateEntityName() {
+		ModelName autoCreationName = createEntityNameFromIdentifier();
+		return autoCreationName.equals(new ModelName(name));
+	}
+
+	public String generateEntityNameFromIdentifier() {
+		return createEntityNameFromIdentifier().getValue();
+	}
+
 }

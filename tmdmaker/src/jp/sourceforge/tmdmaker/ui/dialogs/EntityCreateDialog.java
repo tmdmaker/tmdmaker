@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,8 @@ import org.eclipse.swt.widgets.Shell;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.EntityType;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 import jp.sourceforge.tmdmaker.ui.dialogs.components.EntityNameAndTypeSettingPanel;
-import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EntityCreation;
 
 /**
  * エンティティ新規作成ダイアログ
@@ -38,14 +35,9 @@ import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
  * 
  */
 public class EntityCreateDialog extends Dialog {
-	/** エンティティ名称 */
-	private String inputEntityName;
-	/** 類別 */
-	private EntityType inputEntityType = EntityType.RESOURCE;
 	/** エンティティ名称・種類設定用パネル */
 	private EntityNameAndTypeSettingPanel panel;
-	/** 個体指定子 */
-	private Identifier inputIdentifier;
+	private EntityCreation entity;
 
 	/**
 	 * コンストラクタ
@@ -55,6 +47,7 @@ public class EntityCreateDialog extends Dialog {
 	 */
 	public EntityCreateDialog(Shell parentShell) {
 		super(parentShell);
+		entity = new EntityCreation();
 	}
 
 	/**
@@ -73,12 +66,10 @@ public class EntityCreateDialog extends Dialog {
 		fl_composite.marginHeight = 5;
 		composite.setLayout(fl_composite);
 
-		panel = new EntityNameAndTypeSettingPanel(composite, SWT.NULL);
+		panel = new EntityNameAndTypeSettingPanel(composite, SWT.NULL, entity);
 		GridLayout gridLayout = (GridLayout) panel.getLayout();
 		gridLayout.marginRight = 5;
 		gridLayout.marginLeft = 5;
-		panel.setEditIdentifier(new EditAttribute());
-		// panel.setInitialFocus();
 
 		composite.pack();
 		return composite;
@@ -92,71 +83,15 @@ public class EntityCreateDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		this.inputEntityType = this.panel.getSelectedType();
-		this.inputEntityName = this.panel.getEntityName();
-		this.panel.getEditIdentifier();
-		this.inputIdentifier = new Identifier(this.panel.getIdentifierName());
-		EditAttribute editIdentifier = this.panel.getEditIdentifier();
-		editIdentifier.copyTo(this.inputIdentifier);
 
-		if (validate()) {
+		if (entity.isValid()) {
 			super.okPressed();
 		} else {
-
 			return;
 		}
 	}
 
-	/**
-	 * ダイアログ検証
-	 * 
-	 * @return 必須事項が全て入力されている場合にtrueを返す
-	 */
-	private boolean validate() {
-		return (isIdentifierNameFilled() && isEntityNameFilled()) || isLaputa();
-	}
-
-	private boolean isEntityNameFilled() {
-		return this.inputEntityName != null && this.inputEntityName.length() > 0;
-	}
-
-	private boolean isIdentifierNameFilled() {
-		String inputIdentifierName = this.inputIdentifier.getName();
-		return inputIdentifierName != null && inputIdentifierName.length() > 0;
-	}
-
-	private boolean isLaputa() {
-		return this.inputEntityType.equals(EntityType.LAPUTA);
-	}
-
-	/**
-	 * @return the inputEntityType
-	 */
-	public EntityType getInputEntityType() {
-		return inputEntityType;
-	}
-
-	/**
-	 * @return the inputEntityName
-	 */
-	public String getInputEntityName() {
-		return inputEntityName;
-	}
-
-	/**
-	 * @return the inputIdentifier
-	 */
-	public Identifier getInputIdentifier() {
-		return inputIdentifier;
-	}
-
 	public AbstractEntityModel getCreateModel() {
-		EntityRecognitionRule rule = EntityRecognitionRule.getInstance();
-		if (isLaputa()) {
-			return rule.createLaputa(getInputEntityName(), getInputIdentifier());
-		} else {
-			return rule.createEntity(getInputEntityName(), getInputIdentifier(),
-					getInputEntityType());
-		}
+		return entity.getCreateModel();
 	}
 }

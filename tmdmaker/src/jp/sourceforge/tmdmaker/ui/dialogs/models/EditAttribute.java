@@ -18,6 +18,7 @@ package jp.sourceforge.tmdmaker.ui.dialogs.models;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 import jp.sourceforge.tmdmaker.model.IAttribute;
+import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
 /**
@@ -432,4 +433,13 @@ public class EditAttribute {
 		copyTo(originalAttribute);
 	}
 
+	public Identifier toIdentifier() {
+		Identifier identifier = new Identifier(this.name);
+		copyTo(identifier);
+		return identifier;
+	}
+
+	public boolean isValid() {
+		return this.name != null && this.name.length() > 0;
+	}
 }

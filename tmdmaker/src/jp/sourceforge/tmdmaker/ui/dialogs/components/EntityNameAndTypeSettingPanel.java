@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,25 @@
  */
 package jp.sourceforge.tmdmaker.ui.dialogs.components;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.model.EntityType;
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
-import jp.sourceforge.tmdmaker.ui.dialogs.AttributeDialog;
-import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.model.EntityType;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+import jp.sourceforge.tmdmaker.ui.dialogs.AttributeDialog;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EntityCreation;
 
 /**
  * Entity name and type setting panel.
@@ -39,58 +42,34 @@ import org.eclipse.swt.widgets.Text;
  *
  */
 public class EntityNameAndTypeSettingPanel extends Composite {
-	private EditAttribute editIdentifier = null;
 	private Label identifierLabel = null;
 	private Text identifierText = null;
 	private Label typeLabel = null;
-	private Combo typeCombo = null;
 	private Button nameAutoCreateCheckBox = null;
 	private Label nameLabel = null;
 	private Text nameText = null;
 	private Button descButton = null;
+	private Button btnRadioButton_0;
+	private Button btnRadioButton_1;
+	private Button btnRadioButton_2;
+	private EntityCreation entity;
 
 	public EntityNameAndTypeSettingPanel(Composite parent, int style) {
+		this(parent, style, new EntityCreation());
+	}
+
+	public EntityNameAndTypeSettingPanel(Composite parent, int style, EntityCreation _entity) {
 		super(parent, style);
+		this.entity = _entity;
 		initialize();
-		this.nameAutoCreateCheckBox.setSelection(true);
-		this.nameText.setEnabled(false);
-		this.typeCombo.select(0);
+
+		initializeEntityTypeRadio();
 	}
 
-	public void initializeValue(String identifierName, String entityName, EntityType type) {
-		setIdentifierNameText(identifierName);
-		setEntityNameText(entityName);
-		selectEntityTypeCombo(type);
-		selectAutoCreateCheckBox(identifierName, entityName);
-	}
-
-	public void setEntityNameText(String entityName) {
-		this.nameText.setText(entityName);
-	}
-
-	public void setIdentifierNameText(String identifierName) {
-		this.identifierText.setText(identifierName);
-	}
-
-	public void selectAutoCreateCheckBox(String identifierName, String entityName) {
-		String autoCreateEntityName = createEntityName(identifierName);
-		if (autoCreateEntityName.equals(entityName)) {
-			this.nameAutoCreateCheckBox.setSelection(true);
-			this.nameText.setEnabled(false);
-		} else {
-			this.nameAutoCreateCheckBox.setSelection(false);
-			this.nameText.setEnabled(true);
-		}
-	}
-
-	public void selectEntityTypeCombo(EntityType type) {
-		if (EntityType.RESOURCE.equals(type)) {
-			this.typeCombo.select(0);
-		} else if (EntityType.EVENT.equals(type)) {
-			this.typeCombo.select(1);
-		} else {
-			this.typeCombo.select(2);
-		}
+	private void initializeEntityTypeRadio() {
+		btnRadioButton_0.setSelection(EntityType.RESOURCE.equals(entity.getEntityType()));
+		btnRadioButton_1.setSelection(EntityType.EVENT.equals(entity.getEntityType()));
+		btnRadioButton_2.setSelection(EntityType.LAPUTA.equals(entity.getEntityType()));
 	}
 
 	/**
@@ -101,11 +80,9 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 		identifierLabel = new Label(this, SWT.NONE);
 		identifierLabel.setText(Messages.Identifier);
 		GridData gridData11 = new GridData();
+		gridData11.grabExcessHorizontalSpace = true;
 		gridData11.horizontalAlignment = GridData.FILL;
 		gridData11.verticalAlignment = GridData.CENTER;
-		GridData gridData10 = new GridData();
-		gridData10.horizontalAlignment = GridData.CENTER;
-		gridData10.verticalAlignment = GridData.CENTER;
 		GridData gridData9 = new GridData();
 		gridData9.horizontalSpan = 2;
 		GridData gridData1 = new GridData();
@@ -125,20 +102,24 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 		nameAutoCreateCheckBox = new Button(this, SWT.CHECK);
 		nameAutoCreateCheckBox.setText(Messages.AutomaticGenerateEntityName);
 		nameAutoCreateCheckBox.setLayoutData(gridData9);
-		typeLabel = new Label(this, SWT.NONE);
-		typeLabel.setText(Messages.EntityType);
-		typeLabel.setLayoutData(gridData10);
+		new Label(this, SWT.NONE);
 		nameLabel = new Label(this, SWT.NONE);
 		nameLabel.setText(Messages.EntityName);
 		nameText = new Text(this, SWT.BORDER);
 		nameText.setLayoutData(gridData1);
-		createTypeCombo();
+		nameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
+			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
+				Text t = (Text) e.widget;
+				entity.setEntityName(new ModelName(t.getText()));
+			}
+		});
 		nameAutoCreateCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				Button b = (Button) e.widget;
+				entity.setEntityNameAutoGeneration(b.getSelection());
 				if (b.getSelection()) {
 					nameText.setEnabled(false);
-					nameText.setText(createEntityName(identifierText.getText()));
+					nameText.setText(entity.getEntityName().getValue());
 				} else {
 					nameText.setEnabled(true);
 				}
@@ -147,20 +128,16 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 		identifierText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
 			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
 				Text t = (Text) e.widget;
-				editIdentifier.setName(t.getText());
+				entity.setIdentifierName(t.getText());
 				if (nameAutoCreateCheckBox.getSelection()) {
-					nameText.setText(createEntityName(t.getText()));
+					nameText.setText(entity.getEntityName().getValue());
 				}
 			}
 		});
-		identifierText.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
-			public void focusLost(org.eclipse.swt.events.FocusEvent e) {
-				// typeCombo.setFocus();
-			}
-		});
+
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				AttributeDialog dialog = new AttributeDialog(getShell(), editIdentifier);
+				AttributeDialog dialog = new AttributeDialog(getShell(), entity.getIdentifier());
 				if (dialog.open() == Dialog.OK) {
 					EditAttribute edited = dialog.getEditedValue();
 					if (edited.isEdited()) {
@@ -169,80 +146,53 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 				}
 			}
 		});
+		this.nameAutoCreateCheckBox.setSelection(true);
+		this.nameText.setEnabled(false);
+		new Label(this, SWT.NONE);
+		GridData gridData10 = new GridData();
+		gridData10.horizontalAlignment = GridData.CENTER;
+		gridData10.verticalAlignment = GridData.CENTER;
+		typeLabel = new Label(this, SWT.NONE);
+		typeLabel.setText(Messages.EntityType);
+		typeLabel.setLayoutData(gridData10);
+
+		Composite composite = new Composite(this, SWT.NONE);
+		RowLayout rl_composite = new RowLayout(SWT.HORIZONTAL);
+		rl_composite.justify = true;
+		composite.setLayout(rl_composite);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
+
+		btnRadioButton_0 = new Button(composite, SWT.RADIO);
+		btnRadioButton_0.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				entity.setEntityType(EntityType.RESOURCE);
+			}
+		});
+		btnRadioButton_0.setText(Messages.Resource);
+
+		btnRadioButton_1 = new Button(composite, SWT.RADIO);
+		btnRadioButton_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				entity.setEntityType(EntityType.EVENT);
+			}
+		});
+		btnRadioButton_1.setText(Messages.Event);
+
+		btnRadioButton_2 = new Button(composite, SWT.RADIO);
+		btnRadioButton_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				entity.setEntityType(EntityType.LAPUTA);
+			}
+		});
+		btnRadioButton_2.setText(Messages.Laputa);
+
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		gridLayout.horizontalSpacing = 5;
 		this.setLayout(gridLayout);
-		this.setSize(new Point(358, 97));
+		this.setSize(new Point(350, 115));
 	}
-
-	/**
-	 * This method initializes typeCombo
-	 *
-	 */
-	private void createTypeCombo() {
-		typeCombo = new Combo(this, SWT.READ_ONLY);
-		typeCombo.add(Messages.Resource);
-		typeCombo.add(Messages.Event);
-		typeCombo.add(Messages.Laputa);
-	}
-
-	/**
-	 * 
-	 * @param identifierName
-	 * @return
-	 */
-	private String createEntityName(String identifierName) {
-		return EntityRecognitionRule.getInstance().generateEntityNameFromIdentifier(identifierName);
-	}
-
-	/**
-	 * @return the entityName
-	 */
-	public String getEntityName() {
-		return this.nameText.getText();
-	}
-
-	/**
-	 * 
-	 * @return the identifierName
-	 */
-	public String getIdentifierName() {
-		return this.identifierText.getText();
-	}
-
-	/**
-	 * 
-	 * @return the entityType
-	 */
-	public EntityType getSelectedType() {
-		int selection = typeCombo.getSelectionIndex();
-		if (selection == 0) {
-			return EntityType.RESOURCE;
-		} else if (selection == 1) {
-			return EntityType.EVENT;
-		} else {
-			return EntityType.LAPUTA;
-		}
-	}
-
-	public void setEntityTypeComboEnabled(boolean enabled) {
-		this.typeCombo.setEnabled(enabled);
-	}
-
-	/**
-	 * @return the editIdentifier
-	 */
-	public EditAttribute getEditIdentifier() {
-		return editIdentifier;
-	}
-
-	/**
-	 * @param editIdentifier
-	 *            the editIdentifier to set
-	 */
-	public void setEditIdentifier(EditAttribute editIdentifier) {
-		this.editIdentifier = editIdentifier;
-	}
-
 }
