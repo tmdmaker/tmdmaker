@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.editor;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swt.widgets.Shell;
@@ -26,6 +28,7 @@ import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.junit.After;
@@ -35,9 +38,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.Identifier;
 
 /**
  * TMD-MakerのUIテスト
@@ -324,6 +329,79 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		bot.radio(2).click();
 		bot.button("OK").click();
 		sleep();
+		botEditor.close();
+	}
+
+	@Test
+	public void testAttributeDialog() {
+		maximizeActiveWindow();
+		maximizeActiveEditor();
+		botEditor.activateTool("Entity");
+		botEditor.click(50, 50);
+		SWTBotShell shell = bot.shell("Create a new entity");
+		shell.activate();
+		bot.text(0).setFocus();
+		bot.text(0).setText("顧客番号");
+		bot.radio(0).click();
+
+		bot.button("Description").click();
+		bot.text(1).setText("implementName");
+		bot.text(2).setText("summary");
+		// data type
+		bot.comboBox(0).setSelection(7);
+		bot.text(3).setText("10");
+		bot.text(4).setText("1");
+		// auto increment
+		bot.checkBox(0).click();
+		// default value
+		bot.text(5).setText("10");
+		// prerequisite
+		bot.text(6).setText("prerequisite");
+		// confidenciality
+		bot.text(7).setText("confidenciality");
+		// formula
+		bot.text(8).setText("formula");
+		bot.button("OK").click();
+		sleep();
+		bot.button("OK").click();
+		sleep();
+
+		botEditor.doubleClick(55, 55);
+		shell = bot.shell("Edit entity");
+		shell.activate();
+		SWTBotTable table = bot.table();
+		table.select(0);
+		sleep();
+		assertNotEnabled(shell.bot().button("Up"));
+
+		bot.button("Add").click();
+		sleep();
+
+		bot.button("Add").click();
+		sleep();
+		assertNotEnabled(shell.bot().button("Down"));
+
+		bot.button("Up").click();
+		sleep();
+		assertEnabled(shell.bot().button("Up"));
+		assertEnabled(shell.bot().button("Down"));
+
+		bot.button("Remove").click();
+		sleep();
+
+		bot.button("OK").click();
+		sleep();
+
+		Diagram diagram = tmdEditor.getRootModel();
+		List<AbstractEntityModel> list = diagram.findModelByName("顧客");
+		assertEquals(1, list.size());
+		AbstractEntityModel m = list.get(0);
+		assertEquals(2, m.getAttributes().size());
+
+		Identifier i = ((Entity) m).getIdentifier();
+		assertEquals("顧客番号", i.getName());
+		assertEquals("formula", i.getDerivationRule());
+
 		botEditor.close();
 	}
 
