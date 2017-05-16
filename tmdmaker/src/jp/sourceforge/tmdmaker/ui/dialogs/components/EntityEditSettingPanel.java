@@ -74,7 +74,6 @@ public class EntityEditSettingPanel extends Composite {
 	public void updateValue() {
 		String identifierName = entity.getEditIdentifier().getName();
 		String entityName = entity.getName();
-		selectAutoCreateCheckBox();
 		this.identifierText.setText(identifierName);
 		if (!nameAutoCreateCheckBox.getSelection()) {
 			this.nameText.setText(entityName);
@@ -209,6 +208,8 @@ public class EntityEditSettingPanel extends Composite {
 			}
 		});
 		btnRadioButton_2.setText(Messages.Laputa);
+
+		selectAutoCreateCheckBox();
 
 		updateValue();
 		this.setLayout(gridLayout);

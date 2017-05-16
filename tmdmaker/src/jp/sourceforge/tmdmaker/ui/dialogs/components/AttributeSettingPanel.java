@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -90,15 +91,19 @@ public class AttributeSettingPanel extends Composite {
 		attributeTable.setLayoutData(gridData);
 		attributeTable.setLinesVisible(true);
 		attributeTable.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
-			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				selectedIndex = attributeTable.getSelectionIndex();
+				filterButtonsWhenClick();
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
 				selectedIndex = attributeTable.getSelectionIndex();
 				if (selectedIndex == -1) {
 					return;
 				}
-				Control oldEditor = tableEditor.getEditor();
-				if (oldEditor != null) {
-					oldEditor.dispose();
-				}
+				disposeTableEditorIfNeed();
 
 				TableItem item = (TableItem) e.item;
 				final Text text = new Text(attributeTable, SWT.NONE);
@@ -181,6 +186,13 @@ public class AttributeSettingPanel extends Composite {
 		this.setSize(new Point(338, 213));
 	}
 
+	private void disposeTableEditorIfNeed() {
+		Control oldEditor = tableEditor.getEditor();
+		if (oldEditor != null) {
+			oldEditor.dispose();
+		}
+	}
+
 	/**
 	 * This method initializes controlComposite
 	 *
@@ -216,6 +228,7 @@ public class AttributeSettingPanel extends Composite {
 		newButton.setLayoutData(gridData1);
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				disposeTableEditorIfNeed();
 				entity.addAttribute();
 				selectedIndex = entity.getMaxAttributeIndex();
 				updateSelection();
@@ -229,6 +242,7 @@ public class AttributeSettingPanel extends Composite {
 				if (selectedIndex == -1 || selectedIndex == 0) {
 					return;
 				}
+				disposeTableEditorIfNeed();
 				entity.upAttribute(selectedIndex);
 				selectedIndex--;
 				updateSelection();
@@ -242,6 +256,7 @@ public class AttributeSettingPanel extends Composite {
 				if (selectedIndex == -1 || selectedIndex == entity.getMaxAttributeIndex()) {
 					return;
 				}
+				disposeTableEditorIfNeed();
 				entity.downAttribute(selectedIndex);
 				selectedIndex++;
 				updateSelection();
@@ -255,6 +270,7 @@ public class AttributeSettingPanel extends Composite {
 				if (selectedIndex == -1) {
 					return;
 				}
+				disposeTableEditorIfNeed();
 				EditAttribute edit = entity.getEditAttribute(selectedIndex);
 
 				AttributeDialog dialog = new AttributeDialog(getShell(), edit);
@@ -274,10 +290,7 @@ public class AttributeSettingPanel extends Composite {
 				if (selectedIndex == -1) {
 					return;
 				}
-				Control oldEditor = tableEditor.getEditor();
-				if (oldEditor != null) {
-					oldEditor.dispose();
-				}
+				disposeTableEditorIfNeed();
 				entity.deleteAttribute(selectedIndex);
 				if (entity.getMaxAttributeIndex() <= selectedIndex) {
 					selectedIndex--;
@@ -293,12 +306,20 @@ public class AttributeSettingPanel extends Composite {
 				if (selectedIndex == -1) {
 					return;
 				}
+				disposeTableEditorIfNeed();
 				entity.uptoIdentifier(selectedIndex);
 				updateSelection();
 			}
 		});
 		identifierChangeButton.setVisible(entity.canUpToIdentifier());
 		updateAttributeTable();
+	}
+
+	private void filterButtonsWhenClick() {
+		upButton.setEnabled(selectedIndex != -1 && selectedIndex != 0);
+
+		downButton
+				.setEnabled(selectedIndex != -1 && selectedIndex != entity.getMaxAttributeIndex());
 	}
 
 	public void updateAttributeTable() {
@@ -311,6 +332,7 @@ public class AttributeSettingPanel extends Composite {
 
 	private void updateSelection() {
 		attributeTable.select(selectedIndex);
+		filterButtonsWhenClick();
 	}
 
 	/**
