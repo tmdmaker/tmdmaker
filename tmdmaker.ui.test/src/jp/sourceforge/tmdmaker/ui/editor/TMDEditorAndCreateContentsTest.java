@@ -13,23 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.editor;
+package jp.sourceforge.tmdmaker.ui.editor;
 
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
-import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
-import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.keyboard.Keyboard;
+import org.eclipse.swtbot.swt.finder.keyboard.KeyboardFactory;
+import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.junit.After;
 import org.junit.Before;
@@ -43,6 +51,10 @@ import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.ui.test.BotWait;
+import jp.sourceforge.tmdmaker.ui.test.CreateDiagram;
+import jp.sourceforge.tmdmaker.ui.test.NewEmptyProject;
+import jp.sourceforge.tmdmaker.ui.test.View;
 
 /**
  * TMD-MakerのUIテスト
@@ -54,20 +66,20 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 	private NewEmptyProject project = new NewEmptyProject();
 	private CreateDiagram tmDiagram = new CreateDiagram();
+	private View propertiesView = new View("General", "Properties");
+	private View outlineView = new View("General", "Outline");
 	private SWTBotGefEditor botEditor;
 	private TMDEditor tmdEditor;
+	private BotWait wait = new BotWait();
 	private static final String PROJECT_NAME = "test";
 	private static final String FILE_NAME = "test.tmd";
+	private static final int RADIO_INDEX_RESOURCE = 0;
+	private static final int RADIO_INDEX_EVENT = 1;
+	private static final int RADIO_INDEX_LAPUTA = 2;
 
 	@BeforeClass
 	public static void closeWelcomePage() {
-		try {
-			new SWTGefBot().viewByTitle("Welcome").close();
-
-		} catch (WidgetNotFoundException e) {
-			// do nothing
-			System.out.println("Welcome view not found." + e.getMessage());
-		}
+		new View("Welcome").close();
 	}
 
 	@Before
@@ -117,29 +129,14 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 	@Test
 	public void testCreateEntity() {
+		propertiesView.open();
+		outlineView.open();
 		maximizeActiveWindow();
 		maximizeActiveEditor();
-		botEditor.activateTool("Entity");
-		botEditor.click(50, 50);
-		SWTBotShell shell = bot.shell("Create a new entity");
-		shell.activate();
-		bot.text(0).setFocus();
-		bot.text(0).setText("顧客番号");
-		bot.radio(0).click();
-		bot.button("OK").click();
-		sleep();
 
-		botEditor.activateTool("Entity");
-		botEditor.click(300, 50);
-		shell = bot.shell("Create a new entity");
-		shell.activate();
-		bot.text(0).setFocus();
-		bot.text(0).setText("商品番号");
-		bot.radio(0).click();
-		bot.button("OK").click();
-		sleep();
+		createEntity(50, 50, "顧客番号", RADIO_INDEX_RESOURCE);
 
-		sleep();
+		createEntity(300, 50, "商品番号", RADIO_INDEX_RESOURCE);
 
 		// R:R 対照表
 		botEditor.activateTool("Relationship");
@@ -147,35 +144,11 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		botEditor.click(305, 55);
 		sleep();
 
-		botEditor.activateTool("Entity");
-		botEditor.click(50, 250);
-		shell = bot.shell("Create a new entity");
-		shell.activate();
-		bot.text(0).setFocus();
-		bot.text(0).setText("受注ID");
-		bot.radio(1).click();
-		bot.button("OK").click();
-		sleep();
+		createEntity(50, 250, "受注ID", RADIO_INDEX_EVENT);
 
-		botEditor.activateTool("Entity");
-		botEditor.click(300, 250);
-		shell = bot.shell("Create a new entity");
-		shell.activate();
-		bot.text(0).setFocus();
-		bot.text(0).setText("請求ID");
-		bot.radio(1).click();
-		bot.button("OK").click();
-		sleep();
+		createEntity(300, 250, "請求ID", RADIO_INDEX_EVENT);
 
-		botEditor.activateTool("Entity");
-		botEditor.click(500, 250);
-		shell = bot.shell("Create a new entity");
-		shell.activate();
-		bot.text(0).setFocus();
-		bot.text(0).setText("発送ID");
-		bot.radio(1).click();
-		bot.button("OK").click();
-		sleep();
+		createEntity(500, 250, "発送ID", RADIO_INDEX_EVENT);
 
 		// R:E
 		botEditor.activateTool("Relationship");
@@ -188,7 +161,7 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		botEditor.click(55, 255);
 		botEditor.click(305, 255);
 		sleep();
-		shell = bot.shell("Edit relationship");
+		SWTBotShell shell = bot.shell("Edit relationship");
 		shell.activate();
 		bot.radio("N", 0).click();
 		bot.radio("N", 1).click();
@@ -216,7 +189,6 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		// サブセット
 		botEditor.activateTool("Select");
 		botEditor.click(303, 55);
-		// botEditor.clickContextMenu("Subset");
 		botEditor.clickContextMenu("Create subset");
 		shell = bot.shell("Edit subset");
 		shell.activate();
@@ -269,31 +241,35 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		Entity e1 = (Entity) diagram.getChildren().get(0);
 		assertEquals("顧客番号", e1.getIdentifier().getName());
 		assertEquals("顧客", e1.getName());
-		System.out.println(e1.getConstraint());
 
 		Entity e2 = (Entity) diagram.getChildren().get(1);
 		assertEquals("商品番号", e2.getIdentifier().getName());
 		assertEquals("商品", e2.getName());
-		System.out.println(e2.getConstraint().toString());
 
-		System.out.println(diagram.getChildren().size());
 		CombinationTable t1 = (CombinationTable) diagram.getChildren().get(2);
 		assertEquals("顧客.商品.対照表", t1.getName());
-		botEditor.close();
+	}
+
+	private void createEntity(int x, int y, String identifierName, int type) {
+		botEditor.activateTool("Entity");
+		botEditor.click(x, y);
+		SWTBotShell shell = bot.shell("Create a new entity");
+		shell.activate();
+		bot.text(0).setFocus();
+		bot.text(0).setText(identifierName);
+		bot.radio(type).click();
+		bot.button("OK").click();
+		wait.waitDefault();
 	}
 
 	@Test
 	public void testCreateNotEntity() {
+		propertiesView.open();
+		outlineView.open();
 		maximizeActiveWindow();
 		maximizeActiveEditor();
-		botEditor.activateTool("Entity");
-		botEditor.click(50, 50);
-		SWTBotShell shell = bot.shell("Create a new entity");
-		shell.activate();
-		bot.text(0).setFocus();
-		bot.text(0).setText("顧客番号");
-		bot.radio(0).click();
-		bot.button("OK").click();
+
+		createEntity(50, 50, "顧客番号", RADIO_INDEX_RESOURCE);
 		sleep();
 
 		// ターボファイル
@@ -311,31 +287,15 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		sleep();
 
 		// ラピュタ
-		botEditor.activateTool("Entity");
-		botEditor.click(150, 150);
-		shell = bot.shell("Create a new entity");
-		shell.activate();
-		bot.text(0).setFocus();
-		bot.radio(2).click();
-		bot.button("OK").click();
-		sleep();
-
-		botEditor.activateTool("Entity");
-		botEditor.click(250, 250);
-		shell = bot.shell("Create a new entity");
-		shell.activate();
-		bot.text(0).setFocus();
-		bot.text(0).setText("ラピュタ番号");
-		bot.radio(2).click();
-		bot.button("OK").click();
-		sleep();
-		botEditor.close();
+		createEntity(150, 150, "", RADIO_INDEX_LAPUTA);
+		createEntity(250, 250, "ラピュタ番号", RADIO_INDEX_LAPUTA);
 	}
 
 	@Test
 	public void testAttributeDialog() {
-		maximizeActiveWindow();
-		maximizeActiveEditor();
+		propertiesView.open();
+		outlineView.open();
+
 		botEditor.activateTool("Entity");
 		botEditor.click(50, 50);
 		SWTBotShell shell = bot.shell("Create a new entity");
@@ -345,26 +305,11 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		bot.radio(0).click();
 
 		bot.button("Description").click();
-		bot.text(1).setText("implementName");
-		bot.text(2).setText("summary");
-		// data type
-		bot.comboBox(0).setSelection(7);
-		bot.text(3).setText("10");
-		bot.text(4).setText("1");
-		// auto increment
-		bot.checkBox(0).click();
-		// default value
-		bot.text(5).setText("10");
-		// prerequisite
-		bot.text(6).setText("prerequisite");
-		// confidenciality
-		bot.text(7).setText("confidenciality");
-		// formula
-		bot.text(8).setText("formula");
+		fillAttributeValues();
+
 		bot.button("OK").click();
 		sleep();
-		bot.button("OK").click();
-		sleep();
+		botEditor.click(75, 95);
 
 		botEditor.doubleClick(55, 55);
 		shell = bot.shell("Edit entity");
@@ -388,6 +333,8 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 
 		bot.button("Remove").click();
 		sleep();
+		bot.button("Description", 1).click();
+		fillAttributeValues();
 
 		bot.button("OK").click();
 		sleep();
@@ -401,12 +348,87 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		Identifier i = ((Entity) m).getIdentifier();
 		assertEquals("顧客番号", i.getName());
 		assertEquals("formula", i.getDerivationRule());
+	}
 
-		botEditor.close();
+	private void fillAttributeValues() {
+		bot.text(1).setText("implementName");
+		bot.text(2).setText("summary");
+		// data type
+		bot.comboBox(0).setSelection(7);
+		bot.text(3).setText("10");
+		bot.text(4).setText("1");
+		// auto increment
+		bot.checkBox(0).click();
+		// default value
+		bot.text(5).setText("10");
+		// prerequisite
+		bot.text(6).setText("prerequisite");
+		// confidenciality
+		bot.text(7).setText("confidenciality");
+		// formula
+		bot.text(8).setText("formula");
+		bot.button("OK").click();
+		sleep();
+	}
+
+	@Test
+	public void testMove() throws Exception {
+		botEditor.setFocus();
+		createEntity(50, 50, "顧客番号", RADIO_INDEX_RESOURCE);
+		botEditor.activateTool("Select");
+
+		botEditor.click(55, 55);
+
+		botEditor.drag(55, 55, 100, 100);
+		sleep();
+		botEditor.getEditPart("顧客").select();
+		botEditor.activateTool("Select");
+
+		SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
+		Keyboard keyboard = KeyboardFactory.getSWTKeyboard();
+		keyboard.pressShortcut(Keystrokes.LEFT);
+		keyboard.pressShortcut(Keystrokes.LEFT);
+		keyboard.pressShortcut(Keystrokes.DOWN);
+		keyboard.pressShortcut(Keystrokes.DOWN);
+		keyboard.pressShortcut(Keystrokes.RIGHT);
+		keyboard.pressShortcut(Keystrokes.RIGHT);
+		keyboard.pressShortcut(Keystrokes.UP);
+		keyboard.pressShortcut(Keystrokes.UP);
+
+		sleep();
+	}
+
+	@Test
+	public void testPreferences() {
+		botEditor.setFocus();
+		createEntity(50, 50, "顧客番号", RADIO_INDEX_RESOURCE);
+		sleep();
+		botEditor.select("顧客");
+		assertEquals(1, botEditor.getEditPart("顧客").children().size());
+
+		try {
+			bot.menu("Window").menu("Preferences").click();
+		} catch (Exception e) {
+			openPreferenceForMac();
+		}
+		bot.tree().getTreeItem("TMD-Maker").select();
+		bot.tree().getTreeItem("TMD-Maker").expand();
+		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").select();
+		bot.tree().getTreeItem("TMD-Maker").getNode("Rule").select();
+		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").select();
+		SWTBotShell shell = bot.shell("Preferences");
+		shell.activate();
+		bot.checkBox(0).click();
+		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").expand();
+		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").getNode("Color Appearance")
+				.select();
+		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").getNode("Font Appearance")
+				.select();
+		bot.button("OK").click();
 	}
 
 	private void sleep() {
-		bot.sleep(300);
+		wait.waitDefault();
 	}
 
 	private void maximizeActiveWindow() {
@@ -431,4 +453,26 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		UIThreadRunnable.syncExec(maximizeShell);
 	}
 
+	private void openPreferenceForMac() {
+		final IWorkbench workbench = PlatformUI.getWorkbench();
+		workbench.getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+				if (window != null) {
+					Menu appMenu = workbench.getDisplay().getSystemMenu();
+					for (MenuItem item : appMenu.getItems()) {
+						if (item.getText().startsWith("Preferences")) {
+							Event event = new Event();
+							event.time = (int) System.currentTimeMillis();
+							event.widget = item;
+							event.display = workbench.getDisplay();
+							item.setSelection(true);
+							item.notifyListeners(SWT.Selection, event);
+							break;
+						}
+					}
+				}
+			}
+		});
+	}
 }

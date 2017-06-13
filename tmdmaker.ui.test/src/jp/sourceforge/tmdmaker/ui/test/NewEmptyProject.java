@@ -1,4 +1,19 @@
-package jp.sourceforge.tmdmaker.editor;
+/*
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package jp.sourceforge.tmdmaker.ui.test;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
@@ -6,18 +21,24 @@ import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 
+/**
+ * 空のプロジェクトを作成するテスト用クラス.
+ * 
+ * @author nakag
+ *
+ */
 public class NewEmptyProject {
 	private SWTBot bot = new SWTBot();
 
 	public void createProject(String projectName) throws Exception {
+		BotWait wait = new BotWait();
 		bot.menu("File").menu("New").menu("Project...").click();
-		bot.sleep(300);
+		wait.waitDefault();
 		SWTBotShell shell = bot.shell("New Project");
 		shell.activate();
-		bot.sleep(300);
+		wait.waitDefault();
 		SWTBotTree projectSelectionTree = bot.tree();
-		projectSelectionTree.expandNode("General").expandNode("Project")
-				.select();
+		projectSelectionTree.expandNode("General").expandNode("Project").select();
 		bot.waitUntil(new DefaultCondition() {
 			public String getFailureMessage() {
 				return "unable to select";
@@ -29,7 +50,7 @@ public class NewEmptyProject {
 
 		});
 		bot.button("Next >").click();
-		bot.sleep(300);
+		wait.waitDefault();
 		bot.textWithLabel("Project name:").setText(projectName);
 		bot.button("Finish").click();
 		bot.waitUntil(Conditions.shellCloses(shell));
