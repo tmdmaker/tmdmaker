@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.keyboard.Keyboard;
@@ -424,7 +425,11 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 				.select();
 		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").getNode("Font Appearance")
 				.select();
-		bot.button("OK").click();
+		try {
+			bot.button("Apply and Close").click();
+		} catch (WidgetNotFoundException e) {
+			bot.button("OK").click();
+		}
 	}
 
 	private void sleep() {

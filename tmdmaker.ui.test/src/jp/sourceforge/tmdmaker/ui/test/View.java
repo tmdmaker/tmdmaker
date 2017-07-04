@@ -55,7 +55,11 @@ public class View {
 		SWTBotTree viewTree = bot.tree();
 		viewTree.expandNode(node).select(viewName);
 		wait.waitDefault();
-		bot.button("OK").click();
+		try {
+			bot.button("Open").click();
+		} catch (WidgetNotFoundException e) {
+			bot.button("OK").click();
+		}
 	}
 
 	public void close() {
