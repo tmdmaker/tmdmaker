@@ -412,19 +412,17 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		} catch (Exception e) {
 			openPreferenceForMac();
 		}
-		bot.tree().getTreeItem("TMD-Maker").select();
-		bot.tree().getTreeItem("TMD-Maker").expand();
-		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").select();
-		bot.tree().getTreeItem("TMD-Maker").getNode("Rule").select();
-		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").select();
+
+		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").click();
+		bot.tree().expandNode("TMD-Maker").expandNode("Rule").click();
+		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").click();
+
 		SWTBotShell shell = bot.shell("Preferences");
 		shell.activate();
 		bot.checkBox(0).click();
-		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").expand();
-		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").getNode("Color Appearance")
-				.select();
-		bot.tree().getTreeItem("TMD-Maker").getNode("Appearance").getNode("Font Appearance")
-				.select();
+		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").click();
+		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").expandNode("Color Appearance").click();
+		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").expandNode("Color Appearance").click();
 		try {
 			bot.button("Apply and Close").click();
 		} catch (WidgetNotFoundException e) {
