@@ -35,7 +35,7 @@
 					<products>
 						<product>
 							<id>tmdmaker.rcp.product</id>
-							<archiveFileName>tmdmaker_for_rcp_${release-version}</archiveFileName>
+							<archiveFileName>tmdmaker_${release-version}</archiveFileName>
 							<rootFolder>tmdmaker</rootFolder>
 							<rootFolders>
 								<win32>tmdmaker</win32>
