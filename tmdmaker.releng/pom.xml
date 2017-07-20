@@ -13,8 +13,7 @@
 		<os-jvm-flags />
 		<jacoco-version>0.7.9</jacoco-version>
 		<antrun-version>1.8</antrun-version>
-		<docbkx-maven-plugin-version>2.0.17</docbkx-maven-plugin-version>
-		<docbook-xml-verson>5.0-all</docbook-xml-verson>
+		<sphinx-maven-plugin-version>1.5.3.Final</sphinx-maven-plugin-version>
 		<maven-dependency-plugin-version>3.0.1</maven-dependency-plugin-version>
 		<maven-site-plugin-version>3.6</maven-site-plugin-version>
 		<wagon-ssh-version>2.12</wagon-ssh-version>
