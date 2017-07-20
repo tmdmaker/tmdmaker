@@ -4,6 +4,7 @@
 # sphinx-maven-plugin と python3 の両方で動かすため
 import sys
 if sys.version_info[0] == 2:
+   reload(sys)
    sys.setdefaultencoding("utf-8")
 
 extensions = ['sphinx.ext.todo']
