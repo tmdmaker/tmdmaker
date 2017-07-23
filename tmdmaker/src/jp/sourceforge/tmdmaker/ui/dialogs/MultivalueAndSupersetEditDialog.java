@@ -97,7 +97,7 @@ public class MultivalueAndSupersetEditDialog extends ModelEditDialog<MultivalueA
 		});
 		gridData_1 = new GridData(GridData.FILL_BOTH);
 		gridData_1.grabExcessVerticalSpace = false;
-		gridData_1.widthHint = 100;
+		gridData_1.widthHint = 200;
 		inputNameText.setLayoutData(gridData_1);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
