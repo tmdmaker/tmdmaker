@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker Core
 Bundle-SymbolicName: tmdmaker.core
-Bundle-Version: 0.4.0.qualifier
+Bundle-Version: 0.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
 Export-Package: jp.sourceforge.tmdmaker.model,
@@ -11,6 +11,7 @@ Export-Package: jp.sourceforge.tmdmaker.model,
  jp.sourceforge.tmdmaker.model.generate,
  jp.sourceforge.tmdmaker.model.importer,
  jp.sourceforge.tmdmaker.model.other,
+ jp.sourceforge.tmdmaker.model.parts,
  jp.sourceforge.tmdmaker.model.persistence,
  jp.sourceforge.tmdmaker.model.rule,
  org.apache.commons.logging,

@@ -15,25 +15,25 @@
  */
 package jp.sourceforge.tmdmaker;
 
-import jp.sourceforge.tmdmaker.action.CommonAttributeSettingAction;
-import jp.sourceforge.tmdmaker.action.DatabaseSelectAction;
-import jp.sourceforge.tmdmaker.action.DiagramImageGenerateAction;
-import jp.sourceforge.tmdmaker.action.ImplementInfoEditAction;
-import jp.sourceforge.tmdmaker.action.MultivalueAndCreateAction;
-import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetHideAction;
-import jp.sourceforge.tmdmaker.action.MultivalueAndSupersetShowAction;
-import jp.sourceforge.tmdmaker.action.MultivalueOrCreateAction;
-import jp.sourceforge.tmdmaker.action.OpenDialogAction;
-import jp.sourceforge.tmdmaker.action.SubsetCreateAction;
-import jp.sourceforge.tmdmaker.action.SubsetTypeTurnAction;
-import jp.sourceforge.tmdmaker.action.VirtualEntityCreateAction;
-import jp.sourceforge.tmdmaker.action.VirtualSupersetCreateAction;
 import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
 import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
 import jp.sourceforge.tmdmaker.model.importer.FileImporter;
+import jp.sourceforge.tmdmaker.ui.actions.CommonAttributeSettingAction;
+import jp.sourceforge.tmdmaker.ui.actions.DatabaseSelectAction;
+import jp.sourceforge.tmdmaker.ui.actions.DiagramImageGenerateAction;
+import jp.sourceforge.tmdmaker.ui.actions.ImplementInfoEditAction;
+import jp.sourceforge.tmdmaker.ui.actions.MultivalueAndCreateAction;
+import jp.sourceforge.tmdmaker.ui.actions.MultivalueAndSupersetHideAction;
+import jp.sourceforge.tmdmaker.ui.actions.MultivalueAndSupersetShowAction;
+import jp.sourceforge.tmdmaker.ui.actions.MultivalueOrCreateAction;
+import jp.sourceforge.tmdmaker.ui.actions.OpenDialogAction;
+import jp.sourceforge.tmdmaker.ui.actions.SubsetCreateAction;
+import jp.sourceforge.tmdmaker.ui.actions.SubsetTypeTurnAction;
+import jp.sourceforge.tmdmaker.ui.actions.VirtualEntityCreateAction;
+import jp.sourceforge.tmdmaker.ui.actions.VirtualSupersetCreateAction;
 
 import java.util.List;
 

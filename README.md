@@ -23,9 +23,9 @@ This method is a technique to make the database structure while at the same time
 ### plugin
 - java6 or later(java8 is recommended).
 
-- eclipse 3.4 or later(eclipse 4.6 is recommended).
+- eclipse 3.4 or later(eclipse 4.7 is recommended).
 
-- GEF 3.x（Eclipse Graphical Editing Framework）.Same version as the eclipse.
+- GEF(MVC) 3.x（Eclipse Graphical Editing Framework）.
 
 - (Optional) Xtend IDE 2.11 and JavaSE8 ExecutionEnvirnment(Eclipse 4.4 or later).If you use tmdmaker sphinx plugin.
 
@@ -46,14 +46,15 @@ mvn clean verify
 ```
 
 ## Installation
-### plugin
-1. Unzip tmdmaker.releng.plugin/target/`tmdmaker_`_**version**_.zip.
+
+### java application(Eclipse RCP)
+1. Extract  tmdmaker.releng.product/target/products/`tmdmaker_`_**version**_-_**os**_._**ws**_._**arch**_.zip/tar.gz.
+1. Run tmdmaker (run TMD-Maker.app, for macosx).
+
+### eclipse plugin
+1. Unzip tmdmaker.releng.plugin/target/`tmdmaker_plugin_`_**version**_.zip.
 1. Put it into dropins directory.
 1. Run eclipse.
-
-### RCP(java application)
-1. Extract  tmdmaker.releng.product/target/products/`tmdmaker_for_rcp_`_**version**_-_**os**_._**ws**_._**arch**_.zip/tar.gz.
-1. Run tmdmaker (run TMD-Maker.app, for macosx).
 
 ## Usage
 1. Create a project.

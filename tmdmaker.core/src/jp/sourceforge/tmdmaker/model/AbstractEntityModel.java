@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,9 +35,9 @@ import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractEntityModel extends ConnectableElement {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(AbstractEntityModel.class);
-	
+
 	/** 親モデル */
 	private Diagram diagram;
 	public static final String PROPERTY_ATTRIBUTE_REORDER = "p_attribute_reorder";
@@ -94,8 +94,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param reusedIdentifiers
 	 *            the reusedIdentifiers to set
 	 */
-	public void setReusedIdentifiers(
-			Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifiers) {
+	public void setReusedIdentifiers(Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifiers) {
 		this.reusedIdentifiers = reusedIdentifiers;
 	}
 
@@ -301,8 +300,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 			notifyIdentifierChangedToConnections(getModelTargetConnections(), callConnection);
 		} else {
 			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
-			List<AbstractConnectionModel> targetcons = 
-					findRelationshipFromTargetConnections(Event2EventRelationship.class);
+			List<AbstractConnectionModel> targetcons = findRelationshipFromTargetConnections(
+					Event2EventRelationship.class);
 			notifyIdentifierChangedToConnections(targetcons, callConnection);
 		}
 	}
@@ -320,7 +319,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		for (AbstractConnectionModel con : connections) {
 			if (con instanceof IdentifierChangeListener && con != callConnection) {
 				((IdentifierChangeListener) con).identifierChanged();
-				logger.debug(getName() + "から" + con.getClass().toString() + "に通知しました。" );
+				logger.debug(getName() + "から" + con.getClass().toString() + "に通知しました。");
 			}
 		}
 	}
@@ -567,5 +566,4 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public boolean canCreateVirtualEntity() {
 		return true;
 	}
-
 }

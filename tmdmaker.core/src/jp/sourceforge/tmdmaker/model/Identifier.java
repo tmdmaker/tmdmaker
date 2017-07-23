@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package jp.sourceforge.tmdmaker.model;
+
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 
 /**
  * 個体指定子モデル
@@ -50,5 +53,8 @@ public class Identifier extends Attribute {
 		copyTo(copy);
 		return copy;
 	}
-	
+
+	public ModelName createEntityName() {
+		return new ModelName(EntityRecognitionRule.getInstance().generateEntityNameFromIdentifier(getName()));
+	}
 }

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>tmdmaker</groupId>
 		<artifactId>tmdmaker.releng</artifactId>
-		<version>0.4.0-SNAPSHOT</version>
+		<version>0.5.0-SNAPSHOT</version>
 		<relativePath>../tmdmaker.releng</relativePath>
 	</parent>
 
@@ -126,39 +126,20 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.agilejava.docbkx</groupId>
-				<artifactId>docbkx-maven-plugin</artifactId>
-				<version>${docbkx-maven-plugin-version}</version>
+				<groupId>kr.motd.maven</groupId>
+				<artifactId>sphinx-maven-plugin</artifactId>
+				<version>${sphinx-maven-plugin-version}</version>
 				<configuration>
-					<xincludeSupported>true</xincludeSupported>
-					<chunkedOutput>true</chunkedOutput>
-					<htmlCustomization>src/docbkx/generate-html.xsl</htmlCustomization>
-					<preProcess>
-						<copy todir="${project.build.directory}/site/doc/images">
-							<fileset dir="${project.basedir}/src/docbkx/images" />
-						</copy>
-					</preProcess>
-					<targetDirectory>${project.build.directory}/site/doc</targetDirectory>
+					<outputDirectory>${project.build.directory}/site/doc</outputDirectory>
 				</configuration>
 				<executions>
 					<execution>
-						<id>generate-html</id>
-						<phase>pre-site</phase>
+						<phase>package</phase>
 						<goals>
-							<goal>generate-html</goal>
+							<goal>generate</goal>
 						</goals>
 					</execution>
 				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>net.sf.docbook</groupId>
-						<artifactId>docbook-xml</artifactId>
-						<version>${docbook-xml-verson}</version>
-						<classifier>resources</classifier>
-						<type>zip</type>
-						<scope>runtime</scope>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
