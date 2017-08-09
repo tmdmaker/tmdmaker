@@ -1,0 +1,48 @@
+<project name="TMD-Maker"  xmlns="http://maven.apache.org/DECORATION/1.7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd">
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.6</version>
+  </skin>
+  <bannerLeft>
+    <name>TMD-Maker</name>
+  </bannerLeft>
+  <googleAnalyticsAccountId>UA-96558945-1</googleAnalyticsAccountId>
+  <custom>
+    <fluidoSkin>
+      <leftColumnClass>span3</leftColumnClass>
+      <bodyColumnClass>span9</bodyColumnClass>
+
+      <facebookLike/>
+
+      <twitter>
+        <user>TMDMakerTweet</user>
+        <showUser>true</showUser>
+        <showFollowers>true</showFollowers>
+      </twitter>
+    </fluidoSkin>
+  </custom>
+
+  <body>
+ 
+   <head>
+   <![CDATA[
+        <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#poweredBy iframe").css("width","88px");
+                });
+        </script>
+    ]]>
+    </head>
+ 
+    <links>
+      <item name="webサイトtop" href="../index.html"/>
+    </links>
+    <menu ref="parent" inherit="top"/>
+    <menu ref="reports" inherit="top"/>
+    <menu name="カバレッジレポート">
+      <item name="jacoco" href="./jacoco/report/index.html" />
+    </menu>
+  </body>
+</project>
