@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>tmdmaker</groupId>
+	<artifactId>jp.osdn.tmdmaker.bundles</artifactId>
+	<packaging>pom</packaging>
+
+	<name>TMD-Maker Bundles Project</name>
+	<description>TMD-Makerのプラグインの親プロジェクト</description>
+
+	<parent>
+		<groupId>tmdmaker</groupId>
+		<artifactId>jp.osdn.tmdmaker.root</artifactId>
+		<version>0.6.0-SNAPSHOT</version>
+	</parent>
+
+	<modules>
+		<module>tmdmaker.imagegenerator</module>
+		<module>tmdmaker.core</module>
+		<module>tmdmaker</module>
+		<module>tmdmaker.nl_ja</module>
+		<module>tmdmaker.csv</module>
+		<module>tmdmaker.ddlgenerator</module>
+		<module>tmdmaker.htmlgenerator</module>
+		<module>tmdmaker.rcp</module>
+		<module>tmdmaker.rcp.nl_ja</module>
+		<module>tmdmaker.serializer</module>
+		<module>tmdmaker.serializer.handler.patch</module>
+		<module>tmdmaker.sphinx</module>
+		<module>tmdmaker.ui.menu</module>
+	</modules>
+</project>

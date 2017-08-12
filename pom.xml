@@ -1,0 +1,83 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>jp.osdn.tmdmaker.root</artifactId>
+	<packaging>pom</packaging>
+
+	<name>TMD-Maker Root Project</name>
+	<description>TMD-Makerの親POM用プロジェクト</description>
+
+	<parent>
+		<groupId>tmdmaker</groupId>
+		<artifactId>jp.osdn.tmdmaker.configuration</artifactId>
+		<version>0.6.0-SNAPSHOT</version>
+		<relativePath>./releng/jp.osdn.tmdmaker.configuration</relativePath>
+	</parent>
+
+	<modules>
+		<module>bundles</module>
+		<module>features</module>
+		<module>tests</module>
+		<module>docs</module>
+		<module>releng</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-doc-resources</id>
+						<phase>site</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/site/doc/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>./docs/tmdmaker.doc/target/site/doc/</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-jacoco-resources</id>
+						<phase>site</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/site/jacoco/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>./docs/tmdmaker.doc/target/site/jacoco/</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-landing-resources</id>
+						<phase>site</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/site/landing/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>./docs/tmdmaker.landing/target/site/</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>jp.osdn.tmdmaker.releng</artifactId>
+	<packaging>pom</packaging>
+
+	<name>TMD-Maker Release Engineering Project</name>
+	<description>TMD-Makerのリリース用設定の親プロジェクト</description>
+
+	<parent>
+		<groupId>tmdmaker</groupId>
+		<artifactId>jp.osdn.tmdmaker.root</artifactId>
+		<version>0.6.0-SNAPSHOT</version>
+	</parent>
+
+	<modules>
+		<module>tmdmaker.releng.plugin</module>
+		<module>tmdmaker.releng.product</module>
+		<module>tmdmaker.releng.targetplatform</module>
+	</modules>
+
+</project>
