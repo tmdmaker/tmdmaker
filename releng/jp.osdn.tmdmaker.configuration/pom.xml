@@ -133,6 +133,11 @@
 					<artifactId>tycho-p2-repository-plugin</artifactId>
 					<version>${tycho-version}</version>
 				</plugin>
+				<plugin>
+					<groupId>org.eluder.coveralls</groupId>
+					<artifactId>coveralls-maven-plugin</artifactId>
+					<version>${coveralls-maven-plugin-version}</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -210,16 +215,6 @@
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
 					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>${coveralls-maven-plugin-version}</version>
-				<configuration>
-					<jacocoReports>
-						<jacocoReport>../../docs/tmdmaker.doc/target/site/jacoco/report/jacoco.xml</jacocoReport>
-					</jacocoReports>
 				</configuration>
 			</plugin>
 			<plugin>
