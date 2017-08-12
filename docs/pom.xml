@@ -15,6 +15,7 @@
 
 	<modules>
 		<module>tmdmaker.doc</module>
+		<module>tmdmaker.landing</module>
 	</modules>
 
 </project>

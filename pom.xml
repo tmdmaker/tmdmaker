@@ -60,6 +60,22 @@
 							</resources>
 						</configuration>
 					</execution>
+					<execution>
+						<id>copy-landing-resources</id>
+						<phase>site</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/site/landing/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>./docs/tmdmaker.landing/target/site/</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>

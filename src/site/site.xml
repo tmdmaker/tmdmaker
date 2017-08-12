@@ -37,7 +37,7 @@
     </head>
  
     <links>
-      <item name="webサイトtop" href="../index.html"/>
+      <item name="webサイトtop" href="./landing/index.html"/>
     </links>
     <menu ref="parent" inherit="top"/>
     <menu ref="reports" inherit="top"/>
