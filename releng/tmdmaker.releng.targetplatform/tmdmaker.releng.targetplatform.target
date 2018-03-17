@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target includeMode="feature" name="tmdmaker.releng.targetplatform" sequenceNumber="154">
+<?pde version="3.8"?><target includeMode="feature" name="tmdmaker.releng.targetplatform" sequenceNumber="157">
 <locations>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.6.0.v20161126060001"/>
-<repository location="http://download.eclipse.org/technology/babel/update-site/R0.14.1/neon"/>
-</location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.ecf.core.feature.feature.group" version="1.4.0.v20170516-2248"/>
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.13.0.v20170609-0928"/>
@@ -16,15 +12,15 @@
 <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.12.0/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.2.0.v20170518-1049"/>
+<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.2.1.v20170928-1321"/>
 <unit id="org.eclipse.e4.core.tools.feature.feature.group" version="4.7.0.v20170515-1617"/>
-<unit id="org.eclipse.equinox.executable" version="3.7.0.v20170531-1133"/>
-<unit id="org.eclipse.equinox.executable.feature.group" version="3.7.0.v20170531-1133"/>
-<unit id="org.eclipse.platform.ide" version="4.7.0.I20170612-0950"/>
-<unit id="org.eclipse.platform.sdk" version="4.7.0.I20170612-0950"/>
-<unit id="org.eclipse.rcp.id" version="4.7.0.I20170612-0950"/>
-<unit id="org.eclipse.rcp.sdk.id" version="4.7.0.I20170612-0950"/>
-<unit id="org.eclipse.sdk.ide" version="4.7.0.I20170612-0950"/>
+<unit id="org.eclipse.equinox.executable" version="3.7.2.v20171108-1834"/>
+<unit id="org.eclipse.equinox.executable.feature.group" version="3.7.2.v20171108-1834"/>
+<unit id="org.eclipse.platform.ide" version="4.7.2.M20171130-0510"/>
+<unit id="org.eclipse.platform.sdk" version="4.7.2.M20171130-0510"/>
+<unit id="org.eclipse.rcp.id" version="4.7.2.M20171130-0510"/>
+<unit id="org.eclipse.rcp.sdk.id" version="4.7.2.M20171130-0510"/>
+<unit id="org.eclipse.sdk.ide" version="4.7.2.M20171130-0510"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.7"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
@@ -45,6 +41,10 @@
 <unit id="org.eclipse.swtbot.generator.feature.feature.group" version="2.6.0.201706141832"/>
 <unit id="org.eclipse.swtbot.ide.feature.group" version="2.6.0.201706141832"/>
 <repository location="http://download.eclipse.org/technology/swtbot/releases/2.6.0"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.7.0.v20171231020002"/>
+<repository location="http://download.eclipse.org/technology/babel/update-site/R0.15.1/oxygen"/>
 </location>
 </locations>
 </target>
