@@ -15,5 +15,12 @@
             name="AttributeFileImporter">
       </importer>
    </extension>
+   <extension
+         point="tmdmaker.generators">
+      <generator
+            class="jp.sourceforge.tmdmaker.generate.attributelist.AttributeListCsvGenerator"
+            name="attribute_list">
+      </generator>
+   </extension>
 
 </plugin>

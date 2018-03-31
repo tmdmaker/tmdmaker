@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.handler;
+package jp.sourceforge.tmdmaker.ui.handler;
 
 import java.util.Iterator;
 
@@ -32,12 +32,12 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
- * ダイアグラムから別ファイルを生成するためのハンドラの基底クラス
+ * ダイアグラムから別ファイルを生成するためのハンドラクラス
  * 
  * @author nakaG
  * 
  */
-public abstract class AbstractGeneratorHandler extends AbstractHandler {
+public abstract class GeneratorHandler extends AbstractHandler {
 	private Generator generator;
 
 	/**
@@ -46,7 +46,7 @@ public abstract class AbstractGeneratorHandler extends AbstractHandler {
 	 * @param generator
 	 *            generator
 	 */
-	public AbstractGeneratorHandler(Generator generator) {
+	public GeneratorHandler(Generator generator) {
 		super();
 		this.generator = generator;
 	}
@@ -54,7 +54,7 @@ public abstract class AbstractGeneratorHandler extends AbstractHandler {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see AbstractGeneratorHandler#execute(ExecutionEvent)
+	 * @see GeneratorHandler#execute(ExecutionEvent)
 	 * 
 	 */
 	@Override
@@ -70,11 +70,9 @@ public abstract class AbstractGeneratorHandler extends AbstractHandler {
 				generator.execute(path, diagram.findEntityModel());
 				TMDPlugin.refreshGenerateResources(path);
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				TMDPlugin.showErrorDialog(e);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				TMDPlugin.showErrorDialog(e);
 			}
 		}
 		return null;
@@ -92,6 +90,11 @@ public abstract class AbstractGeneratorHandler extends AbstractHandler {
 
 	private String getAbsolutePath(IFile file) {
 		return file.getProject().getLocation().toString();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 }

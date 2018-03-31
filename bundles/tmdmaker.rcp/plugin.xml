@@ -26,7 +26,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="tmdmaker.rcp.application"
-            name="%product.name.0">
+            name="TMD-Maker for RCP">
          <property
                name="tmdmaker.rcp"
                value="TMD-Maker for RCP">
