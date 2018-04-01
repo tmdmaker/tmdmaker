@@ -16,7 +16,6 @@
 package jp.sourceforge.tmdmaker.model.generate.attributelist;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 
 /**
@@ -39,32 +38,22 @@ public class EntityAttributePair {
 		this.model = model;
 		this.attribute = attribute;
 	}
+
 	public String createAttributeFileKey() {
 		return attribute.getName() + "_" + model.getName();
 	}
+
 	/**
 	 * @return the attribute
 	 */
 	public IAttribute getAttribute() {
 		return attribute;
 	}
-	/**
-	 * @param attribute the attribute to set
-	 */
-	public void setAttribute(Attribute attribute) {
-		this.attribute = attribute;
-	}
+
 	/**
 	 * @return the model
 	 */
 	public AbstractEntityModel getModel() {
 		return model;
 	}
-	/**
-	 * @param model the model to set
-	 */
-	public void setModel(AbstractEntityModel model) {
-		this.model = model;
-	}
-	
 }
