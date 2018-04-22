@@ -52,9 +52,17 @@ mvn clean verify
 1. Run tmdmaker (run TMD-Maker.app, for macosx).
 
 ### Eclipse Plugin
+#### use dropins
+1. Install GEF3.x and Xtend from updatesite.
 1. Unzip tmdmaker.releng.plugin/target/`tmdmaker_plugin_`_**version**_.zip.
 1. Put it into dropins directory.
 1. Run eclipse.
+
+#### use updatesite
+1. Select Help->Install New Software....
+1. Click Add -> archive button.
+1. Select `tmdmaker_plugin_updatesite`_**version**_.zip.
+1. Check TMD-Maker plugin, and finish the updatesite.
 
 ## Usage
 1. Create a project.

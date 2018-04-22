@@ -15,6 +15,7 @@
 
 	<modules>
 		<module>tmdmaker.feature</module>
+		<module>tmdmaker.e3.feature</module>
 		<module>tmdmaker.rcp.feature</module>
 	</modules>
 </project>
