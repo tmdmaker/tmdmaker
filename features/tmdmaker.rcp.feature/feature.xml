@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="tmdmaker.rcp.feature"
+      label="TMD-Maker RCP Feature"
+      version="0.6.0.qualifier"
+      provider-name="TMD-Maker Project"
+      plugin="tmdmaker.rcp">
+
+   <description url="https://tmdmaker.osdn.jp/">
+      TMD-Maker for Rich Client Platform.
+   </description>
+
+   <copyright url="https://tmdmaker.osdn.jp/">
+      (c) 2009-2017,TMD-Maker Project.
+   </copyright>
+
+   <license url="http://www.apache.org/licenses/LICENSE-2.0">
+      http://www.apache.org/licenses/LICENSE-2.0
+   </license>
+
+   <includes
+         id="org.eclipse.rcp"
+         version="0.0.0"/>
+
+   <includes
+         id="tmdmaker.feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="tmdmaker.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="tmdmaker.rcp.nl_ja"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+</feature>

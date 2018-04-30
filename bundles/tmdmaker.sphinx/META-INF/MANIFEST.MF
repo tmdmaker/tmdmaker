@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name.0
+Bundle-SymbolicName: tmdmaker.sphinx;singleton:=true
+Bundle-Version: 0.6.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: tmdmaker.core;bundle-version="0.2.9",
+ org.eclipse.xtend.lib,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Export-Package: jp.sourceforge.tmdmaker.sphinx.generate
+Import-Package: org.apache.commons.lang,
+ org.slf4j,
+ org.apache.commons.logging
+Bundle-Vendor: %Provider

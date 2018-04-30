@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker's HTMLGenerator with Velocity
+Bundle-SymbolicName: tmdmaker.htmlgenerator;singleton:=true
+Bundle-Version: 0.6.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,
+ tmdmaker.core;bundle-version="0.2.9"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: jp.sourceforge.tmdmaker.generate,
+ jp.sourceforge.tmdmaker.generate.attributelist,
+ jp.sourceforge.tmdmaker.generate.keydefinitionlist,
+ jp.sourceforge.tmdmaker.generate.relationshiplist
+Bundle-ClassPath: .,
+ lib/commons-collections-3.2.1.jar,
+ lib/commons-lang-2.4.jar,
+ lib/velocity-1.7.jar
+Bundle-Vendor: TMD-Maker Project

@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker Menu
+Bundle-SymbolicName: tmdmaker.ui.menu; singleton:=true
+Bundle-Version: 0.6.0.qualifier
+Bundle-Activator: jp.sourceforge.tmdmaker.ui.menu.Activator
+Require-Bundle: org.eclipse.core.expressions,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ tmdmaker;bundle-version="0.2.5",
+ tmdmaker.core;bundle-version="0.2.9",
+ org.eclipse.core.commands
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: TMD-Maker Project

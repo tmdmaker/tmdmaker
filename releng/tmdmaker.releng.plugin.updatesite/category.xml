@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/tmdmaker.feature_0.6.0.qualifier.jar" id="tmdmaker.feature" version="0.6.0.qualifier">
+      <category name="tmdmaker.category.id"/>
+   </feature>
+   <category-def name="tmdmaker.category.id" label="TMD-Maker plugin">
+      <description>
+         TMD-Maker plugin built with Tycho
+      </description>
+   </category-def>
+</site>
