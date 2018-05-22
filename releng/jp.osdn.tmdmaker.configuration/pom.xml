@@ -21,7 +21,7 @@
 		<antrun-version>1.8</antrun-version>
 		<sphinx-maven-plugin-version>1.7.0</sphinx-maven-plugin-version>
 		<maven-dependency-plugin-version>3.0.2</maven-dependency-plugin-version>
-		<maven-site-plugin-version>3.7</maven-site-plugin-version>
+		<maven-site-plugin-version>3.4</maven-site-plugin-version>
 		<wagon-ssh-version>3.0.0</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
 		<maven-project-info-reports-plugin-version>2.9</maven-project-info-reports-plugin-version>
@@ -33,12 +33,14 @@
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
 		<maven-javadoc-plugin-version>3.0.0</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.0.2</maven-resources-plugin-version>
-
+		<maven-assembly-plugin-version>3.1.0</maven-assembly-plugin-version>
+		<reflow-velocity-tools-version>1.1.1</reflow-velocity-tools-version>
+		<velocity-version>1.7</velocity-version>
 		<!-- other settings -->
 		<release-version>0.6.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
-		<project-url>https://tmdmaker.osdn.jp/</project-url>
+		<project-url>https://tmdmaker.osdn.jp</project-url>
 	</properties>
 
 	<profiles>
@@ -99,6 +101,17 @@
 							<artifactId>wagon-ssh</artifactId>
 							<version>${wagon-ssh-version}</version>
 						</dependency>
+						<dependency>
+				          <groupId>lt.velykis.maven.skins</groupId>
+				          <artifactId>reflow-velocity-tools</artifactId>
+				          <version>${reflow-velocity-tools-version}</version>
+				        </dependency>
+				        <dependency>
+				          <groupId>org.apache.velocity</groupId>
+				          <artifactId>velocity</artifactId>
+				          <version>${velocity-version}</version>
+				        </dependency>
+
 					</dependencies>
 				</plugin>
 				<plugin>
@@ -137,6 +150,11 @@
 					<groupId>org.eluder.coveralls</groupId>
 					<artifactId>coveralls-maven-plugin</artifactId>
 					<version>${coveralls-maven-plugin-version}</version>
+				</plugin>
+				<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-assembly-plugin</artifactId>
+				    <version>${maven-assembly-plugin-version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -275,7 +293,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>${maven-surefire-report-plugin-version}</version>
-				<inherited>false</inherited>
+				<inherited>true</inherited>
 				<configuration>
 					<aggregate>true</aggregate>
 				</configuration>
@@ -330,14 +348,14 @@
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
 
 	<distributionManagement>
 		<site>
 			<id>tmdmaker-site</id>
-			<url>scp://shell.osdn.jp/home/groups/t/tm/tmdmaker/htdocs/</url>
+			<url>scp://shell.osdn.jp/home/groups/t/tm/tmdmaker/htdocs/${project.artifactId}</url>
 		</site>
 	</distributionManagement>
 

@@ -33,10 +33,10 @@ public class NewEmptyProject {
 	public void createProject(String projectName) throws Exception {
 		BotWait wait = new BotWait();
 		bot.menu("File").menu("New").menu("Project...").click();
-		wait.waitDefault();
+		wait.waitDefault();wait.waitDefault();
 		SWTBotShell shell = bot.shell("New Project");
 		shell.activate();
-		wait.waitDefault();
+		wait.waitDefault();wait.waitDefault();
 		SWTBotTree projectSelectionTree = bot.tree();
 		projectSelectionTree.expandNode("General").expandNode("Project").select();
 		bot.waitUntil(new DefaultCondition() {
