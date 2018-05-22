@@ -14,6 +14,15 @@
 		<relativePath>./releng/jp.osdn.tmdmaker.configuration</relativePath>
 	</parent>
 
+	<url>${project-url}</url>
+
+	<distributionManagement>
+		<site>
+			<id>tmdmaker-site</id>
+			<url>scp://shell.osdn.jp/home/groups/t/tm/tmdmaker/htdocs/</url>
+		</site>
+	</distributionManagement>
+
 	<modules>
 		<module>bundles</module>
 		<module>features</module>
@@ -55,22 +64,6 @@
 							<resources>
 								<resource>
 									<directory>./docs/tmdmaker.doc/target/site/jacoco/</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-landing-resources</id>
-						<phase>site</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/site/landing/</outputDirectory>
-							<resources>
-								<resource>
-									<directory>./docs/tmdmaker.landing/target/site/</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>

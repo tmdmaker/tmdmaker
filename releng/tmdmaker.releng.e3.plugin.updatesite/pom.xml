@@ -4,7 +4,7 @@
 	<artifactId>tmdmaker.releng.e3.plugin.updatesite</artifactId>
 	<packaging>eclipse-repository</packaging>
 
-	<name>TMD-Maker Plugin for Eclipse 3.x Release Engineering</name>
+	<name>TMD-Maker Plugin for Eclipse 3.x Updatesite Release Engineering</name>
 	<description>TMD-MakerのEclipse 3.x 向けPluginビルド用プロジェクト</description>
 
 	<parent>

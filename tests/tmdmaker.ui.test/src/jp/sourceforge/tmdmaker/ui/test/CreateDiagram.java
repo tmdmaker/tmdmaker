@@ -30,11 +30,12 @@ public class CreateDiagram {
 	private SWTWorkbenchBot bot = new SWTWorkbenchBot();
 
 	public void createFile(final String projectName, final String fileName) throws Exception {
+		BotWait wait = new BotWait();
 		bot.menu("File").menu("New").menu("Other...").click();
 		bot.waitUntil(Conditions.shellIsActive("New"));
 		SWTBotShell shell = bot.shell("New");
 		shell.activate();
-
+		wait.waitDefault();
 		SWTBotTree wizardTree = bot.tree();
 		wizardTree.expandNode("TMD-Maker").select("TM Diagram");
 		bot.button("Next >").click();
