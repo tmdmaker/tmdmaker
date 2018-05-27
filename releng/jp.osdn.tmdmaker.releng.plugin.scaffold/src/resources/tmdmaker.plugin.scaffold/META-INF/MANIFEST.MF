@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker Plugin Scaffold
+Bundle-SymbolicName: tmdmaker.plugin.scaffold;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: tmdmaker.plugin.scaffold
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: tmdmaker;bundle-version="0.6.0",
+ tmdmaker.core;bundle-version="0.6.0"
