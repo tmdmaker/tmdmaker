@@ -3,10 +3,10 @@
 <schema targetNamespace="tmdmaker" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="tmdmaker" id="tmdmaker.generators" name="generators"/>
+         <meta.schema plugin="tmdmaker" id="tmdmaker.persisitence.serializer" name="TMD-Maker Serializer"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Serialize data of TMD-Maker.
       </documentation>
    </annotation>
 
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="generator" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="serializer"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,16 +47,13 @@
       </complexType>
    </element>
 
-   <element name="generator">
+   <element name="serializer">
       <complexType>
-         <attribute name="name" type="string" use="required">
+         <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  for Grouping ContextMenu
+                  
                </documentation>
-               <appInfo>
-                  <meta.attribute translatable="true"/>
-               </appInfo>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
@@ -65,48 +62,32 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.model.generate.Generator"/>
+                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.model.persistence.Serializer"/>
                </appInfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="since"/>
-      </appInfo>
-      <documentation>
-         [Enter the first release in which this extension point appears.]
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="examples"/>
-      </appInfo>
-      <documentation>
-         [Enter extension point usage example here.]
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="apiinfo"/>
-      </appInfo>
-      <documentation>
-         [Enter API information here.]
-      </documentation>
-   </annotation>
 
    <annotation>
       <appInfo>
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         See tmdmaker.serializer.
       </documentation>
    </annotation>
 
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright ©2018 TMD-Maker Project.
+      </documentation>
+   </annotation>
 
 </schema>

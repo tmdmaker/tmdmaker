@@ -4,9 +4,16 @@
    <extension
          point="tmdmaker.generators">
       <generator
-            class="tmdmaker.generator.scaffold.Generator1"
+            class="tmdmaker.plugin.scaffold.generator.Generator1"
             name="name">
       </generator>
+   </extension>
+   <extension
+         point="tmdmaker.importers">
+      <importer
+            class="tmdmaker.plugin.scaffold.importer.FileImporter1"
+            name="name">
+      </importer>
    </extension>
 
 </plugin>

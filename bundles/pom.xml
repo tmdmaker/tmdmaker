@@ -29,5 +29,6 @@
 		<module>tmdmaker.serializer.handler.patch</module>
 		<module>tmdmaker.sphinx</module>
 		<module>tmdmaker.ui.menu</module>
+		<module>jp.osdn.tmdmaker.extensions</module>
 	</modules>
 </project>

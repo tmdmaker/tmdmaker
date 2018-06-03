@@ -3,10 +3,10 @@
 <schema targetNamespace="tmdmaker" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="tmdmaker" id="tmdmaker.importers" name="importers"/>
+         <meta.schema plugin="tmdmaker" id="tmdmaker.generators" name="generators"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Generate data of another format from TMD-Maker. 
       </documentation>
    </annotation>
 
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="importer" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="generator" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,12 +47,12 @@
       </complexType>
    </element>
 
-   <element name="importer">
+   <element name="generator">
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  for Grouping ContextMenu
                </documentation>
                <appInfo>
                   <meta.attribute translatable="true"/>
@@ -65,48 +65,36 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.model.importer.FileImporter"/>
+                  <meta.attribute kind="java" basedOn=":jp.sourceforge.tmdmaker.model.generate.Generator"/>
                </appInfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="since"/>
-      </appInfo>
-      <documentation>
-         [Enter the first release in which this extension point appears.]
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="examples"/>
-      </appInfo>
-      <documentation>
-         [Enter extension point usage example here.]
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="apiinfo"/>
-      </appInfo>
-      <documentation>
-         [Enter API information here.]
-      </documentation>
-   </annotation>
 
    <annotation>
       <appInfo>
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         See
+tmdmaker.csv
+tmdmaker.ddlgenerator
+tmdmaker.htmlgenerator
+tmdmaker.sphinx
       </documentation>
    </annotation>
 
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright ©2018 TMD-Maker Project.
+      </documentation>
+   </annotation>
 
 </schema>

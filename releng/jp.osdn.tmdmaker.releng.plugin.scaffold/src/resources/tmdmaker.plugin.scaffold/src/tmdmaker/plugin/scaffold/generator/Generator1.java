@@ -1,8 +1,7 @@
-package tmdmaker.generator.scaffold;
+package tmdmaker.plugin.scaffold.generator;
 
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
 
@@ -15,19 +14,18 @@ public class Generator1 implements Generator {
 	@Override
 	public void execute(String arg0, List<AbstractEntityModel> arg1) {
 		// TODO Auto-generated method stub
-		TMDPlugin.showMessageDialog("雛形です");
 	}
 
 	@Override
 	public String getGeneratorName() {
 		// TODO Auto-generated method stub
-		return "雛形";
+		return "Generator雛形";
 	}
 
 	@Override
 	public String getGroupName() {
 		// TODO Auto-generated method stub
-		return "雛形";
+		return "雛形グループ";
 	}
 
 	@Override

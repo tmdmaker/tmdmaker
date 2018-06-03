@@ -4,16 +4,16 @@
       label="Feature"
       version="0.6.0.qualifier">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="https://tmdmaker.osdn.jp">
+      TMD-Maker Plugin Scaffold.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="https://tmdmaker.osdn.jp">
+      (c)2018,TMD-Maker Project.
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="https://www.apache.org/licenses/LICENSE-2.0">
+      Apache License Version 2.0
    </license>
 
    <plugin
@@ -24,7 +24,7 @@
          unpack="false"/>
 
    <plugin
-         id="tmdmaker"
+         id="jp.osdn.tmdmaker.extensions"
          download-size="0"
          install-size="0"
          version="0.0.0"

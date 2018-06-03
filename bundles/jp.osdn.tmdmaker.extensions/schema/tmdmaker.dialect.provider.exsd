@@ -6,7 +6,7 @@
          <meta.schema plugin="tmdmaker" id="tmdmaker.dialect.provider" name="Dialect Provider"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         A database dialect provider that can be selected with TMD-Maker.
       </documentation>
    </annotation>
 
@@ -69,41 +69,25 @@
       </complexType>
    </element>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="since"/>
-      </appInfo>
-      <documentation>
-         [Enter the first release in which this extension point appears.]
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="examples"/>
-      </appInfo>
-      <documentation>
-         [Enter extension point usage example here.]
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="apiinfo"/>
-      </appInfo>
-      <documentation>
-         [Enter API information here.]
-      </documentation>
-   </annotation>
 
    <annotation>
       <appInfo>
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         See jp.sourceforge.tmdmaker.dialect.DdlUtilsDialectProvider.
       </documentation>
    </annotation>
 
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright ©2018 TMD-Maker Project.
+      </documentation>
+   </annotation>
 
 </schema>
