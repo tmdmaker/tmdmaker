@@ -4,7 +4,8 @@ Bundle-Name: TMD-Maker CSV
 Bundle-SymbolicName: tmdmaker.csv;singleton:=true
 Bundle-Version: 0.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: tmdmaker.core;bundle-version="0.2.9"
+Require-Bundle: tmdmaker.core;bundle-version="0.2.9",
+ jp.osdn.tmdmaker.extensions;bundle-version="0.6.0"
 Bundle-ClassPath: lib/opencsv-2.3.jar,
  .
 Export-Package: jp.sourceforge.tmdmaker.importer.impl

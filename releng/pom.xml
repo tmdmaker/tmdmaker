@@ -19,6 +19,7 @@
 		<module>tmdmaker.releng.e3.plugin.updatesite</module>
 		<module>tmdmaker.releng.product</module>
 		<module>tmdmaker.releng.targetplatform</module>
+		<module>jp.osdn.tmdmaker.releng.plugin.scaffold</module>
 	</modules>
 
 </project>

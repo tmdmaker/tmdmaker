@@ -6,7 +6,8 @@ Bundle-Version: 0.6.0.qualifier
 Bundle-Activator: jp.sourceforge.tmdmaker.persistence.Activator
 Require-Bundle: org.eclipse.core.runtime,
  tmdmaker.core;bundle-version="0.2.9",
- tmdmaker;bundle-version="0.2.8"
+ tmdmaker;bundle-version="0.2.8",
+ jp.osdn.tmdmaker.extensions;bundle-version="0.6.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/xpp3_min-1.1.4c.jar,

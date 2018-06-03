@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.ui.workbench,
  org.eclipse.e4.core.contexts,
- org.eclipse.ui.intro
+ org.eclipse.ui.intro,
+ jp.osdn.tmdmaker.extensions;bundle-version="0.6.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: %Bundle-Vendor
