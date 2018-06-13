@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/jp.osdn.tmdmaker.plugin.scaffold.feature_0.6.0.qualifier.jar" id="jp.osdn.tmdmaker.plugin.scaffold.feature" version="0.6.0.qualifier"/>
+   <feature url="features/jp.osdn.tmdmaker.plugin.scaffold.feature_0.7.0.qualifier.jar" id="jp.osdn.tmdmaker.plugin.scaffold.feature" version="0.7.0.qualifier"/>
 </site>

@@ -2,7 +2,7 @@
 <feature
       id="jp.osdn.tmdmaker.plugin.scaffold.feature"
       label="Feature"
-      version="0.6.0.qualifier">
+      version="0.7.0.qualifier">
 
    <description url="https://tmdmaker.osdn.jp">
       TMD-Maker Plugin Scaffold.
