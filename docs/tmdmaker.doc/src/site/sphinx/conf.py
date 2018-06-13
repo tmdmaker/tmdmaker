@@ -20,8 +20,8 @@ master_doc = 'index'
 project = 'TMD-Maker'
 copyright = '2018, TMD-Maker Project'
 author = 'TMD-Maker Project'
-version = '0.6'
-release = '0.6-SNAPSHOT'
+version = '0.7'
+release = '0.7.0-SNAPSHOT'
 
 language = 'ja'
 

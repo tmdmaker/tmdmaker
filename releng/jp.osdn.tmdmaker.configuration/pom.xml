@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tmdmaker</groupId>
 	<artifactId>jp.osdn.tmdmaker.configuration</artifactId>
-	<version>0.6.0-SNAPSHOT</version>
+	<version>0.7.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>TMD-Maker Release Engineering Configuration</name>
@@ -37,7 +37,7 @@
 		<reflow-velocity-tools-version>1.1.1</reflow-velocity-tools-version>
 		<velocity-version>1.7</velocity-version>
 		<!-- other settings -->
-		<release-version>0.6.0</release-version>
+		<release-version>0.7.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://tmdmaker.osdn.jp</project-url>
@@ -210,8 +210,8 @@
 						<artifact>
 							<groupId>tmdmaker</groupId>
 							<artifactId>tmdmaker.releng.targetplatform</artifactId>
-							<version>${release-version}-SNAPSHOT</version>
-						</artifact>
+							<version>${project.version}</version>
+ 						</artifact>
 					</target>
 					<environments>
 						<environment>
