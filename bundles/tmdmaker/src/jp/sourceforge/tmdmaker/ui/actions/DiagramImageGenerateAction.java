@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <http://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ package jp.sourceforge.tmdmaker.ui.actions;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.imagegenerator.Draw2dToImageConverter;
+
+import java.io.File;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -70,8 +72,14 @@ public class DiagramImageGenerateAction extends Action {
 
 		FileDialog dialog = new FileDialog(viewer.getControl().getShell(), SWT.SAVE);
 		IFile editfile = TMDPlugin.getEditFile(part);
-		dialog.setFileName(editfile.getLocation().removeFileExtension().toOSString());
-		dialog.setFilterPath(editfile.getLocation().removeFirstSegments(1).toOSString());
+		dialog.setFileName(editfile.getLocation().removeFileExtension().lastSegment());
+
+		String path = editfile.getLocation().removeLastSegments(1).toOSString();
+		String separator = File.separator;
+		if (!path.endsWith(separator)) {
+			path = path + separator;
+		}
+		dialog.setFilterPath(path);
 		String[] extensions = converter.getExtensions();
 		dialog.setFilterExtensions(extensions);
 

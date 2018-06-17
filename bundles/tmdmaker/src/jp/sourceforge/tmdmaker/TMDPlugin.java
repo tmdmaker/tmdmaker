@@ -138,6 +138,17 @@ public class TMDPlugin extends AbstractUIPlugin {
 	}
 
 	/**
+	 * ログ出力
+	 * 
+	 * @param message ログメッセージ.
+	 */
+	public static void log(String message) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR,
+				message, null);
+		getDefault().getLog().log(status);
+	}
+
+	/**
 	 * 情報ダイアログ表示
 	 * 
 	 * @param message
