@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>tmdmaker.releng.targetplatform</artifactId>
-	<packaging>eclipse-target-definition</packaging>
+	<packaging>pom</packaging>
 
 	<name>TMD-Maker TargetPlatform Release Engineering</name>
 	<description>TMD-MakerのTargetPlatformビルド用プロジェクト</description>
@@ -12,5 +12,4 @@
 		<artifactId>jp.osdn.tmdmaker.releng</artifactId>
 		<version>0.7.0-SNAPSHOT</version>
 	</parent>
-
 </project>

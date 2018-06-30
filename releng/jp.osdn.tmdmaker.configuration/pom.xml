@@ -36,6 +36,7 @@
 		<maven-assembly-plugin-version>3.1.0</maven-assembly-plugin-version>
 		<reflow-velocity-tools-version>1.1.1</reflow-velocity-tools-version>
 		<velocity-version>1.7</velocity-version>
+		<jaxb-api-version>2.2.3</jaxb-api-version>
 		<!-- other settings -->
 		<release-version>0.7.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -72,7 +73,25 @@
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
 			</properties>
-	</profile>
+		</profile>
+		<profile>
+			<id>photon</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>photon</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>oxygen</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>oxygen</target-file>
+			</properties>
+		</profile>
 	</profiles>
 
 	<build>
@@ -172,7 +191,7 @@
 						<dependency>
 							<groupId>javax.xml.bind</groupId>
 							<artifactId>jaxb-api</artifactId>
-							<version>2.2.3</version>
+							<version>${jaxb-api-version}</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -201,7 +220,7 @@
 					<useProjectSettings>false</useProjectSettings>
 				</configuration>
 			</plugin>
-			<plugin>
+   			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
@@ -211,6 +230,7 @@
 							<groupId>tmdmaker</groupId>
 							<artifactId>tmdmaker.releng.targetplatform</artifactId>
 							<version>${project.version}</version>
+ 							<classifier>${target-file}</classifier>
  						</artifact>
 					</target>
 					<environments>
