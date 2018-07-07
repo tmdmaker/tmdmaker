@@ -17,6 +17,6 @@
 		<module>tmdmaker.feature</module>
 		<module>tmdmaker.e3.feature</module>
 		<module>tmdmaker.rcp.feature</module>
-		<module>jp.osdn.tmdmaker.plugin.scaffold.feature</module>
+		<module>jp.osdn.tmdmaker.extensions.scaffold.feature</module>
 	</modules>
 </project>
