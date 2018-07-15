@@ -4,14 +4,14 @@
    contain the root `toctree` directive.
 
 TMD-Maker ドキュメント
-=======================
+================
 
 このドキュメントでは、TMD-Makerの説明とTMD-Makerを使ったTMD(T字形ER図)の作成方法を解説します。
 
 ※内容はTMD-Makerの進化と、私のTM(T字形ER手法)の理解の深化に伴い順次更新します。
 
-目次:
-------
+目次
+--
 
 .. toctree::
    :maxdepth: 2
@@ -19,9 +19,11 @@ TMD-Maker ドキュメント
    p1
    p2
    p3
+   p4
+   p5
 
 索引と検索
------------
+-----
 
 * :ref:`genindex`
 * :ref:`search`

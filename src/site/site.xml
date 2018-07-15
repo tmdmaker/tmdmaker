@@ -61,8 +61,14 @@
 		</links>
 
 		<menu name="ドキュメント" inherit="top">
-			<item name="マニュアル" href="./doc/index.html" />
-			<item name="よくある質問" href="./doc/faq.html" />
+			<item name="リリースバージョン" >
+				<item name="マニュアル" href="./doc/index.html" />
+				<item name="よくある質問" href="./doc/faq.html" />
+			</item>
+			<item name="Latest" >
+				<item name="マニュアル" href="https://tmdmaker.readthedocs.io/ja/latest/index.html" />
+				<item name="よくある質問" href="https://tmdmaker.readthedocs.io/ja/latest/faq.html" />
+			</item>
 	    </menu>
 
 		<menu name="プロジェクト" inherit="top">

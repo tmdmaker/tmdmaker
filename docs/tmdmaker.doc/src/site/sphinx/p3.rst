@@ -1,10 +1,30 @@
-リファレンス
-=============
+TMD-Makerの機能を拡張する
+=================
+
+このパートでは、TMD-Makerの機能拡張の作成方法を説明します。
+
+TMD-Makerは機能を拡張できるポイントをいくつか持っています。
+この機能拡張ポイントを利用して独自の機能拡張を作成することができます。
+現在利用可能な機能拡張ポイントは以下の通りです。
+
+1. tmdmaker.generators
+
+   TMD-Makerのモデルから、別フォーマットのファイルを生成できます。
+   htmlやDDL、Sphinx、csv形式のドキュメント出力機能もこの拡張ポイントを使っています。
+
+2. tmdmaker.importers
+
+   別フォーマットのファイルからTMD-Makerのモデルを生成できます。
+   csv形式からTMD-Makerへのインポート機能もこの拡張ポイントを使っています。
+
+TMD-MakerはEclipse Pluginで作成されていますが、
+紹介する雛形のプロジェクトを利用すればEclipse Pluginが分からなくても、Javaが書ければ多分大丈夫！
+是非挑戦してみてください。
 
 .. toctree::
    :maxdepth: 2
 
-   rcp
-   database
-   csvformat
-   faq
+   p3-ch1
+   p3-ch2
+   p3-ch3
+   p3-ch4

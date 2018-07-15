@@ -7,6 +7,7 @@ TMD-Makerは日々バージョンアップしていますので、できない�
 
 TMD-Makerへ追加して欲しい機能があれば、`新規チケット <https://ja.osdn.net/ticket/newticket.php?group_id=4743>`_ でリクエストをください。
 
+
 特徴
 --
 

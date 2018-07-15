@@ -1,0 +1,17 @@
+TMD-Makerの開発に参加する
+=================
+
+このパートでは、TMD-Makerの開発方法を説明します。
+
+TMD-Makerはosdnを利用しています。
+
+開発に必要な情報は以下に記載しています。随時更新してます。
+
+https://osdn.net/projects/tmdmaker/wiki/Development
+
+osdnは無料なのでアカウント登録したら是非以下のページからメンバー参加してみてください。
+
+https://osdn.net/projects/tmdmaker/memberlist/
+
+.. toctree::
+   :maxdepth: 2
