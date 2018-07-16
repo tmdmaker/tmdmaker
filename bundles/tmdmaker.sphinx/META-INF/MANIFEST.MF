@@ -14,3 +14,4 @@ Import-Package: org.apache.commons.lang,
  org.slf4j,
  org.apache.commons.logging
 Bundle-Vendor: %Provider
+Automatic-Module-Name: tmdmaker.sphinx

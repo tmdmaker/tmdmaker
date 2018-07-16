@@ -11,3 +11,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
 Bundle-ClassPath: .
+Automatic-Module-Name: tmdmaker.serializer.handler.patch

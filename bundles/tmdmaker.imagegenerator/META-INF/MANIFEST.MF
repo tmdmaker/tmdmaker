@@ -31,3 +31,4 @@ Bundle-ClassPath: lib/batik-rasterizer.jar,
  lib/pdf-transcoder.jar,
  .
 Export-Package: jp.sourceforge.tmdmaker.imagegenerator
+Automatic-Module-Name: tmdmaker.imagegenerator

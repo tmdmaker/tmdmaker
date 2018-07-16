@@ -25,3 +25,4 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.eclipse.platform,
  tmdmaker.core,
  org.eclipse.swtbot.e4.finder
+Automatic-Module-Name: tmdmaker.ui.test

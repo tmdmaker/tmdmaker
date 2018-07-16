@@ -23,3 +23,4 @@ Bundle-ClassPath: .,
 Export-Package: jp.sourceforge.tmdmaker.dialect,
  jp.sourceforge.tmdmaker.generate
 Bundle-Vendor: TMD-Maker Project
+Automatic-Module-Name: tmdmaker.ddlgenerator

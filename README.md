@@ -31,7 +31,7 @@ This method is a technique to make the database structure while at the same time
 ### Eclipse Plugin
 - java6 or later(java8 is recommended).
 
-- eclipse 3.4 or later(eclipse 4.7 is recommended).
+- eclipse 3.4 or later(eclipse 4.8 is recommended).
 
 - GEF(MVC) 3.x（Eclipse Graphical Editing Framework）.
 

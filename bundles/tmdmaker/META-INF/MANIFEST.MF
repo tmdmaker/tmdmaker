@@ -19,6 +19,5 @@ Bundle-ClassPath: .,
  lib/commons-lang-2.6.jar
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider
-Export-Package: jp.sourceforge.tmdmaker,
- jp.sourceforge.tmdmaker.extension
+Export-Package: jp.sourceforge.tmdmaker
 Automatic-Module-Name: tmdmaker
