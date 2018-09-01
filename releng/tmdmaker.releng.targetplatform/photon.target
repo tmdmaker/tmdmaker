@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target includeMode="feature" name="photon" sequenceNumber="162">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.7.0.v20171231020002"/>
-<repository location="http://download.eclipse.org/technology/babel/update-site/R0.15.1/oxygen"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.babel.nls_tools.gef_ja.feature.group" version="4.5.0.v20171231064042"/>
 <repository location="http://download.eclipse.org/technology/babel/update-site/R0.15.1/mars"/>
 </location>
@@ -46,6 +42,10 @@
 		<unit id="org.eclipse.emf.sdk.feature.group" version="2.14.0.v20180529-1157"/>
 		<unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
 		<repository location="http://download.eclipse.org/releases/photon"/>
+	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+		<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.8.0.v20180815020001"/>
+		<repository location="http://download.eclipse.org/technology/babel/update-site/R0.16.0/photon/"/>
 	</location>
 </locations>
 </target>
