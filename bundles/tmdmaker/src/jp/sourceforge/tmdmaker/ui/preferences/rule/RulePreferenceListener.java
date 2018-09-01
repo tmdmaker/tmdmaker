@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,15 @@
  */
 package jp.sourceforge.tmdmaker.ui.preferences.rule;
 
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
-import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
-import jp.sourceforge.tmdmaker.ui.preferences.IPreferenceListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.PropertyChangeEvent;
+
+import jp.sourceforge.tmdmaker.core.Configuration;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
+import jp.sourceforge.tmdmaker.ui.preferences.IPreferenceListener;
 
 /**
  * ルール設定リスナー
@@ -39,11 +42,10 @@ public class RulePreferenceListener implements IPreferenceListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getProperty().equals(RulePreferenceConstants.P_IDENTIFIER_SUFFIXES)) {
-			EntityRecognitionRule.getInstance().setIdentifierSuffixesString(
-					(String) event.getNewValue());
+			Configuration.getDefault()
+					.setIdentifierSuffixes(string2list((String) event.getNewValue()));
 		} else if (event.getProperty().equals(RulePreferenceConstants.P_REPORT_SUFFIXES)) {
-			EntityRecognitionRule.getInstance().setReportSuffixesString(
-					(String) event.getNewValue());
+			Configuration.getDefault().setReportSuffixes(string2list((String) event.getNewValue()));
 		} else if (event.getProperty().equals(RulePreferenceConstants.P_FOREIGN_KEY_ENABLED)) {
 			ImplementRule.setForeignKeyEnabled((Boolean) event.getNewValue());
 		}
@@ -57,10 +59,17 @@ public class RulePreferenceListener implements IPreferenceListener {
 	 */
 	@Override
 	public void preferenceStart(IPreferenceStore store) {
-		EntityRecognitionRule rule = EntityRecognitionRule.getInstance();
-		rule.setIdentifierSuffixesString(store
-				.getString(RulePreferenceConstants.P_IDENTIFIER_SUFFIXES));
-		rule.setReportSuffixesString(store.getString(RulePreferenceConstants.P_REPORT_SUFFIXES));
+		Configuration.getDefault().setIdentifierSuffixes(
+				string2list(store.getString(RulePreferenceConstants.P_IDENTIFIER_SUFFIXES)));
+		Configuration.getDefault().setReportSuffixes(
+				string2list(store.getString(RulePreferenceConstants.P_REPORT_SUFFIXES)));
 	}
 
+	private List<String> string2list(String string) {
+		List<String> list = new ArrayList<String>();
+		for (String s : string.split(RulePreferenceInitializer.PREFERENCE_SEPARATOR)) {
+			list.add(s);
+		}
+		return list;
+	}
 }

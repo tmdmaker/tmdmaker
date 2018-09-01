@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.SubsetType;
-import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 import jp.sourceforge.tmdmaker.ui.dialogs.SubsetCreateDialog;
-import jp.sourceforge.tmdmaker.ui.editor.draw2d.adjuster.SubsetTypeAdjuster;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractModelEditPart;
 
 /**
@@ -77,10 +74,9 @@ public class SubsetCreateAction extends AbstractEntitySelectionAction {
 	public void run() {
 		AbstractModelEditPart<? extends AbstractEntityModel> part = getPart();
 		AbstractEntityModel model = getModel();
-		SubsetType subsetType = SubsetRule.setupSubsetType(model);
-		new SubsetTypeAdjuster(model, subsetType).adjust();
+
 		SubsetCreateDialog dialog = new SubsetCreateDialog(part.getViewer().getControl().getShell(),
-				subsetType, model);
+				model);
 		if (dialog.open() == Dialog.OK) {
 			CompoundCommand ccommand = dialog.getCcommand();
 			execute(ccommand);

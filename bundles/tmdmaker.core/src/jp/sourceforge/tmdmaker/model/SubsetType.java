@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,10 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 
 	/** サブセット種類（同一、相違）. */
 	public enum SubsetTypeValue {
-		/* 同一 */
-		SAME,
-		/* 相違 */
-		DIFFERENT
+	/* 同一 */
+	SAME,
+	/* 相違 */
+	DIFFERENT
 	};
 
 	/** サブセット種類. */
@@ -47,9 +47,9 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 	private boolean exceptNull;
 
 	/**
-	 * コンストラクタ.
+	 * コンストラクタは公開しない.
 	 */
-	public SubsetType() {
+	protected SubsetType() {
 		super();
 	}
 
@@ -136,7 +136,12 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 		notifySubsetEntity();
 	}
 
-	private Entity2SubsetTypeRelationship getEntity2SubsetTypeRelationship() {
+	/**
+	 * エンティティとのリレーションシップを返す.
+	 * 
+	 * @return エンティティとのリレーションシップ
+	 */
+	public Entity2SubsetTypeRelationship getEntityRelationship() {
 		if (getModelTargetConnections().size() > 0) {
 			return (Entity2SubsetTypeRelationship) getModelTargetConnections().get(0);
 		}
@@ -150,7 +155,7 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 	 */
 	@Override
 	public AbstractEntityModel getSuperset() {
-		Entity2SubsetTypeRelationship r = getEntity2SubsetTypeRelationship();
+		Entity2SubsetTypeRelationship r = getEntityRelationship();
 		if (r != null) {
 			return (AbstractEntityModel) r.getSource();
 		}
@@ -165,7 +170,7 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 	}
 
 	private void nofityRelationship() {
-		Entity2SubsetTypeRelationship r = getEntity2SubsetTypeRelationship();
+		Entity2SubsetTypeRelationship r = getEntityRelationship();
 		if (r != null) {
 			r.firePartitionChanged();
 		}
@@ -187,16 +192,6 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 	}
 
 	/**
-	 * 新規作成か？
-	 * 
-	 * @return 新規作成の場合はtrueを返す
-	 */
-	public boolean isNew() {
-		// 接続前の場合は新規作成
-		return getModelTargetConnections().size() == 0;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see jp.sourceforge.tmdmaker.model.ModelElement#accept(jp.sourceforge.tmdmaker.model.IVisitor)
@@ -206,6 +201,11 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 		visitor.visit(this);
 	}
 
+	/**
+	 * サブセットを保持しているか?
+	 * 
+	 * @return サブセットを保持している場合にtrueを返す.
+	 */
 	public boolean hasSubsetEntity() {
 		return getModelSourceConnections().size() != 0;
 	}

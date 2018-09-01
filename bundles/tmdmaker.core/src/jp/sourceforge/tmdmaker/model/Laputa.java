@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+
 /**
  * ラピュタ
  * 
@@ -27,11 +29,75 @@ public class Laputa extends AbstractEntityModel {
 	private Identifier identifier;
 
 	/**
-	 * コンストラクタ
+	 * コンストラクタは非公開.
 	 */
-	public Laputa() {
+	protected Laputa() {
 		super();
 		setNotImplement(true);
+		setEntityType(EntityType.LAPUTA);
+	}
+
+	/**
+	 * コンストラクタは非公開.
+	 * 
+	 * @param modelName
+	 *            ラピュタ名
+	 * @param identifier
+	 *            個体指定子
+	 */
+	protected Laputa(final ModelName modelName, final Identifier identifier) {
+		this();
+		setName(modelName.getValue());
+		setIdentifier(identifier);
+	}
+
+	/**
+	 * ラピュタを生成する.
+	 * 
+	 * @return ラピュタ
+	 */
+	public static Laputa of() {
+		return of(null);
+	}
+
+	/**
+	 * ラピュタを生成する.
+	 * 
+	 * @param modelName ラピュタ名
+	 * @param identifier 個体指定子
+	 * @return ラピュタ
+	 */
+	public static Laputa of(final String modelName, final Identifier identifier) {
+		return of(new ModelName(modelName), identifier);
+	}
+
+	/**
+	 * ラピュタを生成する.
+	 * @param modelName ラピュタ名
+	 * @return ラピュタ
+	 */
+	public static Laputa of(final ModelName modelName) {
+		return of(modelName, null);
+	}
+
+	/**
+	 * ラピュタを生成する.
+	 * 
+	 * @param modelName ラピュタ名
+	 * @param identifier 個体指定子
+	 * 
+	 * @return ラピュタ
+	 */
+	public static Laputa of(final ModelName modelName, final Identifier identifier) {
+		ModelName newModelName = modelName;
+		if (modelName == null || modelName.isEmpty()) {
+			newModelName = new ModelName("ラピュタ");
+		}
+		Identifier newIdentifier = identifier;
+		if (identifier == null) {
+			newIdentifier = new Identifier(newModelName.getValue());
+		}
+		return new Laputa(newModelName, newIdentifier);
 	}
 
 	/**
@@ -56,7 +122,6 @@ public class Laputa extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -92,6 +157,12 @@ public class Laputa extends AbstractEntityModel {
 		return false;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);

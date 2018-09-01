@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,7 @@ import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
 import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
 import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
-import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
-import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
+import jp.sourceforge.tmdmaker.model.relationship.Relationship;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionCreateCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintAdjusterCommand;
@@ -95,7 +94,7 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 		ccommand.add(new ConstraintAdjusterCommand(model, aggregator, 75, -30));
 
 		// 多値のリレーションをHeaderから削除してDetailと再接続
-		if (EntityTypeRule.isEvent(model)) {
+		if (model.isEvent()) {
 			for (AbstractConnectionModel con : model.getModelTargetConnections()) {
 				if (con instanceof AbstractRelationship) {
 					AbstractRelationship relation = (AbstractRelationship) con;
@@ -103,8 +102,8 @@ public class MultivalueAndCreateAction extends AbstractEntitySelectionAction {
 						AbstractEntityModel source = relation.getSource();
 						ConnectionDeleteCommand command2 = new ConnectionDeleteCommand(relation);
 						ccommand.add(command2);
-						AbstractRelationship newRelation = RelationshipRule
-								.createRelationship(source, detail);
+						AbstractRelationship newRelation = Relationship.of(source, detail);
+
 						newRelation.setTargetCardinality(Cardinality.MANY);
 						ConnectionCreateCommand command3 = new ConnectionCreateCommand(newRelation,
 								source, detail);

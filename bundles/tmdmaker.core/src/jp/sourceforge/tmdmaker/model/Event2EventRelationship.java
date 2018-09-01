@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
-import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 /**
  * イベント系エンティティとイベント系エンティティとのリレーションシップ
@@ -68,7 +68,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	public void setSourceCardinality(Cardinality sourceCardinality) {
 		Cardinality oldValue = getSourceCardinality();
 		super.setSourceCardinality(sourceCardinality);
-		if (hasMappingList()) {
+		if (hasTable()) {
 			setCenterMark(true);
 		} else {
 			setCenterMark(false);
@@ -99,7 +99,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 * </ul>
 	 */
 	private void createRelationship() {
-		if (hasMappingList()) {
+		if (hasTable()) {
 			removeTargetRelationship();
 			createMappingList();
 		} else {
@@ -116,7 +116,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void disconnect() {
-		if (hasMappingList()) {
+		if (hasTable()) {
 			removeMappingList();
 		} else {
 			removeTargetRelationship();
@@ -153,13 +153,14 @@ public class Event2EventRelationship extends AbstractRelationship {
 		AbstractEntityModel targetEntity = getTarget();
 
 		if (table == null) {
-			table = RelationshipRule.createMappingList(sourceEntity, targetEntity);
+			table = createMappingList(sourceEntity, targetEntity);
 		}
 		setCenterMark(true);
 
 		Diagram diagram = sourceEntity.getDiagram();
-		diagram.addChild(table);
-
+		if (diagram != null) {
+			diagram.addChild(table);
+		}
 		if (sourceMappingListReuseIdentifier == null) {
 			table.addReusedIdentifier(sourceEntity);
 		} else {
@@ -177,6 +178,37 @@ public class Event2EventRelationship extends AbstractRelationship {
 	}
 
 	/**
+	 * 対応表を作成する。
+	 * 
+	 * @param source
+	 *            接続元
+	 * @param target
+	 *            接続先
+	 * @return 対応表
+	 */
+	private MappingList createMappingList(AbstractEntityModel source, AbstractEntityModel target) {
+		MappingList table = new MappingList();
+		table.setName(createMappingListName(source, target));
+		ImplementRule.setModelDefaultValue(table);
+
+		return table;
+	}
+
+	/**
+	 * 対応表の名前を生成する.
+	 * 
+	 * @param source
+	 *            接続元
+	 * @param target
+	 *            接続先
+	 * @return 対応表名
+	 */
+	private static String createMappingListName(AbstractEntityModel source,
+			AbstractEntityModel target) {
+		return source.getName() + "." + target.getName() + "." + "対応表";
+	}
+
+	/**
 	 * 対応表を削除する。undo()を考慮して実際はコネクションを切ってキーを削除するだけで表は残している
 	 */
 	private void removeMappingList() {
@@ -188,7 +220,10 @@ public class Event2EventRelationship extends AbstractRelationship {
 			AbstractEntityModel sourceEntity = getSource();
 			sourceMappingListReuseIdentifier = table.removeReusedIdentifier(sourceEntity);
 			targetMappingListReuseIdentifier = table.removeReusedIdentifier(getTarget());
-			sourceEntity.getDiagram().removeChild(table);
+			Diagram diagram = sourceEntity.getDiagram();
+			if (diagram != null) {
+				diagram.removeChild(table);
+			}
 		}
 	}
 
@@ -199,7 +234,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public boolean isDeletable() {
-		if (hasMappingList()) {
+		if (hasTable()) {
 			return table.isDeletable();
 		} else {
 			return true;
@@ -215,23 +250,43 @@ public class Event2EventRelationship extends AbstractRelationship {
 	@Override
 	public void identifierChanged() {
 		createRelationship(); // Detailの明細番号の有無を切換えるため。
-		if (hasMappingList()) {
+		if (hasTable()) {
 			table.fireIdentifierChanged(this);
 		} else {
 			getTarget().fireIdentifierChanged(this);
 		}
 	}
 
-	public boolean hasMappingList() {
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#hasTable()
+	 */
+	@Override
+	public boolean hasTable() {
 		return getSourceCardinality().equals(Cardinality.MANY);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
 
-	public MappingList getMappingList() {
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#getTable()
+	 */
+	@Override
+	public MappingList getTable() {
 		return this.table;
 	}
 }

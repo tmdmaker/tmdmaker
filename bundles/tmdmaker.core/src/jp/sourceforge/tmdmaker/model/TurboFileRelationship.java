@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,5 +106,27 @@ public class TurboFileRelationship extends AbstractRelationship {
 		// getTarget().firePropertyChange(AbstractEntityModel.PROPERTY_REUSED,
 		// null, null);
 		getTarget().fireIdentifierChanged(this);
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#hasTable()
+	 */
+	@Override
+	public boolean hasTable() {
+		return false;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#getTable()
+	 */
+	@Override
+	public AbstractEntityModel getTable() {
+		return null;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
  */
 package jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies;
 
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionCreateCommand;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
+
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.relationship.Relationship;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionCreateCommand;
 
 /**
  * エンティティ系モデル間のリレーションシップ作成EditPolicy
@@ -57,7 +57,7 @@ public class TMDModelGraphicalNodeEditPolicy extends ReconnectableNodeEditPolicy
 		AbstractEntityModel source = (AbstractEntityModel) startCommand.getSource();
 		AbstractEntityModel target = (AbstractEntityModel) getHost().getModel();
 		startCommand.setTarget(target);
-		startCommand.setConnection(RelationshipRule.createRelationship(source, target));
+		startCommand.setConnection(Relationship.of(source, target));
 
 		return startCommand;
 	}

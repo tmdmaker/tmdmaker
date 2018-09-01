@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2014-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,6 +76,17 @@ public class ConstraintConverter {
 	public static void setConstraint(ModelElement model, Rectangle rectangle) {
 		model.setConstraint(
 				new Constraint(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
+	}
+
+	/**
+	 * TMDモデルの位置を設定する.
+	 * 
+	 * @param model
+	 * @param rectangle
+	 */
+	public static void setConstraint(ModelElement model, int x, int y) {
+		Constraint constraint = model.getConstraint();
+		model.setConstraint(new Constraint(x, y, constraint.width, constraint.height));
 	}
 
 	/**

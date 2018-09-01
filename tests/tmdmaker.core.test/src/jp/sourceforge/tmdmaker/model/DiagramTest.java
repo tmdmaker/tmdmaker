@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,10 @@ public class DiagramTest {
 	@Test
 	public void testCreateVirtualSuperset() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
@@ -57,15 +59,18 @@ public class DiagramTest {
 	public void testFindEntity() {
 		Diagram diagram = new Diagram();
 		assertEquals(0, diagram.findEntityModel().size());
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
 
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
 		assertEquals(1, diagram.findEntityModel().size());
 
 		diagram.removeChild(e1);
 		assertEquals(0, diagram.findEntityModel().size());
 
 		diagram.addChild(e1);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
+		Entity e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
@@ -81,7 +86,8 @@ public class DiagramTest {
 		excludes.add(e1);
 		excludes.add(e2);
 		excludes.add(vsp);
-		Entity e3 = diagram.createEntity("テスト3", "テスト3番号", EntityType.EVENT);
+		Entity e3 = Entity.ofEvent(new Identifier("テスト3番号")).withDefaultAttribute();
+		diagram.addChild(e3);
 
 		List<AbstractEntityModel> exlist = diagram.findEntityModelExcludeFor(excludes);
 		assertEquals(1, exlist.size());

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jp.sourceforge.tmdmaker.model.constraint.Constraint;
-import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
+import jp.sourceforge.tmdmaker.model.subset.Subsets;
 
 /**
  * エンティティ系モデルの基底クラス
@@ -221,7 +221,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		List<AbstractConnectionModel> results = findRelationship(getModelSourceConnections(),
 				Entity2SubsetTypeRelationship.class);
 		if (results.size() != 0) {
-			return (SubsetType) ((Entity2SubsetTypeRelationship) results.get(0)).getTarget();
+			return ((Entity2SubsetTypeRelationship) results.get(0)).getSubsetType();
 		}
 		return null;
 	}
@@ -519,24 +519,6 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		visitor.visit(this);
 	}
 
-	public SubsetEntity addSubset(String subsetName) {
-		SubsetType subsetType = findSubsetType();
-		// サブセット未作成の場合は初期値を用意
-		if (subsetType == null) {
-			subsetType = new SubsetType();
-			subsetType.setSubsetType(SubsetType.SubsetTypeValue.SAME);
-			subsetType.setExceptNull(false);
-			getDiagram().addChild(subsetType);
-			Entity2SubsetTypeRelationship r1 = new Entity2SubsetTypeRelationship(this, subsetType);
-			r1.connect();
-		}
-		SubsetEntity subset = SubsetRule.createSubsetEntity(this, subsetName);
-		SubsetType2SubsetRelationship r2 = new SubsetType2SubsetRelationship(subsetType, subset);
-		r2.connect();
-		getDiagram().addChild(subset);
-		return subset;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 *
@@ -566,4 +548,50 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public boolean canCreateVirtualEntity() {
 		return true;
 	}
+
+	/**
+	 * リソース系モデルか？
+	 * 
+	 * @return リソース系の場合にtrueを返す.
+	 */
+	public boolean isResource() {
+		return getEntityType().equals(EntityType.RESOURCE);
+	}
+
+	/**
+	 * イベント系モデルか？
+	 * 
+	 * @return イベント系の場合にtrueを返す.
+	 */
+	public boolean isEvent() {
+		return getEntityType().equals(EntityType.EVENT);
+	}
+
+	/**
+	 * 指定したアトリビュートを持っているか？
+	 * 
+	 * @param attributeName
+	 *            アトリビュート名
+	 * @return 指定したアトリビュートを持っている場合にtrueを返す.
+	 */
+	protected boolean hasAttribute(String attributeName) {
+		for (IAttribute a : getAttributes()) {
+			if (a.getName().equals(attributeName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * サブセット集約を返す.
+	 * 
+	 * サブセット生成等の起点となるオブジェクト.
+	 * 
+	 * @return
+	 */
+	public Subsets subsets() {
+		return new Subsets(this);
+	}
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.core.Configuration;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 
 /**
  * 個体指定子モデル
@@ -55,6 +55,50 @@ public class Identifier extends Attribute {
 	}
 
 	public ModelName createEntityName() {
-		return new ModelName(EntityRecognitionRule.getInstance().generateEntityNameFromIdentifier(getName()));
+		return new ModelName(generateEntityName(getName()));
+	}
+
+	/**
+	 * 個体指定子の名称からエンティティの名称を生成する
+	 * 
+	 * @param identifierName
+	 *            個体指定子名称
+	 * @return 生成したエンティティ名称
+	 */
+	private String generateEntityName(String identifierName) {
+		String entityName = removeIdentifierSuffixFromIdentifierName(identifierName);
+		return removeReportNameSuffixFromEntityName(entityName);
+	}
+
+	/**
+	 * 個体指定子名を表す文言を個体指定子名から取り除く
+	 * 
+	 * @param identifierName
+	 *            個体指定子名
+	 * @return 編集後個体指定子名
+	 */
+	private String removeIdentifierSuffixFromIdentifierName(String identifierName) {
+		for (String suffix : Configuration.getDefault().getIdentifierSuffixes()) {
+			if (identifierName.endsWith(suffix)) {
+				return identifierName.substring(0, identifierName.lastIndexOf(suffix));
+			}
+		}
+		return identifierName;
+	}
+
+	/**
+	 * レポート名を表す文言をエンティティ名から取り除く
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @return 編集後エンティティ名
+	 */
+	private String removeReportNameSuffixFromEntityName(String entityName) {
+		for (String reportSuffix : Configuration.getDefault().getReportSuffixes()) {
+			if (entityName.endsWith(reportSuffix)) {
+				return entityName.substring(0, entityName.lastIndexOf(reportSuffix));
+			}
+		}
+		return entityName;
 	}
 }

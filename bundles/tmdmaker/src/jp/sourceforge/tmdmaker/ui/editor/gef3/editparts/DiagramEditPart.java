@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,10 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.other.Memo;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
@@ -173,20 +174,24 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 		 */
 		@Override
 		protected Command getCreateCommand(CreateRequest request) {
-			logger.debug(getClass() + "#getCreateCommand()" + request.getNewObjectType());
+			Object objectType = request.getNewObjectType();
+			logger.debug(getClass() + "#getCreateCommand()" + objectType);
 			Rectangle rectangle = getTrimmedRectangle(request);
-			ConnectableElement model = (ConnectableElement) request.getNewObject();
-			ConstraintConverter.setConstraint(model, rectangle);
-			if (model instanceof TurboFile) {
+			if (objectType.equals(TurboFile.class)) {
+				TurboFile model = (TurboFile) request.getNewObject();
+				ConstraintConverter.setConstraint(model, rectangle);
 				return createTurboFileCommand(rectangle, model);
 			}
-			// EntityまたはLaputa
-			if (model instanceof AbstractEntityModel) {
-				return new EntityModelAddCommand(getModel(), rectangle.x, rectangle.y);
-			}
 			// Memo
-			if (model instanceof Memo) {
+			if (objectType.equals(Memo.class)) {
+				ConnectableElement model = (ConnectableElement) request.getNewObject();
+				ConstraintConverter.setConstraint(model, rectangle);
 				return createMemoCommand(rectangle, model);
+			}
+
+			// EntityまたはLaputa
+			if (objectType.equals(Entity.class) || objectType.equals(Laputa.class)) {
+				return new EntityModelAddCommand(getModel(), rectangle.x, rectangle.y);
 			}
 			return null;
 		}
@@ -198,9 +203,7 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 			return rectangle;
 		}
 
-		private EntityModelAddCommand createTurboFileCommand(Rectangle rectangle,
-				ConnectableElement model) {
-			TurboFile turbo = (TurboFile) model;
+		private EntityModelAddCommand createTurboFileCommand(Rectangle rectangle, TurboFile turbo) {
 			turbo.setName(Messages.TurboFile);
 			return new EntityModelAddCommand(getModel(), turbo, rectangle.x, rectangle.y);
 		}

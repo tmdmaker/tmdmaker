@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
-
 import org.junit.Test;
+
+import jp.sourceforge.tmdmaker.model.relationship.Relationship;
 
 /**
  * MultivalueAndSupersetのテストクラス
@@ -34,8 +34,10 @@ public class MultivalueAndTest {
 	@Test
 	public void testSuperset() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.RESOURCE);
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofResource(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
 
 		Header2DetailRelationship r = new Header2DetailRelationship(e1);
 		assertEquals(false, r.isConnected());
@@ -51,7 +53,8 @@ public class MultivalueAndTest {
 		assertEquals(true, r.isDeletable());
 
 		Detail d1 = sp.getDetail();
-		TransfarReuseKeysToTargetRelationship r2 = new TransfarReuseKeysToTargetRelationship(e2, d1);
+		TransfarReuseKeysToTargetRelationship r2 = new TransfarReuseKeysToTargetRelationship(e2,
+				d1);
 		r2.connect();
 
 		assertEquals(false, sp.isDeletable());
@@ -60,7 +63,7 @@ public class MultivalueAndTest {
 		MultivalueAndAggregator a = r.getAggregator();
 		assertEquals(a.getSubsetList().get(0), e1);
 		assertEquals(a.getSubsetList().get(1), r.getTarget());
-		
+
 		r.disconnect();
 		assertEquals(false, r.isConnected());
 		assertEquals(false, r.isSupersetConnected());
@@ -69,9 +72,12 @@ public class MultivalueAndTest {
 	@Test
 	public void testDetail() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.RESOURCE);
-		Entity e3 = diagram.createEntity("テスト3", "テスト3番号", EntityType.EVENT);
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofResource(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Entity e3 = Entity.ofEvent(new Identifier("テスト3番号")).withDefaultAttribute();
+		diagram.addChild(e1);
 
 		Header2DetailRelationship r1 = new Header2DetailRelationship(e1);
 		r1.connect();
@@ -79,15 +85,15 @@ public class MultivalueAndTest {
 		assertEquals(true, sp != null);
 		Detail dtl = (Detail) r1.getTarget();
 		assertEquals(true, dtl.isDeletable());
-		assertEquals(e1.getIdentifier(), dtl.getOriginalReusedIdentifier().getIdentifiers().get(0)
-				.getOriginal());
+		assertEquals(e1.getIdentifier(),
+				dtl.getOriginalReusedIdentifier().getIdentifiers().get(0).getOriginal());
 		assertEquals(false, dtl.isEntityTypeEditable());
 
-		AbstractConnectionModel r2 = RelationshipRule.createRelationship(dtl, e2);
+		AbstractConnectionModel r2 = Relationship.of(dtl, e2);
 		r2.connect();
 		assertEquals(false, dtl.isDeletable());
 
-		AbstractConnectionModel r3 = RelationshipRule.createRelationship(dtl, e3);
+		AbstractConnectionModel r3 = Relationship.of(dtl, e3);
 		r3.connect();
 
 		// Detailへの個体指定子変更伝播

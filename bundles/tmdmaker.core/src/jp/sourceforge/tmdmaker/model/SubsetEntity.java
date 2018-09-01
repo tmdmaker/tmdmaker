@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 package jp.sourceforge.tmdmaker.model;
 
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 /**
  * サブセット
@@ -27,6 +29,33 @@ import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
 public class SubsetEntity extends AbstractEntityModel {
 	/** サブセットの親のRe-usedキー */
 	private ReusedIdentifier originalReusedIdentifier;
+
+	/**
+	 * コンストラクタは公開しない.
+	 */
+	protected SubsetEntity() {
+		super();
+	}
+
+	/**
+	 * サブセット生成.
+	 * 
+	 * 外部から生成させない.
+	 * 
+	 * @param parent
+	 *            親モデル
+	 * @param subsetName
+	 *            サブセット名
+	 * @return サブセット
+	 */
+	protected static SubsetEntity build(AbstractEntityModel parent, ModelName subsetName) {
+		SubsetEntity subsetEntity = new SubsetEntity();
+		subsetEntity.setName(subsetName.getValue());
+		subsetEntity.setOriginalReusedIdentifier(parent.createReusedIdentifier());
+		subsetEntity.setEntityType(parent.getEntityType());
+		ImplementRule.setModelDefaultValue(subsetEntity);
+		return subsetEntity;
+	}
 
 	/**
 	 * @return the originalReusedIdentifier
@@ -92,16 +121,32 @@ public class SubsetEntity extends AbstractEntityModel {
 	 * @return 同一のサブセットの場合にtrueを返す。
 	 */
 	public boolean isSameSubset() {
-		if (getModelTargetConnections().size() == 0) {
+		SubsetType type = getSubsetType();
+
+		if (type == null) {
 			return false;
 		}
-		SubsetType2SubsetRelationship r = (SubsetType2SubsetRelationship) getModelTargetConnections()
-				.get(0);
-		if (r != null) {
-			SubsetType type = (SubsetType) r.getSource();
-			return type.getSubsetType().equals(SubsetTypeValue.SAME);
+		return type.getSubsetType().equals(SubsetTypeValue.SAME);
+	}
+
+	private SubsetType getSubsetType() {
+		if (getModelTargetConnections().size() == 0) {
+			return null;
 		}
-		return false;
+		SubsetType2SubsetRelationship r = getSubsetTypeRelationship();
+		if (r != null) {
+			return (SubsetType) r.getSource();
+		}
+		return null;
+	}
+
+	/**
+	 * サブセット種類とのリレーションシップを返す.
+	 * 
+	 * @return サブセット種類とのリレーションシップ
+	 */
+	public SubsetType2SubsetRelationship getSubsetTypeRelationship() {
+		return (SubsetType2SubsetRelationship) getModelTargetConnections().get(0);
 	}
 
 	/**
@@ -122,10 +167,16 @@ public class SubsetEntity extends AbstractEntityModel {
 	 * @return 派生元モデル（スーパーセット）
 	 */
 	public AbstractEntityModel getSuperset() {
-		SubsetType type = (SubsetType) getModelTargetConnections().get(0).getSource();
-		return (AbstractEntityModel) type.getModelTargetConnections().get(0).getSource();
+		SubsetType type = getSubsetTypeRelationship().getSubsetType();
+		return type.getSuperset();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);

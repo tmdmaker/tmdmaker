@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -126,10 +126,24 @@ public class ModelElement implements Serializable, IAcceptor {
 		firePropertyChange(PROPERTY_CONSTRAINT, oldValue, constraint);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.IAcceptor#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
 
+	/**
+	 * 位置を移動する.
+	 * 
+	 * @param x
+	 *            x軸
+	 * @param y
+	 *            y軸
+	 */
 	public void move(int x, int y) {
 		Constraint oldPosition = getConstraint();
 		Constraint newPosition = oldPosition.getCopy();
@@ -172,5 +186,14 @@ public class ModelElement implements Serializable, IAcceptor {
 	 */
 	public boolean canCreateVirtualEntity() {
 		return false;
+	}
+
+	/**
+	 * 初期位置か？
+	 * 
+	 * @return 座標が新規作成時の初期位置の場合はtrueを返す
+	 */
+	public boolean isInitialPosition() {
+		return getConstraint().isInitialPosition();
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package jp.sourceforge.tmdmaker.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -32,18 +31,15 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
 import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
-import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 import jp.sourceforge.tmdmaker.ui.dialogs.components.SubsetSettingPanel;
 import jp.sourceforge.tmdmaker.ui.dialogs.models.EditSubsetEntity;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintChangeCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.Entity2SubsetTypeCreateCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ImplementDerivationModelsDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetCreateCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetAddCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetDeleteCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetNameChangeCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetTypeChangeCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.SubsetTypeDeleteCommand;
 
 /**
  * サブセット作成ダイアログ.
@@ -65,7 +61,6 @@ public class SubsetCreateDialog extends Dialog {
 	private boolean editedExceptNull;
 
 	private AbstractEntityModel model;
-	private SubsetType orgSubsetType;
 	private CompoundCommand ccommand;
 
 	/**
@@ -78,18 +73,22 @@ public class SubsetCreateDialog extends Dialog {
 	 * @param model
 	 *            スーパーセット.
 	 */
-	public SubsetCreateDialog(Shell parentShell, SubsetType subsetType, AbstractEntityModel model) {
+	public SubsetCreateDialog(Shell parentShell, AbstractEntityModel model) {
 		super(parentShell);
-		this.subsetType = subsetType.getSubsetType();
-		this.exceptNull = subsetType.isExceptNull();
-		this.attributes = model.getAttributes();
-		this.selectedAttribute = subsetType.getPartitionAttribute();
-		for (SubsetEntity se : subsetType.getSubsetList()) {
-			this.subsetEntities.add(new EditSubsetEntity(se));
+		if (model.subsets().hasSubset()) {
+			SubsetType subsetType = model.subsets().subsetType();
+			this.subsetType = subsetType.getSubsetType();
+			this.exceptNull = subsetType.isExceptNull();
+			this.selectedAttribute = subsetType.getPartitionAttribute();
+			for (SubsetEntity se : subsetType.getSubsetList()) {
+				this.subsetEntities.add(new EditSubsetEntity(se));
+			}
+		} else {
+			this.subsetType = SubsetTypeValue.SAME;
+			this.exceptNull = false;
 		}
-
+		this.attributes = model.getAttributes();
 		this.model = model;
-		this.orgSubsetType = subsetType;
 	}
 
 	/**
@@ -116,24 +115,43 @@ public class SubsetCreateDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		editedSubsetType = createEditedSubsetType();
+		editedExceptNull = panel.isExceptNull();
 		int partitionSelectionIndex = panel.getSelectedPartitionAttributeIndex();
 		if (partitionSelectionIndex != -1) {
 			editedPartitionAttribute = this.attributes.get(partitionSelectionIndex);
 		}
 		editedSubsetEntities = panel.getSubsetEntityList();
 		deletedSubsetEntities = panel.getDeletedSubsetEntityList();
-		editedExceptNull = panel.isExceptNull();
 
 		ccommand = new CompoundCommand();
-		addSuitableSubsetTypeCommand(ccommand, model, orgSubsetType, getEditedSubsetType(),
-				getEditedPartitionAttribute(), isEditedExceptNull());
-		addSuitableSubsetEntityCommand(ccommand, model, orgSubsetType, getEditedSubsetEntities());
-		addSubsetDeleteCommand(ccommand, model, orgSubsetType, getDeletedSubsetEntities());
+		addSubsetAddCommand();
+		addSubsetTypeChangeCommand();
+		addSubsetEntityRenameCommand();
+		addSubsetDeleteCommand();
 		super.okPressed();
 	}
 
 	public CompoundCommand getCcommand() {
 		return ccommand;
+	}
+
+	private void addSubsetAddCommand() {
+		ccommand.add(new SubsetAddCommand(this.model, getAddSubsetEntityNames()));
+	}
+
+	private List<ModelName> getAddSubsetEntityNames() {
+		List<ModelName> subsetNames = new ArrayList<ModelName>();
+		for (EditSubsetEntity s : editedSubsetEntities) {
+			if (s.isAdded()) {
+				subsetNames.add(new ModelName(s.getName()));
+			}
+		}
+		return subsetNames;
+	}
+
+	private void addSubsetTypeChangeCommand() {
+		ccommand.add(new SubsetTypeChangeCommand(this.model, editedSubsetType,
+				editedPartitionAttribute, editedExceptNull));
 	}
 
 	private SubsetType.SubsetTypeValue createEditedSubsetType() {
@@ -144,85 +162,17 @@ public class SubsetCreateDialog extends Dialog {
 		}
 	}
 
-	/**
-	 * @return the editedSubsetType
-	 */
-	private SubsetType.SubsetTypeValue getEditedSubsetType() {
-		return editedSubsetType;
-	}
-
-	/**
-	 * @return the editedPartitionAttribute
-	 */
-	private IAttribute getEditedPartitionAttribute() {
-		return editedPartitionAttribute;
-	}
-
-	/**
-	 * @return the editedSubsetEntities
-	 */
-	private List<EditSubsetEntity> getEditedSubsetEntities() {
-		return editedSubsetEntities;
-	}
-
-	/**
-	 * @return the deletedSubsetEntities
-	 */
-	private List<EditSubsetEntity> getDeletedSubsetEntities() {
-		return deletedSubsetEntities;
-	}
-
-	/**
-	 * @return the editedExceptNull
-	 */
-	private boolean isEditedExceptNull() {
-		return editedExceptNull;
-	}
-
-	private int calcurateSubsetNameSize(List<EditSubsetEntity> editSubsets) {
-		int nameLength = 0;
-		for (EditSubsetEntity e : editSubsets) {
-			nameLength = Math.max(nameLength, e.getName().length());
-		}
-		return nameLength;
-	}
-
-	private int calcurateSubsetWidth(List<EditSubsetEntity> editSubsets) {
-		final int SPACE = 14;
-		int subsetNameLength = calcurateSubsetNameSize(editSubsets);
-		int reusedNameLength = model.calcurateMaxIdentifierRefSize();
-		int charLength = Math.max(subsetNameLength, reusedNameLength) * SubsetRule.CHAR_SIZE;
-		return charLength + SPACE;
-	}
-
-	private void addSuitableSubsetEntityCommand(CompoundCommand ccommand, AbstractEntityModel model,
-			SubsetType subsetType, List<EditSubsetEntity> editSubsets) {
-		int subsetwidth = calcurateSubsetWidth(editSubsets);
-		int totalWidthHalf = editSubsets.size() * subsetwidth / 2;
-		int subsetX = totalWidthHalf * -1;
-		final int SUBSET_Y = 50;
-		for (EditSubsetEntity e : editSubsets) {
-			if (e.isAdded()) {
-				SubsetEntity subset = SubsetRule.createSubsetEntity(model, e.getName());
-				Command command = new SubsetCreateCommand(model, subsetType, subset);
-				ccommand.add(command);
-
-				command = new ConstraintChangeCommand(subset, subsetX, SUBSET_Y);
-				ccommand.add(command);
-			} else if (e.isNameChanged()) {
-				SubsetEntity subsetEntity = e.getOriginal();
-				SubsetNameChangeCommand command = new SubsetNameChangeCommand(subsetEntity,
-						e.getName());
-				ccommand.add(command);
+	private void addSubsetEntityRenameCommand() {
+		for (EditSubsetEntity s : this.editedSubsetEntities) {
+			if (s.isNameChanged()) {
+				this.ccommand.add(new SubsetNameChangeCommand(s.getOriginal(), s.getName()));
 			}
-			subsetX += subsetwidth;
 		}
 	}
 
-	private void addSubsetDeleteCommand(CompoundCommand ccommand, AbstractEntityModel model,
-			SubsetType subsetType, List<EditSubsetEntity> deleteSubsets) {
+	private void addSubsetDeleteCommand() {
 		List<EditSubsetEntity> deletedList = new ArrayList<EditSubsetEntity>();
-		for (EditSubsetEntity e : deleteSubsets) {
+		for (EditSubsetEntity e : deletedSubsetEntities) {
 			if (e.getOriginal() != null) {
 				deletedList.add(e);
 			}
@@ -240,26 +190,6 @@ public class SubsetCreateDialog extends Dialog {
 					ccommand.add(new ImplementDerivationModelsDeleteCommand(subset, original));
 				}
 			}
-		}
-		if (deletedList.size() > 0) {
-			SubsetTypeDeleteCommand command = new SubsetTypeDeleteCommand(model.getDiagram(),
-					subsetType);
-			ccommand.add(command);
-		}
-	}
-
-	private void addSuitableSubsetTypeCommand(CompoundCommand ccommand, AbstractEntityModel model,
-			SubsetType subsetType, SubsetTypeValue newSubsetType,
-			IAttribute selectedPartitionAttribute, boolean newExceptNull) {
-		if (subsetType.isNew()) {
-			// entityとpartitionCodeModelの接続
-			subsetType.setExceptNull(newExceptNull);
-			subsetType.setSubsetType(newSubsetType);
-			ccommand.add(new Entity2SubsetTypeCreateCommand(model, subsetType,
-					selectedPartitionAttribute));
-		} else {
-			ccommand.add(new SubsetTypeChangeCommand(subsetType, newSubsetType,
-					selectedPartitionAttribute, newExceptNull));
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,9 +33,9 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	 * @param target
 	 *            サブセット種類
 	 */
-	public Entity2SubsetTypeRelationship(AbstractEntityModel source, ConnectableElement target) {
+	public Entity2SubsetTypeRelationship(AbstractEntityModel source) {
 		setSource(source);
-		setTarget(target);
+		setTarget(new SubsetType());
 	}
 
 	/**
@@ -126,8 +126,62 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 		return builder.toString();
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#connect()
+	 */
+	@Override
+	public void connect() {
+		super.connect();
+		Diagram diagram = getSuperset().getDiagram();
+		if (diagram != null) {
+			diagram.addChild(getSubsetType());
+		}
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disconnect()
+	 */
+	@Override
+	public void disconnect() {
+		Diagram diagram = getSubsetType().getSuperset().getDiagram();
+		if (diagram != null) {
+			diagram.removeChild(getSubsetType());
+		}
+		super.disconnect();
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	/**
+	 * サブセット種別を返す.
+	 * 
+	 * @return サブセット種別
+	 */
+	public SubsetType getSubsetType() {
+		return (SubsetType) getTarget();
+	}
+
+	/**
+	 * スーパセットを返す.
+	 * 
+	 * @return スーパーセット
+	 */
+	private AbstractEntityModel getSuperset() {
+		return (AbstractEntityModel) getSource();
 	}
 }
