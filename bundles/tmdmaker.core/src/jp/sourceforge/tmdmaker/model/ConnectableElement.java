@@ -74,4 +74,13 @@ public abstract class ConnectableElement extends ModelElement {
 		targetConnections.remove(connx);
 		firePropertyChange(P_TARGET_CONNECTION, connx, null);
 	}
+
+	/**
+	 * リレーションシップがあるか？
+	 * 
+	 * @return 他のモデルとのリレーションシップがある場合はtrueを返す.
+	 */
+	public boolean hasRelationship() {
+		return this.sourceConnections.size() != 0 || this.targetConnections.size() != 0;
+	}
 }

@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jp.sourceforge.tmdmaker.model.constraint.Constraint;
+import jp.sourceforge.tmdmaker.model.multivalue.MultivalueAnd;
 import jp.sourceforge.tmdmaker.model.subset.Subsets;
 
 /**
@@ -594,4 +595,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		return new Subsets(this);
 	}
 
+	public MultivalueAnd multivalueAnd() {
+		return new MultivalueAnd(this);
+	}
 }

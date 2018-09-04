@@ -181,4 +181,15 @@ public class SubsetEntity extends AbstractEntityModel {
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ConnectableElement#hasRelationship()
+	 */
+	@Override
+	public boolean hasRelationship() {
+		return getModelSourceConnections().size() != 0 || getModelTargetConnections().size() > 1;
+	}
 }

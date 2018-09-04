@@ -41,7 +41,7 @@ public class SubsetEntityFigure extends AbstractModelFigure<SubsetEntity> {
 	 */
 	@Override
 	protected List<String> setupIdentifierList(SubsetEntity model) {
-		if (model.isSameSubset() && model.getAttributes().size() == 0) {
+		if (model.isSameSubset() && model.getAttributes().size() == 0 && !model.hasRelationship()) {
 			return Collections.emptyList();
 		}
 		if (model.isSupersetAnEntity()) {
@@ -60,7 +60,7 @@ public class SubsetEntityFigure extends AbstractModelFigure<SubsetEntity> {
 	@Override
 	protected List<String> setupRelationshipList(SubsetEntity model) {
 		List<String> relationships = new ArrayList<String>();
-		if (model.isSameSubset() && model.getAttributes().size() == 0) {
+		if (model.isSameSubset() && model.getAttributes().size() == 0 && !model.hasRelationship()) {
 			// do nothing
 		} else {
 			if (!model.isSupersetAnEntity()) {

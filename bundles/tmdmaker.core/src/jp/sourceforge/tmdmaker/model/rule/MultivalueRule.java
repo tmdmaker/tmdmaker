@@ -18,9 +18,6 @@ package jp.sourceforge.tmdmaker.model.rule;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
-import jp.sourceforge.tmdmaker.model.Detail;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
@@ -67,60 +64,6 @@ public class MultivalueRule {
 		return attribute;
 	}
 
-	/**
-	 * 多値のANDのDetailを作成する。
-	 * 
-	 * @param header
-	 *            派生元のモデル
-	 * @return 多値のANDのDetail
-	 */
-	public static Detail createDetail(AbstractEntityModel header) {
-		Detail detail = new Detail();
-		detail.setName(header.getName() + "DTL");
-		detail.setEntityType(header.getEntityType());
-		detail.setOriginalReusedIdentifier(header.createReusedIdentifier());
-		detail.getDetailIdentifier().copyFrom(createDetailIdentifier(header.getName()));
-		ImplementRule.setModelDefaultValue(detail);
-		return detail;
-	}
 
-	/**
-	 * Detailの個体指定子を作成する
-	 * 
-	 * @param headerName
-	 *            派生元のモデル名
-	 * @return Detailの個体指定子
-	 */
-	private static Identifier createDetailIdentifier(String headerName) {
-		Identifier id = new Identifier(headerName + "明細番号");
-		ImplementRule.setIdentifierDefaultValue(id);
 
-		return id;
-	}
-
-	/**
-	 * 多値のANDのSupersetを作成する。
-	 * 
-	 * @param header
-	 *            派生元のモデル
-	 * @return 多値のANDのSuperset
-	 */
-	public static MultivalueAndSuperset createMultivalueAndSuperset(AbstractEntityModel header) {
-		MultivalueAndSuperset superset = new MultivalueAndSuperset();
-		superset.setEntityType(header.getEntityType());
-		superset.setName(header.getName());
-		superset.addReusedIdentifier(header);
-
-		return superset;
-	}
-
-	/**
-	 * 多値のANDのHeaderの名称を作成する。
-	 * 
-	 * @param model
-	 * @return
-	 */
-	public static String createHeaderName(AbstractEntityModel model) {
-		return model.getName() + "HDR";
-	}
 }
