@@ -17,6 +17,8 @@ package jp.sourceforge.tmdmaker.model;
 
 import java.util.Map.Entry;
 
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
+
 /**
  * 多値のANDのディテール
  * 
@@ -35,8 +37,42 @@ public class Detail extends AbstractEntityModel {
 	/** DTLの個体指定子を使用するか？ */
 	private boolean isDetailIdentifierEnabled;
 
-	public Detail() {
+	/**
+	 * コンストラクタは非公開.
+	 */
+	protected Detail() {
 		isDetailIdentifierEnabled = true;
+	}
+
+	/**
+	 * 多値のANDのDetailを作成する。
+	 * 
+	 * @param header
+	 *            派生元のモデル
+	 * @return 多値のANDのDetail
+	 */
+	protected static Detail build(AbstractEntityModel header) {
+		Detail detail = new Detail();
+		detail.setName(header.getName() + "DTL");
+		detail.setEntityType(header.getEntityType());
+		detail.setOriginalReusedIdentifier(header.createReusedIdentifier());
+		detail.getDetailIdentifier().copyFrom(createDetailIdentifier(header.getName()));
+		ImplementRule.setModelDefaultValue(detail);
+		return detail;
+	}
+
+	/**
+	 * Detailの個体指定子を作成する
+	 * 
+	 * @param headerName
+	 *            派生元のモデル名
+	 * @return Detailの個体指定子
+	 */
+	private static Identifier createDetailIdentifier(String headerName) {
+		Identifier id = new Identifier(headerName + "明細番号");
+		ImplementRule.setIdentifierDefaultValue(id);
+
+		return id;
 	}
 
 	/**

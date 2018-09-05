@@ -29,7 +29,7 @@ import org.junit.Test;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Detail;
+import jp.sourceforge.tmdmaker.model.Cardinality;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
@@ -39,8 +39,6 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
-import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
@@ -136,7 +134,15 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(CombinationTableEditPart.class));
 
-		o = new Detail();
+		Entity res1 = Entity.ofResource(new Identifier("リソース番号"));
+		Entity ev1 = Entity.ofEvent(new Identifier("イベント番号"));
+		AbstractRelationship rel = Relationship.of(res1, ev1);
+		rel.connect();
+		rel.setSourceCardinality(Cardinality.MANY);
+		rel.setTargetCardinality(Cardinality.MANY);
+		ev1.multivalueAnd().builder().build();
+
+		o = ev1.multivalueAnd().detail();
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(DetailEditPart.class));
 
@@ -156,7 +162,7 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MappingListEditPart.class));
 
-		o = new MultivalueAndSuperset();
+		o = ev1.multivalueAnd().superset();
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MultivalueAndSupersetEditPart.class));
 
@@ -200,7 +206,7 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(RelatedRelationshipEditPart.class));
 
-		o = new MultivalueAndAggregator();
+		o = ev1.multivalueAnd().aggregator();
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MultivalueAndAggregatorEditPart.class));
 
