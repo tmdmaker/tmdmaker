@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package jp.sourceforge.tmdmaker.model;
-
-import jp.sourceforge.tmdmaker.model.rule.MultivalueRule;
 
 /**
  * エンティティ系モデルと多値のORとのリレーションシップ
@@ -39,12 +37,12 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 	public MultivalueOrRelationship(AbstractEntityModel source, String typeName) {
 		setSource(source);
 
-		MultivalueOrEntity target = MultivalueRule.createMultivalueOrEntity(getSource(), typeName);
+		MultivalueOrEntity target = MultivalueOrEntity.build(getSource(), typeName);
 
 		setTargetCardinality(Cardinality.MANY);
 
-		setTarget(target);
 		this.table = target;
+		setTarget(this.table);
 	}
 
 	/**
@@ -55,7 +53,9 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 	@Override
 	public void connect() {
 		Diagram diagram = getSource().getDiagram();
-		diagram.addChild(getTarget());
+		if (diagram != null) {
+			diagram.addChild(getTarget());
+		}
 		super.connect();
 	}
 
@@ -67,7 +67,10 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 	@Override
 	public void disconnect() {
 		super.disconnect();
-		getSource().getDiagram().removeChild(table);
+		Diagram diagram = getSource().getDiagram();
+		if (diagram != null) {
+			diagram.removeChild(getTarget());
+		}
 	}
 
 	/**
@@ -78,6 +81,15 @@ public class MultivalueOrRelationship extends TransfarReuseKeysToTargetRelations
 	@Override
 	public boolean isDeletable() {
 		return getTarget().isDeletable();
+	}
+
+	/**
+	 * 多値のORを返す.
+	 * 
+	 * @return
+	 */
+	public MultivalueOrEntity getMultivalueOrEntity() {
+		return (MultivalueOrEntity) getTarget();
 	}
 
 }

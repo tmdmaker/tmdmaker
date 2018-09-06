@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package jp.sourceforge.tmdmaker.model;
 
 import java.util.Map;
 
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
+
 /**
  * 多値のOR
  * 
@@ -25,6 +27,49 @@ import java.util.Map;
  */
 @SuppressWarnings("serial")
 public class MultivalueOrEntity extends AbstractEntityModel {
+
+	/**
+	 * コンストラクタは公開しない.
+	 */
+	protected MultivalueOrEntity() {
+	}
+
+	/**
+	 * 多値のORのモデルを作成する。
+	 * 
+	 * @param source
+	 *            派生元のモデル
+	 * @param typeName
+	 *            種別名
+	 * @return 多値のORのモデル
+	 */
+	public static MultivalueOrEntity build(AbstractEntityModel source,
+			String typeName) {
+		MultivalueOrEntity target = new MultivalueOrEntity();
+		target.setName(source.getName() + "." + typeName);
+		target.setEntityType(source.getEntityType());
+		target.addAttribute(createTypeCode(typeName));
+		ImplementRule.setModelDefaultValue(target);
+		return target;
+	}
+
+	/**
+	 * 多値のORの種別コードを作成する。
+	 * 
+	 * @param typeName
+	 *            種別名
+	 * @return 種別コードのアトリビュート
+	 */
+	private static Attribute createTypeCode(String typeName) {
+		Attribute attribute = new Attribute();
+		attribute.setName(typeName + "コード");
+		attribute.setImplementName(attribute.getName());
+		attribute.setDataTypeDeclaration(
+				new DataTypeDeclaration(StandardSQLDataType.SMALLINT, null, null));
+
+		return attribute;
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}

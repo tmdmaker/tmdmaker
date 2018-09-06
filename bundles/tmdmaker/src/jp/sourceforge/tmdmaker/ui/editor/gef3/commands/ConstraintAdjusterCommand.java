@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,14 +39,6 @@ public class ConstraintAdjusterCommand extends Command {
 	public ConstraintAdjusterCommand(AbstractRelationship connection, int x, int y) {
 		this.source = connection.getSource();
 		this.target = connection.getTarget();
-		this.x = x;
-		this.y = y;
-	}
-
-	public ConstraintAdjusterCommand(AbstractEntityModel source, ConnectableElement target, int x,
-			int y) {
-		this.source = source;
-		this.target = target;
 		this.x = x;
 		this.y = y;
 	}

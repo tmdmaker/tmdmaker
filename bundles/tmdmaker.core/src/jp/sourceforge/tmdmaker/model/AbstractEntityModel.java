@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import jp.sourceforge.tmdmaker.model.constraint.Constraint;
 import jp.sourceforge.tmdmaker.model.multivalue.MultivalueAnd;
+import jp.sourceforge.tmdmaker.model.multivalue.MultivalueOr;
 import jp.sourceforge.tmdmaker.model.subset.Subsets;
 
 /**
@@ -105,7 +106,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param source
 	 *            個体指定子取得元
 	 */
-	public void addReusedIdentifier(AbstractEntityModel source) {
+	protected void addReusedIdentifier(AbstractEntityModel source) {
 		addReusedIdentifier(source, source.createReusedIdentifier());
 	}
 
@@ -129,7 +130,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            個体指定子取得元
 	 * @return 削除したReused個体指定子
 	 */
-	public ReusedIdentifier removeReusedIdentifier(AbstractEntityModel source) {
+	protected ReusedIdentifier removeReusedIdentifier(AbstractEntityModel source) {
 		ReusedIdentifier removed = this.reusedIdentifiers.remove(source);
 		firePropertyChange(PROPERTY_REUSED, removed, null);
 		return removed;
@@ -219,7 +220,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @return SubsetType。存在しない場合はnullを返す。
 	 */
 	public SubsetType findSubsetType() {
-		List<AbstractConnectionModel> results = findRelationship(getModelSourceConnections(),
+		List<Entity2SubsetTypeRelationship> results = findRelationship(getModelSourceConnections(),
 				Entity2SubsetTypeRelationship.class);
 		if (results.size() != 0) {
 			return ((Entity2SubsetTypeRelationship) results.get(0)).getSubsetType();
@@ -233,7 +234,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @return VirtualSupersetType。存在しない場合はnullを返す。
 	 */
 	public VirtualSupersetType findVirtualSupersetType() {
-		List<AbstractConnectionModel> results = findRelationshipFromSourceConnections(
+		List<Entity2VirtualSupersetTypeRelationship> results = findRelationshipFromSourceConnections(
 				Entity2VirtualSupersetTypeRelationship.class);
 		if (results.size() != 0) {
 			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results.get(0))
@@ -257,12 +258,13 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            取得したいリレーションシップのクラス
 	 * @return clazzで指定したクラスのリレーションシップのリスト
 	 */
-	protected List<AbstractConnectionModel> findRelationship(
-			List<AbstractConnectionModel> connections, Class<?> clazz) {
-		List<AbstractConnectionModel> results = new ArrayList<AbstractConnectionModel>();
+	@SuppressWarnings("unchecked")
+	protected <T extends AbstractConnectionModel> List<T> findRelationship(
+			List<AbstractConnectionModel> connections, Class<T> clazz) {
+		List<T> results = new ArrayList<T>();
 		for (AbstractConnectionModel connection : connections) {
 			if (clazz.equals(connection.getClass())) {
-				results.add(connection);
+				results.add((T) connection);
 			}
 		}
 		return results;
@@ -275,7 +277,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            取得したいリレーションシップのクラス
 	 * @return clazzで指定したクラスのリレーションシップのリスト
 	 */
-	public List<AbstractConnectionModel> findRelationshipFromSourceConnections(Class<?> clazz) {
+	public <T extends AbstractConnectionModel> List<T> findRelationshipFromSourceConnections(
+			Class<T> clazz) {
 		return findRelationship(getModelSourceConnections(), clazz);
 	}
 
@@ -286,7 +289,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            取得したいリレーションシップのクラス
 	 * @return clazzで指定したクラスのリレーションシップのリスト
 	 */
-	public List<AbstractConnectionModel> findRelationshipFromTargetConnections(Class<?> clazz) {
+	public <T extends AbstractConnectionModel> List<T> findRelationshipFromTargetConnections(
+			Class<T> clazz) {
 		return findRelationship(getModelTargetConnections(), clazz);
 	}
 
@@ -294,14 +298,14 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * 
 	 * @param callConnection
 	 */
-	public void fireIdentifierChanged(AbstractConnectionModel callConnection) {
+	protected void fireIdentifierChanged(AbstractConnectionModel callConnection) {
 		firePropertyChange(AbstractEntityModel.PROPERTY_REUSED, null, null);
 		if (getEntityType().equals(EntityType.RESOURCE)) {
 			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
 			notifyIdentifierChangedToConnections(getModelTargetConnections(), callConnection);
 		} else {
 			notifyIdentifierChangedToConnections(getModelSourceConnections(), callConnection);
-			List<AbstractConnectionModel> targetcons = findRelationshipFromTargetConnections(
+			List<Event2EventRelationship> targetcons = findRelationshipFromTargetConnections(
 					Event2EventRelationship.class);
 			notifyIdentifierChangedToConnections(targetcons, callConnection);
 		}
@@ -315,8 +319,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * @param callConnection
 	 *            通知元コネクション。通知元がコネクションで無い場合はnullが設定される。
 	 */
-	private void notifyIdentifierChangedToConnections(List<AbstractConnectionModel> connections,
-			AbstractConnectionModel callConnection) {
+	private <T extends AbstractConnectionModel> void notifyIdentifierChangedToConnections(
+			List<T> connections, AbstractConnectionModel callConnection) {
 		for (AbstractConnectionModel con : connections) {
 			if (con instanceof IdentifierChangeListener && con != callConnection) {
 				((IdentifierChangeListener) con).identifierChanged();
@@ -595,7 +599,25 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		return new Subsets(this);
 	}
 
+	/**
+	 * 多値のANDの集約を返す.
+	 * 
+	 * 多値のAND生成等の起点となるオブジェクト.
+	 * 
+	 * @return
+	 */
 	public MultivalueAnd multivalueAnd() {
 		return new MultivalueAnd(this);
+	}
+
+	/**
+	 * 多値のORの集約を返す.
+	 * 
+	 * 多値のOR生成等の起点となるオブジェクト.
+	 * 
+	 * @return
+	 */
+	public MultivalueOr multivalueOr() {
+		return new MultivalueOr(this);
 	}
 }

@@ -39,7 +39,6 @@ import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
@@ -166,7 +165,8 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MultivalueAndSupersetEditPart.class));
 
-		o = new MultivalueOrEntity();
+		ev1.multivalueOr().builder().typeName("テスト種別").build();
+		o = ev1.multivalueOr().query().findByName(new ModelName("テスト種別")).get(0);
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MultivalueOrEditPart.class));
 
