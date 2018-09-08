@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
+
 /**
  * みなしエンティティ
  * 
@@ -28,6 +30,30 @@ public class VirtualEntity extends AbstractEntityModel {
 
 	/** みなしエンティティの種類 */
 	private VirtualEntityType virtualEntityType = VirtualEntityType.NORMAL;
+
+	/**
+	 * コンストラクタは非公開.
+	 */
+	protected VirtualEntity() {
+	}
+
+	/**
+	 * みなしエンティティを作成する
+	 * 
+	 * @param source
+	 *            派生元モデル
+	 * @param virtualEntityName
+	 *            みなしエンティティ名
+	 * @return みなしエンティティ
+	 */
+	protected static VirtualEntity build(AbstractEntityModel source, String virtualEntityName, VirtualEntityType type) {
+		VirtualEntity ve = new VirtualEntity();
+		ve.setName(virtualEntityName);
+		ve.setOriginalReusedIdentifier(source.createReusedIdentifier());
+		ve.setVirtualEntityType(type);
+		ImplementRule.setModelDefaultValue(ve);
+		return ve;
+	}
 
 	/**
 	 * @return the originalReusedIdentifier

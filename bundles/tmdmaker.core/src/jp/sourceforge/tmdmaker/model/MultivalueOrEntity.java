@@ -43,9 +43,12 @@ public class MultivalueOrEntity extends AbstractEntityModel {
 	 *            種別名
 	 * @return 多値のORのモデル
 	 */
-	public static MultivalueOrEntity build(AbstractEntityModel source,
+	protected static MultivalueOrEntity build(AbstractEntityModel source,
 			String typeName) {
 		MultivalueOrEntity target = new MultivalueOrEntity();
+		if (typeName == null || typeName.isEmpty()) {
+			typeName = "MO";
+		}
 		target.setName(source.getName() + "." + typeName);
 		target.setEntityType(source.getEntityType());
 		target.addAttribute(createTypeCode(typeName));

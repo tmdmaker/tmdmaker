@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@ package jp.sourceforge.tmdmaker.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 
 /**
  * エンティティ系モデルとみなしエンティティとのリレーションシップ
@@ -43,32 +41,37 @@ public class Entity2VirtualEntityRelationship extends TransfarReuseKeysToTargetR
 	public Entity2VirtualEntityRelationship(AbstractEntityModel source, String virtualEntityName,
 			VirtualEntityType type) {
 		setSource(source);
-		ve = VirtualEntityRule.createVirtualEntity(source, virtualEntityName);
+		ve = VirtualEntity.build(source, virtualEntityName, type);
 		ve.setVirtualEntityType(type);
 		setTarget(ve);
-
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship#attachTarget()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#connect()
 	 */
 	@Override
-	public void attachTarget() {
-		getSource().getDiagram().addChild(ve);
-		super.attachTarget();
+	public void connect() {
+		Diagram diagram = getSource().getDiagram();
+		if (diagram != null) {
+			diagram.addChild(getTarget());
+		}
+		super.connect();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see jp.sourceforge.tmdmaker.model.TransfarReuseKeysToTargetRelationship#detachTarget()
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disconnect()
 	 */
 	@Override
-	public void detachTarget() {
-		super.detachTarget();
-		ve.getDiagram().removeChild(ve);
+	public void disconnect() {
+		super.disconnect();
+		Diagram diagram = getSource().getDiagram();
+		if (diagram != null) {
+			diagram.removeChild(getTarget());
+		}
 	}
 
 	/**
@@ -94,5 +97,9 @@ public class Entity2VirtualEntityRelationship extends TransfarReuseKeysToTargetR
 		for (IdentifierRef r : getSource().createReusedIdentifier().getIdentifiers()) {
 			logger.debug(r.getName());
 		}
+	}
+
+	public VirtualEntity getVirtualEntity() {
+		return (VirtualEntity) getTarget();
 	}
 }

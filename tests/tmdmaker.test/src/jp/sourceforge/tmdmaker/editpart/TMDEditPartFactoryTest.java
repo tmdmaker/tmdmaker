@@ -42,7 +42,6 @@ import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
@@ -165,8 +164,9 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MultivalueAndSupersetEditPart.class));
 
-		ev1.multivalueOr().builder().typeName("テスト種別").build();
-		o = ev1.multivalueOr().query().findByName(new ModelName("テスト種別")).get(0);
+		Entity ev2 = Entity.ofEvent(new Identifier("イベント番号"));
+		ev2.multivalueOr().builder().typeName("テスト種別").build();
+		o = ev2.multivalueOr().query().findByName(new ModelName("イベント.テスト種別")).get(0);
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MultivalueOrEditPart.class));
 
@@ -181,7 +181,9 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(SubsetEntityEditPart.class));
 
-		o = new VirtualEntity();
+		ModelName searchName = new ModelName("みなし");
+		e.virtualEntities().builder().virtualEntityName(searchName).build();
+		o = e.virtualEntities().query().findByName(searchName).get(0);
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(VirtualEntityEditPart.class));
 

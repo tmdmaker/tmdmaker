@@ -15,8 +15,6 @@
  */
 package jp.sourceforge.tmdmaker.model.rule;
 
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 
 /**
@@ -26,24 +24,6 @@ import jp.sourceforge.tmdmaker.model.VirtualSuperset;
  * 
  */
 public class VirtualEntityRule {
-	/**
-	 * みなしエンティティを作成する
-	 * 
-	 * @param model
-	 *            派生元モデル
-	 * @param name
-	 *            みなしエンティティ名
-	 * @return みなしエンティティ
-	 */
-	public static VirtualEntity createVirtualEntity(AbstractEntityModel model, String name) {
-		VirtualEntity ve = new VirtualEntity();
-		ve.setName(name);
-		ve.setOriginalReusedIdentifier(model.createReusedIdentifier());
-		ImplementRule.setModelDefaultValue(ve);
-
-		return ve;
-	}
-
 	/**
 	 * みなしスーパーセットを作成する。
 	 * 

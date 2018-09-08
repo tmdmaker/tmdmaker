@@ -30,7 +30,7 @@ public class MultivalueOrBuilder {
 	private String typeName;
 	private MultivalueOrRelationship relationship;
 
-	public MultivalueOrBuilder(AbstractEntityModel source) {
+	protected MultivalueOrBuilder(AbstractEntityModel source) {
 		this.source = source;
 	}
 

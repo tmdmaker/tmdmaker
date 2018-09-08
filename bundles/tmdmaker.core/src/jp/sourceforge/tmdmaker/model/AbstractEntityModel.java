@@ -28,6 +28,7 @@ import jp.sourceforge.tmdmaker.model.constraint.Constraint;
 import jp.sourceforge.tmdmaker.model.multivalue.MultivalueAnd;
 import jp.sourceforge.tmdmaker.model.multivalue.MultivalueOr;
 import jp.sourceforge.tmdmaker.model.subset.Subsets;
+import jp.sourceforge.tmdmaker.model.virtual.VirtualEntities;
 
 /**
  * エンティティ系モデルの基底クラス
@@ -141,7 +142,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 * 
 	 * @return 作成したReused個体指定子
 	 */
-	public abstract ReusedIdentifier createReusedIdentifier();
+	protected abstract ReusedIdentifier createReusedIdentifier();
 
 	/**
 	 * @return the attributes
@@ -619,5 +620,16 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public MultivalueOr multivalueOr() {
 		return new MultivalueOr(this);
+	}
+
+	/**
+	 * みなしエンティティの集約を返す.
+	 * 
+	 * みなしエンティティ生成等の起点となるオブジェクト.
+	 * 
+	 * @return
+	 */
+	public VirtualEntities virtualEntities() {
+		return new VirtualEntities(this);
 	}
 }
