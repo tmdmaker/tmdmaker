@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package jp.sourceforge.tmdmaker.model;
-
-import jp.sourceforge.tmdmaker.model.rule.MultivalueRule;
 
 /**
  * 多値のANDのヘッダとディテールとのリレーションシップ
@@ -49,11 +47,11 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 	 */
 	public Header2DetailRelationship(AbstractEntityModel header) {
 		setSource(header);
-		detail = MultivalueRule.createDetail(header);
+		detail = Detail.build(header);
 		setTarget(detail);
 		setTargetCardinality(Cardinality.MANY);
 
-		superset = MultivalueRule.createMultivalueAndSuperset(header);
+		superset = MultivalueAndSuperset.build(header);
 		superset.setDetail(detail);
 
 		aggregator = new MultivalueAndAggregator();
@@ -64,7 +62,17 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 
 		detail2aggregator = new RelatedRelationship(detail, aggregator);
 		oldHeaderName = header.getName();
-		newHeaderName = MultivalueRule.createHeaderName(header);
+		newHeaderName = createHeaderName(header);
+	}
+
+	/**
+	 * 多値のANDのHeaderの名称を作成する。
+	 * 
+	 * @param model
+	 * @return
+	 */
+	private String createHeaderName(AbstractEntityModel model) {
+		return model.getName() + "HDR";
 	}
 
 	/**
@@ -83,8 +91,11 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 	 * スーパーセットを接続して表示する。
 	 */
 	public void connectSuperset() {
-		getSource().getDiagram().addChild(superset);
-		getSource().getDiagram().addChild(aggregator);
+		Diagram diagram = getSource().getDiagram();
+		if (diagram != null) {
+			diagram.addChild(superset);
+			diagram.addChild(aggregator);
+		}
 		superset2aggregator.connect();
 		header2aggregator.connect();
 		detail2aggregator.connect();
@@ -109,8 +120,11 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 		detail2aggregator.disconnect();
 		header2aggregator.disconnect();
 		superset2aggregator.disconnect();
-		getSource().getDiagram().removeChild(aggregator);
-		getSource().getDiagram().removeChild(superset);
+		Diagram diagram = getSource().getDiagram();
+		if (diagram != null) {
+			diagram.removeChild(aggregator);
+			diagram.removeChild(superset);
+		}
 	}
 
 	/**
@@ -129,7 +143,10 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 	 */
 	@Override
 	public void attachTarget() {
-		getSource().getDiagram().addChild(detail);
+		Diagram diagram = getSource().getDiagram();
+		if (diagram != null) {
+			diagram.addChild(detail);
+		}
 		super.attachTarget();
 	}
 
@@ -141,7 +158,10 @@ public class Header2DetailRelationship extends TransfarReuseKeysToTargetRelation
 	@Override
 	public void detachTarget() {
 		super.detachTarget();
-		getSource().getDiagram().removeChild(detail);
+		Diagram diagram = getSource().getDiagram();
+		if (diagram != null) {
+			diagram.removeChild(detail);
+		}
 	}
 
 	/**

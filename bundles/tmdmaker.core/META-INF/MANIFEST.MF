@@ -5,12 +5,17 @@ Bundle-SymbolicName: tmdmaker.core
 Bundle-Version: 0.7.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
-Export-Package: jp.sourceforge.tmdmaker.model,
+Export-Package: jp.sourceforge.tmdmaker.core,
+ jp.sourceforge.tmdmaker.model,
  jp.sourceforge.tmdmaker.model.constraint,
  jp.sourceforge.tmdmaker.model.generate.attributelist,
+ jp.sourceforge.tmdmaker.model.multivalue,
  jp.sourceforge.tmdmaker.model.other,
  jp.sourceforge.tmdmaker.model.parts,
+ jp.sourceforge.tmdmaker.model.relationship,
  jp.sourceforge.tmdmaker.model.rule,
+ jp.sourceforge.tmdmaker.model.subset,
+ jp.sourceforge.tmdmaker.model.virtual,
  org.apache.commons.logging,
  org.apache.commons.logging.impl,
  org.slf4j,

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package jp.sourceforge.tmdmaker.model.generate.attributelist;
 
 import static org.junit.Assert.assertEquals;
@@ -9,16 +24,29 @@ import org.junit.Test;
 
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Header2DetailRelationship;
+import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
+/**
+ * アトリビュートリストのモデルテスト.
+ * 
+ * @author nakag
+ *
+ */
 public class AttributeListModelBuilderTest {
 
 	@Test
 	public void test() {
 		Diagram diagram = new Diagram();
-		diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
+		Entity e1 = Entity.ofEvent(new ModelName("テスト1"), new Identifier("テスト1番号"))
+				.withDefaultAttribute();
+		diagram.addChild(e1);
+
+		Entity e2 = Entity.ofEvent(new ModelName("テスト2"), new Identifier("テスト2番号"))
+				.withDefaultAttribute();
+		diagram.addChild(e2);
+
 		Map<String, EntityAttributePair> results = new AttributeListModelBuilder()
 				.build(diagram.findEntityModel());
 
@@ -32,9 +60,10 @@ public class AttributeListModelBuilderTest {
 	@Test
 	public void testDetail() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		diagram.createEntity("テスト2", "テスト2番号", EntityType.RESOURCE);
-		diagram.createEntity("テスト3", "テスト3番号", EntityType.EVENT);
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		diagram.addChild(Entity.ofResource(new Identifier("テスト2番号")).withDefaultAttribute());
+		diagram.addChild(Entity.ofEvent(new Identifier("テスト3番号")).withDefaultAttribute());
 
 		Header2DetailRelationship r1 = new Header2DetailRelationship(e1);
 		r1.connect();

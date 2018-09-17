@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,13 +81,13 @@ public class SubsetTypeEditPart extends AbstractSubsetTypeEditPart<SubsetType> {
 	 */
 	@Override
 	public Command getCommand(Request request) {
-		if (REQ_OPEN.equals(request.getType())){
+		if (REQ_OPEN.equals(request.getType())) {
 			logger.debug(getClass() + "#getCommand(req)");
 			SubsetType subsetType = getModel();
 			AbstractEntityModel model = subsetType.getSuperset();
 
 			SubsetCreateDialog dialog = new SubsetCreateDialog(getViewer().getControl().getShell(),
-					subsetType, model);
+					model);
 			if (dialog.open() == Dialog.OK) {
 				return dialog.getCcommand();
 			}

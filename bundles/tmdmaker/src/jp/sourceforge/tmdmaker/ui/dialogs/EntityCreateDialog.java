@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Shell;
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.ui.dialogs.components.EntityNameAndTypeSettingPanel;
-import jp.sourceforge.tmdmaker.ui.dialogs.models.EntityCreation;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EntityCreationModel;
 
 /**
  * エンティティ新規作成ダイアログ
@@ -37,7 +37,7 @@ import jp.sourceforge.tmdmaker.ui.dialogs.models.EntityCreation;
 public class EntityCreateDialog extends Dialog {
 	/** エンティティ名称・種類設定用パネル */
 	private EntityNameAndTypeSettingPanel panel;
-	private EntityCreation entity;
+	private EntityCreationModel entity;
 
 	/**
 	 * コンストラクタ
@@ -47,7 +47,7 @@ public class EntityCreateDialog extends Dialog {
 	 */
 	public EntityCreateDialog(Shell parentShell) {
 		super(parentShell);
-		entity = new EntityCreation();
+		entity = new EntityCreationModel();
 	}
 
 	/**

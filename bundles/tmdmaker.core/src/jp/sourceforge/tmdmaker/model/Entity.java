@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.core.Configuration;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+
 /**
  * エンティティ
  * 
@@ -23,12 +26,151 @@ package jp.sourceforge.tmdmaker.model;
  */
 @SuppressWarnings("serial")
 public class Entity extends AbstractEntityModel {
+
 	/** 物理名 */
 	private String physicalName = "";
-	/** 摘要 */
-	private String description = "";
 	/** 個体指定子 */
 	private Identifier identifier = new Identifier();
+
+	/**
+	 * コンストラクタは非公開.
+	 */
+	protected Entity() {
+		super();
+	}
+
+	/**
+	 * リソースエンティティ生成.
+	 * 
+	 * @param identifier
+	 *            個体指定子
+	 * @return リソースエンティティ
+	 */
+	public static Entity ofResource(final Identifier identifier) {
+		return ofResource(null, identifier);
+	}
+
+	/**
+	 * リソースエンティティ生成.
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @param identifier
+	 *            個体指定子
+	 * @return リソースエンティティ
+	 */
+	public static Entity ofResource(final ModelName entityName, final Identifier identifier) {
+		Entity resource = of(entityName, identifier);
+		resource.setEntityType(EntityType.RESOURCE);
+		return resource;
+	}
+
+	/**
+	 * イベントエンティティを生成する.
+	 * 
+	 * @param identifier
+	 *            個体指定子
+	 * @return イベントエンティティ
+	 */
+	public static Entity ofEvent(final Identifier identifier) {
+		return ofEvent(null, identifier);
+	}
+
+	/**
+	 * イベントエンティティを生成する.
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @param identifier
+	 *            個体指定子
+	 * @return イベントエンティティ
+	 */
+	public static Entity ofEvent(final ModelName entityName, final Identifier identifier) {
+		Entity event = of(entityName, identifier);
+		event.setEntityType(EntityType.EVENT);
+		return event;
+	}
+
+	/**
+	 * エンティティを生成する.
+	 * 
+	 * 種別は未設定.
+	 * 
+	 * @param modelName
+	 *            エンティティ名（候補）
+	 * @param identifier
+	 *            個体指定子
+	 * @return エンティティ
+	 */
+	private static Entity of(final ModelName modelName, final Identifier identifier) {
+		ModelName entityName = null;
+		if (modelName == null || modelName.isEmpty()) {
+			entityName = identifier.createEntityName();
+		} else {
+			entityName = modelName;
+		}
+		Entity entity = new Entity();
+		entity.setName(entityName.getValue());
+		entity.setIdentifier(identifier);
+		return entity;
+	}
+
+	/**
+	 * エンティティ種別に合わせた初期アトリビュートを追加する.
+	 * 
+	 * @return
+	 */
+	public Entity withDefaultAttribute() {
+		addDefaultAttribute();
+		return this;
+	}
+
+	/**
+	 * 初期アトリビュートを設定する.
+	 */
+	private void addDefaultAttribute() {
+		String attributeName = null;
+		DataTypeDeclaration dataType = null;
+		if (isEvent()) {
+			attributeName = getDefaultEventAttributeName(getName());
+			dataType = new DataTypeDeclaration(StandardSQLDataType.DATE, null, null);
+		} else {
+			attributeName = getDefaultResourceAttributeName(getName());
+			dataType = new DataTypeDeclaration(StandardSQLDataType.CHARACTER_VARYING, 10, null);
+		}
+
+		if (hasAttribute(attributeName)) {
+			return;
+		}
+		Attribute attribute = new Attribute(attributeName);
+		attribute.setImplementName(attributeName);
+		attribute.setDataTypeDeclaration(dataType);
+		addAttribute(attribute);
+	}
+
+	/**
+	 * リソースエンティティの初期アトリビュート名を返す.
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @return 初期アトリビュート名
+	 */
+	public static String getDefaultResourceAttributeName(String entityName) {
+		String format = Configuration.getDefault().getResourceAttributeFormat();
+		return String.format(format, entityName);
+	}
+
+	/**
+	 * イベントエンティティの初期アトリビュート名を返す.
+	 * 
+	 * @param entityName
+	 *            エンティティ名
+	 * @return 初期アトリビュート名
+	 */
+	public static String getDefaultEventAttributeName(String entityName) {
+		String format = Configuration.getDefault().getEventAttributeFormat();
+		return String.format(format, entityName);
+	}
 
 	/**
 	 * @return the physicalName
@@ -43,21 +185,6 @@ public class Entity extends AbstractEntityModel {
 	 */
 	public void setPhysicalName(String physicalName) {
 		this.physicalName = physicalName;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	/**
@@ -156,20 +283,38 @@ public class Entity extends AbstractEntityModel {
 		return copy;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#calcurateMaxIdentifierRefSize()
+	 */
 	@Override
 	public int calcurateMaxIdentifierRefSize() {
 		int i = getIdentifier().getName().length();
 		return Math.max(super.calcurateMaxIdentifierRefSize(), i);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#canCreateMultivalueAnd()
+	 */
 	@Override
 	public boolean canCreateMultivalueAnd() {
 		return true;
 	}
-	
+
 }

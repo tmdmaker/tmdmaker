@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
-import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 /**
  * リソース系エンティティとリソース系エンティティとのリレーションシップ
@@ -50,10 +50,26 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 		setSource(source);
 		setTarget(target);
 
-		this.table = RelationshipRule.createCombinationTable(source, target);
+		this.table = createCombinationTable(source, target);
 
 		this.combinationTableConnection = new RelatedRelationship(this, this.table);
 		this.setCenterMark(true);
+	}
+
+	private CombinationTable createCombinationTable(AbstractEntityModel source,
+			AbstractEntityModel target) {
+		CombinationTable table = new CombinationTable();
+		table.setName(createCombinationTableName(source, target));
+		ImplementRule.setModelDefaultValue(table);
+
+		return table;
+	}
+
+	private static String createCombinationTableName(AbstractEntityModel source,
+			AbstractEntityModel target) {
+		return source.getName().replace(CombinationTable.COMBINATION_TABLE_SUFFIX, "") + "."
+				+ target.getName().replace(CombinationTable.COMBINATION_TABLE_SUFFIX, "")
+				+ CombinationTable.COMBINATION_TABLE_SUFFIX;
 	}
 
 	/**
@@ -65,7 +81,10 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 	@Override
 	public void connect() {
 		super.connect();
-		getSource().getDiagram().addChild(this.table);
+		Diagram diagram = getSource().getDiagram();
+		if (diagram != null) {
+			diagram.addChild(this.table);
+		}
 		this.combinationTableConnection.connect();
 		if (sourceReuseIdentifier == null) {
 			this.table.addReusedIdentifier(getSource());
@@ -92,7 +111,10 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 		sourceReuseIdentifier = this.table.removeReusedIdentifier(getSource());
 		targetReuseIdentifier = this.table.removeReusedIdentifier(getTarget());
 		this.combinationTableConnection.disconnect();
-		getSource().getDiagram().removeChild(this.table);
+		Diagram diagram = getSource().getDiagram();
+		if (diagram != null) {
+			diagram.removeChild(this.table);
+		}
 		super.disconnect();
 	}
 
@@ -117,7 +139,25 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 		table.fireIdentifierChanged(this);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#getTable()
+	 */
+	@Override
 	public CombinationTable getTable() {
 		return table;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#hasTable()
+	 */
+	@Override
+	public boolean hasTable() {
+		return true;
 	}
 }

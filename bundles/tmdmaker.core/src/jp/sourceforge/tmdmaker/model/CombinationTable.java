@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,14 @@ public class CombinationTable extends AbstractEntityModel {
 	public static final String COMBINATION_TABLE_SUFFIX = ".対照表";
 	/** 対照表種類 */
 	private CombinationTableType combinationTableType = CombinationTableType.L_TRUTH;
+
+	/**
+	 * コンストラクタ.
+	 */
+	protected CombinationTable() {
+		super();
+		setEntityType(EntityType.RESOURCE);
+	}
 
 	/**
 	 * 

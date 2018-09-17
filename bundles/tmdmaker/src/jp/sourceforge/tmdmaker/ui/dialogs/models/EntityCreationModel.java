@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,11 @@
 package jp.sourceforge.tmdmaker.ui.dialogs.models;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 
 /**
  * エンティティ作成用.
@@ -27,13 +28,13 @@ import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
  * @author nakag
  *
  */
-public class EntityCreation {
+public class EntityCreationModel {
 	private EditAttribute identifier;
 	private ModelName entityName;
 	private EntityType entityType;
 	private boolean entityNameAutoGeneration;
 
-	public EntityCreation() {
+	public EntityCreationModel() {
 		this.identifier = new EditAttribute();
 		this.entityName = new ModelName();
 		this.entityType = EntityType.RESOURCE;
@@ -86,6 +87,10 @@ public class EntityCreation {
 		return this.entityType.equals(EntityType.LAPUTA);
 	}
 
+	private boolean isEvent() {
+		return this.entityType.equals(EntityType.EVENT);
+	}
+
 	private boolean isValidEntity() {
 		return !this.entityName.isEmpty() && this.identifier.isValid();
 	}
@@ -100,13 +105,18 @@ public class EntityCreation {
 	}
 
 	public AbstractEntityModel getCreateModel() {
-		EntityRecognitionRule rule = EntityRecognitionRule.getInstance();
-		String name = entityName.getValue();
 		Identifier identifier = this.identifier.toIdentifier();
 		if (isLaputa()) {
-			return rule.createLaputa(name, identifier);
+			return Laputa.of(entityName, identifier);
 		} else {
-			return rule.createEntity(name, identifier, this.entityType);
+			Entity entity = null;
+			if (isEvent()) {
+				entity = Entity.ofEvent(entityName, identifier);
+			} else {
+				entity = Entity.ofResource(entityName, identifier);
+			}
+			entity.withDefaultAttribute();
+			return entity;
 		}
 	}
 }

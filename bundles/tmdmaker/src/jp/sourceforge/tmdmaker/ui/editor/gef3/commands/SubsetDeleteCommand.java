@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@
  */
 package jp.sourceforge.tmdmaker.ui.editor.gef3.commands;
 
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.SubsetEntity;
-
 import org.eclipse.gef.commands.Command;
+
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.SubsetEntity;
+import jp.sourceforge.tmdmaker.model.subset.SubsetBuilder;
 
 /**
  * サブセット削除Command
@@ -28,19 +28,19 @@ import org.eclipse.gef.commands.Command;
  * 
  */
 public class SubsetDeleteCommand extends Command {
-	private SubsetEntity model;
-	private Diagram diagram;
-	private RelatedRelationship relationship;
+	private AbstractEntityModel parent;
+	private SubsetBuilder builder;
+	private SubsetEntity subsetEntity;
 
 	/**
 	 * コンストラクタ
 	 * 
 	 * @param model
 	 */
-	public SubsetDeleteCommand(SubsetEntity model) {
-		this.model = model;
-		this.diagram = model.getDiagram();
-		this.relationship = (RelatedRelationship) model.getModelTargetConnections().get(0);
+	public SubsetDeleteCommand(SubsetEntity subsetEntity) {
+		this.parent = subsetEntity.getSuperset();
+		this.builder = this.parent.subsets().builder();
+		this.subsetEntity = subsetEntity;
 	}
 
 	/**
@@ -50,8 +50,7 @@ public class SubsetDeleteCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		this.relationship.disconnect();
-		this.diagram.removeChild(model);
+		builder.remove(subsetEntity).build();
 	}
 
 	/**
@@ -61,8 +60,7 @@ public class SubsetDeleteCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		this.diagram.addChild(model);
-		this.relationship.connect();
+		builder.rollbackRemove();
 	}
 
 }

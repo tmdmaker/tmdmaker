@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+
 /**
  * VirtualSupersetのテストクラス
  * 
@@ -39,12 +41,15 @@ public class VirtualSupersetTest {
 	@Test
 	public void testRemoveSubset() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
+		Entity e1 = Entity.ofResource(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofResource(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		VirtualSuperset vsp = diagram.createVirtualSuperset("スーパーセット", list);
+		VirtualSuperset vsp = VirtualSuperset.of(new ModelName("スーパーセット"));
+		vsp.virtualSubsets().builder().subsetList(list).build();
 		VirtualSupersetType type1 = vsp.getVirtualSupersetType();
 
 		assertEquals(true, vsp.isDeletable());
@@ -67,17 +72,22 @@ public class VirtualSupersetTest {
 	@Test
 	public void testSuper2Super() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
-		Entity e3 = diagram.createEntity("テスト3", "テスト3番号", EntityType.EVENT);
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Entity e3 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e3);
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		VirtualSuperset vsp1 = diagram.createVirtualSuperset("スーパーセット1", list);
+		VirtualSuperset vsp1 = VirtualSuperset.of(new ModelName("スーパーセット1"));
+		vsp1.virtualSubsets().builder().subsetList(list).build();
 		list = new ArrayList<AbstractEntityModel>();
 		list.add(e3);
 		list.add(vsp1);
-		VirtualSuperset vsp2 = diagram.createVirtualSuperset("スーパーセット2", list);
+		VirtualSuperset vsp2 = VirtualSuperset.of(new ModelName("スーパーセット2"));
+		vsp2.virtualSubsets().builder().subsetList(list).build();
 
 		assertEquals(true, vsp2.isDeletable());
 		assertEquals(false, vsp1.isDeletable());

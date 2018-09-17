@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,9 @@ public class MappingListAdjuster implements ConstraintAdjuster {
 	 */
 	@Override
 	public void adjust() {
-		if (relationship.hasMappingList()) {
+		if (relationship.hasTable()) {
 			AbstractEntityModel source = relationship.getSource();
-			MappingList mappingList = relationship.getMappingList();
+			MappingList mappingList = relationship.getTable();
 			if (ConstraintConverter.isInitialPosition(mappingList)) {
 				ConstraintConverter.setTranslatedConstraint(mappingList, source, 100, 100);
 			}

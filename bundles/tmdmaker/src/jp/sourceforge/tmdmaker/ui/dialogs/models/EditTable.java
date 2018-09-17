@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -362,23 +362,11 @@ public class EditTable {
 	 * @return 編集対象モデルのインスタンス
 	 */
 	public <T extends AbstractEntityModel> T createEditedModel() {
-		T edited = createInstance();
+		@SuppressWarnings("unchecked")
+		T edited = (T) entity.getCopy();
 		copyTo(edited);
 		copySpecialTo(edited);
 		return edited;
-	}
-
-	@SuppressWarnings("unchecked")
-	protected <T extends AbstractEntityModel> T createInstance() {
-		try {
-			T edited = (T) entity.getClass().newInstance();
-			return edited;
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	protected void copyTo(AbstractEntityModel to) {

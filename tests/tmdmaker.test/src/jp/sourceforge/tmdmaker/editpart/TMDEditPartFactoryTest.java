@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,30 +27,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.AbstractRelationship;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.CombinationTable;
-import jp.sourceforge.tmdmaker.model.Detail;
+import jp.sourceforge.tmdmaker.model.Cardinality;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
 import jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship;
-import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
+import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.MappingList;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.MultivalueAndAggregator;
-import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
-import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
 import jp.sourceforge.tmdmaker.model.RecursiveTable;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.SubsetEntity;
-import jp.sourceforge.tmdmaker.model.SubsetType;
-import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
-import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+import jp.sourceforge.tmdmaker.model.relationship.Relationship;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.DiagramEditPart;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.TMDEditPartFactory;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AttributeEditPart;
@@ -84,7 +79,8 @@ public class TMDEditPartFactoryTest {
 	private Diagram diagram;
 	private Entity e1;
 	private Entity e2;
-	private SubsetType subsetType;
+	private Entity r1;
+	private Entity r2;
 	private VirtualSuperset vsp;
 	private VirtualSupersetType vtype;
 
@@ -94,19 +90,29 @@ public class TMDEditPartFactoryTest {
 	@Before
 	public void setUp() throws Exception {
 		diagram = new Diagram();
-		e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
+		e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+
+		e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+
+		r1 = Entity.ofResource(new Identifier("テスト１No")).withDefaultAttribute();
+		diagram.addChild(r1);
+		
+		r2 = Entity.ofResource(new Identifier("テスト２No")).withDefaultAttribute();
+		diagram.addChild(r2);
 
 		factory = new TMDEditPartFactory();
-		subsetType = new SubsetType();
-		subsetType.setExceptNull(false);
-		subsetType.setSubsetType(SubsetTypeValue.SAME);
-		diagram.addChild(subsetType);
+//		subsetType = new SubsetType();
+//		subsetType.setExceptNull(false);
+//		subsetType.setSubsetType(SubsetTypeValue.SAME);
+//		diagram.addChild(subsetType);
 
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		vsp = diagram.createVirtualSuperset("スーパーセット", list);
+		vsp = VirtualSuperset.of(new ModelName("スーパーセット"));
+		vsp.virtualSubsets().builder().subsetList(list).build();
 		vtype = vsp.getVirtualSupersetType();
 	}
 
@@ -121,11 +127,21 @@ public class TMDEditPartFactoryTest {
 		EditPart editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(AttributeEditPart.class));
 
-		o = new CombinationTable();
+		AbstractRelationship r = Relationship.of(r1, r2);
+		r.connect();
+		o = r.getTable();
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(CombinationTableEditPart.class));
 
-		o = new Detail();
+		Entity res1 = Entity.ofResource(new Identifier("リソース番号"));
+		Entity ev1 = Entity.ofEvent(new Identifier("イベント番号"));
+		AbstractRelationship rel = Relationship.of(res1, ev1);
+		rel.connect();
+		rel.setSourceCardinality(Cardinality.MANY);
+		rel.setTargetCardinality(Cardinality.MANY);
+		ev1.multivalueAnd().builder().build();
+
+		o = ev1.multivalueAnd().detail();
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(DetailEditPart.class));
 
@@ -133,15 +149,11 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(DiagramEditPart.class));
 
-		o = new Entity();
+		o = Entity.ofResource(new ModelName("個体"), new Identifier("番号"));
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(EntityEditPart.class));
 
-		o = new Laputa();
-		editPart = factory.createEditPart(null, o);
-		assertThat(editPart, instanceOf(LaputaEditPart.class));
-
-		o = new Laputa();
+		o = Laputa.of();
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(LaputaEditPart.class));
 
@@ -149,11 +161,13 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MappingListEditPart.class));
 
-		o = new MultivalueAndSuperset();
+		o = ev1.multivalueAnd().superset();
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MultivalueAndSupersetEditPart.class));
 
-		o = new MultivalueOrEntity();
+		Entity ev2 = Entity.ofEvent(new Identifier("イベント番号"));
+		ev2.multivalueOr().builder().typeName("テスト種別").build();
+		o = ev2.multivalueOr().query().findByName(new ModelName("イベント.テスト種別")).get(0);
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MultivalueOrEditPart.class));
 
@@ -161,15 +175,20 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(RecursiveTableEditPart.class));
 
-		o = new SubsetEntity();
+		
+		Entity e= Entity.ofResource(new Identifier("親ID"));
+		e.subsets().builder().add(new ModelName("サブセット")).build();
+		o = e.subsets().query().findByName(new ModelName("サブセット")).get(0);
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(SubsetEntityEditPart.class));
 
-		o = new VirtualEntity();
+		ModelName searchName = new ModelName("みなし");
+		e.virtualEntities().builder().virtualEntityName(searchName).build();
+		o = e.virtualEntities().query().findByName(searchName).get(0);
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(VirtualEntityEditPart.class));
 
-		o = new VirtualSuperset();
+		o = VirtualSuperset.of(new ModelName("スーパーセット"));
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(VirtualSupersetEditPart.class));
 
@@ -181,7 +200,7 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(RelationshipEditPart.class));
 
-		Entity2SubsetTypeRelationship r1 = new Entity2SubsetTypeRelationship(e1, subsetType);
+		Entity2SubsetTypeRelationship r1 = new Entity2SubsetTypeRelationship(e1);
 		r1.connect();
 		editPart = factory.createEditPart(null, r1);
 		assertThat(editPart, instanceOf(Entity2SubsetTypeRelationshipEditPart.class));
@@ -190,7 +209,7 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(RelatedRelationshipEditPart.class));
 
-		o = new MultivalueAndAggregator();
+		o = ev1.multivalueAnd().aggregator();
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(MultivalueAndAggregatorEditPart.class));
 
@@ -198,8 +217,8 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(RelatedRelationshipEditPart.class));
 
-		o = new SubsetType();
-		editPart = factory.createEditPart(null, o);
+		Entity2SubsetTypeRelationship r2 = new Entity2SubsetTypeRelationship(null);
+		editPart = factory.createEditPart(null, r2.getSubsetType());
 		assertThat(editPart, instanceOf(SubsetTypeEditPart.class));
 
 		o = vtype;

@@ -27,6 +27,28 @@ public class MultivalueAndSuperset extends AbstractEntityModel {
 	private Detail detail;
 
 	/**
+	 * コンストラクタは非公開.
+	 */
+	protected MultivalueAndSuperset() {
+		super();
+	}
+
+	/**
+	 * 多値のANDのSupersetを作成する。
+	 * 
+	 * @param header
+	 *            派生元のモデル
+	 * @return 多値のANDのSuperset
+	 */
+	protected static MultivalueAndSuperset build(AbstractEntityModel header) {
+		MultivalueAndSuperset superset = new MultivalueAndSuperset();
+		superset.setEntityType(header.getEntityType());
+		superset.setName(header.getName());
+		superset.addReusedIdentifier(header);
+
+		return superset;
+	}
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

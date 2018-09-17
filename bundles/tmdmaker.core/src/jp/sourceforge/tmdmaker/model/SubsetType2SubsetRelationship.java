@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+
 /**
  * サブセット種類とサブセットとのリレーションシップ
  * 
@@ -24,17 +26,65 @@ package jp.sourceforge.tmdmaker.model;
 @SuppressWarnings("serial")
 public class SubsetType2SubsetRelationship extends RelatedRelationship
 		implements IdentifierChangeListener {
+
 	/**
-	 * コンストラクタ
+	 * コンストラクタ.
 	 * 
-	 * @param source
-	 *            接続元
-	 * @param target
-	 *            接続先
+	 * @param subsetType
+	 *            サブセット種類
+	 * @param subsetName
+	 *            サブセット名.
 	 */
-	public SubsetType2SubsetRelationship(ConnectableElement source,
-			ConnectableElement target) {
-		super(source, target);
+	public SubsetType2SubsetRelationship(SubsetType subsetType, ModelName subsetName) {
+		super(subsetType, SubsetEntity.build(subsetType.getSuperset(), subsetName));
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#connect()
+	 */
+	@Override
+	public void connect() {
+		super.connect();
+		Diagram diagram = getSubsetType().getSuperset().getDiagram();
+		if (diagram != null) {
+			diagram.addChild(getSubsetEntity());
+		}
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#disconnect()
+	 */
+	@Override
+	public void disconnect() {
+		Diagram diagram = getSubsetType().getSuperset().getDiagram();
+		if (diagram != null) {
+			diagram.removeChild(getSubsetEntity());
+		}
+		super.disconnect();
+	}
+
+	/**
+	 * 接続元のサブセット種別を返す.
+	 * 
+	 * @return サブセット種別
+	 */
+	public SubsetType getSubsetType() {
+		return (SubsetType) getSource();
+	}
+
+	/**
+	 * 接続先のサブセットを返す.
+	 * 
+	 * @return サブセット
+	 */
+	public SubsetEntity getSubsetEntity() {
+		return (SubsetEntity) getTarget();
 	}
 
 	/**
@@ -51,8 +101,7 @@ public class SubsetType2SubsetRelationship extends RelatedRelationship
 	}
 
 	private AbstractEntityModel getOriginal() {
-		return (AbstractEntityModel) getSource().getModelTargetConnections()
-				.get(0).getSource();
+		return (AbstractEntityModel) getSource().getModelTargetConnections().get(0).getSource();
 	}
 
 	/**

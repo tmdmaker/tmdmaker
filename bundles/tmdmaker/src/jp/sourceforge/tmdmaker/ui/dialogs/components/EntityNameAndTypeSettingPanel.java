@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
 import jp.sourceforge.tmdmaker.ui.dialogs.AttributeDialog;
 import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
-import jp.sourceforge.tmdmaker.ui.dialogs.models.EntityCreation;
+import jp.sourceforge.tmdmaker.ui.dialogs.models.EntityCreationModel;
 
 /**
  * Entity name and type setting panel.
@@ -52,13 +52,13 @@ public class EntityNameAndTypeSettingPanel extends Composite {
 	private Button btnRadioButton_0;
 	private Button btnRadioButton_1;
 	private Button btnRadioButton_2;
-	private EntityCreation entity;
+	private EntityCreationModel entity;
 
 	public EntityNameAndTypeSettingPanel(Composite parent, int style) {
-		this(parent, style, new EntityCreation());
+		this(parent, style, new EntityCreationModel());
 	}
 
-	public EntityNameAndTypeSettingPanel(Composite parent, int style, EntityCreation _entity) {
+	public EntityNameAndTypeSettingPanel(Composite parent, int style, EntityCreationModel _entity) {
 		super(parent, style);
 		this.entity = _entity;
 		initialize();

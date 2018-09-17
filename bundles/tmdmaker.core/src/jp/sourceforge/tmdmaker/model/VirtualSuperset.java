@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,10 @@ package jp.sourceforge.tmdmaker.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
+import jp.sourceforge.tmdmaker.model.virtual.VirtualSubsets;
+
 /**
  * みなしスーパーセット.
  *
@@ -28,13 +32,35 @@ import java.util.List;
 public class VirtualSuperset extends AbstractEntityModel {
 
 	/**
+	 * コンストラクタは公開しない.
+	 */
+	protected VirtualSuperset() {
+	}
+
+	/**
+	 * みなしスーパーセットを作成する。
+	 * 
+	 * @param name
+	 *            みなしスーパーセット名
+	 * @return みなしスーパーセット
+	 */
+	public static VirtualSuperset of(ModelName name) {
+		VirtualSuperset superset = new VirtualSuperset();
+		superset.setName(name.getValue());
+		superset.setNotImplement(true);
+		ImplementRule.setModelDefaultValue(superset);
+
+		return superset;
+	}
+
+	/**
 	 *
 	 * {@inheritDoc}
 	 *
 	 * @see jp.sourceforge.tmdmaker.model.AbstractEntityModel#createReusedIdentifier()
 	 */
 	@Override
-	public ReusedIdentifier createReusedIdentifier() {
+	protected ReusedIdentifier createReusedIdentifier() {
 		return null;
 	}
 
@@ -94,7 +120,7 @@ public class VirtualSuperset extends AbstractEntityModel {
 	public VirtualSupersetType getVirtualSupersetType() {
 		VirtualSupersetType2VirtualSupersetRelationship r = getCreationRelationship();
 		if (r != null) {
-			return r.getType();
+			return r.getVirtualSupersetType();
 		}
 		return null;
 	}
@@ -168,5 +194,9 @@ public class VirtualSuperset extends AbstractEntityModel {
 					.get(0);
 		}
 		return null;
+	}
+
+	public VirtualSubsets virtualSubsets() {
+		return new VirtualSubsets(this);
 	}
 }
