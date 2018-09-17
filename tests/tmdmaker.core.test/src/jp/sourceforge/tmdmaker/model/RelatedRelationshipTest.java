@@ -19,8 +19,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
 import jp.sourceforge.tmdmaker.model.relationship.Relationship;
-import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 
 /**
  * RelatedRelationshipのテスト
@@ -42,7 +42,7 @@ public class RelatedRelationshipTest {
 		Entity e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
 		diagram.addChild(e2);
 
-		VirtualSuperset vsp = VirtualEntityRule.createVirtualSuperset("スーパーセット");
+		VirtualSuperset vsp = VirtualSuperset.of(new ModelName("スーパーセット"));
 		VirtualSupersetType type = new VirtualSupersetType();
 		diagram.addChild(vsp);
 		diagram.addChild(type);

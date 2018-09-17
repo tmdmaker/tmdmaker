@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,13 +29,9 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetType2VirtualSupersetRelationship;
 import jp.sourceforge.tmdmaker.ui.dialogs.VirtualSupersetCreateDialog;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConstraintChangeCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.RelationshipConnectionCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetReplaceCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetCreateCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetEditCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeChangeCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.DiagramEditPart;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractEntityModelEditPart;
@@ -82,46 +78,29 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 
 			if (original != null) {
 				selectedModels.remove(original);
-				aggregator = original.getVirtualSupersetType();
 			}
 		}
 
 		VirtualSupersetCreateDialog dialog = new VirtualSupersetCreateDialog(
 				getControl().getShell(), diagram, original, selectedModels);
 		if (dialog.open() == Dialog.OK) {
-			CompoundCommand ccommand = new CompoundCommand();
+			CompoundCommand ccommand = null;
 			VirtualSuperset edited = dialog.getEditedValue();
 			aggregator = dialog.getEditedAggregator();
+			List<AbstractEntityModel> selection = dialog.getSelection();
+
 			// みなしスーパーセット作成
 			if (original == null) {
-				List<AbstractEntityModel> selection = dialog.getSelection();
-				if (selection.size() == 0) {
+				if (selection.isEmpty()) {
 					return;
 				}
-				VirtualSupersetType2VirtualSupersetRelationship r = new VirtualSupersetType2VirtualSupersetRelationship(
-						edited.getName(), selection);
-				VirtualSuperset virtualSuperset = r.getSuperset();
-				VirtualSupersetType type = r.getType();
-				ccommand.add(new RelationshipConnectionCommand(r));
-				ccommand.add(
-						new VirtualSupersetTypeChangeCommand(type, aggregator.isApplyAttribute()));
-				ccommand.add(new ConstraintChangeCommand(virtualSuperset, pos.x, pos.y));
-				ccommand.add(new ConstraintChangeCommand(type, pos.x, pos.y + 50));
+				ccommand = new CompoundCommand();
+				ccommand.add(new VirtualSupersetCreateCommand(edited, selection, pos.x, pos.y));
+				ccommand.add(new VirtualSupersetTypeChangeCommand(edited,
+						aggregator.isApplyAttribute()));
 			} else {
-				List<AbstractEntityModel> selectedList = dialog.getSelection();
-				if (selectedList.size() == 0) {
-					ccommand.add(new ConnectionDeleteCommand(original.getCreationRelationship()));
-				} else {
-					// みなしスーパーセット編集
-					ccommand.add(new ModelEditCommand(original, edited));
-
-					// 接点編集
-					ccommand.add(
-							new VirtualSupersetTypeChangeCommand(original.getVirtualSupersetType(),
-									dialog.getEditedAggregator().isApplyAttribute()));
-					// 接点との接続
-					ccommand.add(new VirtualSubsetReplaceCommand(original, dialog.getSelection()));
-				}
+				ccommand = new VirtualSupersetEditCommand(original, edited, selection,
+						aggregator.isApplyAttribute());
 			}
 			execute(ccommand);
 		}

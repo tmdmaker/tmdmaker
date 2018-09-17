@@ -41,8 +41,8 @@ public class SubsetBuilder {
 	private boolean exceptNullChanged = false;
 	private boolean exceptNull = false;
 	private List<ModelName> addSubsetNameList = new ArrayList<ModelName>();
-	private List<SubsetType2SubsetRelationship> addedSubsetRelationship = new ArrayList<SubsetType2SubsetRelationship>();
-	private List<SubsetType2SubsetRelationship> deletedSubsetRelationship = new ArrayList<SubsetType2SubsetRelationship>();
+	private List<SubsetType2SubsetRelationship> addedSubsetRelationshipList = new ArrayList<SubsetType2SubsetRelationship>();
+	private List<SubsetType2SubsetRelationship> deletedSubsetRelationshipList = new ArrayList<SubsetType2SubsetRelationship>();
 	private Entity2SubsetTypeRelationship entity2SubsetTypeRelationship;
 
 	/**
@@ -84,21 +84,21 @@ public class SubsetBuilder {
 
 	private void buildSubsetEntities(SubsetType subsetType) {
 		if (!this.addSubsetNameList.isEmpty()) {
-			if (this.addedSubsetRelationship.isEmpty()) {
+			if (this.addedSubsetRelationshipList.isEmpty()) {
 				for (ModelName name : this.addSubsetNameList) {
 					SubsetType2SubsetRelationship relationship = new SubsetType2SubsetRelationship(
 							subsetType, name);
-					this.addedSubsetRelationship.add(relationship);
+					this.addedSubsetRelationshipList.add(relationship);
 				}
 			}
-			for (SubsetType2SubsetRelationship r : this.addedSubsetRelationship) {
+			for (SubsetType2SubsetRelationship r : this.addedSubsetRelationshipList) {
 				r.connect();
 			}
 		}
 	}
 
 	private void removeSubsetEntities() {
-		for (SubsetType2SubsetRelationship r : this.deletedSubsetRelationship) {
+		for (SubsetType2SubsetRelationship r : this.deletedSubsetRelationshipList) {
 			r.disconnect();
 		}
 	}
@@ -187,7 +187,7 @@ public class SubsetBuilder {
 	 * @return
 	 */
 	public SubsetBuilder remove(SubsetEntity removeSubset) {
-		this.deletedSubsetRelationship.add(removeSubset.getSubsetTypeRelationship());
+		this.deletedSubsetRelationshipList.add(removeSubset.getSubsetTypeRelationship());
 		return this;
 	}
 
@@ -198,14 +198,14 @@ public class SubsetBuilder {
 	 */
 	public List<SubsetEntity> getAddedSubsetList() {
 		List<SubsetEntity> addedSubsetList = new ArrayList<SubsetEntity>();
-		for (SubsetType2SubsetRelationship r : this.addedSubsetRelationship) {
+		for (SubsetType2SubsetRelationship r : this.addedSubsetRelationshipList) {
 			addedSubsetList.add(r.getSubsetEntity());
 		}
 		return addedSubsetList;
 	}
 
 	public void rollbackAdd() {
-		for (SubsetType2SubsetRelationship r : this.addedSubsetRelationship) {
+		for (SubsetType2SubsetRelationship r : this.addedSubsetRelationshipList) {
 			r.disconnect();
 		}
 		if (!this.entity2SubsetTypeRelationship.getSubsetType().hasSubsetEntity()) {
@@ -217,7 +217,7 @@ public class SubsetBuilder {
 		if (!this.entity2SubsetTypeRelationship.isConnected()) {
 			this.entity2SubsetTypeRelationship.connect();
 		}
-		for (SubsetType2SubsetRelationship r : this.deletedSubsetRelationship) {
+		for (SubsetType2SubsetRelationship r : this.deletedSubsetRelationshipList) {
 			r.connect();
 		}
 	}

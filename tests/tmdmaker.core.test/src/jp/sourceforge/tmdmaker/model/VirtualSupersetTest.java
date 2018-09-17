@@ -23,6 +23,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+
 /**
  * VirtualSupersetのテストクラス
  * 
@@ -46,7 +48,8 @@ public class VirtualSupersetTest {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		VirtualSuperset vsp = diagram.createVirtualSuperset("スーパーセット", list);
+		VirtualSuperset vsp = VirtualSuperset.of(new ModelName("スーパーセット"));
+		vsp.virtualSubsets().builder().subsetList(list).build();
 		VirtualSupersetType type1 = vsp.getVirtualSupersetType();
 
 		assertEquals(true, vsp.isDeletable());
@@ -78,11 +81,13 @@ public class VirtualSupersetTest {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		VirtualSuperset vsp1 = diagram.createVirtualSuperset("スーパーセット1", list);
+		VirtualSuperset vsp1 = VirtualSuperset.of(new ModelName("スーパーセット1"));
+		vsp1.virtualSubsets().builder().subsetList(list).build();
 		list = new ArrayList<AbstractEntityModel>();
 		list.add(e3);
 		list.add(vsp1);
-		VirtualSuperset vsp2 = diagram.createVirtualSuperset("スーパーセット2", list);
+		VirtualSuperset vsp2 = VirtualSuperset.of(new ModelName("スーパーセット2"));
+		vsp2.virtualSubsets().builder().subsetList(list).build();
 
 		assertEquals(true, vsp2.isDeletable());
 		assertEquals(false, vsp1.isDeletable());

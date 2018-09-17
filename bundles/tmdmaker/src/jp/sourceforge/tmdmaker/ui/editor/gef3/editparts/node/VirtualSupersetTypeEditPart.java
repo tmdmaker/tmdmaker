@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.Dialog;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
@@ -30,10 +29,7 @@ import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 import jp.sourceforge.tmdmaker.ui.dialogs.VirtualSupersetCreateDialog;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.SubsetTypeFigure;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ConnectionDeleteCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.ModelEditCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSubsetReplaceCommand;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetTypeChangeCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.VirtualSupersetEditCommand;
 
 /**
  * みなしスーパーセット種類（同一(=)/相違マーク(×)）のコントローラ.
@@ -87,24 +83,8 @@ public class VirtualSupersetTypeEditPart extends AbstractSubsetTypeEditPart<Virt
 		if (dialog.open() != Dialog.OK)
 			return null;
 
-		CompoundCommand ccommand = new CompoundCommand();
-		List<AbstractEntityModel> selectedList = dialog.getSelection();
-		if (selectedList.size() == 0) {
-			ccommand.add(new ConnectionDeleteCommand(superset.getCreationRelationship()));
-		} else {
-			VirtualSuperset edited = dialog.getEditedValue();
-			// みなしスーパーセット編集
-			ccommand.add(new ModelEditCommand(superset, edited));
-
-			// 接点編集
-			ccommand.add(new VirtualSupersetTypeChangeCommand(superset.getVirtualSupersetType(),
-					dialog.getEditedAggregator().isApplyAttribute()));
-
-			// 接点との接続
-			ccommand.add(new VirtualSubsetReplaceCommand(superset, dialog.getSelection()));
-		}
-
-		return ccommand;
+		return new VirtualSupersetEditCommand(superset, dialog.getEditedValue(),
+				dialog.getSelection(), dialog.getEditedAggregator().isApplyAttribute());
 	}
 
 	/**

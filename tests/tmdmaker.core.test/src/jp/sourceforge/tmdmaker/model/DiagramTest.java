@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
 import org.junit.Test;
 
 /**
@@ -40,7 +40,8 @@ public class DiagramTest {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		VirtualSuperset vsp = diagram.createVirtualSuperset("スーパーセット", list);
+		VirtualSuperset vsp = VirtualSuperset.of(new ModelName("スーパーセット"));
+		vsp.virtualSubsets().builder().subsetList(list).build();
 		VirtualSupersetType2VirtualSupersetRelationship t2v = (VirtualSupersetType2VirtualSupersetRelationship) vsp.getModelTargetConnections().get(0);
 		VirtualSupersetType type = vsp.getVirtualSupersetType();
 		Entity2VirtualSupersetTypeRelationship m2t1 = (Entity2VirtualSupersetTypeRelationship) type
@@ -74,7 +75,8 @@ public class DiagramTest {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		VirtualSuperset vsp = diagram.createVirtualSuperset("スーパーセット", list);
+		VirtualSuperset vsp = VirtualSuperset.of(new ModelName("スーパーセット"));
+		vsp.virtualSubsets().builder().subsetList(list).build();
 		assertEquals(3, diagram.findEntityModel().size());
 
 		VirtualSupersetType type = vsp.getVirtualSupersetType();

@@ -111,7 +111,8 @@ public class TMDEditPartFactoryTest {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		vsp = diagram.createVirtualSuperset("スーパーセット", list);
+		vsp = VirtualSuperset.of(new ModelName("スーパーセット"));
+		vsp.virtualSubsets().builder().subsetList(list).build();
 		vtype = vsp.getVirtualSupersetType();
 	}
 
@@ -187,7 +188,7 @@ public class TMDEditPartFactoryTest {
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(VirtualEntityEditPart.class));
 
-		o = new VirtualSuperset();
+		o = VirtualSuperset.of(new ModelName("スーパーセット"));
 		editPart = factory.createEditPart(null, o);
 		assertThat(editPart, instanceOf(VirtualSupersetEditPart.class));
 

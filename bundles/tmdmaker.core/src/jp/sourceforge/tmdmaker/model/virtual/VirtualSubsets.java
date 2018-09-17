@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,29 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.model.rule;
+package jp.sourceforge.tmdmaker.model.virtual;
 
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 
 /**
- * みなし概念に関するルールをまとめたクラス
+ * みなしサブセットの集約クラス.
  * 
- * @author nakaG
+ * みなしサブセット操作の起点になる.
  * 
+ * @author nakag
+ *
  */
-public class VirtualEntityRule {
-	/**
-	 * みなしスーパーセットを作成する。
-	 * 
-	 * @param name
-	 *            みなしスーパーセット名
-	 * @return みなしスーパーセット
-	 */
-	public static VirtualSuperset createVirtualSuperset(String name) {
-		VirtualSuperset superset = new VirtualSuperset();
-		superset.setName(name);
-		ImplementRule.setModelDefaultValue(superset);
+public class VirtualSubsets {
+	private VirtualSuperset parent;
 
-		return superset;
+	public VirtualSubsets(VirtualSuperset parent) {
+		this.parent = parent;
+	}
+
+	public VirtualSubsetBuilder builder() {
+		return new VirtualSubsetBuilder(this.parent);
 	}
 }

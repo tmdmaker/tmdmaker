@@ -168,23 +168,6 @@ public class Diagram extends ModelElement {
 		visitor.visit(this);
 	}
 
-	/**
-	 * みなしスーパーセット作成
-	 * 
-	 * @param virtualSupersetName
-	 *            みなしスーパーセット名
-	 * @param virtualSubsets
-	 *            みなしサブセット
-	 * @return 作成したみなしスーパーセット
-	 */
-	public VirtualSuperset createVirtualSuperset(String virtualSupersetName,
-			List<AbstractEntityModel> virtualSubsets) {
-		VirtualSupersetType2VirtualSupersetRelationship r = new VirtualSupersetType2VirtualSupersetRelationship(virtualSupersetName, virtualSubsets);
-		VirtualSuperset superset = r.getSuperset();
-		r.connect();
-		return superset;
-	}
-
 	public List<AbstractEntityModel> findEntityModelExcludeFor(List<AbstractEntityModel> excludes) {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (ModelElement m : getChildren()) {
