@@ -59,7 +59,7 @@ public class VirtualSubsetBuilder {
 			}
 			return;
 		}
-		
+
 		if (addSubsetList != null && !addSubsetList.isEmpty()) {
 			this.relationship.reconnect(addSubsetList);
 		} else {
@@ -69,7 +69,9 @@ public class VirtualSubsetBuilder {
 	
 	public void rollback() {
 		if (this.creation) {
-			this.relationship.disconnect();
+			if (this.relationship != null) {
+				this.relationship.disconnect();
+			}
 		} else {
 			this.relationship.setSubset2typeRelationshipList(this.oldSubsetRelationshipList);
 			this.relationship.connect();

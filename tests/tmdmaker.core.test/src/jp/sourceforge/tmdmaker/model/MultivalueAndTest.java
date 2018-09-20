@@ -16,15 +16,17 @@
 package jp.sourceforge.tmdmaker.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
 import org.junit.Test;
 
+import jp.sourceforge.tmdmaker.model.multivalue.MultivalueAndBuilder;
 import jp.sourceforge.tmdmaker.model.relationship.Relationship;
 
 /**
- * MultivalueAndSupersetのテストクラス
+ * 多値のANDのテストクラス
  * 
  * @author nakag
  *
@@ -126,5 +128,33 @@ public class MultivalueAndTest {
 		assertEquals("テスト1番号変更", dri3.getIdentifiers().get(0).getName());
 		assertEquals("テスト1明細番号変更", dri3.getIdentifiers().get(1).getName()); // 伝播しない
 
+	}
+
+	@Test
+	public void testBuilder() {
+		Diagram diagram = new Diagram();
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofResource(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Entity e3 = Entity.ofEvent(new Identifier("テスト3番号")).withDefaultAttribute();
+		diagram.addChild(e3);
+		AbstractRelationship r = Relationship.of(e2, e1);
+		r.connect();
+		r.setSourceCardinality(Cardinality.MANY);
+		r.setTargetCardinality(Cardinality.MANY);
+
+		MultivalueAndBuilder builder = e1.multivalueAnd().builder();
+		builder.build();
+		assertTrue(e1.isHeaderDetail());
+		assertTrue(e1.multivalueAnd().aggregator() != null);
+		assertTrue(e1.multivalueAnd().superset() != null);
+		assertTrue(e1.multivalueAnd().detail() != null);
+
+		builder.rollback();
+		assertTrue(!e1.isHeaderDetail());
+		assertTrue(e1.multivalueAnd().aggregator() == null);
+		assertTrue(e1.multivalueAnd().superset() == null);
+		assertTrue(e1.multivalueAnd().detail() == null);
 	}
 }
