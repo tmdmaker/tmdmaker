@@ -42,7 +42,7 @@ public class MultivalueOr {
 
 	public List<MultivalueOrEntity> all() {
 		List<MultivalueOrRelationship> relationships = this.source
-				.findRelationshipFromTargetConnections(MultivalueOrRelationship.class);
+				.findRelationshipFromSourceConnections(MultivalueOrRelationship.class);
 		List<MultivalueOrEntity> results = new ArrayList<MultivalueOrEntity>();
 		for (AbstractConnectionModel r : relationships) {
 			results.add((MultivalueOrEntity) r.getTarget());

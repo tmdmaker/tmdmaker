@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
+import jp.sourceforge.tmdmaker.model.subset.SubsetBuilder;
 
 /**
  * Subsetのテストクラス
@@ -142,6 +143,73 @@ public class SubsetTest {
 			.build();
 		assertEquals(false, subsetType.hasSubsetEntity());
 		assertEquals(true, subsetType.isInitialPosition());
+	}
+
+	@Test
+	public void testBuilder1() {
+		SubsetBuilder builder = e1.subsets().builder();
+		ModelName subsetName = new ModelName("サブセット3");
+		builder
+			.add(subsetName)
+			.notExpectNull()
+			.build();
+		assertEquals(3, e1.subsets().all().size());
+		builder.rollbackAdd();
+		assertEquals(2, e1.subsets().all().size());
+		builder.build();
+	
+		SubsetEntity s1 = e1.subsets().query().findByName(subsetName).get(0);
+		builder = e1.subsets().builder();
+		builder.remove(s1).build();
+		assertEquals(2, e1.subsets().all().size());
+		builder.rollbackRemove();
+	}
+
+	@Test
+	public void testBuilder2() {
+		Entity e2 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Attribute atr = new Attribute("アトリビュート");
+		e2.addAttribute(atr);
+
+		SubsetBuilder builder = e2.subsets().builder();
+		builder.different()
+			.expectNull()
+			.partition(atr)
+			.add(new ModelName("サブセット1"))
+			.add(new ModelName("サブセット2"))
+			.build();
+		builder.build();
+		builder.rollbackAdd();
+		assertEquals(0, e2.subsets().all().size());
+	}
+
+	@Test
+	public void testBuilder3() {
+		Entity e2 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Attribute atr = new Attribute("アトリビュート");
+		e2.addAttribute(atr);
+
+		SubsetBuilder builder = e2.subsets().builder();
+		builder.different()
+			.expectNull()
+			.partition(atr)
+			.add(new ModelName("サブセット1"))
+			.add(new ModelName("サブセット2"))
+			.build();
+		builder.build();
+		assertEquals(2, e2.subsets().all().size());
+		
+		builder = e2.subsets().builder();
+		builder
+			.remove(e2.subsets().all().get(0))
+			.remove(e2.subsets().all().get(1))
+			.build();
+		assertEquals(0, e2.subsets().all().size());
+		
+		builder.rollbackRemove();
+		assertEquals(2, e2.subsets().all().size());
 	}
 
 }

@@ -15,7 +15,12 @@
  */
 package jp.sourceforge.tmdmaker.model.virtual;
 
+import java.util.Collections;
+import java.util.List;
+
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
+import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
 
 /**
  * みなしサブセットの集約クラス.
@@ -34,5 +39,13 @@ public class VirtualSubsets {
 
 	public VirtualSubsetBuilder builder() {
 		return new VirtualSubsetBuilder(this.parent);
+	}
+	
+	public List<AbstractEntityModel> all() {
+		VirtualSupersetType type = this.parent.getVirtualSupersetType();
+		if (type != null) {
+			return type.getSubsetList();
+		}
+		return Collections.emptyList();
 	}
 }
