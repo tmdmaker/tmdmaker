@@ -15,7 +15,7 @@
 	</parent>
 
 	<properties>
-		<xtend-version>2.14.0</xtend-version>
+		<xtend-version>2.15.0</xtend-version>
 	</properties>
 
 	<build>
@@ -46,24 +46,6 @@
 				<configuration>
 					<outputDirectory>src/main/xtend-gen/</outputDirectory>
 				</configuration>
-				<!-- Bug xtend 2.14 + Eclipse Photon : https://github.com/eclipse/xtext/issues/1231 -->
-				<dependencies>
-					<dependency>
-						<groupId>org.eclipse.jdt</groupId>
-						<artifactId>org.eclipse.jdt.core</artifactId>
-						<version>3.12.2</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.platform</groupId>
-						<artifactId>org.eclipse.core.runtime</artifactId>
-						<version>3.12.0</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.platform</groupId>
-						<artifactId>org.eclipse.equinox.common</artifactId>
-						<version>3.8.0</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
