@@ -261,4 +261,67 @@ public class Attribute extends ModelElement implements IAttribute {
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((dataTypeDeclaration == null) ? 0 : dataTypeDeclaration.hashCode());
+		result = prime * result + (derivation ? 1231 : 1237);
+		result = prime * result + ((derivationRule == null) ? 0 : derivationRule.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((implementName == null) ? 0 : implementName.hashCode());
+		result = prime * result + ((lock == null) ? 0 : lock.hashCode());
+		result = prime * result + (nullable ? 1231 : 1237);
+		result = prime * result + ((validationRule == null) ? 0 : validationRule.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Attribute other = (Attribute) obj;
+		if (dataTypeDeclaration == null) {
+			if (other.dataTypeDeclaration != null)
+				return false;
+		} else if (!dataTypeDeclaration.equals(other.dataTypeDeclaration))
+			return false;
+		if (derivation != other.derivation)
+			return false;
+		if (derivationRule == null) {
+			if (other.derivationRule != null)
+				return false;
+		} else if (!derivationRule.equals(other.derivationRule))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (implementName == null) {
+			if (other.implementName != null)
+				return false;
+		} else if (!implementName.equals(other.implementName))
+			return false;
+		if (lock == null) {
+			if (other.lock != null)
+				return false;
+		} else if (!lock.equals(other.lock))
+			return false;
+		if (nullable != other.nullable)
+			return false;
+		if (validationRule == null) {
+			if (other.validationRule != null)
+				return false;
+		} else if (!validationRule.equals(other.validationRule))
+			return false;
+		return true;
+	}
+
 }

@@ -16,10 +16,12 @@
 package jp.sourceforge.tmdmaker.ui.dialogs.models;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
+import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
 /**
@@ -106,6 +108,8 @@ public class EntityCreationModel {
 
 	public AbstractEntityModel getCreateModel() {
 		Identifier identifier = this.identifier.toIdentifier();
+		identifier.setDataTypeDeclaration(
+				new DataTypeDeclaration(StandardSQLDataType.CHARACTER_VARYING, 10, null));
 		if (isLaputa()) {
 			return Laputa.of(entityName, identifier);
 		} else {
