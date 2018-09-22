@@ -35,6 +35,7 @@ import jp.sourceforge.tmdmaker.model.importer.FileImporter;
  * 
  */
 public class AttributeFileImporter implements FileImporter {
+	private static final String[] EXTENSION = new String[] {"csv"};
 
 	/**
 	 * {@inheritDoc}
@@ -69,6 +70,17 @@ public class AttributeFileImporter implements FileImporter {
 	@Override
 	public String getImporterName() {
 		return "ファイルからアトリビュートをインポート";
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#getAvailableExtensions()
+	 */
+	@Override
+	public String[] getAvailableExtensions() {
+		return EXTENSION;
 	}
 
 }
