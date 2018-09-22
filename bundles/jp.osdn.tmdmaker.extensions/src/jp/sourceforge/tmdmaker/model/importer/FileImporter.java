@@ -48,4 +48,6 @@ public interface FileImporter {
 	 * @return Importer名
 	 */
 	String getImporterName();
+	
+	String[] getAvailableExtensions();
 }

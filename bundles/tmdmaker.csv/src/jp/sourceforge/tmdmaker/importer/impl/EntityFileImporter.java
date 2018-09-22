@@ -20,7 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +28,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Entity;
+import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
@@ -41,6 +42,8 @@ import jp.sourceforge.tmdmaker.model.parts.ModelName;
  * 
  */
 public class EntityFileImporter implements FileImporter {
+	private static final String[] EXTENSION = new String[] { "csv" };
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -63,7 +66,7 @@ public class EntityFileImporter implements FileImporter {
 		CSVReader reader = new CSVReader(new BufferedReader(new FileReader(filePath)));
 		String[] nextLine;
 		AbstractEntityModel l = null;
-		Map<String, AbstractEntityModel> s = new HashMap<String, AbstractEntityModel>();
+		Map<String, AbstractEntityModel> s = new LinkedHashMap<String, AbstractEntityModel>();
 		while ((nextLine = reader.readNext()) != null) {
 			String entityName = nextLine[0];
 			String attributeName = "";
@@ -108,12 +111,14 @@ public class EntityFileImporter implements FileImporter {
 			Identifier identifier = new Identifier(attribute.getName());
 			ModelName name = new ModelName(model.getName());
 
-			if (model.isEvent()) {
+			if (isEvent(model)) {
 				entity = Entity.ofEvent(name, identifier);
 			} else {
 				entity = Entity.ofResource(name, identifier);
 			}
+			EntityType type = entity.getEntityType();
 			model.copyTo(entity);
+			entity.setEntityType(type);
 			entity.removeAttribute((Attribute) attribute);
 			entity.setNotImplement(false);
 
@@ -122,9 +127,30 @@ public class EntityFileImporter implements FileImporter {
 		return model;
 	}
 
+	private boolean isEvent(AbstractEntityModel model) {
+		String eventAttributeName = Entity.getDefaultEventAttributeName(model.getName());
+		for (IAttribute a : model.getAttributes()) {
+			if (eventAttributeName.equals(a.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private Laputa createLaputa(Map<String, AbstractEntityModel> s, String entityName) {
 		Laputa l = Laputa.of(new ModelName(entityName));
 		s.put(l.getName(), l);
 		return l;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#getAvailableExtensions()
+	 */
+	@Override
+	public String[] getAvailableExtensions() {
+		return EXTENSION;
 	}
 }
