@@ -54,4 +54,13 @@ public class FileImporter1 implements FileImporter {
 		return null;
 	}
 
+	/**
+	 * このImporterで利用可能なファイルの拡張子を返す.
+	 * 
+	 * @return このImporterで利用可能なファイルの拡張子
+	 */
+	@Override
+	public String[] getAvailableExtensions() {
+		return new String[] {"txt"};
+	}
 }

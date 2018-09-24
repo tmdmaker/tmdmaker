@@ -28,3 +28,4 @@ TMD-MakerはEclipse Pluginで作成されていますが、
    p3-ch2
    p3-ch3
    p3-ch4
+   p3-ch5

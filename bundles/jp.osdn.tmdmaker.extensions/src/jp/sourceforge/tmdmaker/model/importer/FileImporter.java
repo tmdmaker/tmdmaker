@@ -31,16 +31,12 @@ public interface FileImporter {
 	/**
 	 * エンティティをインポートする
 	 * 
-	 * @param filePath
-	 *            インポートするファイルのパス
+	 * @param filePath インポートするファイルのパス
 	 * @return インポートしたエンティティのモデル
-	 * @throws FileNotFoundException
-	 *             インポートするファイルが見つからない場合
-	 * @throws IOException
-	 *             その他ファイル読み込み時にエラーが発生した場合
+	 * @throws FileNotFoundException インポートするファイルが見つからない場合
+	 * @throws IOException           その他ファイル読み込み時にエラーが発生した場合
 	 */
-	List<AbstractEntityModel> importEntities(String filePath) throws FileNotFoundException,
-			IOException;
+	List<AbstractEntityModel> importEntities(String filePath) throws FileNotFoundException, IOException;
 
 	/**
 	 * Importer名を返す。コンテキストメニューに表示する名称となる。
@@ -48,6 +44,11 @@ public interface FileImporter {
 	 * @return Importer名
 	 */
 	String getImporterName();
-	
+
+	/**
+	 * このImporterで利用可能なファイルの拡張子を返す.
+	 * 
+	 * @return このImporterで利用可能なファイルの拡張子
+	 */
 	String[] getAvailableExtensions();
 }

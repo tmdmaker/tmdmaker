@@ -42,10 +42,10 @@ Select root directoryで拡張機能のフォルダを選択してFinishを選�
 
   拡張機能起動時に呼び出されます。雛形では特に何もやっていません。
 
-- tmdmaker.extensions.scaffold.importer.FileImporter1
-
-  tmdmaker.importersを実装するインターフェースを継承したクラス。今回は特に紹介しませんが、興味があれば挑戦してみてください。
-
 - tmdmaker.extensions.scaffold.generator.Generator1
 
   tmdmaker.generatorsを実装するインターフェースを継承したクラス。これからサンプルを実装します。  
+
+  - tmdmaker.extensions.scaffold.importer.FileImporter1
+
+  tmdmaker.importersを実装するインターフェースを継承したクラス。次にサンプルを実装します。

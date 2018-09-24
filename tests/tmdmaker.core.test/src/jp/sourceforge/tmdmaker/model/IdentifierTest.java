@@ -41,6 +41,6 @@ public class IdentifierTest {
 	public void testGetCopy() {
 		Identifier identifier1 = new Identifier("請求書番号");
 		Identifier identifier2 = (Identifier) identifier1.getCopy();
-		assertEquals(identifier1, identifier2);
+		assertEquals(identifier1.getName(), identifier2.getName());
 	}
 }
