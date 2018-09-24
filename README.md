@@ -19,9 +19,7 @@ This method is a technique to make the database structure while at the same time
   http://www.sdi-net.co.jp/english-index.htm
 
 ## Status
-[![Coverage Status](https://coveralls.io/repos/github/tmdmaker/tmdmaker/badge.svg?branch=develop)](https://coveralls.io/github/tmdmaker/tmdmaker?branch=develop)
-
-[![Build Status](https://travis-ci.org/tmdmaker/tmdmaker.svg?branch=develop)](https://travis-ci.org/tmdmaker/tmdmaker)
+[![Build Status](https://travis-ci.org/tmdmaker/tmdmaker.svg?branch=develop)](https://travis-ci.org/tmdmaker/tmdmaker)[![Coverage Status](https://coveralls.io/repos/github/tmdmaker/tmdmaker/badge.svg?branch=develop)](https://coveralls.io/github/tmdmaker/tmdmaker?branch=develop)
 
 ## Requirements
 
@@ -35,7 +33,7 @@ This method is a technique to make the database structure while at the same time
 
 - GEF(MVC) 3.x（Eclipse Graphical Editing Framework）.
 
-- (Optional) Xtend IDE 2.14.0 and JavaSE8 ExecutionEnvirnment(Eclipse 4.4 or later).If you use tmdmaker sphinx plugin.
+- (Optional) Xtend IDE 2.15.0 and JavaSE8 ExecutionEnvirnment(Eclipse 4.4 or later).If you use tmdmaker sphinx plugin.
 
 ## Download
 https://osdn.jp/projects/tmdmaker/releases/
