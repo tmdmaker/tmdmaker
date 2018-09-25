@@ -7,7 +7,7 @@
 -------------------
 
 tmdmaker\_extensionsのダウンロードサイトから
-拡張機能の雛形プロジェクト、 `tmdmaker_extension_scaffold_x.y.z.zip <https://tmdmaker/ddlutils/>`_ をダウンロードします。
+拡張機能の雛形プロジェクト、 `tmdmaker_extension_scaffold_x.y.z.zip <https://osdn.net/projects/tmdmaker/releases/p15798/>`_ をダウンロードします。
 
 解凍後にフォルダを任意の名前に変更してください。拡張機能の名前と合わせた方が分かりやすいです。
 
