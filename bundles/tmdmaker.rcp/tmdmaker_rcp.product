@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.6.0" useFeatures="true" includeLaunchers="true">
+<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.7.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/tmdmaker.rcp/icons/tmd_about.gif"/>
@@ -14,6 +14,8 @@
    </configIni>
 
    <launcherArgs>
+      <vmArgs>--add-modules=ALL-SYSTEM
+      </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
    </launcherArgs>
@@ -28,7 +30,6 @@
    <launcher name="tmdmaker">
       <linux icon="/tmdmaker.rcp/icons/launcher/tmd_icon.xpm"/>
       <macosx icon="/tmdmaker.rcp/icons/launcher/tmd_icon.icns"/>
-      <solaris/>
       <win useIco="false">
          <bmp
             winSmallHigh="/tmdmaker.rcp/icons/launcher/tmd_icon_16_32bit.bmp"
@@ -446,5 +447,12 @@
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="tmdmaker.rcp" autoStart="false" startLevel="6" />
    </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>

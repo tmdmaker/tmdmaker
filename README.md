@@ -12,11 +12,14 @@ This method is a technique to make the database structure while at the same time
 
 - About TMD-Maker
 
- https://osdn.jp/projects/tmdmaker/
+  https://osdn.jp/projects/tmdmaker/
 
 - About TMD(T-formed ERD)
 
- http://www.sdi-net.co.jp/english-index.htm
+  http://www.sdi-net.co.jp/english-index.htm
+
+## Status
+[![Build Status](https://travis-ci.org/tmdmaker/tmdmaker.svg?branch=develop)](https://travis-ci.org/tmdmaker/tmdmaker)[![Coverage Status](https://coveralls.io/repos/github/tmdmaker/tmdmaker/badge.svg?branch=develop)](https://coveralls.io/github/tmdmaker/tmdmaker?branch=develop)
 
 ## Requirements
 
@@ -26,11 +29,11 @@ This method is a technique to make the database structure while at the same time
 ### Eclipse Plugin
 - java6 or later(java8 is recommended).
 
-- eclipse 3.4 or later(eclipse 4.7 is recommended).
+- eclipse 3.4 or later(eclipse 4.8 is recommended).
 
 - GEF(MVC) 3.x（Eclipse Graphical Editing Framework）.
 
-- (Optional) Xtend IDE 2.11 and JavaSE8 ExecutionEnvirnment(Eclipse 4.4 or later).If you use tmdmaker sphinx plugin.
+- (Optional) Xtend IDE 2.15.0 and JavaSE8 ExecutionEnvirnment(Eclipse 4.4 or later).If you use tmdmaker sphinx plugin.
 
 ## Download
 https://osdn.jp/projects/tmdmaker/releases/

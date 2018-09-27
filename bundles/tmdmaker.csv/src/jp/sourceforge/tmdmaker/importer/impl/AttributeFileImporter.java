@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import au.com.bytecode.opencsv.CSVReader;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.importer.FileImporter;
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
-import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * アトリビュートをCSVファイルからインポートするクラス
@@ -35,6 +35,7 @@ import au.com.bytecode.opencsv.CSVReader;
  * 
  */
 public class AttributeFileImporter implements FileImporter {
+	private static final String[] EXTENSION = new String[] {"csv"};
 
 	/**
 	 * {@inheritDoc}
@@ -48,8 +49,7 @@ public class AttributeFileImporter implements FileImporter {
 		CSVReader reader = new CSVReader(new BufferedReader(new FileReader(
 				filePath)));
 		String[] nextLine;
-		AbstractEntityModel l = EntityRecognitionRule.getInstance()
-				.createLaputa();
+		AbstractEntityModel l = Laputa.of();
 
 		while ((nextLine = reader.readNext()) != null) {
 			String attributeName = nextLine[0];
@@ -70,6 +70,17 @@ public class AttributeFileImporter implements FileImporter {
 	@Override
 	public String getImporterName() {
 		return "ファイルからアトリビュートをインポート";
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#getAvailableExtensions()
+	 */
+	@Override
+	public String[] getAvailableExtensions() {
+		return EXTENSION;
 	}
 
 }

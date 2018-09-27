@@ -2,11 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker's Serializer with XStream
 Bundle-SymbolicName: tmdmaker.serializer;singleton:=true
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Bundle-Activator: jp.sourceforge.tmdmaker.persistence.Activator
 Require-Bundle: org.eclipse.core.runtime,
- tmdmaker.core;bundle-version="0.2.9",
- tmdmaker;bundle-version="0.2.8"
+ tmdmaker.core;bundle-version="0.7.0",
+ tmdmaker;bundle-version="0.2.8",
+ jp.osdn.tmdmaker.extensions;bundle-version="0.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/xpp3_min-1.1.4c.jar,
@@ -15,3 +16,4 @@ Bundle-ClassPath: lib/xpp3_min-1.1.4c.jar,
  .
 Export-Package: jp.sourceforge.tmdmaker.persistence.handler
 Bundle-Vendor: TMD-Maker Project
+Automatic-Module-Name: tmdmaker.serializer

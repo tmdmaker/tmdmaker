@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="tmdmaker.generators">
+      <generator
+            class="tmdmaker.extensions.scaffold.generator.Generator1"
+            name="name">
+      </generator>
+   </extension>
+   <extension
+         point="tmdmaker.importers">
+      <importer
+            class="tmdmaker.extensions.scaffold.importer.FileImporter1"
+            name="name">
+      </importer>
+   </extension>
+
+</plugin>

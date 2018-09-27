@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,11 @@
 package jp.sourceforge.tmdmaker.model;
 
 import static org.junit.Assert.assertEquals;
-import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
-import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 
 import org.junit.Test;
+
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+import jp.sourceforge.tmdmaker.model.relationship.Relationship;
 
 /**
  * RelatedRelationshipのテスト
@@ -36,18 +37,20 @@ public class RelatedRelationshipTest {
 	@Test
 	public void testVirtualSupersetHelper() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
 
-		VirtualSuperset vsp = VirtualEntityRule.createVirtualSuperset("スーパーセット");
+		VirtualSuperset vsp = VirtualSuperset.of(new ModelName("スーパーセット"));
 		VirtualSupersetType type = new VirtualSupersetType();
 		diagram.addChild(vsp);
 		diagram.addChild(type);
 		RelatedRelationship t2v = new RelatedRelationship(type, vsp);
-		Entity2VirtualSupersetTypeRelationship m2t1 = new Entity2VirtualSupersetTypeRelationship(
-				e1, type);
-		Entity2VirtualSupersetTypeRelationship m2t2 = new Entity2VirtualSupersetTypeRelationship(
-				e2, type);
+		Entity2VirtualSupersetTypeRelationship m2t1 = new Entity2VirtualSupersetTypeRelationship(e1,
+				type);
+		Entity2VirtualSupersetTypeRelationship m2t2 = new Entity2VirtualSupersetTypeRelationship(e2,
+				type);
 		t2v.connect();
 		m2t1.connect();
 		m2t2.connect();
@@ -67,7 +70,9 @@ public class RelatedRelationshipTest {
 	@Test
 	public void testMultivalueAndHelper() {
 		Diagram diagram = new Diagram();
-		Entity e = diagram.createEntity("テスト", "テスト番号", EntityType.EVENT);
+		Entity e = Entity.ofEvent(new Identifier("テスト番号")).withDefaultAttribute();
+		diagram.addChild(e);
+
 		Header2DetailRelationship r = new Header2DetailRelationship(e);
 		r.connect();
 		MultivalueAndAggregator ag = r.getAggregator();
@@ -92,13 +97,14 @@ public class RelatedRelationshipTest {
 	@Test
 	public void testTableHelper() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.RESOURCE);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.RESOURCE);
+		Entity e1 = Entity.ofResource(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofResource(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
 
-		Resource2ResourceRelationship r = (Resource2ResourceRelationship) RelationshipRule
-				.createRelationship(e1, e2);
+		AbstractRelationship r = Relationship.of(e1, e2);
 		r.connect();
-		CombinationTable t1 = r.getTable();
+		CombinationTable t1 = (CombinationTable) r.getTable();
 		RelatedRelationship rr = (RelatedRelationship) t1.getModelTargetConnections().get(0);
 
 		assertEquals("テスト1", rr.getSourceName());

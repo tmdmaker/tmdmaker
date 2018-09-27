@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@ package jp.sourceforge.tmdmaker.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
 
 /**
  * TMのダイアグラムを表すクラス
@@ -168,42 +166,6 @@ public class Diagram extends ModelElement {
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
-	}
-
-	/**
-	 * エンティティを作成する
-	 * 
-	 * @param entityName
-	 *            エンティティ名
-	 * @param identifierName
-	 *            個体指定子名
-	 * @param entityType
-	 *            エンティティ種類
-	 * @return エンティティ
-	 */
-	public Entity createEntity(String entityName, String identifierName, EntityType entityType) {
-		Entity e = EntityRecognitionRule.getInstance().createEntity(entityName,
-				new Identifier(identifierName), entityType);
-		this.addChild(e);
-
-		return e;
-	}
-
-	/**
-	 * みなしスーパーセット作成
-	 * 
-	 * @param virtualSupersetName
-	 *            みなしスーパーセット名
-	 * @param virtualSubsets
-	 *            みなしサブセット
-	 * @return 作成したみなしスーパーセット
-	 */
-	public VirtualSuperset createVirtualSuperset(String virtualSupersetName,
-			List<AbstractEntityModel> virtualSubsets) {
-		VirtualSupersetType2VirtualSupersetRelationship r = new VirtualSupersetType2VirtualSupersetRelationship(virtualSupersetName, virtualSubsets);
-		VirtualSuperset superset = r.getSuperset();
-		r.connect();
-		return superset;
 	}
 
 	public List<AbstractEntityModel> findEntityModelExcludeFor(List<AbstractEntityModel> excludes) {

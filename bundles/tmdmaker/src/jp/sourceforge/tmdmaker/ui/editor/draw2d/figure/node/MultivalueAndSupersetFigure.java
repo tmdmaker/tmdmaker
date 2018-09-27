@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.EntityType;
@@ -51,7 +52,7 @@ public class MultivalueAndSupersetFigure extends AbstractModelFigure<MultivalueA
 	 */
 	@Override
 	protected boolean isNotImplement(MultivalueAndSuperset model) {
-		return false;
+		return model.isNotImplement();
 	}
 
 	/**
@@ -64,4 +65,11 @@ public class MultivalueAndSupersetFigure extends AbstractModelFigure<MultivalueA
 	protected String getTypeLabel(MultivalueAndSuperset model) {
 		return EntityType.MA.getLabel();
 	}
+
+	@Override
+	protected List<String> setupRelationshipList(MultivalueAndSuperset model) {
+		return Collections.emptyList();
+	}
+	
+	
 }

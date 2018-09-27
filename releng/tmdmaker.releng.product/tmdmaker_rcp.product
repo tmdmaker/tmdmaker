@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.6.0" useFeatures="true" includeLaunchers="true">
+<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="tmdmaker.rcp.product" application="tmdmaker.rcp.application" version="0.7.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/icons/tmd_about.gif"/>
@@ -19,6 +19,8 @@ Copyright 2009-2015 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
    </configIni>
 
    <launcherArgs>
+      <vmArgs>--add-modules=ALL-SYSTEM
+      </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
    </launcherArgs>
@@ -33,7 +35,6 @@ Copyright 2009-2015 TMD-Maker Project &lt;http://tmdmaker.sourceforge.jp/&gt;
    <launcher name="tmdmaker">
       <linux icon="/icons/launcher/tmd_icon.xpm"/>
       <macosx icon="/icons/launcher/tmd_icon.icns"/>
-      <solaris/>
       <win useIco="false">
          <bmp
             winSmallHigh="/icons/launcher/tmd_icon_16_32bit.bmp"

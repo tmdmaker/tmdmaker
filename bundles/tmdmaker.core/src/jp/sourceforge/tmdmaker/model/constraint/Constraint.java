@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,5 +94,14 @@ public class Constraint implements Serializable {
 		buf.append(",");
 		buf.append("w=" + width);
 		return buf.toString();
+	}
+
+	/**
+	 * 初期位置か？
+	 * 
+	 * @return 生成直後の初期位置の場合にtrueを返す.
+	 */
+	public boolean isInitialPosition() {
+		return x == 0 && y == 0;
 	}
 }

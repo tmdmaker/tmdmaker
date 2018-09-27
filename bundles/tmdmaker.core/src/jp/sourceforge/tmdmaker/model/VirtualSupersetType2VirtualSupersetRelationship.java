@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package jp.sourceforge.tmdmaker.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
 /**
  * みなしスーパーセットとサブセット間のリレーションシップ.
@@ -29,13 +29,35 @@ import jp.sourceforge.tmdmaker.model.rule.VirtualEntityRule;
 @SuppressWarnings("serial")
 public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractConnectionModel {
 	/** みなしスーパーセット */
+	@SuppressWarnings("unused")
+	@Deprecated
 	private VirtualSuperset superset;
 	/** みなしスーパーセットタイプ */
+	@SuppressWarnings("unused")
+	@Deprecated
 	private VirtualSupersetType type;
 	/** みなしスーパーセットタイプとみなしサブセットとのリレーションシップ */
 	private List<Entity2VirtualSupersetTypeRelationship> subset2typeRelationshipList;
 
+	/**
+	 * Patch040SerializerHandler用
+	 */
+	@Deprecated
 	public VirtualSupersetType2VirtualSupersetRelationship() {
+
+	}
+
+	public VirtualSupersetType2VirtualSupersetRelationship(VirtualSuperset superset) {
+		setSource(new VirtualSupersetType());
+		setTarget(superset);
+	}
+
+	public VirtualSupersetType2VirtualSupersetRelationship(VirtualSuperset superset,
+			List<AbstractEntityModel> subsets) {
+		setSource(new VirtualSupersetType());
+		setTarget(superset);
+		setSubsetList(subsets);
+
 	}
 
 	/**
@@ -49,11 +71,15 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	public VirtualSupersetType2VirtualSupersetRelationship(String virtualSupersetName,
 			List<AbstractEntityModel> subsets) {
 		setSource(new VirtualSupersetType());
-		setTarget(VirtualEntityRule.createVirtualSuperset(virtualSupersetName));
+		setTarget(VirtualSuperset.of(new ModelName(virtualSupersetName)));
+		setSubsetList(subsets);
+	}
+
+	public void setSubsetList(List<AbstractEntityModel> subsets) {
 		this.subset2typeRelationshipList = new ArrayList<Entity2VirtualSupersetTypeRelationship>();
 		for (AbstractEntityModel s : subsets) {
 			Entity2VirtualSupersetTypeRelationship r = new Entity2VirtualSupersetTypeRelationship(s,
-					type);
+					getVirtualSupersetType());
 			subset2typeRelationshipList.add(r);
 		}
 	}
@@ -69,8 +95,10 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 		super.connect();
 		connectSubsetList();
 		Diagram diagram = getDiagram();
-		diagram.addChild(superset);
-		diagram.addChild(type);
+		if (diagram != null) {
+			diagram.addChild(getVirtualSuperset());
+			diagram.addChild(getVirtualSupersetType());
+		}
 	}
 
 	private Diagram getDiagram() {
@@ -92,8 +120,10 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	@Override
 	public void disconnect() {
 		Diagram diagram = getDiagram();
-		diagram.removeChild(type);
-		diagram.removeChild(superset);
+		if (diagram != null) {
+			diagram.removeChild(getVirtualSupersetType());
+			diagram.removeChild(getVirtualSuperset());
+		}
 		disconnectSubsetList();
 		super.disconnect();
 	}
@@ -136,7 +166,7 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	public String getTargetName() {
 		StringBuilder builder = new StringBuilder();
 		boolean first = true;
-		VirtualSupersetType type = (VirtualSupersetType) getSource();
+		VirtualSupersetType type = getVirtualSupersetType();
 		for (AbstractEntityModel m : type.getSubsetList()) {
 			if (first) {
 				first = false;
@@ -159,14 +189,6 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 		visitor.visit(this);
 	}
 
-	public VirtualSuperset getSuperset() {
-		return superset;
-	}
-
-	public VirtualSupersetType getType() {
-		return type;
-	}
-
 	private List<AbstractEntityModel> getSubsetList() {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		for (Entity2VirtualSupersetTypeRelationship r : this.subset2typeRelationshipList) {
@@ -178,12 +200,15 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	public void reconnect(List<AbstractEntityModel> subsets) {
 		List<AbstractEntityModel> currentSubsetList = getSubsetList();
 		List<Entity2VirtualSupersetTypeRelationship> newSubsetList = new ArrayList<Entity2VirtualSupersetTypeRelationship>();
+
 		for (AbstractEntityModel s : subsets) {
-			int index = currentSubsetList.indexOf(s);
-			if (index > 0) {
+
+			if (currentSubsetList.contains(s)) {
+				int index = currentSubsetList.indexOf(s);
 				newSubsetList.add(subset2typeRelationshipList.get(index));
 			} else {
-				newSubsetList.add(new Entity2VirtualSupersetTypeRelationship(s, type));
+				newSubsetList.add(
+						new Entity2VirtualSupersetTypeRelationship(s, getVirtualSupersetType()));
 			}
 		}
 		disconnectSubsetList();
@@ -203,13 +228,19 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	@Override
 	public void setSource(ConnectableElement source) {
 		super.setSource(source);
-		this.type = (VirtualSupersetType) source;
+	}
+
+	public VirtualSuperset getVirtualSuperset() {
+		return (VirtualSuperset) getTarget();
+	}
+
+	public VirtualSupersetType getVirtualSupersetType() {
+		return (VirtualSupersetType) getSource();
 	}
 
 	@Override
 	public void setTarget(ConnectableElement target) {
 		super.setTarget(target);
-		this.superset = (VirtualSuperset) target;
 	}
 
 }

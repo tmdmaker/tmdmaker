@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,15 @@
 package jp.sourceforge.tmdmaker.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+import jp.sourceforge.tmdmaker.model.virtual.VirtualSubsetBuilder;
 
 /**
  * VirtualSupersetのテストクラス
@@ -39,12 +42,17 @@ public class VirtualSupersetTest {
 	@Test
 	public void testRemoveSubset() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
+		Entity e1 = Entity.ofResource(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofResource(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		VirtualSuperset vsp = diagram.createVirtualSuperset("スーパーセット", list);
+		VirtualSuperset vsp = VirtualSuperset.of(new ModelName("スーパーセット"));
+		VirtualSubsetBuilder builder = vsp.virtualSubsets().builder();
+		builder.subsetList(list).build();
+		assertTrue(vsp.hasSubset());
 		VirtualSupersetType type1 = vsp.getVirtualSupersetType();
 
 		assertEquals(true, vsp.isDeletable());
@@ -53,31 +61,33 @@ public class VirtualSupersetTest {
 		assertEquals(true, vsp.hasSubset());
 		assertEquals(2, vsp.getVirtualSubsetRelationshipList().size());
 
-		vsp.getCreationRelationship().disconnect();
-		assertEquals(0, vsp.getVirtualSubsetList().size());
-		assertEquals(false, vsp.hasSubset());
+		builder.rollback();
+		assertTrue(!vsp.hasSubset());
 		VirtualSupersetType type2 = vsp.getVirtualSupersetType();
 		if (!diagram.getChildren().contains(type2)) {
 			return;
 		}
-
-		fail("VirtualSupersetType is not empty.");
 	}
 
 	@Test
 	public void testSuper2Super() {
 		Diagram diagram = new Diagram();
-		Entity e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		Entity e2 = diagram.createEntity("テスト2", "テスト2番号", EntityType.EVENT);
-		Entity e3 = diagram.createEntity("テスト3", "テスト3番号", EntityType.EVENT);
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Entity e3 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e3);
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(e1);
 		list.add(e2);
-		VirtualSuperset vsp1 = diagram.createVirtualSuperset("スーパーセット1", list);
+		VirtualSuperset vsp1 = VirtualSuperset.of(new ModelName("スーパーセット1"));
+		vsp1.virtualSubsets().builder().subsetList(list).build();
 		list = new ArrayList<AbstractEntityModel>();
 		list.add(e3);
 		list.add(vsp1);
-		VirtualSuperset vsp2 = diagram.createVirtualSuperset("スーパーセット2", list);
+		VirtualSuperset vsp2 = VirtualSuperset.of(new ModelName("スーパーセット2"));
+		vsp2.virtualSubsets().builder().subsetList(list).build();
 
 		assertEquals(true, vsp2.isDeletable());
 		assertEquals(false, vsp1.isDeletable());
@@ -91,4 +101,91 @@ public class VirtualSupersetTest {
 		assertEquals(true, type2.isVertical());
 		assertEquals(type1.getSuperset(), vsp1);
 	}
+	
+	@Test
+	public void testSuper3Super() {
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		Diagram diagram = new Diagram();
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Entity e3 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e3);
+		VirtualSuperset vsp1 = VirtualSuperset.of(new ModelName("スーパーセット3"));
+		VirtualSubsetBuilder builder = vsp1.virtualSubsets().builder();
+		builder.subsetList(list).build();
+		assertTrue(!vsp1.hasSubset());
+
+		builder.rollback();
+		list.add(e1);
+		list.add(e2);
+		list.add(e3);
+		builder.subsetList(list).build();
+		assertTrue(vsp1.hasSubset());
+		assertEquals(diagram, vsp1.getDiagram());
+	}
+
+	@Test
+	public void testEditSuperSuper1() {
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		Diagram diagram = new Diagram();
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Entity e3 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e3);
+		VirtualSuperset vsp1 = VirtualSuperset.of(new ModelName("スーパーセット"));
+		VirtualSubsetBuilder builder = vsp1.virtualSubsets().builder();
+		list.add(e1);
+		list.add(e2);
+		list.add(e3);
+		builder.subsetList(list).build();
+		assertEquals(3, vsp1.virtualSubsets().all().size());
+
+		List<AbstractEntityModel> list2 = new ArrayList<AbstractEntityModel>();
+		list2.add(e1);
+		list2.add(e2);
+		builder = vsp1.virtualSubsets().builder();
+		builder.subsetList(list2).build();
+		assertTrue(vsp1.hasSubset());
+		assertEquals(vsp1.virtualSubsets().all().size(), 2);
+		
+		builder.rollback();
+		assertTrue(vsp1.hasSubset());
+		assertEquals(vsp1.virtualSubsets().all().size(), 3);
+	}
+
+	@Test
+	public void testDeleteSuperSuper1() {
+		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
+		Diagram diagram = new Diagram();
+		Entity e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
+		Entity e2 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Entity e3 = Entity.ofEvent(new Identifier("テスト2番号")).withDefaultAttribute();
+		diagram.addChild(e3);
+		VirtualSuperset vsp1 = VirtualSuperset.of(new ModelName("スーパーセット"));
+		VirtualSubsetBuilder builder = vsp1.virtualSubsets().builder();
+		list.add(e1);
+		list.add(e2);
+		list.add(e3);
+		builder.subsetList(list).build();
+		assertEquals(3, vsp1.virtualSubsets().all().size());
+
+		List<AbstractEntityModel> list2 = new ArrayList<AbstractEntityModel>();
+		list2.add(e1);
+		list2.add(e2);
+		builder = vsp1.virtualSubsets().builder();
+		builder.subsetList(null).build();
+		assertTrue(!vsp1.hasSubset());
+		assertEquals(vsp1.virtualSubsets().all().size(), 0);
+		
+		builder.rollback();
+		assertTrue(vsp1.hasSubset());
+		assertEquals(vsp1.virtualSubsets().all().size(), 3);
+	}
+
 }

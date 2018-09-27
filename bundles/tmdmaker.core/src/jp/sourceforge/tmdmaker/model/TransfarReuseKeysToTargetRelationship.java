@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package jp.sourceforge.tmdmaker.model;
-
-import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
 
 /**
  * ソースのRe-usedをターゲットへ移送するリレーションシップ
@@ -46,7 +44,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 			AbstractEntityModel target) {
 		AbstractEntityModel from = null;
 		AbstractEntityModel to = null;
-		if (EntityTypeRule.isResource(source)) {
+		if (source.isResource()) {
 			from = source;
 			to = target;
 		} else {
@@ -69,8 +67,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 		if (targetReusedIdentifier == null) {
 			getTarget().addReusedIdentifier(getSource());
 		} else {
-			getTarget()
-					.addReusedIdentifier(getSource(), targetReusedIdentifier);
+			getTarget().addReusedIdentifier(getSource(), targetReusedIdentifier);
 			targetReusedIdentifier = null;
 		}
 	}
@@ -83,8 +80,7 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 	 */
 	@Override
 	public void detachTarget() {
-		targetReusedIdentifier = getTarget()
-				.removeReusedIdentifier(getSource());
+		targetReusedIdentifier = getTarget().removeReusedIdentifier(getSource());
 		super.detachTarget();
 	}
 
@@ -110,4 +106,27 @@ public class TransfarReuseKeysToTargetRelationship extends AbstractRelationship 
 		// null, null);
 		getTarget().fireIdentifierChanged(this);
 	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#hasTable()
+	 */
+	@Override
+	public boolean hasTable() {
+		return false;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#getTable()
+	 */
+	@Override
+	public AbstractEntityModel getTable() {
+		return null;
+	}
+
 }

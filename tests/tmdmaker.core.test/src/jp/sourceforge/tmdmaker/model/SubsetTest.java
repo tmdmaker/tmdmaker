@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,13 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
-import jp.sourceforge.tmdmaker.model.rule.SubsetRule;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
+import jp.sourceforge.tmdmaker.model.subset.SubsetBuilder;
 
 /**
  * Subsetのテストクラス
@@ -39,29 +41,23 @@ public class SubsetTest {
 	@Before
 	public void setup() {
 		diagram = new Diagram();
-		e1 = diagram.createEntity("テスト1", "テスト1番号", EntityType.EVENT);
-		SubsetType subsetType = new SubsetType();
-		subsetType.setExceptNull(false);
-		subsetType.setSubsetType(SubsetTypeValue.SAME);
-		Entity2SubsetTypeRelationship r1 = new Entity2SubsetTypeRelationship(e1, subsetType);
-		diagram.addChild(subsetType);
-		r1.connect();
+		e1 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e1);
 
-		SubsetEntity s1 = SubsetRule.createSubsetEntity(e1, "サブセット1");
-		SubsetEntity s2 = SubsetRule.createSubsetEntity(e1, "サブセット2");
-		SubsetType2SubsetRelationship r2 = new SubsetType2SubsetRelationship(subsetType, s1);
-		SubsetType2SubsetRelationship r3 = new SubsetType2SubsetRelationship(subsetType, s2);
-		r2.connect();
-		r3.connect();
+		e1.subsets().builder()
+			.same()
+			.add(new ModelName("サブセット1"))
+			.add(new ModelName("サブセット2"))
+			.build();
 
 	}
 
 	@Test
 	public void testCreateSubset() {
-		SubsetType subsetType = e1.findSubsetType();
+		SubsetType subsetType = e1.subsets().subsetType();
 		assertEquals(SubsetTypeValue.SAME, subsetType.getSubsetType());
 		assertEquals(true, subsetType.isSameType());
-		assertEquals(false, subsetType.isNew());
+		assertEquals(true, subsetType.isInitialPosition());
 		assertEquals(e1, subsetType.getSuperset());
 		assertEquals(true, subsetType != null);
 		assertEquals(true, subsetType.hasSubsetEntity());
@@ -95,8 +91,7 @@ public class SubsetTest {
 		subsetType.setPartitionAttribute(a2);
 		assertEquals(a2, subsetType.getPartitionAttribute());
 
-		Entity2SubsetTypeRelationship r1 = (Entity2SubsetTypeRelationship) subsetType
-				.getModelTargetConnections().get(0);
+		Entity2SubsetTypeRelationship r1 = subsetType.getEntityRelationship();
 		assertEquals("テスト属性2", r1.getPartitionAttributeName());
 		subsetType.setExceptNull(true);
 		assertEquals("NULL(テスト属性2)", r1.getPartitionAttributeName());
@@ -124,7 +119,7 @@ public class SubsetTest {
 		Entity2SubsetTypeRelationship r2 = (Entity2SubsetTypeRelationship) r1;
 		assertEquals(true, r2.isDeletable());
 		r2.disconnect();
-		assertEquals(true, subsetType.isNew());
+		assertEquals(true, subsetType.isInitialPosition());
 	}
 
 	@Test
@@ -136,4 +131,85 @@ public class SubsetTest {
 		assertEquals("テスト1番号1", s1.getOriginalReusedIdentifier().getIdentifiers().get(0).getName());
 		assertEquals("テスト1番号1", s2.getOriginalReusedIdentifier().getIdentifiers().get(0).getName());
 	}
+
+	@Test
+	public void testAllRemove() {
+		SubsetType subsetType = e1.findSubsetType();
+		SubsetEntity s1 = subsetType.getSubsetList().get(0);
+		SubsetEntity s2 = subsetType.getSubsetList().get(1);
+		e1.subsets().builder()
+			.remove(s1)
+			.remove(s2)
+			.build();
+		assertEquals(false, subsetType.hasSubsetEntity());
+		assertEquals(true, subsetType.isInitialPosition());
+	}
+
+	@Test
+	public void testBuilder1() {
+		SubsetBuilder builder = e1.subsets().builder();
+		ModelName subsetName = new ModelName("サブセット3");
+		builder
+			.add(subsetName)
+			.notExpectNull()
+			.build();
+		assertEquals(3, e1.subsets().all().size());
+		builder.rollbackAdd();
+		assertEquals(2, e1.subsets().all().size());
+		builder.build();
+	
+		SubsetEntity s1 = e1.subsets().query().findByName(subsetName).get(0);
+		builder = e1.subsets().builder();
+		builder.remove(s1).build();
+		assertEquals(2, e1.subsets().all().size());
+		builder.rollbackRemove();
+	}
+
+	@Test
+	public void testBuilder2() {
+		Entity e2 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Attribute atr = new Attribute("アトリビュート");
+		e2.addAttribute(atr);
+
+		SubsetBuilder builder = e2.subsets().builder();
+		builder.different()
+			.expectNull()
+			.partition(atr)
+			.add(new ModelName("サブセット1"))
+			.add(new ModelName("サブセット2"))
+			.build();
+		builder.build();
+		builder.rollbackAdd();
+		assertEquals(0, e2.subsets().all().size());
+	}
+
+	@Test
+	public void testBuilder3() {
+		Entity e2 = Entity.ofEvent(new Identifier("テスト1番号")).withDefaultAttribute();
+		diagram.addChild(e2);
+		Attribute atr = new Attribute("アトリビュート");
+		e2.addAttribute(atr);
+
+		SubsetBuilder builder = e2.subsets().builder();
+		builder.different()
+			.expectNull()
+			.partition(atr)
+			.add(new ModelName("サブセット1"))
+			.add(new ModelName("サブセット2"))
+			.build();
+		builder.build();
+		assertEquals(2, e2.subsets().all().size());
+		
+		builder = e2.subsets().builder();
+		builder
+			.remove(e2.subsets().all().get(0))
+			.remove(e2.subsets().all().get(1))
+			.build();
+		assertEquals(0, e2.subsets().all().size());
+		
+		builder.rollbackRemove();
+		assertEquals(2, e2.subsets().all().size());
+	}
+
 }

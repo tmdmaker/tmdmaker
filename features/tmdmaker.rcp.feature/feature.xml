@@ -2,7 +2,7 @@
 <feature
       id="tmdmaker.rcp.feature"
       label="TMD-Maker RCP Feature"
-      version="0.6.0.qualifier"
+      version="0.7.0.qualifier"
       provider-name="TMD-Maker Project"
       plugin="tmdmaker.rcp">
 
@@ -11,11 +11,11 @@
    </description>
 
    <copyright url="https://tmdmaker.osdn.jp/">
-      (c) 2009-2017,TMD-Maker Project.
+      (c)2018,TMD-Maker Project.
    </copyright>
 
-   <license url="http://www.apache.org/licenses/LICENSE-2.0">
-      http://www.apache.org/licenses/LICENSE-2.0
+   <license url="https://www.apache.org/licenses/LICENSE-2.0">
+      Apache License Version 2.0
    </license>
 
    <includes

@@ -1,7 +1,8 @@
 #!/bin/sh
 
-if [ $1 == "" ]; then
+if [ $# == 0 ]; then
 echo "usage $0 x.y.z"
+exit -1
 fi
 
 NEW_VERSION=$1

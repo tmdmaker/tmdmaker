@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import java.util.Map.Entry;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 import jp.sourceforge.tmdmaker.model.Detail;
@@ -207,32 +206,6 @@ public class ImplementRule {
 			identifier.setDataTypeDeclaration(
 					new DataTypeDeclaration(StandardSQLDataType.NUMERIC, 10, 0));
 		}
-	}
-
-	/**
-	 * イベントのアトリビュートの初期値を設定する。
-	 * 
-	 * @param attribute
-	 *            アトリビュート
-	 */
-	public static void setEventDefaultAttributeValue(Attribute attribute) {
-		attribute.setImplementName(attribute.getName());
-		attribute.setDataTypeDeclaration(
-				new DataTypeDeclaration(StandardSQLDataType.DATE, null, null));
-
-	}
-
-	/**
-	 * リソースのアトリビュートの初期値を設定する。
-	 * 
-	 * @param attribute
-	 *            アトリビュート
-	 */
-	public static void setResourceDefaultAttributeValue(Attribute attribute) {
-		attribute.setImplementName(attribute.getName());
-		attribute.setDataTypeDeclaration(
-				new DataTypeDeclaration(StandardSQLDataType.CHARACTER_VARYING, 10, null));
-
 	}
 
 	/**

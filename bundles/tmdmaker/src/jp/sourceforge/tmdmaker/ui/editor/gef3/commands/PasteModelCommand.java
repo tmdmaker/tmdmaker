@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Laputa;
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.ConstraintConverter;
 
 /**
@@ -99,7 +99,7 @@ public class PasteModelCommand extends Command {
 	 * @return ラピュタ
 	 */
 	private AbstractEntityModel copyToLaputa(AbstractEntityModel model) {
-		Laputa laputa = EntityRecognitionRule.getInstance().createLaputa(model.getName());
+		Laputa laputa = Laputa.of(new ModelName(model.getName()));
 		model.copyWithAttributesTo(laputa);
 		ConstraintConverter.copyConstraint(laputa, model);
 		return laputa;

@@ -64,7 +64,7 @@ public class FileImportAction extends Action {
 				.getFigure();
 		Point p = viewport.getViewLocation();
 		FileDialog dialog = new FileDialog(viewer.getControl().getShell());
-
+		dialog.setFilterExtensions(importer.getAvailableExtensions());
 		String filePath = dialog.open();
 		if (filePath != null) {
 			try {

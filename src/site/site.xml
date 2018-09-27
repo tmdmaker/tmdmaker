@@ -1,48 +1,99 @@
 <project name="TMD-Maker"  xmlns="http://maven.apache.org/DECORATION/1.7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd">
-  <skin>
-    <groupId>org.apache.maven.skins</groupId>
-    <artifactId>maven-fluido-skin</artifactId>
-    <version>1.7</version>
-  </skin>
-  <bannerLeft>
-    <name>TMD-Maker</name>
-  </bannerLeft>
-  <googleAnalyticsAccountId>UA-96558945-1</googleAnalyticsAccountId>
-  <custom>
-    <fluidoSkin>
-      <leftColumnClass>span3</leftColumnClass>
-      <bodyColumnClass>span9</bodyColumnClass>
 
-      <facebookLike/>
+	<skin>
+		<groupId>lt.velykis.maven.skins</groupId>
+		<artifactId>reflow-maven-skin</artifactId>
+ 		<version>1.1.1</version>
+ 	</skin>
 
-      <twitter>
-        <user>TMDMakerTweet</user>
-        <showUser>true</showUser>
-        <showFollowers>true</showFollowers>
-      </twitter>
-    </fluidoSkin>
-  </custom>
+	<bannerLeft>
+		<name>TMD-Maker</name>
+		<src>img/logo.png</src>
+		<href>https://tmdmaker.osdn.jp</href>
+	</bannerLeft>
+	<publishDate position="bottom" format="yyyy-MM-dd" />
+	<version position="bottom" />
+	<googleAnalyticsAccountId>UA-96558945-1</googleAnalyticsAccountId>
 
-  <body>
- 
-   <head>
-   <![CDATA[
-        <script type="text/javascript">
-                $(document).ready(function () {
-                    $("#poweredBy iframe").css("width","88px");
-                });
-        </script>
-    ]]>
-    </head>
- 
-    <links>
-      <item name="webサイトtop" href="./landing/index.html"/>
-    </links>
-    <menu ref="parent" inherit="top"/>
-    <menu ref="reports" inherit="top"/>
-    <menu name="カバレッジレポート">
-      <item name="jacoco" href="./jacoco/report/index.html" />
-    </menu>
-  </body>
+	<poweredBy>
+		<logo name="Eclipse Graphical Editing Framework" href="https://www.eclipse.org/gef/" img="https://wiki.eclipse.org/images/thumb/2/2d/GEF-logo.png/180px-GEF-logo.png" ></logo>
+		<logo name="OSDN" href="https://osdn.net/" img="//osdn.net/sflogo.php?group_id=4743&amp;type=2" alt="OSDN" width="125" height="38" border="0"></logo>
+	</poweredBy>
+	<custom>
+		<reflowSkin>
+			<absoluteResourceURL>https://tmdmaker.osdn.jp</absoluteResourceURL>
+			<protocolRelativeURLs>true</protocolRelativeURLs>
+			<smoothScroll>true</smoothScroll>
+			<highlightJs>true</highlightJs>	
+			<brand>
+				<name>TMD-Maker</name>
+				<href>https://tmdmaker.osdn.jp</href>
+			</brand>
+			<slogan>ビジネス解析とデータベース設計を同時に実現する</slogan>
+			<titleTemplate>%2$s | %1$s</titleTemplate>
+			<toc>top</toc>
+			<tocTopMax>6</tocTopMax>
+			<topNav>ドキュメント|プロジェクト|プロジェクト文書</topNav>
+			<bottomNav>
+        		<column>ドキュメント</column>
+        		<column>プロジェクト文書</column>
+			</bottomNav>
+			<breadcrumbs>false</breadcrumbs>
+			<pages>
+        		<index>
+        			<toc>false</toc>
+					<markPageHeader>true</markPageHeader>
+					<sections>
+						<carousel />
+						<columns>2</columns>
+						<body />
+						<sidebar />
+					</sections>
+				</index>
+			</pages>
+		</reflowSkin>
+	</custom>
+
+	<body>
+		<links>
+			<item name="ダウンロード" href="https://osdn.net/projects/tmdmaker/releases/" />
+		</links>
+
+		<menu name="ドキュメント" inherit="top">
+			<item name="リリースバージョン" >
+				<item name="マニュアル" href="./doc/index.html" />
+				<item name="よくある質問" href="./doc/faq.html" />
+			</item>
+			<item name="Latest" >
+				<item name="マニュアル" href="https://tmdmaker.readthedocs.io/ja/latest/index.html" />
+				<item name="よくある質問" href="https://tmdmaker.readthedocs.io/ja/latest/faq.html" />
+			</item>
+	    </menu>
+
+		<menu name="プロジェクト" inherit="top">
+			<item name="OSDN" href="https://osdn.net/projects/tmdmaker/" />
+			<item name="GitHub(ミラー)" href="https://github.com/tmdmaker/tmdmaker/" />
+		</menu>
+
+	    <menu name="プロジェクト文書" inherit="top">
+	    	<item name="プロジェクト情報" href="project-info.html">
+		    	<item name="プロジェクトライセンス" href="https://www.apache.org/licenses/LICENSE-2.0"/>
+		    	<item name="プロジェクトチーム" href="team-list.html"/>
+		    	<item name="プロジェクトサマリ" href="project-summary.html"/>
+		    	<item name="ソースリポジトリ" href="source-repository.html"/>
+		    	<item name="課題管理" href="issue-tracking.html"/>
+		    	<item name="継続的結合" href="integration.html"/>
+		    </item>
+	    	<item name="プロジェクトレポート" href="project-reports.html">
+		    	<item name="Checkstyle" href="checkstyle-aggregate.html"/>
+		    	<item name="CPD" href="cpd.html"/>
+		    	<item name="PMD" href="pmd.html"/>
+		    	<item name="Surefire Report" href="surefire-report.html"/>
+		    	<item name="Tag List" href="taglist.html"/>
+		    	<item name="JavaDocs" href="apidocs/index.html"/>
+		    	<item name="Coverage" href="jacoco/report/index.html"/>
+	    	</item>	
+	    </menu>
+	</body>
 </project>

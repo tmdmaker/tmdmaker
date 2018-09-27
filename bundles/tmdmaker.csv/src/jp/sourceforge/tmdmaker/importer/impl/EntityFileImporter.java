@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import au.com.bytecode.opencsv.CSVReader;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.Entity;
@@ -32,9 +33,7 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.Laputa;
 import jp.sourceforge.tmdmaker.model.importer.FileImporter;
-import jp.sourceforge.tmdmaker.model.rule.EntityRecognitionRule;
-import jp.sourceforge.tmdmaker.model.rule.EntityTypeRule;
-import au.com.bytecode.opencsv.CSVReader;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
 /**
  * エンティティをCSVファイルからインポートするクラス
@@ -43,6 +42,8 @@ import au.com.bytecode.opencsv.CSVReader;
  * 
  */
 public class EntityFileImporter implements FileImporter {
+	private static final String[] EXTENSION = new String[] { "csv" };
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -60,12 +61,12 @@ public class EntityFileImporter implements FileImporter {
 	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#importEntities(java.lang.String)
 	 */
 	@Override
-	public List<AbstractEntityModel> importEntities(String filePath) throws FileNotFoundException,
-			IOException {
+	public List<AbstractEntityModel> importEntities(String filePath)
+			throws FileNotFoundException, IOException {
 		CSVReader reader = new CSVReader(new BufferedReader(new FileReader(filePath)));
 		String[] nextLine;
 		AbstractEntityModel l = null;
-		Map<String, AbstractEntityModel> s = new HashMap<String, AbstractEntityModel>();
+		Map<String, AbstractEntityModel> s = new LinkedHashMap<String, AbstractEntityModel>();
 		while ((nextLine = reader.readNext()) != null) {
 			String entityName = nextLine[0];
 			String attributeName = "";
@@ -73,17 +74,14 @@ public class EntityFileImporter implements FileImporter {
 				attributeName = nextLine[1];
 			}
 			if (l == null) {
-				System.out.println("l is null.");
 				l = createLaputa(s, entityName);
 			}
 			if (!entityName.equals(l.getName())) {
-				System.out.println("entityName not equals");
 				l = s.get(entityName);
 				if (l == null) {
 					l = createLaputa(s, entityName);
 				}
 			} else {
-				System.out.println("entityName equals");
 				l = s.get(entityName);
 			}
 			l.addAttribute(new Attribute(attributeName));
@@ -102,34 +100,57 @@ public class EntityFileImporter implements FileImporter {
 		List<IAttribute> identifierCandidates = new ArrayList<IAttribute>();
 
 		for (IAttribute a : model.getAttributes()) {
-			String generateName = EntityRecognitionRule.getInstance()
-					.generateEntityNameFromIdentifier(a.getName());
+			String generateName = new Identifier(a.getName()).createEntityName().getValue();
 			if (entityName.equals(generateName)) {
 				identifierCandidates.add(a);
 			}
 		}
 		if (identifierCandidates.size() > 0) {
-			Entity entity = new Entity();
-			model.copyTo(entity);
 			IAttribute attribute = identifierCandidates.get(0);
-			entity.setIdentifier(new Identifier(attribute.getName()));
+			Entity entity = null;
+			Identifier identifier = new Identifier(attribute.getName());
+			ModelName name = new ModelName(model.getName());
+
+			if (isEvent(model)) {
+				entity = Entity.ofEvent(name, identifier);
+			} else {
+				entity = Entity.ofResource(name, identifier);
+			}
+			EntityType type = entity.getEntityType();
+			model.copyTo(entity);
+			entity.setEntityType(type);
 			entity.removeAttribute((Attribute) attribute);
 			entity.setNotImplement(false);
-			if (EntityTypeRule.hasEventAttribute(entity)) {
-				entity.setEntityType(EntityType.EVENT);
-			} else {
-				entity.setEntityType(EntityType.RESOURCE);
-			}
+
 			return entity;
 		}
 		return model;
 	}
 
+	private boolean isEvent(AbstractEntityModel model) {
+		String eventAttributeName = Entity.getDefaultEventAttributeName(model.getName());
+		for (IAttribute a : model.getAttributes()) {
+			if (eventAttributeName.equals(a.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private Laputa createLaputa(Map<String, AbstractEntityModel> s, String entityName) {
-		Laputa l = EntityRecognitionRule.getInstance().createLaputa(entityName);
-		// EntityRecognitionRule.createEntity(entityName, identifier,
-		// entityType)
+		Laputa l = Laputa.of(new ModelName(entityName));
 		s.put(l.getName(), l);
 		return l;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.importer.FileImporter#getAvailableExtensions()
+	 */
+	@Override
+	public String[] getAvailableExtensions() {
+		return EXTENSION;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 	private boolean sourceNoInstance = false;
 	private boolean targetNoInstance = false;
 	private boolean centerMark = false;
+
 	/**
 	 * @return the sourceCardinality
 	 */
@@ -45,8 +46,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 	public void setSourceCardinality(Cardinality sourceCardinality) {
 		Cardinality oldValue = this.sourceCardinality;
 		this.sourceCardinality = sourceCardinality;
-		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue,
-				sourceCardinality);
+		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue, sourceCardinality);
 	}
 
 	/**
@@ -63,8 +63,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 	public void setTargetCardinality(Cardinality targetCardinality) {
 		Cardinality oldValue = this.targetCardinality;
 		this.targetCardinality = targetCardinality;
-		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue,
-				targetCardinality);
+		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue, targetCardinality);
 	}
 
 	/**
@@ -81,8 +80,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 	public void setSourceNoInstance(boolean sourceNoInstance) {
 		boolean oldValue = this.sourceNoInstance;
 		this.sourceNoInstance = sourceNoInstance;
-		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue,
-				sourceNoInstance);
+		firePropertyChange(PROPERTY_SOURCE_CARDINALITY, oldValue, sourceNoInstance);
 	}
 
 	/**
@@ -99,8 +97,7 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 	public void setTargetNoInstance(boolean targetNoInstance) {
 		boolean oldValue = this.targetNoInstance;
 		this.targetNoInstance = targetNoInstance;
-		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue,
-				targetNoInstance);
+		firePropertyChange(PROPERTY_TARGET_CARDINALITY, oldValue, targetNoInstance);
 	}
 
 	/**
@@ -181,9 +178,23 @@ public abstract class AbstractRelationship extends AbstractConnectionModel
 	public String getTargetName() {
 		return getTarget().getName();
 	}
-	
+
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
+
+	/**
+	 * リレーションシップで表が生成されたかを返す.
+	 * 
+	 * @return 表が生成されている場合にtrueを返す.
+	 */
+	public abstract boolean hasTable();
+
+	/**
+	 * リレーションシップで生成された表を返す.
+	 * 
+	 * @return リレーションシップで生成された表.生成していない場合はnullを返す.
+	 */
+	public abstract AbstractEntityModel getTable();
 }

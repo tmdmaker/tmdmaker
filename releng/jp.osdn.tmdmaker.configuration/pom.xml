@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tmdmaker</groupId>
 	<artifactId>jp.osdn.tmdmaker.configuration</artifactId>
-	<version>0.6.0-SNAPSHOT</version>
+	<version>0.7.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>TMD-Maker Release Engineering Configuration</name>
@@ -16,29 +16,33 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>1.1.0</tycho-version>
-		<jacoco-version>0.8.0</jacoco-version>
+		<tycho-version>1.2.0</tycho-version>
+		<jacoco-version>0.8.2</jacoco-version>
 		<antrun-version>1.8</antrun-version>
-		<sphinx-maven-plugin-version>1.7.0</sphinx-maven-plugin-version>
-		<maven-dependency-plugin-version>3.0.2</maven-dependency-plugin-version>
-		<maven-site-plugin-version>3.7</maven-site-plugin-version>
-		<wagon-ssh-version>3.0.0</wagon-ssh-version>
+		<sphinx-maven-plugin-version>2.2.3</sphinx-maven-plugin-version>
+		<maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
+		<maven-site-plugin-version>3.4</maven-site-plugin-version>
+		<wagon-ssh-version>3.1.0</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
 		<maven-project-info-reports-plugin-version>2.9</maven-project-info-reports-plugin-version>
 		<maven-checkstyle-plugin-version>3.0.0</maven-checkstyle-plugin-version>
-		<maven-pmd-plugin-version>3.9.0</maven-pmd-plugin-version>
-		<maven-surefire-report-plugin-version>2.21.0</maven-surefire-report-plugin-version>
+		<maven-pmd-plugin-version>3.10.0</maven-pmd-plugin-version>
+		<maven-surefire-report-plugin-version>2.22.0</maven-surefire-report-plugin-version>
 		<findbugs-maven-plugin-version>3.0.5</findbugs-maven-plugin-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
-		<maven-javadoc-plugin-version>3.0.0</maven-javadoc-plugin-version>
-		<maven-resources-plugin-version>3.0.2</maven-resources-plugin-version>
-
+		<maven-javadoc-plugin-version>3.0.1</maven-javadoc-plugin-version>
+		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
+		<maven-assembly-plugin-version>3.1.0</maven-assembly-plugin-version>
+		<reflow-velocity-tools-version>1.1.1</reflow-velocity-tools-version>
+		<velocity-version>1.7</velocity-version>
+		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
 		<!-- other settings -->
-		<release-version>0.6.0</release-version>
+		<release-version>0.7.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
-		<project-url>https://tmdmaker.osdn.jp/</project-url>
+		<project-url>https://tmdmaker.osdn.jp</project-url>
+		<target-file>photon</target-file>
 	</properties>
 
 	<profiles>
@@ -51,6 +55,42 @@
 			</activation>
 			<properties>
 				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>java-8</id>
+			<activation>
+				<jdk>1.8</jdk>
+			</activation>
+			<properties>
+				<jvm-flags></jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>java-10</id>
+			<activation>
+				<jdk>10</jdk>
+			</activation>
+			<properties>
+				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>photon</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>photon</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>oxygen</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>oxygen</target-file>
 			</properties>
 		</profile>
 	</profiles>
@@ -99,7 +139,22 @@
 							<artifactId>wagon-ssh</artifactId>
 							<version>${wagon-ssh-version}</version>
 						</dependency>
-					</dependencies>
+						<dependency>
+				          <groupId>lt.velykis.maven.skins</groupId>
+				          <artifactId>reflow-velocity-tools</artifactId>
+				          <version>${reflow-velocity-tools-version}</version>
+				        </dependency>
+				        <dependency>
+				          <groupId>org.apache.velocity</groupId>
+				          <artifactId>velocity</artifactId>
+				          <version>${velocity-version}</version>
+				        </dependency>
+<!-- <dependency>
+        <groupId>org.apache.maven.doxia</groupId>
+        <artifactId>doxia-site-renderer</artifactId>
+        <version>1.8.1</version>
+    </dependency>
+ -->					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -137,6 +192,18 @@
 					<groupId>org.eluder.coveralls</groupId>
 					<artifactId>coveralls-maven-plugin</artifactId>
 					<version>${coveralls-maven-plugin-version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>javax.xml.bind</groupId>
+							<artifactId>jaxb-api</artifactId>
+							<version>${jaxb-api-version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-assembly-plugin</artifactId>
+				    <version>${maven-assembly-plugin-version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -158,7 +225,7 @@
 					<useProjectSettings>false</useProjectSettings>
 				</configuration>
 			</plugin>
-			<plugin>
+   			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
@@ -167,8 +234,9 @@
 						<artifact>
 							<groupId>tmdmaker</groupId>
 							<artifactId>tmdmaker.releng.targetplatform</artifactId>
-							<version>${release-version}-SNAPSHOT</version>
-						</artifact>
+							<version>${project.version}</version>
+ 							<classifier>${target-file}</classifier>
+ 						</artifact>
 					</target>
 					<environments>
 						<environment>
@@ -213,7 +281,7 @@
 					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
 					<product>tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
-					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}</argLine>
+					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags} ${jvm-flags}</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>
 			</plugin>
@@ -275,7 +343,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>${maven-surefire-report-plugin-version}</version>
-				<inherited>false</inherited>
+				<inherited>true</inherited>
 				<configuration>
 					<aggregate>true</aggregate>
 				</configuration>
@@ -330,14 +398,14 @@
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
 
 	<distributionManagement>
 		<site>
 			<id>tmdmaker-site</id>
-			<url>scp://shell.osdn.jp/home/groups/t/tm/tmdmaker/htdocs/</url>
+			<url>scp://shell.osdn.jp/home/groups/t/tm/tmdmaker/htdocs/${project.artifactId}</url>
 		</site>
 	</distributionManagement>
 

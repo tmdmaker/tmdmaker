@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>tmdmaker</groupId>
 		<artifactId>jp.osdn.tmdmaker.root</artifactId>
-		<version>0.6.0-SNAPSHOT</version>
+		<version>0.7.0-SNAPSHOT</version>
 	</parent>
 
 	<modules>
@@ -19,6 +19,7 @@
 		<module>tmdmaker.releng.e3.plugin.updatesite</module>
 		<module>tmdmaker.releng.product</module>
 		<module>tmdmaker.releng.targetplatform</module>
+		<module>jp.osdn.tmdmaker.releng.extensions.scaffold</module>
 	</modules>
 
 </project>

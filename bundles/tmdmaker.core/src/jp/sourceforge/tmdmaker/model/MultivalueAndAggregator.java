@@ -27,9 +27,9 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class MultivalueAndAggregator extends AbstractSubsetType<MultivalueAndSuperset> {
 	/**
-	 * コンストラクタ.
+	 * コンストラクタは非公開.
 	 */
-	public MultivalueAndAggregator() {
+	protected MultivalueAndAggregator() {
 		super();
 	}
 

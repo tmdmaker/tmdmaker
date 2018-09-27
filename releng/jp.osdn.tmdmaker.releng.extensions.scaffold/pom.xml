@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>jp.osdn.tmdmaker.releng.extensions.scaffold</artifactId>
+	<packaging>eclipse-repository</packaging>
+
+	<name>TMD-Maker Extensions Scaffold Release Engineering</name>
+	<description>TMD-Makerの機能拡張の雛形ビルド用プロジェクト</description>
+
+	<parent>
+		<groupId>tmdmaker</groupId>
+		<artifactId>jp.osdn.tmdmaker.releng</artifactId>
+		<version>0.7.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+	</properties>
+
+	<build>
+		<finalName>tmdmaker_extensions_scaffold_${release-version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>${antrun-version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+								<echo message="copy file" />
+								<copy
+									toDir="${project.build.directory}/tmdmaker.extensions.scaffold">
+									<fileset
+										dir="${project.basedir}/src/resources/tmdmaker.extensions.scaffold" />
+								</copy>
+								<copy
+									toDir="${project.build.directory}/tmdmaker.extensions.scaffold/plugins">
+									<fileset
+										dir="${project.build.directory}/repository/plugins" />
+								</copy>
+								<zip
+									destfile="${project.build.directory}/tmdmaker_extensions_scaffold_${release-version}.zip"
+									basedir="${project.build.directory}/tmdmaker.extensions.scaffold" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

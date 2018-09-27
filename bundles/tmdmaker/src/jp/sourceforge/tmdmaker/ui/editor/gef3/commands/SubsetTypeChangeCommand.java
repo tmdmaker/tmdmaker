@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,25 @@
  */
 package jp.sourceforge.tmdmaker.ui.editor.gef3.commands;
 
-import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
+import org.eclipse.gef.commands.Command;
+
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.SubsetType;
 import jp.sourceforge.tmdmaker.model.SubsetType.SubsetTypeValue;
-
-import org.eclipse.gef.commands.Command;
 
 /**
  * @author nakaG
  *
  */
 public class SubsetTypeChangeCommand extends Command {
-	private SubsetType subsetType;
+	private AbstractEntityModel parent;
 	private SubsetType.SubsetTypeValue newSubsetTypeValue;
-	private SubsetType.SubsetTypeValue oldSubsetTypeValue;
+	private SubsetType.SubsetTypeValue oldSubsetTypeValue = SubsetType.SubsetTypeValue.SAME;
 	private IAttribute oldPartitionAttribute;
 	private IAttribute newPartitionAttribute;
-	private boolean oldExceptNull;
+	private boolean oldExceptNull = false;
 	private boolean newExceptNull;
-	private Entity2SubsetTypeRelationship relationship;
 
 	/**
 	 * コンストラクタ
@@ -44,14 +43,12 @@ public class SubsetTypeChangeCommand extends Command {
 	 * @param selectedPartitionAttribute
 	 * @param newExceptNull
 	 */
-	public SubsetTypeChangeCommand(SubsetType subsetType, SubsetTypeValue newSubsetTypeValue,
+	public SubsetTypeChangeCommand(AbstractEntityModel parent, SubsetTypeValue newSubsetTypeValue,
 			IAttribute selectedPartitionAttribute, boolean newExceptNull) {
-		this.subsetType = subsetType;
-		this.oldSubsetTypeValue = subsetType.getSubsetType();
+		this.parent = parent;
 		this.newSubsetTypeValue = newSubsetTypeValue;
 		this.newPartitionAttribute = selectedPartitionAttribute;
 		this.newExceptNull = newExceptNull;
-		this.oldExceptNull = subsetType.isExceptNull();
 	}
 
 	/**
@@ -61,17 +58,15 @@ public class SubsetTypeChangeCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		this.subsetType.setSubsetType(newSubsetTypeValue);
-		if (this.subsetType.getModelTargetConnections() != null
-				&& this.subsetType.getModelTargetConnections().size() > 0) {
-			this.relationship = (Entity2SubsetTypeRelationship) this.subsetType
-					.getModelTargetConnections().get(0);
-			this.oldPartitionAttribute = this.relationship.getPartitionAttribute();
-			this.subsetType.setExceptNull(newExceptNull);
-			this.subsetType.setPartitionAttribute(newPartitionAttribute);
+		SubsetType type = this.parent.subsets().subsetType();
 
-			// this.relationship.setPartitionAttribute(newPartitionAttribute);
-		}
+		this.oldSubsetTypeValue = type.getSubsetType();
+		this.oldExceptNull = type.isExceptNull();
+		this.oldPartitionAttribute = type.getPartitionAttribute();
+
+		type.setSubsetType(this.newSubsetTypeValue);
+		type.setPartitionAttribute(this.newPartitionAttribute);
+		type.setExceptNull(this.newExceptNull);
 	}
 
 	/**
@@ -81,12 +76,19 @@ public class SubsetTypeChangeCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		this.subsetType.setSubsetType(oldSubsetTypeValue);
-		if (this.relationship != null) {
-			this.subsetType.setExceptNull(oldExceptNull);
-			this.subsetType.setPartitionAttribute(oldPartitionAttribute);
-			// this.relationship.setPartitionAttribute(oldPartitionAttribute);
-		}
+		SubsetType type = this.parent.subsets().subsetType();
+		type.setSubsetType(this.oldSubsetTypeValue);
+		type.setPartitionAttribute(this.oldPartitionAttribute);
+		type.setExceptNull(this.oldExceptNull);
+	}
+
+	@Override
+	public void redo() {
+		SubsetType type = this.parent.subsets().subsetType();
+
+		type.setSubsetType(this.newSubsetTypeValue);
+		type.setPartitionAttribute(this.newPartitionAttribute);
+		type.setExceptNull(this.newExceptNull);
 	}
 
 }

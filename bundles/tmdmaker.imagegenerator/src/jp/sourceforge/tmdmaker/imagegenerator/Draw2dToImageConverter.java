@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,17 +41,17 @@ public class Draw2dToImageConverter {
 	public Draw2dToImageConverter() {
 		ImageGenerator rasterImageGenerator = new RasterImageGenerator();
 		ImageGenerator svgImageGenerator = new SVGImageGenerator();
-		generatorMap.put("jpg", new GeneratorWrapper(SWT.IMAGE_JPEG,
+		generatorMap.put(".jpg", new GeneratorWrapper(SWT.IMAGE_JPEG,
 				rasterImageGenerator));
-		generatorMap.put("png", new GeneratorWrapper(SWT.IMAGE_PNG,
+		generatorMap.put(".png", new GeneratorWrapper(SWT.IMAGE_PNG,
 				rasterImageGenerator));
-		generatorMap.put("gif", new GeneratorWrapper(SWT.IMAGE_GIF,
+		generatorMap.put(".gif", new GeneratorWrapper(SWT.IMAGE_GIF,
 				rasterImageGenerator));
-		generatorMap.put("tiff", new GeneratorWrapper(SWT.IMAGE_TIFF,
+		generatorMap.put(".tiff", new GeneratorWrapper(SWT.IMAGE_TIFF,
 				rasterImageGenerator));
-		generatorMap.put("bmp", new GeneratorWrapper(SWT.IMAGE_BMP,
+		generatorMap.put(".bmp", new GeneratorWrapper(SWT.IMAGE_BMP,
 				rasterImageGenerator));
-		generatorMap.put("svg", new GeneratorWrapper(IMAGE_SVG,
+		generatorMap.put(".svg", new GeneratorWrapper(IMAGE_SVG,
 				svgImageGenerator));
 
 	}

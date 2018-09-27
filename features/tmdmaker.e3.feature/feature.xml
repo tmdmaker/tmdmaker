@@ -2,19 +2,19 @@
 <feature
       id="tmdmaker.e3.feature"
       label="TMD-Maker Plug-in"
-      version="0.6.0.qualifier"
+      version="0.7.0.qualifier"
       provider-name="TMD-Maker Project"
       plugin="tmdmaker">
 
    <description url="https://tmdmaker.osdn.jp">
-      TMD-Maker Plugin.
+      TMD-Maker Plugin for Eclipse 3.x.
    </description>
 
    <copyright url="https://tmdmaker.osdn.jp">
-      TMD-Maker Plugin.
+      (c)2018,TMD-Maker Project.
    </copyright>
 
-   <license url="http://www.apache.org/licenses/LICENSE-2.0">
+   <license url="https://www.apache.org/licenses/LICENSE-2.0">
       Apache License Version 2.0
    </license>
 
@@ -102,6 +102,13 @@
          install-size="0"
          version="0.0.0"
          fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="jp.osdn.tmdmaker.extensions"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

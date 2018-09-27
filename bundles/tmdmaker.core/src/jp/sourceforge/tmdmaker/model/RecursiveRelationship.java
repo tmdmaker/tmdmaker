@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
-import jp.sourceforge.tmdmaker.model.rule.RelationshipRule;
+import jp.sourceforge.tmdmaker.model.rule.ImplementRule;
 
 /**
  * エンティティ系モデルと再帰表とのリレーションシップ
@@ -39,10 +39,36 @@ public class RecursiveRelationship extends AbstractRelationship {
 	public RecursiveRelationship(AbstractEntityModel source) {
 		setSource(source);
 		this.diagram = getSource().getDiagram();
-		this.table = RelationshipRule.createRecursiveTable(source);
+		this.table = createRecursiveTable(source);
 		setTarget(table);
 	}
+	/**
+	 * 再帰表を作成する
+	 * 
+	 * @param model
+	 *            再帰元モデル
+	 * @return 再帰表
+	 */
+	private static RecursiveTable createRecursiveTable(AbstractEntityModel model) {
+		RecursiveTable table = new RecursiveTable();
+		table.setEntityType(model.getEntityType());
+		table.setName(createRecursiveTableName(model));
+		ImplementRule.setModelDefaultValue(table);
+		table.addCreationIdentifier(model);
 
+		return table;
+	}
+	/**
+	 * 再帰表の名称を作成する
+	 * 
+	 * @param model
+	 *            再帰元モデル
+	 * @return 再帰表名
+	 */
+	private static String createRecursiveTableName(AbstractEntityModel model) {
+		String name = model.getName();
+		return name + "." + name + "." + "再帰表";
+	}
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -51,7 +77,9 @@ public class RecursiveRelationship extends AbstractRelationship {
 	 */
 	@Override
 	public void connect() {
-		diagram.addChild(table);
+		if (diagram != null) {
+			diagram.addChild(table);
+		}
 		AbstractEntityModel sourceEntity = getSource();
 		if (!sourceEntity.getModelSourceConnections().contains(this)) {
 			sourceEntity.addSourceConnection(this);
@@ -70,7 +98,9 @@ public class RecursiveRelationship extends AbstractRelationship {
 	public void disconnect() {
 		getSource().removeSourceConnection(this);
 		table.removeTargetConnection(this);
-		diagram.removeChild(table);
+		if (diagram != null) {
+			diagram.removeChild(table);
+		}
 	}
 
 	/**
@@ -106,11 +136,35 @@ public class RecursiveRelationship extends AbstractRelationship {
 		table.fireIdentifierChanged(this);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#hasTable()
+	 */
+	@Override
+	public boolean hasTable() {
+		return true;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#getTable()
+	 */
+	@Override
 	public RecursiveTable getTable() {
 		return table;
 	}

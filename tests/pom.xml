@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>tmdmaker</groupId>
 		<artifactId>jp.osdn.tmdmaker.root</artifactId>
-		<version>0.6.0-SNAPSHOT</version>
+		<version>0.7.0-SNAPSHOT</version>
 	</parent>
 
 	<modules>
@@ -18,5 +18,16 @@
 		<module>tmdmaker.serializer.test</module>
 		<module>tmdmaker.test</module>
 		<module>tmdmaker.ui.test</module>
+		<module>jp.osdn.tmdmaker.csv.test</module>
 	</modules>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	
 </project>
