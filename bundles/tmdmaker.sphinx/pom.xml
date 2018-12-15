@@ -14,10 +14,6 @@
 		<version>0.8.0-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<xtend-version>2.15.0</xtend-version>
-	</properties>
-
 	<build>
 		<resources>
 			<resource>

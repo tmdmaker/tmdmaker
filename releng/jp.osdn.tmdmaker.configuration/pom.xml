@@ -16,7 +16,7 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>1.2.0</tycho-version>
+		<tycho-version>1.3.0</tycho-version>
 		<jacoco-version>0.8.2</jacoco-version>
 		<antrun-version>1.8</antrun-version>
 		<sphinx-maven-plugin-version>2.2.3</sphinx-maven-plugin-version>
@@ -37,13 +37,14 @@
 		<reflow-velocity-tools-version>1.1.1</reflow-velocity-tools-version>
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
+		<xtend-version>2.16.0</xtend-version>
 		<!-- other settings -->
 		<release-version>0.8.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://tmdmaker.osdn.jp</project-url>
-		<target-file>photon</target-file>
-	</properties>
+		<target-file>2018-09</target-file>
+ 	</properties>
 
 	<profiles>
 		<profile>
@@ -67,12 +68,21 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>java-10</id>
+			<id>java-11</id>
 			<activation>
-				<jdk>10</jdk>
+				<jdk>11</jdk>
 			</activation>
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>2018-09</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2018-09</target-file>
 			</properties>
 		</profile>
 		<profile>
@@ -208,7 +218,7 @@
 			</plugins>
 		</pluginManagement>
 
-		<plugins>
+ 		<plugins>
 			<plugin>
 				<!-- enable tycho build extension -->
 				<groupId>org.eclipse.tycho</groupId>
