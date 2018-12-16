@@ -19,10 +19,10 @@
 		<tycho-version>1.3.0</tycho-version>
 		<jacoco-version>0.8.2</jacoco-version>
 		<antrun-version>1.8</antrun-version>
-		<sphinx-maven-plugin-version>2.2.3</sphinx-maven-plugin-version>
+		<sphinx-maven-plugin-version>2.3.1</sphinx-maven-plugin-version>
 		<maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
 		<maven-site-plugin-version>3.4</maven-site-plugin-version>
-		<wagon-ssh-version>3.1.0</wagon-ssh-version>
+		<wagon-ssh-version>3.2.0</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
 		<maven-project-info-reports-plugin-version>2.9</maven-project-info-reports-plugin-version>
 		<maven-checkstyle-plugin-version>3.0.0</maven-checkstyle-plugin-version>

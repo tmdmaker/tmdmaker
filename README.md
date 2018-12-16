@@ -24,7 +24,7 @@ This method is a technique to make the database structure while at the same time
 ## Requirements
 
 ### Java Application(Eclipse RCP)
-- java8
+- java8 or later(java 11)
 
 ### Eclipse Plugin
 - java6 or later(java8 is recommended).
