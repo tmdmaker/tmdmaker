@@ -43,7 +43,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://tmdmaker.osdn.jp</project-url>
-		<target-file>2018-09</target-file>
+		<target-file>2018-12</target-file>
  	</properties>
 
 	<profiles>
@@ -68,12 +68,31 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>java-10</id>
+			<activation>
+				<jdk>10</jdk>
+			</activation>
+			<properties>
+				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+
+		<profile>
 			<id>java-11</id>
 			<activation>
 				<jdk>11</jdk>
 			</activation>
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>2018-12</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2018-12</target-file>
 			</properties>
 		</profile>
 		<profile>
@@ -249,11 +268,6 @@
  						</artifact>
 					</target>
 					<environments>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
 						<environment>
 							<os>win32</os>
 							<ws>win32</ws>

@@ -47,7 +47,7 @@ TMD-Makerは、ほぼ全てのプラットフォームで動作可能なクラ�
 
 2. TMD-Makerの起動
 
-   解凍したフォルダ内の、tmdmaker.exeをダブルクリックする。
+   解凍したフォルダ内の、tmdmaker.exe(mac版はTMD-Maker.app)をダブルクリックする。
 
 3. TMDファイルの移動
 
