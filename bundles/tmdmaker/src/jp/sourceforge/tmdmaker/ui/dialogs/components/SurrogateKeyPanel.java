@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,6 @@ public class SurrogateKeyPanel extends Composite {
 		super(parent, style);
 		this.entity = entity;
 		initialize();
-		// refreshVisual();
 	}
 
 	private void initialize() {
@@ -62,6 +61,7 @@ public class SurrogateKeyPanel extends Composite {
 		useSurrogateKeyCheckBox.setText(Messages.AddSurrogateKey);
 		useSurrogateKeyCheckBox.setLayoutData(gridData);
 		useSurrogateKeyCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				entity.setSurrogateKeyEnabled(useSurrogateKeyCheckBox.getSelection());
 			}

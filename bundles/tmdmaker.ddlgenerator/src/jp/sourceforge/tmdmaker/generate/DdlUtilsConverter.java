@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -190,7 +190,7 @@ public class DdlUtilsConverter {
 	 *            対象テーブル
 	 */
 	private ForeignConstraints createForeignConstraints(AbstractEntityModel entity, Table table) {
-		System.out.println("createForeignConstraints " + entity.getName() + " " + table.getName());
+		logger.trace("createForeignConstraints {} {}", entity.getName(), table.getName());
 		ForeignConstraints foreignConstraints = new ForeignConstraints(table);
 
 		for (Map.Entry<AbstractEntityModel, ReusedIdentifier> reusedMap : entity.getReusedIdentifiers().entrySet()) {
@@ -246,7 +246,7 @@ public class DdlUtilsConverter {
 	private void addReference(List<Reference> refences, Column localColumn, Column originalColumn) {
 		Reference reference = new Reference(localColumn, originalColumn);
 		refences.add(reference);
-		logger.debug("参照： " + localColumn.getName() + "->" + originalColumn.getName());
+		logger.debug("参照： {}->{}",localColumn.getName(), originalColumn.getName());
 	}
 
 	/**
@@ -310,7 +310,7 @@ public class DdlUtilsConverter {
 				IndexColumn indexColumn = new IndexColumn(column);
 				index.addColumn(indexColumn);
 			} else {
-				logger.error("column not found." + attr.getName());
+				logger.error("column not found.{}", attr.getName());
 			}
 		}
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,6 @@ import jp.sourceforge.tmdmaker.Messages;
 
 public class OpenDialogAction extends SelectionAction {
 	public static final String ID = "_OPEN"; //$NON-NLS-1$
-	
-	private EditPart part;
 
 	public OpenDialogAction(IWorkbenchPart part) {
 		super(part);
@@ -41,17 +39,15 @@ public class OpenDialogAction extends SelectionAction {
 	protected boolean calculateEnabled() {
 		if (getSelectedObjects().isEmpty()) return false;
 		
-		if (!(getSelectedObjects().get(0) instanceof EditPart)) return false;
-		
-		return true;
+		return getSelectedObjects().get(0) instanceof EditPart;
 	}
 	
 	@Override
 	public void run()
 	{
-		part = (EditPart)getSelectedObjects().get(0);
+		EditPart part = (EditPart)getSelectedObjects().get(0);
 		
-		if (part == null || !(part instanceof AbstractEditPart)) return;
+		if (!(part instanceof AbstractEditPart)) return;
 		
 		((AbstractEditPart)part).performRequest(new Request(RequestConstants.REQ_OPEN));
 	}

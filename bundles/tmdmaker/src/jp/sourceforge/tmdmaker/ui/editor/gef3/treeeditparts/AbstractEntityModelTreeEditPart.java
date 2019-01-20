@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	}
 
 	protected EditPolicy componentPolicy;
-	
+
 	public AbstractEntityModelTreeEditPart(T model, EditPolicy policy) {
 		super();
 		setModel(model);
@@ -98,19 +98,19 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	public T getModel() {
 		return (T) super.getModel();
 	}
-	
+
 	@Override
 	public DragTracker getDragTracker(Request request) {
 		return new SelectEditPartTracker(this);
 	}
-	
+
 	@Override
 	public void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_OPEN) {
 			executeEditCommand(getCommand(request));
 		}
 	}
-	
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -121,7 +121,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, this.componentPolicy);
 	}
-	
+
 	/**
 	 * 編集コマンドを実行する。
 	 *
@@ -131,13 +131,13 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 		getViewer().getEditDomain().getCommandStack().execute(command);
 	}
 
-	List<List<?>> children = new ArrayList<List<?>>();
+	List<List<?>> modelChildren = new ArrayList<List<?>>();
 	List<Identifier> identifiers = new ArrayList<Identifier>();
 
 	// 子要素があるときは、getModelChildren()で子要素の一覧を返す。無いときは空のリストを返す。
 	@Override
 	protected List<List<?>> getModelChildren() {
-		return children;
+		return modelChildren;
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	}
 
 	protected void clearChildren() {
-		children.clear();
+		modelChildren.clear();
 		identifiers.clear();
 	}
 
@@ -170,15 +170,15 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 				identifiers.add(i);
 			}
 		}
-		if (identifiers != null && identifiers.size() != 0) {
-			children.add(identifiers);
+		if (identifiers != null && !identifiers.isEmpty()) {
+			modelChildren.add(identifiers);
 		}
 	}
 
 	protected void setAttributes() {
 		List<IAttribute> attributes = getModel().getAttributes();
-		if (attributes != null && attributes.size() != 0) {
-			children.add(attributes);
+		if (attributes != null && !attributes.isEmpty()) {
+			modelChildren.add(attributes);
 		}
 	}
 
@@ -187,8 +187,8 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 		for (KeyModel key : getModel().getKeyModels()) {
 			keymodels.add(key);
 		}
-		if (keymodels.size() > 0) {
-			children.add(keymodels);
+		if (!keymodels.isEmpty()) {
+			modelChildren.add(keymodels);
 		}
 	}
 
@@ -255,7 +255,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		logger.debug(getClass() + "." + evt.getPropertyName());
+		logger.debug("{}.{}", getClass(), evt.getPropertyName());
 
 		if (evt.getPropertyName().equals(ModelElement.PROPERTY_NAME)) {
 			handleNameChange(evt);
@@ -347,7 +347,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	 *            発生したイベント情報
 	 */
 	protected void handleSourceConnectionChange(PropertyChangeEvent evt) {
-		// refreshSourceConnections();
+		// do nothing.
 	}
 
 	/**
@@ -357,7 +357,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	 *            発生したイベント情報
 	 */
 	protected void handleTargetConnectionChange(PropertyChangeEvent evt) {
-		// refreshTargetConnections();
+		// do nothing.
 	}
 
 	/**
@@ -368,7 +368,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	 */
 	@Override
 	protected void refreshVisuals() {
-		logger.debug(getClass().toString() + "#refreshVisuals()");
+		logger.debug("{}#refreshVisuals()", getClass());
 		super.refreshVisuals();
 		refreshChildren();
 	}
@@ -381,7 +381,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	 */
 	@Override
 	protected void refreshChildren() {
-		logger.debug(getClass().toString() + "#refreshChildren()");
+		logger.debug("{}#refreshChildren()", getClass());
 		updateChildren();
 		int i;
 
@@ -425,7 +425,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 			for (; i < size; i++)
 				trash.add(children.get(i));
 			for (i = 0; i < trash.size(); i++) {
-				EditPart ep = (EditPart) trash.get(i);
+				EditPart ep = trash.get(i);
 				removeChild(ep);
 			}
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -361,25 +361,7 @@ public class EditAttribute {
 	 */
 	public void copyTo(IAttribute newAttribute) {
 		if (dataType != null) {
-			Integer size = null;
-			Integer scale = null;
-			if (dataType.isSupportSize()) {
-				if (this.size.length() != 0) {
-					size = ModelEditUtils.toInteger(this.size);
-				}
-			} else {
-				size = null;
-			}
-			if (dataType.isSupportScale()) {
-				if (this.scale.length() != 0) {
-					scale = ModelEditUtils.toInteger(this.scale);
-				}
-			} else {
-				scale = null;
-			}
-			DataTypeDeclaration dataTypeDeclaration = new DataTypeDeclaration(dataType, size, scale,
-					autoIncrement, defaultValue);
-			newAttribute.setDataTypeDeclaration(dataTypeDeclaration);
+			newAttribute.setDataTypeDeclaration(copyDataTypeDeclaration());
 		} else {
 			newAttribute.setDataTypeDeclaration(null);
 		}
@@ -403,6 +385,18 @@ public class EditAttribute {
 		}
 		newAttribute.setNullable(nullable);
 		newAttribute.setName(name);
+	}
+
+	private DataTypeDeclaration copyDataTypeDeclaration() {
+		Integer newSize = null;
+		Integer newScale = null;
+		if (dataType.isSupportSize() && this.size.length() != 0) {
+			newSize = ModelEditUtils.toInteger(this.size);
+		}
+		if (dataType.isSupportScale() && this.scale.length() != 0) {
+			newScale = ModelEditUtils.toInteger(this.scale);
+		}
+		return new DataTypeDeclaration(dataType, newSize, newScale, autoIncrement, defaultValue);
 	}
 
 	/**

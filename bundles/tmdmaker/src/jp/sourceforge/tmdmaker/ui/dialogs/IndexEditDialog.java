@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,6 @@ public class IndexEditDialog extends Dialog {
 	public IndexEditDialog(Shell parentShell, String implementEntityName,
 			List<EditImplementAttribute> editAttributeList) {
 		super(parentShell);
-		// getShell().setText("キー作成");
 		this.keyModel = new KeyModel();
 		this.attributes = convert(editAttributeList);
 		this.keyModel.setName(createKeyName(implementEntityName, editAttributeList));
@@ -86,7 +85,6 @@ public class IndexEditDialog extends Dialog {
 	public IndexEditDialog(Shell parentShell, KeyModel keyModel,
 			List<EditImplementAttribute> editAttributeList) {
 		super(parentShell);
-		// getShell().setText("キー編集");
 		this.keyModel = keyModel;
 		this.attributes = convert(editAttributeList);
 		this.attributes.removeAll(keyModel.getAttributes());

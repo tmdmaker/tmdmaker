@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,7 +103,7 @@ public class SubsetEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return getModelTargetConnections().size() == 1 && getModelSourceConnections().size() == 0;
+		return getModelTargetConnections().size() == 1 && getModelSourceConnections().isEmpty();
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class SubsetEntity extends AbstractEntityModel {
 	}
 
 	private SubsetType getSubsetType() {
-		if (getModelTargetConnections().size() == 0) {
+		if (getModelTargetConnections().isEmpty()) {
 			return null;
 		}
 		SubsetType2SubsetRelationship r = getSubsetTypeRelationship();
@@ -190,6 +190,6 @@ public class SubsetEntity extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean hasRelationship() {
-		return getModelSourceConnections().size() != 0 || getModelTargetConnections().size() > 1;
+		return !getModelSourceConnections().isEmpty() || getModelTargetConnections().size() > 1;
 	}
 }

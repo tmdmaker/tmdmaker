@@ -41,10 +41,14 @@ public class RelationshipEditDialog extends Dialog {
 	private static final String NOT_MATCH = Messages.NoRelationship;
 	private Cardinality sourceCardinality = Cardinality.ONE;
 	private Cardinality targetCardinality = Cardinality.ONE;
-	private boolean sourceNoInstance, targetNoInstance;
-	private String sourceName, targetName;
-	private Button sourceCardinalityCheck, targetCardinalityCheck;
-	private CardinalitySettingPanel sourceCardinalityPanel, targetCardinalityPanel;
+	private boolean sourceNoInstance;
+	private boolean targetNoInstance;
+	private String sourceName;
+	private String targetName;
+	private Button sourceCardinalityCheck;
+	private Button targetCardinalityCheck;
+	private CardinalitySettingPanel sourceCardinalityPanel;
+	private CardinalitySettingPanel targetCardinalityPanel;
 	private Label label_1;
 	private Label label_2;
 

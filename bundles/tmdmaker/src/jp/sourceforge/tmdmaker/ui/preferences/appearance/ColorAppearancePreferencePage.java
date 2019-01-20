@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,6 +71,7 @@ public class ColorAppearancePreferencePage extends FieldEditorPreferencePage
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
+		// do nothing
 	}
 
 	/**
@@ -117,16 +118,6 @@ public class ColorAppearancePreferencePage extends FieldEditorPreferencePage
 		for (ColorFieldEditor e : colorFieldEditors) {
 			e.setEnabled(enabled, colorFields);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performDefaults()
-	 */
-	@Override
-	protected void performDefaults() {
-		super.performDefaults();
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -138,32 +138,18 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 		 */
 		@Override
 		protected EditPolicy createChildEditPolicy(EditPart child) {
-			logger.debug(getClass() + "#createChildEditPolicy()");
+			logger.debug("{}#createChildEditPolicy()", getClass());
 			return new ResizableEditPolicy();
-		}
-
-		/**
-		 * 
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart,
-		 *      java.lang.Object)
-		 */
-		@Override
-		protected Command createChangeConstraintCommand(EditPart child, Object rectangle) {
-			logger.debug(getClass() + "#createChangeConstraintCommand()");
-			ConstraintChangeCommand command = new ConstraintChangeCommand(
-					(ModelElement) child.getModel(), (Rectangle) rectangle);
-			return command;
 		}
 
 		@Override
 		protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child,
 				Object rectangle) {
-			logger.debug("resizedirection:" + request.getResizeDirection());
+			logger.debug("resizedirection:{}", request.getResizeDirection());
 			logger.debug("NORTH_SOUTH/EAST_WEST:" + PositionConstants.NORTH_SOUTH + "/"
 					+ PositionConstants.EAST_WEST);
-			return super.createChangeConstraintCommand(request, child, rectangle);
+			return new ConstraintChangeCommand((ModelElement) child.getModel(),
+					(Rectangle) rectangle);
 		}
 
 		/**
@@ -175,7 +161,7 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 		@Override
 		protected Command getCreateCommand(CreateRequest request) {
 			Object objectType = request.getNewObjectType();
-			logger.debug(getClass() + "#getCreateCommand()" + objectType);
+			logger.debug("{} #getCreateCommand() {}", getClass(), objectType);
 			Rectangle rectangle = getTrimmedRectangle(request);
 			if (objectType.equals(TurboFile.class)) {
 				TurboFile model = (TurboFile) request.getNewObject();
@@ -235,12 +221,12 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 			if (val != null && val.booleanValue())
 				snapStrategies.add(new SnapToGrid(this));
 
-			if (snapStrategies.size() == 0)
+			if (snapStrategies.isEmpty())
 				return null;
 			if (snapStrategies.size() == 1)
 				return snapStrategies.get(0);
 
-			SnapToHelper ss[] = new SnapToHelper[snapStrategies.size()];
+			SnapToHelper[] ss = new SnapToHelper[snapStrategies.size()];
 			ss = snapStrategies.toArray(ss);
 			return new CompoundSnapToHelper(ss);
 		}

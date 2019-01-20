@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.ui.dialogs;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.window.IShellProvider;
+import org.eclipse.swt.widgets.Shell;
 
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
 import jp.sourceforge.tmdmaker.ui.dialogs.models.EditTable;
-
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.window.IShellProvider;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * モデル編集ダイアログの基底クラス
@@ -51,20 +48,6 @@ public abstract class ModelEditDialog<T extends AbstractEntityModel> extends Dia
 
 	/** 編集結果格納用 */
 	protected T editedValue;
-
-	protected abstract Control createDialogArea(Composite parent);
-
-	public abstract void propertyChange(PropertyChangeEvent evt);
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
-	 */
-	@Override
-	protected void okPressed() {
-		super.okPressed();
-	}
 
 	/**
 	 * 

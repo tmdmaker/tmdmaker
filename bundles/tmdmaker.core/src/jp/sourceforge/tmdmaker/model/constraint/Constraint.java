@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,22 +30,22 @@ public class Constraint implements Serializable {
 	/**
 	 * The x value
 	 */
-	public int x;
+	private int x;
 
 	/**
 	 * The y value
 	 */
-	public int y;
+	private int y;
 
 	/**
 	 * The width
 	 */
-	public int width;
+	private int width;
 
 	/**
 	 * The height
 	 */
-	public int height;
+	private int height;
 
 	/**
 	 * コンストラクタ.
@@ -85,15 +85,7 @@ public class Constraint implements Serializable {
 
 	@Override
 	public String toString() {
-		StringBuffer buf = new StringBuffer();
-		buf.append("x=" + x);
-		buf.append(",");
-		buf.append("y=" + y);
-		buf.append(",");
-		buf.append("h=" + height);
-		buf.append(",");
-		buf.append("w=" + width);
-		return buf.toString();
+		return "Constraint [x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]";
 	}
 
 	/**
@@ -104,4 +96,27 @@ public class Constraint implements Serializable {
 	public boolean isInitialPosition() {
 		return x == 0 && y == 0;
 	}
+
+	public Constraint newPosition(int x, int y) {
+		Constraint c = this.getCopy();
+		c.x = x;
+		c.y = y;
+		return c;
+	}
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
 }

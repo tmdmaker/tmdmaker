@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,7 +106,7 @@ public class PluginExtensionPointFactory<T> {
 	 * @return プラグイン拡張。プラグイン拡張が存在しない場合はnullを返す。
 	 */
 	public T getInstance() {
-		if (instanceList.size() >= 1) {
+		if (!instanceList.isEmpty()) {
 			return instanceList.get(0);
 		} else {
 			return null;
@@ -142,7 +142,7 @@ public class PluginExtensionPointFactory<T> {
 
 		IExtensionPoint point = registry.getExtensionPoint(extensionPointId);
 		if (point == null) {
-			logger.debug(extensionPointId + " is not exists.");
+			logger.debug("{} is not exists.", extensionPointId);
 			return;
 		}
 

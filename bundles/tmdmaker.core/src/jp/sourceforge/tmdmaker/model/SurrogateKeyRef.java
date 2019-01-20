@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,6 +95,7 @@ public class SurrogateKeyRef extends SurrogateKey {
 	 * @return
 	 * @see jp.sourceforge.tmdmaker.model.SurrogateKey#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
 		return original.isEnabled();
 	}
@@ -131,8 +132,6 @@ public class SurrogateKeyRef extends SurrogateKey {
 		}
 		to.setImplementName(getImplementName());
 		to.setNullable(isNullable());
-		// to.setName(getName());
-
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,14 +43,6 @@ public class DdlUtilsDDLGenerator implements Generator {
 	/** logging */
 	private static Logger logger = LoggerFactory
 			.getLogger(DdlUtilsDDLGenerator.class);
-	/** モデル変換用 */
-	private DdlUtilsConverter converter = null;
-
-	/**
-	 * コンストラクタ
-	 */
-	public DdlUtilsDDLGenerator() {
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -69,7 +61,7 @@ public class DdlUtilsDDLGenerator implements Generator {
 		if (databaseName == null || databaseName.length() == 0) {
 			throw new DatabaseNotSelectRuntimeException();
 		}
-		converter = new DdlUtilsConverter(ImplementRule.isForeignKeyEnabled());
+		DdlUtilsConverter converter = new DdlUtilsConverter(ImplementRule.isForeignKeyEnabled());
 		Database database = converter.convert(diagram, models);
 		converter.addCommonColumns(database, diagram.getCommonAttributes());
 

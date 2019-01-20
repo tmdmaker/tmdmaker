@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,6 +98,7 @@ public class AttributeSettingPanel extends Composite {
 				filterButtonsWhenClick();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				selectedIndex = attributeTable.getSelectionIndex();
 				if (selectedIndex == -1) {
@@ -227,6 +228,7 @@ public class AttributeSettingPanel extends Composite {
 		newButton.setText(Messages.AddButton);
 		newButton.setLayoutData(gridData1);
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				disposeTableEditorIfNeed();
 				entity.addAttribute();
@@ -238,6 +240,7 @@ public class AttributeSettingPanel extends Composite {
 		upButton.setText(Messages.UpButton);
 		upButton.setLayoutData(gridData2);
 		upButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1 || selectedIndex == 0) {
 					return;
@@ -252,6 +255,7 @@ public class AttributeSettingPanel extends Composite {
 		downButton.setText(Messages.DownButton);
 		downButton.setLayoutData(gridData3);
 		downButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1 || selectedIndex == entity.getMaxAttributeIndex()) {
 					return;
@@ -266,6 +270,7 @@ public class AttributeSettingPanel extends Composite {
 		descButton.setText(Messages.DescriptionButton);
 		descButton.setLayoutData(gridData5);
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1) {
 					return;
@@ -286,6 +291,7 @@ public class AttributeSettingPanel extends Composite {
 		deleteButton.setText(Messages.RemoveButton);
 		deleteButton.setLayoutData(gridData4);
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1) {
 					return;
@@ -302,6 +308,7 @@ public class AttributeSettingPanel extends Composite {
 		identifierChangeButton.setText(Messages.ToIdentifier);
 		identifierChangeButton.setLayoutData(gridData6);
 		identifierChangeButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1) {
 					return;

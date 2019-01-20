@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,11 +62,11 @@ public class Patch023SerializerHandler extends AbstractSerializerHandler {
 		AnchorConstraintMigrator converter = new AnchorConstraintMigrator();
 		for (AbstractConnectionModel c : connections) {
 			if (c instanceof RelatedRelationship) {
-				logger.debug("convertRelatedRelationships():" + c.toString());
+				logger.debug("convertRelatedRelationships():{}", c);
 				converter.convertNullLocationPoint(c);
 			}
 			if (c instanceof Entity2SubsetTypeRelationship) {
-				logger.debug("convertEntity2SubsetTypeRelationships():" + c.toString());
+				logger.debug("convertEntity2SubsetTypeRelationships():{}", c);
 				converter.convertNullLocationPoint(c);
 			}
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,7 +105,7 @@ public class EntityFileImporter implements FileImporter {
 				identifierCandidates.add(a);
 			}
 		}
-		if (identifierCandidates.size() > 0) {
+		if (!identifierCandidates.isEmpty()) {
 			IAttribute attribute = identifierCandidates.get(0);
 			Entity entity = null;
 			Identifier identifier = new Identifier(attribute.getName());

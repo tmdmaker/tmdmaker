@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,11 +58,11 @@ public class Resource2ResourceRelationship extends AbstractRelationship {
 
 	private CombinationTable createCombinationTable(AbstractEntityModel source,
 			AbstractEntityModel target) {
-		CombinationTable table = new CombinationTable();
-		table.setName(createCombinationTableName(source, target));
-		ImplementRule.setModelDefaultValue(table);
+		CombinationTable ctable = new CombinationTable();
+		ctable.setName(createCombinationTableName(source, target));
+		ImplementRule.setModelDefaultValue(ctable);
 
-		return table;
+		return ctable;
 	}
 
 	private static String createCombinationTableName(AbstractEntityModel source,

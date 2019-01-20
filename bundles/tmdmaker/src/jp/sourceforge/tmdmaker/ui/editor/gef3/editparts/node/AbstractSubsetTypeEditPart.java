@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -130,7 +130,7 @@ public abstract class AbstractSubsetTypeEditPart<T extends ConnectableElement>
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected List getModelChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
@@ -164,7 +164,7 @@ public abstract class AbstractSubsetTypeEditPart<T extends ConnectableElement>
 
 	@Override
 	protected void updateFigure(IFigure figure) {
-		// TODO Auto-generated method stub
+		// do nothing
 		
 	}
 
