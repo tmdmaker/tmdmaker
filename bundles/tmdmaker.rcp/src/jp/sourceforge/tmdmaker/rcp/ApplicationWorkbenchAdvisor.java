@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,13 +65,13 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 						+ "cprj_obj.png", true); //$NON-NLS-1$
 	}
 
-	private void declareWorkbenchImage(IWorkbenchConfigurer configurer_p,
+	private void declareWorkbenchImage(IWorkbenchConfigurer configurer,
 			Bundle ideBundle, String symbolicName, String path, boolean shared) {
 		URL url = ideBundle.getEntry(path);
 		
 		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
 		
-		configurer_p.declareImage(symbolicName, desc, shared);
+		configurer.declareImage(symbolicName, desc, shared);
 	}
 
 	/**
@@ -92,6 +92,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 	 * 
 	 * @see org.eclipse.ui.application.WorkbenchAdvisor#createWorkbenchWindowAdvisor(org.eclipse.ui.application.IWorkbenchWindowConfigurer)
 	 */
+	@Override
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
 		return new ApplicationWorkbenchWindowAdvisor(configurer);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	 * 
 	 * @see org.eclipse.ui.application.ActionBarAdvisor#makeActions(org.eclipse.ui.IWorkbenchWindow)
 	 */
+	@Override
 	protected void makeActions(IWorkbenchWindow window) {
 		register(ActionFactory.DELETE.create(window));
 		register(ActionFactory.UNDO.create(window));

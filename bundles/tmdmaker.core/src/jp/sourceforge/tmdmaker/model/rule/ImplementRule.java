@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,20 +117,7 @@ public class ImplementRule {
 			attributes.add(surrogateKey);
 		}
 		// 個体指定子を追加
-		if (model instanceof Entity) {
-			attributes.add(((Entity) model).getIdentifier());
-		}
-		if (model instanceof Detail) {
-			if (((Detail) model).isDetailIdentifierEnabled()) {
-				attributes.add(((Detail) model).getDetailIdentifier());
-			}
-		}
-		if (model instanceof SubsetEntity) {
-			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
-			for (IdentifierRef ref : reused.getUniqueIdentifiers()) {
-				attributes.add(ref);
-			}
-		}
+		addIdentifier(model, attributes);
 		// re-usedを追加
 		Map<AbstractEntityModel, ReusedIdentifier> reused = model.getReusedIdentifiers();
 		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused.entrySet()) {
@@ -157,6 +144,22 @@ public class ImplementRule {
 		}
 
 		return attributes;
+	}
+
+	private static void addIdentifier(AbstractEntityModel model, List<IAttribute> attributes) {
+		if (model instanceof Entity) {
+			attributes.add(((Entity) model).getIdentifier());
+		}
+		if (model instanceof Detail &&
+			((Detail) model).isDetailIdentifierEnabled()) {
+				attributes.add(((Detail) model).getDetailIdentifier());
+		}
+		if (model instanceof SubsetEntity) {
+			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
+			for (IdentifierRef ref : reused.getUniqueIdentifiers()) {
+				attributes.add(ref);
+			}
+		}
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,15 +32,7 @@ import org.slf4j.LoggerFactory;
  */
 public class EntityCreationTool extends CreationTool {
 	/** logging */
-	protected static Logger logger;
-
-	/**
-	 * コンストラクタ.
-	 */
-	public EntityCreationTool() {
-		super();
-		logger = LoggerFactory.getLogger(getClass());
-	}
+	protected static Logger logger = LoggerFactory.getLogger(EntityCreationTool.class);
 
 	/**
 	 * 
@@ -53,7 +45,7 @@ public class EntityCreationTool extends CreationTool {
 
 		boolean added = false;
 		if (stateTransition(STATE_DRAG | STATE_DRAG_IN_PROGRESS, STATE_TERMINAL)) {
-			logger.debug("startTransition = " + getState());
+			logger.debug("startTransition = {}", getState());
 			eraseTargetFeedback();
 			unlockTargetEditPart();
 

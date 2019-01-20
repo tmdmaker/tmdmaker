@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,9 +47,9 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	 */
 	@Override
 	protected Command createAddCommand(EditPart child, EditPart after) {
-		logger.debug(getClass() + "#createAddCommand()");
+		logger.debug("{}#createAddCommand()", getClass());
 		if (!(child instanceof AttributeEditPart)) {
-			logger.debug("child is not AttributeEditPart." + child);
+			logger.debug("child is not AttributeEditPart.{}", child);
 			return null;
 		}
 		Attribute toMove = (Attribute) child.getModel();
@@ -70,15 +70,13 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 			newEntityEditPart = (AbstractModelEditPart<?>) getHost();
 			newIndex = newEntityEditPart.getChildren().indexOf(after);
 		} else {
-			logger.debug("after is null or not AttributeEditPart." + after);
+			logger.debug("after is null or not AttributeEditPart.{}", after);
 			return null;
 		}
 		AbstractEntityModel newEntity = (AbstractEntityModel) newEntityEditPart.getModel();
 
-		AttributeTransferCommand command = new AttributeTransferCommand(toMove, originalEntity,
+		return new AttributeTransferCommand(toMove, originalEntity,
 				oldIndex, newEntity, newIndex);
-
-		return command;
 	}
 
 	/**
@@ -90,7 +88,7 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	 */
 	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		logger.debug(getClass() + "#createMoveChildCommand()");
+		logger.debug("{}#createMoveChildCommand()", getClass());
 		AbstractModelEditPart<?> parent = (AbstractModelEditPart<?>) getHost();
 		AbstractEntityModel model = (AbstractEntityModel) parent.getModel();
 		Attribute attribute = (Attribute) child.getModel();
@@ -112,7 +110,6 @@ public class EntityLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	 */
 	@Override
 	protected Command getCreateCommand(CreateRequest request) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

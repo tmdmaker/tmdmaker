@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,9 +69,8 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	 */
 	@Override
 	protected IFigure createFigure() {
-		logger.debug(getClass() + "#createFigure()");
-		MemoFigure figure = new MemoFigure();
-		return figure;
+		logger.debug("{}#createFigure()", getClass());
+		return new MemoFigure();
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	 */
 	@Override
 	protected void updateFigure(IFigure figure) {
-		logger.debug(getClass() + "#updateFigure()");
+		logger.debug("{}#updateFigure()", getClass());
 		MemoFigure memoFigure = (MemoFigure) getFigure();
 		Memo memo = getModel();
 		memoFigure.setMemo(memo.getMemo());
@@ -96,7 +95,7 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	 */
 	@Override
 	public void performRequest(Request request) {
-		logger.debug(getClass() + " " + request.getType());
+		logger.debug("{} {}", getClass(), request.getType());
 		if (REQ_OPEN.equals(request.getType())) {
 			onDirectEdit();
 		} else if (REQ_DIRECT_EDIT.equals(request.getType())) {
@@ -113,7 +112,7 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	 */
 	@Override
 	protected void onDirectEdit() {
-		logger.debug(getClass() + "#onDirectEdit()");
+		logger.debug("{}#onDirectEdit()", getClass());
 		MemoFigure figure = (MemoFigure) getFigure();
 		TextFlow label = figure.getMemoTextFlow();
 		MemoDirectEditManager manager = new MemoDirectEditManager(this, label);
@@ -127,7 +126,7 @@ public class MemoEditPart extends AbstractModelEditPart<Memo> {
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		logger.debug(getClass() + "#propertyChange() " + evt.getPropertyName());
+		logger.debug("{}#propertyChange() {}", getClass(), evt.getPropertyName());
 
 		if (evt.getPropertyName().equals(Memo.PROPERTY_MEMO)) {
 			refreshVisuals();

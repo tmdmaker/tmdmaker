@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,16 +50,12 @@ public abstract class ConnectableElementDeleteCommand extends Command {
 	protected void detachConnections(List<AbstractConnectionModel> connections) {
 		for (AbstractConnectionModel model : connections) {
 			model.disconnect();
-			// model.detachSource();
-			// model.detachTarget();
 		}
 	}
 
 	protected void attathConnections(List<AbstractConnectionModel> connections) {
 		for (AbstractConnectionModel model : connections) {
 			model.connect();
-			// model.attachSource();
-			// model.attachTarget();
 		}
 	}
 

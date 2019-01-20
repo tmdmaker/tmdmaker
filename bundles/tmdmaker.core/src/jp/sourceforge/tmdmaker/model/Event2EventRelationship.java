@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,11 +68,7 @@ public class Event2EventRelationship extends AbstractRelationship {
 	public void setSourceCardinality(Cardinality sourceCardinality) {
 		Cardinality oldValue = getSourceCardinality();
 		super.setSourceCardinality(sourceCardinality);
-		if (hasTable()) {
-			setCenterMark(true);
-		} else {
-			setCenterMark(false);
-		}
+		this.setCenterMark(hasTable());
 		if (connected && !oldValue.equals(sourceCardinality)) {
 			createRelationship();
 		}
@@ -187,11 +183,11 @@ public class Event2EventRelationship extends AbstractRelationship {
 	 * @return 対応表
 	 */
 	private MappingList createMappingList(AbstractEntityModel source, AbstractEntityModel target) {
-		MappingList table = new MappingList();
-		table.setName(createMappingListName(source, target));
-		ImplementRule.setModelDefaultValue(table);
+		MappingList ctable = new MappingList();
+		ctable.setName(createMappingListName(source, target));
+		ImplementRule.setModelDefaultValue(ctable);
 
-		return table;
+		return ctable;
 	}
 
 	/**

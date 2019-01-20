@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
@@ -72,7 +73,7 @@ public class VirtualSuperset extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return getModelSourceConnections().size() == 0;
+		return getModelSourceConnections().isEmpty();
 	}
 
 	/**
@@ -109,7 +110,7 @@ public class VirtualSuperset extends AbstractEntityModel {
 		if (r != null) {
 			return r.getSubset2typeRelationshipList();
 		}
-		return null;
+		return Collections.emptyList();
 	}
 
 	/**
@@ -189,7 +190,7 @@ public class VirtualSuperset extends AbstractEntityModel {
 	 * @return
 	 */
 	public VirtualSupersetType2VirtualSupersetRelationship getCreationRelationship() {
-		if (getModelTargetConnections().size() > 0) {
+		if (!getModelTargetConnections().isEmpty()) {
 			return (VirtualSupersetType2VirtualSupersetRelationship) getModelTargetConnections()
 					.get(0);
 		}

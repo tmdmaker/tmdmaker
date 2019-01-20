@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ public class DiagramImageGenerateAction extends Action {
 
 		String file = dialog.open();
 		if (file != null) {
-			final StringBuffer filePath = new StringBuffer(file);
+			final StringBuilder filePath = new StringBuilder(file);
 			final String extension = extensions[dialog.getFilterIndex()];
 			if (!file.endsWith(extension)) {
 				filePath.append("."); //$NON-NLS-1$

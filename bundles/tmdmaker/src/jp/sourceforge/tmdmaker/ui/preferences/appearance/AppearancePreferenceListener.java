@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,11 +33,8 @@ import org.slf4j.LoggerFactory;
  */
 public class AppearancePreferenceListener implements IPreferenceListener {
 	/** logging */
-	private static Logger logger;
+	private static Logger logger = LoggerFactory.getLogger(AppearancePreferenceListener.class);
 
-	public AppearancePreferenceListener() {
-		logger = LoggerFactory.getLogger(getClass());
-	}
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -79,7 +76,7 @@ public class AppearancePreferenceListener implements IPreferenceListener {
 	}
 
 	private boolean convertBooleanIfNeed(Object value) {
-		logger.debug("original value = " + value);
+		logger.debug("original value = {}", value);
 		if (value instanceof Boolean) {
 			return (Boolean) value;
 		}

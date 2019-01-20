@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,7 +73,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 		Diagram diagram = getDiagram();
 		VirtualSuperset original = null;
 		VirtualSupersetType aggregator = null;
-		if (selectedModels.size() > 0) {
+		if (!selectedModels.isEmpty()) {
 			original = getVirtualSuperset();
 
 			if (original != null) {
@@ -122,7 +122,7 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 	private Diagram getDiagram() {
 		for (Object o : getSelectedObjects()) {
 			if (o instanceof DiagramEditPart) {
-				return (Diagram) ((DiagramEditPart) o).getModel();
+				return ((DiagramEditPart) o).getModel();
 			} else if (o instanceof AbstractModelEditPart) {
 				return (Diagram) (((AbstractModelEditPart<?>) o).getParent()).getModel();
 			}
@@ -155,12 +155,10 @@ public class VirtualSupersetCreateAction extends AbstractMultipleSelectionAction
 	 */
 	@Override
 	protected boolean calculateEnabled() {
-		if (getSelectedObjects().size() >= 1 && hasEntityModel()) {
-			return true;
-		} else if (isDiagramSelected()) {
+		if (!getSelectedObjects().isEmpty() && hasEntityModel()) {
 			return true;
 		}
-		return false;
+		return isDiagramSelected();
 	}
 
 	private boolean hasEntityModel() {

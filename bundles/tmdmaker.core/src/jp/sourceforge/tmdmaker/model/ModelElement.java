@@ -145,11 +145,7 @@ public class ModelElement implements Serializable, IAcceptor {
 	 *            y軸
 	 */
 	public void move(int x, int y) {
-		Constraint oldPosition = getConstraint();
-		Constraint newPosition = oldPosition.getCopy();
-		newPosition.x = x;
-		newPosition.y = y;
-		setConstraint(newPosition);
+		setConstraint(getConstraint().newPosition(x, y));
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -151,6 +151,7 @@ public class AttributePanel extends Composite {
 			}
 
 			public void widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent e) {
+				// do nothing
 			}
 		});
 		dataCombo.add(""); //$NON-NLS-1$

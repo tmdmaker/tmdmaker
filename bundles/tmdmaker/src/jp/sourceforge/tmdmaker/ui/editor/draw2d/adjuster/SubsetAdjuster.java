@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,8 +49,8 @@ public class SubsetAdjuster implements ConstraintAdjuster {
 		int subsetwidth = calcurateSubsetWidth();
 		int totalWidthHalf = this.addSubsetEntityList.size() * subsetwidth / 2;
 		SubsetType subsetType = this.superset.subsets().subsetType();
-		int subsetX = totalWidthHalf * -1 + subsetType.getConstraint().x;
-		final int SUBSET_Y = 50 + subsetType.getConstraint().y;
+		int subsetX = totalWidthHalf * -1 + subsetType.getConstraint().getX();
+		final int SUBSET_Y = 50 + subsetType.getConstraint().getY();
 
 		for (SubsetEntity s : this.addSubsetEntityList) {
 			ConstraintConverter.setConstraint(s, subsetX, SUBSET_Y);

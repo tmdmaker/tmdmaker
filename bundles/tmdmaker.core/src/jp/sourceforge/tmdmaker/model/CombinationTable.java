@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,11 +94,7 @@ public class CombinationTable extends AbstractEntityModel {
 			return;
 		}
 		for (IdentifierRef i : target.getValue().getIdentifiers()) {
-			if (containIdentifier(source.getValue(), i)) {
-				i.setDuplicate(true);
-			} else {
-				i.setDuplicate(false);
-			}
+			i.setDuplicate(containIdentifier(source.getValue(), i));
 		}
 	}
 
@@ -135,7 +131,7 @@ public class CombinationTable extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return getModelSourceConnections().size() == 0 && getModelTargetConnections().size() == 1;
+		return getModelSourceConnections().isEmpty() && getModelTargetConnections().size() == 1;
 	}
 
 	/**

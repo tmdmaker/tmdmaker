@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,11 @@ public class ConstraintConverter {
 		if (constraint == null) {
 			return null;
 		}
-		return new Rectangle(constraint.x, constraint.y, constraint.width, constraint.height);
+		return newRectangle(constraint);
+	}
+
+	private static Rectangle newRectangle(Constraint constraint) {
+		return new Rectangle(constraint.getX(), constraint.getY(), constraint.getWidth(), constraint.getHeight());
 	}
 
 	/**
@@ -53,7 +57,7 @@ public class ConstraintConverter {
 	 */
 	public static Rectangle getResetRectangle(ModelElement model) {
 		Constraint constraint = model.getConstraint();
-		return new Rectangle(constraint.x, constraint.y, -1, -1);
+		return new Rectangle(constraint.getX(), constraint.getY(), -1, -1);
 	}
 
 	/**
@@ -64,7 +68,7 @@ public class ConstraintConverter {
 	 */
 	public static Rectangle getTranslatedRectangle(ModelElement model, int x, int y) {
 		Constraint constraint = model.getConstraint().getTranslated(x, y);
-		return new Rectangle(constraint.x, constraint.y, constraint.width, constraint.height);
+		return newRectangle(constraint);
 	}
 
 	/**
@@ -86,7 +90,7 @@ public class ConstraintConverter {
 	 */
 	public static void setConstraint(ModelElement model, int x, int y) {
 		Constraint constraint = model.getConstraint();
-		model.setConstraint(new Constraint(x, y, constraint.width, constraint.height));
+		model.setConstraint(new Constraint(x, y, constraint.getWidth(), constraint.getHeight()));
 	}
 
 	/**
@@ -110,9 +114,7 @@ public class ConstraintConverter {
 	 */
 	public static void copyConstraint(ModelElement model, ModelElement base) {
 		Constraint c = base.getConstraint().getCopy();
-		c.x = c.x + 10;
-		c.y = c.y + 10;
-		model.setConstraint(c);
+		model.setConstraint(c.translate(10, 10));
 	}
 
 	/**
@@ -123,6 +125,6 @@ public class ConstraintConverter {
 	 */
 	public static boolean isInitialPosition(ModelElement model) {
 		Constraint c = model.getConstraint();
-		return c.x == 0 && c.y == 0;
+		return c.isInitialPosition();
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import org.apache.ddlutils.model.Database;
 import org.apache.ddlutils.model.ForeignKey;
 import org.apache.ddlutils.model.Reference;
 import org.apache.ddlutils.model.Table;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 外部キー制約
@@ -31,6 +33,8 @@ import org.apache.ddlutils.model.Table;
  *
  */
 public class ForeignConstraints {
+	/** logging */
+	private static Logger logger = LoggerFactory.getLogger(ForeignConstraints.class);
 
 	Table table;
 	Map<String, List<Reference>> foreignReferences;
@@ -39,8 +43,7 @@ public class ForeignConstraints {
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param table
-	 *            制約を課すテーブル
+	 * @param table 制約を課すテーブル
 	 */
 	public ForeignConstraints(Table table) {
 		this.table = table;
@@ -52,17 +55,12 @@ public class ForeignConstraints {
 	 * 
 	 * 外部キーの参照先を追加する
 	 * 
-	 * @param foreignTableName
-	 *            参照先のテーブル名
-	 * @param references
-	 *            参照するカラム
-	 * @param isRecursive
-	 *            参照元が再帰表かどうか
+	 * @param foreignTableName 参照先のテーブル名
+	 * @param references       参照するカラム
+	 * @param isRecursive      参照元が再帰表かどうか
 	 */
-	public void addForeignReference(String foreignTableName,
-			List<Reference> references, boolean isRecursive) {
-		System.out.println("addForeignReference() " + foreignTableName + " "
-				+ references.size() + " " + isRecursive);
+	public void addForeignReference(String foreignTableName, List<Reference> references, boolean isRecursive) {
+		logger.trace("addForeignReference() {} {} {}", foreignTableName, references.size(), isRecursive);
 		if (isRecursive) {
 			addRecursiveForeignReference(foreignTableName, references);
 		} else {
@@ -76,8 +74,7 @@ public class ForeignConstraints {
 	 * @param tableName
 	 * @param references
 	 */
-	private void addNonRecursiveForeignReference(String tableName,
-			List<Reference> references) {
+	private void addNonRecursiveForeignReference(String tableName, List<Reference> references) {
 		foreignReferences.put(tableName, references);
 	}
 
@@ -87,8 +84,7 @@ public class ForeignConstraints {
 	 * @param tableName
 	 * @param references
 	 */
-	private void addRecursiveForeignReference(String tableName,
-			List<Reference> references) {
+	private void addRecursiveForeignReference(String tableName, List<Reference> references) {
 		recursiveForeignReferences.put(tableName, references);
 	}
 
@@ -99,8 +95,7 @@ public class ForeignConstraints {
 	 */
 	public void addForeignKeys(Database database) {
 
-		for (Map.Entry<String, List<Reference>> foreignmap : foreignReferences
-				.entrySet()) {
+		for (Map.Entry<String, List<Reference>> foreignmap : foreignReferences.entrySet()) {
 
 			Table foreignTable = database.findTable(foreignmap.getKey());
 
@@ -110,8 +105,7 @@ public class ForeignConstraints {
 			addForeignKey(foreignTable, foreignmap.getValue());
 		}
 
-		for (Map.Entry<String, List<Reference>> foreignmap : recursiveForeignReferences
-				.entrySet()) {
+		for (Map.Entry<String, List<Reference>> foreignmap : recursiveForeignReferences.entrySet()) {
 
 			Table foreignTable = database.findTable(foreignmap.getKey());
 
@@ -140,8 +134,7 @@ public class ForeignConstraints {
 	 * @param references
 	 * @param no
 	 */
-	private void addForeignKey(Table foreignTable, List<Reference> references,
-			Integer no) {
+	private void addForeignKey(Table foreignTable, List<Reference> references, Integer no) {
 		String foreignKeyName;
 		if (no != null) {
 			foreignKeyName = "FK_" + no.toString() + foreignTable.getName();

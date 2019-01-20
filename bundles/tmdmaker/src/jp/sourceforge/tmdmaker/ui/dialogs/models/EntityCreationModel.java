@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,17 +107,17 @@ public class EntityCreationModel {
 	}
 
 	public AbstractEntityModel getCreateModel() {
-		Identifier identifier = this.identifier.toIdentifier();
-		identifier.setDataTypeDeclaration(
+		Identifier newIdentifier = this.identifier.toIdentifier();
+		newIdentifier.setDataTypeDeclaration(
 				new DataTypeDeclaration(StandardSQLDataType.CHARACTER_VARYING, 10, null));
 		if (isLaputa()) {
-			return Laputa.of(entityName, identifier);
+			return Laputa.of(entityName, newIdentifier);
 		} else {
 			Entity entity = null;
 			if (isEvent()) {
-				entity = Entity.ofEvent(entityName, identifier);
+				entity = Entity.ofEvent(entityName, newIdentifier);
 			} else {
-				entity = Entity.ofResource(entityName, identifier);
+				entity = Entity.ofResource(entityName, newIdentifier);
 			}
 			entity.withDefaultAttribute();
 			return entity;

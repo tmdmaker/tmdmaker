@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,31 +49,31 @@ public class MultivalueAndBuilder {
 
 	public void build() {
 		this.relationship.connect();
-		if (header.isEvent()) {
-			for (AbstractConnectionModel con : header.getModelTargetConnections()) {
-				if (con instanceof AbstractRelationship) {
-					AbstractRelationship relation = (AbstractRelationship) con;
-					if (relation.isMultiValue()) {
-						this.removedRelationshipList.add(relation);
-						AbstractEntityModel source = relation.getSource();
-						AbstractRelationship reconnectedRelationship = Relationship.of(source,
-								this.relationship.getDetail());
-						reconnectedRelationship.setTargetCardinality(Cardinality.MANY);
-						this.reconnectedRelationshipList.add(reconnectedRelationship);
-					}
-				}
-			}
-			if (!this.removedRelationshipList.isEmpty()) {
-				for (AbstractRelationship removed : this.removedRelationshipList) {
-					removed.disconnect();
-				}
-				for (AbstractRelationship reconnected : this.reconnectedRelationshipList) {
-					reconnected.connect();
-				}
-			}
-
+		if (!header.isEvent()) {
+			return;
 		}
-
+		for (AbstractConnectionModel con : header.getModelTargetConnections()) {
+			if (!(con instanceof AbstractRelationship)) {
+				continue;
+			}
+			AbstractRelationship relation = (AbstractRelationship) con;
+			if (relation.isMultiValue()) {
+				this.removedRelationshipList.add(relation);
+				AbstractEntityModel source = relation.getSource();
+				AbstractRelationship reconnectedRelationship = Relationship.of(source,
+						this.relationship.getDetail());
+				reconnectedRelationship.setTargetCardinality(Cardinality.MANY);
+				this.reconnectedRelationshipList.add(reconnectedRelationship);
+			}
+		}
+		if (!this.removedRelationshipList.isEmpty()) {
+			for (AbstractRelationship removed : this.removedRelationshipList) {
+				removed.disconnect();
+			}
+			for (AbstractRelationship reconnected : this.reconnectedRelationshipList) {
+				reconnected.connect();
+			}
+		}
 	}
 
 	public void rollback() {

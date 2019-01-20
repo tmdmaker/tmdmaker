@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,12 +43,6 @@ public class RelationshipListHtmlGenerator implements Generator {
 	/** logging */
 	private static Logger logger = LoggerFactory
 			.getLogger(RelationshipListHtmlGenerator.class);
-
-	/**
-	 * コンストラクタ
-	 */
-	public RelationshipListHtmlGenerator() {
-	}
 
 	/**
 	 * {@inheritDoc}

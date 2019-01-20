@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,11 @@
  */
 package jp.sourceforge.tmdmaker.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * キーモデルのコンテナ
@@ -25,7 +27,8 @@ import java.util.List;
  * @author nakaG
  * 
  */
-public class KeyModels implements Iterable<KeyModel> {
+public class KeyModels implements Iterable<KeyModel>, Serializable {
+	private static final long serialVersionUID = 1L;
 	/** キーモデルのリスト */
 	private List<KeyModel> keys = new ArrayList<KeyModel>();
 	/** マスターキーとして指定したキーモデル */
@@ -168,7 +171,6 @@ public class KeyModels implements Iterable<KeyModel> {
 	 *            コピー先
 	 */
 	public void copyTo(KeyModels to) {
-		// to.setMasterKey(getMasterKey());
 		to.setSurrogateKey(getSurrogateKey());
 		for (KeyModel k : this) {
 			to.add(k.getCopy());
@@ -209,6 +211,9 @@ public class KeyModels implements Iterable<KeyModel> {
 		 */
 		@Override
 		public KeyModel next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
 			return keyModelList.get(index++);
 		}
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,6 +96,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 		sameRadioButton.setText(Messages.ApplyAttribute);
 		sameRadioButton.setLayoutData(gridData2);
 		sameRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				applyAttribute = true;
 			}
@@ -104,6 +105,7 @@ public class VirtualSupersetSettingPanel extends Composite {
 		differentRadioButton.setText(Messages.ApplyEntity);
 		differentRadioButton.setLayoutData(gridData5);
 		differentRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				applyAttribute = false;
 			}

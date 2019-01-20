@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,10 +99,9 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
 		installEditPolicy(EditPolicy.CONNECTION_ROLE, new RelationshipEditPolicy() {
+			@Override
 			protected Command getDeleteCommand(GroupRequest request) {
-				ConnectionDeleteCommand cmd = new ConnectionDeleteCommand(
-						(AbstractConnectionModel) getModel());
-				return cmd;
+				return new ConnectionDeleteCommand((AbstractConnectionModel) getModel());
 			}
 		});
 	}
@@ -157,7 +156,7 @@ public class RelationshipEditPart extends AbstractRelationshipEditPart {
 	 */
 	@Override
 	public void performRequest(Request req) {
-		logger.debug(getClass().toString() + req.getType());
+		logger.debug("{} {}", getClass(), req.getType());
 		if (req.getType().equals(RequestConstants.REQ_OPEN)) {
 			onDoubleClicked();
 		} else {

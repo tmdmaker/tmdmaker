@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,6 +118,7 @@ public class SubsetSettingPanel extends Composite {
 		sameRadioButton = new Button(typeGroup, SWT.RADIO);
 		sameRadioButton.setText(Messages.SubsetTypeHometype);
 		sameRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				sameType = true;
 				exceptNull = false;
@@ -128,6 +129,7 @@ public class SubsetSettingPanel extends Composite {
 		differenceRadioButton = new Button(typeGroup, SWT.RADIO);
 		differenceRadioButton.setText(Messages.SubsetTypeHeterotypic);
 		differenceRadioButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				sameType = false;
 				nullCheckBox.setEnabled(true);
@@ -136,6 +138,7 @@ public class SubsetSettingPanel extends Composite {
 		nullCheckBox = new Button(typeGroup, SWT.CHECK);
 		nullCheckBox.setText(Messages.SubsetTypeExcludeNull);
 		nullCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				exceptNull = !exceptNull;
 			}
@@ -168,6 +171,7 @@ public class SubsetSettingPanel extends Composite {
 		subsetTable.setLayoutData(gridData2);
 		subsetTable.setLinesVisible(true);
 		subsetTable.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				selectedIndex = subsetTable.getSelectionIndex();
 				if (selectedIndex == -1) {
@@ -256,6 +260,7 @@ public class SubsetSettingPanel extends Composite {
 		newButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		newButton.setText(Messages.AddButton);
 		newButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				EditSubsetEntity ese = new EditSubsetEntity();
 				ese.setName(Messages.Subset
@@ -270,6 +275,7 @@ public class SubsetSettingPanel extends Composite {
 		deleteButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		deleteButton.setText(Messages.RemoveButton);
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectedIndex == -1) {
 					return;
