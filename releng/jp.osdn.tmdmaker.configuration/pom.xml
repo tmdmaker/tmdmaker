@@ -17,24 +17,24 @@
 	<properties>
 		<!-- plugin versions -->
 		<tycho-version>1.3.0</tycho-version>
-		<jacoco-version>0.8.2</jacoco-version>
+		<jacoco-version>0.8.3</jacoco-version>
 		<antrun-version>1.8</antrun-version>
 		<sphinx-maven-plugin-version>2.3.1</sphinx-maven-plugin-version>
 		<maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
-		<maven-site-plugin-version>3.4</maven-site-plugin-version>
+		<maven-site-plugin-version>3.7.1</maven-site-plugin-version>
 		<wagon-ssh-version>3.2.0</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
-		<maven-project-info-reports-plugin-version>2.9</maven-project-info-reports-plugin-version>
+		<maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
 		<maven-checkstyle-plugin-version>3.0.0</maven-checkstyle-plugin-version>
-		<maven-pmd-plugin-version>3.10.0</maven-pmd-plugin-version>
-		<maven-surefire-report-plugin-version>2.22.0</maven-surefire-report-plugin-version>
-		<findbugs-maven-plugin-version>3.0.5</findbugs-maven-plugin-version>
+		<maven-pmd-plugin-version>3.11.0</maven-pmd-plugin-version>
+		<maven-surefire-report-plugin-version>2.22.1</maven-surefire-report-plugin-version>
+		<spotbugs-maven-plugin-version>3.1.8</spotbugs-maven-plugin-version>
+		<spotbugs-version>3.1.10</spotbugs-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
 		<maven-javadoc-plugin-version>3.0.1</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
 		<maven-assembly-plugin-version>3.1.0</maven-assembly-plugin-version>
-		<reflow-velocity-tools-version>1.1.1</reflow-velocity-tools-version>
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
 		<xtend-version>2.16.0</xtend-version>
@@ -44,6 +44,16 @@
 		<os-jvm-flags />
 		<project-url>https://tmdmaker.osdn.jp</project-url>
 		<target-file>2018-12</target-file>
+		<!-- Web dependencies version -->
+		<reflow-velocity-tools-version>2.0.0-beta2</reflow-velocity-tools-version>
+		<anchorJsVesrion>3.2.2</anchorJsVesrion>
+		<bootstrapVersion>4.1.3</bootstrapVersion>
+		<bootswatchVersion>4.1.3</bootswatchVersion>
+		<highlightJsVersion>9.8.0</highlightJsVersion>
+		<highlightJsTheme>github</highlightJsTheme>
+		<jqueryVersion>3.3.1</jqueryVersion>
+		<fontawesomeVersion>5.4.1</fontawesomeVersion>
+		<popperVersion>1.14.3</popperVersion>
  	</properties>
 
 	<profiles>
@@ -76,7 +86,6 @@
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
 			</properties>
 		</profile>
-
 		<profile>
 			<id>java-11</id>
 			<activation>
@@ -168,22 +177,17 @@
 							<artifactId>wagon-ssh</artifactId>
 							<version>${wagon-ssh-version}</version>
 						</dependency>
-						<dependency>
-				          <groupId>lt.velykis.maven.skins</groupId>
-				          <artifactId>reflow-velocity-tools</artifactId>
-				          <version>${reflow-velocity-tools-version}</version>
-				        </dependency>
 				        <dependency>
 				          <groupId>org.apache.velocity</groupId>
 				          <artifactId>velocity</artifactId>
 				          <version>${velocity-version}</version>
 				        </dependency>
-<!-- <dependency>
-        <groupId>org.apache.maven.doxia</groupId>
-        <artifactId>doxia-site-renderer</artifactId>
-        <version>1.8.1</version>
-    </dependency>
- -->					</dependencies>
+						<dependency>
+							<groupId>io.github.devacfr.maven.skins</groupId>
+							<artifactId>reflow-velocity-tools</artifactId>
+							<version>${reflow-velocity-tools-version}</version>
+						</dependency>
+ 					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -194,10 +198,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>${maven-javadoc-plugin-version}</version>
-					<configuration>
-						<excludePackageNames>org.eclipse.gmf.*</excludePackageNames>
-						<failOnError>false</failOnError>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -234,6 +234,18 @@
 				    <artifactId>maven-assembly-plugin</artifactId>
 				    <version>${maven-assembly-plugin-version}</version>
 				</plugin>
+				<plugin>
+					<groupId>com.github.spotbugs</groupId>
+					<artifactId>spotbugs-maven-plugin</artifactId>
+					<version>${spotbugs-maven-plugin-version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.github.spotbugs</groupId>
+							<artifactId>spotbugs</artifactId>
+							<version>${spotbugs-version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>				
 			</plugins>
 		</pluginManagement>
 
@@ -333,12 +345,12 @@
 					<reportSet>
 						<reports>
 							<report>index</report>
-							<report>license</report>
-							<report>project-team</report>
+							<report>licenses</report>
+							<report>team</report>
 							<report>summary</report>
 							<report>scm</report>
-							<report>issue-tracking</report>
-							<report>cim</report>
+							<report>issue-management</report>
+							<report>ci-management</report>
 						</reports>
 					</reportSet>
 				</reportSets>
@@ -360,6 +372,7 @@
 					<linkXref>true</linkXref>
 					<excludes>
 						<exclude>**/org/eclipse/gmf/**/*.java</exclude>
+						<exclude>**/org/eclipse/**/*.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -373,9 +386,8 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs-maven-plugin-version}</version>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -389,6 +401,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<excludePackageNames>org.eclipse.gmf.*:org.apache.*:au.com.bytecode.*</excludePackageNames>
+					<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+					<failOnError>false</failOnError>
+				</configuration>
 				<reportSets>
 					<reportSet>
 						<id>aggregate</id>
@@ -439,7 +456,7 @@
 	</scm>
 	<issueManagement>
 		<system>osdn.jp</system>
-		<url>http://osdn.jp/projects/tmdmaker/ticket/</url>
+		<url>https://osdn.jp/projects/tmdmaker/ticket/</url>
 	</issueManagement>
 	<ciManagement>
 		<system>travis-ci</system>
