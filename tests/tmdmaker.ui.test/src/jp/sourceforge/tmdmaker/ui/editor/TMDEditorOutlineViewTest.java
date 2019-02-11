@@ -15,28 +15,12 @@
  */
 package jp.sourceforge.tmdmaker.ui.editor;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
-import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
-import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
-import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.eclipse.ui.PlatformUI;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import jp.sourceforge.tmdmaker.ui.test.BotWait;
-import jp.sourceforge.tmdmaker.ui.test.CreateDiagram;
-import jp.sourceforge.tmdmaker.ui.test.NewEmptyProject;
-import jp.sourceforge.tmdmaker.ui.test.View;
 
 /**
  * TMD-MakerのOutlineビューのUIテスト
@@ -45,48 +29,11 @@ import jp.sourceforge.tmdmaker.ui.test.View;
  *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class TMDEditorOutlineViewTest extends SWTBotGefTestCase {
-	private NewEmptyProject project = new NewEmptyProject();
-	private CreateDiagram tmDiagram = new CreateDiagram();
-	private View outlineView = new View("General", "Outline");
-	private SWTBotGefEditor botEditor;
-	private BotWait wait = new BotWait();
-	private static final String PROJECT_NAME = "test";
-	private static final String FILE_NAME = "test.tmd";
+public class TMDEditorOutlineViewTest extends AbstractUITest {
 	private static final int RADIO_INDEX_RESOURCE = 0;
 
-	@BeforeClass
-	public static void closeWelcomePage() {
-		new View("Welcome").close();
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-		sleep();
-		UIThreadRunnable.syncExec(new VoidResult() {
-			public void run() {
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().forceActive();
-			}
-		});
-
-		project.createProject(PROJECT_NAME);
-		sleep();
-		tmDiagram.createFile(PROJECT_NAME, FILE_NAME);
-		botEditor = bot.gefEditor(FILE_NAME);
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		if (botEditor != null)
-			botEditor.close();
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
-		project.delete(true, null);
-		super.tearDown();
-	}
-
 	@Test
-	public void testMove() throws Exception {
+	public void testTree() throws Exception {
 		outlineView.open();
 		botEditor.setFocus();
 		createEntity(50, 50, "顧客番号", RADIO_INDEX_RESOURCE);
@@ -112,21 +59,5 @@ public class TMDEditorOutlineViewTest extends SWTBotGefTestCase {
 		bot.text(2).setText("summary");
 		bot.button("OK").click();
 		sleep();
-	}
-
-	private void createEntity(int x, int y, String identifierName, int type) {
-		botEditor.activateTool("Entity");
-		botEditor.click(x, y);
-		SWTBotShell shell = bot.shell("Create a new entity");
-		shell.activate();
-		bot.text(0).setFocus();
-		bot.text(0).setText(identifierName);
-		bot.radio(type).click();
-		bot.button("OK").click();
-		wait.waitDefault();
-	}
-
-	private void sleep() {
-		wait.waitDefault();
 	}
 }

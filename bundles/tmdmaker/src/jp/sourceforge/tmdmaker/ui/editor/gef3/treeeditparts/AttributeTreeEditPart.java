@@ -20,6 +20,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -141,6 +142,11 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart implements Prope
 
 	@Override
 	public AbstractEntityModel getParentModel() {
-		return (AbstractEntityModel) getParent().getParent().getModel();
+		EditPart part = getParent().getParent();
+		if (part instanceof EntityTreeEditPart) {
+			return (AbstractEntityModel) part.getModel();
+		}
+		// part is a key definition
+		return (AbstractEntityModel) part.getParent().getModel();
 	}
 }
