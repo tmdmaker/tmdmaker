@@ -15,6 +15,7 @@
  */
 package jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
 
@@ -24,21 +25,25 @@ import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.ui.dialogs.AttributeDialog;
 import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.AttributeEditCommand;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.IAttributeEditPart;
 
 public class AttributeComponentEditPolicy extends AbstractTMDComponentEditPolicy {
 
 	@Override
 	protected Command createEditCommand() {
 		EditAttribute edited = ((AttributeDialog) dialog).getEditedValue();
-		if (edited.isEdited()) {
-			Attribute editedValueAttribute = new Attribute();
-			edited.copyTo(editedValueAttribute);
-			IAttribute original = edited.getOriginalAttribute();
-			AbstractEntityModel entity = (AbstractEntityModel) getHost().getParent().getModel();
-			return new AttributeEditCommand(original, editedValueAttribute, entity);
-		} else {
+		if (!edited.isEdited()) {
 			return null;
 		}
+		Attribute editedValueAttribute = new Attribute();
+		edited.copyTo(editedValueAttribute);
+		IAttribute original = edited.getOriginalAttribute();
+		EditPart part = getHost();
+		if (!(part instanceof IAttributeEditPart)) {
+			return null;
+		}
+		AbstractEntityModel entity = ((IAttributeEditPart) part).getParentModel();
+		return new AttributeEditCommand(original, editedValueAttribute, entity);
 	}
 
 	@Override

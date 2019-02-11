@@ -19,16 +19,6 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.ui.views.properties.AttributePropertySource;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
-
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.slf4j.LoggerFactory;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -36,8 +26,20 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.gef.tools.SelectEditPartTracker;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.LoggerFactory;
 
-public class AttributeTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener,IPropertyAvailable {
+import jp.sourceforge.tmdmaker.TMDEditor;
+import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Attribute;
+import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.IAttributeEditPart;
+import jp.sourceforge.tmdmaker.ui.views.properties.AttributePropertySource;
+import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
+
+public class AttributeTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener,IPropertyAvailable, IAttributeEditPart {
 	
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(AttributeTreeEditPart.class);
 	
@@ -135,5 +137,10 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart implements Prope
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {
 		return new AttributePropertySource(editor, this.getModel());
+	}
+
+	@Override
+	public AbstractEntityModel getParentModel() {
+		return (AbstractEntityModel) getParent().getParent().getModel();
 	}
 }

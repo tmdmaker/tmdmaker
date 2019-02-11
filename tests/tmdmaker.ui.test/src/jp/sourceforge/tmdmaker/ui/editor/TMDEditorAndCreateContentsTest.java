@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -238,6 +238,9 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		bot.button("OK").click();
 		sleep();
 
+		normalizeActiveEditor();
+		sleep();
+
 		Diagram diagram = tmdEditor.getRootModel();
 		Entity e1 = (Entity) diagram.getChildren().get(0);
 		assertEquals("顧客番号", e1.getIdentifier().getName());
@@ -290,6 +293,9 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 		// ラピュタ
 		createEntity(150, 150, "", RADIO_INDEX_LAPUTA);
 		createEntity(250, 250, "ラピュタ番号", RADIO_INDEX_LAPUTA);
+
+		normalizeActiveEditor();
+		sleep();
 	}
 
 	@Test
@@ -454,6 +460,17 @@ public class TMDEditorAndCreateContentsTest extends SWTBotGefTestCase {
 			public void run() {
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 						.setPartState(botEditor.getReference(), IWorkbenchPage.STATE_MAXIMIZED);
+			}
+		};
+		UIThreadRunnable.syncExec(maximizeShell);
+	}
+
+	private void normalizeActiveEditor() {
+		VoidResult maximizeShell = new VoidResult() {
+			@Override
+			public void run() {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+						.setPartState(botEditor.getReference(), IWorkbenchPage.STATE_RESTORED);
 			}
 		};
 		UIThreadRunnable.syncExec(maximizeShell);
