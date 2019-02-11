@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.generate;
+package jp.sourceforge.tmdmaker.generate.internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.generate.internal.ForeignConstraints;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
 import jp.sourceforge.tmdmaker.model.Diagram;
