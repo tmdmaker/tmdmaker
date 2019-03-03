@@ -4,21 +4,21 @@
    <extension
          point="tmdmaker.importers">
       <importer
-            class="jp.sourceforge.tmdmaker.importer.impl.EntityFileImporter"
+            class="jp.sourceforge.tmdmaker.importer.csv.EntityFileImporter"
             name="EntityFileImporter">
       </importer>
    </extension>
    <extension
          point="tmdmaker.importers">
       <importer
-            class="jp.sourceforge.tmdmaker.importer.impl.AttributeFileImporter"
+            class="jp.sourceforge.tmdmaker.importer.csv.AttributeFileImporter"
             name="AttributeFileImporter">
       </importer>
    </extension>
    <extension
          point="tmdmaker.generators">
       <generator
-            class="jp.sourceforge.tmdmaker.generate.attributelist.AttributeListCsvGenerator"
+            class="jp.sourceforge.tmdmaker.generate.csv.attributelist.AttributeListCsvGenerator"
             name="attribute_list">
       </generator>
    </extension>

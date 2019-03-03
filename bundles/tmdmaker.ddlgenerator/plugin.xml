@@ -10,7 +10,7 @@
    <extension
          point="tmdmaker.generators">
       <generator
-            class="jp.sourceforge.tmdmaker.generate.DdlUtilsDDLGenerator"
+            class="jp.sourceforge.tmdmaker.generate.ddl.DdlUtilsDDLGenerator"
             name="name">
       </generator>
    </extension>

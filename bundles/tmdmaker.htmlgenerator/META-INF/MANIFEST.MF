@@ -8,10 +8,10 @@ Require-Bundle: org.eclipse.core.runtime,
  jp.osdn.tmdmaker.extensions;bundle-version="0.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: jp.sourceforge.tmdmaker.generate,
- jp.sourceforge.tmdmaker.generate.attributelist,
- jp.sourceforge.tmdmaker.generate.keydefinitionlist,
- jp.sourceforge.tmdmaker.generate.relationshiplist
+Export-Package: jp.sourceforge.tmdmaker.generate.html,
+ jp.sourceforge.tmdmaker.generate.html.attributelist,
+ jp.sourceforge.tmdmaker.generate.html.keydefinitionlist,
+ jp.sourceforge.tmdmaker.generate.html.relationshiplist
 Bundle-ClassPath: .,
  lib/commons-collections-3.2.1.jar,
  lib/commons-lang-2.4.jar,
