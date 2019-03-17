@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tmdmaker</groupId>
@@ -32,7 +33,7 @@
 		<spotbugs-version>3.1.10</spotbugs-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
-		<maven-javadoc-plugin-version>3.0.1</maven-javadoc-plugin-version>
+		<maven-javadoc-plugin-version>3.1.0</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
 		<maven-assembly-plugin-version>3.1.0</maven-assembly-plugin-version>
 		<velocity-version>1.7</velocity-version>
@@ -54,7 +55,7 @@
 		<jqueryVersion>3.3.1</jqueryVersion>
 		<fontawesomeVersion>5.4.1</fontawesomeVersion>
 		<popperVersion>1.14.3</popperVersion>
- 	</properties>
+	</properties>
 
 	<profiles>
 		<profile>
@@ -92,7 +93,7 @@
 				<jdk>11</jdk>
 			</activation>
 			<properties>
-				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+				<jvm-flags></jvm-flags>
 			</properties>
 		</profile>
 		<profile>
@@ -177,17 +178,17 @@
 							<artifactId>wagon-ssh</artifactId>
 							<version>${wagon-ssh-version}</version>
 						</dependency>
-				        <dependency>
-				          <groupId>org.apache.velocity</groupId>
-				          <artifactId>velocity</artifactId>
-				          <version>${velocity-version}</version>
-				        </dependency>
+						<dependency>
+							<groupId>org.apache.velocity</groupId>
+							<artifactId>velocity</artifactId>
+							<version>${velocity-version}</version>
+						</dependency>
 						<dependency>
 							<groupId>io.github.devacfr.maven.skins</groupId>
 							<artifactId>reflow-velocity-tools</artifactId>
 							<version>${reflow-velocity-tools-version}</version>
 						</dependency>
- 					</dependencies>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -230,9 +231,9 @@
 					</dependencies>
 				</plugin>
 				<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-assembly-plugin</artifactId>
-				    <version>${maven-assembly-plugin-version}</version>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven-assembly-plugin-version}</version>
 				</plugin>
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
@@ -245,11 +246,11 @@
 							<version>${spotbugs-version}</version>
 						</dependency>
 					</dependencies>
-				</plugin>				
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
- 		<plugins>
+		<plugins>
 			<plugin>
 				<!-- enable tycho build extension -->
 				<groupId>org.eclipse.tycho</groupId>
@@ -266,7 +267,7 @@
 					<useProjectSettings>false</useProjectSettings>
 				</configuration>
 			</plugin>
-   			<plugin>
+			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
@@ -276,8 +277,8 @@
 							<groupId>tmdmaker</groupId>
 							<artifactId>tmdmaker.releng.targetplatform</artifactId>
 							<version>${project.version}</version>
- 							<classifier>${target-file}</classifier>
- 						</artifact>
+							<classifier>${target-file}</classifier>
+						</artifact>
 					</target>
 					<environments>
 						<environment>
@@ -317,7 +318,8 @@
 					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
 					<product>tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
-					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags} ${jvm-flags}</argLine>
+					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags}
+						${jvm-flags}</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>
 			</plugin>
@@ -402,10 +404,34 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
-					<excludePackageNames>org.eclipse.gmf.*:org.apache.*:au.com.bytecode.*</excludePackageNames>
+					<excludePackageNames>org.apache.ddlutils.*:org.apache.ddlutils.model.*:org.eclipse.swt.*:org.eclipse.gmf.*:org.apache.velocity.*:au.com.bytecode.opencsv.*:org.slf4j.*:org.eclipse.e4.ui.services.*</excludePackageNames>
 					<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
 					<failOnError>false</failOnError>
-				</configuration>
+					<doclint>none</doclint>
+ 					<additionalDependencies>
+						<additionalDependency>
+							<groupId>org.apache.ddlutils</groupId>
+							<artifactId>ddlutils</artifactId>
+							<version>1.0</version>
+						</additionalDependency>
+						<additionalDependency>
+							<groupId>au.com.bytecode</groupId>
+							<artifactId>opencsv</artifactId>
+							<version>2.4</version>
+						</additionalDependency>
+						<additionalDependency>
+							<groupId>org.apache.velocity</groupId>
+							<artifactId>velocity</artifactId>
+							<version>${velocity-version}</version>
+						</additionalDependency>
+						<additionalDependency>
+							<groupId>com.thoughtworks.xstream</groupId>
+							<artifactId>xstream</artifactId>
+							<version>1.4.10</version>
+						</additionalDependency>
+					</additionalDependencies>
+ 				</configuration>
+
 				<reportSets>
 					<reportSet>
 						<id>aggregate</id>
