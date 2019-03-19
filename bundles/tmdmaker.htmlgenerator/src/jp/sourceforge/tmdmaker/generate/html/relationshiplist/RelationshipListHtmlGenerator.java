@@ -23,16 +23,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.sourceforge.tmdmaker.generate.html.Activator;
+import org.apache.velocity.VelocityContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jp.sourceforge.tmdmaker.generate.html.Messages;
 import jp.sourceforge.tmdmaker.generate.html.internal.HtmlGeneratorUtils;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
 import jp.sourceforge.tmdmaker.model.generate.GeneratorRuntimeException;
-
-import org.apache.velocity.VelocityContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 関係の検証表をHTML形式で生成するクラス
@@ -91,7 +90,7 @@ public class RelationshipListHtmlGenerator implements Generator {
 		}
 		try {
 			HtmlGeneratorUtils.copyStream(
-					Activator.class.getResourceAsStream("stylesheet.css"), //$NON-NLS-1$
+					HtmlGeneratorUtils.class.getResourceAsStream("stylesheet.css"), //$NON-NLS-1$
 					new FileOutputStream(new File(rootDir, "stylesheet.css"))); //$NON-NLS-1$
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage());

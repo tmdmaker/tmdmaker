@@ -404,11 +404,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
-					<excludePackageNames>org.apache.ddlutils.*:org.apache.ddlutils.model.*:org.eclipse.swt.*:org.eclipse.gmf.*:org.apache.velocity.*:au.com.bytecode.opencsv.*:org.slf4j.*:org.eclipse.e4.ui.services.*</excludePackageNames>
+					<excludePackageNames>org.eclipse.gmf.*</excludePackageNames>
 					<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
 					<failOnError>false</failOnError>
 					<doclint>none</doclint>
- 					<additionalDependencies>
+					<additionalDependencies>
 						<additionalDependency>
 							<groupId>org.apache.ddlutils</groupId>
 							<artifactId>ddlutils</artifactId>
@@ -429,8 +429,13 @@
 							<artifactId>xstream</artifactId>
 							<version>1.4.10</version>
 						</additionalDependency>
+						<additionalDependency>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-api</artifactId>
+							<version>1.7.26</version>
+						</additionalDependency>
 					</additionalDependencies>
- 				</configuration>
+				</configuration>
 
 				<reportSets>
 					<reportSet>

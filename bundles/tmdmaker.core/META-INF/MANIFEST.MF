@@ -24,7 +24,7 @@ Export-Package: jp.sourceforge.tmdmaker.core,
  org.slf4j.impl,
  org.slf4j.spi
 Bundle-ClassPath: .,
- lib/slf4j-api-1.7.25.jar,
- lib/slf4j-simple-1.7.25.jar,
- lib/jcl-over-slf4j-1.7.25.jar
+ lib/jcl-over-slf4j-1.7.26.jar,
+ lib/slf4j-api-1.7.26.jar,
+ lib/slf4j-simple-1.7.26.jar
 Automatic-Module-Name: tmdmaker.core
