@@ -45,6 +45,7 @@ class KeyDefinitionListRstGenerator {
 		keyList(models).writeTo(new File(outputdir, "key_list.rst"))
 		
 		models.forEach[m|
+			System.out.println(m);
 			keys(m,ImplementRule.findAllImplementAttributes(m).map[a|
 						#{
 						"name"          -> a.name,
@@ -58,7 +59,9 @@ class KeyDefinitionListRstGenerator {
 	
 	def static private datatype(DataTypeDeclaration t)
 	{
-		if (t.size == null){
+		if (t == null) {
+			""
+		} else if (t.size == null){
 			t.logicalType.getName()
 		}
 		else if (t.scale == null){
