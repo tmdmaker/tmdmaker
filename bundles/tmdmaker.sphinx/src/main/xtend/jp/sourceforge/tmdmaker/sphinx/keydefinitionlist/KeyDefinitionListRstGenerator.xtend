@@ -45,7 +45,6 @@ class KeyDefinitionListRstGenerator {
 		keyList(models).writeTo(new File(outputdir, "key_list.rst"))
 		
 		models.forEach[m|
-			System.out.println(m);
 			keys(m,ImplementRule.findAllImplementAttributes(m).map[a|
 						#{
 						"name"          -> a.name,
