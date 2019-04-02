@@ -86,7 +86,8 @@ public class ConstraintConverter {
 	 * TMDモデルの位置を設定する.
 	 * 
 	 * @param model
-	 * @param rectangle
+	 * @param x
+	 * @param y
 	 */
 	public static void setConstraint(ModelElement model, int x, int y) {
 		Constraint constraint = model.getConstraint();

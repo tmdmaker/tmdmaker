@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ public enum StandardSQLDataType {
 	 * @param supportScale 位取りを持つか
 	 * @param sqlType javaのTypesの定数
 	 */
-	private StandardSQLDataType(String name, boolean supportSize,
+	StandardSQLDataType(String name, boolean supportSize,
 			boolean supportScale, int sqlType) {
 		this.name = name;
 		this.supportSize = supportSize;

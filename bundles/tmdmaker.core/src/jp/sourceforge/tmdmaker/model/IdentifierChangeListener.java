@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,6 @@ public interface IdentifierChangeListener {
 	/**
 	 * 個体指定子（Re-used）が変更された場合の処理を記述する
 	 */
-	abstract void identifierChanged();
+	void identifierChanged();
 
 }

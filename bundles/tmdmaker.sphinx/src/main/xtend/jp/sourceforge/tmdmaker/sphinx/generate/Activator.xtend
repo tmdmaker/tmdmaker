@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2016-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ class Activator extends Plugin {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.Plugins#start(org.osgi.framework.BundleContext)
+	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	override start(BundleContext context) throws Exception {
 		super.start(context)
@@ -50,7 +50,7 @@ class Activator extends Plugin {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
+	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	override stop(BundleContext context) throws Exception {
 		plugin = null

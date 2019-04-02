@@ -68,8 +68,6 @@ public class SubsetCreateDialog extends Dialog {
 	 *
 	 * @param parentShell
 	 *            親.
-	 * @param subsetType
-	 *            サブセットの種類（同一/相違）.
 	 * @param model
 	 *            スーパーセット.
 	 */

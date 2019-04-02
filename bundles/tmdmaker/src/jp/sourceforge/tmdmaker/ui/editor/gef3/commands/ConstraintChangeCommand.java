@@ -40,7 +40,7 @@ public class ConstraintChangeCommand extends Command {
 	 * 
 	 * @param model
 	 *            移動対象
-	 * @param constraint
+	 * @param rectangle
 	 *            移動後の座標
 	 */
 	public ConstraintChangeCommand(ModelElement model, Rectangle rectangle) {
