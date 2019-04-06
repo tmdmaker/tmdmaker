@@ -390,8 +390,9 @@
 					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
 					<product>tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
-					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${jvm-flags}
-						${os-jvm-flags}</argLine>
+					<argLine>
+						${tycho.testArgLine} -Xms40m -Xmx1G ${jvm-flags} ${os-jvm-flags}
+					</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>
 			</plugin>
