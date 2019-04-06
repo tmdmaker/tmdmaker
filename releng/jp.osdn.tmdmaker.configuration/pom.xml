@@ -95,7 +95,7 @@
 				<jdk>11</jdk>
 			</activation>
 			<properties>
-				<jvm-flags></jvm-flags>
+				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
 			</properties>
 		</profile>
 		<profile>
