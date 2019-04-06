@@ -58,12 +58,12 @@ class KeyDefinitionListRstGenerator {
 	
 	def static private datatype(DataTypeDeclaration t)
 	{
-		if (t == null) {
+		if (t === null) {
 			""
-		} else if (t.size == null){
+		} else if (t.size === null){
 			t.logicalType.getName()
 		}
-		else if (t.scale == null){
+		else if (t.scale === null){
 			'''«t.logicalType.getName()»(«t.size»)'''
 		}
 		else {
@@ -147,10 +147,10 @@ class KeyDefinitionListRstGenerator {
 
 class KeyDefinitionMapping {
 	
-	private IAttribute attribute
-	private KeyModel   keyModel
+	IAttribute attribute
+	KeyModel   keyModel
 	/** キーにおけるアトリビュートの順序 */
-	private String keyOrder
+	String keyOrder
 
 	/**
 	 * コンストラクタ

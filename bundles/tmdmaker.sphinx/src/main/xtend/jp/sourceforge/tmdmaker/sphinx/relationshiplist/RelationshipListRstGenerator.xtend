@@ -112,7 +112,7 @@ class RelationshipMapping {
 	/** 比較先 */
 	@Accessors(PUBLIC_GETTER) AbstractEntityModel target
 	/** リレーションシップ有無 */
-	private boolean relationship = false
+	boolean relationship = false
 	
 	/**
 	 * コンストラクタ
@@ -144,9 +144,9 @@ class RelationshipMapping {
 	 */
 	def private isRecursiveTablePair() {
 		if (target instanceof RecursiveTable) {
-			return (target as RecursiveTable).isSource(source)
+			return target.isSource(source)
 		} else if (source instanceof RecursiveTable) {
-			return (source as RecursiveTable).isSource(target)
+			return source.isSource(target)
 		}
 		return false;
 	}

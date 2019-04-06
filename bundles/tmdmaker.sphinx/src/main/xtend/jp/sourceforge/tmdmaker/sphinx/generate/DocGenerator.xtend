@@ -36,7 +36,7 @@ import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
  */
 class DocGenerator implements Generator {
 	
-	private Diagram diagram
+	Diagram diagram
 	
 	override execute(String rootDir, List<AbstractEntityModel> models) {
 		
