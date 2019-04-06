@@ -29,6 +29,7 @@ import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jp.sourceforge.tmdmaker.TMDEditor;
@@ -37,21 +38,22 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.IAttributeEditPart;
-import jp.sourceforge.tmdmaker.ui.views.properties.AttributePropertySource;
+import jp.sourceforge.tmdmaker.ui.views.properties.IAttributePropertySource;
 import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
-public class AttributeTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener,IPropertyAvailable, IAttributeEditPart {
-	
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(AttributeTreeEditPart.class);
-	
+public class AttributeTreeEditPart extends AbstractTreeEditPart
+		implements PropertyChangeListener, IPropertyAvailable, IAttributeEditPart {
+
+	private static Logger logger = LoggerFactory.getLogger(AttributeTreeEditPart.class);
+
 	protected EditPolicy componentPolicy;
-	
+
 	/**
 	 * コンストラクタ
+	 * 
 	 * @param attribute
 	 */
-	public AttributeTreeEditPart(Attribute attribute, EditPolicy policy)
-	{
+	public AttributeTreeEditPart(Attribute attribute, EditPolicy policy) {
 		super();
 		setModel(attribute);
 		this.componentPolicy = policy;
@@ -67,17 +69,17 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart implements Prope
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, this.componentPolicy);
 	}
-	
+
 	@Override
 	public Attribute getModel() {
 		return (Attribute) super.getModel();
 	}
-	
+
 	@Override
 	public DragTracker getDragTracker(Request request) {
 		return new SelectEditPartTracker(this);
 	}
-	
+
 	@Override
 	public void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_OPEN) {
@@ -85,7 +87,7 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart implements Prope
 			executeEditCommand(ccommand);
 		}
 	}
-	
+
 	/**
 	 * 編集コマンドを実行する。
 	 *
@@ -94,16 +96,14 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart implements Prope
 	protected void executeEditCommand(Command command) {
 		getViewer().getEditDomain().getCommandStack().execute(command);
 	}
-	
+
 	@Override
 	protected String getText() {
 		ModelElement model = getModel();
-		if (model.getName() == null)
-		{
+		if (model.getName() == null) {
 			return "";
-		}
-		else{
-			return model.getName();		
+		} else {
+			return model.getName();
 		}
 	}
 
@@ -130,14 +130,14 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart implements Prope
 
 		if (evt.getPropertyName().equals(Attribute.PROPERTY_NAME)) {
 			refreshVisuals();
-	    } else {
+		} else {
 			logger.warn("Not Handle Event Occured.");
 		}
 	}
 
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new AttributePropertySource(editor, this.getModel());
+		return new IAttributePropertySource(editor, this.getModel());
 	}
 
 	@Override

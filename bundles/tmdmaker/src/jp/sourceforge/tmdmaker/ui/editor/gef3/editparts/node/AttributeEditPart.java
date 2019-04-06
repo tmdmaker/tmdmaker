@@ -30,7 +30,7 @@ import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.IAttributeEditPart;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.AttributeComponentEditPolicy;
-import jp.sourceforge.tmdmaker.ui.views.properties.AttributePropertySource;
+import jp.sourceforge.tmdmaker.ui.views.properties.IAttributePropertySource;
 import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
@@ -82,7 +82,7 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute>
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,new AttributeComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new AttributeComponentEditPolicy());
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute>
 
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new AttributePropertySource(editor, this.getModel());
+		return new IAttributePropertySource(editor, this.getModel());
 	}
 
 	@Override

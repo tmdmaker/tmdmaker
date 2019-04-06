@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +15,28 @@
  */
 package jp.sourceforge.tmdmaker.ui.views.properties;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.model.Attribute;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.TMDEditor;
+import jp.sourceforge.tmdmaker.model.IAttribute;
+
 /**
- * Attribute property source.
+ * IAttribute property source.
  *
  */
-public class AttributePropertySource extends AbstractPropertySource {
+public class IAttributePropertySource extends AbstractPropertySource {
 
 	private static final String SCALE = "Scale"; //$NON-NLS-1$
 	private static final String SIZE = "Size"; //$NON-NLS-1$
 	private static final String DATA_TYPE_DECLARATION = "DataTypeDeclaration"; //$NON-NLS-1$
 	private static final String IMPLEMENT_NAME = "ImplementName"; //$NON-NLS-1$
 	private static final String NAME = "Name"; //$NON-NLS-1$
-	private Attribute attribute;
+	private IAttribute attribute;
 
-	public AttributePropertySource(TMDEditor editor, Attribute attribute) {
+	public IAttributePropertySource(TMDEditor editor, IAttribute attribute) {
 		super(editor);
 		this.attribute = attribute;
 	}
@@ -46,7 +46,7 @@ public class AttributePropertySource extends AbstractPropertySource {
 		return this.attribute;
 	}
 
-	static private IPropertyDescriptor[] propertyFields;
+	private static IPropertyDescriptor[] propertyFields;
 	static {
 		propertyFields = new IPropertyDescriptor[] {
 				new TextPropertyDescriptor(NAME, Messages.ModelName),
@@ -71,15 +71,18 @@ public class AttributePropertySource extends AbstractPropertySource {
 		}
 		if (id.equals(DATA_TYPE_DECLARATION)) {
 			return attribute.getDataTypeDeclaration() != null
-					? attribute.getDataTypeDeclaration().getLogicalType().toString() : ""; //$NON-NLS-1$
+					? attribute.getDataTypeDeclaration().getLogicalType().toString()
+					: ""; //$NON-NLS-1$
 		}
 		if (id.equals(SIZE)) {
 			return attribute.getDataTypeDeclaration() != null
-					? attribute.getDataTypeDeclaration().getSize() : ""; //$NON-NLS-1$
+					? attribute.getDataTypeDeclaration().getSize()
+					: ""; //$NON-NLS-1$
 		}
 		if (id.equals(SCALE)) {
 			return attribute.getDataTypeDeclaration() != null
-					? attribute.getDataTypeDeclaration().getScale() : ""; //$NON-NLS-1$
+					? attribute.getDataTypeDeclaration().getScale()
+					: ""; //$NON-NLS-1$
 		}
 		return null;
 	}

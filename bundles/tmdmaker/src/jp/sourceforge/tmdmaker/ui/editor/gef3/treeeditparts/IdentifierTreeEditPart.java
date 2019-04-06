@@ -18,32 +18,34 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.ui.views.properties.IAttributePropertySource;
 import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.views.properties.IdentifierPropertySource;
 
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.slf4j.LoggerFactory;
-import org.eclipse.gef.editparts.AbstractTreeEditPart;
+public class IdentifierTreeEditPart extends AbstractTreeEditPart
+		implements PropertyChangeListener, IPropertyAvailable {
 
-public class IdentifierTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener,IPropertyAvailable {
-	
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(IdentifierTreeEditPart.class);
-	
+	private static Logger logger = LoggerFactory.getLogger(IdentifierTreeEditPart.class);
+
 	/**
 	 * コンストラクタ
+	 * 
 	 * @param identifier
 	 */
-	public IdentifierTreeEditPart(Identifier identifier)
-	{
+	public IdentifierTreeEditPart(Identifier identifier) {
 		super();
 		setModel(identifier);
 	}
-	
+
 	@Override
 	public Identifier getModel() {
 		return (Identifier) super.getModel();
@@ -52,12 +54,10 @@ public class IdentifierTreeEditPart extends AbstractTreeEditPart implements Prop
 	@Override
 	protected String getText() {
 		ModelElement model = getModel();
-		if (model.getName() == null)
-		{
+		if (model.getName() == null) {
 			return "";
-		}
-		else{
-			return model.getName();		
+		} else {
+			return model.getName();
 		}
 	}
 
@@ -84,13 +84,13 @@ public class IdentifierTreeEditPart extends AbstractTreeEditPart implements Prop
 
 		if (evt.getPropertyName().equals(Identifier.PROPERTY_NAME)) {
 			refreshVisuals();
-	    } else {
+		} else {
 			logger.warn("Not Handle Event Occured."); //$NON-NLS-1$
 		}
 	}
 
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new IdentifierPropertySource(editor, this.getModel());
+		return new IAttributePropertySource(editor, this.getModel());
 	}
 }

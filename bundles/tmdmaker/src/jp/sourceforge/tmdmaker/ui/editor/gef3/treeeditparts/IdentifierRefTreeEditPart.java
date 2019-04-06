@@ -18,30 +18,33 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.ui.views.properties.IAttributePropertySource;
 import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.views.properties.IdentifierPropertySource;
 
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.slf4j.LoggerFactory;
+public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart
+		implements PropertyChangeListener, IPropertyAvailable {
 
-public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart implements PropertyChangeListener,IPropertyAvailable {
-	
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(IdentifierRefTreeEditPart.class);
-	
+	private static Logger logger = LoggerFactory
+			.getLogger(IdentifierRefTreeEditPart.class);
+
 	/**
 	 * コンストラクタ
+	 * 
 	 * @param identifier
 	 */
-	public IdentifierRefTreeEditPart(IdentifierRef identifier)
-	{
+	public IdentifierRefTreeEditPart(IdentifierRef identifier) {
 		super(identifier);
 	}
-	
+
 	@Override
 	public IdentifierRef getModel() {
 		return (IdentifierRef) super.getModel();
@@ -50,11 +53,9 @@ public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart implements
 	@Override
 	protected String getText() {
 		ModelElement model = getModel();
-		if (model.getName() == null)
-		{
+		if (model.getName() == null) {
 			return "";
-		}
-		else{
+		} else {
 			return model.getName() + "(R)"; //$NON-NLS-1$
 		}
 	}
@@ -70,13 +71,13 @@ public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart implements
 
 		if (evt.getPropertyName().equals(IdentifierRef.PROPERTY_NAME)) {
 			refreshVisuals();
-	    } else {
+		} else {
 			logger.warn("Not Handle Event Occured.");
 		}
 	}
 
 	@Override
 	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new IdentifierPropertySource(editor, this.getModel());
+		return new IAttributePropertySource(editor, this.getModel());
 	}
 }

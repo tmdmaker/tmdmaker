@@ -24,9 +24,7 @@ import jp.sourceforge.tmdmaker.model.other.TurboFile;
  * 
  */
 @SuppressWarnings("serial")
-public class TurboFileRelationship extends AbstractRelationship {
-	/** 移送先から削除したReused */
-	private ReusedIdentifier targetReusedIdentifier;
+public class TurboFileRelationship extends TransfarReuseKeysToTargetRelationship {
 
 	/**
 	 * デフォルトコンストラクタ
@@ -54,76 +52,5 @@ public class TurboFileRelationship extends AbstractRelationship {
 		}
 		setSource(from);
 		setTarget(to);
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#attachTarget()
-	 */
-	@Override
-	public void attachTarget() {
-		super.attachTarget();
-		if (targetReusedIdentifier == null) {
-			getTarget().addReusedIdentifier(getSource());
-		} else {
-			getTarget().addReusedIdentifier(getSource(), targetReusedIdentifier);
-			targetReusedIdentifier = null;
-		}
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractConnectionModel#detachTarget()
-	 */
-	@Override
-	public void detachTarget() {
-		targetReusedIdentifier = getTarget().removeReusedIdentifier(getSource());
-		super.detachTarget();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#isDeletable()
-	 */
-	@Override
-	public boolean isDeletable() {
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#identifierChanged()
-	 */
-	@Override
-	public void identifierChanged() {
-		getTarget().fireIdentifierChanged(this);
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#hasTable()
-	 */
-	@Override
-	public boolean hasTable() {
-		return false;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 *
-	 * @see jp.sourceforge.tmdmaker.model.AbstractRelationship#getTable()
-	 */
-	@Override
-	public AbstractEntityModel getTable() {
-		return null;
 	}
 }
