@@ -36,6 +36,7 @@
 		<maven-javadoc-plugin-version>3.1.0</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
 		<maven-assembly-plugin-version>3.1.0</maven-assembly-plugin-version>
+		<maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
 		<xtend-version>2.16.0</xtend-version>
@@ -66,7 +67,7 @@
 				</os>
 			</activation>
 			<properties>
- 				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
 			</properties>
 		</profile>
 		<profile>
@@ -318,8 +319,7 @@
 					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
 					<product>tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
-					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${jvm-flags} ${os-jvm-flags}
-						</argLine>
+					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${jvm-flags} ${os-jvm-flags}</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>
 			</plugin>
@@ -404,7 +404,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
-					<excludePackageNames>org.eclipse.gmf.*</excludePackageNames>
+					<excludePackageNames>org.eclipse.ui.workbench:org.eclipse.osgi:org.eclipse.gmf:org.eclipse.gmf.runtime.draw2d.ui.render:org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.image:org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.svg:org.eclipse.gmf.runtime.draw2d.ui.render.internal:org.eclipse.gmf.runtime.draw2d.ui.render.internal.image:org.eclipse.text:org.apache.batik.constants</excludePackageNames>
 					<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
 					<failOnError>false</failOnError>
 					<doclint>none</doclint>
@@ -442,7 +442,24 @@
 						<id>aggregate</id>
 						<inherited>false</inherited>
 						<reports>
+							<report>javadoc-no-fork</report>
+							<report>test-javadoc-no-fork</report>
+							<report>aggregate-no-fork</report>
+							<report>test-aggregate-no-fork</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${maven-jxr-plugin-version}</version>
+				<reportSets>
+					<reportSet>
+						<id>aggregate</id>
+						<reports>
 							<report>aggregate</report>
+							<report>test-aggregate</report>
 						</reports>
 					</reportSet>
 				</reportSets>
