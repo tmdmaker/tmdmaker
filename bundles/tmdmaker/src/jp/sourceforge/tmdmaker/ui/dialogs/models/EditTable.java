@@ -351,7 +351,7 @@ public class EditTable {
 	 * @return 編集内容が適切な場合にtrueを返す
 	 */
 	public boolean isValid() {
-		return (name != null) && (name.length() > 0);
+		return name != null && !name.isEmpty();
 	}
 
 	/**

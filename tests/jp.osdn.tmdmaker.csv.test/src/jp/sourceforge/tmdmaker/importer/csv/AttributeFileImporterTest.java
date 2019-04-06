@@ -26,7 +26,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import jp.sourceforge.tmdmaker.importer.csv.AttributeFileImporter;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 
 /**

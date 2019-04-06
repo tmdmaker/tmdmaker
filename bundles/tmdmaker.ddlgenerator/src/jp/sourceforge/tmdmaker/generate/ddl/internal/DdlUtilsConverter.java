@@ -206,7 +206,7 @@ public class DdlUtilsConverter {
 	private Boolean isRecursive(ReusedIdentifier reused) {
 		// Reused でサロゲートキーが2つあるのは再帰のときのみ。
 		int count = reused.getSurrogateKeys().size();
-		return (count == 2);
+		return count == 2;
 	}
 
 	/**

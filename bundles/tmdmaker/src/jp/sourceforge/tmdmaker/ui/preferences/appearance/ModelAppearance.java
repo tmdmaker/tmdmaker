@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ public enum ModelAppearance {
 	 * @param font
 	 *            罫線・フォント
 	 */
-	private ModelAppearance(String label, String propertyPrefix, RGB background, RGB font) {
+	ModelAppearance(String label, String propertyPrefix, RGB background, RGB font) {
 		this.label = label;
 		this.propertyPrefix = propertyPrefix;
 		this.background = background;

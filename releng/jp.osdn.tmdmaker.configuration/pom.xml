@@ -28,6 +28,7 @@
 		<maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
 		<maven-checkstyle-plugin-version>3.0.0</maven-checkstyle-plugin-version>
 		<maven-pmd-plugin-version>3.11.0</maven-pmd-plugin-version>
+		<pmd-version>6.13.0</pmd-version>
 		<maven-surefire-report-plugin-version>3.0.0-M3</maven-surefire-report-plugin-version>
 		<spotbugs-maven-plugin-version>3.1.8</spotbugs-maven-plugin-version>
 		<spotbugs-version>3.1.10</spotbugs-version>
@@ -94,7 +95,7 @@
 				<jdk>11</jdk>
 			</activation>
 			<properties>
-				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+				<jvm-flags></jvm-flags>
 			</properties>
 		</profile>
 		<profile>
@@ -200,6 +201,39 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>${maven-javadoc-plugin-version}</version>
+					<configuration>
+						<excludePackageNames>org.eclipse.ui.workbench:org.eclipse.osgi:org.eclipse.gmf:org.eclipse.gmf.runtime.draw2d.ui.render:org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.image:org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.svg:org.eclipse.gmf.runtime.draw2d.ui.render.internal:org.eclipse.gmf.runtime.draw2d.ui.render.internal.image:org.eclipse.text:org.apache.batik.constants</excludePackageNames>
+						<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+						<failOnError>false</failOnError>
+						<doclint>none</doclint>
+						<additionalDependencies>
+							<additionalDependency>
+								<groupId>org.apache.ddlutils</groupId>
+								<artifactId>ddlutils</artifactId>
+								<version>1.0</version>
+							</additionalDependency>
+							<additionalDependency>
+								<groupId>au.com.bytecode</groupId>
+								<artifactId>opencsv</artifactId>
+								<version>2.4</version>
+							</additionalDependency>
+							<additionalDependency>
+								<groupId>org.apache.velocity</groupId>
+								<artifactId>velocity</artifactId>
+								<version>${velocity-version}</version>
+							</additionalDependency>
+							<additionalDependency>
+								<groupId>com.thoughtworks.xstream</groupId>
+								<artifactId>xstream</artifactId>
+								<version>1.4.10</version>
+							</additionalDependency>
+							<additionalDependency>
+								<groupId>org.slf4j</groupId>
+								<artifactId>slf4j-api</artifactId>
+								<version>1.7.26</version>
+							</additionalDependency>
+						</additionalDependencies>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -245,6 +279,43 @@
 							<groupId>com.github.spotbugs</groupId>
 							<artifactId>spotbugs</artifactId>
 							<version>${spotbugs-version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>${maven-pmd-plugin-version}</version>
+					<configuration>
+						<aggregate>true</aggregate>
+						<linkXref>true</linkXref>
+						<targetJdk>1.8</targetJdk>
+						<excludes>
+							<exclude>**/org/eclipse/gmf/**/*.java</exclude>
+							<exclude>**/org/eclipse/**/*.java</exclude>
+							<exclude>**/jp/sourceforge/tmdmaker/sphinx/**/*.java</exclude>
+						</excludes>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-core</artifactId>
+							<version>${pmd-version}</version>
+						</dependency>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-java</artifactId>
+							<version>${pmd-version}</version>
+						</dependency>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-javascript</artifactId>
+							<version>${pmd-version}</version>
+						</dependency>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-jsp</artifactId>
+							<version>${pmd-version}</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -319,7 +390,8 @@
 					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
 					<product>tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
-					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${jvm-flags} ${os-jvm-flags}</argLine>
+					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${jvm-flags}
+						${os-jvm-flags}</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>
 			</plugin>
@@ -359,6 +431,20 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${maven-jxr-plugin-version}</version>
+				<reportSets>
+					<reportSet>
+						<id>aggregate</id>
+						<reports>
+							<report>aggregate</report>
+							<report>test-aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${maven-checkstyle-plugin-version}</version>
 				<configuration>
@@ -369,14 +455,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${maven-pmd-plugin-version}</version>
-				<configuration>
-					<aggregate>true</aggregate>
-					<linkXref>true</linkXref>
-					<excludes>
-						<exclude>**/org/eclipse/gmf/**/*.java</exclude>
-						<exclude>**/org/eclipse/**/*.java</exclude>
-					</excludes>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -393,50 +471,12 @@
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>taglist-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jdepend-maven-plugin</artifactId>
 				<version>${jdepend-maven-plugin-version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<excludePackageNames>org.eclipse.ui.workbench:org.eclipse.osgi:org.eclipse.gmf:org.eclipse.gmf.runtime.draw2d.ui.render:org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.image:org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.svg:org.eclipse.gmf.runtime.draw2d.ui.render.internal:org.eclipse.gmf.runtime.draw2d.ui.render.internal.image:org.eclipse.text:org.apache.batik.constants</excludePackageNames>
-					<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-					<failOnError>false</failOnError>
-					<doclint>none</doclint>
-					<additionalDependencies>
-						<additionalDependency>
-							<groupId>org.apache.ddlutils</groupId>
-							<artifactId>ddlutils</artifactId>
-							<version>1.0</version>
-						</additionalDependency>
-						<additionalDependency>
-							<groupId>au.com.bytecode</groupId>
-							<artifactId>opencsv</artifactId>
-							<version>2.4</version>
-						</additionalDependency>
-						<additionalDependency>
-							<groupId>org.apache.velocity</groupId>
-							<artifactId>velocity</artifactId>
-							<version>${velocity-version}</version>
-						</additionalDependency>
-						<additionalDependency>
-							<groupId>com.thoughtworks.xstream</groupId>
-							<artifactId>xstream</artifactId>
-							<version>1.4.10</version>
-						</additionalDependency>
-						<additionalDependency>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-api</artifactId>
-							<version>1.7.26</version>
-						</additionalDependency>
-					</additionalDependencies>
-				</configuration>
-
 				<reportSets>
 					<reportSet>
 						<id>aggregate</id>
@@ -451,18 +491,8 @@
 				</reportSets>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>${maven-jxr-plugin-version}</version>
-				<reportSets>
-					<reportSet>
-						<id>aggregate</id>
-						<reports>
-							<report>aggregate</report>
-							<report>test-aggregate</report>
-						</reports>
-					</reportSet>
-				</reportSets>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</reporting>
