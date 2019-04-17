@@ -19,6 +19,11 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/imageio-tiff-3.4.1.jar,
+ lib/imageio-metadata-3.4.1.jar,
+ lib/imageio-core-3.4.1.jar,
+ lib/common-lang-3.4.1.jar,
+ lib/common-io-3.4.1.jar
 Export-Package: jp.sourceforge.tmdmaker.imagegenerator
 Automatic-Module-Name: tmdmaker.imagegenerator

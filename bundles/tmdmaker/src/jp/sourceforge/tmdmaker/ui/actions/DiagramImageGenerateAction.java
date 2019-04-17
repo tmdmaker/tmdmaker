@@ -15,15 +15,10 @@
  */
 package jp.sourceforge.tmdmaker.ui.actions;
 
-import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.imagegenerator.Draw2dToImageConverter;
-
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
@@ -33,6 +28,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+
+import jp.sourceforge.tmdmaker.Messages;
+import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.imagegenerator.Draw2dToImageConverter;
 
 /**
  * ダイアグラムから画像を出力して保存するAction
@@ -73,54 +72,82 @@ public class DiagramImageGenerateAction extends Action {
 		FileDialog dialog = new FileDialog(viewer.getControl().getShell(), SWT.SAVE);
 		IFile editfile = TMDPlugin.getEditFile(part);
 		dialog.setFileName(editfile.getLocation().removeFileExtension().lastSegment());
+		dialog.setFilterPath(buildFilterPath(editfile));
+		final String[] extensions = converter.getExtensions();
+		dialog.setFilterExtensions(extensions);
 
+		final String file = dialog.open();
+		if (file != null) {
+			String selectedExtension = null;
+			int filterIndex = dialog.getFilterIndex();
+			// Linux Only #39124
+			if (filterIndex == -1) {
+				TMDPlugin.showMessageDialog(Messages.ExtensionNotSelected);
+				selectedExtension = file.substring(file.lastIndexOf('.')); //$NON-NLS-1$
+				if (!isSupported(extensions, selectedExtension)) {
+					TMDPlugin.showErrorDialog(Messages.ExtensionNotSupported);
+					return;
+				}
+			} else {
+				selectedExtension = extensions[filterIndex];
+			}
+			final String extension = selectedExtension;
+			final String fileFullPath = buildImageFileFullPath(file, extension);
+			final FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) getViewer()
+					.getRootEditPart();
+			WorkspaceModifyOperation imageSaveOperation = new WorkspaceModifyOperation() {
+				@Override
+				public void execute(IProgressMonitor monitor) {
+					monitor.beginTask(Messages.Generating, 1);
+					converter.execute(rootEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS),
+							fileFullPath, extension);
+					monitor.worked(1);
+					monitor.done();
+				}
+			};
+			try {
+				new ProgressMonitorDialog(getViewer().getControl().getShell()).run(false, // don't
+																							// fork
+						false, // not cancelable
+						imageSaveOperation);
+				TMDPlugin.showMessageDialog(getText() + Messages.Completion);
+			} catch (Exception e) {
+				TMDPlugin.showErrorDialog(e);
+			} finally {
+				try {
+					TMDPlugin.refreshGenerateResource(fileFullPath);
+				} catch (Exception e) {
+					// do nothing.
+				}
+			}
+		}
+	}
+
+	private boolean isSupported(String[] extensions, String selectedExtension) {
+		for (String ext : extensions) {
+			if (ext.equals(selectedExtension)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private String buildFilterPath(IFile editfile) {
 		String path = editfile.getLocation().removeLastSegments(1).toOSString();
 		String separator = File.separator;
 		if (!path.endsWith(separator)) {
 			path = path + separator;
 		}
-		dialog.setFilterPath(path);
-		String[] extensions = converter.getExtensions();
-		dialog.setFilterExtensions(extensions);
+		return path;
+	}
 
-		String file = dialog.open();
-		if (file != null) {
-			final StringBuilder filePath = new StringBuilder(file);
-			final String extension = extensions[dialog.getFilterIndex()];
-			if (!file.endsWith(extension)) {
-				filePath.append("."); //$NON-NLS-1$
-				filePath.append(extension);
-			}
-			FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) getViewer()
-					.getRootEditPart();
-			final IFigure figure = rootEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS);
-			try {
-				new ProgressMonitorDialog(getViewer().getControl().getShell()).run(false, // don't
-																							// fork
-						false, // not cancelable
-						new WorkspaceModifyOperation() { // run this
-							// operation
-
-							@Override
-							public void execute(IProgressMonitor monitor) {
-								monitor.beginTask(Messages.Generating, 1);
-								converter.execute(figure, filePath.toString(), extension);
-								monitor.worked(1);
-								monitor.done();
-							}
-						});
-			} catch (Exception e) {
-				TMDPlugin.showErrorDialog(e);
-			}
-
-			TMDPlugin.showMessageDialog(getText() + Messages.Completion);
-
-			try {
-				TMDPlugin.refreshGenerateResource(filePath.toString());
-			} catch (Exception e) {
-				TMDPlugin.showErrorDialog(e);
-			}
+	private String buildImageFileFullPath(String file, String extension) {
+		StringBuilder filePath = new StringBuilder(file);
+		if (!file.endsWith(extension)) {
+			filePath.append("."); //$NON-NLS-1$
+			filePath.append(extension);
 		}
+		return filePath.toString();
 	}
 
 	/**

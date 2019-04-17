@@ -13,26 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.imagegenerator.generator;
+package jp.sourceforge.tmdmaker.imagegenerator.generator.converter;
 
-import org.eclipse.draw2d.IFigure;
+public class ImageFormatConverterException extends RuntimeException {
 
-/**
- * 画像生成用インターフェース
- * 
- * @author nakaG
- * 
- */
-public interface ImageGenerator {
-	/**
-	 * 画像生成実行
-	 * 
-	 * @param rootFigure
-	 *            draw2dのfigure
-	 * @param file
-	 *            出力先
-	 * @param imageType
-	 *            　画像種類の定数
-	 */
-	void execute(IFigure rootFigure, String file, int imageType);
+	private static final long serialVersionUID = 1L;
+
+	public ImageFormatConverterException(Throwable cause) {
+		super(cause);
+	}
+
 }

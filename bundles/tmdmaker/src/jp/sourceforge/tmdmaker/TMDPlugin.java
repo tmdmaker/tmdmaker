@@ -161,6 +161,22 @@ public class TMDPlugin extends AbstractUIPlugin {
 	/**
 	 * エラーダイアログ表示
 	 * 
+	 * @param message
+	 *            表示対象の文言
+	 */
+	public static void showErrorDialog(String message) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, 
+				message);
+
+		log(message);
+
+		ErrorDialog.openError(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell(), Messages.TMDPlugin_ErrorTitle, message, status);
+	}
+
+	/**
+	 * エラーダイアログ表示
+	 * 
 	 * @param t
 	 *            表示対象の例外
 	 */

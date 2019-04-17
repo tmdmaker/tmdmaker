@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,6 +82,8 @@ public class Messages extends NLS {
 	public static String EventSubset;
 	public static String EventType;
 	public static String EventVirtualEntity;
+	public static String ExtensionNotSelected;
+	public static String ExtensionNotSupported;
 	public static String Formula;
 	public static String GenerateForeignKeyConstraint;
 	public static String GenerateImage;
