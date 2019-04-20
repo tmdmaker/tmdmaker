@@ -73,6 +73,7 @@ public class DiagramImageGenerateAction extends Action {
 		IFile editfile = TMDPlugin.getEditFile(part);
 		dialog.setFileName(editfile.getLocation().removeFileExtension().lastSegment());
 		dialog.setFilterPath(buildFilterPath(editfile));
+		dialog.setOverwrite(true);
 		final String[] extensions = converter.getExtensions();
 		dialog.setFilterExtensions(extensions);
 
