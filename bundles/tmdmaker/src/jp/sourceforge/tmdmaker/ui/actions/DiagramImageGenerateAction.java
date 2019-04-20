@@ -83,7 +83,7 @@ public class DiagramImageGenerateAction extends Action {
 			// Linux Only #39124
 			if (filterIndex == -1) {
 				TMDPlugin.showMessageDialog(Messages.ExtensionNotSelected);
-				selectedExtension = file.substring(file.lastIndexOf('.')); //$NON-NLS-1$
+				selectedExtension = file.substring(file.lastIndexOf('.')); // $NON-NLS-1$
 				if (!isSupported(extensions, selectedExtension)) {
 					TMDPlugin.showErrorDialog(Messages.ExtensionNotSupported);
 					return;
@@ -106,10 +106,10 @@ public class DiagramImageGenerateAction extends Action {
 				}
 			};
 			try {
-				new ProgressMonitorDialog(getViewer().getControl().getShell()).run(false, // don't
-																							// fork
-						false, // not cancelable
-						imageSaveOperation);
+				final boolean NOT_FORK = false;
+				final boolean NOT_CANCEL = false;
+				new ProgressMonitorDialog(getViewer().getControl().getShell()).run(NOT_FORK,
+						NOT_CANCEL, imageSaveOperation);
 				TMDPlugin.showMessageDialog(getText() + Messages.Completion);
 			} catch (Exception e) {
 				TMDPlugin.showErrorDialog(e);
