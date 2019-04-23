@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tmdmaker</groupId>
 	<artifactId>jp.osdn.tmdmaker.configuration</artifactId>
-	<version>0.7.0-SNAPSHOT</version>
+	<version>0.8.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>TMD-Maker Release Engineering Configuration</name>
@@ -16,33 +17,46 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>1.2.0</tycho-version>
-		<jacoco-version>0.8.2</jacoco-version>
+		<tycho-version>1.4.0</tycho-version>
+		<jacoco-version>0.8.3</jacoco-version>
 		<antrun-version>1.8</antrun-version>
-		<sphinx-maven-plugin-version>2.2.3</sphinx-maven-plugin-version>
+		<sphinx-maven-plugin-version>2.3.1</sphinx-maven-plugin-version>
 		<maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
-		<maven-site-plugin-version>3.4</maven-site-plugin-version>
-		<wagon-ssh-version>3.1.0</wagon-ssh-version>
+		<maven-site-plugin-version>3.7.1</maven-site-plugin-version>
+		<wagon-ssh-version>3.3.2</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
-		<maven-project-info-reports-plugin-version>2.9</maven-project-info-reports-plugin-version>
+		<maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
 		<maven-checkstyle-plugin-version>3.0.0</maven-checkstyle-plugin-version>
-		<maven-pmd-plugin-version>3.10.0</maven-pmd-plugin-version>
-		<maven-surefire-report-plugin-version>2.22.0</maven-surefire-report-plugin-version>
-		<findbugs-maven-plugin-version>3.0.5</findbugs-maven-plugin-version>
+		<maven-pmd-plugin-version>3.11.0</maven-pmd-plugin-version>
+		<pmd-version>6.13.0</pmd-version>
+		<maven-surefire-report-plugin-version>3.0.0-M3</maven-surefire-report-plugin-version>
+		<spotbugs-maven-plugin-version>3.1.8</spotbugs-maven-plugin-version>
+		<spotbugs-version>3.1.10</spotbugs-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
-		<maven-javadoc-plugin-version>3.0.1</maven-javadoc-plugin-version>
+		<maven-javadoc-plugin-version>3.1.0</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
-		<maven-assembly-plugin-version>3.1.0</maven-assembly-plugin-version>
-		<reflow-velocity-tools-version>1.1.1</reflow-velocity-tools-version>
+		<maven-assembly-plugin-version>3.1.1</maven-assembly-plugin-version>
+		<maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
+		<xtend-version>2.16.0</xtend-version>
 		<!-- other settings -->
-		<release-version>0.7.0</release-version>
+		<release-version>0.8.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://tmdmaker.osdn.jp</project-url>
-		<target-file>photon</target-file>
+		<target-file>2018-12</target-file>
+		<!-- Website dependencies version -->
+		<reflow-velocity-tools-version>2.0.0-beta2</reflow-velocity-tools-version>
+		<anchorJsVesrion>3.2.2</anchorJsVesrion>
+		<bootstrapVersion>4.1.3</bootstrapVersion>
+		<bootswatchVersion>4.1.3</bootswatchVersion>
+		<highlightJsVersion>9.8.0</highlightJsVersion>
+		<highlightJsTheme>github</highlightJsTheme>
+		<jqueryVersion>3.3.1</jqueryVersion>
+		<fontawesomeVersion>5.4.1</fontawesomeVersion>
+		<popperVersion>1.14.3</popperVersion>
 	</properties>
 
 	<profiles>
@@ -73,6 +87,42 @@
 			</activation>
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>java-11</id>
+			<activation>
+				<jdk>11</jdk>
+			</activation>
+			<properties>
+				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>2019-03</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2019-03</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2018-12</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2018-12</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2018-09</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2018-09</target-file>
 			</properties>
 		</profile>
 		<profile>
@@ -140,21 +190,16 @@
 							<version>${wagon-ssh-version}</version>
 						</dependency>
 						<dependency>
-				          <groupId>lt.velykis.maven.skins</groupId>
-				          <artifactId>reflow-velocity-tools</artifactId>
-				          <version>${reflow-velocity-tools-version}</version>
-				        </dependency>
-				        <dependency>
-				          <groupId>org.apache.velocity</groupId>
-				          <artifactId>velocity</artifactId>
-				          <version>${velocity-version}</version>
-				        </dependency>
-<!-- <dependency>
-        <groupId>org.apache.maven.doxia</groupId>
-        <artifactId>doxia-site-renderer</artifactId>
-        <version>1.8.1</version>
-    </dependency>
- -->					</dependencies>
+							<groupId>org.apache.velocity</groupId>
+							<artifactId>velocity</artifactId>
+							<version>${velocity-version}</version>
+						</dependency>
+						<dependency>
+							<groupId>io.github.devacfr.maven.skins</groupId>
+							<artifactId>reflow-velocity-tools</artifactId>
+							<version>${reflow-velocity-tools-version}</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -166,8 +211,37 @@
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>${maven-javadoc-plugin-version}</version>
 					<configuration>
-						<excludePackageNames>org.eclipse.gmf.*</excludePackageNames>
+						<excludePackageNames>org.eclipse.ui.workbench:org.eclipse.osgi:org.eclipse.gmf:org.eclipse.gmf.runtime.draw2d.ui.render:org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.image:org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.svg:org.eclipse.gmf.runtime.draw2d.ui.render.internal:org.eclipse.gmf.runtime.draw2d.ui.render.internal.image:org.eclipse.text:org.apache.batik.constants</excludePackageNames>
+						<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
 						<failOnError>false</failOnError>
+						<doclint>none</doclint>
+						<additionalDependencies>
+							<additionalDependency>
+								<groupId>org.apache.ddlutils</groupId>
+								<artifactId>ddlutils</artifactId>
+								<version>1.0</version>
+							</additionalDependency>
+							<additionalDependency>
+								<groupId>au.com.bytecode</groupId>
+								<artifactId>opencsv</artifactId>
+								<version>2.4</version>
+							</additionalDependency>
+							<additionalDependency>
+								<groupId>org.apache.velocity</groupId>
+								<artifactId>velocity</artifactId>
+								<version>${velocity-version}</version>
+							</additionalDependency>
+							<additionalDependency>
+								<groupId>com.thoughtworks.xstream</groupId>
+								<artifactId>xstream</artifactId>
+								<version>1.4.10</version>
+							</additionalDependency>
+							<additionalDependency>
+								<groupId>org.slf4j</groupId>
+								<artifactId>slf4j-api</artifactId>
+								<version>1.7.26</version>
+							</additionalDependency>
+						</additionalDependencies>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -201,9 +275,58 @@
 					</dependencies>
 				</plugin>
 				<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-assembly-plugin</artifactId>
-				    <version>${maven-assembly-plugin-version}</version>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven-assembly-plugin-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>com.github.spotbugs</groupId>
+					<artifactId>spotbugs-maven-plugin</artifactId>
+					<version>${spotbugs-maven-plugin-version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.github.spotbugs</groupId>
+							<artifactId>spotbugs</artifactId>
+							<version>${spotbugs-version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>${maven-pmd-plugin-version}</version>
+					<configuration>
+						<aggregate>true</aggregate>
+						<linkXref>true</linkXref>
+						<targetJdk>1.8</targetJdk>
+						<excludes>
+							<exclude>**/org/eclipse/gmf/**/*.java</exclude>
+							<exclude>**/org/eclipse/**/*.java</exclude>
+							<exclude>**/jp/sourceforge/tmdmaker/sphinx/**/*.java</exclude>
+						</excludes>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-core</artifactId>
+							<version>${pmd-version}</version>
+						</dependency>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-java</artifactId>
+							<version>${pmd-version}</version>
+						</dependency>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-javascript</artifactId>
+							<version>${pmd-version}</version>
+						</dependency>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-jsp</artifactId>
+							<version>${pmd-version}</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -225,7 +348,7 @@
 					<useProjectSettings>false</useProjectSettings>
 				</configuration>
 			</plugin>
-   			<plugin>
+			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
@@ -235,15 +358,10 @@
 							<groupId>tmdmaker</groupId>
 							<artifactId>tmdmaker.releng.targetplatform</artifactId>
 							<version>${project.version}</version>
- 							<classifier>${target-file}</classifier>
- 						</artifact>
+							<classifier>${target-file}</classifier>
+						</artifact>
 					</target>
 					<environments>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
 						<environment>
 							<os>win32</os>
 							<ws>win32</ws>
@@ -281,7 +399,9 @@
 					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
 					<product>tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
-					<argLine>${tycho.testArgLine} -Xms40m -Xmx1G ${os-jvm-flags} ${jvm-flags}</argLine>
+					<argLine>
+						${tycho.testArgLine} -Xms40m -Xmx1G ${jvm-flags} ${os-jvm-flags}
+					</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>
 			</plugin>
@@ -309,12 +429,26 @@
 					<reportSet>
 						<reports>
 							<report>index</report>
-							<report>license</report>
-							<report>project-team</report>
+							<report>licenses</report>
+							<report>team</report>
 							<report>summary</report>
 							<report>scm</report>
-							<report>issue-tracking</report>
-							<report>cim</report>
+							<report>issue-management</report>
+							<report>ci-management</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${maven-jxr-plugin-version}</version>
+				<reportSets>
+					<reportSet>
+						<id>aggregate</id>
+						<reports>
+							<report>aggregate</report>
+							<report>test-aggregate</report>
 						</reports>
 					</reportSet>
 				</reportSets>
@@ -331,13 +465,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${maven-pmd-plugin-version}</version>
-				<configuration>
-					<aggregate>true</aggregate>
-					<linkXref>true</linkXref>
-					<excludes>
-						<exclude>**/org/eclipse/gmf/**/*.java</exclude>
-					</excludes>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -349,13 +476,8 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs-maven-plugin-version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>taglist-maven-plugin</artifactId>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -370,10 +492,17 @@
 						<id>aggregate</id>
 						<inherited>false</inherited>
 						<reports>
-							<report>aggregate</report>
+							<report>javadoc-no-fork</report>
+							<report>test-javadoc-no-fork</report>
+							<report>aggregate-no-fork</report>
+							<report>test-aggregate-no-fork</report>
 						</reports>
 					</reportSet>
 				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -415,7 +544,7 @@
 	</scm>
 	<issueManagement>
 		<system>osdn.jp</system>
-		<url>http://osdn.jp/projects/tmdmaker/ticket/</url>
+		<url>https://osdn.jp/projects/tmdmaker/ticket/</url>
 	</issueManagement>
 	<ciManagement>
 		<system>travis-ci</system>

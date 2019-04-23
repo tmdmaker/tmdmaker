@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package jp.sourceforge.tmdmaker.ui.editor.draw2d;
 /**
  * モデルの制約（位置情報）を調整するInterface.
  * 
- * @author nakaj
+ * @author nakag
  *
  */
 public interface ConstraintAdjuster {

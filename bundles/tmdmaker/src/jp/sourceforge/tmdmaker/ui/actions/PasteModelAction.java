@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ public class PasteModelAction extends SelectionAction {
 	@Override
 	protected boolean calculateEnabled() {
 		Command command = createPasteModelCommand();
-		return command != null && command.canExecute();
+		return command.canExecute();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class PasteModelAction extends SelectionAction {
 	@Override
 	public void run() {
 		Command command = createPasteModelCommand();
-		if (command != null && command.canExecute()) {
+		if (command.canExecute()) {
 			execute(command);
 		}
 	}

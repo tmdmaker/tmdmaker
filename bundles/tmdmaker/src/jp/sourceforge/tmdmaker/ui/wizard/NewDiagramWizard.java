@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,10 +65,10 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 		if (file == null) {
 			return false;
 		}
-		IWorkbenchPage page = workbench.getActiveWorkbenchWindow()
+		IWorkbenchPage activePage = workbench.getActiveWorkbenchWindow()
 				.getActivePage();
 		try {
-			IDE.openEditor(page, file, true);
+			IDE.openEditor(activePage, file, true);
 		} catch (PartInitException e) {
 			logger.error("open error.", e); //$NON-NLS-1$
 			return false;
@@ -126,7 +126,7 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 				Serializer serializer = SerializerFactory.getInstance();
 				return serializer.serialize(diagram);
 			} catch (SerializationException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage());
 				return null;
 			}
 		}

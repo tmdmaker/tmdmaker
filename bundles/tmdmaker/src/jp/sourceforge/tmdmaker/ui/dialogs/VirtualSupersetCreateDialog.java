@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -140,7 +140,6 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		editedValue = VirtualSuperset.of(new ModelName(panel1.getVirtualSupersetName()));
-		// editedValue.setName(panel1.getVirtualSupersetName());
 		editedAggregator = new VirtualSupersetType();
 		editedAggregator.setApplyAttribute(panel1.isApplyAttributeSelected());
 

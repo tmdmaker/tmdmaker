@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ public abstract class AbstractTMDEditPart<T extends ModelElement> extends Abstra
 	@Override
 	public void performRequest(Request req) {
 		Object requestType = req.getType();
-		logger.debug(getClass() + " " + requestType);
+		logger.debug("{} {}", getClass(), requestType);
 		if (requestType.equals(RequestConstants.REQ_OPEN)) {
 			executeEditCommand(getCommand(req));
 		} else if (requestType.equals(RequestConstants.REQ_DIRECT_EDIT)) {

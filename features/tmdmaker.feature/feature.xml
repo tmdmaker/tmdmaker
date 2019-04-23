@@ -2,7 +2,7 @@
 <feature
       id="tmdmaker.feature"
       label="TMD-Maker Plug-in"
-      version="0.7.0.qualifier"
+      version="0.8.0.qualifier"
       provider-name="TMD-Maker Project"
       plugin="tmdmaker">
 
@@ -27,17 +27,26 @@
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="tmdmaker.imagegenerator" version="0.2.6" match="greaterOrEqual"/>
       <import plugin="tmdmaker.core" version="0.2.9" match="greaterOrEqual"/>
+      <import plugin="jp.osdn.tmdmaker.extensions" version="0.7.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.commons.lang" version="2.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.w3c.dom.svg" version="1.1.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.batik.bridge" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.batik.util" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.batik.dom.svg" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.batik.ext.awt" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.batik.dom" version="1.6.1" match="greaterOrEqual"/>
+      <import plugin="org.apache.batik.transcoder" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.batik.svggen" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.batik.pdf" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="tmdmaker.core" version="0.7.0" match="greaterOrEqual"/>
       <import plugin="tmdmaker" version="0.2.8" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="tmdmaker" version="0.2.5" match="greaterOrEqual"/>
-      <import plugin="tmdmaker.ddlgenerator" version="0.2.5" match="greaterOrEqual"/>
-      <import plugin="tmdmaker.htmlgenerator" version="0.2.5" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.commands"/>
       <import plugin="tmdmaker" version="0.2.10" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtend.lib" version="2.11.0" match="greaterOrEqual"/>
-      <import plugin="org.apache.commons.lang"/>
-      <import plugin="org.slf4j.api"/>
-      <import plugin="org.apache.commons.logging"/>
+      <import plugin="org.apache.commons.collections" version="3.2.2" match="greaterOrEqual"/>
    </requires>
 
    <plugin

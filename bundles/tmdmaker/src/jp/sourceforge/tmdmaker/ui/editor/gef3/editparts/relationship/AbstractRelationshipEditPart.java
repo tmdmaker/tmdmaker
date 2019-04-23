@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,8 +66,6 @@ public abstract class AbstractRelationshipEditPart extends AbstractConnectionEdi
 	 */
 	private ConnectionAnchor getConnectionAnchor() {
 		if (anchor == null) {
-
-			// anchor = new ChopboxAnchor(getFigure());
 			anchor = new PolylineConnectionAnchor((PolylineConnection) getFigure());
 		}
 		return anchor;

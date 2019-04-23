@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public class Configuration {
 	private static final String[] DEFAULT_IDENTIFIER_SUFFIXES = { "ID", "ＩＤ", "id", "ｉｄ", "コード",
 			"CD", "cd", "番号", "No", "NO", "no", "NUM", "Num", "num" };
 	/** 帳票名サフィックスのデフォルト値 */
-	public static final String[] DEFAULT_REPORT_SUFFIXES = { "伝票", "報告書", "書", "レポート" };
+	private static final String[] DEFAULT_REPORT_SUFFIXES = { "伝票", "報告書", "書", "レポート" };
 
 	private List<String> identifierSuffixes = new ArrayList<String>();
 	private List<String> reportSuffixes = new ArrayList<String>();

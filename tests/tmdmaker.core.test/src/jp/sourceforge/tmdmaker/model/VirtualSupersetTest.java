@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,11 +34,6 @@ import jp.sourceforge.tmdmaker.model.virtual.VirtualSubsetBuilder;
  */
 public class VirtualSupersetTest {
 
-	/**
-	 * Test method for
-	 * {@link jp.sourceforge.tmdmaker.model.VirtualSuperset#disconnectSubset(jp.sourceforge.tmdmaker.model.AbstractEntityModel)}
-	 * .
-	 */
 	@Test
 	public void testRemoveSubset() {
 		Diagram diagram = new Diagram();
@@ -101,7 +96,7 @@ public class VirtualSupersetTest {
 		assertEquals(true, type2.isVertical());
 		assertEquals(type1.getSuperset(), vsp1);
 	}
-	
+
 	@Test
 	public void testSuper3Super() {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
@@ -151,7 +146,7 @@ public class VirtualSupersetTest {
 		builder.subsetList(list2).build();
 		assertTrue(vsp1.hasSubset());
 		assertEquals(vsp1.virtualSubsets().all().size(), 2);
-		
+
 		builder.rollback();
 		assertTrue(vsp1.hasSubset());
 		assertEquals(vsp1.virtualSubsets().all().size(), 3);
@@ -182,7 +177,7 @@ public class VirtualSupersetTest {
 		builder.subsetList(null).build();
 		assertTrue(!vsp1.hasSubset());
 		assertEquals(vsp1.virtualSubsets().all().size(), 0);
-		
+
 		builder.rollback();
 		assertTrue(vsp1.hasSubset());
 		assertEquals(vsp1.virtualSubsets().all().size(), 3);

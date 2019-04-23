@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,14 @@ package jp.sourceforge.tmdmaker.imagegenerator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.swt.SWT;
+
 import jp.sourceforge.tmdmaker.imagegenerator.generator.ImageGenerator;
 import jp.sourceforge.tmdmaker.imagegenerator.generator.RasterImageGenerator;
 import jp.sourceforge.tmdmaker.imagegenerator.generator.SVGImageGenerator;
-
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.swt.SWT;
+import jp.sourceforge.tmdmaker.imagegenerator.generator.converter.GifImageFormatConverter;
+import jp.sourceforge.tmdmaker.imagegenerator.generator.converter.TiffImageFormatConverter;
 
 /**
  * Draw2dのfigureを画像に変換する
@@ -40,20 +42,15 @@ public class Draw2dToImageConverter {
 	 */
 	public Draw2dToImageConverter() {
 		ImageGenerator rasterImageGenerator = new RasterImageGenerator();
+		ImageGenerator gifImageGenerator = new RasterImageGenerator(new GifImageFormatConverter());
+		ImageGenerator tiffImageGenerator = new RasterImageGenerator(new TiffImageFormatConverter());
 		ImageGenerator svgImageGenerator = new SVGImageGenerator();
-		generatorMap.put(".jpg", new GeneratorWrapper(SWT.IMAGE_JPEG,
-				rasterImageGenerator));
-		generatorMap.put(".png", new GeneratorWrapper(SWT.IMAGE_PNG,
-				rasterImageGenerator));
-		generatorMap.put(".gif", new GeneratorWrapper(SWT.IMAGE_GIF,
-				rasterImageGenerator));
-		generatorMap.put(".tiff", new GeneratorWrapper(SWT.IMAGE_TIFF,
-				rasterImageGenerator));
-		generatorMap.put(".bmp", new GeneratorWrapper(SWT.IMAGE_BMP,
-				rasterImageGenerator));
-		generatorMap.put(".svg", new GeneratorWrapper(IMAGE_SVG,
-				svgImageGenerator));
-
+		generatorMap.put(".jpg", new GeneratorWrapper(SWT.IMAGE_JPEG, rasterImageGenerator));
+		generatorMap.put(".png", new GeneratorWrapper(SWT.IMAGE_PNG, rasterImageGenerator));
+		generatorMap.put(".gif", new GeneratorWrapper(SWT.IMAGE_GIF, gifImageGenerator));
+		generatorMap.put(".tiff", new GeneratorWrapper(SWT.IMAGE_TIFF, tiffImageGenerator));
+		generatorMap.put(".bmp", new GeneratorWrapper(SWT.IMAGE_BMP, rasterImageGenerator));
+		generatorMap.put(".svg", new GeneratorWrapper(IMAGE_SVG, svgImageGenerator));
 	}
 
 	/**
@@ -68,12 +65,9 @@ public class Draw2dToImageConverter {
 	/**
 	 * 変換を実行する
 	 * 
-	 * @param figure
-	 *            draw2dのfigure
-	 * @param file
-	 *            画像出力先
-	 * @param extention
-	 *            出力する画像の種類（拡張子で選択）
+	 * @param figure    draw2dのfigure
+	 * @param file      画像出力先
+	 * @param extention 出力する画像の種類（拡張子で選択）
 	 */
 	public void execute(IFigure figure, String file, String extention) {
 		generatorMap.get(extention).execute(file, figure);

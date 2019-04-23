@@ -25,6 +25,8 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.svg.export.GraphicsSVG;
 
+import jp.sourceforge.tmdmaker.imagegenerator.generator.converter.ImageFormatConverterException;
+
 /**
  * SVG画像生成クラス
  * 
@@ -49,12 +51,13 @@ public class SVGImageGenerator implements ImageGenerator {
 					new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8")));
 			outputStream.flush();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new ImageFormatConverterException(e);
 		} finally {
 			try {
-				outputStream.close();
+				if (outputStream != null)
+					outputStream.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				// Do nothing.
 			}
 		}
 	}

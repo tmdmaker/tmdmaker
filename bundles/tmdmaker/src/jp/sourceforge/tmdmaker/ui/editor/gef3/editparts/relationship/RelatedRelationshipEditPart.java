@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.relationship.RelatedRelationshipFigure;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.RelationshipEditPolicy;
 
@@ -37,7 +36,7 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 	/**
 	 * コンストラクタ
 	 */
-	public RelatedRelationshipEditPart(RelatedRelationship relationship) {
+	public RelatedRelationshipEditPart(AbstractConnectionModel relationship) {
 		super();
 		setModel(relationship);
 	}
@@ -50,9 +49,7 @@ public class RelatedRelationshipEditPart extends AbstractRelationshipEditPart {
 	 */
 	@Override
 	protected IFigure createFigure() {
-		RelatedRelationshipFigure connection = new RelatedRelationshipFigure();
-
-		return connection;
+		return new RelatedRelationshipFigure();
 	}
 
 	/**

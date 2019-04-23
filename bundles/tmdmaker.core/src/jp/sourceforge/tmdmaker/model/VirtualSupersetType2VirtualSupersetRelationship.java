@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -166,8 +166,8 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	public String getTargetName() {
 		StringBuilder builder = new StringBuilder();
 		boolean first = true;
-		VirtualSupersetType type = getVirtualSupersetType();
-		for (AbstractEntityModel m : type.getSubsetList()) {
+		VirtualSupersetType vsType = getVirtualSupersetType();
+		for (AbstractEntityModel m : vsType.getSubsetList()) {
 			if (first) {
 				first = false;
 			} else {
@@ -225,11 +225,6 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 		this.subset2typeRelationshipList = subset2typeRelationshipList;
 	}
 
-	@Override
-	public void setSource(ConnectableElement source) {
-		super.setSource(source);
-	}
-
 	public VirtualSuperset getVirtualSuperset() {
 		return (VirtualSuperset) getTarget();
 	}
@@ -237,10 +232,4 @@ public class VirtualSupersetType2VirtualSupersetRelationship extends AbstractCon
 	public VirtualSupersetType getVirtualSupersetType() {
 		return (VirtualSupersetType) getSource();
 	}
-
-	@Override
-	public void setTarget(ConnectableElement target) {
-		super.setTarget(target);
-	}
-
 }

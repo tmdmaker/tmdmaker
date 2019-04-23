@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +62,7 @@ public class ImplementInfoSettingPanel extends Composite {
 		notImplementCheckBox.setText(Messages.NotToImplement);
 		notImplementCheckBox.setLayoutData(gridData);
 		notImplementCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				implementNameText.setEnabled(!implementNameText.getEnabled());
 				entity.setNotImplement(notImplementCheckBox.getSelection());
@@ -73,6 +74,7 @@ public class ImplementInfoSettingPanel extends Composite {
 		implementNameText = new Text(this, SWT.BORDER);
 		implementNameText.setLayoutData(gridData1);
 		implementNameText.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
+			@Override
 			public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
 				entity.setImplementName(implementNameText.getText());
 			}

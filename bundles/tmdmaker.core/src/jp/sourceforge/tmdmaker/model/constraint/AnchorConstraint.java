@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,16 @@
  */
 package jp.sourceforge.tmdmaker.model.constraint;
 
+import java.io.Serializable;
+
 /**
  * リレーションシップモデルの接続先（アンカー）制約.
  * 
  * @author nakag
  *
  */
-public class AnchorConstraint {
+public class AnchorConstraint implements Serializable {
+	private static final long serialVersionUID = 1L;
 	/** x point */
 	private int x = -1;
 	/** y point */
@@ -65,7 +68,11 @@ public class AnchorConstraint {
 
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
 	}
 
 	@Override

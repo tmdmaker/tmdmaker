@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -351,7 +351,7 @@ public class EditTable {
 	 * @return 編集内容が適切な場合にtrueを返す
 	 */
 	public boolean isValid() {
-		return (name != null) && (name.length() > 0);
+		return name != null && !name.isEmpty();
 	}
 
 	/**
@@ -380,6 +380,7 @@ public class EditTable {
 	}
 
 	protected void copySpecialTo(AbstractEntityModel to) {
+		// do nothing
 	}
 
 }

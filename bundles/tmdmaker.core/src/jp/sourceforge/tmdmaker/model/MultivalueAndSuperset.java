@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,6 @@ public class MultivalueAndSuperset extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isEntityTypeEditable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -76,7 +75,6 @@ public class MultivalueAndSuperset extends AbstractEntityModel {
 	 */
 	@Override
 	public ReusedIdentifier createReusedIdentifier() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

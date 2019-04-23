@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	public void activate() {
-		logger.debug(getClass() + "#activate()");
+		logger.debug("{}#activate()", getClass());
 		super.activate();
 		getModel().addPropertyChangeListener(this);
 	}
@@ -80,7 +80,7 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	public void deactivate() {
-		logger.debug(getClass() + "#deactivate()");
+		logger.debug("{}#deactivate()", getClass());
 		super.deactivate();
 		getModel().removePropertyChangeListener(this);
 	}
@@ -107,9 +107,8 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		AbstractConnectionModel relationship = (AbstractConnectionModel) connection.getModel();
 
-		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
+		return new XYChopboxAnchor(this.getFigure(),
 				AnchorConstraintManager.getSourceAnchorConstraint(relationship));
-		return anchor;
 	}
 
 	/**
@@ -157,10 +156,8 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		AbstractConnectionModel relationship = (AbstractConnectionModel) connection.getModel();
-		XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure(),
+		return new XYChopboxAnchor(this.getFigure(),
 				AnchorConstraintManager.getTargetAnchorConstraint(relationship));
-
-		return anchor;
 	}
 
 	/**
@@ -228,7 +225,7 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		logger.debug(getClass() + "." + evt.getPropertyName());
+		logger.debug("{}.{}", getClass(), evt.getPropertyName());
 
 		if (evt.getPropertyName().equals(ModelElement.PROPERTY_NAME)) {
 			handleNameChange(evt);
@@ -351,7 +348,7 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 */
 	@Override
 	protected void refreshVisuals() {
-		logger.debug(getClass().toString() + "(" + getModel().getName() + ") #refreshVisuals()");
+		logger.debug("{}({}) #refreshVisuals()",getClass(), getModel().getName());
 		super.refreshVisuals();
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(),
 				convert(getModel()));

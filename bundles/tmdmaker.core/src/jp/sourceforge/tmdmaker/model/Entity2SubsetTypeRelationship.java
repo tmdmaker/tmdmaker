@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,6 @@ public class Entity2SubsetTypeRelationship extends AbstractConnectionModel
 	 * 
 	 * @param source
 	 *            サブセット作成元モデル
-	 * @param target
-	 *            サブセット種類
 	 */
 	public Entity2SubsetTypeRelationship(AbstractEntityModel source) {
 		setSource(source);

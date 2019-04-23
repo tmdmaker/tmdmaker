@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -160,6 +160,7 @@ public class ImplementInfoEditPanel extends Composite {
 		tableColumn11.setWidth(150);
 		tableColumn11.setText(Messages.ModelName);
 		columnTable.addMouseListener(new org.eclipse.swt.events.MouseAdapter() {
+			@Override
 			public void mouseDown(org.eclipse.swt.events.MouseEvent e) {
 				tableSelectedIndex = columnTable.getSelectionIndex();
 
@@ -222,7 +223,6 @@ public class ImplementInfoEditPanel extends Composite {
 		return -1;
 	}
 
-	// text.setText(item.getText(i));
 	private void addEventListeners(Control control) {
 		if (control instanceof Text) {
 			final Text text = (Text) control;
@@ -235,25 +235,13 @@ public class ImplementInfoEditPanel extends Composite {
 					super.focusGained(e);
 				}
 
+				@Override
 				public void focusLost(FocusEvent e) {
 					setData(tableEditor.getColumn(), text.getText(), forcusGainIndex);
 					updateTable();
-					// TableItem item = tableEditor.getItem();
-					// item.setText(tableEditor.getColumn(), text.getText());
 					text.dispose();
 				}
 			});
-			// text.addModifyListener(new ModifyListener(){
-			// @Override
-			// public void modifyText(ModifyEvent e) {
-			// TableItem item = tableEditor.getItem();
-			// String editValue = text.getText();
-			// if (editValue == null) {
-			// editValue = "";
-			// }
-			// item.setText(tableEditor.getColumn(), editValue);
-			// }
-			// });
 			columnTable.setSelection(new int[0]);
 			text.selectAll();
 			text.setFocus();
@@ -281,29 +269,16 @@ public class ImplementInfoEditPanel extends Composite {
 				 */
 				@Override
 				public void focusLost(FocusEvent e) {
-					// TableItem item = tableEditor.getItem();
 					int index = combo.getSelectionIndex();
 					if (index != -1) {
 						setData(tableEditor.getColumn(), String.valueOf(index), forcusGainedIndex);
 						updateTable();
-						// item.setText(tableEditor.getColumn(),
-						// combo.getItem(index));
 					}
 					combo.dispose();
 				}
 
 			});
 			combo.addSelectionListener(new SelectionAdapter() {
-
-				/**
-				 * {@inheritDoc}
-				 * 
-				 * @see org.eclipse.swt.events.SelectionAdapter#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-				 */
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-					super.widgetDefaultSelected(e);
-				}
 
 				/**
 				 * {@inheritDoc}
@@ -394,11 +369,9 @@ public class ImplementInfoEditPanel extends Composite {
 			break;
 		case COLUMN_NO_NULLABLE:
 			int selectedIndex = Integer.parseInt(value);
-			if (selectedIndex == 1) {
-				a.setNullable(true);
-			} else {
-				a.setNullable(false);
-			}
+			a.setNullable(selectedIndex == 1);
+			break;
+		default:
 			break;
 		}
 	}
@@ -410,64 +383,89 @@ public class ImplementInfoEditPanel extends Composite {
 		case COLUMN_NO_ATTRIBUTE_NAME:
 			// モデル名,属性名は変更不可
 			break;
-		case COLUMN_NO_IMPLEMENT_NAME: {
-			Text text = new Text(columnTable, SWT.NONE);
-			text.setText(item.getText(columnIndex));
-			control = text;
-		}
+		case COLUMN_NO_IMPLEMENT_NAME:
+			control = createImplementNameColumn(columnIndex, columnTable, item);
 			break;
 		case COLUMN_NO_DATATYPE:
-			Combo dataTypeCombo = new Combo(columnTable, SWT.READ_ONLY); {
-			int index = 0;
-			StandardSQLDataType type = attributes.get(tableSelectedIndex).getDataType();
-			if (type != null) {
-				index = type.ordinal() + 1;
-			}
-			dataTypeCombo.add(""); //$NON-NLS-1$
-			for (StandardSQLDataType dataType : StandardSQLDataType.values()) {
-				dataTypeCombo.add(dataType.getName());
-			}
-			dataTypeCombo.select(index);
-		}
-			control = dataTypeCombo;
+			control = createDatatypeColumn(columnTable);
 			break;
-		case COLUMN_NO_SIZE: {
-			StandardSQLDataType type = attributes.get(tableSelectedIndex).getDataType();
-			if (type != null && type.isSupportSize()) {
-				Text text = new Text(columnTable, SWT.NONE);
-				text.setText(item.getText(columnIndex));
-				control = text;
-			}
-		}
+		case COLUMN_NO_SIZE:
+			control = createSizeColumn(columnIndex, columnTable, item, control);
 			break;
-		case COLUMN_NO_SCALE: {
-			StandardSQLDataType type = attributes.get(tableSelectedIndex).getDataType();
-			if (type != null && type.isSupportScale()) {
-				Text text = new Text(columnTable, SWT.NONE);
-				text.setText(item.getText(columnIndex));
-				control = text;
-			}
-		}
+		case COLUMN_NO_SCALE:
+			control = createScaleColumn(columnIndex, columnTable, item, control);
 			break;
 		case COLUMN_NO_NULLABLE:
-			Combo nullableCombo = new Combo(columnTable, SWT.READ_ONLY);
-
-			String value = item.getText(columnIndex); {
-			int index = 0;
-			for (int i = 0; i < NULLABLES.length; i++) {
-				String s = NULLABLES[i];
-				if (s.equals(value)) {
-					index = i;
-				}
-				nullableCombo.add(s);
-			}
-			nullableCombo.select(index);
-		}
-			control = nullableCombo;
+			control = createNullableColumn(columnIndex, columnTable, item);
 			break;
 		default:
 			break;
 		}
+		return control;
+	}
+
+	private Combo createNullableColumn(int columnIndex, Table columnTable, TableItem item) {
+		Combo nullableCombo = new Combo(columnTable, SWT.READ_ONLY);
+
+		String value = item.getText(columnIndex);
+
+		int index = 0;
+		for (int i = 0; i < NULLABLES.length; i++) {
+			String s = NULLABLES[i];
+			if (s.equals(value)) {
+				index = i;
+			}
+			nullableCombo.add(s);
+		}
+		nullableCombo.select(index);
+
+		return nullableCombo;
+	}
+
+	private Control createScaleColumn(int columnIndex, Table columnTable, TableItem item,
+			Control control) {
+
+		StandardSQLDataType type = attributes.get(tableSelectedIndex).getDataType();
+		if (type != null && type.isSupportScale()) {
+			control = createImplementNameColumn(columnIndex, columnTable, item);
+		}
+		return control;
+	}
+
+	private Control createSizeColumn(int columnIndex, Table columnTable, TableItem item,
+			Control control) {
+
+		StandardSQLDataType type = attributes.get(tableSelectedIndex).getDataType();
+		if (type != null && type.isSupportSize()) {
+			control = createImplementNameColumn(columnIndex, columnTable, item);
+		}
+		return control;
+	}
+
+	private Combo createDatatypeColumn(Table columnTable) {
+		Combo dataTypeCombo = new Combo(columnTable, SWT.READ_ONLY);
+
+		int index = 0;
+		StandardSQLDataType type = attributes.get(tableSelectedIndex).getDataType();
+		if (type != null) {
+			index = type.ordinal() + 1;
+		}
+		dataTypeCombo.add(""); //$NON-NLS-1$
+		for (StandardSQLDataType dataType : StandardSQLDataType.values()) {
+			dataTypeCombo.add(dataType.getName());
+		}
+		dataTypeCombo.select(index);
+
+		return dataTypeCombo;
+	}
+
+	private Control createImplementNameColumn(int columnIndex, Table columnTable, TableItem item) {
+		Control control;
+
+		Text text = new Text(columnTable, SWT.NONE);
+		text.setText(item.getText(columnIndex));
+		control = text;
+
 		return control;
 	}
 

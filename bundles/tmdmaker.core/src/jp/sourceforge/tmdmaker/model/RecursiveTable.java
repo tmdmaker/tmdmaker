@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,7 +87,7 @@ public class RecursiveTable extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isDeletable() {
-		return getModelTargetConnections().size() == 1 && getModelSourceConnections().size() == 0;
+		return getModelTargetConnections().size() == 1 && getModelSourceConnections().isEmpty();
 	}
 
 	/**

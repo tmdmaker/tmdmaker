@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,9 +60,11 @@ public abstract class GeneratorHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		if (selection != null & selection instanceof IStructuredSelection) {
+		if (selection instanceof IStructuredSelection) {
 			IFile file = getSelectionFile((IStructuredSelection) selection);
-
+			if (file == null) {
+				return null;
+			}
 			try {
 				Diagram diagram = SerializerFactory.getInstance().deserialize(
 						file.getContents());
@@ -79,6 +81,9 @@ public abstract class GeneratorHandler extends AbstractHandler {
 	}
 
 	private IFile getSelectionFile(IStructuredSelection selection) {
+		if (selection == null) {
+			return null;
+		}
 		for (Iterator<?> it = selection.iterator(); it.hasNext();) {
 			Object obj = it.next();
 			if (obj instanceof IFile) {

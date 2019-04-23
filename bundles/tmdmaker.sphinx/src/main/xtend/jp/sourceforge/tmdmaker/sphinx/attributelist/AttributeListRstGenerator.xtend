@@ -29,7 +29,7 @@ import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
  * 
  * @author tohosaku
  */
-public class AttributeListRstGenerator {
+class AttributeListRstGenerator {
 	
 	def static void generateAttributeList(List<AbstractEntityModel> models, File outputdir) {
 		// 出力ディレクトリを生成する
@@ -82,7 +82,7 @@ public class AttributeListRstGenerator {
 		所属エンティティ
 		----------------
 		
-		«model.name» «IF model instanceof Entity»(«(model as Entity).entityType.typeName»)«ENDIF»
+		«model.name» «IF model instanceof Entity»(«model.entityType.typeName»)«ENDIF»
 			
 		摘要
 		----

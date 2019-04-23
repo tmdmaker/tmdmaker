@@ -24,16 +24,16 @@ This method is a technique to make the database structure while at the same time
 ## Requirements
 
 ### Java Application(Eclipse RCP)
-- java8
+- java8 or later(java 11)
 
 ### Eclipse Plugin
-- java6 or later(java8 is recommended).
+- java6 or later(java8 or java11 is recommended).
 
-- eclipse 3.4 or later(eclipse 4.8 is recommended).
+- eclipse 3.4 or later(eclipse 4.x is recommended).
 
 - GEF(MVC) 3.x（Eclipse Graphical Editing Framework）.
 
-- (Optional) Xtend IDE 2.15.0 and JavaSE8 ExecutionEnvirnment(Eclipse 4.4 or later).If you use tmdmaker sphinx plugin.
+- (Optional) Xtend IDE 2.16.0 and JavaSE8 ExecutionEnvirnment(Eclipse 4.4 or later).If you use tmdmaker sphinx plugin.
 
 ## Download
 https://osdn.jp/projects/tmdmaker/releases/
@@ -80,4 +80,4 @@ ASL
 ## Alternatives
 - [TER-MINE](https://www.its-inc.co.jp/products/index.html)
 - [modebi](http://www.modebi.jp/)
-- [freeThinker](http://members3.jcom.home.ne.jp/4054315601/tools.html)
+- [freeThinker](http://members3.jcom.home.ne.jp/4054315601/tools.html) missing?

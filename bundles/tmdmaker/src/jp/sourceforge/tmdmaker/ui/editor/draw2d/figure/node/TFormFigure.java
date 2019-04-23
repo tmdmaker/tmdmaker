@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -226,8 +226,8 @@ public class TFormFigure extends Figure {
 		}
 
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
-			if (((IFigure) figure.getChildren().get(0)).getChildren().size() > 0
-					|| ((IFigure) figure.getChildren().get(1)).getChildren().size() > 0) {
+			if (!((IFigure) figure.getChildren().get(0)).getChildren().isEmpty()
+					|| !((IFigure) figure.getChildren().get(1)).getChildren().isEmpty()) {
 				graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(),
 						tempRect.getTopRight());
 			}
@@ -252,7 +252,6 @@ public class TFormFigure extends Figure {
 		public EntityFigureBorder(boolean notImplement) {
 			super();
 			this.notImplement = notImplement;
-			// setWidth(LINE_WIDTH);
 		}
 
 		/**
@@ -264,8 +263,8 @@ public class TFormFigure extends Figure {
 		@Override
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
 			super.paint(figure, graphics, insets);
-			boolean identifierNotEmpty = identifierCompartmentFigure.getChildren().size() > 0;
-			boolean attributeNotEmpty = attributeCompartmentFigure.getChildren().size() > 0;
+			boolean identifierNotEmpty = !identifierCompartmentFigure.getChildren().isEmpty();
+			boolean attributeNotEmpty = !attributeCompartmentFigure.getChildren().isEmpty();
 			if (identifierNotEmpty || attributeNotEmpty) {
 				Rectangle rect1 = titleCompartmentFigure.getBounds();
 				Rectangle rect2 = null;
@@ -279,7 +278,6 @@ public class TFormFigure extends Figure {
 					p2 = tempRect.getBottomLeft().getCopy();
 					p2.x = p2.x + rect2.width + 2;
 				} else {
-					rect2 = attributeCompartmentFigure.getBounds();
 					p = tempRect.getTopLeft().getCopy();
 					p.x = p.x + 2;
 					p.y = p.y + rect1.height + 2;

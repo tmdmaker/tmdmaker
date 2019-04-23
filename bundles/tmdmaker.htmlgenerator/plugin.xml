@@ -4,21 +4,21 @@
    <extension
          point="tmdmaker.generators">
       <generator
-            class="jp.sourceforge.tmdmaker.generate.attributelist.AttributeListHtmlGenerator"
+            class="jp.sourceforge.tmdmaker.generate.html.attributelist.AttributeListHtmlGenerator"
             name="attribute_list">
       </generator>
    </extension>
    <extension
          point="tmdmaker.generators">
       <generator
-            class="jp.sourceforge.tmdmaker.generate.relationshiplist.RelationshipListHtmlGenerator"
+            class="jp.sourceforge.tmdmaker.generate.html.relationshiplist.RelationshipListHtmlGenerator"
             name="relationship_list">
       </generator>
    </extension>
    <extension
          point="tmdmaker.generators">
       <generator
-            class="jp.sourceforge.tmdmaker.generate.keydefinitionlist.KeyDefinitionListHtmlGenerator"
+            class="jp.sourceforge.tmdmaker.generate.html.keydefinitionlist.KeyDefinitionListHtmlGenerator"
             name="key_list">
       </generator>
    </extension>

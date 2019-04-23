@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -195,7 +195,6 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	public void removeAttribute(Attribute attribute) {
 		if (this.attributes.remove(attribute)) {
-			// attribute.setParent(null);
 			firePropertyChange(PROPERTY_ATTRIBUTE, attribute, null);
 		}
 	}
@@ -223,8 +222,8 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public SubsetType findSubsetType() {
 		List<Entity2SubsetTypeRelationship> results = findRelationship(getModelSourceConnections(),
 				Entity2SubsetTypeRelationship.class);
-		if (results.size() != 0) {
-			return ((Entity2SubsetTypeRelationship) results.get(0)).getSubsetType();
+		if (!results.isEmpty()) {
+			return results.get(0).getSubsetType();
 		}
 		return null;
 	}
@@ -237,14 +236,14 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public VirtualSupersetType findVirtualSupersetType() {
 		List<Entity2VirtualSupersetTypeRelationship> results = findRelationshipFromSourceConnections(
 				Entity2VirtualSupersetTypeRelationship.class);
-		if (results.size() != 0) {
-			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results.get(0))
+		if (!results.isEmpty()) {
+			return (VirtualSupersetType) (results.get(0))
 					.getTarget();
 		}
 		results = findRelationshipFromTargetConnections(
 				Entity2VirtualSupersetTypeRelationship.class);
-		if (results.size() != 0) {
-			return (VirtualSupersetType) ((Entity2VirtualSupersetTypeRelationship) results.get(0))
+		if (!results.isEmpty()) {
+			return (VirtualSupersetType) (results.get(0))
 					.getTarget();
 		}
 		return null;
@@ -325,7 +324,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		for (AbstractConnectionModel con : connections) {
 			if (con instanceof IdentifierChangeListener && con != callConnection) {
 				((IdentifierChangeListener) con).identifierChanged();
-				logger.debug(getName() + "から" + con.getClass().toString() + "に通知しました。");
+				logger.debug("{}から{}に通知しました。" , getName(), con.getClass());
 			}
 		}
 	}

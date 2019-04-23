@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: tmdmaker;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.8.0.qualifier
 Bundle-Activator: jp.sourceforge.tmdmaker.TMDPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.gef,
@@ -12,11 +12,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.views,
  tmdmaker.imagegenerator;bundle-version="0.2.6",
  tmdmaker.core;bundle-version="0.2.9",
- jp.osdn.tmdmaker.extensions;bundle-version="0.7.0"
+ jp.osdn.tmdmaker.extensions;bundle-version="0.7.0",
+ org.apache.commons.lang;bundle-version="2.6.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: .,
- lib/commons-lang-2.6.jar
+Bundle-ClassPath: .
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider
 Export-Package: jp.sourceforge.tmdmaker

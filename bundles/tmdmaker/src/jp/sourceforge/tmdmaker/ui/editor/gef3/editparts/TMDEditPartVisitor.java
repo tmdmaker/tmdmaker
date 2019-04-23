@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,6 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.Entity2Subs
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.RecursiveRelationshipEditPart;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.RelatedRelationshipEditPart;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.RelationshipEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.VirtualSupersetType2VirtualSupersetRelationshipEditPart;
 
 /**
  * 
@@ -255,6 +254,6 @@ public class TMDEditPartVisitor implements IVisitor {
 	 */
 	@Override
 	public void visit(VirtualSupersetType2VirtualSupersetRelationship relationship) {
-		part = new VirtualSupersetType2VirtualSupersetRelationshipEditPart(relationship);
+		part = new RelatedRelationshipEditPart(relationship);
 	}
 }

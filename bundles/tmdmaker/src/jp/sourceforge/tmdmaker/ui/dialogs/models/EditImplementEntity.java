@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,6 @@ public class EditImplementEntity {
 	public static final String PROPERTY_ATTRIBUTES = "attributes"; //$NON-NLS-1$
 	public static final String PROPERTY_SURROGATE = "surrogate"; //$NON-NLS-1$
 	public static final String PROPERTY_KEYMODELS = "keymodels"; //$NON-NLS-1$
-	// private AbstractEntityModel model;
 	private EditSurrogateKey surrogateKey;
 	private List<EditImplementAttribute> attributes = new ArrayList<EditImplementAttribute>();
 	private KeyModels keyModels = new KeyModels();
@@ -63,35 +62,66 @@ public class EditImplementEntity {
 	 */
 	public EditImplementEntity(AbstractEntityModel model) {
 		implementName = ModelEditUtils.toBlankStringIfNull(model.getImplementName());
-		// 対象モデルのキーを抽出
+
+		addSurrogateKey(model);
+
+		addIdentifire(model);
+
+		addReusedIdentifiers(model);
+
+		addAttributes(model);
+
+		// 対象モデルを元とした実装しないモデル（サブセット、みなしエンティティ）のattributeを抽出
+		addOtherModelAttributes(model);
+
+		// 対象モデルに戻して実装するモデルが保持するattributeを抽出
+		addDerivationModelAttributes(model);
+
+		updateEditImplementAttributes();
+	}
+
+	private void addDerivationModelAttributes(AbstractEntityModel model) {
+		if (model.getImplementDerivationModels() != null) {
+			for (AbstractEntityModel m : model.getImplementDerivationModels()) {
+				List<EditImplementAttribute> list = otherModelAttributesMap.get(m);
+				if (list != null) {
+					attributes.addAll(list);
+				}
+			}
+		}
+	}
+
+	private void addOtherModelAttributes(AbstractEntityModel model) {
+		for (AbstractEntityModel m : ImplementRule.findNotImplementModel(model)) {
+			List<EditImplementAttribute> list = new ArrayList<EditImplementAttribute>();
+			for (IAttribute a : m.getAttributes()) {
+				list.add(new EditImplementAttribute(m, a));
+			}
+			otherModelAttributesMap.put(m, list);
+		}
+	}
+
+	private void addAttributes(AbstractEntityModel model) {
+		for (IAttribute a : model.getAttributes()) {
+			attributes.add(new EditImplementAttribute(model, a));
+		}
+	}
+
+	private void addSurrogateKey(AbstractEntityModel model) {
 		KeyModels originalKeyModels = model.getKeyModels();
-		if (originalKeyModels != null) {
-			originalKeyModels.copyTo(keyModels);
+		if (originalKeyModels == null) {
+			return;
+		}
+		originalKeyModels.copyTo(keyModels);
 
-			SurrogateKey key = originalKeyModels.getSurrogateKey();
-			surrogateKey = new EditSurrogateKey(model, key);
-			if (surrogateKey.isEnabled()) {
-				attributes.add(surrogateKey);
-			}
+		SurrogateKey key = originalKeyModels.getSurrogateKey();
+		surrogateKey = new EditSurrogateKey(model, key);
+		if (surrogateKey.isEnabled()) {
+			attributes.add(surrogateKey);
 		}
-		// 個体指定子をカラムとして追加
-		if (model instanceof Entity) {
-			attributes.add(new EditImplementAttribute(model, ((Entity) model).getIdentifier()));
-		}
-		if (model instanceof Detail) {
-			if (((Detail) model).isDetailIdentifierEnabled()) {
-				attributes.add(
-						new EditImplementAttribute(model, ((Detail) model).getDetailIdentifier()));
-			}
-		}
-		if (model instanceof SubsetEntity) {
-			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
-			for (IdentifierRef ref : reused.getUniqueIdentifiers()) {
-				attributes.add(new EditImplementAttribute(model, ref));
-			}
+	}
 
-		}
-		// Re-usedをカラムとして追加
+	private void addReusedIdentifiers(AbstractEntityModel model) {
 		Map<AbstractEntityModel, ReusedIdentifier> reused = model.getReusedIdentifiers();
 		for (Entry<AbstractEntityModel, ReusedIdentifier> entry : reused.entrySet()) {
 			ReusedIdentifier ri = entry.getValue();
@@ -107,28 +137,24 @@ public class EditImplementEntity {
 				}
 			}
 		}
-		// attributeをカラムとして追加
-		for (IAttribute a : model.getAttributes()) {
-			attributes.add(new EditImplementAttribute(model, a));
+	}
+
+	private void addIdentifire(AbstractEntityModel model) {
+		if (model instanceof Entity) {
+			attributes.add(new EditImplementAttribute(model, ((Entity) model).getIdentifier()));
 		}
-		// 対象モデルを元とした実装しないモデル（サブセット、みなしエンティティ）のattributeを抽出
-		for (AbstractEntityModel m : ImplementRule.findNotImplementModel(model)) {
-			List<EditImplementAttribute> list = new ArrayList<EditImplementAttribute>();
-			for (IAttribute a : m.getAttributes()) {
-				list.add(new EditImplementAttribute(m, a));
+		if (model instanceof Detail && ((Detail) model).isDetailIdentifierEnabled()) {
+			attributes
+					.add(new EditImplementAttribute(model, ((Detail) model).getDetailIdentifier()));
+		}
+
+		if (model instanceof SubsetEntity) {
+			ReusedIdentifier reused = ((SubsetEntity) model).getOriginalReusedIdentifier();
+			for (IdentifierRef ref : reused.getUniqueIdentifiers()) {
+				attributes.add(new EditImplementAttribute(model, ref));
 			}
-			otherModelAttributesMap.put(m, list);
+
 		}
-		// 対象モデルに戻して実装するモデルが保持するattributeを抽出
-		if (model.getImplementDerivationModels() != null) {
-			for (AbstractEntityModel m : model.getImplementDerivationModels()) {
-				List<EditImplementAttribute> list = otherModelAttributesMap.get(m);
-				if (list != null) {
-					attributes.addAll(list);
-				}
-			}
-		}
-		updateEditImplementAttributes();
 	}
 
 	/**
@@ -228,7 +254,7 @@ public class EditImplementEntity {
 			for (KeyModel ek : keyModels) {
 				ek.getAttributes().remove(removed.getOriginalAttribute());
 				// アトリビュートが存在しないキーモデルは削除対象とする
-				if (ek.getAttributes().size() == 0) {
+				if (ek.getAttributes().isEmpty()) {
 					toBeRemoved.add(ek);
 				}
 			}

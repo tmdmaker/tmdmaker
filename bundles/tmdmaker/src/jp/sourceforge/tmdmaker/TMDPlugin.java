@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,17 +61,12 @@ public class TMDPlugin extends AbstractUIPlugin {
 	private IPropertyChangeListener[] listeners = {new AppearancePreferenceListener(), new RulePreferenceListener()};
 
 	/**
-	 * The constructor
-	 */
-	public TMDPlugin() {
-	}
-
-	/**
 	 * 
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
@@ -92,6 +87,7 @@ public class TMDPlugin extends AbstractUIPlugin {
 	 * 
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		IPreferenceStore store = plugin.getPreferenceStore();
 
@@ -134,7 +130,6 @@ public class TMDPlugin extends AbstractUIPlugin {
 		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR,
 				t.getMessage(), t);
 		getDefault().getLog().log(status);
-		t.printStackTrace();
 	}
 
 	/**
@@ -161,6 +156,22 @@ public class TMDPlugin extends AbstractUIPlugin {
 		messageBox.setText(Messages.TMDPlugin_InformationTitle);
 		messageBox.setMessage(message);
 		messageBox.open();
+	}
+
+	/**
+	 * エラーダイアログ表示
+	 * 
+	 * @param message
+	 *            表示対象の文言
+	 */
+	public static void showErrorDialog(String message) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, 
+				message);
+
+		log(message);
+
+		ErrorDialog.openError(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell(), Messages.TMDPlugin_ErrorTitle, message, status);
 	}
 
 	/**

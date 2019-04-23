@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ public class MultivalueAndAggregator extends AbstractSubsetType<MultivalueAndSup
 	 */
 	@Override
 	public MultivalueAndSuperset getSuperset() {
-		if (getModelTargetConnections().size() > 0) {
+		if (!getModelTargetConnections().isEmpty()) {
 			AbstractConnectionModel r = getModelTargetConnections().get(0);
 			return (MultivalueAndSuperset) r.getSource();
 		}

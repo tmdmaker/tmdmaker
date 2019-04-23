@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2016-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +39,8 @@ class SphinxUtils {
 
 	/** 
 	 * 入力ストリームの内容を出力ストリームへ流す。
-	 * @param in入力ストリーム
-	 * @param out出力ストリーム
+	 * @param in 入力ストリーム
+	 * @param file 出力ファイル
 	 */
 	def static void copyTo(InputStream in, File file) {
 		var FileOutputStream out = null
@@ -60,7 +60,7 @@ class SphinxUtils {
 
 	/** 
 	 * ストリームのクローズ
-	 * @param closeable主にストリーム
+	 * @param closeable 主にストリーム
 	 */
 	def static void close(Closeable closeable) {
 		try {
@@ -72,6 +72,7 @@ class SphinxUtils {
 	
 	/**
 	 * ER図のファイル名から拡張子を除いて返す
+	 * @param model モデル
 	 */
 	def static diagram_name(AbstractEntityModel model) {
 		val name = model.diagram.name
@@ -80,6 +81,8 @@ class SphinxUtils {
 	
 	/**
 	 * テキストを指定したファイルに書き込む
+	 * @param content 出力内容
+	 * @param file 出力先
 	 */
 	def static writeTo(CharSequence content, File file){
 		var FileWriter filewriter = null

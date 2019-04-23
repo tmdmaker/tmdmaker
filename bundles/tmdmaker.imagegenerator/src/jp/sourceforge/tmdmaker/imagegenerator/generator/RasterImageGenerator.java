@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,10 @@ import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
+
+import jp.sourceforge.tmdmaker.imagegenerator.generator.converter.DefaultImageFormatConverer;
+import jp.sourceforge.tmdmaker.imagegenerator.generator.converter.ImageFormatConverter;
 
 /**
  * ラスターイメージ生成クラス
@@ -31,6 +32,15 @@ import org.eclipse.swt.widgets.Display;
  * 
  */
 public class RasterImageGenerator implements ImageGenerator {
+	private final ImageFormatConverter imageDataConverter;
+
+	public RasterImageGenerator() {
+		this.imageDataConverter = new DefaultImageFormatConverer();
+	}
+
+	public RasterImageGenerator(ImageFormatConverter imageDataConverter) {
+		this.imageDataConverter = imageDataConverter;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -39,19 +49,15 @@ public class RasterImageGenerator implements ImageGenerator {
 	public void execute(IFigure rootFigure, String file, int imageType) {
 		Rectangle rectangle = rootFigure.getBounds();
 
-		Image image = new Image(Display.getDefault(), rectangle.width + 50,
-				rectangle.height + 50);
+		Image image = new Image(Display.getDefault(), rectangle.width + 50, rectangle.height + 50);
+
 		GC gc = new GC(image);
 		SWTGraphics graphics = new SWTGraphics(gc);
 		graphics.translate(rectangle.getLocation().negate());
 
 		rootFigure.paint(graphics);
 
-		ImageLoader loader = new ImageLoader();
-		loader.data = new ImageData[] { image.getImageData() };
-
-		loader.save(file, imageType);
-
+		this.imageDataConverter.convert(file, imageType, image);
 		gc.dispose();
 		image.dispose();
 	}

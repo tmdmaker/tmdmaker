@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,6 +80,7 @@ public class ModelSelectPanel extends Composite {
 		selectedList = new List(this, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		selectedList.setLayoutData(gridData);
 		selectedList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
+			@Override
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
 				selectButton.setEnabled(false);
 				removeButton.setEnabled(true);
@@ -92,6 +93,7 @@ public class ModelSelectPanel extends Composite {
 		candidateList = new List(this, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		candidateList.setLayoutData(gridData1);
 		candidateList.addFocusListener(new org.eclipse.swt.events.FocusAdapter() {
+			@Override
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
 				selectButton.setEnabled(true);
 				removeButton.setEnabled(false);
@@ -156,6 +158,7 @@ public class ModelSelectPanel extends Composite {
 		selectButton = new Button(buttonsComposite, SWT.NONE);
 		selectButton.setText("<"); //$NON-NLS-1$
 		selectButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				int[] selectedIndices = candidateList.getSelectionIndices();
 				if (selectedIndices.length == 0) {
@@ -174,6 +177,7 @@ public class ModelSelectPanel extends Composite {
 		removeButton = new Button(buttonsComposite, SWT.NONE);
 		removeButton.setText(">"); //$NON-NLS-1$
 		removeButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				int[] selectedIndices = selectedList.getSelectionIndices();
 				if (selectedIndices.length == 0) {
@@ -192,6 +196,7 @@ public class ModelSelectPanel extends Composite {
 		selectAllButton = new Button(buttonsComposite, SWT.NONE);
 		selectAllButton.setText("<<"); //$NON-NLS-1$
 		selectAllButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				selectModels.addAll(notSelectModels);
 				notSelectModels.clear();
@@ -202,6 +207,7 @@ public class ModelSelectPanel extends Composite {
 		removeAllButton = new Button(buttonsComposite, SWT.NONE);
 		removeAllButton.setText(">>"); //$NON-NLS-1$
 		removeAllButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				notSelectModels.addAll(selectModels);
 				selectModels.clear();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,7 +107,6 @@ public class ImplementInfoEditDialog extends Dialog {
 		Composite composite = new Composite(tabFolder, SWT.NULL);
 		composite.setLayout(gridLayout);
 		panel1 = new ImplementInfoEditPanel(composite, SWT.NULL, implementModel);
-		// panel1.initializeValue(model, editAttributeList);
 		panel1.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -156,7 +155,6 @@ public class ImplementInfoEditDialog extends Dialog {
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel3 = new IndexSettingPanel(composite, SWT.NULL, implementModel);
 		panel3.setLayoutData(gridData);
-		// panel3.initializeValue(editAttributeList, editedKeyModels);
 		panel3.updateTable();
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		panel4 = new SurrogateKeyPanel(composite, SWT.NULL, implementModel);

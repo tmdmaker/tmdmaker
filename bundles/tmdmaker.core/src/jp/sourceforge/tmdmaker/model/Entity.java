@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -239,7 +239,7 @@ public class Entity extends AbstractEntityModel {
 	 */
 	@Override
 	public boolean isEntityTypeEditable() {
-		return getModelSourceConnections().size() == 0 && getModelTargetConnections().size() == 0;
+		return getModelSourceConnections().isEmpty() && getModelTargetConnections().isEmpty();
 	}
 
 	/**
@@ -250,9 +250,9 @@ public class Entity extends AbstractEntityModel {
 	@Override
 	public boolean isDeletable() {
 		if (getEntityType() == EntityType.EVENT) {
-			return getModelSourceConnections().size() == 0;
+			return getModelSourceConnections().isEmpty();
 		}
-		return getModelSourceConnections().size() == 0 && getModelTargetConnections().size() == 0;
+		return getModelSourceConnections().isEmpty() && getModelTargetConnections().isEmpty();
 
 	}
 

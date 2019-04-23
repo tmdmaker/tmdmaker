@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,8 +100,8 @@ public class Relationship {
 	 * @return RESOURCE:Eの場合にtrueを返す。
 	 */
 	private static boolean isR2E(AbstractEntityModel source, AbstractEntityModel target) {
-		return (source.isEvent() && target.isResource())
-				|| (source.isResource() && target.isEvent());
+		return source.isEvent() && target.isResource()
+				|| source.isResource() && target.isEvent();
 	}
 
 	/**
@@ -164,6 +164,6 @@ public class Relationship {
 	 * @return ターボファイルの場合にtrueを返す
 	 */
 	private static boolean isTurboFile(AbstractEntityModel source, AbstractEntityModel target) {
-		return (source instanceof TurboFile) || (target instanceof TurboFile);
+		return source instanceof TurboFile || target instanceof TurboFile;
 	}
 }

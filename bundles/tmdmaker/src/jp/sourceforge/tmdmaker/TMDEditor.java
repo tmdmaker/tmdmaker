@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -194,7 +194,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 
 			// tree
 			logger.debug(Messages.TreeSettingsStartMessage);
-			EditPartViewer viewer = getViewer();
+			EditPartViewer viewer = this.getViewer();
 			viewer.createControl(sash);
 			viewer.setEditDomain(tmdEditor.getEditDomain());
 			viewer.setEditPartFactory(new TMDEditorOutlineTreePartFactory());
@@ -235,7 +235,6 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 		 */
 		@Override
 		public void dispose() {
-			// getSelectionSynchronizer().removeViewer(getViewer());
 			if (getGraphicalViewer().getControl() != null
 					&& !getGraphicalViewer().getControl().isDisposed()) {
 				getGraphicalViewer().getControl().removeDisposeListener(disposeListener);
@@ -254,7 +253,9 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 	 */
 	private class TMDPropertySheetPage extends PropertySheetPage {
 		private class TMDPropertySheetSorter extends PropertySheetSorter {
+			@Override
 			public void sort(IPropertySheetEntry[] entries) {
+				// not sort
 			}
 		}
 
@@ -304,7 +305,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 	@Override
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
-		logger.debug(getClass() + "#initializeGraphicalViewer()"); //$NON-NLS-1$
+		logger.debug("{}#initializeGraphicalViewer()", getClass()); //$NON-NLS-1$
 		GraphicalViewer viewer = getGraphicalViewer();
 
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
@@ -437,7 +438,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 			file.deleteMarkers(IMarker.PROBLEM, false, 0);
 		} catch (CoreException e) {
 			TMDPlugin.showErrorDialog(SAVE_ERROR, e);
-			logger.warn("IFile#deleteMarkers()." + e); //$NON-NLS-1$
+			logger.warn("IFile#deleteMarkers().{}", e); //$NON-NLS-1$
 		}
 		try {
 			Serializer serializer = SerializerFactory.getInstance();
@@ -505,7 +506,6 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 						}
 					});
 
-			// setInput(new FileEditorInput(file));
 		} catch (InterruptedException e) {
 			logger.warn("ProgressMonitorDialog#run().", e); //$NON-NLS-1$
 		} catch (InvocationTargetException e) {
@@ -698,7 +698,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 
 		// zoom（キーバインディングとマウスホイールも）
 		// FIXME:ZoomINのキーバインディングに不具合あり
-		IHandlerService service = (IHandlerService) getSite().getService(IHandlerService.class);
+		IHandlerService service = getSite().getService(IHandlerService.class);
 		action = new ZoomInAction(rootEditPart.getZoomManager());
 		getActionRegistry().registerAction(action);
 		service.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
@@ -805,9 +805,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 
 	public Diagram getRootModel() {
 		GraphicalViewer viewer = getGraphicalViewer();
-		Diagram model = (Diagram) viewer.getContents().getModel();
-		// Diagram model = ((DiagramEditPart) viewer.getContents()).getModel();
-		return model;
+		return (Diagram) viewer.getContents().getModel();
 	}
 
 	public ScalableFreeformRootEditPart getScalableRootEditPart() {

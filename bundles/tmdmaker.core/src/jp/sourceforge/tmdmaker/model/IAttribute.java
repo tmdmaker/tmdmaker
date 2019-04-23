@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,122 +26,122 @@ public interface IAttribute {
 	 * 
 	 * @return the name
 	 */
-	public abstract String getName();
+	String getName();
 
 	/**
 	 * 
 	 * @param name
 	 *            the name to set
 	 */
-	public abstract void setName(String name);
+	void setName(String name);
 
 	/**
 	 * @return the implementName
 	 */
-	public abstract String getImplementName();
+	String getImplementName();
 
 	/**
 	 * @param implementName
 	 *            the implementName to set
 	 */
-	public abstract void setImplementName(String implementName);
+	void setImplementName(String implementName);
 
 	/**
 	 * @return the description
 	 */
-	public abstract String getDescription();
+	String getDescription();
 
 	/**
 	 * @param description
 	 *            the description to set
 	 */
-	public abstract void setDescription(String description);
+	void setDescription(String description);
 
 	/**
 	 * @return the validationRule
 	 */
-	public abstract String getValidationRule();
+	String getValidationRule();
 
 	/**
 	 * @param validationRule
 	 *            the validationRule to set
 	 */
-	public abstract void setValidationRule(String validationRule);
+	void setValidationRule(String validationRule);
 
 	/**
 	 * @return the lock
 	 */
-	public abstract String getLock();
+	String getLock();
 
 	/**
 	 * @param lock
 	 *            the lock to set
 	 */
-	public abstract void setLock(String lock);
+	void setLock(String lock);
 
 	/**
 	 * @return the derivation
 	 */
-	public abstract boolean isDerivation();
+	boolean isDerivation();
 
 	/**
 	 * @param derivation
 	 *            the derivation
 	 */
-	public abstract void setDerivation(boolean derivation);
+	void setDerivation(boolean derivation);
 
 	/**
 	 * @return the derivationRule
 	 */
-	public abstract String getDerivationRule();
+	String getDerivationRule();
 
 	/**
 	 * @param derivationRule
 	 *            the derivationRule to set
 	 */
-	public abstract void setDerivationRule(String derivationRule);
+	void setDerivationRule(String derivationRule);
 
 	/**
 	 * @return the dataType
 	 */
-	public abstract DataTypeDeclaration getDataTypeDeclaration();
+	DataTypeDeclaration getDataTypeDeclaration();
 
 	/**
 	 * @param dataType
 	 *            the dataType to set
 	 */
-	public abstract void setDataTypeDeclaration(DataTypeDeclaration dataType);
+	void setDataTypeDeclaration(DataTypeDeclaration dataType);
 
 	/**
 	 * @return the nullable
 	 */
-	public abstract boolean isNullable();
+	boolean isNullable();
 
 	/**
 	 * @param nullable
 	 *            the nullable to set
 	 */
-	public abstract void setNullable(boolean nullable);
+	void setNullable(boolean nullable);
 
 	/**
 	 * fromから自身のフィールド値へコピー（sharrow copy)する。
 	 * 
 	 * @param from
 	 */
-	public abstract void copyFrom(IAttribute from);
+	void copyFrom(IAttribute from);
 
 	/**
 	 * toへ自身のフィールド値をコピー（sharrow copy)する。
 	 * 
 	 * @param to
 	 */
-	public abstract void copyTo(IAttribute to);
+	void copyTo(IAttribute to);
 
 	/**
 	 * 自身のコピーを作成する
 	 * 
 	 * @return コピー
 	 */
-	public abstract IAttribute getCopy();
+	IAttribute getCopy();
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,6 +82,7 @@ public class IndexSettingPanel extends Composite {
 		updateButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		updateButton.setText(Messages.UpdateButton);
 		updateButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectColumnIndex == -1) {
 					return;
@@ -103,6 +104,7 @@ public class IndexSettingPanel extends Composite {
 		deleteButton.setText(Messages.RemoveButton);
 		deleteButton.setLayoutData(gridData1);
 		deleteButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				if (selectColumnIndex == -1) {
 					return;
@@ -111,6 +113,7 @@ public class IndexSettingPanel extends Composite {
 			}
 		});
 		addButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				java.util.List<IAttribute> notSelectedAttributes = new ArrayList<IAttribute>();
 				for (EditImplementAttribute ea : implementModel.getAttributes()) {

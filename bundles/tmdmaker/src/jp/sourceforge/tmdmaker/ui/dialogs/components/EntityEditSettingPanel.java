@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,6 +124,7 @@ public class EntityEditSettingPanel extends Composite {
 			}
 		});
 		nameAutoCreateCheckBox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				Button b = (Button) e.widget;
 				if (b.getSelection()) {
@@ -155,6 +156,7 @@ public class EntityEditSettingPanel extends Composite {
 		descButton.setText(Messages.DescriptionButton);
 		descButton.setLayoutData(gridData11);
 		descButton.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				AttributeDialog dialog = new AttributeDialog(getShell(),
 						entity.getEditIdentifier());

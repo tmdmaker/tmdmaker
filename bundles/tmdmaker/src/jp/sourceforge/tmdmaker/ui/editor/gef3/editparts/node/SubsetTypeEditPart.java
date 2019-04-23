@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,7 +82,7 @@ public class SubsetTypeEditPart extends AbstractSubsetTypeEditPart<SubsetType> {
 	@Override
 	public Command getCommand(Request request) {
 		if (REQ_OPEN.equals(request.getType())) {
-			logger.debug(getClass() + "#getCommand(req)");
+			logger.debug("{}#getCommand(req)", getClass());
 			SubsetType subsetType = getModel();
 			AbstractEntityModel model = subsetType.getSuperset();
 

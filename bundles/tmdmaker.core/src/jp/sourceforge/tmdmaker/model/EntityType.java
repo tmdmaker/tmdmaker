@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public enum EntityType {
 	 * コンストラクタ
 	 * @param label エンティティ種類の表示名
 	 */
-	private EntityType(String typeName,String label) {
+	EntityType(String typeName,String label) {
 		this.typeName = typeName;
 		this.label = label;
 	}

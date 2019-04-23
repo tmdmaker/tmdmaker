@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 	SAME,
 	/* 相違 */
 	DIFFERENT
-	};
+	}
 
 	/** サブセット種類. */
 	private SubsetTypeValue subsetType = SubsetTypeValue.SAME;
@@ -142,7 +142,7 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 	 * @return エンティティとのリレーションシップ
 	 */
 	public Entity2SubsetTypeRelationship getEntityRelationship() {
-		if (getModelTargetConnections().size() > 0) {
+		if (!getModelTargetConnections().isEmpty()) {
 			return (Entity2SubsetTypeRelationship) getModelTargetConnections().get(0);
 		}
 		return null;
@@ -207,6 +207,6 @@ public class SubsetType extends AbstractSubsetType<AbstractEntityModel> {
 	 * @return サブセットを保持している場合にtrueを返す.
 	 */
 	public boolean hasSubsetEntity() {
-		return getModelSourceConnections().size() != 0;
+		return !getModelSourceConnections().isEmpty();
 	}
 }

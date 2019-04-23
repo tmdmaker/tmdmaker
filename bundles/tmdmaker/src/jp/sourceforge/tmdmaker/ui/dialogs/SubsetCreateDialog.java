@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,19 +68,17 @@ public class SubsetCreateDialog extends Dialog {
 	 *
 	 * @param parentShell
 	 *            親.
-	 * @param subsetType
-	 *            サブセットの種類（同一/相違）.
 	 * @param model
 	 *            スーパーセット.
 	 */
 	public SubsetCreateDialog(Shell parentShell, AbstractEntityModel model) {
 		super(parentShell);
 		if (model.subsets().hasSubset()) {
-			SubsetType subsetType = model.subsets().subsetType();
-			this.subsetType = subsetType.getSubsetType();
-			this.exceptNull = subsetType.isExceptNull();
-			this.selectedAttribute = subsetType.getPartitionAttribute();
-			for (SubsetEntity se : subsetType.getSubsetList()) {
+			SubsetType currentSubsetType = model.subsets().subsetType();
+			this.subsetType = currentSubsetType.getSubsetType();
+			this.exceptNull = currentSubsetType.isExceptNull();
+			this.selectedAttribute = currentSubsetType.getPartitionAttribute();
+			for (SubsetEntity se : currentSubsetType.getSubsetList()) {
 				this.subsetEntities.add(new EditSubsetEntity(se));
 			}
 		} else {

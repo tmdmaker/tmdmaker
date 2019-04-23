@@ -16,17 +16,18 @@
  
 package jp.sourceforge.tmdmaker.sphinx.generate
 
-import jp.sourceforge.tmdmaker.model.generate.Generator
+import java.io.File
+import java.util.Calendar
 import java.util.List
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel
-import java.io.File
-import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
+import jp.sourceforge.tmdmaker.model.Diagram
+import jp.sourceforge.tmdmaker.model.generate.Generator
+import org.apache.commons.lang.StringUtils
+import jp.sourceforge.tmdmaker.sphinx.Messages
 import static extension jp.sourceforge.tmdmaker.sphinx.attributelist.AttributeListRstGenerator.*
 import static extension jp.sourceforge.tmdmaker.sphinx.keydefinitionlist.KeyDefinitionListRstGenerator.*
 import static extension jp.sourceforge.tmdmaker.sphinx.relationshiplist.RelationshipListRstGenerator.*
-import java.util.Calendar
-import org.apache.commons.lang.StringUtils
-import jp.sourceforge.tmdmaker.model.Diagram
+import static extension jp.sourceforge.tmdmaker.sphinx.utilities.SphinxUtils.*
 
 /**
  * ドキュメント全体を生成する
@@ -35,7 +36,7 @@ import jp.sourceforge.tmdmaker.model.Diagram
  */
 class DocGenerator implements Generator {
 	
-	private Diagram diagram
+	Diagram diagram
 	
 	override execute(String rootDir, List<AbstractEntityModel> models) {
 		
@@ -58,7 +59,7 @@ class DocGenerator implements Generator {
 	}
 	
 	override getGeneratorName() {
-		"Sphinx形式でドキュメントを生成する"
+		Messages.getString("DocGenerator_GeneratorName")
 	}
 	
 	override getGroupName() {

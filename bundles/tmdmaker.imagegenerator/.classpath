@@ -2,25 +2,11 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-rasterizer.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-slideshow.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-squiggle.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-svgpp.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-ttf2svg.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-dom.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-svg-dom.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-svggen.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-gvt.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-util.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-ext.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-css.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-xml.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-transcoder.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-bridge.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/xml-apis.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/pdf-transcoder.jar"/>
 	<classpathentry kind="src" path="src/"/>
+	<classpathentry exported="true" kind="lib" path="lib/imageio-tiff-3.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/imageio-metadata-3.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/imageio-core-3.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/common-lang-3.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/common-io-3.4.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
