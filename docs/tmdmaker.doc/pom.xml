@@ -120,6 +120,7 @@
 							<outputDirectory>${project.reporting.outputDirectory}/jacoco/report/</outputDirectory>
 							<excludes>
 								<exclude>**/org/eclipse/gmf/**/*.class</exclude>
+								<exclude>**/jp/sourceforge/tmdmaker/**/*Test.class</exclude>
 							</excludes>
 						</configuration>
 						<goals>

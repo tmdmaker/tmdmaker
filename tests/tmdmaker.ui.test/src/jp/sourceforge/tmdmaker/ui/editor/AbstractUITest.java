@@ -145,4 +145,7 @@ public abstract class AbstractUITest extends SWTBotGefTestCase {
 		wait.waitDefault();
 	}
 
+	protected String projectName() {
+		return PROJECT_NAME;
+	}
 }
