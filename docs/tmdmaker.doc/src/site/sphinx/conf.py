@@ -18,10 +18,10 @@ source_encoding = 'utf-8-sig'
 master_doc = 'index'
 
 project = 'TMD-Maker'
-copyright = '2018, TMD-Maker Project'
+copyright = '2019, TMD-Maker Project'
 author = 'TMD-Maker Project'
-version = '0.7'
-release = '0.8.0-SNAPSHOT'
+version = '0.9'
+release = '0.9.0-SNAPSHOT'
 
 language = 'ja'
 

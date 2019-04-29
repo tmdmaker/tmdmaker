@@ -2,7 +2,7 @@
 <feature
       id="tmdmaker.e3.feature"
       label="TMD-Maker Plug-in"
-      version="0.8.0.qualifier"
+      version="0.9.0.qualifier"
       provider-name="TMD-Maker Project"
       plugin="tmdmaker">
 
@@ -11,7 +11,7 @@
    </description>
 
    <copyright url="https://tmdmaker.osdn.jp">
-      (c)2018,TMD-Maker Project.
+      (c)2019,TMD-Maker Project.
    </copyright>
 
    <license url="https://www.apache.org/licenses/LICENSE-2.0">
