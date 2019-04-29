@@ -40,7 +40,7 @@
 		<maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
-		<xtend-version>2.16.0</xtend-version>
+		<xtend-version>2.17.1</xtend-version>
 		<!-- other settings -->
 		<release-version>0.9.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
