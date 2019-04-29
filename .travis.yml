@@ -17,6 +17,7 @@ install: true
 addons:
   apt:
     packages:
+    - xvfb
     - metacity
 
 before_script:
