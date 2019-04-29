@@ -26,5 +26,6 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  tmdmaker.core,
  org.eclipse.swtbot.e4.finder,
  tmdmaker.imagegenerator,
- tmdmaker.sphinx
+ tmdmaker.sphinx,
+ tmdmaker.ddlgenerator
 Automatic-Module-Name: tmdmaker.ui.test

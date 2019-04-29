@@ -54,8 +54,7 @@ public class SphinxGeneratorTest extends AbstractUITest {
 		List<AbstractEntityModel> list = Arrays.asList(e);
 		String rootDir = Platform.getInstanceLocation().getURL().getPath() + projectName();
 		generator.execute(rootDir, list);
-		String docPath = Platform.getInstanceLocation().getURL().getPath() + projectName()
-				+ File.separator + "doc";
+		String docPath = rootDir + File.separator + "doc";
 		assertEquals(true, new File(docPath).exists());
 	}
 }
