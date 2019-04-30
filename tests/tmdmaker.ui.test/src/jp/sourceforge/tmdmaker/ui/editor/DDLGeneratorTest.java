@@ -16,9 +16,6 @@
 package jp.sourceforge.tmdmaker.ui.editor;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
@@ -27,8 +24,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import jp.sourceforge.tmdmaker.generate.ddl.DdlUtilsDDLGenerator;
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Entity;
 
 /**
  * TMD-MakerのDdlUtilsDDLGeneratorテスト.
@@ -41,6 +36,7 @@ import jp.sourceforge.tmdmaker.model.Entity;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class DDLGeneratorTest extends AbstractUITest {
 	DdlUtilsDDLGenerator generator;
+	String rootDir;
 
 	@Override
 	public void setUp() throws Exception {
@@ -54,15 +50,13 @@ public class DDLGeneratorTest extends AbstractUITest {
 		sleep();
 		wait.waitFor(10);
 		generator = new DdlUtilsDDLGenerator();
+		rootDir = Platform.getInstanceLocation().getURL().getPath() + projectName();
 	}
 
 	@Test
 	public void notSelectDatabase() {
 		try {
-			Entity e = (Entity) tmdEditor.getRootModel().getChildren().get(0);
-			List<AbstractEntityModel> list = Arrays.asList(e);
-			String rootDir = Platform.getInstanceLocation().getURL().getPath() + projectName();
-			generator.execute(rootDir, list);
+			generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
 		} catch (RuntimeException e) {
 			return;
 		}
@@ -81,12 +75,7 @@ public class DDLGeneratorTest extends AbstractUITest {
 		bot.button("OK").click();
 		sleep();
 
-		List<AbstractEntityModel> list = tmdEditor.getRootModel().getChildren().stream()
-				.filter(m -> m instanceof AbstractEntityModel).map(m -> (AbstractEntityModel) m)
-				.collect(Collectors.toList());
-
-		String rootDir = Platform.getInstanceLocation().getURL().getPath() + projectName();
-		generator.execute(rootDir, list);
+		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
 		String docPath = rootDir + File.separator + "ddl.sql";
 		assertEquals(true, new File(docPath).exists());
 	}

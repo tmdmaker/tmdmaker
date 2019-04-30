@@ -22,19 +22,21 @@ import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import jp.sourceforge.tmdmaker.sphinx.generate.DocGenerator;
+import jp.sourceforge.tmdmaker.generate.html.attributelist.AttributeListHtmlGenerator;
+import jp.sourceforge.tmdmaker.generate.html.keydefinitionlist.KeyDefinitionListHtmlGenerator;
+import jp.sourceforge.tmdmaker.generate.html.relationshiplist.RelationshipListHtmlGenerator;
 
 /**
- * TMD-MakerのDocGeneratorテスト.
+ * TMD-MakerのHtmlGeneratorテスト.
  *
- * SWTBotがFileDialogに対応していないので内部クラスを直接実行している.
+ * SWTBotがMessageDialogに対応していないので内部クラスを直接実行している.
  * 
  * @author nakag
  *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class SphinxGeneratorTest extends AbstractUITest {
-	DocGenerator generator;
+public class HtmlGeneratorTest extends AbstractUITest {
+	String rootDir;
 
 	@Override
 	public void setUp() throws Exception {
@@ -47,14 +49,31 @@ public class SphinxGeneratorTest extends AbstractUITest {
 		botEditor.click(305, 55);
 		sleep();
 		wait.waitFor(10);
-		generator = new DocGenerator();
+		rootDir = Platform.getInstanceLocation().getURL().getPath() + projectName();
 	}
 
 	@Test
-	public void generateTest() {
-		String rootDir = Platform.getInstanceLocation().getURL().getPath() + projectName();
+	public void attributeListTest() {
+		AttributeListHtmlGenerator generator = new AttributeListHtmlGenerator();
 		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
-		String docPath = rootDir + File.separator + "doc";
+		String docPath = rootDir + File.separator + "attribute_list.html";
 		assertEquals(true, new File(docPath).exists());
 	}
+
+	@Test
+	public void keyListTest() {
+		KeyDefinitionListHtmlGenerator generator = new KeyDefinitionListHtmlGenerator();
+		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
+		String docPath = rootDir + File.separator + "key_list.html";
+		assertEquals(true, new File(docPath).exists());
+	}
+
+	@Test
+	public void relationshipListTest() {
+		RelationshipListHtmlGenerator generator = new RelationshipListHtmlGenerator();
+		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
+		String docPath = rootDir + File.separator + "relationship_list.html";
+		assertEquals(true, new File(docPath).exists());
+	}
+
 }
