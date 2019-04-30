@@ -28,5 +28,6 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  tmdmaker.imagegenerator,
  tmdmaker.sphinx,
  tmdmaker.ddlgenerator,
- tmdmaker.htmlgenerator
+ tmdmaker.htmlgenerator,
+ tmdmaker.csv
 Automatic-Module-Name: tmdmaker.ui.test

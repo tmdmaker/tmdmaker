@@ -19,14 +19,13 @@ import java.io.File;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import jp.sourceforge.tmdmaker.generate.ddl.DdlUtilsDDLGenerator;
+import jp.sourceforge.tmdmaker.generate.csv.attributelist.AttributeListCsvGenerator;
 
 /**
- * TMD-MakerのDdlUtilsDDLGeneratorテスト.
+ * TMD-MakerのAttributeListCsvGeneratorテスト.
  *
  * SWTBotがMessageDialogに対応していないので内部クラスを直接実行している.
  * 
@@ -34,8 +33,8 @@ import jp.sourceforge.tmdmaker.generate.ddl.DdlUtilsDDLGenerator;
  *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class DDLGeneratorTest extends AbstractUITest {
-	DdlUtilsDDLGenerator generator;
+public class CSVGeneratorTest extends AbstractUITest {
+	AttributeListCsvGenerator generator;
 	String rootDir;
 
 	@Override
@@ -48,34 +47,14 @@ public class DDLGeneratorTest extends AbstractUITest {
 		botEditor.click(55, 55);
 		botEditor.click(305, 55);
 		wait.waitFor(10);
-		generator = new DdlUtilsDDLGenerator();
+		generator = new AttributeListCsvGenerator();
 		rootDir = Platform.getInstanceLocation().getURL().getPath() + projectName();
 	}
 
 	@Test
-	public void notSelectDatabase() {
-		try {
-			generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
-		} catch (RuntimeException e) {
-			return;
-		}
-		fail();
-	}
-
-	@Test
-	public void generateTest() {
-		botEditor.click(20, 20);
-		botEditor.clickContextMenu("Select database");
-		SWTBotShell shell = bot.shell("Select database");
-		shell.activate();
-		sleep();
-
-		bot.comboBox(0).setSelection(7);
-		bot.button("OK").click();
-		sleep();
-
+	public void testAttributeList() {
 		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
-		String docPath = rootDir + File.separator + "ddl.sql";
+		String docPath = rootDir + File.separator + "attribute_list.csv";
 		assertEquals(true, new File(docPath).exists());
 	}
 }
