@@ -22,6 +22,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Entity2VirtualEntityRelationship;
 import jp.sourceforge.tmdmaker.model.ModelQuery;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
+import jp.sourceforge.tmdmaker.model.filter.NameMatchFilter;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
 /**
@@ -42,8 +43,8 @@ public class VirtualEntityQuery implements ModelQuery<VirtualEntity> {
 		List<VirtualEntity> results = new ArrayList<VirtualEntity>();
 		for (Entity2VirtualEntityRelationship r : this.source
 				.findRelationshipFromSourceConnections(Entity2VirtualEntityRelationship.class)) {
-			VirtualEntity ve = r.getVirtualEntity();
-			if (ve.getName().equals(name.getValue())) {
+			VirtualEntity ve = new NameMatchFilter(name).filter(r.getVirtualEntity());
+			if (ve != null) {
 				results.add(ve);
 			}
 		}

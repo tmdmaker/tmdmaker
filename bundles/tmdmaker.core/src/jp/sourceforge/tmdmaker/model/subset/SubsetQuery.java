@@ -21,6 +21,7 @@ import java.util.List;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ModelQuery;
 import jp.sourceforge.tmdmaker.model.SubsetEntity;
+import jp.sourceforge.tmdmaker.model.filter.NameMatchFilter;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
 /**
@@ -51,11 +52,12 @@ public class SubsetQuery implements ModelQuery<SubsetEntity> {
 	 */
 	@Override
 	public List<SubsetEntity> findByName(ModelName name) {
-		List<SubsetEntity> subsetList = parent.subsets().all();
 		List<SubsetEntity> results = new ArrayList<SubsetEntity>();
-		for (SubsetEntity s : subsetList) {
-			if (name.getValue().equals(s.getName())) {
-				results.add(s);
+
+		for (SubsetEntity s : parent.subsets().all()) {
+			SubsetEntity filtered = new NameMatchFilter(name).filter(s);
+			if (filtered != null) {
+				results.add(filtered);
 			}
 		}
 		return results;

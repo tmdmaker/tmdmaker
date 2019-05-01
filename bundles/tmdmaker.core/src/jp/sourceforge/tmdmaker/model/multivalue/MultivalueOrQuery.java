@@ -22,6 +22,7 @@ import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.ModelQuery;
 import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
 import jp.sourceforge.tmdmaker.model.MultivalueOrRelationship;
+import jp.sourceforge.tmdmaker.model.filter.NameMatchFilter;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
 /**
@@ -42,8 +43,8 @@ public class MultivalueOrQuery implements ModelQuery<MultivalueOrEntity> {
 		List<MultivalueOrEntity> results = new ArrayList<MultivalueOrEntity>();
 		for (MultivalueOrRelationship r : this.source
 				.findRelationshipFromSourceConnections(MultivalueOrRelationship.class)) {
-			MultivalueOrEntity target = r.getMultivalueOrEntity();
-			if (name.getValue().equals(target.getName())) {
+			MultivalueOrEntity target = new NameMatchFilter(name).filter(r.getMultivalueOrEntity());
+			if (target != null) {
 				results.add(target);
 			}
 		}

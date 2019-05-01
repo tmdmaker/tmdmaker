@@ -18,8 +18,18 @@ package jp.sourceforge.tmdmaker.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.sourceforge.tmdmaker.model.filter.ExcludeClassFilter;
+import jp.sourceforge.tmdmaker.model.filter.ExcludeModelFilter;
+import jp.sourceforge.tmdmaker.model.filter.ImplementModelFilter;
+import jp.sourceforge.tmdmaker.model.filter.NameMatchFilter;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
+/**
+ * Diagramを検索するクエリクラス.
+ * 
+ * @author nakag
+ *
+ */
 public class DiagramQuery {
 	private final Diagram diagram;
 	private boolean implementModelOnly = false;
@@ -60,19 +70,11 @@ public class DiagramQuery {
 	private <T> List<T> listModel(Class<T> clazz) {
 		List<T> results = new ArrayList<T>();
 		for (ModelElement m : diagram.getChildren()) {
-			ModelElement filteredModel = filterImplementModel(m);
+			ModelElement filteredModel = applyFilteres(m);
 			if (filteredModel == null) {
 				continue;
 			}
-			if (isExclude(m)) {
-				continue;
-			}
-			if (isExcludeClass(m)) {
-				continue;
-			}
-			if (!isNameMatch(m)) {
-				continue;
-			}
+
 			if (clazz.isAssignableFrom(m.getClass())) {
 				results.add((T) m);
 			}
@@ -80,37 +82,23 @@ public class DiagramQuery {
 		return results;
 	}
 
-	private boolean isExcludeClass(ModelElement m) {
-		if (excludeClasses.isEmpty()) {
-			return false;
-		}
-		for (Class<?> clazz : excludeClasses) {
-			if (clazz.isAssignableFrom(m.getClass())) {
-				return true;
+	private ModelElement applyFilteres(ModelElement model) {
+		for (ModelFilter filter : createFilteres()) {
+			ModelElement filteredModel = filter.filter(model);
+			if (filteredModel == null) {
+				return null;
 			}
 		}
-		return false;
+		return model;
 	}
 
-	private boolean isNameMatch(ModelElement m) {
-		if (this.name == null) {
-			return true;
-		}
-		return this.name.equals(new ModelName((m.getName())));
-	}
-
-	private ModelElement filterImplementModel(ModelElement m) {
-		if (!implementModelOnly) {
-			return m;
-		}
-		if (!(m instanceof AbstractEntityModel)) {
-			return null;
-		}
-		AbstractEntityModel entityModel = (AbstractEntityModel) m;
-		if (entityModel.isNotImplement()) {
-			return null;
-		}
-		return entityModel;
+	private ModelFilter[] createFilteres() {
+		List<ModelFilter> filteres = new ArrayList<ModelFilter>();
+		filteres.add(new ImplementModelFilter(implementModelOnly));
+		filteres.add(new ExcludeModelFilter(excludes));
+		filteres.add(new ExcludeClassFilter(excludeClasses));
+		filteres.add(new NameMatchFilter(name));
+		return filteres.toArray(new ModelFilter[filteres.size()]);
 	}
 
 	public List<AbstractEntityModel> listEntityModel() {
@@ -119,12 +107,5 @@ public class DiagramQuery {
 
 	public <T extends ModelElement> List<T> listEntityModel(Class<T> clazz) {
 		return listModel(clazz);
-	}
-
-	private boolean isExclude(ModelElement m) {
-		if (excludes.isEmpty()) {
-			return false;
-		}
-		return excludes.contains(m);
 	}
 }
