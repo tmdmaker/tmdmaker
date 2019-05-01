@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ public class AttributeListModelBuilderTest {
 		diagram.addChild(e2);
 
 		Map<String, EntityAttributePair> results = new AttributeListModelBuilder()
-				.build(diagram.findEntityModel());
+				.build(diagram.query().listEntityModel());
 
 		assertEquals(results.keySet().size(), 4);
 		assertTrue(results.containsKey("テスト1番号_テスト1"));
@@ -69,7 +69,7 @@ public class AttributeListModelBuilderTest {
 		r1.connect();
 
 		Map<String, EntityAttributePair> results = new AttributeListModelBuilder()
-				.build(diagram.findEntityModel());
+				.build(diagram.query().listEntityModel());
 		assertEquals(results.keySet().size(), 7);
 	}
 }

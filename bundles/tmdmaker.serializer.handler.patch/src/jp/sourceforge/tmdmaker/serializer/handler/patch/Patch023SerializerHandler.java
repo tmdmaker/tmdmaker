@@ -21,7 +21,6 @@ import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
-import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.RelatedRelationship;
 
 /**
@@ -43,11 +42,8 @@ public class Patch023SerializerHandler extends AbstractSerializerHandler {
 
 		if (versionUnderEqual(in, 0, 2, 2)) {
 			logger.info("apply patch 0.2.3");
-			for (ModelElement o : in.getChildren()) {
-				if (o instanceof AbstractEntityModel) {
-					AbstractEntityModel model = (AbstractEntityModel) o;
-					convert(model);
-				}
+			for (AbstractEntityModel model : in.query().listEntityModel()) {
+				convert(model);
 			}
 		}
 		return in;

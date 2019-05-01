@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,23 +113,6 @@ public class Diagram extends ModelElement {
 	}
 
 	/**
-	 * エンティティ系モデルとして利用可能なモデルのリストを取得する。
-	 * 
-	 * @return AbstractEntityModelのリスト
-	 */
-	public List<AbstractEntityModel> findEntityModel() {
-		List<AbstractEntityModel> entities = new ArrayList<AbstractEntityModel>(getChildren()
-				.size());
-
-		for (ModelElement m : getChildren()) {
-			if (m instanceof AbstractEntityModel) {
-				entities.add((AbstractEntityModel) m);
-			}
-		}
-		return entities;
-	}
-
-	/**
 	 * @return the databaseName
 	 */
 	public String getDatabaseName() {
@@ -147,7 +130,7 @@ public class Diagram extends ModelElement {
 	/**
 	 * 共通アトリビュートを取得する
 	 * 
-	 * @return　共通アトリビュート
+	 * @return 共通アトリビュート
 	 */
 	public List<IAttribute> getCommonAttributes() {
 		return commonAttributes;
@@ -163,28 +146,27 @@ public class Diagram extends ModelElement {
 		this.commonAttributes = commonAttributes;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 *
+	 * @see jp.sourceforge.tmdmaker.model.ModelElement#accept(jp.sourceforge.tmdmaker.model.IVisitor)
+	 */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}
 
-	public List<AbstractEntityModel> findEntityModelExcludeFor(List<AbstractEntityModel> excludes) {
-		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
-		for (ModelElement m : getChildren()) {
-			if (m instanceof AbstractEntityModel && !excludes.contains(m)) {
-				list.add((AbstractEntityModel)m);
-			}
-		}
-		return list;
+	/**
+	 * Diagramのモデルを検索するクエリを返す.
+	 * 
+	 * @return
+	 */
+	public DiagramQuery query() {
+		return new DiagramQuery(this);
 	}
-
-	public List<AbstractEntityModel> findModelByName(String name) {
-		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
-		for (ModelElement m : getChildren()) {
-			if (m instanceof AbstractEntityModel && name.equals(m.getName())) {
-				list.add((AbstractEntityModel)m);
-			}
-		}
-		return list;
+	
+	public boolean contains(ModelElement m) {
+		return this.children.contains(m);
 	}
 }

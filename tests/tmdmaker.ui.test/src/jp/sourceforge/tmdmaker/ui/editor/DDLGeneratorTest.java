@@ -55,7 +55,7 @@ public class DDLGeneratorTest extends AbstractUITest {
 	@Test
 	public void notSelectDatabase() {
 		try {
-			generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
+			generator.execute(rootDir, tmdEditor.getRootModel().query().listEntityModel());
 		} catch (RuntimeException e) {
 			return;
 		}
@@ -74,7 +74,7 @@ public class DDLGeneratorTest extends AbstractUITest {
 		bot.button("OK").click();
 		sleep();
 
-		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
+		generator.execute(rootDir, tmdEditor.getRootModel().query().listEntityModel());
 		String docPath = rootDir + File.separator + "ddl.sql";
 		assertEquals(true, new File(docPath).exists());
 	}

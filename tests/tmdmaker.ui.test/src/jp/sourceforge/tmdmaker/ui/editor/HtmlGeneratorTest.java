@@ -55,7 +55,7 @@ public class HtmlGeneratorTest extends AbstractUITest {
 	@Test
 	public void attributeListTest() {
 		AttributeListHtmlGenerator generator = new AttributeListHtmlGenerator();
-		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
+		generator.execute(rootDir, tmdEditor.getRootModel().query().listEntityModel());
 		String docPath = rootDir + File.separator + "attribute_list.html";
 		assertEquals(true, new File(docPath).exists());
 	}
@@ -63,7 +63,7 @@ public class HtmlGeneratorTest extends AbstractUITest {
 	@Test
 	public void keyListTest() {
 		KeyDefinitionListHtmlGenerator generator = new KeyDefinitionListHtmlGenerator();
-		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
+		generator.execute(rootDir, tmdEditor.getRootModel().query().listEntityModel());
 		String docPath = rootDir + File.separator + "key_list.html";
 		assertEquals(true, new File(docPath).exists());
 	}
@@ -71,7 +71,7 @@ public class HtmlGeneratorTest extends AbstractUITest {
 	@Test
 	public void relationshipListTest() {
 		RelationshipListHtmlGenerator generator = new RelationshipListHtmlGenerator();
-		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
+		generator.execute(rootDir, tmdEditor.getRootModel().query().listEntityModel());
 		String docPath = rootDir + File.separator + "relationship_list.html";
 		assertEquals(true, new File(docPath).exists());
 	}

@@ -53,7 +53,7 @@ public class CSVGeneratorTest extends AbstractUITest {
 
 	@Test
 	public void testAttributeList() {
-		generator.execute(rootDir, tmdEditor.getRootModel().findEntityModel());
+		generator.execute(rootDir, tmdEditor.getRootModel().query().listEntityModel());
 		String docPath = rootDir + File.separator + "attribute_list.csv";
 		assertEquals(true, new File(docPath).exists());
 	}

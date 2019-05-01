@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package jp.sourceforge.tmdmaker.serializer.handler.patch;
 
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntityType;
 
@@ -39,12 +38,9 @@ public class Patch026SerializerHandler extends AbstractSerializerHandler {
 		logger.info("handleAfterDeserialize");
 		if (versionUnderEqual(in, 0, 2, 5)) {
 			logger.info("apply patch 0.2.6");
-			for (ModelElement model : in.getChildren()) {
-				if (model instanceof VirtualEntity) {
-					VirtualEntity entity = (VirtualEntity) model;
-					if (entity.getVirtualEntityType() == null) {
-						entity.setVirtualEntityType(VirtualEntityType.NORMAL);
-					}
+			for (VirtualEntity model : in.query().listEntityModel(VirtualEntity.class)) {
+				if (model.getVirtualEntityType() == null) {
+					model.setVirtualEntityType(VirtualEntityType.NORMAL);
 				}
 			}
 		}

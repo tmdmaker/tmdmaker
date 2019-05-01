@@ -59,7 +59,7 @@ public class VirtualSupersetTest {
 		builder.rollback();
 		assertTrue(!vsp.hasSubset());
 		VirtualSupersetType type2 = vsp.getVirtualSupersetType();
-		if (!diagram.getChildren().contains(type2)) {
+		if (!diagram.contains(type2)) {
 			return;
 		}
 	}

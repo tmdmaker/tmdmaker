@@ -43,8 +43,7 @@ public abstract class GeneratorHandler extends AbstractHandler {
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param generator
-	 *            generator
+	 * @param generator generator
 	 */
 	public GeneratorHandler(Generator generator) {
 		super();
@@ -66,10 +65,9 @@ public abstract class GeneratorHandler extends AbstractHandler {
 				return null;
 			}
 			try {
-				Diagram diagram = SerializerFactory.getInstance().deserialize(
-						file.getContents());
+				Diagram diagram = SerializerFactory.getInstance().deserialize(file.getContents());
 				String path = getAbsolutePath(file);
-				generator.execute(path, diagram.findEntityModel());
+				generator.execute(path, diagram.query().listEntityModel());
 				TMDPlugin.refreshGenerateResources(path);
 			} catch (CoreException e) {
 				TMDPlugin.showErrorDialog(e);

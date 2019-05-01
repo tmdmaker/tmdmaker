@@ -125,16 +125,11 @@ public class GenerateAction extends SelectionAction {
 	private List<AbstractEntityModel> getNotSelectedModelList(Diagram diagram,
 			List<AbstractEntityModel> selectedModels) {
 		List<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
-		List<AbstractEntityModel> target = diagram.findEntityModel();
 		list.removeAll(selectedModels);
 		if (generator.isImplementModelOnly()) {
-			for (AbstractEntityModel m : target) {
-				if (!m.isNotImplement()) {
-					list.add(m);
-				}
-			}
+			list.addAll(diagram.query().implementModel().listEntityModel());
 		} else {
-			list.addAll(target);
+			list.addAll(diagram.query().listEntityModel());
 		}
 		list.removeAll(selectedModels);
 		return list;

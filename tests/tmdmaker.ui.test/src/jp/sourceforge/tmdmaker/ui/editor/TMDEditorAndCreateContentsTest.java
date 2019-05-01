@@ -33,6 +33,7 @@ import jp.sourceforge.tmdmaker.model.CombinationTable;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
+import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
 /**
  * TMD-MakerのUIテスト
@@ -179,15 +180,15 @@ public class TMDEditorAndCreateContentsTest extends AbstractUITest {
 		sleep();
 
 		Diagram diagram = tmdEditor.getRootModel();
-		Entity e1 = (Entity) diagram.getChildren().get(0);
+		Entity e1 = diagram.query().listEntityModel(Entity.class).get(0);
 		assertEquals("顧客番号", e1.getIdentifier().getName());
 		assertEquals("顧客", e1.getName());
 
-		Entity e2 = (Entity) diagram.getChildren().get(1);
+		Entity e2 = diagram.query().listEntityModel(Entity.class).get(1);
 		assertEquals("商品番号", e2.getIdentifier().getName());
 		assertEquals("商品", e2.getName());
 
-		CombinationTable t1 = (CombinationTable) diagram.getChildren().get(2);
+		CombinationTable t1 = diagram.query().listEntityModel(CombinationTable.class).get(0);
 		assertEquals("顧客.商品.対照表", t1.getName());
 	}
 
@@ -272,7 +273,8 @@ public class TMDEditorAndCreateContentsTest extends AbstractUITest {
 		sleep();
 
 		Diagram diagram = tmdEditor.getRootModel();
-		List<AbstractEntityModel> list = diagram.findModelByName("顧客");
+		List<AbstractEntityModel> list = diagram.query().name(new ModelName("顧客"))
+				.listEntityModel();
 		assertEquals(1, list.size());
 		AbstractEntityModel m = list.get(0);
 		assertEquals(2, m.getAttributes().size());
@@ -355,8 +357,10 @@ public class TMDEditorAndCreateContentsTest extends AbstractUITest {
 		shell.activate();
 		bot.checkBox(0).click();
 		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").select();
-		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").expandNode("Color Appearance").select();
-		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").expandNode("Color Appearance").select();
+		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").expandNode("Color Appearance")
+				.select();
+		bot.tree().expandNode("TMD-Maker").expandNode("Appearance").expandNode("Color Appearance")
+				.select();
 		try {
 			bot.button("Apply and Close").click();
 		} catch (WidgetNotFoundException e) {

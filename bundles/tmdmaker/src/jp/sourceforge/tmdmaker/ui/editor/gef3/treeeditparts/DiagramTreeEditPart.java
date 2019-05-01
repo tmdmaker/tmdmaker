@@ -17,51 +17,40 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
-
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
+
+import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
+import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.MultivalueAndSuperset;
 
 /**
  * @author ny@cosmichorror.org
  *
  */
-public class DiagramTreeEditPart extends AbstractTreeEditPart implements
-		PropertyChangeListener {
-	
+public class DiagramTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener {
+
 	/**
 	 * コンストラクタ
+	 * 
 	 * @param diagram
 	 */
-	public DiagramTreeEditPart(Diagram diagram)
-	{
+	public DiagramTreeEditPart(Diagram diagram) {
 		super();
 		setModel(diagram);
 	}
-	
+
 	@Override
 	public Diagram getModel() {
 		return (Diagram) super.getModel();
 	}
 
-	   //子要素があるときは、getModelChildren()で子要素の一覧を返す。無いときは空のリストを返す。
+	// 子要素があるときは、getModelChildren()で子要素の一覧を返す。無いときは空のリストを返す。
 	@Override
 	protected List<AbstractEntityModel> getModelChildren() {
-		List<AbstractEntityModel> children = new ArrayList<AbstractEntityModel>(
-				getModel().getChildren().size());
-
-		for (ModelElement m : getModel().getChildren()) {
-			if (m instanceof AbstractEntityModel && !(m instanceof MultivalueAndSuperset)){
-				children.add((AbstractEntityModel)m);
-			}
-		}
-		return children;
+		return getModel().query().excludeClass(MultivalueAndSuperset.class).listEntityModel();
 	}
 
 	@Override

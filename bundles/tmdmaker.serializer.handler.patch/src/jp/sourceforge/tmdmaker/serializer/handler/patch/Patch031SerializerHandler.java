@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package jp.sourceforge.tmdmaker.serializer.handler.patch;
 
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.ModelElement;
 
 /**
  * モデルのバージョン0.3.1へのバージョンアップ
@@ -53,20 +52,17 @@ public class Patch031SerializerHandler extends AbstractSerializerHandler {
 	public Diagram handleAfterDeserialize(Diagram in) {
 		if (versionUnderEqual(in, 0, 3, 0)) {
 			logger.info("apply patch 0.3.1");
-			for (ModelElement o : in.getChildren()) {
-				if (o instanceof Detail) {
-					Detail model = (Detail) o;
-					model.setDetailIdentifierEnabled(true);
-				}
+			for (Detail model : in.query().listEntityModel(Detail.class)) {
+				model.setDetailIdentifierEnabled(true);
 			}
 		}
-		
+
 		return in;
 	}
 
 	private String fixIdentifierSpell(String in) {
-		String out1 = in.replace(  "Identifires",  "Identifiers");
-		String out2 = out1.replace("identifires",  "identifiers");
+		String out1 = in.replace("Identifires", "Identifiers");
+		String out2 = out1.replace("identifires", "identifiers");
 		String out3 = out2.replace("Identifieres", "Identifiers");
 		String out4 = out3.replace("identifieres", "identifiers");
 		return out4;

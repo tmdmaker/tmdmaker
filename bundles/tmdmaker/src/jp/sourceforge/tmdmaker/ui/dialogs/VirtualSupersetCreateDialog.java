@@ -81,15 +81,15 @@ public class VirtualSupersetCreateDialog extends Dialog {
 	 * @param selectedList
 	 *            選択しているエンティティ系モデルのリスト.
 	 */
-	public VirtualSupersetCreateDialog(Shell parentShell, Diagram diagram,
-			VirtualSuperset superset, List<AbstractEntityModel> selectedList) {
+	public VirtualSupersetCreateDialog(Shell parentShell, Diagram diagram, VirtualSuperset superset,
+			List<AbstractEntityModel> selectedList) {
 		super(parentShell);
 		this.superset = superset;
 		selection = setupSelection(selectedList);
 
 		List<AbstractEntityModel> excludes = new ArrayList<AbstractEntityModel>(selection);
 		excludes.add(superset);
-		notSelection = diagram.findEntityModelExcludeFor(excludes);
+		notSelection = diagram.query().exclude(excludes).listEntityModel();
 	}
 
 	private List<AbstractEntityModel> setupSelection(List<AbstractEntityModel> selectedList) {

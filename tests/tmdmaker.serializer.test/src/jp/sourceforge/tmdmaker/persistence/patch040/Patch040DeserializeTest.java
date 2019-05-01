@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import org.junit.Test;
 
 import jp.sourceforge.tmdmaker.model.AbstractConnectionModel;
 import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.VirtualSupersetType2VirtualSupersetRelationship;
 import jp.sourceforge.tmdmaker.persistence.XStreamSerializer;
@@ -43,12 +42,9 @@ public class Patch040DeserializeTest {
 		XStreamSerializer serializer = new XStreamSerializer();
 		Diagram diagram = serializer.deserialize(in);
 		assertNotNull(diagram);
-		for (ModelElement m : diagram.getChildren()) {
-			if (m instanceof VirtualSuperset) {
-				VirtualSuperset superset = (VirtualSuperset) m;
-				AbstractConnectionModel r = superset.getModelTargetConnections().get(0);
-				assertTrue(r instanceof VirtualSupersetType2VirtualSupersetRelationship);
-			}
+		for (VirtualSuperset superset : diagram.query().listEntityModel(VirtualSuperset.class)) {
+			AbstractConnectionModel r = superset.getModelTargetConnections().get(0);
+			assertTrue(r instanceof VirtualSupersetType2VirtualSupersetRelationship);
 		}
 	}
 }
