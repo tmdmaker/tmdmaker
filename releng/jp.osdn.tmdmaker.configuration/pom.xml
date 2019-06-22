@@ -46,7 +46,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://tmdmaker.osdn.jp</project-url>
-		<target-file>2019-03</target-file>
+		<target-file>2019-06</target-file>
 		<!-- Website dependencies version -->
 		<reflow-velocity-tools-version>2.0.2</reflow-velocity-tools-version>
 <!-- 		<reflow-velocity-tools-version>2.0.0-beta2</reflow-velocity-tools-version>
@@ -83,21 +83,21 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>java-10</id>
-			<activation>
-				<jdk>10</jdk>
-			</activation>
-			<properties>
-				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
-			</properties>
-		</profile>
-		<profile>
 			<id>java-11</id>
 			<activation>
 				<jdk>11</jdk>
 			</activation>
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>2019-06</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2019-06</target-file>
 			</properties>
 		</profile>
 		<profile>
