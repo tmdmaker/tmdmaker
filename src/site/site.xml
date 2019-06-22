@@ -3,7 +3,7 @@
 
 	<bannerLeft>
 		<name>TMD-Maker</name>
-		<src>img/logo.png</src>
+		<src>img/tmd_icon_48_32bit.png</src>
 		<href>https://tmdmaker.osdn.jp</href>
 	</bannerLeft>
 	<publishDate position="bottom" format="yyyy-MM-dd" />
@@ -18,10 +18,16 @@
 	<skin>
 		<groupId>io.github.devacfr.maven.skins</groupId>
 		<artifactId>reflow-maven-skin</artifactId>
-		<version>2.0.0-beta2</version>
+		<version>2.0.2</version>
 	</skin>
 
 	<body>
+		<head>
+		<![CDATA[
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<link rel="stylesheet" href="./css/tmd.css" />
+		]]>
+		</head>
 		<links>
 			<item name="ダウンロード" href="https://osdn.net/projects/tmdmaker/releases/" />
 		</links>
@@ -39,7 +45,7 @@
 			<item name="GitHub(ミラー)" href="https://github.com/tmdmaker/tmdmaker/" />
 		</menu>
 
-	    <menu name="プロジェクト文書" ref="reports"/>
+	    <menu name="プロジェクト文書" ref="reports" inherit="bottom" />
 
 	</body>
 
@@ -53,17 +59,16 @@
 				<name>TMD-Maker</name>
 				<href>https://tmdmaker.osdn.jp</href>
 			</brand>
-			<slogan>ビジネス解析とデータベース設計を同時に実現する
-			<![CDATA[
-			<br />
+			<slogan> <![CDATA[
+			<p>ビジネス解析とデータベース設計を同時に実現する</p>
+			<p />
 			<a href='https://travis-ci.org/tmdmaker/tmdmaker'><img src='https://travis-ci.org/tmdmaker/tmdmaker.svg?branch=develop' alt='Build Status' /></a>
 			<a href='https://coveralls.io/github/tmdmaker/tmdmaker?branch=develop'><img src='https://coveralls.io/repos/github/tmdmaker/tmdmaker/badge.svg?branch=develop' alt='Coverage Status' /></a>
 			]]>
 			</slogan>
 			<titleTemplate>%2$s | %1$s</titleTemplate>
 			<toc>top</toc>
-			<tocTopMax>6</tocTopMax>
-			<topNav>ドキュメント|プロジェクト|プロジェクト文書</topNav>
+			<navbar filterMenu="ドキュメント|プロジェクト|プロジェクト文書"></navbar>
 			<bottomNav>
         		<column>ドキュメント</column>
         		<column>プロジェクト文書</column>
@@ -72,7 +77,7 @@
 			<pages>
         		<index>
         			<toc>false</toc>
-					<markPageHeader>true</markPageHeader>
+					<markPageHeader>false</markPageHeader>
 					<sections>
 						<carousel />
 						<columns>2</columns>

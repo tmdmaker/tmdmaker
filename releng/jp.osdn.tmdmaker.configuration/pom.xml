@@ -18,20 +18,20 @@
 	<properties>
 		<!-- plugin versions -->
 		<tycho-version>1.4.0</tycho-version>
-		<jacoco-version>0.8.3</jacoco-version>
+		<jacoco-version>0.8.4</jacoco-version>
 		<antrun-version>1.8</antrun-version>
-		<sphinx-maven-plugin-version>2.3.1</sphinx-maven-plugin-version>
+		<sphinx-maven-plugin-version>2.4.0</sphinx-maven-plugin-version>
 		<maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
 		<maven-site-plugin-version>3.7.1</maven-site-plugin-version>
 		<wagon-ssh-version>3.3.2</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
 		<maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
-		<maven-checkstyle-plugin-version>3.0.0</maven-checkstyle-plugin-version>
-		<maven-pmd-plugin-version>3.11.0</maven-pmd-plugin-version>
-		<pmd-version>6.13.0</pmd-version>
+		<maven-checkstyle-plugin-version>3.1.0</maven-checkstyle-plugin-version>
+		<maven-pmd-plugin-version>3.12.0</maven-pmd-plugin-version>
+		<pmd-version>6.15.0</pmd-version>
 		<maven-surefire-report-plugin-version>3.0.0-M3</maven-surefire-report-plugin-version>
-		<spotbugs-maven-plugin-version>3.1.8</spotbugs-maven-plugin-version>
-		<spotbugs-version>3.1.10</spotbugs-version>
+		<spotbugs-maven-plugin-version>3.1.12</spotbugs-maven-plugin-version>
+		<spotbugs-version>3.1.12</spotbugs-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
 		<maven-javadoc-plugin-version>3.1.0</maven-javadoc-plugin-version>
@@ -48,13 +48,15 @@
 		<project-url>https://tmdmaker.osdn.jp</project-url>
 		<target-file>2019-03</target-file>
 		<!-- Website dependencies version -->
-		<reflow-velocity-tools-version>2.0.0-beta2</reflow-velocity-tools-version>
+		<reflow-velocity-tools-version>2.0.2</reflow-velocity-tools-version>
+<!-- 		<reflow-velocity-tools-version>2.0.0-beta2</reflow-velocity-tools-version>
 		<anchorJsVesrion>3.2.2</anchorJsVesrion>
 		<bootstrapVersion>4.1.3</bootstrapVersion>
 		<bootswatchVersion>4.1.3</bootswatchVersion>
 		<highlightJsVersion>9.8.0</highlightJsVersion>
 		<highlightJsTheme>github</highlightJsTheme>
 		<jqueryVersion>3.3.1</jqueryVersion>
+		 -->
 		<fontawesomeVersion>5.4.1</fontawesomeVersion>
 		<popperVersion>1.14.3</popperVersion>
 	</properties>
