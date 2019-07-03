@@ -15,6 +15,7 @@
 
 	<modules>
 		<module>tmdmaker.doc</module>
+		<module>jp.osdn.tmdmaker.coverage</module>
 		<module>tmdmaker.landing</module>
 	</modules>
 

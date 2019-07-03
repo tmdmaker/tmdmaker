@@ -63,7 +63,7 @@
 							<outputDirectory>target/site/jacoco/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>./docs/tmdmaker.doc/target/site/jacoco/</directory>
+									<directory>./docs/jp.osdn.tmdmaker.coverage/target/site/jacoco/</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -76,7 +76,7 @@
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<configuration>
 					<jacocoReports>
-						<jacocoReport>./docs/tmdmaker.doc/target/site/jacoco/report/jacoco.xml</jacocoReport>
+						<jacocoReport>./docs/jp.osdn.tmdmaker.coverage/target/site/jacoco/report/jacoco.xml</jacocoReport>
 					</jacocoReports>
 				</configuration>
 			</plugin>
