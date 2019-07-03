@@ -164,6 +164,9 @@
 								<includes>
 									<include>jp.sourceforge.tmdmaker.*</include>
 								</includes>
+								<excludes>
+									<exclude>*Test*</exclude>
+								</excludes>
 							</configuration>
 						</execution>
 					</executions>
