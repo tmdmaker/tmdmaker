@@ -40,13 +40,13 @@
 		<maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
-		<xtend-version>2.18.0</xtend-version>
+		<xtend-version>2.19.0</xtend-version>
 		<!-- other settings -->
 		<release-version>0.9.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://tmdmaker.osdn.jp</project-url>
-		<target-file>2019-06</target-file>
+		<target-file>2019-09</target-file>
 		<!-- Website dependencies version -->
 		<reflow-velocity-tools-version>2.0.2</reflow-velocity-tools-version>
 <!-- 		<reflow-velocity-tools-version>2.0.0-beta2</reflow-velocity-tools-version>
@@ -89,6 +89,15 @@
 			</activation>
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>2019-09</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2019-09</target-file>
 			</properties>
 		</profile>
 		<profile>
