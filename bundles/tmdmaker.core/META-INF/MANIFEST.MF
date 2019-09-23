@@ -8,6 +8,7 @@ Bundle-Vendor: TMD-Maker Project
 Export-Package: jp.sourceforge.tmdmaker.core,
  jp.sourceforge.tmdmaker.model,
  jp.sourceforge.tmdmaker.model.constraint,
+ jp.sourceforge.tmdmaker.model.filter;x-internal:=true,
  jp.sourceforge.tmdmaker.model.generate.attributelist,
  jp.sourceforge.tmdmaker.model.multivalue,
  jp.sourceforge.tmdmaker.model.other,

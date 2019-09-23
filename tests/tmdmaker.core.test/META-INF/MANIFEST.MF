@@ -8,3 +8,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: TMD-Maker Project
 Require-Bundle: org.junit
 Automatic-Module-Name: tmdmaker.core.test
+Export-Package: jp.sourceforge.tmdmaker.model;x-internal:=true,
+ jp.sourceforge.tmdmaker.model.generate.attributelist;x-internal:=true

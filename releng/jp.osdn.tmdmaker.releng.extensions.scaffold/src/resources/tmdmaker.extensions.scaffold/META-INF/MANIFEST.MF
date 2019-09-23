@@ -9,3 +9,6 @@ Require-Bundle: tmdmaker.core;bundle-version="0.7.0",
  jp.osdn.tmdmaker.extensions;bundle-version="0.7.0",
  org.eclipse.core.runtime
 Bundle-Activator: tmdmaker.extensions.scaffold.Actovator
+Export-Package: tmdmaker.extensions.scaffold;x-internal:=true,
+ tmdmaker.extensions.scaffold.generator;x-internal:=true,
+ tmdmaker.extensions.scaffold.importer;x-internal:=true

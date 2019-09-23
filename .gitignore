@@ -2,3 +2,4 @@
 workspace
 target
 bin
+/velocity.log

@@ -10,6 +10,11 @@ Require-Bundle: tmdmaker.core;bundle-version="0.2.9",
  org.eclipse.xtend.lib,
  org.apache.commons.lang;bundle-version="2.6.0"
 Bundle-ActivationPolicy: lazy
-Export-Package: jp.sourceforge.tmdmaker.sphinx.generate
+Export-Package: jp.sourceforge.tmdmaker.sphinx;x-internal:=true,
+ jp.sourceforge.tmdmaker.sphinx.attributelist;x-internal:=true,
+ jp.sourceforge.tmdmaker.sphinx.generate,
+ jp.sourceforge.tmdmaker.sphinx.keydefinitionlist;x-internal:=true,
+ jp.sourceforge.tmdmaker.sphinx.relationshiplist;x-internal:=true,
+ jp.sourceforge.tmdmaker.sphinx.utilities;x-internal:=true
 Bundle-Vendor: %Provider
 Automatic-Module-Name: tmdmaker.sphinx

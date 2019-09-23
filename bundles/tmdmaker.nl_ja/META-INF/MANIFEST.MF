@@ -7,3 +7,4 @@ Fragment-Host: tmdmaker;bundle-version="0.2.10"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
 Automatic-Module-Name: tmdmaker.nl_ja
+Export-Package: jp.sourceforge.tmdmaker;x-internal:=true

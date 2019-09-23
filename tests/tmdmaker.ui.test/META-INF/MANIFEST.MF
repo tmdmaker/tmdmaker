@@ -31,3 +31,5 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  tmdmaker.htmlgenerator,
  tmdmaker.csv
 Automatic-Module-Name: tmdmaker.ui.test
+Export-Package: jp.sourceforge.tmdmaker.ui.editor;x-internal:=true,
+ jp.sourceforge.tmdmaker.ui.test;x-internal:=true

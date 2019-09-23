@@ -16,3 +16,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
 Automatic-Module-Name: tmdmaker.ui.menu
+Export-Package: jp.sourceforge.tmdmaker.ui.handler;x-internal:=true,
+ jp.sourceforge.tmdmaker.ui.menu;x-internal:=true

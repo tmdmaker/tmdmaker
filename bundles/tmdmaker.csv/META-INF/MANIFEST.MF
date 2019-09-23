@@ -8,7 +8,9 @@ Require-Bundle: tmdmaker.core;bundle-version="0.2.9",
  jp.osdn.tmdmaker.extensions;bundle-version="0.7.0"
 Bundle-ClassPath: lib/opencsv-2.3.jar,
  .
-Export-Package: jp.sourceforge.tmdmaker.generate.csv.attributelist,
+Export-Package: au.com.bytecode.opencsv;x-internal:=true,
+ au.com.bytecode.opencsv.bean;x-internal:=true,
+ jp.sourceforge.tmdmaker.generate.csv.attributelist,
  jp.sourceforge.tmdmaker.importer.csv
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: TMD-Maker Project

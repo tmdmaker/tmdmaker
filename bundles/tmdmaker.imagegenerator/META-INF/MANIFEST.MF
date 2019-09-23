@@ -25,5 +25,20 @@ Bundle-ClassPath: .,
  lib/imageio-core-3.4.1.jar,
  lib/common-lang-3.4.1.jar,
  lib/common-io-3.4.1.jar
-Export-Package: jp.sourceforge.tmdmaker.imagegenerator
+Export-Package: jp.sourceforge.tmdmaker.imagegenerator,
+ jp.sourceforge.tmdmaker.imagegenerator.generator;x-internal:=true,
+ jp.sourceforge.tmdmaker.imagegenerator.generator.converter;x-internal:=true,
+ org.eclipse.gmf.runtime.common.ui.util;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.figures;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.graphics;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.graphics;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.image;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.svg;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.svg.export;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.svg.metafile;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render.factory;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render.internal;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render.internal.factory;x-internal:=true,
+ org.eclipse.gmf.runtime.draw2d.ui.render.internal.image;x-internal:=true
 Automatic-Module-Name: tmdmaker.imagegenerator

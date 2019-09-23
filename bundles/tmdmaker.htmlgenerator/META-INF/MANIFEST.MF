@@ -12,6 +12,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: jp.sourceforge.tmdmaker.generate.html,
  jp.sourceforge.tmdmaker.generate.html.attributelist,
+ jp.sourceforge.tmdmaker.generate.html.internal;x-internal:=true,
  jp.sourceforge.tmdmaker.generate.html.keydefinitionlist,
  jp.sourceforge.tmdmaker.generate.html.relationshiplist
 Bundle-ClassPath: .,

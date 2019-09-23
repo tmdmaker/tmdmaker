@@ -27,3 +27,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: tmdmaker.rcp
+Export-Package: jp.sourceforge.tmdmaker.rcp;x-internal:=true
