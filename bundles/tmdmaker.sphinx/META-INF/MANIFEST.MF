@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %Bundle-Name.0
+Bundle-Name: TMD-Maker's Sphinx Document Generator
 Bundle-SymbolicName: tmdmaker.sphinx;singleton:=true
 Bundle-Version: 0.9.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
@@ -16,5 +16,5 @@ Export-Package: jp.sourceforge.tmdmaker.sphinx;x-internal:=true,
  jp.sourceforge.tmdmaker.sphinx.keydefinitionlist;x-internal:=true,
  jp.sourceforge.tmdmaker.sphinx.relationshiplist;x-internal:=true,
  jp.sourceforge.tmdmaker.sphinx.utilities;x-internal:=true
-Bundle-Vendor: %Provider
+Bundle-Vendor: TMD-Maker Project
 Automatic-Module-Name: tmdmaker.sphinx

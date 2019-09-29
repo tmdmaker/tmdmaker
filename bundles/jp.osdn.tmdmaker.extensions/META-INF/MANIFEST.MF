@@ -12,3 +12,4 @@ Export-Package: jp.sourceforge.tmdmaker.extension,
  jp.sourceforge.tmdmaker.model.generate,
  jp.sourceforge.tmdmaker.model.importer,
  jp.sourceforge.tmdmaker.model.persistence
+Bundle-Vendor: TMD-Maker Project
