@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.tmdmaker.ui.views.properties.gef3.DetailPropertySource;
 
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
@@ -62,5 +65,10 @@ public class DetailEditPart extends AbstractEntityModelEditPart<Detail> {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DetailComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TMDModelGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new EntityLayoutEditPolicy());
+	}
+
+	@Override
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new DetailPropertySource(commandStack, this.getModel());
 	}
 }
