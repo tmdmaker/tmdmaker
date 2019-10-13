@@ -76,6 +76,11 @@
 		</dependency>
 		<dependency>
 			<groupId>tmdmaker</groupId>
+			<artifactId>org.tmdmaker.ui</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
 			<artifactId>tmdmaker.core.test</artifactId>
 			<version>${release-version}-SNAPSHOT</version>
 			<scope>test</scope>

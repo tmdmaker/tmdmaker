@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 
 import org.eclipse.gef.EditPolicy;
+import org.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
@@ -23,7 +24,6 @@ import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.TurboFileFigure;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.TMDModelGraphicalNodeEditPolicy;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.TurboFileComponentEditPolicy;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
  * ターボファイルのコントローラ

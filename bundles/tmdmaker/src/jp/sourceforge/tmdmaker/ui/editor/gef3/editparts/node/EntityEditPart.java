@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,17 @@
 package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.tmdmaker.ui.views.properties.IPropertyAvailable;
+import org.tmdmaker.ui.views.properties.gef3.EntityPropertySource;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.EntityFigure;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityEditComponentPolicy;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.EntityLayoutEditPolicy;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.TMDModelGraphicalNodeEditPolicy;
-import jp.sourceforge.tmdmaker.ui.views.properties.EntityPropertySource;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
  * エンティティのコントローラ
@@ -70,7 +70,7 @@ public class EntityEditPart extends AbstractEntityModelEditPart<Entity>
 	}
 
 	@Override
-	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new EntityPropertySource(editor, this.getModel());
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new EntityPropertySource(commandStack, this.getModel());
 	}
 }

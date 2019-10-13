@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,17 +19,17 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.model.IAttribute;
-import jp.sourceforge.tmdmaker.model.KeyModel;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
-import jp.sourceforge.tmdmaker.ui.views.properties.KeyModelPropertySource;
-
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.slf4j.LoggerFactory;
+import org.tmdmaker.ui.views.properties.IPropertyAvailable;
+import org.tmdmaker.ui.views.properties.gef3.KeyModelPropertySource;
+
+import jp.sourceforge.tmdmaker.TMDPlugin;
+import jp.sourceforge.tmdmaker.model.IAttribute;
+import jp.sourceforge.tmdmaker.model.KeyModel;
 
 public class KeyModelTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener,IPropertyAvailable {
 	
@@ -68,7 +68,7 @@ public class KeyModelTreeEditPart extends AbstractTreeEditPart implements Proper
 	}
 
 	@Override
-	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new KeyModelPropertySource(editor, this.getModel());
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new KeyModelPropertySource(commandStack, this.getModel());
 	}
 }

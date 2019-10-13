@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,17 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 
 import java.beans.PropertyChangeListener;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.tmdmaker.ui.views.properties.IPropertyAvailable;
+import org.tmdmaker.ui.views.properties.gef3.EntityPropertySource;
+
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.ui.views.properties.EntityPropertySource;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
-
-import org.eclipse.gef.EditPolicy;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * @author ny@cosmichorror.org
@@ -75,7 +75,7 @@ public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart<Entity> 
 	}
 
 	@Override
-	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new EntityPropertySource(editor, this.getModel());
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new EntityPropertySource(commandStack, this.getModel());
 	}
 }

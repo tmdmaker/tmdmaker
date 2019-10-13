@@ -19,6 +19,7 @@
 		<module>tmdmaker.test</module>
 		<module>tmdmaker.ui.test</module>
 		<module>jp.osdn.tmdmaker.csv.test</module>
+		<module>org.tmdmaker.ui.test</module>
 	</modules>
 	
 	<build>

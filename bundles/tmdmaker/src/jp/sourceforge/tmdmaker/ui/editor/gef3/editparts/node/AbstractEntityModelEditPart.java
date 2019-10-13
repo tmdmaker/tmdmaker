@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,13 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.tmdmaker.ui.views.properties.IPropertyAvailable;
+import org.tmdmaker.ui.views.properties.gef3.AbstractEntityModelPropertySource;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.ui.editor.draw2d.figure.node.AbstractModelFigure;
-import jp.sourceforge.tmdmaker.ui.views.properties.AbstractEntityModelPropertySource;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
  * Entity系のeditpartの基底クラス
@@ -78,8 +78,8 @@ public abstract class AbstractEntityModelEditPart<T extends AbstractEntityModel>
 		return getModel().getAttributes();
 	}
 
-	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new AbstractEntityModelPropertySource(editor, this.getModel());
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new AbstractEntityModelPropertySource(commandStack, this.getModel());
 	}
 
 	/**

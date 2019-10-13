@@ -30,5 +30,7 @@
 		<module>tmdmaker.sphinx</module>
 		<module>tmdmaker.ui.menu</module>
 		<module>jp.osdn.tmdmaker.extensions</module>
+		<module>org.tmdmaker.ui</module>
+		<module>org.tmdmaker.ui.nl_ja</module>
 	</modules>
 </project>

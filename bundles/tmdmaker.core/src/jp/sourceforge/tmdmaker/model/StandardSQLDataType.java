@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,4 +96,12 @@ public enum StandardSQLDataType {
 		return sqlType;
 	}
 
+	public static StandardSQLDataType getStandardSQLDataType(String name) {
+		for (StandardSQLDataType dt : values()) {
+			if (dt.getName().equals(name)) {
+				return dt;
+			}
+		}
+		return null;
+	}
 }

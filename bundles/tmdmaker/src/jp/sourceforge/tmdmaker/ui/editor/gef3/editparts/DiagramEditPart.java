@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.SnapToHelper;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
@@ -39,9 +40,10 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.tmdmaker.ui.views.properties.IPropertyAvailable;
+import org.tmdmaker.ui.views.properties.gef3.DiagramPropertySource;
 
 import jp.sourceforge.tmdmaker.Messages;
-import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.model.ConnectableElement;
 import jp.sourceforge.tmdmaker.model.Diagram;
 import jp.sourceforge.tmdmaker.model.Entity;
@@ -55,8 +57,6 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.EntityModelAddCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.MemoAddCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.commands.MemoChangeCommand;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AbstractTMDEditPart;
-import jp.sourceforge.tmdmaker.ui.views.properties.DiagramPropertySource;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
  * Diagramのコントローラ
@@ -234,7 +234,7 @@ public class DiagramEditPart extends AbstractTMDEditPart<Diagram> implements IPr
 	}
 
 	@Override
-	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new DiagramPropertySource(editor, this.getModel());
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new DiagramPropertySource(commandStack, this.getModel());
 	}
 }

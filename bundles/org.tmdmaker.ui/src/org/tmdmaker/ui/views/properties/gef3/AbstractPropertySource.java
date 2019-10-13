@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.ui.views.properties;
+package org.tmdmaker.ui.views.properties.gef3;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
-
+import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public abstract class AbstractPropertySource implements IPropertySource {
 
-	private TMDEditor editor;
+	private CommandStack commandStack;
 
-	public AbstractPropertySource(TMDEditor editor) {
-		this.editor = editor;
+	protected Logger logger;
+
+	public AbstractPropertySource(CommandStack commandStack) {
+		this.commandStack = commandStack;
+		this.logger = LoggerFactory.getLogger(getClass());
 	}
 
 	@Override
@@ -35,6 +41,10 @@ public abstract class AbstractPropertySource implements IPropertySource {
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
+		Command command = createSetPropertyCommand(id, value);
+		if (command != null) {
+			this.getCommandStack().execute(command);
+		}
 	}
 
 	protected abstract Command createSetPropertyCommand(Object id, Object value);
@@ -53,7 +63,16 @@ public abstract class AbstractPropertySource implements IPropertySource {
 		return property != null ? property : "";
 	}
 
-	protected TMDEditor getEditor() {
-		return editor;
+	protected CommandStack getCommandStack() {
+		return this.commandStack;
+	}
+
+	protected Object getPropertyValue(Object model, String propertyName) {
+		try {
+			return BeanUtils.getProperty(model, propertyName);
+		} catch (Exception e) {
+			logger.warn(e.getMessage());
+		}
+		return "";
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,13 +96,11 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.eclipse.ui.views.properties.PropertySheetPage;
-import org.eclipse.ui.views.properties.PropertySheetSorter;
 import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tmdmaker.ui.views.properties.gef3.TMDPropertySheetPage;
 
 import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
 import jp.sourceforge.tmdmaker.extension.PluginExtensionPointFactory;
@@ -143,7 +141,6 @@ import jp.sourceforge.tmdmaker.ui.editor.gef3.tools.EntityCreationTool;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.tools.MovableSelectionTool;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.tools.TMDConnectionCreationTool;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts.TMDEditorOutlineTreePartFactory;
-import jp.sourceforge.tmdmaker.ui.views.properties.TMDEditorPropertySourceProvider;
 
 /**
  * TMDエディター
@@ -242,27 +239,6 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 			super.dispose();
 		}
 
-	}
-
-	/**
-	 * 
-	 * プロパティページ (プロパティ名はデフォルトでは名前順でソートされるので、抑止のためにサブクラスを作成)
-	 * 
-	 * @author tohosaku
-	 *
-	 */
-	private class TMDPropertySheetPage extends PropertySheetPage {
-		private class TMDPropertySheetSorter extends PropertySheetSorter {
-			@Override
-			public void sort(IPropertySheetEntry[] entries) {
-				// not sort
-			}
-		}
-
-		public TMDPropertySheetPage() {
-			super();
-			this.setSorter(new TMDPropertySheetSorter());
-		}
 	}
 
 	/** logging */
@@ -751,9 +727,7 @@ public class TMDEditor extends GraphicalEditorWithFlyoutPalette implements IReso
 			return getGraphicalViewer().getProperty(ZoomManager.class.toString());
 		}
 		if (type == IPropertySheetPage.class) {
-			TMDPropertySheetPage propertySheetPage = new TMDPropertySheetPage();
-			propertySheetPage.setPropertySourceProvider(new TMDEditorPropertySourceProvider(this));
-			return propertySheetPage;
+			return new TMDPropertySheetPage(this.getCommandStack());
 		}
 		return super.getAdapter(type);
 	}

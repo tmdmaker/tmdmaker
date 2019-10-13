@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -233,6 +233,8 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 			handleConstraintChange(evt);
 		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE)) {
 			handleAttributeChange(evt);
+		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_NOT_IMPLEMENT)) {
+			handleAttributeChange(evt);
 		} else if (evt.getPropertyName().equals(ConnectableElement.P_SOURCE_CONNECTION)) {
 			handleSourceConnectionChange(evt);
 		} else if (evt.getPropertyName().equals(ConnectableElement.P_TARGET_CONNECTION)) {
@@ -241,6 +243,8 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 			handleReUseKeyChange(evt);
 		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_IDENTIFIER)) {
 			handleIdentifierChange(evt);
+		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ENTITY_TYPE)) {
+			handleEntityTypeChange(evt);
 		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE_REORDER)) {
 			logger.warn("Handle Reorder Occured.");
 			refreshChildren();
@@ -327,6 +331,10 @@ public abstract class AbstractModelEditPart<T extends ConnectableElement>
 	 *            発生したイベント情報
 	 */
 	protected void handleReUseKeyChange(PropertyChangeEvent evt) {
+		refreshVisuals();
+	}
+
+	protected void handleEntityTypeChange(PropertyChangeEvent evt) {
 		refreshVisuals();
 	}
 

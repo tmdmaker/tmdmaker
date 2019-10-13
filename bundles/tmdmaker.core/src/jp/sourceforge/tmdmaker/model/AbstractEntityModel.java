@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2019 TMD-Maker Project <https://www.tmdmaker.org/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	public static final String PROPERTY_REUSED = "p_reused";
 	public static final String PROPERTY_ATTRIBUTES = "p_attributes";
 	public static final String PROPERTY_NOT_IMPLEMENT = "p_notImplement";
+	public static final String PROPERTY_ENTITY_TYPE = "p_entity_type";
 	/** 個体指定子プロパティ定数 */
 	public static final String PROPERTY_IDENTIFIER = "_property_identifier";
 	protected Map<AbstractEntityModel, ReusedIdentifier> reusedIdentifiers = new LinkedHashMap<AbstractEntityModel, ReusedIdentifier>();
@@ -211,7 +212,9 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            the entityType to set
 	 */
 	public void setEntityType(EntityType entityType) {
+		EntityType oldValue = this.entityType;
 		this.entityType = entityType;
+		firePropertyChange(PROPERTY_ENTITY_TYPE, oldValue, entityType);
 	}
 
 	/**
@@ -341,7 +344,9 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 *            the notImplement to set
 	 */
 	public void setNotImplement(boolean notImplement) {
+		boolean oldValue = this.notImplement;
 		this.notImplement = notImplement;
+		firePropertyChange(PROPERTY_NOT_IMPLEMENT, oldValue, notImplement);
 	}
 
 	/**

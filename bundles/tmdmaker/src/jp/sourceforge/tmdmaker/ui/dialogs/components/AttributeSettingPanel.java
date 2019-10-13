@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -184,7 +184,7 @@ public class AttributeSettingPanel extends Composite {
 		tableColumn.setText(Messages.Attribute);
 		this.setLayout(gridLayout);
 		createControlComposite();
-		this.setSize(new Point(338, 213));
+		this.setSize(new Point(338, 210));
 	}
 
 	private void disposeTableEditorIfNeed() {

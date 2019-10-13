@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.ui.views.properties;
+package org.tmdmaker.ui.views.properties;
 
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.views.properties.IPropertySource;
-import jp.sourceforge.tmdmaker.TMDEditor;
 
 /**
  * PropertySource を返す editpart は、このinterface を実装すること。
@@ -25,5 +25,5 @@ import jp.sourceforge.tmdmaker.TMDEditor;
  * 
  */
 public interface IPropertyAvailable {
-	IPropertySource getPropertySource(TMDEditor editor);
+	IPropertySource getPropertySource(CommandStack commandStack);
 }
