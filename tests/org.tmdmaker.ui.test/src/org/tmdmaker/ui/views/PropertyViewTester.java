@@ -48,16 +48,20 @@ public class PropertyViewTester extends AbstractTester{
 		botEditor.click(10, 10);
 		testDiagramProperty();
 		wait.waitDefault();
+		Window w = new Window(bot, botEditor);
 
+		w.maximizeActiveEditor();
 		botEditor.getEditPart("顧客.商品.対照表").select().click();
+		w.normalizeActiveEditor();
 		testCombinationTableProperty();
 		wait.waitDefault();
 
+		w.maximizeActiveEditor();
 		botEditor.getEditPart("問合せ").select().click();
+		w.normalizeActiveEditor();
 		testEntityProperty();
 		wait.waitDefault();
 
-		Window w = new Window(bot, botEditor);
 		w.maximizeActiveEditor();
 		botEditor.getEditPart("発送DTL").select().click();
 		w.normalizeActiveEditor();
