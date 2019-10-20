@@ -198,7 +198,7 @@ public class DiagramTest extends AbstractUITest {
 
 		// 多値のAND
 		botEditor.activateTool("Select");
-		botEditor.click(510, 255);
+		botEditor.getEditPart("発送").select().click();
 		botEditor.clickContextMenu("Multivalue").clickContextMenu("Create multivalue AND(HDR-DTL)");
 		sleep();
 
