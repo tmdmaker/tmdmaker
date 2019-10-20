@@ -41,10 +41,10 @@ public class OutlineViewTester extends AbstractTester {
 	protected void doTest() {
 		SWTBotView outlineBot = bot.viewByTitle("Outline");
 		SWTBotTree viewTree = outlineBot.bot().tree();
-		SWTBotTreeItem[] identifierItems = viewTree.expandNode("顧客").expandNode("Identifier")
-				.getItems();
+		SWTBotTreeItem[] identifierItems = viewTree.expandNode("顧客").expandNode("Identifier").getItems();
 		assertEquals(identifierItems.length, 1);
-		identifierItems[0].select().doubleClick();
+		identifierItems[0].select().click();
+		viewTree.expandNode("顧客").expandNode("Identifier").getNode(0).doubleClick();
 		wait.waitDefault();
 		System.out.println("Identifier dialog open");
 
@@ -60,10 +60,9 @@ public class OutlineViewTester extends AbstractTester {
 		System.out.println("Identifier test ok");
 
 		viewTree = outlineBot.bot().tree();
-		SWTBotTreeItem[] attributeItems = viewTree.expandNode("顧客").expandNode("Attribute")
-				.getItems();
+		SWTBotTreeItem[] attributeItems = viewTree.expandNode("顧客").expandNode("Attribute").getItems();
 		assertEquals(attributeItems.length, 1);
-		attributeItems[0].select().doubleClick();
+		viewTree.expandNode("顧客").expandNode("Attribute").getNode(0).doubleClick();
 		wait.waitDefault();
 		System.out.println("Attribute dialog open");
 
@@ -77,10 +76,10 @@ public class OutlineViewTester extends AbstractTester {
 		wait.waitDefault();
 		System.out.println("Attribute test ok");
 
-		SWTBotTreeItem[] keyItems = viewTree.expandNode("顧客").expandNode("Key definitions")
-				.getItems();
+		SWTBotTreeItem[] keyItems = viewTree.expandNode("顧客").expandNode("Key definitions").getItems();
 		assertEquals(keyItems.length, 1);
 		keyItems[0].select();
+		viewTree.expandNode("顧客").expandNode("Key definitions").getNode(0).click();
 		wait.waitDefault();
 		System.out.println("Key test ok");
 
