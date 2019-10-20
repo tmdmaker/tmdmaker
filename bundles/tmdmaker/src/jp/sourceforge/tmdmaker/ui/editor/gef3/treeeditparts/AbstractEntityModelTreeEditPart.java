@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,13 +29,15 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.slf4j.LoggerFactory;
+import org.tmdmaker.ui.views.properties.IPropertyAvailable;
+import org.tmdmaker.ui.views.properties.gef3.AbstractEntityModelPropertySource;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.CombinationTable;
@@ -54,8 +56,6 @@ import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
-import jp.sourceforge.tmdmaker.ui.views.properties.AbstractEntityModelPropertySource;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
  * Entity系モデルのtreeeditpartクラス
@@ -271,6 +271,8 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 			handleReUseKeyChange(evt);
 		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_IDENTIFIER)) {
 			handleIdentifierChange(evt);
+		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ENTITY_TYPE)) {
+			handleEntityTypeChange(evt);
 		} else if (evt.getPropertyName().equals(AbstractEntityModel.PROPERTY_ATTRIBUTE_REORDER)) {
 			logger.warn("Handle Reorder Occured.");
 			refreshChildren();
@@ -337,6 +339,10 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	 *            発生したイベント情報
 	 */
 	protected void handleReUseKeyChange(PropertyChangeEvent evt) {
+		refreshVisuals();
+	}
+
+	protected void handleEntityTypeChange(PropertyChangeEvent evt) {
 		refreshVisuals();
 	}
 
@@ -434,11 +440,11 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable#getPropertySource(jp.sourceforge.tmdmaker.TMDEditor)
+	 * @see org.tmdmaker.ui.views.properties.IPropertyAvailable#getPropertySource(jp.sourceforge.tmdmaker.TMDEditor)
 	 */
 	@Override
-	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new AbstractEntityModelPropertySource(editor, this.getModel());
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new AbstractEntityModelPropertySource(commandStack, this.getModel());
 	}
 
 }

@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker UI Plug-in nl_ja
+Bundle-SymbolicName: org.tmdmaker.ui.nl_ja
+Bundle-Version: 0.9.0.qualifier
+Fragment-Host: org.tmdmaker.ui;bundle-version="0.9.0"
+Automatic-Module-Name: org.tmdmaker.ui.nl_ja
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: TMD-Maker Project
+Export-Package: org.tmdmaker.ui

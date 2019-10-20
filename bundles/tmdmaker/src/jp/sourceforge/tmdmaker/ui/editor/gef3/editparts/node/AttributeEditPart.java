@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,16 +22,16 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.tmdmaker.ui.views.properties.IPropertyAvailable;
+import org.tmdmaker.ui.views.properties.gef3.IAttributePropertySource;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.IAttributeEditPart;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editpolicies.AttributeComponentEditPolicy;
-import jp.sourceforge.tmdmaker.ui.views.properties.IAttributePropertySource;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 /**
  * アトリビュートのコントローラ
@@ -124,8 +124,8 @@ public class AttributeEditPart extends AbstractTMDEditPart<Attribute>
 	}
 
 	@Override
-	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new IAttributePropertySource(editor, this.getModel());
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new IAttributePropertySource(commandStack, this.getModel());
 	}
 
 	@Override

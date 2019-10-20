@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import java.io.Serializable;
  * 
  * 実際にアトリビュートに使用するデータ型と桁、位を宣言したものを表す。
  * 
- * @author nakaG
+ * @author nakag
  * 
  */
 @SuppressWarnings("serial")
@@ -118,5 +118,29 @@ public class DataTypeDeclaration implements Serializable {
 	 */
 	public DataTypeDeclaration getCopy() {
 		return new DataTypeDeclaration(logicalType, size, scale, autoIncrement, defaultValue);
+	}
+
+	public DataTypeDeclaration newLogicalType(StandardSQLDataType newType) {
+		DataTypeDeclaration newValue = getCopy();
+		newValue.logicalType = newType;
+		if (!newType.isSupportSize()) {
+			newValue.size = null;
+		}
+		if (!newType.isSupportScale()) {
+			newValue.scale = null;
+		}
+		return newValue;
+	}
+
+	public DataTypeDeclaration newSize(Integer newSize) {
+		DataTypeDeclaration newValue = getCopy();
+		newValue.size = newSize;
+		return newValue;
+	}
+
+	public DataTypeDeclaration newScale(Integer newScale) {
+		DataTypeDeclaration newValue = getCopy();
+		newValue.scale = newScale;
+		return newValue;
 	}
 }

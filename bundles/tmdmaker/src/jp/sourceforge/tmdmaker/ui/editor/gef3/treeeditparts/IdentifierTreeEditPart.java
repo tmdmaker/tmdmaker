@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,18 +18,18 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tmdmaker.ui.views.properties.IPropertyAvailable;
+import org.tmdmaker.ui.views.properties.gef3.IAttributePropertySource;
 
-import jp.sourceforge.tmdmaker.TMDEditor;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.ui.views.properties.IAttributePropertySource;
-import jp.sourceforge.tmdmaker.ui.views.properties.IPropertyAvailable;
 
 public class IdentifierTreeEditPart extends AbstractTreeEditPart
 		implements PropertyChangeListener, IPropertyAvailable {
@@ -90,7 +90,7 @@ public class IdentifierTreeEditPart extends AbstractTreeEditPart
 	}
 
 	@Override
-	public IPropertySource getPropertySource(TMDEditor editor) {
-		return new IAttributePropertySource(editor, this.getModel());
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new IAttributePropertySource(commandStack, this.getModel());
 	}
 }

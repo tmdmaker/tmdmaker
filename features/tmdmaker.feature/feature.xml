@@ -6,11 +6,11 @@
       provider-name="TMD-Maker Project"
       plugin="tmdmaker">
 
-   <description url="https://tmdmaker.osdn.jp">
+   <description url="https://www.tmdmaker.org">
       TMD-Maker Plugin for Eclipse.
    </description>
 
-   <copyright url="https://tmdmaker.osdn.jp">
+   <copyright url="https://www.tmdmaker.org">
       (c)2019,TMD-Maker Project.
    </copyright>
 
@@ -129,6 +129,13 @@
 
    <plugin
          id="jp.osdn.tmdmaker.extensions"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.tmdmaker.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

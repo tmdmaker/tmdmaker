@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker UI
+Bundle-SymbolicName: org.tmdmaker.ui;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Bundle-Activator: org.tmdmaker.ui.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.gef,
+ org.eclipse.ui.views,
+ tmdmaker.core;bundle-version="0.9.0",
+ jp.osdn.tmdmaker.extensions;bundle-version="0.9.0",
+ org.apache.commons.lang,
+ org.apache.commons.beanutils;bundle-version="1.8.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.tmdmaker.ui
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: TMD-Maker Project
+Export-Package: org.tmdmaker.ui;uses:="org.osgi.framework,org.eclipse.osgi.util,org.eclipse.ui.plugin",
+ org.tmdmaker.ui.views.properties;
+  uses:="org.tmdmaker.ui.views.properties.gef3,
+   org.eclipse.gef.commands,
+   jp.sourceforge.tmdmaker.model,
+   org.eclipse.ui.views.properties",
+ org.tmdmaker.ui.views.properties.gef3;
+  uses:="org.slf4j,
+   org.eclipse.gef.commands,
+   jp.sourceforge.tmdmaker.model,
+   org.eclipse.ui.views.properties",
+ org.tmdmaker.ui.views.properties.gef3.commands;x-internal:=true

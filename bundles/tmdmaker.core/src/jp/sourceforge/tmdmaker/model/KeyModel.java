@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,8 @@ import java.util.List;
  */
 public class KeyModel implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final String PROPERTY_UNIQUE = "p_unique";
+
 	/** インデックス名 */
 	private String name;
 	/** ユニーク 制約有無*/
@@ -59,6 +61,9 @@ public class KeyModel implements Serializable {
 	 */
 	public void setUnique(boolean unique) {
 		this.unique = unique;
+		if (!this.unique) {
+			setMasterKey(false);
+		}
 	}
 	/**
 	 * @return the attributes

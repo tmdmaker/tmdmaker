@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.ui,
  tmdmaker.imagegenerator;bundle-version="0.2.6",
  tmdmaker.core;bundle-version="0.2.9",
  jp.osdn.tmdmaker.extensions;bundle-version="0.7.0",
- org.apache.commons.lang;bundle-version="2.6.0"
+ org.apache.commons.lang;bundle-version="2.6.0",
+ org.tmdmaker.ui;bundle-version="0.9.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
@@ -42,6 +43,5 @@ Export-Package: jp.sourceforge.tmdmaker,
  jp.sourceforge.tmdmaker.ui.preferences;x-internal:=true,
  jp.sourceforge.tmdmaker.ui.preferences.appearance;x-internal:=true,
  jp.sourceforge.tmdmaker.ui.preferences.rule;x-internal:=true,
- jp.sourceforge.tmdmaker.ui.views.properties;x-internal:=true,
  jp.sourceforge.tmdmaker.ui.wizard;x-internal:=true
 Automatic-Module-Name: tmdmaker
