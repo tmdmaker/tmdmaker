@@ -87,6 +87,7 @@ public class PropertyViewTester extends AbstractTester{
 	}
 
 	private void testKeyProperty() {
+		System.out.println("testKeyProperty start");
 		SWTBotTree tree = getPropertyTree();
 		SWTBotTreeItem item = tree.getTreeItem("Name");
 		testTextCell(item, "testkey");
@@ -102,9 +103,11 @@ public class PropertyViewTester extends AbstractTester{
 
 		testComboCell(tree.getTreeItem("Unique constraints"), 0);
 
+		System.out.println("testKeyProperty end");
 	}
 
 	private void testDiagramProperty() {
+		System.out.println("testDiagramProperty start");
 		SWTBotTree tree = getPropertyTree();
 		SWTBotTreeItem item = tree.getTreeItem("Name");
 		testTextCell(item, "testname");
@@ -118,6 +121,8 @@ public class PropertyViewTester extends AbstractTester{
 	}
 
 	private void testEntityProperty() {
+		System.out.println("testEntityProperty start");
+
 		SWTBotTree tree = getPropertyTree();
 		SWTBotTreeItem item = tree.getTreeItem("Name");
 		testTextCell(item, "問合せ1");
@@ -138,6 +143,8 @@ public class PropertyViewTester extends AbstractTester{
 	}
 
 	private void testCombinationTableProperty() {
+		System.out.println("testCombinationTableProperty start");
+
 		SWTBotTree tree = getPropertyTree();
 		SWTBotTreeItem item = tree.getTreeItem("Name");
 		testTextCell(item, "テスト対照表");
@@ -152,18 +159,23 @@ public class PropertyViewTester extends AbstractTester{
 	}
 
 	private void testDetailProperty() {
+		System.out.println("testDetailProperty start");
+
 		SWTBotTree tree = getPropertyTree();
 		SWTBotTreeItem item = tree.getTreeItem("Name");
 		testTextCell(item, "発送DTL1");
 
 		item = tree.getTreeItem("Implementation name");
 		testTextCell(item, "ship1");
-
+		wait.waitDefault();
+		
 		item = tree.getTreeItem("Identifier");
 		testTextCell(item, "発送DTL1コード");
+		wait.waitDefault();
 
 		item = tree.getTreeItem("Implementation");
 		testComboCell(item, 1);
+
 		System.out.println("testDetailProperty end");
 
 	}
