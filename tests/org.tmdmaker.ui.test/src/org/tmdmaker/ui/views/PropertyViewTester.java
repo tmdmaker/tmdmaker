@@ -184,6 +184,7 @@ public class PropertyViewTester extends AbstractTester{
 
 	private void testTextCell(SWTBotTreeItem item, String testValue) {
 		item.click(1);
+		wait.waitDefault();
 		Text twidget = bot.widget(widgetOfType(Text.class));
 		SWTBotText text = new SWTBotText(twidget, null);
 		text.setText(testValue);
@@ -193,11 +194,14 @@ public class PropertyViewTester extends AbstractTester{
 
 	private void testComboCell(SWTBotTreeItem item, int testIndex) {
 		item.click(1);
+		wait.waitDefault();
 		CCombo cwidget = bot.widget(widgetOfType(CCombo.class));
 		SWTBotCCombo ccombo = new SWTBotCCombo(cwidget, null);
 		ccombo.setSelection(testIndex);
 		item.click(0);
+		wait.waitDefault();
 		item.click(1);
+		wait.waitDefault();
 		cwidget = bot.widget(widgetOfType(CCombo.class));
 		ccombo = new SWTBotCCombo(cwidget, null);
 		assertEquals(testIndex, ccombo.selectionIndex());
