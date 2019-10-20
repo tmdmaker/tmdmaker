@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.tmdmaker.ui.test.AbstractTester;
@@ -43,11 +44,13 @@ public class OutlineViewTester extends AbstractTester {
 		SWTBotTreeItem[] identifierItems = viewTree.expandNode("顧客").expandNode("Identifier")
 				.getItems();
 		assertEquals(identifierItems.length, 1);
-		identifierItems[0].doubleClick();
+		identifierItems[0].select().doubleClick();
 		wait.waitDefault();
 		System.out.println("Identifier dialog open");
 
-		bot.shell("Edit an attribute").activate();
+		SWTBotShell shell = bot.shell("Edit an attribute");
+		shell.activate();
+		wait.waitDefault();
 		bot.text(1).setText("implementName");
 		wait.waitDefault();
 		bot.text(2).setText("summary");
@@ -60,11 +63,13 @@ public class OutlineViewTester extends AbstractTester {
 		SWTBotTreeItem[] attributeItems = viewTree.expandNode("顧客").expandNode("Attribute")
 				.getItems();
 		assertEquals(attributeItems.length, 1);
-		attributeItems[0].doubleClick();
+		attributeItems[0].select().doubleClick();
 		wait.waitDefault();
 		System.out.println("Attribute dialog open");
 
-		bot.shell("Edit an attribute").activate();
+		shell = bot.shell("Edit an attribute");
+		shell.activate();
+		wait.waitDefault();
 		bot.text(1).setText("implementName");
 		wait.waitDefault();
 		bot.text(2).setText("summary");
