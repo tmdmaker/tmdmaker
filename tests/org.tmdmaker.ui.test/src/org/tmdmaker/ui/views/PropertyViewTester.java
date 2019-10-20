@@ -46,11 +46,13 @@ public class PropertyViewTester extends AbstractTester{
 	protected void doTest() {
 		botEditor.setFocus();
 		botEditor.click(10, 10);
+		wait.waitDefault();
 		testDiagramProperty();
 		wait.waitDefault();
 		Window w = new Window(bot, botEditor);
 
 		w.maximizeActiveEditor();
+		wait.waitDefault();
 		botEditor.getEditPart("顧客.商品.対照表").select().click();
 		w.normalizeActiveEditor();
 		wait.waitDefault();
@@ -58,6 +60,7 @@ public class PropertyViewTester extends AbstractTester{
 		wait.waitDefault();
 
 		w.maximizeActiveEditor();
+		wait.waitDefault();
 		botEditor.getEditPart("問合せ").select().click();
 		w.normalizeActiveEditor();
 		wait.waitDefault();
@@ -65,6 +68,7 @@ public class PropertyViewTester extends AbstractTester{
 		wait.waitDefault();
 
 		w.maximizeActiveEditor();
+		wait.waitDefault();
 		botEditor.getEditPart("発送DTL").select().click();
 		w.normalizeActiveEditor();
 		wait.waitDefault();
@@ -110,6 +114,7 @@ public class PropertyViewTester extends AbstractTester{
 
 		item = tree.getTreeItem("Description");
 		testTextCell(item, "testdesc");
+		System.out.println("testDiagramProperty end");
 	}
 
 	private void testEntityProperty() {
@@ -129,6 +134,7 @@ public class PropertyViewTester extends AbstractTester{
 
 		item = tree.getTreeItem("Implementation");
 		testComboCell(item, 1);
+		System.out.println("testEntityProperty end");
 	}
 
 	private void testCombinationTableProperty() {
@@ -141,6 +147,8 @@ public class PropertyViewTester extends AbstractTester{
 
 		item = tree.getTreeItem("Implementation");
 		testComboCell(item, 1);
+		System.out.println("testCombinationTableProperty end");
+
 	}
 
 	private void testDetailProperty() {
@@ -156,6 +164,8 @@ public class PropertyViewTester extends AbstractTester{
 
 		item = tree.getTreeItem("Implementation");
 		testComboCell(item, 1);
+		System.out.println("testDetailProperty end");
+
 	}
 
 	protected SWTBotTree getPropertyTree() {
@@ -179,6 +189,7 @@ public class PropertyViewTester extends AbstractTester{
 
 		item = tree.getTreeItem("Scale");
 		testTextCell(item, "10");
+		System.out.println("testAttributeProperty end");
 
 	}
 
