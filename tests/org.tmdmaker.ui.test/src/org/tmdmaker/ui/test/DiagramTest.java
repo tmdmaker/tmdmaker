@@ -138,12 +138,11 @@ public class DiagramTest extends AbstractUITest {
 
 		// R:R 対照表
 		botEditor.activateTool("Relationship");
-		botEditor.click(55, 55);
-		botEditor.click(305, 55);
+		botEditor.getEditPart("顧客").click();
+		botEditor.getEditPart("商品").click();
 		sleep();
 
 		createEntity(50, 250, "受注ID", RADIO_INDEX_EVENT);
-		botEditor.click(55, 255);
 
 		createEntity(300, 250, "請求ID", RADIO_INDEX_EVENT);
 

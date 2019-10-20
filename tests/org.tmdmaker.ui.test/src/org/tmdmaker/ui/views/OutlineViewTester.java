@@ -47,6 +47,7 @@ public class OutlineViewTester extends AbstractTester {
 		wait.waitDefault();
 		System.out.println("Identifier dialog open");
 
+		bot.shell("Edit an attribute").activate();
 		bot.text(1).setText("implementName");
 		wait.waitDefault();
 		bot.text(2).setText("summary");
@@ -63,6 +64,7 @@ public class OutlineViewTester extends AbstractTester {
 		wait.waitDefault();
 		System.out.println("Attribute dialog open");
 
+		bot.shell("Edit an attribute").activate();
 		bot.text(1).setText("implementName");
 		wait.waitDefault();
 		bot.text(2).setText("summary");
