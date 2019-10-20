@@ -33,6 +33,12 @@ import org.tmdmaker.ui.preferences.PreferencesTester;
 import org.tmdmaker.ui.views.OutlineViewTester;
 import org.tmdmaker.ui.views.PropertyViewTester;
 
+/**
+ * UI Test for TMEditor using SWTBot.
+ * 
+ * @author nakag
+ *
+ */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class DiagramTest extends AbstractUITest {
 	private static final int RADIO_INDEX_RESOURCE = 0;
@@ -50,7 +56,7 @@ public class DiagramTest extends AbstractUITest {
 
 		hookTMModelTests();
 	}
-	
+
 	private void hookTMModelTests() {
 		normalizeActiveEditor();
 
@@ -74,22 +80,22 @@ public class DiagramTest extends AbstractUITest {
 
 		PreferencesTester preferences = new PreferencesTester(bot, botEditor);
 		preferences.test();
-		
+
 		MoveTester move = new MoveTester(bot, botEditor);
 		move.test();
-		
+
 		CSVGeneratorTester csvGenerator = new CSVGeneratorTester(bot, botEditor);
 		csvGenerator.test();
-		
+
 		DDLGeneratorTester ddlGenerator = new DDLGeneratorTester(bot, botEditor);
 		ddlGenerator.test();
-		
+
 		HtmlGeneratorTester htmlGenerator = new HtmlGeneratorTester(bot, botEditor);
 		htmlGenerator.test();
-		
+
 		ImageGeneratorTester imageGenerator = new ImageGeneratorTester(bot, botEditor);
 		imageGenerator.test();
-		
+
 		SphinxGeneratorTester sphinxGenerator = new SphinxGeneratorTester(bot, botEditor);
 		sphinxGenerator.test();
 	}
@@ -117,7 +123,7 @@ public class DiagramTest extends AbstractUITest {
 		wait.waitDefault();
 		bot.tabItem(1).activate();
 		bot.button("Add").click();
-		wait.waitDefault();		
+		wait.waitDefault();
 		shell = bot.shell("Edit keys");
 		shell.activate();
 		bot.button("<<").click();
@@ -232,7 +238,6 @@ public class DiagramTest extends AbstractUITest {
 		createEntity(20, 410, "問合せ番号", RADIO_INDEX_RESOURCE);
 		sleep();
 	}
-
 
 	@Test
 	public void testNotTMModel() {

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.tmdmaker.ui.editors;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotAssert.assertEnabled;
@@ -18,6 +33,12 @@ import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.Identifier;
 import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
+/**
+ * Test for Attribute Dialog.
+ * 
+ * @author nakag
+ *
+ */
 public class AttributeDialogTester extends AbstractTester {
 
 	public AttributeDialogTester(SWTGefBot bot, SWTBotGefEditor botEditor) {
@@ -36,10 +57,10 @@ public class AttributeDialogTester extends AbstractTester {
 
 		bot.button("Add").click();
 		wait.waitDefault();
-		
+
 		bot.button("Add").click();
 		wait.waitDefault();
-		
+
 		assertNotEnabled(shell.bot().button("Down"));
 
 		bot.button("Up").click();
@@ -55,10 +76,9 @@ public class AttributeDialogTester extends AbstractTester {
 
 		bot.button("OK").click();
 		wait.waitDefault();
-		
+
 		Diagram diagram = tmdEditor.getRootModel();
-		List<AbstractEntityModel> list = diagram.query().name(new ModelName("顧客"))
-				.listEntityModel();
+		List<AbstractEntityModel> list = diagram.query().name(new ModelName("顧客")).listEntityModel();
 		assertEquals(1, list.size());
 		AbstractEntityModel m = list.get(0);
 		assertEquals(2, m.getAttributes().size());
@@ -78,7 +98,7 @@ public class AttributeDialogTester extends AbstractTester {
 		bot.text(4).setText("1");
 		// auto increment
 		bot.checkBox(0).click();
-		bot.checkBox(0).deselect();;
+		bot.checkBox(0).deselect();
 		// default value
 		bot.text(5).setText("10");
 		// prerequisite

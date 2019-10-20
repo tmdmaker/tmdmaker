@@ -32,5 +32,9 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  tmdmaker.ddlgenerator,
  tmdmaker.htmlgenerator,
  tmdmaker.csv
-Export-Package: org.tmdmaker.ui.test;x-internal:=true,
+Export-Package: org.tmdmaker.ui.editors;x-internal:=true,
+ org.tmdmaker.ui.editors.generators;x-internal:=true,
+ org.tmdmaker.ui.editparts;x-internal:=true,
+ org.tmdmaker.ui.preferences;x-internal:=true,
+ org.tmdmaker.ui.test;x-internal:=true,
  org.tmdmaker.ui.views;x-internal:=true
