@@ -96,134 +96,59 @@ public class PropertyViewTester extends AbstractTester{
 	private void testDiagramProperty() {
 		SWTBotTree tree = getPropertyTree();
 		SWTBotTreeItem item = tree.getTreeItem("Name");
-		item.click(1);
-		Text twidget = bot.widget(widgetOfType(Text.class));
-		SWTBotText text = new SWTBotText(twidget, null);
-		text.setText("testname");
-		item.click(0);
-		assertEquals("testname", item.cell(1));
+		testTextCell(item, "testname");
 
 		item = tree.getTreeItem("Database name");
 		testComboCell(item, 1);
 
 		item = tree.getTreeItem("Description");
-		item.click(1);
-		twidget = bot.widget(widgetOfType(Text.class));
-		text = new SWTBotText(twidget, null);
-		text.setText("testdesc");
-		item.click(0);
-		assertEquals("testdesc", item.cell(1));
+		testTextCell(item, "testdesc");
 	}
 
 	private void testEntityProperty() {
 		SWTBotTree tree = getPropertyTree();
 		SWTBotTreeItem item = tree.getTreeItem("Name");
-		item.click(1);
-		Text twidget = bot.widget(widgetOfType(Text.class));
-		SWTBotText text = new SWTBotText(twidget, null);
-		text.setText("問合せ1");
-		item.click(0);
-		assertEquals("問合せ1", item.cell(1));
+		testTextCell(item, "問合せ1");
 
 		item = tree.getTreeItem("Implementation name");
-		item.click(1);
-		twidget = bot.widget(widgetOfType(Text.class));
-		text = new SWTBotText(twidget, null);
-		text.setText("customer1");
-		item.click(0);
-		assertEquals("customer1", item.cell(1));
+		testTextCell(item, "customer1");
 
 		item = tree.getTreeItem("Identifier");
-		item.click(1);
-		twidget = bot.widget(widgetOfType(Text.class));
-		text = new SWTBotText(twidget, null);
-		text.setText("問合せ1コード");
-		item.click(0);
-		assertEquals("問合せ1コード", item.cell(1));
+		testTextCell(item, "問合せ1コード");
 
 		item = tree.getTreeItem("Entity type");
-		item.click(1);
-		CCombo cwidget = bot.widget(widgetOfType(CCombo.class));
-		SWTBotCCombo ccombo = new SWTBotCCombo(cwidget, null);
-		ccombo.setSelection(1);
-		item.click(0);
-		assertEquals("Event", item.cell(1));
-		item.click(1);
-		ccombo.setSelection(0);
-		item.click(0);
+		testComboCell(item, 1);
+		testComboCell(item, 0);
 
 		item = tree.getTreeItem("Implementation");
-		item.click(1);
-		cwidget = bot.widget(widgetOfType(CCombo.class));
-		ccombo = new SWTBotCCombo(cwidget, null);
-		ccombo.setSelection(1);
-		item.click(0);
-		assertEquals("Not to implement", item.cell(1));
-
+		testComboCell(item, 1);
 	}
 
 	private void testCombinationTableProperty() {
 		SWTBotTree tree = getPropertyTree();
 		SWTBotTreeItem item = tree.getTreeItem("Name");
-		item.click(1);
-		Text twidget = bot.widget(widgetOfType(Text.class));
-		SWTBotText text = new SWTBotText(twidget, null);
-		text.setText("テスト対照表");
-		item.click(0);
-		assertEquals("テスト対照表", item.cell(1));
+		testTextCell(item, "テスト対照表");
 
 		item = tree.getTreeItem("Implementation name");
-		item.click(1);
-		twidget = bot.widget(widgetOfType(Text.class));
-		text = new SWTBotText(twidget, null);
-		text.setText("combination1");
-		item.click(0);
-		assertEquals("combination1", item.cell(1));
+		testTextCell(item, "combination1");
 
 		item = tree.getTreeItem("Implementation");
-		item.click(1);
-		CCombo cwidget = bot.widget(widgetOfType(CCombo.class));
-		SWTBotCCombo ccombo = new SWTBotCCombo(cwidget, null);
-		ccombo.setSelection(1);
-		item.click(0);
-		assertEquals("Not to implement", item.cell(1));
-
+		testComboCell(item, 1);
 	}
 
 	private void testDetailProperty() {
 		SWTBotTree tree = getPropertyTree();
 		SWTBotTreeItem item = tree.getTreeItem("Name");
-		item.click(1);
-		Text twidget = bot.widget(widgetOfType(Text.class));
-		SWTBotText text = new SWTBotText(twidget, null);
-		text.setText("発送1");
-		item.click(0);
-		assertEquals("発送1", item.cell(1));
+		testTextCell(item, "発送DTL1");
 
 		item = tree.getTreeItem("Implementation name");
-		item.click(1);
-		twidget = bot.widget(widgetOfType(Text.class));
-		text = new SWTBotText(twidget, null);
-		text.setText("ship1");
-		item.click(0);
-		assertEquals("ship1", item.cell(1));
+		testTextCell(item, "ship1");
 
 		item = tree.getTreeItem("Identifier");
-		item.click(1);
-		twidget = bot.widget(widgetOfType(Text.class));
-		text = new SWTBotText(twidget, null);
-		text.setText("発送1コード");
-		item.click(0);
-		assertEquals("発送1コード", item.cell(1));
+		testTextCell(item, "発送DTL1コード");
 
 		item = tree.getTreeItem("Implementation");
-		item.click(1);
-		CCombo cwidget = bot.widget(widgetOfType(CCombo.class));
-		SWTBotCCombo ccombo = new SWTBotCCombo(cwidget, null);
-		ccombo.setSelection(1);
-		item.click(0);
-		assertEquals("Not to implement", item.cell(1));
-
+		testComboCell(item, 1);
 	}
 
 	protected SWTBotTree getPropertyTree() {
