@@ -187,7 +187,7 @@ public class DiagramTest extends AbstractUITest {
 
 		// サブセット
 		botEditor.activateTool("Select");
-		botEditor.click(303, 55);
+		botEditor.getEditPart("商品").select().click();
 		botEditor.clickContextMenu("Create subset");
 		shell = bot.shell("Edit subset");
 		shell.activate();
@@ -205,7 +205,7 @@ public class DiagramTest extends AbstractUITest {
 
 		// 多値のOR
 		botEditor.activateTool("Select");
-		botEditor.click(305, 55);
+		botEditor.getEditPart("商品").select().click();
 		botEditor.clickContextMenu("Multivalue").clickContextMenu("Create multivalue OR");
 		shell = bot.shell("Create multivalue OR");
 		shell.activate();
@@ -214,7 +214,7 @@ public class DiagramTest extends AbstractUITest {
 		sleep();
 
 		// みなしエンティティ
-		botEditor.click(55, 55);
+		botEditor.getEditPart("顧客").select().click();
 		botEditor.clickContextMenu("Virtual entity(TM')").clickContextMenu("Create virtual entity");
 		shell = bot.shell("Create virtual entity");
 		shell.activate();
