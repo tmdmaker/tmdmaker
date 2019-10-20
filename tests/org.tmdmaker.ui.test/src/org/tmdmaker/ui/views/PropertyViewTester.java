@@ -22,6 +22,7 @@ import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
+import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCCombo;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
@@ -69,7 +70,10 @@ public class PropertyViewTester extends AbstractTester{
 
 		w.maximizeActiveEditor();
 		wait.waitDefault();
-		botEditor.getEditPart("発送DTL").select();
+		SWTBotGefEditPart part = botEditor.getEditPart("発送DTL");
+		if (part == null) {
+			System.out.println("part is null.");
+		}
 		wait.waitDefault();
 		botEditor.getEditPart("発送DTL").click();
 		w.normalizeActiveEditor();
