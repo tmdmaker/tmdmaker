@@ -70,9 +70,13 @@ public class PropertyViewTester extends AbstractTester{
 
 		w.maximizeActiveEditor();
 		wait.waitDefault();
-		SWTBotGefEditPart part = botEditor.getEditPart("発送DTL");
+		SWTBotGefEditPart part = botEditor.getEditPart("発送HDR");
 		if (part == null) {
-			System.out.println("part is null.");
+			System.out.println("header part is null.");
+		}
+		part = botEditor.getEditPart("発送DTL");
+		if (part == null) {
+			System.out.println("detail part is null.");
 		}
 		wait.waitDefault();
 		botEditor.getEditPart("発送DTL").click();
