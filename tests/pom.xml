@@ -16,7 +16,6 @@
 	<modules>
 		<module>tmdmaker.core.test</module>
 		<module>tmdmaker.serializer.test</module>
-		<module>tmdmaker.test</module>
 		<module>tmdmaker.ui.test</module>
 		<module>jp.osdn.tmdmaker.csv.test</module>
 		<module>org.tmdmaker.ui.test</module>

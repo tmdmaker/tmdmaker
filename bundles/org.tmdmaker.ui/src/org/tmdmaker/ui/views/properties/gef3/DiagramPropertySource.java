@@ -68,7 +68,7 @@ public class DiagramPropertySource extends AbstractPropertySource {
 		if (id.equals(DATABASE_NAME)) {
 			return ArrayUtils.indexOf(dataBaseList, diagram.getDatabaseName());
 		}
-		return getPropertyValue(this.diagram, id.toString());
+		return this.canonicalize((String) getPropertyValue(this.diagram, id.toString()));
 	}
 
 	@Override

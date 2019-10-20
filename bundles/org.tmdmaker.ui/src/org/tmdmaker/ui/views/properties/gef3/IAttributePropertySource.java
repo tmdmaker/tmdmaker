@@ -123,7 +123,7 @@ public class IAttributePropertySource extends AbstractPropertySource {
 		oldValue = getPropertyValue(this.attribute, propertyName);
 		if (id.equals(DATA_TYPE_DECLARATION)) {
 			propertyName = DATA_TYPE_DECLARATION;
-			DataTypeDeclaration oldDt = (DataTypeDeclaration) oldValue;
+			DataTypeDeclaration oldDt = attribute.getDataTypeDeclaration();
 			StandardSQLDataType sdt = StandardSQLDataType.values()[(Integer) newValue];
 			newValue = oldDt.newLogicalType(sdt);
 		}

@@ -87,12 +87,6 @@
 		</dependency>
 		<dependency>
 			<groupId>tmdmaker</groupId>
-			<artifactId>tmdmaker.test</artifactId>
-			<version>${release-version}-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>tmdmaker</groupId>
 			<artifactId>tmdmaker.ui.test</artifactId>
 			<version>${release-version}-SNAPSHOT</version>
 			<scope>test</scope>
@@ -106,6 +100,12 @@
 		<dependency>
 			<groupId>tmdmaker</groupId>
 			<artifactId>jp.osdn.tmdmaker.csv.test</artifactId>
+			<version>${release-version}-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>tmdmaker</groupId>
+			<artifactId>org.tmdmaker.ui.test</artifactId>
 			<version>${release-version}-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>

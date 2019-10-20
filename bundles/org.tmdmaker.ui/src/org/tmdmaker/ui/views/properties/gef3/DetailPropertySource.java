@@ -18,6 +18,7 @@ package org.tmdmaker.ui.views.properties.gef3;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.tmdmaker.ui.Messages;
 
@@ -41,6 +42,7 @@ public class DetailPropertySource extends AbstractEntityModelPropertySource {
 		return new IPropertyDescriptor[] { new TextPropertyDescriptor(NAME, Messages.ModelName),
 				new TextPropertyDescriptor(IMPLEMENT_NAME, Messages.ImplementationName),
 				new TextPropertyDescriptor(DETAIL_IDENTIFIER_NAME, Messages.Identifier),
+				new PropertyDescriptor(ENTITY_TYPE, Messages.EntityType),
 				new ComboBoxPropertyDescriptor(IMPLEMENT, Messages.Implementation, IMPLEMENT_LABELS), };
 	}
 
