@@ -69,7 +69,9 @@ public class PropertyViewTester extends AbstractTester{
 
 		w.maximizeActiveEditor();
 		wait.waitDefault();
-		botEditor.getEditPart("発送DTL").select().click();
+		botEditor.getEditPart("発送DTL").select();
+		wait.waitDefault();
+		botEditor.getEditPart("発送DTL").click();
 		w.normalizeActiveEditor();
 		wait.waitDefault();
 		testDetailProperty();
