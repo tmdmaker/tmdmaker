@@ -14,7 +14,6 @@ public class ModelTester extends AbstractTester {
 
 	public ModelTester(SWTGefBot bot, SWTBotGefEditor botEditor) {
 		super(bot, botEditor);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

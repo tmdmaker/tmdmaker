@@ -31,8 +31,8 @@ public abstract class AbstractUITest extends SWTBotGefTestCase {
 	protected TMDEditor tmdEditor;
 	protected BotWait wait = new BotWait();
 	protected Window window = null;
-	private static final String PROJECT_NAME = "test";
-	private static final String FILE_NAME = "test.tmd";
+	public static final String PROJECT_NAME = "test";
+	public static final String FILE_NAME = "test.tmd";
 
 	@BeforeClass
 	public static void closeWelcomePage() {

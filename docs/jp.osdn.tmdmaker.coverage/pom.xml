@@ -87,12 +87,6 @@
 		</dependency>
 		<dependency>
 			<groupId>tmdmaker</groupId>
-			<artifactId>tmdmaker.ui.test</artifactId>
-			<version>${release-version}-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>tmdmaker</groupId>
 			<artifactId>tmdmaker.serializer.test</artifactId>
 			<version>${release-version}-SNAPSHOT</version>
 			<scope>test</scope>

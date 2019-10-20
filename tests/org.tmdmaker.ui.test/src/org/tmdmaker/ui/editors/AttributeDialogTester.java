@@ -70,7 +70,7 @@ public class AttributeDialogTester extends AbstractTester {
 	}
 
 	public static void fillAttributeValues(SWTGefBot bot) {
-		bot.text(1).setText("implementName");
+		bot.text(1).setText("implementName1");
 		bot.text(2).setText("summary");
 		// data type
 		bot.comboBox(0).setSelection(7);
@@ -78,6 +78,7 @@ public class AttributeDialogTester extends AbstractTester {
 		bot.text(4).setText("1");
 		// auto increment
 		bot.checkBox(0).click();
+		bot.checkBox(0).deselect();;
 		// default value
 		bot.text(5).setText("10");
 		// prerequisite

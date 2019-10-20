@@ -20,9 +20,15 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.tmdmaker.ui.editors.AttributeDialogTester;
+import org.tmdmaker.ui.editors.ImplementInfoDialogTester;
 import org.tmdmaker.ui.editors.ModelTester;
 import org.tmdmaker.ui.editors.MoveTester;
 import org.tmdmaker.ui.editors.ToolTester;
+import org.tmdmaker.ui.editors.generators.CSVGeneratorTester;
+import org.tmdmaker.ui.editors.generators.DDLGeneratorTester;
+import org.tmdmaker.ui.editors.generators.HtmlGeneratorTester;
+import org.tmdmaker.ui.editors.generators.ImageGeneratorTester;
+import org.tmdmaker.ui.editors.generators.SphinxGeneratorTester;
 import org.tmdmaker.ui.preferences.PreferencesTester;
 import org.tmdmaker.ui.views.OutlineViewTester;
 import org.tmdmaker.ui.views.PropertyViewTester;
@@ -63,14 +69,29 @@ public class DiagramTest extends AbstractUITest {
 		AttributeDialogTester editAttributeDialog = new AttributeDialogTester(bot, botEditor);
 		editAttributeDialog.test();
 
-//		ImplementInfoDialogTester implementInfoDialog = new ImplementInfoDialogTester(bot, botEditor);
-//		implementInfoDialog.test();
+		ImplementInfoDialogTester implementInfoDialog = new ImplementInfoDialogTester(bot, botEditor);
+		implementInfoDialog.test();
 
 		PreferencesTester preferences = new PreferencesTester(bot, botEditor);
 		preferences.test();
 		
 		MoveTester move = new MoveTester(bot, botEditor);
 		move.test();
+		
+		CSVGeneratorTester csvGenerator = new CSVGeneratorTester(bot, botEditor);
+		csvGenerator.test();
+		
+		DDLGeneratorTester ddlGenerator = new DDLGeneratorTester(bot, botEditor);
+		ddlGenerator.test();
+		
+		HtmlGeneratorTester htmlGenerator = new HtmlGeneratorTester(bot, botEditor);
+		htmlGenerator.test();
+		
+		ImageGeneratorTester imageGenerator = new ImageGeneratorTester(bot, botEditor);
+		imageGenerator.test();
+		
+		SphinxGeneratorTester sphinxGenerator = new SphinxGeneratorTester(bot, botEditor);
+		sphinxGenerator.test();
 	}
 
 	protected void editDiagrams() {
@@ -83,6 +104,8 @@ public class DiagramTest extends AbstractUITest {
 		bot.radio(0).click();
 		bot.button("Description").click();
 		AttributeDialogTester.fillAttributeValues(bot);
+		bot.checkBox(0).click();
+		bot.checkBox(0).deselect();
 		sleep();
 		bot.button("OK").click();
 

@@ -72,7 +72,9 @@ public class PropertyViewTester extends AbstractTester{
 		item = tree.getTreeItem("Master key");
 		testComboCell(item, 1);
 		item = tree.getTreeItem("Unique constraints");
-		testComboCell(item, 1);
+		testComboCell(item, 0);
+
+		testComboCell(tree.getTreeItem("Unique constraints"), 0);
 
 	}
 

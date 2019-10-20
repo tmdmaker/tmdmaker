@@ -1,5 +1,6 @@
 package org.tmdmaker.ui.test;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 
@@ -32,4 +33,7 @@ public abstract class AbstractTester {
 		}
 	}
 
+	protected String getProjectRootDir() {
+		return Platform.getInstanceLocation().getURL().getPath() + AbstractUITest.PROJECT_NAME;
+	}
 }
