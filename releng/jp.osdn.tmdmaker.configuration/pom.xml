@@ -288,10 +288,7 @@
 						</dependency>
 					</dependencies>
 					<configuration>
-						<excludes>
-							<exclude>*Test*</exclude>
-							<exclude>*test*</exclude>
-						</excludes>
+						<sourceDirectories>bundles/</sourceDirectories>
 					</configuration>
 				</plugin>
 				<plugin>
