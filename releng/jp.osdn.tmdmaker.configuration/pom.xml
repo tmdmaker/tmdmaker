@@ -287,6 +287,12 @@
 							<version>${jaxb-api-version}</version>
 						</dependency>
 					</dependencies>
+					<configuration>
+						<excludes>
+							<exclude>*Test*</exclude>
+							<exclude>*test*</exclude>
+						</excludes>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
