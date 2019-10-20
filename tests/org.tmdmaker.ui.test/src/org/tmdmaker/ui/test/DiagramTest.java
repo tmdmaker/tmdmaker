@@ -115,6 +115,7 @@ public class DiagramTest extends AbstractUITest {
 		sleep();
 		bot.button("OK").click();
 
+		sleep();
 		botEditor.getEditPart("顧客").select().click();
 		botEditor.clickContextMenu("Edit implementation information");
 		shell = bot.shell("Edit implementation information");
