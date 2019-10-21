@@ -48,8 +48,8 @@ public class OutlineViewTester extends AbstractTester {
 		SWTBotTreeItem identifierTreeItem = viewTree.expandNode("顧客").expandNode("Identifier").select();
 		bot.waitUntil(Conditions.treeItemHasNode(identifierTreeItem, "顧客番号"));
 		identifierItems[0].doubleClick();
-		wait.waitDefault();
 		
+		bot.waitUntil(Conditions.shellIsActive("Edit an attribute"));
 		SWTBotShell shell = bot.shell("Edit an attribute");
 		shell.activate();
 		wait.waitDefault();
@@ -67,8 +67,8 @@ public class OutlineViewTester extends AbstractTester {
 		SWTBotTreeItem attributeTreeItem = viewTree.expandNode("顧客").expandNode("Attribute").select();		
 		bot.waitUntil(Conditions.treeItemHasNode(attributeTreeItem, "テスト名称"));
 		attributeItems[0].doubleClick();
-		wait.waitDefault();
 
+		bot.waitUntil(Conditions.shellIsActive("Edit an attribute"));
 		shell = bot.shell("Edit an attribute");
 		shell.activate();
 		wait.waitDefault();
