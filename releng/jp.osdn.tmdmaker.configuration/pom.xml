@@ -287,9 +287,6 @@
 							<version>${jaxb-api-version}</version>
 						</dependency>
 					</dependencies>
-					<configuration>
-						<sourceDirectories>bundles/</sourceDirectories>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>

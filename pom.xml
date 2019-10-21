@@ -71,15 +71,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<configuration>
-					<jacocoReports>
-						<jacocoReport>./docs/jp.osdn.tmdmaker.coverage/target/site/jacoco/report/jacoco.xml</jacocoReport>
-					</jacocoReports>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 

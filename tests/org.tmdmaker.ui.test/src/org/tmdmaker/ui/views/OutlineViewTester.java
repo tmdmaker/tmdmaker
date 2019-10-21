@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
+import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
@@ -43,8 +44,17 @@ public class OutlineViewTester extends AbstractTester {
 		SWTBotTree viewTree = outlineBot.bot().tree();
 		SWTBotTreeItem[] identifierItems = viewTree.expandNode("顧客").expandNode("Identifier").getItems();
 		assertEquals(identifierItems.length, 1);
-		identifierItems[0].select().click();
-		viewTree.expandNode("顧客").expandNode("Identifier").getNode(0).select().doubleClick();
+		identifierItems[0].doubleClick();
+		bot.waitUntil(new DefaultCondition() {
+			public String getFailureMessage() {
+				return "unable to select";
+			}
+
+			public boolean test() throws Exception {
+				return bot.shell("Edit an attribute").isEnabled();
+			}
+
+		});
 		wait.waitDefault();
 
 		SWTBotShell shell = bot.shell("Edit an attribute");
@@ -60,7 +70,17 @@ public class OutlineViewTester extends AbstractTester {
 		viewTree = outlineBot.bot().tree();
 		SWTBotTreeItem[] attributeItems = viewTree.expandNode("顧客").expandNode("Attribute").getItems();
 		assertEquals(attributeItems.length, 1);
-		viewTree.expandNode("顧客").expandNode("Attribute").getNode(0).select().doubleClick();
+		attributeItems[0].doubleClick();
+		bot.waitUntil(new DefaultCondition() {
+			public String getFailureMessage() {
+				return "unable to select";
+			}
+
+			public boolean test() throws Exception {
+				return bot.shell("Edit an attribute").isEnabled();
+			}
+
+		});
 		wait.waitDefault();
 
 		shell = bot.shell("Edit an attribute");
