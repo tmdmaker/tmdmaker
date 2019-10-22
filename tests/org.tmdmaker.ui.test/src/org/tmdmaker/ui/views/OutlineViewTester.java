@@ -45,11 +45,13 @@ public class OutlineViewTester extends AbstractTester {
 		SWTBotTreeItem[] identifierItems = viewTree.expandNode("顧客").expandNode("Identifier").getItems();
 		assertEquals(identifierItems.length, 1);
 
-		SWTBotTreeItem identifierTreeItem = viewTree.expandNode("顧客").expandNode("Identifier").select();
+		SWTBotTreeItem identifierTreeItem = viewTree.expandNode("顧客").expandNode("Identifier");
 		bot.waitUntil(Conditions.treeItemHasNode(identifierTreeItem, "顧客番号"));
-		identifierItems[0].doubleClick();
+		assertEquals(identifierTreeItem.getNodes().size(), 1);
 		
-		bot.waitUntil(Conditions.shellIsActive("Edit an attribute"));
+		identifierTreeItem.getNode(0).doubleClick();
+		wait.waitDefault();
+
 		SWTBotShell shell = bot.shell("Edit an attribute");
 		shell.activate();
 		wait.waitDefault();
@@ -64,11 +66,13 @@ public class OutlineViewTester extends AbstractTester {
 		SWTBotTreeItem[] attributeItems = viewTree.expandNode("顧客").expandNode("Attribute").getItems();
 		assertEquals(attributeItems.length, 1);
 
-		SWTBotTreeItem attributeTreeItem = viewTree.expandNode("顧客").expandNode("Attribute").select();		
+		SWTBotTreeItem attributeTreeItem = viewTree.expandNode("顧客").expandNode("Attribute");
 		bot.waitUntil(Conditions.treeItemHasNode(attributeTreeItem, "テスト名称"));
-		attributeItems[0].doubleClick();
+		assertEquals(attributeTreeItem.getNodes().size(), 1);
 
-		bot.waitUntil(Conditions.shellIsActive("Edit an attribute"));
+		attributeTreeItem.getNode(0).doubleClick();
+		wait.waitDefault();
+		
 		shell = bot.shell("Edit an attribute");
 		shell.activate();
 		wait.waitDefault();
