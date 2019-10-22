@@ -15,11 +15,8 @@
  */
 package org.tmdmaker.ui.views;
 
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
@@ -27,7 +24,6 @@ import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.hamcrest.Matchers;
 import org.tmdmaker.ui.test.AbstractTester;
 
 /**
@@ -52,20 +48,12 @@ public class OutlineViewTester extends AbstractTester {
 		SWTBotTreeItem identifierTreeItem = viewTree.expandNode("顧客").expandNode("Identifier");
 		bot.waitUntil(Conditions.treeItemHasNode(identifierTreeItem, "顧客番号"));
 		assertEquals(identifierTreeItem.getNodes().size(), 1);
-		
-//		identifierTreeItem.getNode(0).select().doubleClick();
-		viewTree.expandNode("顧客").expandNode("Identifier").getNode(0).doubleClick();
-		wait.waitFor(1000);
-		for (SWTBotShell s : bot.shells()) {
-			System.out.println("["+s.getText()+"]");
-			System.out.println(s.isOpen());
-			System.out.println(s.isVisible());
-			System.out.println(s.toString());
-			System.out.println(bot.text(0).getText());
-		}
-		SWTBotShell shell = bot.shell("Edit an attribute");
-		shell.activate();
+
+		viewTree.expandNode("顧客").expandNode("Identifier").getNode(0).select().doubleClick();
 		wait.waitDefault();
+		SWTBotShell shell = bot.shell("Edit an attribute");
+		wait.waitDefault();
+		shell.activate();
 		bot.text(1).setText("implementName");
 		wait.waitDefault();
 		bot.text(2).setText("summary");
@@ -81,15 +69,16 @@ public class OutlineViewTester extends AbstractTester {
 		bot.waitUntil(Conditions.treeItemHasNode(attributeTreeItem, "テスト名称"));
 		assertEquals(attributeTreeItem.getNodes().size(), 1);
 
-		viewTree.expandNode("顧客").expandNode("Attribute").getNode(0).doubleClick();
-		wait.waitFor(1000);
-		
+		viewTree.expandNode("顧客").expandNode("Attribute").getNode(0).select().doubleClick();
+		wait.waitDefault();
 		shell = bot.shell("Edit an attribute");
+		wait.waitDefault();
 		shell.activate();
 		wait.waitDefault();
 		bot.text(1).setText("implementName");
 		wait.waitDefault();
 		bot.text(2).setText("summary");
+		wait.waitDefault();
 		bot.button("OK").click();
 		wait.waitDefault();
 		System.out.println("Attribute test ok");
