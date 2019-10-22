@@ -172,10 +172,6 @@
 									<include>jp.sourceforge.tmdmaker.*</include>
 									<include>org.tmdmaker.*</include>
 								</includes>
-								<excludes>
-									<exclude>*Test*</exclude>
-									<exclude>*.ui.test.*</exclude>
-								</excludes>
 							</configuration>
 						</execution>
 					</executions>
