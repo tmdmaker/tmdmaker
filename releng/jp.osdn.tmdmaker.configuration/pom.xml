@@ -17,7 +17,7 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>1.4.0</tycho-version>
+		<tycho-version>1.5.1</tycho-version>
 		<jacoco-version>0.8.4</jacoco-version>
 		<antrun-version>1.8</antrun-version>
 		<sphinx-maven-plugin-version>2.6.0</sphinx-maven-plugin-version>
