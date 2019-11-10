@@ -143,7 +143,7 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart
 	@Override
 	public AbstractEntityModel getParentModel() {
 		EditPart part = getParent().getParent();
-		if (part instanceof EntityTreeEditPart) {
+		if (part instanceof AbstractEntityModelTreeEditPart) {
 			return (AbstractEntityModel) part.getModel();
 		}
 		// part is a key definition
