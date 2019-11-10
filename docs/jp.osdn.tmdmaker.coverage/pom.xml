@@ -71,11 +71,6 @@
 		</dependency>
 		<dependency>
 			<groupId>tmdmaker</groupId>
-			<artifactId>tmdmaker.ui.menu</artifactId>
-			<version>${release-version}-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>tmdmaker</groupId>
 			<artifactId>org.tmdmaker.ui</artifactId>
 			<version>${release-version}-SNAPSHOT</version>
 		</dependency>

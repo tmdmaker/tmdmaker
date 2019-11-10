@@ -15,6 +15,12 @@
  */
 package org.tmdmaker.ui;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -28,7 +34,7 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -56,4 +62,74 @@ public class Activator extends AbstractUIPlugin {
 		return plugin;
 	}
 
+	/**
+	 * Log for output exception.
+	 * 
+	 * @param t The Throwable raised.
+	 */
+	public static void log(Throwable t) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, t.getMessage(), t);
+		getDefault().getLog().log(status);
+	}
+
+	/**
+	 * Log for output message.
+	 * 
+	 * @param message The message.
+	 */
+	public static void log(String message) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, message, null);
+		getDefault().getLog().log(status);
+	}
+
+	/**
+	 * Show dialog for normal message.
+	 * 
+	 * @param message The message.
+	 */
+	public static void showMessageDialog(String message) {
+		MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				SWT.ICON_INFORMATION | SWT.OK);
+		messageBox.setText(Messages.TMDPlugin_InformationTitle);
+		messageBox.setMessage(message);
+		messageBox.open();
+	}
+
+	/**
+	 * Show dialog for error message.
+	 * 
+	 * @param message The message.
+	 */
+	public static void showErrorDialog(String message) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, message);
+
+		log(message);
+
+		ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				Messages.TMDPlugin_ErrorTitle, message, status);
+	}
+
+	/**
+	 * Show dialog for exception.
+	 * 
+	 * @param t The Throwable raised.
+	 */
+	public static void showErrorDialog(Throwable t) {
+		showErrorDialog(Messages.TMDPlugin_ErrorMessage, t);
+	}
+
+	/**
+	 * Show dialog for message and exception.
+	 * 
+	 * @param message The message.
+	 * @param t       The Throwable raised.
+	 */
+	public static void showErrorDialog(String message, Throwable t) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, 0, t.getMessage(), t);
+
+		log(t);
+
+		ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				Messages.TMDPlugin_ErrorTitle, message, status);
+	}
 }

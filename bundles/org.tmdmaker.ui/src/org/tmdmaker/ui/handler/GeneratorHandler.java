@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.ui.handler;
+package org.tmdmaker.ui.handler;
 
 import java.util.Iterator;
-
-import jp.sourceforge.tmdmaker.TMDPlugin;
-import jp.sourceforge.tmdmaker.extension.SerializerFactory;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.generate.Generator;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -30,6 +25,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.tmdmaker.ui.Activator;
+import org.tmdmaker.ui.editor.file.Workspace;
+
+import jp.sourceforge.tmdmaker.extension.SerializerFactory;
+import jp.sourceforge.tmdmaker.model.Diagram;
+import jp.sourceforge.tmdmaker.model.generate.Generator;
 
 /**
  * ダイアグラムから別ファイルを生成するためのハンドラクラス
@@ -68,11 +69,11 @@ public abstract class GeneratorHandler extends AbstractHandler {
 				Diagram diagram = SerializerFactory.getInstance().deserialize(file.getContents());
 				String path = getAbsolutePath(file);
 				generator.execute(path, diagram.query().listEntityModel());
-				TMDPlugin.refreshGenerateResources(path);
+				new Workspace().refreshGenerateResources(path);
 			} catch (CoreException e) {
-				TMDPlugin.showErrorDialog(e);
+				Activator.showErrorDialog(e);
 			} catch (Exception e) {
-				TMDPlugin.showErrorDialog(e);
+				Activator.showErrorDialog(e);
 			}
 		}
 		return null;

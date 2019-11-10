@@ -48,6 +48,7 @@ public abstract class AbstractUITest extends SWTBotGefTestCase {
 	private NewDiagramFile tmDiagram = new NewDiagramFile();
 	protected View propertiesView = new View("General", "Properties");
 	protected View outlineView = new View("General", "Outline");
+	protected View explorerView = new View("General", "Project Explorer");
 	protected SWTBotGefEditor botEditor;
 	protected TMDEditor tmdEditor;
 	protected BotWait wait = new BotWait();

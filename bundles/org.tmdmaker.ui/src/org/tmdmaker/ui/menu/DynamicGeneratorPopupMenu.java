@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.ui.menu;
+package org.tmdmaker.ui.menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +33,10 @@ import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
+import org.tmdmaker.ui.handler.GeneratorHandler;
 
 import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
 import jp.sourceforge.tmdmaker.model.generate.Generator;
-import jp.sourceforge.tmdmaker.ui.handler.GeneratorHandler;
 
 /**
  * エクスプローラ系のポップアップに登録されているGeneratorを表示するクラス

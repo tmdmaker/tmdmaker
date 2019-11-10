@@ -31,6 +31,7 @@ import org.tmdmaker.ui.editors.generators.ImageGeneratorTester;
 import org.tmdmaker.ui.editors.generators.SphinxGeneratorTester;
 import org.tmdmaker.ui.preferences.PreferencesTester;
 import org.tmdmaker.ui.views.OutlineViewTester;
+import org.tmdmaker.ui.views.ProjectExplorerTester;
 import org.tmdmaker.ui.views.PropertyViewTester;
 
 /**
@@ -49,6 +50,7 @@ public class DiagramTest extends AbstractUITest {
 	public void testTMModels() {
 		propertiesView.open();
 		outlineView.open();
+		explorerView.open();
 		maximizeActiveWindow();
 		maximizeActiveEditor();
 
@@ -71,6 +73,9 @@ public class DiagramTest extends AbstractUITest {
 
 		OutlineViewTester outlineView = new OutlineViewTester(bot, botEditor);
 		outlineView.test();
+
+		ProjectExplorerTester explorerView = new ProjectExplorerTester(bot, botEditor);
+		explorerView.test();
 
 		AttributeDialogTester editAttributeDialog = new AttributeDialogTester(bot, botEditor);
 		editAttributeDialog.test();

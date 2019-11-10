@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.Dialog;
+import org.tmdmaker.ui.editor.file.Workspace;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDEditor;
@@ -89,7 +90,7 @@ public class GenerateAction extends SelectionAction {
 				String savePath = dialog.getSavePath();
 				generator.execute(savePath, dialog.getSelectedModels());
 				TMDPlugin.showMessageDialog(generator.getGeneratorName() + Messages.Completion);
-				TMDPlugin.refreshGenerateResources(savePath);
+				new Workspace().refreshGenerateResources(savePath);
 			} catch (Throwable t) {
 				TMDPlugin.showErrorDialog(t);
 			}
@@ -97,7 +98,7 @@ public class GenerateAction extends SelectionAction {
 	}
 
 	private String getSavePath() {
-		IFile file = TMDPlugin.getEditFile(getWorkbenchPart());
+		IFile file = new Workspace().getEditFile (getWorkbenchPart());
 		return file.getLocation().removeLastSegments(1).toOSString();
 	}
 

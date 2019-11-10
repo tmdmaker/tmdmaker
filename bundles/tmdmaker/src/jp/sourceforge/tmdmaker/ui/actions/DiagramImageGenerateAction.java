@@ -28,6 +28,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.tmdmaker.ui.editor.file.Workspace;
 
 import jp.sourceforge.tmdmaker.Messages;
 import jp.sourceforge.tmdmaker.TMDPlugin;
@@ -70,7 +71,7 @@ public class DiagramImageGenerateAction extends Action {
 	public void run() {
 
 		FileDialog dialog = new FileDialog(viewer.getControl().getShell(), SWT.SAVE);
-		IFile editfile = TMDPlugin.getEditFile(part);
+		IFile editfile = new Workspace().getEditFile (part);
 		dialog.setFileName(editfile.getLocation().removeFileExtension().lastSegment());
 		dialog.setFilterPath(buildFilterPath(editfile));
 		dialog.setOverwrite(true);
@@ -116,7 +117,7 @@ public class DiagramImageGenerateAction extends Action {
 				TMDPlugin.showErrorDialog(e);
 			} finally {
 				try {
-					TMDPlugin.refreshGenerateResource(fileFullPath);
+					new Workspace().refreshGenerateResource(fileFullPath);
 				} catch (Exception e) {
 					// do nothing.
 				}

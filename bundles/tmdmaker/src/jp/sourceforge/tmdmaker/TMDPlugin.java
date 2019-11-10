@@ -15,16 +15,6 @@
  */
 package jp.sourceforge.tmdmaker;
 
-import java.io.File;
-
-import jp.sourceforge.tmdmaker.ui.preferences.IPreferenceListener;
-import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearancePreferenceListener;
-import jp.sourceforge.tmdmaker.ui.preferences.rule.RulePreferenceListener;
-
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -37,13 +27,15 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import jp.sourceforge.tmdmaker.ui.preferences.IPreferenceListener;
+import jp.sourceforge.tmdmaker.ui.preferences.appearance.AppearancePreferenceListener;
+import jp.sourceforge.tmdmaker.ui.preferences.rule.RulePreferenceListener;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -232,54 +224,5 @@ public class TMDPlugin extends AbstractUIPlugin {
 				}
 			}
 		}
-
-	}
-
-	/**
-	 * 生成したリソース(ファイル)をワークスペース内に表示させる
-	 * 
-	 * @param path
-	 *            リソースへのパス
-	 * @throws Exception
-	 *             refresh時の例外
-	 */
-	public static void refreshGenerateResource(String path) throws Exception {
-		IFile[] files = ResourcesPlugin.getWorkspace().getRoot()
-				.findFilesForLocationURI(new File(path).toURI());
-		if (files != null) {
-			for (IFile f : files) {
-				f.refreshLocal(IResource.DEPTH_INFINITE, null);
-			}
-		}
-	}
-
-	/**
-	 * 生成したリソース群（ディレクトリ）をワークスペース内に表示させる
-	 * 
-	 * @param path
-	 *            リソースへのパス
-	 * @throws Exception
-	 *             refresh時の例外
-	 */
-	public static void refreshGenerateResources(String path) throws Exception {
-		IContainer[] container = ResourcesPlugin.getWorkspace().getRoot()
-				.findContainersForLocationURI(new File(path).toURI());
-		if (container != null) {
-			for (IContainer c : container) {
-				c.refreshLocal(IResource.DEPTH_INFINITE, null);
-			}
-		}
-	}
-
-	/**
-	 * TMDエディターで編集しているファイルを取得する
-	 * 
-	 * @param part
-	 *            エディタ
-	 * @return IFile
-	 */
-	public static IFile getEditFile(IWorkbenchPart part) {
-		return ((IFileEditorInput) ((IEditorPart) part).getEditorInput())
-				.getFile();
 	}
 }
