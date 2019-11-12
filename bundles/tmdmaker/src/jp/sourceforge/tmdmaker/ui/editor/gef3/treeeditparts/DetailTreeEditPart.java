@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,9 @@ package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.tmdmaker.ui.views.properties.gef3.DetailPropertySource;
 
 import jp.sourceforge.tmdmaker.model.Detail;
 import jp.sourceforge.tmdmaker.model.Identifier;
@@ -30,11 +33,12 @@ import jp.sourceforge.tmdmaker.model.ReusedIdentifier;
  * @author nakaG
  *
  */
-public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart<Detail> implements
-		PropertyChangeListener {
+public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart<Detail>
+		implements PropertyChangeListener {
 
 	/**
 	 * コンストラクタ
+	 * 
 	 * @param model
 	 */
 	public DetailTreeEditPart(Detail model, EditPolicy policy) {
@@ -52,8 +56,8 @@ public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart<Detail> 
 		Detail detail = getModel();
 		IdentifierRef original = detail.getOriginalReusedIdentifier().getUniqueIdentifiers().get(0);
 		addOriginalIdentifier(original);
-		if (detail.isDetailIdentifierEnabled()){
-		    identifiers.add(detail.getDetailIdentifier());
+		if (detail.isDetailIdentifierEnabled()) {
+			identifiers.add(detail.getDetailIdentifier());
 		}
 
 		for (ReusedIdentifier r : detail.getReusedIdentifiers().values()) {
@@ -80,4 +84,8 @@ public class DetailTreeEditPart extends AbstractEntityModelTreeEditPart<Detail> 
 		identifiers.add(0, copyOriginal);
 	}
 
+	@Override
+	public IPropertySource getPropertySource(CommandStack commandStack) {
+		return new DetailPropertySource(commandStack, this.getModel());
+	}
 }

@@ -27,6 +27,10 @@
             class="jp.sourceforge.tmdmaker.serializer.handler.patch.Patch040SerializerHandler"
             name="Patch040SerializerHandler">
       </handler>
+      <handler
+            class="org.tmdmaker.serializer.handler.patch.Patch090SerializerHandler"
+            name="Patch090SerializerHandler">
+      </handler>
    </extension>
 
 </plugin>

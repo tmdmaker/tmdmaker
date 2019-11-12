@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.osdn.jp/>
+ * Copyright 2009-2017 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,12 +81,7 @@ public class Detail extends AbstractEntityModel {
 	 * @param name
 	 */
 	public void setDetailIdentifierName(String name) {
-		String oldValue = detailIdentifier.getName();
-		detailIdentifier.setName(name);
-		if (oldValue == null || !oldValue.equals(name)) {
-			firePropertyChange(PROPERTY_IDENTIFIER, oldValue, name);
-			fireIdentifierChanged(null);
-		}
+		this.detailIdentifier.setName(name);
 	}
 
 	/**
@@ -104,9 +99,9 @@ public class Detail extends AbstractEntityModel {
 	 */
 	public void setDetailIdentifier(Identifier detailIdentifier) {
 		Identifier oldValue = this.detailIdentifier;
-		// oldValue.setParent(null);
+		oldValue.setParent(null);
 		this.detailIdentifier = detailIdentifier;
-		// this.detailIdentifier.setParent(this);
+		this.detailIdentifier.setParent(this);
 		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, detailIdentifier);
 	}
 
@@ -124,7 +119,13 @@ public class Detail extends AbstractEntityModel {
 		// canDisableDetailIdentifierEnabled() で不用意な書き換えを制御したいがダイアログ書き換えのタイミングの
 		// 問題で難しい。
 		isDetailIdentifierEnabled = enabled;
-		fireIdentifierChanged(null);
+		fireIdentifierChanged();
+	}
+
+	@Override
+	protected void fireIdentifierChanged() {
+		firePropertyChange(PROPERTY_IDENTIFIER, null, detailIdentifier);
+		super.fireIdentifierChanged();
 	}
 
 	/**

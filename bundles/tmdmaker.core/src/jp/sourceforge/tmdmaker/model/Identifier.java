@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2018 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import jp.sourceforge.tmdmaker.model.parts.ModelName;
  */
 @SuppressWarnings("serial")
 public class Identifier extends Attribute {
+	private AbstractEntityModel parent;
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -100,5 +102,26 @@ public class Identifier extends Attribute {
 			}
 		}
 		return entityName;
+	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
+
+	AbstractEntityModel getParent() {
+		return parent;
+	}
+
+	public void setParent(AbstractEntityModel parent) {
+		this.parent = parent;
+	}
+
+	@Override
+	public void setName(String name) {
+		super.setName(name);
+		if (parent != null) {
+			this.parent.fireIdentifierChanged();
+		}
 	}
 }

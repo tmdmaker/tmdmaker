@@ -297,6 +297,10 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 		return findRelationship(getModelTargetConnections(), clazz);
 	}
 
+	protected void fireIdentifierChanged() {
+		this.fireIdentifierChanged(null);
+	}
+
 	/**
 	 * 
 	 * @param callConnection
@@ -324,7 +328,7 @@ public abstract class AbstractEntityModel extends ConnectableElement {
 	 */
 	private <T extends AbstractConnectionModel> void notifyIdentifierChangedToConnections(
 			List<T> connections, AbstractConnectionModel callConnection) {
-		for (AbstractConnectionModel con : connections) {
+		for (T con : connections) {
 			if (con instanceof IdentifierChangeListener && con != callConnection) {
 				((IdentifierChangeListener) con).identifierChanged();
 				logger.debug("{}から{}に通知しました。" , getName(), con.getClass());

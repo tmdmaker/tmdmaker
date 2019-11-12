@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://tmdmaker.osdn.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -200,9 +200,9 @@ public class Entity extends AbstractEntityModel {
 	 */
 	public void setIdentifier(Identifier identifier) {
 		Identifier oldValue = this.identifier;
-		// oldValue.setParent(null);
+		oldValue.setParent(null);
 		this.identifier = identifier;
-		// this.identifier.setParent(this);
+		this.identifier.setParent(this);
 		firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
 	}
 
@@ -212,12 +212,13 @@ public class Entity extends AbstractEntityModel {
 	 *            個体指定子名称
 	 */
 	public void setIdentifierName(String identifierName) {
-		String oldValue = this.identifier.getName();
 		this.identifier.setName(identifierName);
-		if (oldValue == null || !oldValue.equals(identifierName)) {
-			firePropertyChange(PROPERTY_IDENTIFIER, oldValue, identifier);
-			fireIdentifierChanged(null);
-		}
+	}
+
+	@Override
+	protected void fireIdentifierChanged() {
+		firePropertyChange(PROPERTY_IDENTIFIER, null, identifier);
+		super.fireIdentifierChanged();
 	}
 
 	/**
