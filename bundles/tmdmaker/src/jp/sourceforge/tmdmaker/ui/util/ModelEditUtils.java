@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2017 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.sourceforge.tmdmaker.ui.dialogs.models;
+package jp.sourceforge.tmdmaker.ui.util;
 
 /**
- * モデル編集用ユーティリティ
+ * Utilities for editing model.
  * 
- * @author nakaG
+ * @author nakag
  * 
  */
 public class ModelEditUtils {
+	private ModelEditUtils() {
+	}
+
 	/**
 	 * 文字列を数値へ変換する。
 	 * 
@@ -34,7 +37,6 @@ public class ModelEditUtils {
 		try {
 			return Integer.valueOf(value);
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
 			return 0;
 		}
 	}

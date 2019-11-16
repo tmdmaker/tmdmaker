@@ -56,6 +56,7 @@ import jp.sourceforge.tmdmaker.model.SubsetEntity;
 import jp.sourceforge.tmdmaker.model.VirtualEntity;
 import jp.sourceforge.tmdmaker.model.VirtualSuperset;
 import jp.sourceforge.tmdmaker.model.other.TurboFile;
+import jp.sourceforge.tmdmaker.ui.util.ModelEditUtils;
 
 /**
  * Entity系モデルのtreeeditpartクラス
@@ -200,12 +201,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 	 */
 	@Override
 	protected String getText() {
-		ModelElement model = getModel();
-		if (model.getName() == null) {
-			return "";
-		} else {
-			return model.getName();
-		}
+		return ModelEditUtils.toBlankStringIfNull(getModel().getName());
 	}
 
 	/**

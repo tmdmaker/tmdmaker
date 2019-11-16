@@ -15,26 +15,14 @@
  */
 package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.tmdmaker.ui.views.properties.IPropertyAvailable;
-import org.tmdmaker.ui.views.properties.gef3.IAttributePropertySource;
+import org.tmdmaker.ui.views.properties.gef3.IdentifierRefPropertySource;
 
-import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.IdentifierRef;
 import jp.sourceforge.tmdmaker.model.ModelElement;
 
-public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart
-		implements PropertyChangeListener, IPropertyAvailable {
-
-	private static Logger logger = LoggerFactory
-			.getLogger(IdentifierRefTreeEditPart.class);
+public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart {
 
 	/**
 	 * コンストラクタ
@@ -42,7 +30,7 @@ public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart
 	 * @param identifier
 	 */
 	public IdentifierRefTreeEditPart(IdentifierRef identifier) {
-		super(identifier);
+		super(identifier, null);
 	}
 
 	@Override
@@ -54,30 +42,14 @@ public class IdentifierRefTreeEditPart extends IdentifierTreeEditPart
 	protected String getText() {
 		ModelElement model = getModel();
 		if (model.getName() == null) {
-			return "";
+			return ""; //$NON-NLS-1$
 		} else {
 			return model.getName() + "(R)"; //$NON-NLS-1$
 		}
 	}
 
 	@Override
-	protected Image getImage() {
-		return TMDPlugin.getImage("icons/outline/identifier.png"); //$NON-NLS-1$
-	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		logger.debug("{}.{}", getClass(), evt.getPropertyName());
-
-		if (evt.getPropertyName().equals(IdentifierRef.PROPERTY_NAME)) {
-			refreshVisuals();
-		} else {
-			logger.warn("Not Handle Event Occured.");
-		}
-	}
-
-	@Override
 	public IPropertySource getPropertySource(CommandStack commandStack) {
-		return new IAttributePropertySource(commandStack, this.getModel());
+		return new IdentifierRefPropertySource(commandStack, this.getModel());
 	}
 }

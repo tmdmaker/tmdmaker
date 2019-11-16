@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 TMD-Maker Project <http://tmdmaker.sourceforge.jp/>
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org/>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -204,7 +204,7 @@ public class TMDOutlineTreeEditPartVisitor implements IVisitor {
 
 	@Override
 	public void visit(Identifier identifier) {
-		part = new IdentifierTreeEditPart(identifier);
+		part = new IdentifierTreeEditPart(identifier, new AttributeComponentEditPolicy());
 	}
 
 	/**

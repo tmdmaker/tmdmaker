@@ -38,8 +38,8 @@ import org.tmdmaker.ui.views.properties.gef3.IAttributePropertySource;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
 import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.ModelElement;
 import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.IAttributeEditPart;
+import jp.sourceforge.tmdmaker.ui.util.ModelEditUtils;
 
 public class AttributeTreeEditPart extends AbstractTreeEditPart
 		implements PropertyChangeListener, IPropertyAvailable, IAttributeEditPart {
@@ -99,12 +99,7 @@ public class AttributeTreeEditPart extends AbstractTreeEditPart
 
 	@Override
 	protected String getText() {
-		ModelElement model = getModel();
-		if (model.getName() == null) {
-			return "";
-		} else {
-			return model.getName();
-		}
+		return ModelEditUtils.toBlankStringIfNull(getModel().getName());
 	}
 
 	@Override

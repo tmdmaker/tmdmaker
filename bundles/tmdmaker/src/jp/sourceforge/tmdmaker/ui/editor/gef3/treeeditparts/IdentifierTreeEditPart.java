@@ -15,35 +15,21 @@
  */
 package jp.sourceforge.tmdmaker.ui.editor.gef3.treeeditparts;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.tmdmaker.ui.views.properties.IPropertyAvailable;
-import org.tmdmaker.ui.views.properties.gef3.IAttributePropertySource;
 
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.ModelElement;
 
-public class IdentifierTreeEditPart extends AbstractTreeEditPart
-		implements PropertyChangeListener, IPropertyAvailable {
-
-	private static Logger logger = LoggerFactory.getLogger(IdentifierTreeEditPart.class);
+public class IdentifierTreeEditPart extends AttributeTreeEditPart {
 
 	/**
 	 * コンストラクタ
 	 * 
 	 * @param identifier
 	 */
-	public IdentifierTreeEditPart(Identifier identifier) {
-		super();
-		setModel(identifier);
+	public IdentifierTreeEditPart(Identifier identifier, EditPolicy policy) {
+		super(identifier, policy);
 	}
 
 	@Override
@@ -52,45 +38,7 @@ public class IdentifierTreeEditPart extends AbstractTreeEditPart
 	}
 
 	@Override
-	protected String getText() {
-		ModelElement model = getModel();
-		if (model.getName() == null) {
-			return "";
-		} else {
-			return model.getName();
-		}
-	}
-
-	@Override
 	protected Image getImage() {
 		return TMDPlugin.getImage("icons/outline/identifier.png"); //$NON-NLS-1$
-	}
-
-	@Override
-	public void activate() {
-		super.activate();
-		getModel().addPropertyChangeListener(this);
-	}
-
-	@Override
-	public void deactivate() {
-		getModel().removePropertyChangeListener(this);
-		super.deactivate();
-	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		logger.debug("{}.{}", getClass(), evt.getPropertyName());
-
-		if (evt.getPropertyName().equals(Identifier.PROPERTY_NAME)) {
-			refreshVisuals();
-		} else {
-			logger.warn("Not Handle Event Occured."); //$NON-NLS-1$
-		}
-	}
-
-	@Override
-	public IPropertySource getPropertySource(CommandStack commandStack) {
-		return new IAttributePropertySource(commandStack, this.getModel());
 	}
 }

@@ -36,12 +36,12 @@ import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
  */
 public class IAttributePropertySource extends AbstractPropertySource {
 
-	private static final String SCALE = "scale"; //$NON-NLS-1$
-	private static final String SIZE = "size"; //$NON-NLS-1$
-	private static final String DATA_TYPE_DECLARATION = "dataTypeDeclaration"; //$NON-NLS-1$
-	private static final String IMPLEMENT_NAME = "implementName"; //$NON-NLS-1$
-	private static final String NAME = "name"; //$NON-NLS-1$
-	private IAttribute attribute;
+	protected static final String SCALE = "scale"; //$NON-NLS-1$
+	protected static final String SIZE = "size"; //$NON-NLS-1$
+	protected static final String DATA_TYPE_DECLARATION = "dataTypeDeclaration"; //$NON-NLS-1$
+	protected static final String IMPLEMENT_NAME = "implementName"; //$NON-NLS-1$
+	protected static final String NAME = "name"; //$NON-NLS-1$
+	protected IAttribute attribute;
 
 	public IAttributePropertySource(CommandStack commandStack, IAttribute attribute) {
 		super(commandStack);

@@ -27,7 +27,7 @@ import org.tmdmaker.ui.views.properties.gef3.EntityPropertySource;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.Entity;
 import jp.sourceforge.tmdmaker.model.EntityType;
-import jp.sourceforge.tmdmaker.model.ModelElement;
+import jp.sourceforge.tmdmaker.ui.util.ModelEditUtils;
 
 /**
  * @author ny@cosmichorror.org
@@ -52,14 +52,7 @@ public class EntityTreeEditPart extends AbstractEntityModelTreeEditPart<Entity> 
 	
 	@Override
 	protected String getText() {
-		ModelElement model = getModel();
-		if (model.getName() == null)
-		{
-			return "";
-		}
-		else{
-			return model.getName();		
-		}
+		return ModelEditUtils.toBlankStringIfNull(getModel().getName());
 	}
 	
 	@Override

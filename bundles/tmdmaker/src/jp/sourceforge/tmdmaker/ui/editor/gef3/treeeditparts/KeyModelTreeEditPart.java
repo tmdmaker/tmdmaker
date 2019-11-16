@@ -30,6 +30,7 @@ import org.tmdmaker.ui.views.properties.gef3.KeyModelPropertySource;
 import jp.sourceforge.tmdmaker.TMDPlugin;
 import jp.sourceforge.tmdmaker.model.IAttribute;
 import jp.sourceforge.tmdmaker.model.KeyModel;
+import jp.sourceforge.tmdmaker.ui.util.ModelEditUtils;
 
 public class KeyModelTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener,IPropertyAvailable {
 	
@@ -47,14 +48,7 @@ public class KeyModelTreeEditPart extends AbstractTreeEditPart implements Proper
 	
 	@Override
 	protected String getText() {
-		KeyModel model = getModel();
-		if (model.getName() == null)
-		{
-			return "";
-		}
-		else{
-			return model.getName();		
-		}
+		return ModelEditUtils.toBlankStringIfNull(getModel().getName());
 	}
 
 	@Override
