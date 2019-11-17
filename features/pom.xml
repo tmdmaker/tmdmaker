@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>jp.osdn.tmdmaker.features</artifactId>
+	<artifactId>org.tmdmaker.features</artifactId>
 	<packaging>pom</packaging>
 
 	<name>TMD-Maker Features Project</name>
@@ -9,14 +9,14 @@
 
 	<parent>
 		<groupId>tmdmaker</groupId>
-		<artifactId>jp.osdn.tmdmaker.root</artifactId>
+		<artifactId>org.tmdmaker.root</artifactId>
 		<version>0.9.0-SNAPSHOT</version>
 	</parent>
 
 	<modules>
-		<module>tmdmaker.feature</module>
-		<module>tmdmaker.e3.feature</module>
-		<module>tmdmaker.rcp.feature</module>
-		<module>jp.osdn.tmdmaker.extensions.scaffold.feature</module>
+		<module>org.tmdmaker.plugin.feature</module>
+		<module>org.tmdmaker.plugin.e3.feature</module>
+		<module>org.tmdmaker.rcp.feature</module>
+		<module>org.tmdmaker.extensions.scaffold.feature</module>
 	</modules>
 </project>

@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker for RCP nl_ja
+Bundle-SymbolicName: org.tmdmaker.rcp.nl_ja
+Bundle-Version: 0.9.0.qualifier
+Fragment-Host: org.tmdmaker.rcp
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TMD-Maker Project
+Automatic-Module-Name: org.tmdmaker.rcp.nl_ja
+Export-Package: org.tmdmaker.rcp;x-internal:=true

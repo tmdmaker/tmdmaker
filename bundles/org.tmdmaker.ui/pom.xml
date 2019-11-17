@@ -10,7 +10,7 @@
 
 	<parent>
 		<groupId>tmdmaker</groupId>
-		<artifactId>jp.osdn.tmdmaker.bundles</artifactId>
+		<artifactId>org.tmdmaker.bundles</artifactId>
 		<version>0.9.0-SNAPSHOT</version>
 	</parent>
 </project>

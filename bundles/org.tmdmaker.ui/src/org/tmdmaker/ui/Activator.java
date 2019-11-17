@@ -18,11 +18,22 @@ package org.tmdmaker.ui;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.tmdmaker.ui.editor.TMDEditor;
+import org.tmdmaker.ui.preferences.IPreferenceListener;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -31,9 +42,12 @@ public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.tmdmaker.ui"; //$NON-NLS-1$
+	public static final String IMPORTER_PLUGIN_ID = "tmdmaker.importers"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
+	/** preferences変更リスナー */
+	private IPropertyChangeListener[] listeners = {new org.tmdmaker.ui.preferences.appearance.AppearancePreferenceListener(), new org.tmdmaker.ui.preferences.rule.RulePreferenceListener()};
 
 	/**
 	 * The constructor
@@ -45,10 +59,27 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		IPreferenceStore store = plugin.getPreferenceStore();
+
+		for (IPropertyChangeListener listener : listeners) {
+			if (listener instanceof IPreferenceListener) {
+				((IPreferenceListener) listener).preferenceStart(store);
+			}
+			store.addPropertyChangeListener(listener);
+		}
+		update();
+
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
+		IPreferenceStore store = plugin.getPreferenceStore();
+
+		for (IPropertyChangeListener listener : listeners) {
+			store.removePropertyChangeListener(listener);
+		}
+
 		plugin = null;
 		super.stop(context);
 	}
@@ -131,5 +162,44 @@ public class Activator extends AbstractUIPlugin {
 
 		ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 				Messages.TMDPlugin_ErrorTitle, message, status);
+	}
+
+	/**
+	 * イメージを取得する
+	 * 
+	 * @param path イメージファイルへのパス
+	 * @return イメージ
+	 */
+	public static Image getImage(String path) {
+		ImageRegistry images = getDefault().getImageRegistry();
+		Image image = images.get(path);
+		if (image == null) {
+			image = getImageDescriptor(path).createImage();
+			images.put(path, image);
+		}
+		return image;
+	}
+
+	/**
+	 * 
+	 * @param path 画像へのパス
+	 * @return ImageDescriptor
+	 */
+	public static ImageDescriptor getImageDescriptor(String path) {
+		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	public void update() {
+		for (IWorkbenchWindow w : PlatformUI.getWorkbench().getWorkbenchWindows()) {
+
+			for (IWorkbenchPage page : w.getPages()) {
+				for (IEditorReference ref : page.getEditorReferences()) {
+					IEditorPart part = ref.getEditor(false);
+					if (part instanceof TMDEditor) {
+						((TMDEditor) part).updateVisuals();
+					}
+				}
+			}
+		}
 	}
 }

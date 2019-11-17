@@ -23,9 +23,9 @@ import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.tmdmaker.ui.test.AbstractTester;
 
-import jp.sourceforge.tmdmaker.generate.html.attributelist.AttributeListHtmlGenerator;
-import jp.sourceforge.tmdmaker.generate.html.keydefinitionlist.KeyDefinitionListHtmlGenerator;
-import jp.sourceforge.tmdmaker.generate.html.relationshiplist.RelationshipListHtmlGenerator;
+import org.tmdmaker.generate.html.attributelist.AttributeListHtmlGenerator;
+import org.tmdmaker.generate.html.keydefinitionlist.KeyDefinitionListHtmlGenerator;
+import org.tmdmaker.generate.html.relationshiplist.RelationshipListHtmlGenerator;
 
 /**
  * Test for HtmlGenerator.

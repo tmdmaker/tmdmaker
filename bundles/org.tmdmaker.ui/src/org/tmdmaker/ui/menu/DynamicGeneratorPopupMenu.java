@@ -33,10 +33,9 @@ import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
+import org.tmdmaker.extension.GeneratorFactory;
+import org.tmdmaker.model.generate.Generator;
 import org.tmdmaker.ui.handler.GeneratorHandler;
-
-import jp.sourceforge.tmdmaker.extension.GeneratorFactory;
-import jp.sourceforge.tmdmaker.model.generate.Generator;
 
 /**
  * エクスプローラ系のポップアップに登録されているGeneratorを表示するクラス

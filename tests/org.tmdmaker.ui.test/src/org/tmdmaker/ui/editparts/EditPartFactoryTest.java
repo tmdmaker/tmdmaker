@@ -25,48 +25,47 @@ import java.util.List;
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
 import org.junit.Test;
-
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.AbstractRelationship;
-import jp.sourceforge.tmdmaker.model.Attribute;
-import jp.sourceforge.tmdmaker.model.Cardinality;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.Entity2SubsetTypeRelationship;
-import jp.sourceforge.tmdmaker.model.Entity2VirtualSupersetTypeRelationship;
-import jp.sourceforge.tmdmaker.model.Event2EventRelationship;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.Laputa;
-import jp.sourceforge.tmdmaker.model.MappingList;
-import jp.sourceforge.tmdmaker.model.ModelElement;
-import jp.sourceforge.tmdmaker.model.RecursiveRelationship;
-import jp.sourceforge.tmdmaker.model.RecursiveTable;
-import jp.sourceforge.tmdmaker.model.RelatedRelationship;
-import jp.sourceforge.tmdmaker.model.VirtualSuperset;
-import jp.sourceforge.tmdmaker.model.VirtualSupersetType;
-import jp.sourceforge.tmdmaker.model.parts.ModelName;
-import jp.sourceforge.tmdmaker.model.relationship.Relationship;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.DiagramEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.TMDEditPartFactory;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.AttributeEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.CombinationTableEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.DetailEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.EntityEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.LaputaEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.MappingListEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.MultivalueAndAggregatorEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.MultivalueAndSupersetEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.MultivalueOrEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.RecursiveTableEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.SubsetEntityEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.SubsetTypeEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.VirtualEntityEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.VirtualSupersetEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.node.VirtualSupersetTypeEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.Entity2SubsetTypeRelationshipEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.RecursiveRelationshipEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.RelatedRelationshipEditPart;
-import jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.relationship.RelationshipEditPart;
+import org.tmdmaker.core.model.AbstractEntityModel;
+import org.tmdmaker.core.model.AbstractRelationship;
+import org.tmdmaker.core.model.Attribute;
+import org.tmdmaker.core.model.Cardinality;
+import org.tmdmaker.core.model.Diagram;
+import org.tmdmaker.core.model.Entity;
+import org.tmdmaker.core.model.Entity2SubsetTypeRelationship;
+import org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship;
+import org.tmdmaker.core.model.Event2EventRelationship;
+import org.tmdmaker.core.model.Identifier;
+import org.tmdmaker.core.model.Laputa;
+import org.tmdmaker.core.model.MappingList;
+import org.tmdmaker.core.model.ModelElement;
+import org.tmdmaker.core.model.RecursiveRelationship;
+import org.tmdmaker.core.model.RecursiveTable;
+import org.tmdmaker.core.model.RelatedRelationship;
+import org.tmdmaker.core.model.VirtualSuperset;
+import org.tmdmaker.core.model.VirtualSupersetType;
+import org.tmdmaker.core.model.parts.ModelName;
+import org.tmdmaker.core.model.relationship.Relationship;
+import org.tmdmaker.ui.editor.gef3.editparts.DiagramEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.TMDEditPartFactory;
+import org.tmdmaker.ui.editor.gef3.editparts.node.AttributeEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.CombinationTableEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.DetailEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.EntityEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.LaputaEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.MappingListEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.MultivalueAndAggregatorEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.MultivalueAndSupersetEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.MultivalueOrEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.RecursiveTableEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.SubsetEntityEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.SubsetTypeEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.VirtualEntityEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.VirtualSupersetEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.node.VirtualSupersetTypeEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.relationship.Entity2SubsetTypeRelationshipEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.relationship.RecursiveRelationshipEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.relationship.RelatedRelationshipEditPart;
+import org.tmdmaker.ui.editor.gef3.editparts.relationship.RelationshipEditPart;
 
 /**
  * Test for EditPartFactory.
@@ -118,7 +117,7 @@ public class EditPartFactoryTest {
 
 	/**
 	 * Test method for
-	 * {@link jp.sourceforge.tmdmaker.ui.editor.gef3.editparts.TMDEditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)}
+	 * {@link org.tmdmaker.ui.editor.gef3.editparts.TMDEditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)}
 	 * .
 	 */
 	@Test

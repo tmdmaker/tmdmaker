@@ -2,6 +2,19 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.tmdmaker.ui.editor.TMDEditor"
+            contributorClass="org.tmdmaker.ui.editor.TMDEditorActionBarContributor"
+            default="true"
+            extensions="tmd"
+            icon="icons/entity.gif"
+            id="tmdmaker.tmdeditor"
+            name="%editor.name.0">
+      </editor>
+   </extension>
+
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
@@ -19,6 +32,65 @@
                id="org.tmdmaker.ui.menu.dynamic2">
          </dynamic>
       </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="tmdmaker.category"
+            name="%category.name.0">
+      </category>
+      <wizard
+            category="tmdmaker.category"
+            class="org.tmdmaker.ui.wizard.NewDiagramWizard"
+            icon="icons/entity.gif"
+            id="tmdmaker.wizard.newdiagramwizard"
+            name="%wizard.name.0">
+         <description>
+            %wizard.description
+         </description>
+      </wizard>
+   </extension>
+ 
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.tmdmaker.ui.preferences.TMDMakerPreferencePage"
+            id="org.tmdmaker.ui.preferences.TMDMakerPreferencePage"
+            name="TMD-Maker">
+      </page>
+      <page
+            category="org.tmdmaker.ui.preferences.TMDMakerPreferencePage"
+            class="org.tmdmaker.ui.preferences.appearance.AppearancePreferencePage"
+            id="org.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance"
+            name="Appearance">
+      </page>
+      <page
+            category="org.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance"
+            class="org.tmdmaker.ui.preferences.appearance.ColorAppearancePreferencePage"
+            id="org.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance.color"
+            name="Color Appearance">
+      </page>
+      <page
+            category="org.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance"
+            class="org.tmdmaker.ui.preferences.appearance.FontAppearancePreferencePage"
+            id="org.tmdmaker.ui.preferences.TMDMakerPreferencePage.appearance.font"
+            name="Font Appearance">
+      </page>
+      <page
+            category="org.tmdmaker.ui.preferences.TMDMakerPreferencePage"
+            class="org.tmdmaker.ui.preferences.rule.RulePreferencePage"
+            id="org.tmdmaker.ui.preferences.TMDMakerPreferencePage.rule"
+            name="Rule">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.tmdmaker.ui.preferences.appearance.AppearancePreferenceInitializer">
+      </initializer>
+      <initializer
+            class="org.tmdmaker.ui.preferences.rule.RulePreferenceInitializer">
+      </initializer>
    </extension>
 
 </plugin>

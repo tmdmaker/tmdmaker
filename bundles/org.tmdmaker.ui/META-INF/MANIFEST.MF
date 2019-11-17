@@ -5,27 +5,59 @@ Bundle-SymbolicName: org.tmdmaker.ui;singleton:=true
 Bundle-Version: 0.9.0.qualifier
 Bundle-Activator: org.tmdmaker.ui.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
  org.eclipse.gef,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources,
  org.eclipse.ui.views,
- tmdmaker.core;bundle-version="0.9.0",
- jp.osdn.tmdmaker.extensions;bundle-version="0.9.0",
  org.apache.commons.lang,
  org.apache.commons.beanutils;bundle-version="1.8.0",
- org.eclipse.core.resources,
- org.eclipse.ui.ide
+ org.tmdmaker.core;bundle-version="0.9.0",
+ org.tmdmaker.imagegenerator;bundle-version="0.9.0",
+ org.tmdmaker.extensions;bundle-version="0.9.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Automatic-Module-Name: org.tmdmaker.ui
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: TMD-Maker Project
-Export-Package: org.tmdmaker.ui;uses:="org.osgi.framework,org.eclipse.osgi.util,org.eclipse.ui.plugin",
- org.tmdmaker.ui.editor.file;uses:="org.eclipse.ui,org.eclipse.core.resources",
- org.tmdmaker.ui.handler,
- org.tmdmaker.ui.menu,
- org.tmdmaker.ui.views.properties;uses:="org.eclipse.gef.commands,org.eclipse.ui.views.properties",
- org.tmdmaker.ui.views.properties.gef3;
+Bundle-Localization: plugin
+Export-Package: org.tmdmaker.ui;
+  uses:="org.osgi.framework,
+   org.eclipse.osgi.util,
+   org.eclipse.swt.graphics,
+   org.eclipse.jface.resource,
+   org.eclipse.ui.plugin",
+ org.tmdmaker.ui.actions.gef3;x-internal:=true,
+ org.tmdmaker.ui.dialogs;x-internal:=true,
+ org.tmdmaker.ui.dialogs.components;x-internal:=true,
+ org.tmdmaker.ui.dialogs.model;x-internal:=true,
+ org.tmdmaker.ui.editor;x-internal:=true,
+ org.tmdmaker.ui.editor.draw2d;x-internal:=true,
+ org.tmdmaker.ui.editor.draw2d.adjuster;x-internal:=true,
+ org.tmdmaker.ui.editor.draw2d.anchors;x-internal:=true,
+ org.tmdmaker.ui.editor.draw2d.figure.node;x-internal:=true,
+ org.tmdmaker.ui.editor.draw2d.figure.relationship;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.commands;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.editparts;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.editparts.node;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.editparts.relationship;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.editpolicies;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.rulers;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.rulers.commands;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.rulers.model;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.tools;x-internal:=true,
+ org.tmdmaker.ui.editor.gef3.treeeditparts;x-internal:=true,
+ org.tmdmaker.ui.editor.workspace;x-internal:=true;uses:="org.eclipse.ui,org.eclipse.core.resources",
+ org.tmdmaker.ui.handler;x-internal:=true;uses:="org.tmdmaker.model.generate,org.eclipse.core.commands",
+ org.tmdmaker.ui.menu;x-internal:=true;uses:="org.eclipse.ui.actions",
+ org.tmdmaker.ui.preferences;x-internal:=true,
+ org.tmdmaker.ui.preferences.appearance;x-internal:=true,
+ org.tmdmaker.ui.preferences.rule;x-internal:=true,
+ org.tmdmaker.ui.util;x-internal:=true,
+ org.tmdmaker.ui.views.properties;x-internal:=true;uses:="org.eclipse.gef.commands,org.eclipse.ui.views.properties",
+ org.tmdmaker.ui.views.properties.gef3;x-internal:=true;
   uses:="org.slf4j,
    org.eclipse.gef.commands,
-   jp.sourceforge.tmdmaker.model,
+   org.tmdmaker.core.model,
    org.eclipse.ui.views.properties",
- org.tmdmaker.ui.views.properties.gef3.commands;x-internal:=true
+ org.tmdmaker.ui.views.properties.gef3.commands;x-internal:=true,
+ org.tmdmaker.ui.wizard;x-internal:=true

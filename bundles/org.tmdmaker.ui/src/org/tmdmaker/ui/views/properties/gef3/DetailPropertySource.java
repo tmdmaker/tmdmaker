@@ -20,10 +20,9 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.tmdmaker.core.model.AbstractEntityModel;
+import org.tmdmaker.core.model.Detail;
 import org.tmdmaker.ui.Messages;
-
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Detail;
 
 /**
  * Detail property source.

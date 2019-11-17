@@ -23,12 +23,11 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.tmdmaker.core.model.DataTypeDeclaration;
+import org.tmdmaker.core.model.IAttribute;
+import org.tmdmaker.core.model.StandardSQLDataType;
 import org.tmdmaker.ui.Messages;
 import org.tmdmaker.ui.views.properties.gef3.commands.PropertyChangeCommand;
-
-import jp.sourceforge.tmdmaker.model.DataTypeDeclaration;
-import jp.sourceforge.tmdmaker.model.IAttribute;
-import jp.sourceforge.tmdmaker.model.StandardSQLDataType;
 
 /**
  * IAttribute property source.

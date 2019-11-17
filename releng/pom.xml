@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>jp.osdn.tmdmaker.releng</artifactId>
+	<artifactId>org.tmdmaker.releng</artifactId>
 	<packaging>pom</packaging>
 
 	<name>TMD-Maker Release Engineering Project</name>
@@ -9,17 +9,17 @@
 
 	<parent>
 		<groupId>tmdmaker</groupId>
-		<artifactId>jp.osdn.tmdmaker.root</artifactId>
+		<artifactId>org.tmdmaker.root</artifactId>
 		<version>0.9.0-SNAPSHOT</version>
 	</parent>
 
 	<modules>
-		<module>tmdmaker.releng.plugin</module>
-		<module>tmdmaker.releng.plugin.updatesite</module>
-		<module>tmdmaker.releng.e3.plugin.updatesite</module>
-		<module>tmdmaker.releng.product</module>
-		<module>tmdmaker.releng.targetplatform</module>
-		<module>jp.osdn.tmdmaker.releng.extensions.scaffold</module>
+		<module>org.tmdmaker.releng.extensions.scaffold</module>
+		<module>org.tmdmaker.releng.plugin</module>
+		<module>org.tmdmaker.releng.plugin.updatesite</module>
+		<module>org.tmdmaker.releng.plugin.e3.updatesite</module>
+		<module>org.tmdmaker.releng.product</module>
+		<module>org.tmdmaker.releng.targetplatform</module>
 	</modules>
 
 </project>

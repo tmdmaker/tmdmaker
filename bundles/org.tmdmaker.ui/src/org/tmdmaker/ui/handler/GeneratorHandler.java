@@ -25,12 +25,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.tmdmaker.core.model.Diagram;
+import org.tmdmaker.extension.SerializerFactory;
+import org.tmdmaker.model.generate.Generator;
 import org.tmdmaker.ui.Activator;
-import org.tmdmaker.ui.editor.file.Workspace;
-
-import jp.sourceforge.tmdmaker.extension.SerializerFactory;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.generate.Generator;
+import org.tmdmaker.ui.editor.workspace.Workspace;
 
 /**
  * ダイアグラムから別ファイルを生成するためのハンドラクラス

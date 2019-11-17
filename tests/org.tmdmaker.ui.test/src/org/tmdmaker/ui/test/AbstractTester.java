@@ -18,8 +18,7 @@ package org.tmdmaker.ui.test;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
-
-import jp.sourceforge.tmdmaker.TMDEditor;
+import org.tmdmaker.ui.editor.TMDEditor;
 
 /**
  * Helper class for SWTBot UI test.

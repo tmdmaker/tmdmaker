@@ -23,7 +23,7 @@ import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.tmdmaker.ui.test.AbstractTester;
 
-import jp.sourceforge.tmdmaker.sphinx.generate.DocGenerator;
+import org.tmdmaker.sphinx.generate.DocGenerator;
 
 /**
  * Test for SphinxGenerator.

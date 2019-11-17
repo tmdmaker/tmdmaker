@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org.tmdmaker.core.model.Diagram>
+  <listeners serialization="custom">
+    <java.beans.PropertyChangeSupport>
+      <default>
+        <source class="org.tmdmaker.core.model.Diagram" reference="../../../.."/>
+        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+      </default>
+      <null/>
+    </java.beans.PropertyChangeSupport>
+  </listeners>
+  <version>0.4.0.201702022229</version>
+  <children>
+    <org.tmdmaker.core.model.Entity>
+      <name>111</name>
+      <constraint>
+        <x>66</x>
+        <y>82</y>
+        <width>-1</width>
+        <height>-1</height>
+      </constraint>
+      <listeners serialization="custom">
+        <java.beans.PropertyChangeSupport>
+          <default>
+            <source class="org.tmdmaker.core.model.Entity" reference="../../../.."/>
+            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+          </default>
+          <null/>
+        </java.beans.PropertyChangeSupport>
+      </listeners>
+      <sourceConnections>
+        <org.tmdmaker.core.model.Resource2ResourceRelationship>
+          <listeners serialization="custom">
+            <java.beans.PropertyChangeSupport>
+              <default>
+                <source class="org.tmdmaker.core.model.Resource2ResourceRelationship" reference="../../../.."/>
+                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              </default>
+              <null/>
+            </java.beans.PropertyChangeSupport>
+          </listeners>
+          <sourceConnections>
+            <org.tmdmaker.core.model.RelatedRelationship>
+              <listeners serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="org.tmdmaker.core.model.RelatedRelationship" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </listeners>
+              <sourceConnections/>
+              <targetConnections/>
+              <source class="org.tmdmaker.core.model.Resource2ResourceRelationship" reference="../../.."/>
+              <target class="org.tmdmaker.core.model.CombinationTable">
+                <name>111.2222.対照表</name>
+                <constraint>
+                  <x>178</x>
+                  <y>181</y>
+                  <width>-1</width>
+                  <height>-1</height>
+                </constraint>
+                <listeners serialization="custom">
+                  <java.beans.PropertyChangeSupport>
+                    <default>
+                      <source class="org.tmdmaker.core.model.CombinationTable" reference="../../../.."/>
+                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                    </default>
+                    <null/>
+                  </java.beans.PropertyChangeSupport>
+                </listeners>
+                <sourceConnections>
+                  <org.tmdmaker.core.model.TurboFileRelationship>
+                    <listeners serialization="custom">
+                      <java.beans.PropertyChangeSupport>
+                        <default>
+                          <source class="org.tmdmaker.core.model.TurboFileRelationship" reference="../../../.."/>
+                          <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                        </default>
+                        <null/>
+                      </java.beans.PropertyChangeSupport>
+                    </listeners>
+                    <sourceConnections/>
+                    <targetConnections/>
+                    <source class="org.tmdmaker.core.model.CombinationTable" reference="../../.."/>
+                    <target class="org.tmdmaker.core.model.other.TurboFile">
+                      <name>ターボファイル</name>
+                      <constraint>
+                        <x>451</x>
+                        <y>264</y>
+                        <width>-1</width>
+                        <height>-1</height>
+                      </constraint>
+                      <listeners serialization="custom">
+                        <java.beans.PropertyChangeSupport>
+                          <default>
+                            <source class="org.tmdmaker.core.model.other.TurboFile" reference="../../../.."/>
+                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                          </default>
+                          <null/>
+                        </java.beans.PropertyChangeSupport>
+                      </listeners>
+                      <sourceConnections/>
+                      <targetConnections>
+                        <org.tmdmaker.core.model.TurboFileRelationship reference="../../.."/>
+                      </targetConnections>
+                      <diagram reference="../../../../../../../../../../.."/>
+                      <reusedIdentifiers class="linked-hash-map">
+                        <entry>
+                          <org.tmdmaker.core.model.CombinationTable reference="../../../../../.."/>
+                          <org.tmdmaker.core.model.ReusedIdentifier>
+                            <identifiers>
+                              <org.tmdmaker.core.model.IdentifierRef>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="org.tmdmaker.core.model.IdentifierRef" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <description></description>
+                                <derivation>false</derivation>
+                                <nullable>false</nullable>
+                                <original class="org.tmdmaker.core.model.IdentifierRef">
+                                  <listeners serialization="custom">
+                                    <java.beans.PropertyChangeSupport>
+                                      <default>
+                                        <source class="org.tmdmaker.core.model.IdentifierRef" reference="../../../.."/>
+                                        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                      </default>
+                                      <null/>
+                                    </java.beans.PropertyChangeSupport>
+                                  </listeners>
+                                  <description></description>
+                                  <derivation>false</derivation>
+                                  <nullable>false</nullable>
+                                  <original>
+                                    <name>111</name>
+                                    <listeners serialization="custom">
+                                      <java.beans.PropertyChangeSupport>
+                                        <default>
+                                          <source class="org.tmdmaker.core.model.Identifier" reference="../../../.."/>
+                                          <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                        </default>
+                                        <null/>
+                                      </java.beans.PropertyChangeSupport>
+                                    </listeners>
+                                    <description></description>
+                                    <dataTypeDeclaration>
+                                      <logicalType>NUMERIC</logicalType>
+                                      <size>10</size>
+                                      <scale>0</scale>
+                                    </dataTypeDeclaration>
+                                    <derivation>false</derivation>
+                                    <implementName>111</implementName>
+                                    <nullable>false</nullable>
+                                  </original>
+                                </original>
+                              </org.tmdmaker.core.model.IdentifierRef>
+                              <org.tmdmaker.core.model.IdentifierRef>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="org.tmdmaker.core.model.IdentifierRef" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <description></description>
+                                <derivation>false</derivation>
+                                <nullable>false</nullable>
+                                <original class="org.tmdmaker.core.model.IdentifierRef">
+                                  <listeners serialization="custom">
+                                    <java.beans.PropertyChangeSupport>
+                                      <default>
+                                        <source class="org.tmdmaker.core.model.IdentifierRef" reference="../../../.."/>
+                                        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                      </default>
+                                      <null/>
+                                    </java.beans.PropertyChangeSupport>
+                                  </listeners>
+                                  <description></description>
+                                  <derivation>false</derivation>
+                                  <nullable>false</nullable>
+                                  <original>
+                                    <name>2222</name>
+                                    <listeners serialization="custom">
+                                      <java.beans.PropertyChangeSupport>
+                                        <default>
+                                          <source class="org.tmdmaker.core.model.Identifier" reference="../../../.."/>
+                                          <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                        </default>
+                                        <null/>
+                                      </java.beans.PropertyChangeSupport>
+                                    </listeners>
+                                    <description></description>
+                                    <dataTypeDeclaration>
+                                      <logicalType>NUMERIC</logicalType>
+                                      <size>10</size>
+                                      <scale>0</scale>
+                                    </dataTypeDeclaration>
+                                    <derivation>false</derivation>
+                                    <implementName>2222</implementName>
+                                    <nullable>false</nullable>
+                                  </original>
+                                  <duplicate>false</duplicate>
+                                </original>
+                              </org.tmdmaker.core.model.IdentifierRef>
+                            </identifiers>
+                            <surrogateKeys>
+                              <org.tmdmaker.core.model.SurrogateKeyRef>
+                                <name></name>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="org.tmdmaker.core.model.SurrogateKeyRef" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <description></description>
+                                <derivation>false</derivation>
+                                <nullable>false</nullable>
+                                <enabled>false</enabled>
+                                <original>
+                                  <name></name>
+                                  <listeners serialization="custom">
+                                    <java.beans.PropertyChangeSupport>
+                                      <default>
+                                        <source class="org.tmdmaker.core.model.SurrogateKey" reference="../../../.."/>
+                                        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                      </default>
+                                      <null/>
+                                    </java.beans.PropertyChangeSupport>
+                                  </listeners>
+                                  <description></description>
+                                  <derivation>false</derivation>
+                                  <nullable>false</nullable>
+                                  <enabled>false</enabled>
+                                </original>
+                              </org.tmdmaker.core.model.SurrogateKeyRef>
+                            </surrogateKeys>
+                          </org.tmdmaker.core.model.ReusedIdentifier>
+                        </entry>
+                      </reusedIdentifiers>
+                      <attributes/>
+                      <entityType>RESOURCE</entityType>
+                      <notImplement>false</notImplement>
+                      <implementName></implementName>
+                      <implementDerivationModels/>
+                      <keyModels>
+                        <keys/>
+                      </keyModels>
+                    </target>
+                    <sourceXp>-1</sourceXp>
+                    <sourceYp>-1</sourceYp>
+                    <targetXp>34</targetXp>
+                    <targetYp>0</targetYp>
+                    <sourceCardinality>ONE</sourceCardinality>
+                    <targetCardinality>ONE</targetCardinality>
+                    <sourceNoInstance>false</sourceNoInstance>
+                    <targetNoInstance>false</targetNoInstance>
+                    <centerMark>false</centerMark>
+                  </org.tmdmaker.core.model.TurboFileRelationship>
+                </sourceConnections>
+                <targetConnections>
+                  <org.tmdmaker.core.model.RelatedRelationship reference="../../.."/>
+                </targetConnections>
+                <diagram reference="../../../../../../../.."/>
+                <reusedIdentifiers class="linked-hash-map">
+                  <entry>
+                    <org.tmdmaker.core.model.Entity reference="../../../../../../../.."/>
+                    <org.tmdmaker.core.model.ReusedIdentifier>
+                      <identifiers>
+                        <org.tmdmaker.core.model.IdentifierRef reference="../../../../../sourceConnections/org.tmdmaker.core.model.TurboFileRelationship/target/reusedIdentifiers/entry/org.tmdmaker.core.model.ReusedIdentifier/identifiers/org.tmdmaker.core.model.IdentifierRef/original"/>
+                      </identifiers>
+                      <surrogateKeys>
+                        <org.tmdmaker.core.model.SurrogateKeyRef>
+                          <name></name>
+                          <listeners serialization="custom">
+                            <java.beans.PropertyChangeSupport>
+                              <default>
+                                <source class="org.tmdmaker.core.model.SurrogateKeyRef" reference="../../../.."/>
+                                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                              </default>
+                              <null/>
+                            </java.beans.PropertyChangeSupport>
+                          </listeners>
+                          <description></description>
+                          <derivation>false</derivation>
+                          <nullable>false</nullable>
+                          <enabled>false</enabled>
+                          <original>
+                            <name></name>
+                            <listeners serialization="custom">
+                              <java.beans.PropertyChangeSupport>
+                                <default>
+                                  <source class="org.tmdmaker.core.model.SurrogateKey" reference="../../../.."/>
+                                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                </default>
+                                <null/>
+                              </java.beans.PropertyChangeSupport>
+                            </listeners>
+                            <description></description>
+                            <derivation>false</derivation>
+                            <nullable>false</nullable>
+                            <enabled>false</enabled>
+                          </original>
+                        </org.tmdmaker.core.model.SurrogateKeyRef>
+                      </surrogateKeys>
+                    </org.tmdmaker.core.model.ReusedIdentifier>
+                  </entry>
+                  <entry>
+                    <org.tmdmaker.core.model.Entity>
+                      <name>2222</name>
+                      <constraint>
+                        <x>350</x>
+                        <y>99</y>
+                        <width>-1</width>
+                        <height>-1</height>
+                      </constraint>
+                      <listeners serialization="custom">
+                        <java.beans.PropertyChangeSupport>
+                          <default>
+                            <source class="org.tmdmaker.core.model.Entity" reference="../../../.."/>
+                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                          </default>
+                          <null/>
+                        </java.beans.PropertyChangeSupport>
+                      </listeners>
+                      <sourceConnections>
+                        <org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship>
+                          <listeners serialization="custom">
+                            <java.beans.PropertyChangeSupport>
+                              <default>
+                                <source class="org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship" reference="../../../.."/>
+                                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                              </default>
+                              <null/>
+                            </java.beans.PropertyChangeSupport>
+                          </listeners>
+                          <sourceConnections/>
+                          <targetConnections/>
+                          <source class="org.tmdmaker.core.model.Entity" reference="../../.."/>
+                          <target class="org.tmdmaker.core.model.VirtualSupersetType">
+                            <constraint>
+                              <x>277</x>
+                              <y>82</y>
+                              <width>-1</width>
+                              <height>-1</height>
+                            </constraint>
+                            <listeners serialization="custom">
+                              <java.beans.PropertyChangeSupport>
+                                <default>
+                                  <source class="org.tmdmaker.core.model.VirtualSupersetType" reference="../../../.."/>
+                                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                </default>
+                                <null/>
+                              </java.beans.PropertyChangeSupport>
+                            </listeners>
+                            <sourceConnections>
+                              <org.tmdmaker.core.model.RelatedRelationship>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="org.tmdmaker.core.model.RelatedRelationship" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <sourceConnections/>
+                                <targetConnections/>
+                                <source class="org.tmdmaker.core.model.VirtualSupersetType" reference="../../.."/>
+                                <target class="org.tmdmaker.core.model.VirtualSuperset">
+                                  <name>みなしスーパーセット</name>
+                                  <constraint>
+                                    <x>277</x>
+                                    <y>32</y>
+                                    <width>-1</width>
+                                    <height>-1</height>
+                                  </constraint>
+                                  <listeners serialization="custom">
+                                    <java.beans.PropertyChangeSupport>
+                                      <default>
+                                        <source class="org.tmdmaker.core.model.VirtualSuperset" reference="../../../.."/>
+                                        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                      </default>
+                                      <null/>
+                                    </java.beans.PropertyChangeSupport>
+                                  </listeners>
+                                  <sourceConnections/>
+                                  <targetConnections>
+                                    <org.tmdmaker.core.model.RelatedRelationship reference="../../.."/>
+                                  </targetConnections>
+                                  <diagram reference="../../../../../../../../../../../../../../../../.."/>
+                                  <reusedIdentifiers class="linked-hash-map"/>
+                                  <attributes/>
+                                  <entityType>RESOURCE</entityType>
+                                  <notImplement>false</notImplement>
+                                  <implementName>みなしスーパーセット</implementName>
+                                  <implementDerivationModels/>
+                                  <keyModels>
+                                    <keys/>
+                                  </keyModels>
+                                </target>
+                                <sourceXp>-1</sourceXp>
+                                <sourceYp>-1</sourceYp>
+                                <targetXp>-1</targetXp>
+                                <targetYp>-1</targetYp>
+                              </org.tmdmaker.core.model.RelatedRelationship>
+                            </sourceConnections>
+                            <targetConnections>
+                              <org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship>
+                                <listeners serialization="custom">
+                                  <java.beans.PropertyChangeSupport>
+                                    <default>
+                                      <source class="org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship" reference="../../../.."/>
+                                      <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                    </default>
+                                    <null/>
+                                  </java.beans.PropertyChangeSupport>
+                                </listeners>
+                                <sourceConnections/>
+                                <targetConnections/>
+                                <source class="org.tmdmaker.core.model.Entity" reference="../../../../../../../../../../../../../.."/>
+                                <target class="org.tmdmaker.core.model.VirtualSupersetType" reference="../../.."/>
+                                <sourceXp>-1</sourceXp>
+                                <sourceYp>-1</sourceYp>
+                                <targetXp>-1</targetXp>
+                                <targetYp>-1</targetYp>
+                              </org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship>
+                              <org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship reference="../../.."/>
+                            </targetConnections>
+                            <vertical>false</vertical>
+                            <reusedIdentifiers class="linked-hash-map">
+                              <entry>
+                                <org.tmdmaker.core.model.Entity reference="../../../../../../../../../../../../../.."/>
+                                <org.tmdmaker.core.model.ReusedIdentifier>
+                                  <identifiers>
+                                    <org.tmdmaker.core.model.IdentifierRef>
+                                      <listeners serialization="custom">
+                                        <java.beans.PropertyChangeSupport>
+                                          <default>
+                                            <source class="org.tmdmaker.core.model.IdentifierRef" reference="../../../.."/>
+                                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                          </default>
+                                          <null/>
+                                        </java.beans.PropertyChangeSupport>
+                                      </listeners>
+                                      <description></description>
+                                      <derivation>false</derivation>
+                                      <nullable>false</nullable>
+                                      <original reference="../../../../../../../../../../../../sourceConnections/org.tmdmaker.core.model.TurboFileRelationship/target/reusedIdentifiers/entry/org.tmdmaker.core.model.ReusedIdentifier/identifiers/org.tmdmaker.core.model.IdentifierRef/original/original"/>
+                                    </org.tmdmaker.core.model.IdentifierRef>
+                                  </identifiers>
+                                  <surrogateKeys>
+                                    <org.tmdmaker.core.model.SurrogateKeyRef>
+                                      <name></name>
+                                      <listeners serialization="custom">
+                                        <java.beans.PropertyChangeSupport>
+                                          <default>
+                                            <source class="org.tmdmaker.core.model.SurrogateKeyRef" reference="../../../.."/>
+                                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                          </default>
+                                          <null/>
+                                        </java.beans.PropertyChangeSupport>
+                                      </listeners>
+                                      <description></description>
+                                      <derivation>false</derivation>
+                                      <nullable>false</nullable>
+                                      <enabled>false</enabled>
+                                      <original reference="../../../../../../../../../../../entry/org.tmdmaker.core.model.ReusedIdentifier/surrogateKeys/org.tmdmaker.core.model.SurrogateKeyRef/original"/>
+                                    </org.tmdmaker.core.model.SurrogateKeyRef>
+                                  </surrogateKeys>
+                                </org.tmdmaker.core.model.ReusedIdentifier>
+                              </entry>
+                              <entry>
+                                <org.tmdmaker.core.model.Entity reference="../../../../../.."/>
+                                <org.tmdmaker.core.model.ReusedIdentifier>
+                                  <identifiers>
+                                    <org.tmdmaker.core.model.IdentifierRef>
+                                      <listeners serialization="custom">
+                                        <java.beans.PropertyChangeSupport>
+                                          <default>
+                                            <source class="org.tmdmaker.core.model.IdentifierRef" reference="../../../.."/>
+                                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                          </default>
+                                          <null/>
+                                        </java.beans.PropertyChangeSupport>
+                                      </listeners>
+                                      <description></description>
+                                      <derivation>false</derivation>
+                                      <nullable>false</nullable>
+                                      <original reference="../../../../../../../../../../../../sourceConnections/org.tmdmaker.core.model.TurboFileRelationship/target/reusedIdentifiers/entry/org.tmdmaker.core.model.ReusedIdentifier/identifiers/org.tmdmaker.core.model.IdentifierRef[2]/original/original"/>
+                                    </org.tmdmaker.core.model.IdentifierRef>
+                                  </identifiers>
+                                  <surrogateKeys>
+                                    <org.tmdmaker.core.model.SurrogateKeyRef>
+                                      <name></name>
+                                      <listeners serialization="custom">
+                                        <java.beans.PropertyChangeSupport>
+                                          <default>
+                                            <source class="org.tmdmaker.core.model.SurrogateKeyRef" reference="../../../.."/>
+                                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                          </default>
+                                          <null/>
+                                        </java.beans.PropertyChangeSupport>
+                                      </listeners>
+                                      <description></description>
+                                      <derivation>false</derivation>
+                                      <nullable>false</nullable>
+                                      <enabled>false</enabled>
+                                      <original>
+                                        <name></name>
+                                        <listeners serialization="custom">
+                                          <java.beans.PropertyChangeSupport>
+                                            <default>
+                                              <source class="org.tmdmaker.core.model.SurrogateKey" reference="../../../.."/>
+                                              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                                            </default>
+                                            <null/>
+                                          </java.beans.PropertyChangeSupport>
+                                        </listeners>
+                                        <description></description>
+                                        <derivation>false</derivation>
+                                        <nullable>false</nullable>
+                                        <enabled>false</enabled>
+                                      </original>
+                                    </org.tmdmaker.core.model.SurrogateKeyRef>
+                                  </surrogateKeys>
+                                </org.tmdmaker.core.model.ReusedIdentifier>
+                              </entry>
+                            </reusedIdentifiers>
+                            <applyAttribute>true</applyAttribute>
+                          </target>
+                          <sourceXp>-1</sourceXp>
+                          <sourceYp>-1</sourceYp>
+                          <targetXp>-1</targetXp>
+                          <targetYp>-1</targetYp>
+                        </org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship>
+                      </sourceConnections>
+                      <targetConnections>
+                        <org.tmdmaker.core.model.Resource2ResourceRelationship reference="../../../../../../../.."/>
+                      </targetConnections>
+                      <diagram reference="../../../../../../../../../../.."/>
+                      <reusedIdentifiers class="linked-hash-map"/>
+                      <attributes>
+                        <org.tmdmaker.core.model.Attribute>
+                          <name>2222名称</name>
+                          <listeners serialization="custom">
+                            <java.beans.PropertyChangeSupport>
+                              <default>
+                                <source class="org.tmdmaker.core.model.Attribute" reference="../../../.."/>
+                                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                              </default>
+                              <null/>
+                            </java.beans.PropertyChangeSupport>
+                          </listeners>
+                          <description></description>
+                          <dataTypeDeclaration>
+                            <logicalType>CHARACTER_VARYING</logicalType>
+                            <size>10</size>
+                          </dataTypeDeclaration>
+                          <derivation>false</derivation>
+                          <implementName>2222名称</implementName>
+                          <nullable>false</nullable>
+                        </org.tmdmaker.core.model.Attribute>
+                      </attributes>
+                      <entityType>RESOURCE</entityType>
+                      <notImplement>false</notImplement>
+                      <implementName>2222</implementName>
+                      <implementDerivationModels/>
+                      <keyModels>
+                        <keys/>
+                        <surrogateKey reference="../../sourceConnections/org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship/target/reusedIdentifiers/entry[2]/org.tmdmaker.core.model.ReusedIdentifier/surrogateKeys/org.tmdmaker.core.model.SurrogateKeyRef/original"/>
+                      </keyModels>
+                      <physicalName></physicalName>
+                      <description></description>
+                      <identifier reference="../../../../sourceConnections/org.tmdmaker.core.model.TurboFileRelationship/target/reusedIdentifiers/entry/org.tmdmaker.core.model.ReusedIdentifier/identifiers/org.tmdmaker.core.model.IdentifierRef[2]/original/original"/>
+                    </org.tmdmaker.core.model.Entity>
+                    <org.tmdmaker.core.model.ReusedIdentifier>
+                      <identifiers>
+                        <org.tmdmaker.core.model.IdentifierRef reference="../../../../../sourceConnections/org.tmdmaker.core.model.TurboFileRelationship/target/reusedIdentifiers/entry/org.tmdmaker.core.model.ReusedIdentifier/identifiers/org.tmdmaker.core.model.IdentifierRef[2]/original"/>
+                      </identifiers>
+                      <surrogateKeys>
+                        <org.tmdmaker.core.model.SurrogateKeyRef>
+                          <name></name>
+                          <listeners serialization="custom">
+                            <java.beans.PropertyChangeSupport>
+                              <default>
+                                <source class="org.tmdmaker.core.model.SurrogateKeyRef" reference="../../../.."/>
+                                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                              </default>
+                              <null/>
+                            </java.beans.PropertyChangeSupport>
+                          </listeners>
+                          <description></description>
+                          <derivation>false</derivation>
+                          <nullable>false</nullable>
+                          <enabled>false</enabled>
+                          <original reference="../../../../org.tmdmaker.core.model.Entity/sourceConnections/org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship/target/reusedIdentifiers/entry[2]/org.tmdmaker.core.model.ReusedIdentifier/surrogateKeys/org.tmdmaker.core.model.SurrogateKeyRef/original"/>
+                        </org.tmdmaker.core.model.SurrogateKeyRef>
+                      </surrogateKeys>
+                    </org.tmdmaker.core.model.ReusedIdentifier>
+                  </entry>
+                </reusedIdentifiers>
+                <attributes/>
+                <entityType>RESOURCE</entityType>
+                <notImplement>false</notImplement>
+                <implementName>111.2222.対照表</implementName>
+                <implementDerivationModels/>
+                <keyModels>
+                  <keys/>
+                  <surrogateKey reference="../../sourceConnections/org.tmdmaker.core.model.TurboFileRelationship/target/reusedIdentifiers/entry/org.tmdmaker.core.model.ReusedIdentifier/surrogateKeys/org.tmdmaker.core.model.SurrogateKeyRef/original"/>
+                </keyModels>
+                <combinationTableType>L_TRUTH</combinationTableType>
+              </target>
+              <sourceXp>-1</sourceXp>
+              <sourceYp>-1</sourceYp>
+              <targetXp>35</targetXp>
+              <targetYp>0</targetYp>
+            </org.tmdmaker.core.model.RelatedRelationship>
+          </sourceConnections>
+          <targetConnections/>
+          <source class="org.tmdmaker.core.model.Entity" reference="../../.."/>
+          <target class="org.tmdmaker.core.model.Entity" reference="../sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/org.tmdmaker.core.model.Entity"/>
+          <sourceXp>84</sourceXp>
+          <sourceYp>100</sourceYp>
+          <targetXp>-1</targetXp>
+          <targetYp>-1</targetYp>
+          <sourceCardinality>ONE</sourceCardinality>
+          <targetCardinality>ONE</targetCardinality>
+          <sourceNoInstance>false</sourceNoInstance>
+          <targetNoInstance>false</targetNoInstance>
+          <centerMark>true</centerMark>
+          <table reference="../sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target"/>
+          <combinationTableConnection reference="../sourceConnections/org.tmdmaker.core.model.RelatedRelationship"/>
+        </org.tmdmaker.core.model.Resource2ResourceRelationship>
+        <org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship reference="../org.tmdmaker.core.model.Resource2ResourceRelationship/sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/org.tmdmaker.core.model.Entity/sourceConnections/org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship/target/targetConnections/org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship"/>
+      </sourceConnections>
+      <targetConnections/>
+      <diagram reference="../../.."/>
+      <reusedIdentifiers class="linked-hash-map"/>
+      <attributes>
+        <org.tmdmaker.core.model.Attribute>
+          <name>111名称</name>
+          <listeners serialization="custom">
+            <java.beans.PropertyChangeSupport>
+              <default>
+                <source class="org.tmdmaker.core.model.Attribute" reference="../../../.."/>
+                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              </default>
+              <null/>
+            </java.beans.PropertyChangeSupport>
+          </listeners>
+          <description></description>
+          <dataTypeDeclaration>
+            <logicalType>CHARACTER_VARYING</logicalType>
+            <size>10</size>
+          </dataTypeDeclaration>
+          <derivation>false</derivation>
+          <implementName>111名称</implementName>
+          <nullable>false</nullable>
+        </org.tmdmaker.core.model.Attribute>
+      </attributes>
+      <entityType>RESOURCE</entityType>
+      <notImplement>false</notImplement>
+      <implementName>111</implementName>
+      <implementDerivationModels/>
+      <keyModels>
+        <keys/>
+        <surrogateKey reference="../../sourceConnections/org.tmdmaker.core.model.Resource2ResourceRelationship/sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target/reusedIdentifiers/entry/org.tmdmaker.core.model.ReusedIdentifier/surrogateKeys/org.tmdmaker.core.model.SurrogateKeyRef/original"/>
+      </keyModels>
+      <physicalName></physicalName>
+      <description></description>
+      <identifier reference="../sourceConnections/org.tmdmaker.core.model.Resource2ResourceRelationship/sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target/sourceConnections/org.tmdmaker.core.model.TurboFileRelationship/target/reusedIdentifiers/entry/org.tmdmaker.core.model.ReusedIdentifier/identifiers/org.tmdmaker.core.model.IdentifierRef/original/original"/>
+    </org.tmdmaker.core.model.Entity>
+    <org.tmdmaker.core.model.Entity reference="../org.tmdmaker.core.model.Entity/sourceConnections/org.tmdmaker.core.model.Resource2ResourceRelationship/sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/org.tmdmaker.core.model.Entity"/>
+    <org.tmdmaker.core.model.CombinationTable reference="../org.tmdmaker.core.model.Entity/sourceConnections/org.tmdmaker.core.model.Resource2ResourceRelationship/sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target"/>
+    <org.tmdmaker.core.model.other.TurboFile reference="../org.tmdmaker.core.model.Entity/sourceConnections/org.tmdmaker.core.model.Resource2ResourceRelationship/sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target/sourceConnections/org.tmdmaker.core.model.TurboFileRelationship/target"/>
+    <org.tmdmaker.core.model.VirtualSuperset reference="../org.tmdmaker.core.model.Entity/sourceConnections/org.tmdmaker.core.model.Resource2ResourceRelationship/sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/org.tmdmaker.core.model.Entity/sourceConnections/org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship/target/sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target"/>
+    <org.tmdmaker.core.model.VirtualSupersetType reference="../org.tmdmaker.core.model.Entity/sourceConnections/org.tmdmaker.core.model.Resource2ResourceRelationship/sourceConnections/org.tmdmaker.core.model.RelatedRelationship/target/reusedIdentifiers/entry[2]/org.tmdmaker.core.model.Entity/sourceConnections/org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship/target"/>
+  </children>
+  <commonAttributes/>
+</org.tmdmaker.core.model.Diagram>

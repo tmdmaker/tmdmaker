@@ -25,7 +25,7 @@ import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.tmdmaker.ui.test.AbstractTester;
 
-import jp.sourceforge.tmdmaker.generate.ddl.DdlUtilsDDLGenerator;
+import org.tmdmaker.generate.ddl.DdlUtilsDDLGenerator;
 
 /**
  * Test for  DDLGenerator.

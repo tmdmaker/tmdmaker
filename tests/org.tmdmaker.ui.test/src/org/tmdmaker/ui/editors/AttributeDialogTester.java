@@ -25,13 +25,12 @@ import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
+import org.tmdmaker.core.model.AbstractEntityModel;
+import org.tmdmaker.core.model.Diagram;
+import org.tmdmaker.core.model.Entity;
+import org.tmdmaker.core.model.Identifier;
+import org.tmdmaker.core.model.parts.ModelName;
 import org.tmdmaker.ui.test.AbstractTester;
-
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.model.parts.ModelName;
 
 /**
  * Test for Attribute Dialog.

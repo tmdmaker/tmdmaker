@@ -21,9 +21,8 @@ import java.io.File;
 
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
+import org.tmdmaker.generate.csv.attributelist.AttributeListCsvGenerator;
 import org.tmdmaker.ui.test.AbstractTester;
-
-import jp.sourceforge.tmdmaker.generate.csv.attributelist.AttributeListCsvGenerator;
 
 /**
  * Test for CSVGenerator.

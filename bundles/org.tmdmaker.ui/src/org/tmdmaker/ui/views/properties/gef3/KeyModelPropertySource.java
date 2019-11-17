@@ -21,10 +21,9 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.tmdmaker.core.model.KeyModel;
 import org.tmdmaker.ui.Messages;
 import org.tmdmaker.ui.views.properties.gef3.commands.PropertyChangeCommand;
-
-import jp.sourceforge.tmdmaker.model.KeyModel;
 
 /**
  * Keymodel property source.

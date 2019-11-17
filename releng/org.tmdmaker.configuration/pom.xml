@@ -18,27 +18,28 @@
 	<properties>
 		<!-- plugin versions -->
 		<tycho-version>1.5.1</tycho-version>
-		<jacoco-version>0.8.4</jacoco-version>
+		<jacoco-version>0.8.5</jacoco-version>
 		<antrun-version>1.8</antrun-version>
 		<sphinx-maven-plugin-version>2.6.0</sphinx-maven-plugin-version>
 		<maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
 		<maven-site-plugin-version>3.8.2</maven-site-plugin-version>
-		<wagon-ssh-version>3.3.3</wagon-ssh-version>
+		<wagon-ssh-version>3.3.4</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
 		<maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
 		<maven-checkstyle-plugin-version>3.1.0</maven-checkstyle-plugin-version>
 		<maven-pmd-plugin-version>3.12.0</maven-pmd-plugin-version>
 		<pmd-version>6.15.0</pmd-version>
-		<maven-surefire-report-plugin-version>3.0.0-M3</maven-surefire-report-plugin-version>
+		<maven-surefire-report-plugin-version>3.0.0-M4</maven-surefire-report-plugin-version>
 		<spotbugs-maven-plugin-version>3.1.12.2</spotbugs-maven-plugin-version>
 		<spotbugs-version>3.1.12</spotbugs-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
 		<maven-javadoc-plugin-version>3.1.1</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
-		<maven-assembly-plugin-version>3.1.1</maven-assembly-plugin-version>
+		<maven-assembly-plugin-version>3.2.0</maven-assembly-plugin-version>
 		<maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
 		<xtend-version>2.19.0</xtend-version>
+		<license-maven-plugin-version>3.0</license-maven-plugin-version>
 		<!-- plugin dependencies -->
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
@@ -50,7 +51,7 @@
 		<release-version>0.9.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
-		<project-url>https://tmdmaker.osdn.jp</project-url>
+		<project-url>https://www.tmdmaker.org</project-url>
 		<target-file>2019-09</target-file>
 		<compiler-verion>1.8</compiler-verion>
 		<!-- Website dependencies version -->
@@ -169,7 +170,6 @@
 							</goals>
 							<configuration>
 								<includes>
-									<include>jp.sourceforge.tmdmaker.*</include>
 									<include>org.tmdmaker.*</include>
 								</includes>
 							</configuration>
@@ -312,7 +312,7 @@
 						<excludes>
 							<exclude>**/org/eclipse/gmf/**/*.java</exclude>
 							<exclude>**/org/eclipse/**/*.java</exclude>
-							<exclude>**/jp/sourceforge/tmdmaker/sphinx/**/*.java</exclude>
+							<exclude>**/org/tmdmaker/sphinx/**/*.java</exclude>
 						</excludes>
 					</configuration>
 					<dependencies>
@@ -337,6 +337,20 @@
 							<version>${pmd-version}</version>
 						</dependency>
 					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>com.mycila</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>${license-maven-plugin-version}</version>
+					<configuration>
+						<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+						<excludes>
+							<exclude>**/org/eclipse/gmf/**</exclude>
+							<exclude>**/*.xml</exclude>
+							<exclude>**/*.properties</exclude>
+							<exclude>**/docs/**</exclude>
+						</excludes>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -366,7 +380,7 @@
 					<target>
 						<artifact>
 							<groupId>tmdmaker</groupId>
-							<artifactId>tmdmaker.releng.targetplatform</artifactId>
+							<artifactId>org.tmdmaker.releng.targetplatform</artifactId>
 							<version>${project.version}</version>
 							<classifier>${target-file}</classifier>
 						</artifact>
@@ -407,7 +421,7 @@
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>false</useUIThread>
 					<!-- <application>org.eclipse.ui.ide.workbench</application> -->
-					<product>tmdmaker.rcp.product</product>
+  					<product>org.tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
 					<argLine>
 						${tycho.testArgLine} -Xms40m -Xmx1G ${jvm-flags} ${os-jvm-flags}

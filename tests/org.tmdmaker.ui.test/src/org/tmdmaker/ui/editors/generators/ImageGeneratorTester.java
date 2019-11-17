@@ -26,7 +26,7 @@ import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.tmdmaker.ui.test.AbstractTester;
 
-import jp.sourceforge.tmdmaker.imagegenerator.Draw2dToImageConverter;
+import org.tmdmaker.imagegenerator.Draw2dToImageConverter;
 
 /**
  * Test for ImageGenerator.

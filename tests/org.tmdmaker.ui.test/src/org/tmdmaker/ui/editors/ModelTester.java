@@ -19,11 +19,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
+import org.tmdmaker.core.model.CombinationTable;
+import org.tmdmaker.core.model.Diagram;
+import org.tmdmaker.core.model.Entity;
 import org.tmdmaker.ui.test.AbstractTester;
-
-import jp.sourceforge.tmdmaker.model.CombinationTable;
-import jp.sourceforge.tmdmaker.model.Diagram;
-import jp.sourceforge.tmdmaker.model.Entity;
 
 /**
  * Test for Model build by TMEditor.

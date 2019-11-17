@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker's Sphinx Document Generator
+Bundle-SymbolicName: org.tmdmaker.sphinx;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.tmdmaker.core;bundle-version="0.9.0",
+ org.eclipse.core.runtime,
+ org.tmdmaker.extensions;bundle-version="0.9.0",
+ org.eclipse.xtend.lib,
+ org.apache.commons.lang;bundle-version="2.6.0"
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: TMD-Maker Project
+Automatic-Module-Name: org.tmdmaker.sphinx
+Export-Package: org.tmdmaker.sphinx,
+ org.tmdmaker.sphinx.attributelist;x-internal:=true,
+ org.tmdmaker.sphinx.generate;x-internal:=true,
+ org.tmdmaker.sphinx.keydefinitionlist;x-internal:=true,
+ org.tmdmaker.sphinx.relationshiplist;x-internal:=true,
+ org.tmdmaker.sphinx.utilities;x-internal:=true

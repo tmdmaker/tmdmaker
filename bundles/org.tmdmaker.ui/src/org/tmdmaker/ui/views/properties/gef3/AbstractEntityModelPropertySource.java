@@ -21,18 +21,17 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.tmdmaker.core.model.AbstractEntityModel;
+import org.tmdmaker.core.model.CombinationTable;
+import org.tmdmaker.core.model.Detail;
+import org.tmdmaker.core.model.Laputa;
+import org.tmdmaker.core.model.MappingList;
+import org.tmdmaker.core.model.MultivalueOrEntity;
+import org.tmdmaker.core.model.RecursiveTable;
+import org.tmdmaker.core.model.SubsetEntity;
+import org.tmdmaker.core.model.VirtualEntity;
 import org.tmdmaker.ui.Messages;
 import org.tmdmaker.ui.views.properties.gef3.commands.PropertyChangeCommand;
-
-import jp.sourceforge.tmdmaker.model.AbstractEntityModel;
-import jp.sourceforge.tmdmaker.model.CombinationTable;
-import jp.sourceforge.tmdmaker.model.Detail;
-import jp.sourceforge.tmdmaker.model.Laputa;
-import jp.sourceforge.tmdmaker.model.MappingList;
-import jp.sourceforge.tmdmaker.model.MultivalueOrEntity;
-import jp.sourceforge.tmdmaker.model.RecursiveTable;
-import jp.sourceforge.tmdmaker.model.SubsetEntity;
-import jp.sourceforge.tmdmaker.model.VirtualEntity;
 
 /**
  * Abstract class of entity model's property source.

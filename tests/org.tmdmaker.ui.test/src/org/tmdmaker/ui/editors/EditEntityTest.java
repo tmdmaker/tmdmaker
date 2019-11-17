@@ -18,11 +18,10 @@ package org.tmdmaker.ui.editors;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import jp.sourceforge.tmdmaker.model.Entity;
-import jp.sourceforge.tmdmaker.model.Identifier;
-import jp.sourceforge.tmdmaker.ui.dialogs.models.EditAttribute;
-import jp.sourceforge.tmdmaker.ui.dialogs.models.EditEntity;
+import org.tmdmaker.core.model.Entity;
+import org.tmdmaker.core.model.Identifier;
+import org.tmdmaker.ui.dialogs.model.EditAttribute;
+import org.tmdmaker.ui.dialogs.model.EditEntity;
 
 /**
  * Test for EditEntity.

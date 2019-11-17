@@ -32,8 +32,7 @@ import org.eclipse.ui.PlatformUI;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-
-import jp.sourceforge.tmdmaker.TMDEditor;
+import org.tmdmaker.ui.editor.TMDEditor;
 
 
 /**
