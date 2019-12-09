@@ -6,6 +6,7 @@
 
 	<name>TMD-Maker Root Project</name>
 	<description>TMD-Makerの親POM用プロジェクト</description>
+	<inceptionYear>2009</inceptionYear>
 
 	<parent>
 		<groupId>tmdmaker</groupId>

@@ -6,7 +6,7 @@
          <meta.schema plugin="org.tmdmaker.serializer" id="org.tmdmaker.serializer.handler" name="TMD-Maker's Serializer Handler"/>
       </appinfo>
       <documentation>
-         [Enter description of this extension point.]
+         A Serialize/Deserialize handler with TMD-Maker.
       </documentation>
    </annotation>
 
@@ -101,9 +101,17 @@
          <meta.section type="implementation"/>
       </appinfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         See org.tmdmaker.serializer.handler.patch,
       </documentation>
    </annotation>
 
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright 2009-2019 TMD-Maker Project.
+      </documentation>
+   </annotation>
 
 </schema>

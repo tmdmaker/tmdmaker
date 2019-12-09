@@ -6,13 +6,14 @@
 	<artifactId>org.tmdmaker.configuration</artifactId>
 	<version>0.9.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<inceptionYear>2009</inceptionYear>
 
 	<name>TMD-Maker Release Engineering Configuration</name>
 	<description>TMD-Makerのビルド設定用</description>
 
 	<organization>
 		<name>TMD-Maker Project</name>
-		<url>https://tmdmaker.osdn.jp</url>
+		<url>https://www.tmdmaker.org</url>
 	</organization>
 
 	<properties>
@@ -58,6 +59,7 @@
 		<reflow-velocity-tools-version>2.0.2</reflow-velocity-tools-version>
 		<fontawesomeVersion>5.4.1</fontawesomeVersion>
 		<popperVersion>1.14.3</popperVersion>
+		<!-- Other -->
 	</properties>
 
 	<profiles>
@@ -343,13 +345,44 @@
 					<artifactId>license-maven-plugin</artifactId>
 					<version>${license-maven-plugin-version}</version>
 					<configuration>
-						<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+						<header>src/license/APACHE-2.txt</header>
+						<properties>
+							<owner>TMD-Maker Project &lt;https://www.tmdmaker.org&gt;</owner>
+						</properties>
+						<aggregate>true</aggregate>
+						<dependencies>
+							<dependency>
+								<!-- It does not work. -->
+								<groupId>com.mycila</groupId>
+								<artifactId>license-maven-plugin-git</artifactId>
+								<version>${license-maven-plugin-version}</version>
+							</dependency>
+						</dependencies>
 						<excludes>
-							<exclude>**/org/eclipse/gmf/**</exclude>
+							<!-- TODO: *.exsd Update copyright by hand -->
+							<exclude>**/*.exsd</exclude>
 							<exclude>**/*.xml</exclude>
+							<exclude>**/*.rst</exclude>
+							<exclude>**/*.target</exclude>
+							<exclude>**/*.ini</exclude>
+							<exclude>**/*.inf</exclude>
+							<exclude>**/*.product</exclude>
 							<exclude>**/*.properties</exclude>
+							<exclude>**/*.mappings</exclude>
+							<exclude>**/*.tmd</exclude>
 							<exclude>**/docs/**</exclude>
+							<exclude>**/org/eclipse/gmf/**</exclude>
+							<exclude>**/xtend-gen/**</exclude>
+							<exclude>**/src/site/resources/**</exclude>
+							<exclude>**/LICENSE*</exclude>
+							<exclude>**/Makefile</exclude>
+							<exclude>**/_build/**</exclude>
+							<exclude>**/icons/**</exclude>
 						</excludes>
+						<mapping>
+							<java>SLASHSTAR_STYLE</java>
+							<xtend>SLASHSTAR_STYLE</xtend>
+						</mapping>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -436,7 +469,7 @@
 				<configuration>
 					<newVersion>${release-version}.qualifier</newVersion>
 				</configuration>
-			</plugin>
+			</plugin>			
 		</plugins>
 	</build>
 
@@ -563,12 +596,12 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:git://git.osdn.jp/gitroot/tmdmaker/tmdmaker.git</connection>
-		<url>https://osdn.net/projects/tmdmaker/scm/git/tmdmaker/tree/master/</url>
+		<connection>scm:git:https://github.com/tmdmaker/tmdmaker.git</connection>
+		<url>https://github.com/tmdmaker/tmdmaker</url>
 	</scm>
 	<issueManagement>
-		<system>osdn.jp</system>
-		<url>https://osdn.jp/projects/tmdmaker/ticket/</url>
+		<system>github.com</system>
+		<url>https://github.com/tmdmaker/tmdmaker/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>travis-ci</system>

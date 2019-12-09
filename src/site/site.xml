@@ -41,8 +41,7 @@
 	    </menu>
 
 		<menu name="プロジェクト" inherit="top">
-			<item name="OSDN" href="https://osdn.net/projects/tmdmaker/" />
-			<item name="GitHub(ミラー)" href="https://github.com/tmdmaker/tmdmaker/" />
+			<item name="GitHub" href="https://github.com/tmdmaker/tmdmaker/" />
 		</menu>
 
 	    <menu name="プロジェクト文書" ref="reports" inherit="bottom" />
@@ -51,13 +50,13 @@
 
 	<custom>
 		<reflowSkin>
-			<absoluteResourceURL>https://tmdmaker.osdn.jp</absoluteResourceURL>
+			<absoluteResourceURL>https://www.tmdmaker.org</absoluteResourceURL>
 			<protocolRelativeURLs>true</protocolRelativeURLs>
 			<smoothScroll>true</smoothScroll>
 			<highlightJs>true</highlightJs>	
 			<brand>
 				<name>TMD-Maker</name>
-				<href>https://tmdmaker.osdn.jp</href>
+				<href>https://www.tmdmaker.org</href>
 			</brand>
 			<slogan> <![CDATA[
 			<p>ビジネス解析とデータベース設計を同時に実現する</p>
