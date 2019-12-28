@@ -19,7 +19,6 @@
 	</properties>
 
 	<build>
-		<finalName>tmdmaker_extensions_scaffold_${release-version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -41,7 +40,7 @@
 										dir="${project.build.directory}/repository/plugins" />
 								</copy>
 								<zip
-									destfile="${project.build.directory}/org.tmdmaker_extensions_scaffold_${release-version}.zip"
+									destfile="${project.build.directory}/org.tmdmaker.extensions.scaffold_${release-version}.zip"
 									basedir="${project.build.directory}/org.tmdmaker.extensions.scaffold" />
 							</tasks>
 						</configuration>
