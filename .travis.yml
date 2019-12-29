@@ -16,7 +16,7 @@ services:
   - xvfb
 
 before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 3820x2160x16"
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x800x16"
   
 script:
   - mvn -B -P 2019-09 clean install -Dtycho.disableP2Mirrors=true
