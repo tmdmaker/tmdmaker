@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="org.tmdmaker.plugin.e3.feature">
+      <category name="tmdmaker.category.id"/>
+   </feature>
+   <category-def name="tmdmaker.category.id" label="TMD-Maker plugin  for Eclipse 3.x">
+      <description>
+         TMD-Maker plugin built with Tycho
+      </description>
+   </category-def>
+</site>

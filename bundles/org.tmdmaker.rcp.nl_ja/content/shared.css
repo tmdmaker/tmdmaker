@@ -1,0 +1,63 @@
+/**
+ * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* Shared style applied to all pages */
+/* trick to get desired scroll bar behavior on all browsers */ 
+html {
+	overflow:auto;
+	border:0px;
+	height:100%;
+	}
+
+	
+body {	
+	margin-left:14px;
+	margin-top:10px;
+	font-family:Tahoma;
+	font-size: 12px;
+	color:#000000;
+	background-image:url("./titlebanner.gif");
+	background-repeat: repeat-x;
+	} 
+	
+h1 {
+	text-align:left;
+	font-size: 16pt;
+	font-weight:normal;
+	color:#E5E5E5;
+	} 
+
+h4 {
+	color:#787878;
+	}	
+	
+a {
+	display:block;
+	font-family:Tahoma;
+	font-size: 12px;
+	color:#000000;
+	font-weight:normal;
+	text-decoration:none;
+	padding-bottom:20px;
+	}
+a:link	     { color: #0000FF }
+a:hover	     { color: #000080 }
+a:visited    { text-decoration: underline }
+	
+p {
+	padding-left:14px;
+	}
+	
+

@@ -1,18 +1,14 @@
 # TMD-Maker
 
+TMD-Maker is a tool to create a TMD (T-formed ER diagram).
+T-formed ER diagram is the notation of the T-formed ER method Mr. Masami Sato was invented.
+This method is a technique to make the database structure while at the same time to analyze the business.
+
 TMD-Makerは、佐藤正美氏が考案したTM(T字形ER手法)の表記法であるTMD(T字形ER図)を作成するツールです。
 
 このプロジェクトは、TMによるシステム開発をサポートする関連ソフトウェアをオープンソースソフトウェアとして提供します。
 
 TMとは、ビジネスを解析しながらデータベース構造も同時に作る手法です。TMとTMDの詳細は株式会社SDIのサイトを参照してください。
-
-TMD-Maker is a tool to create a TMD (T-formed ER diagram).
-T-formed ER diagram is the notation of the T-formed ER method Mr. Masami Sato was invented.
-This method is a technique to make the database structure while at the same time to analyze the business.
-
-- About TMD-Maker
-
-  https://osdn.jp/projects/tmdmaker/
 
 - About TMD(T-formed ERD)
 
@@ -45,7 +41,7 @@ git clone https://github.com/tmdmaker/tmdmaker.git
 
 cd tmdmaker
 
-mvn clean verify
+mvn -P 2019-09 clean verify 
 ```
 
 ## Installation
@@ -72,7 +68,7 @@ mvn clean verify
 1. Create New->Other->TMD-Maker->TM Diagram.
 
 ## Issues
-https://osdn.jp/projects/tmdmaker/ticket/
+https://github.com/tmdmaker/tmdmaker/issues
 
 ## Licence
 ASL

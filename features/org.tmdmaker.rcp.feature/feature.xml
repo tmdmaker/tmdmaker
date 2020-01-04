@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.tmdmaker.rcp.feature"
+      label="TMD-Maker RCP Feature"
+      version="0.9.0.qualifier"
+      provider-name="TMD-Maker Project"
+      plugin="org.tmdmaker.rcp">
+
+   <description url="https://tmdmaker.osdn.jp/">
+      TMD-Maker for Rich Client Platform.
+   </description>
+
+   <copyright url="https://tmdmaker.osdn.jp/">
+      (c)2019,TMD-Maker Project.
+   </copyright>
+
+   <license url="https://www.apache.org/licenses/LICENSE-2.0">
+      Apache License Version 2.0
+   </license>
+
+   <includes
+         id="org.eclipse.rcp"
+         version="0.0.0"/>
+
+   <includes
+         id="org.tmdmaker.plugin.feature"
+         version="0.0.0"/>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.navigator.resources"/>
+      <import plugin="org.tmdmaker.core"/>
+      <import plugin="org.tmdmaker"/>
+      <import plugin="org.tmdmaker.ddlgenerator"/>
+      <import plugin="org.tmdmaker.htmlgenerator"/>
+      <import plugin="org.tmdmaker.serializer"/>
+      <import plugin="org.tmdmaker.serializer.handler.patch"/>
+      <import plugin="org.tmdmaker.imagegenerator"/>
+      <import plugin="org.tmdmaker.csv"/>
+      <import plugin="org.eclipse.e4.ui.model.workbench"/>
+      <import plugin="org.eclipse.e4.ui.workbench"/>
+      <import plugin="org.eclipse.e4.core.contexts"/>
+      <import plugin="org.eclipse.ui.intro"/>
+      <import plugin="org.tmdmaker.extensions"/>
+      <import plugin="org.tmdmaker.ui"/>
+   </requires>
+
+   <plugin
+         id="org.tmdmaker.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.tmdmaker.rcp.nl_ja"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+</feature>

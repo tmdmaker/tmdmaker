@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TMD-Maker Extensions Scaffold
+Bundle-SymbolicName: tmdmaker.extensions.scaffold;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.tmdmaker.extensions.scaffold
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.tmdmaker.extensions;bundle-version="0.7.0",
+ org.eclipse.core.runtime,
+ org.tmdmaker.core;bundle-version="0.9.0"
+Bundle-Activator: tmdmaker.extensions.scaffold.Actovator
+Export-Package: tmdmaker.extensions.scaffold;x-internal:=true,
+ tmdmaker.extensions.scaffold.generator;x-internal:=true,
+ tmdmaker.extensions.scaffold.importer;x-internal:=true

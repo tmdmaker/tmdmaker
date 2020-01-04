@@ -1,17 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>jp.osdn.tmdmaker.root</artifactId>
+	<artifactId>org.tmdmaker.root</artifactId>
 	<packaging>pom</packaging>
 
 	<name>TMD-Maker Root Project</name>
 	<description>TMD-Makerの親POM用プロジェクト</description>
+	<inceptionYear>2009</inceptionYear>
 
 	<parent>
 		<groupId>tmdmaker</groupId>
-		<artifactId>jp.osdn.tmdmaker.configuration</artifactId>
-		<version>0.8.0-SNAPSHOT</version>
-		<relativePath>./releng/jp.osdn.tmdmaker.configuration</relativePath>
+		<artifactId>org.tmdmaker.configuration</artifactId>
+		<version>0.9.0-SNAPSHOT</version>
+		<relativePath>./releng/org.tmdmaker.configuration</relativePath>
 	</parent>
 
 	<url>${project-url}</url>
@@ -63,7 +64,7 @@
 							<outputDirectory>target/site/jacoco/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>./docs/tmdmaker.doc/target/site/jacoco/</directory>
+									<directory>./docs/org.tmdmaker.coverage/target/site/jacoco/</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -76,11 +77,13 @@
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<configuration>
 					<jacocoReports>
-						<jacocoReport>./docs/tmdmaker.doc/target/site/jacoco/report/jacoco.xml</jacocoReport>
+						<jacocoReport>./docs/org.tmdmaker.coverage/target/site/jacoco/report/jacoco.xml</jacocoReport>
 					</jacocoReports>
+					<sourceDirectories>./bundles/</sourceDirectories>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

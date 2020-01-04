@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tmdmaker</groupId>
-	<artifactId>jp.osdn.tmdmaker.bundles</artifactId>
+	<artifactId>org.tmdmaker.bundles</artifactId>
 	<packaging>pom</packaging>
 
 	<name>TMD-Maker Bundles Project</name>
@@ -11,24 +11,25 @@
 
 	<parent>
 		<groupId>tmdmaker</groupId>
-		<artifactId>jp.osdn.tmdmaker.root</artifactId>
-		<version>0.8.0-SNAPSHOT</version>
+		<artifactId>org.tmdmaker.root</artifactId>
+		<version>0.9.0-SNAPSHOT</version>
 	</parent>
 
 	<modules>
-		<module>tmdmaker.imagegenerator</module>
-		<module>tmdmaker.core</module>
-		<module>tmdmaker</module>
-		<module>tmdmaker.nl_ja</module>
-		<module>tmdmaker.csv</module>
-		<module>tmdmaker.ddlgenerator</module>
-		<module>tmdmaker.htmlgenerator</module>
-		<module>tmdmaker.rcp</module>
-		<module>tmdmaker.rcp.nl_ja</module>
-		<module>tmdmaker.serializer</module>
-		<module>tmdmaker.serializer.handler.patch</module>
-		<module>tmdmaker.sphinx</module>
-		<module>tmdmaker.ui.menu</module>
-		<module>jp.osdn.tmdmaker.extensions</module>
+		<module>org.tmdmaker.imagegenerator</module>
+		<module>org.tmdmaker.core</module>
+		<module>org.tmdmaker</module>
+		<module>org.tmdmaker.csv</module>
+		<module>org.tmdmaker.ddlgenerator</module>
+		<module>org.tmdmaker.htmlgenerator</module>
+		<module>org.tmdmaker.rcp</module>
+		<module>org.tmdmaker.rcp.nl_ja</module>
+		<module>org.tmdmaker.serializer</module>
+		<module>org.tmdmaker.serializer.handler.patch</module>
+		<module>org.tmdmaker.sphinx</module>
+		<module>org.tmdmaker.extensions</module>
+		<module>org.tmdmaker.ui</module>
+		<module>org.tmdmaker.ui.nl_ja</module>
 	</modules>
+
 </project>

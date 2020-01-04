@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.tmdmaker.extensions.scaffold.feature"
+      label="Feature"
+      version="0.9.0.qualifier">
+
+   <description url="https://tmdmaker.osdn.jp">
+      TMD-Maker Plugin Scaffold.
+   </description>
+
+   <copyright url="https://tmdmaker.osdn.jp">
+      (c)2019,TMD-Maker Project.
+   </copyright>
+
+   <license url="https://www.apache.org/licenses/LICENSE-2.0">
+      Apache License Version 2.0
+   </license>
+
+   <requires>
+      <import plugin="org.tmdmaker.core" version="0.9.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime"/>
+   </requires>
+
+   <plugin
+         id="org.tmdmaker.extensions"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.tmdmaker.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
