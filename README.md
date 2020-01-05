@@ -4,15 +4,13 @@ TMD-Maker is a tool to create a TMD (T-formed ER diagram).
 T-formed ER diagram is the notation of the T-formed ER method Mr. Masami Sato was invented.
 This method is a technique to make the database structure while at the same time to analyze the business.
 
+ [More about TMD(T-formed ERD)](http://www.sdi-net.co.jp/english-index.htm)
+
 TMD-Makerは、佐藤正美氏が考案したTM(T字形ER手法)の表記法であるTMD(T字形ER図)を作成するツールです。
 
 このプロジェクトは、TMによるシステム開発をサポートする関連ソフトウェアをオープンソースソフトウェアとして提供します。
 
-TMとは、ビジネスを解析しながらデータベース構造も同時に作る手法です。TMとTMDの詳細は株式会社SDIのサイトを参照してください。
-
-- About TMD(T-formed ERD)
-
-  http://www.sdi-net.co.jp/english-index.htm
+TMとは、ビジネスを解析しながらデータベース構造も同時に作る手法です。TMとTMDの詳細は[株式会社SDI](http://www.sdi-net.co.jp)のサイトを参照してください。
 
 ## Status
 [![Build Status](https://travis-ci.org/tmdmaker/tmdmaker.svg?branch=develop)](https://travis-ci.org/tmdmaker/tmdmaker)[![Coverage Status](https://coveralls.io/repos/github/tmdmaker/tmdmaker/badge.svg?branch=develop)](https://coveralls.io/github/tmdmaker/tmdmaker?branch=develop)
@@ -29,7 +27,7 @@ TMとは、ビジネスを解析しながらデータベース構造も同時に
 
 - GEF(MVC) 3.x（Eclipse Graphical Editing Framework）.
 
-- (Optional) Xtend IDE 2.16.0 and JavaSE8 ExecutionEnvirnment(Eclipse 4.4 or later).If you use tmdmaker sphinx plugin.
+- (Optional) Xtend IDE 2.x and JavaSE8 ExecutionEnvirnment(Eclipse 4.x).If you use tmdmaker sphinx plugin.
 
 ## Download
 https://osdn.jp/projects/tmdmaker/releases/
@@ -41,7 +39,7 @@ git clone https://github.com/tmdmaker/tmdmaker.git
 
 cd tmdmaker
 
-mvn -P 2019-09 clean verify 
+mvn -P 2019-12 clean verify 
 ```
 
 ## Installation

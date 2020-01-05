@@ -10,7 +10,7 @@
 
 4.Change target platform.
 
-  Open tmdmaker.releng.targetplatform/2019-09.target. and Click "Set as Target Platform".
+  Open tmdmaker.releng.targetplatform/2019-12.target. and Click "Set as Target Platform".
 
 5.(Optional) Install plugins. 
 - PropertiesEditor 
