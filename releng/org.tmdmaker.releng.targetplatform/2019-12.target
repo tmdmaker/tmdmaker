@@ -25,10 +25,6 @@
 			<unit id="org.apache.commons.beanutils" version="1.8.0.v201205091237"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.17.0/2019-06/"/>
-			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.12.0.v20190713060001"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="http://download.eclipse.org/eclipse/updates/4.14"/>
 			<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.2.700.v20191122-2104"/>
 			<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="4.14.0.v20191115-2149"/>
@@ -50,6 +46,10 @@
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.20.0"/>
 			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.20.0.v20191202-1256"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.17.1/2019-12/"/>
+			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.14.0.v20200113020001"/>
 		</location>
 	</locations>
 </target>
