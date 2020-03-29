@@ -45,7 +45,7 @@
 			<unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="2.8.0.201906121535"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
+			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.21.0"/>
 			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.21.0.v20200302-1509"/>
 		</location>
 	</locations>
