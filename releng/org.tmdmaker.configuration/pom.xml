@@ -22,24 +22,25 @@
 		<jacoco-version>0.8.5</jacoco-version>
 		<antrun-version>1.8</antrun-version>
 		<sphinx-maven-plugin-version>2.6.0</sphinx-maven-plugin-version>
-		<maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
-		<maven-site-plugin-version>3.8.2</maven-site-plugin-version>
+		<maven-dependency-plugin-version>3.1.2</maven-dependency-plugin-version>
+		<maven-site-plugin-version>3.9.0</maven-site-plugin-version>
 		<wagon-ssh-version>3.3.4</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
 		<maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
-		<maven-checkstyle-plugin-version>3.1.0</maven-checkstyle-plugin-version>
-		<maven-pmd-plugin-version>3.12.0</maven-pmd-plugin-version>
-		<pmd-version>6.15.0</pmd-version>
+		<maven-checkstyle-plugin-version>3.1.1</maven-checkstyle-plugin-version>
+		<checkstyle-version>8.30</checkstyle-version>
+		<maven-pmd-plugin-version>3.13.0</maven-pmd-plugin-version>
+		<pmd-version>6.22.0</pmd-version>
 		<maven-surefire-report-plugin-version>3.0.0-M4</maven-surefire-report-plugin-version>
-		<spotbugs-maven-plugin-version>3.1.12.2</spotbugs-maven-plugin-version>
-		<spotbugs-version>3.1.12</spotbugs-version>
+		<spotbugs-maven-plugin-version>4.0.0</spotbugs-maven-plugin-version>
+		<spotbugs-version>4.0.1</spotbugs-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
-		<maven-javadoc-plugin-version>3.1.1</maven-javadoc-plugin-version>
+		<maven-javadoc-plugin-version>3.2.0</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
 		<maven-assembly-plugin-version>3.2.0</maven-assembly-plugin-version>
 		<maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
-		<xtend-version>2.20.0</xtend-version>
+		<xtend-version>2.21.0</xtend-version>
 		<license-maven-plugin-version>3.0</license-maven-plugin-version>
 		<!-- plugin dependencies -->
 		<velocity-version>1.7</velocity-version>
@@ -56,7 +57,7 @@
 		<target-file>2020-03</target-file>
 		<compiler-verion>1.8</compiler-verion>
 		<!-- Website dependencies version -->
-		<reflow-velocity-tools-version>2.0.2</reflow-velocity-tools-version>
+		<reflow-velocity-tools-version>2.3.0</reflow-velocity-tools-version>
 		<fontawesomeVersion>5.4.1</fontawesomeVersion>
 		<popperVersion>1.14.3</popperVersion>
 		<!-- Other -->
@@ -487,7 +488,22 @@
 				<configuration>
 					<newVersion>${release-version}.qualifier</newVersion>
 				</configuration>
-			</plugin>			
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${maven-checkstyle-plugin-version}</version>
+				<configuration>
+					<configLocation>sun_check_eclipse.xml</configLocation>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyle-version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -531,10 +547,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${maven-checkstyle-plugin-version}</version>
-				<configuration>
-					<configLocation>sun_check_eclipse.xml</configLocation>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
