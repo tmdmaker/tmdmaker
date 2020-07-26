@@ -20,25 +20,25 @@
 		<!-- plugin versions -->
 		<tycho-version>1.7.0</tycho-version>
 		<jacoco-version>0.8.5</jacoco-version>
-		<antrun-version>1.8</antrun-version>
-		<sphinx-maven-plugin-version>2.6.0</sphinx-maven-plugin-version>
+		<antrun-version>3.0.0</antrun-version>
+		<sphinx-maven-plugin-version>2.9.0</sphinx-maven-plugin-version>
 		<maven-dependency-plugin-version>3.1.2</maven-dependency-plugin-version>
-		<maven-site-plugin-version>3.9.0</maven-site-plugin-version>
-		<wagon-ssh-version>3.3.4</wagon-ssh-version>
+		<maven-site-plugin-version>3.9.1</maven-site-plugin-version>
+		<wagon-ssh-version>3.4.1</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
-		<maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
+		<maven-project-info-reports-plugin-version>3.1.0</maven-project-info-reports-plugin-version>
 		<maven-checkstyle-plugin-version>3.1.1</maven-checkstyle-plugin-version>
 		<checkstyle-version>8.30</checkstyle-version>
 		<maven-pmd-plugin-version>3.13.0</maven-pmd-plugin-version>
 		<pmd-version>6.22.0</pmd-version>
-		<maven-surefire-report-plugin-version>3.0.0-M4</maven-surefire-report-plugin-version>
-		<spotbugs-maven-plugin-version>4.0.0</spotbugs-maven-plugin-version>
-		<spotbugs-version>4.0.1</spotbugs-version>
+		<maven-surefire-report-plugin-version>3.0.0-M5</maven-surefire-report-plugin-version>
+		<spotbugs-maven-plugin-version>4.0.4</spotbugs-maven-plugin-version>
+		<spotbugs-version>4.0.6</spotbugs-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
 		<maven-javadoc-plugin-version>3.2.0</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
-		<maven-assembly-plugin-version>3.2.0</maven-assembly-plugin-version>
+		<maven-assembly-plugin-version>3.3.0</maven-assembly-plugin-version>
 		<maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
 		<xtend-version>2.22.0</xtend-version>
 		<license-maven-plugin-version>3.0</license-maven-plugin-version>
