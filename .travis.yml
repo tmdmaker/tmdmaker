@@ -1,6 +1,6 @@
 language: java
 dist: xenial
-sudo: required
+os: linux
 
 jdk:
   - openjdk8
