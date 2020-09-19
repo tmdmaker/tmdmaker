@@ -455,6 +455,7 @@
 							<classifier>${target-file}</classifier>
 						</artifact>
 					</target>
+					<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-11</executionEnvironment>
 					<environments>
 						<environment>
 							<os>win32</os>
