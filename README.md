@@ -18,7 +18,7 @@ TMとは、ビジネスを解析しながらデータベース構造も同時に
 ## Requirements
 
 ### Java Application(Eclipse RCP)
-- java8 or later(java 11)
+- Nothing. TMD-Maker includes Java11 JRE.
 
 ### Eclipse Plugin
 - java6 or later(java8 or java11 is recommended).
@@ -39,7 +39,7 @@ git clone https://github.com/tmdmaker/tmdmaker.git
 
 cd tmdmaker
 
-mvn -P 2020-06 clean verify 
+mvn -P 2020-09 clean verify 
 ```
 
 ## Installation
