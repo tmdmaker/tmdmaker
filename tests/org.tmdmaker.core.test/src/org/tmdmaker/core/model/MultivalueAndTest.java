@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org>
+ * Copyright 2009-2021 TMD-Maker Project <https://www.tmdmaker.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +21,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.Map;
 
 import org.junit.Test;
-import org.tmdmaker.core.model.AbstractConnectionModel;
-import org.tmdmaker.core.model.AbstractEntityModel;
-import org.tmdmaker.core.model.AbstractRelationship;
-import org.tmdmaker.core.model.Cardinality;
-import org.tmdmaker.core.model.Detail;
-import org.tmdmaker.core.model.Diagram;
-import org.tmdmaker.core.model.Entity;
-import org.tmdmaker.core.model.Header2DetailRelationship;
-import org.tmdmaker.core.model.Identifier;
-import org.tmdmaker.core.model.MultivalueAndAggregator;
-import org.tmdmaker.core.model.MultivalueAndSuperset;
-import org.tmdmaker.core.model.ReusedIdentifier;
-import org.tmdmaker.core.model.TransfarReuseKeysToTargetRelationship;
 import org.tmdmaker.core.model.multivalue.MultivalueAndBuilder;
 import org.tmdmaker.core.model.relationship.Relationship;
 

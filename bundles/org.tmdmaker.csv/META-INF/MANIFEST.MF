@@ -7,12 +7,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.tmdmaker.core;bundle-version="0.9.0",
  org.tmdmaker.extensions;bundle-version="0.9.0"
 Bundle-ClassPath: .,
- lib/opencsv-2.4.jar
-Export-Package: au.com.bytecode.opencsv;x-internal:=true,
- au.com.bytecode.opencsv.bean;x-internal:=true,
- org.tmdmaker.csv;x-internal:=true,
- org.tmdmaker.generate.csv.attributelist,
- org.tmdmaker.importer.csv
+ lib/opencsv-3.10.jar
+Export-Package: org.tmdmaker.csv;x-internal:=true,
+ org.tmdmaker.generate.csv.attributelist;uses:="org.tmdmaker.model.generate",
+ org.tmdmaker.importer.csv;uses:="org.tmdmaker.model.importer"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: TMD-Maker Project
 Automatic-Module-Name: tmdmaker.csv

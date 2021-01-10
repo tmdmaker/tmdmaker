@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org>
+ * Copyright 2009-2021 TMD-Maker Project <https://www.tmdmaker.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,15 +23,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.tmdmaker.core.model.AbstractConnectionModel;
-import org.tmdmaker.core.model.Attribute;
-import org.tmdmaker.core.model.Diagram;
-import org.tmdmaker.core.model.Entity;
-import org.tmdmaker.core.model.Entity2SubsetTypeRelationship;
-import org.tmdmaker.core.model.Identifier;
-import org.tmdmaker.core.model.SubsetEntity;
-import org.tmdmaker.core.model.SubsetType;
-import org.tmdmaker.core.model.SubsetType2SubsetRelationship;
 import org.tmdmaker.core.model.SubsetType.SubsetTypeValue;
 import org.tmdmaker.core.model.parts.ModelName;
 import org.tmdmaker.core.model.subset.SubsetBuilder;

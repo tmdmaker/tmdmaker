@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org>
+ * Copyright 2009-2021 TMD-Maker Project <https://www.tmdmaker.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,9 @@ import org.tmdmaker.core.model.generate.attributelist.EntityAttributePair;
 import org.tmdmaker.csv.Messages;
 import org.tmdmaker.model.generate.Generator;
 
-import au.com.bytecode.opencsv.CSVWriter;
+import com.opencsv.CSVWriter;
+
+
 
 /**
  * アトリビュートリストをCSVで出力するクラス

@@ -1,63 +1,60 @@
-#### [TMD-Makerとは][index]
+#### [What's TMD-Maker][index]
 
-[![What TMD-Maker](img/intro.png)][index]
+[![What's TMD-Maker](img/intro.png)][index]
 
-TMD-Makerは、佐藤正美氏が考案したTM(T字形ER手法)の表記法であるTMD(T字形ER図)を作成する
-オープンソースのTM（T字形ER）ダイアグラム作成ツールです。
+TMD-Maker is a OSS tool to create a TMD (T-formed ER diagram). T-formed ER diagram is the notation of the T-formed ER method Mr. Masami Sato was invented. 
 
-[ダウンロードする][download]
+[Download][download]
 
-#### [TM（T字形ER）について][index]
+#### [About TM (T-formed ER)][index]
 
-[![What TM](img/tm.png)][index]
+[![What's TM](img/tm.png)][index]
 
-TMとは、ビジネスを解析しながらデータベース構造も同時に作る手法です。
+TM is a technique to make the database structure while at the same time to analyze the business.
+For more information about TM and TMD, please refer to the [SDI Co., Ltd.][sdi] site.
 
-現在も同氏により定期セミナーやコンサルティング、TM理論の検証が行われています。
-TMとTMDのより詳しい情報は[株式会社SDI][sdi]のサイトを参照してください。
-
-#### [属人性を排除したビジネス解析][index]
+#### [Business analysis excluding dependency on indivisual skills][index]
 
 [![TM Rule](img/tmrule.png)][index]
 
-TM（T字形ER）は単なる表記法ではなく、ダイアグラムの生成ルールが定義された分析手法です。生成ルールに従うことで属人性を排除したビジネス解析を行うことができます。 TMD-MakerはTM（T字形ER）に準拠しており、表記法だけでなく[生成ルール][tmrule]に従ったダイアグラムが作成できます。
+TM (T-formed ER) is not just a notation, but an analysis method that defines the rules for generating diagrams. 
+By following the generation rules, you can perform business analysis without dependency on indivisual skills.
+TMD-Maker is TM (T-formed ER) compliant, and you can create diagrams according to [Generation Rule][tmrule] and  as well as notation.
 
-#### [解析結果を元にデータベースを構築][index]
+#### [Build a database based on the business analysis results][index]
 
 [![rdbms](img/rdbms.png)][index]
 
-TMD-Makerは、主要なリレーショナルデータベースをはじめとする約２０種類のデータベース用のDDLを作成できます。
-１つのダイアグラムをビジネス解析、データベース構築、システム開発に利用することができます。[対応データベース一覧へ...][support_rdbms]
+TMD-Maker can create DDL for about 20 types of relational databases.
+One diagram can be used for business analysis, database construction, and system development. [List of supported databases ...][support_rdbms]
 
-#### [マルチプラットフォーム][index]
+#### [Multi platform][index]
 
 [![platform](img/platform.png)][index]
 
-TMD-Makerは、Java実行環境がインストールされているデスクトップPCで利用できます。現在、Windows版、 Mac版、Linux版を提供しています。
-また、Eclipse Plugin版も提供しています。[Java実行環境のダウンロードサイトへ...][jre]
+TMD-Maker can be used on desktop PCs. We currently provide Windows, Mac, and Linux versions.
+We also provide the Eclipse Plugin version.
 
-#### [ダウンロード][index]
+#### [Download][index]
 
 [![start tmdmaker](img/download.png)][index]
 
-今すぐTMD-Makerを使ってみましょう。
-
-あなたのお使いのコンピユータにあった実行ファイルを[ダウンロード][download]してください。
+Get started with TMD-Maker [now][download].
 
 ---
 
-## ダウンロード
+## Download
 
-[tmdmakerのダウンロードサイト][download]で各自の環境に合ったファイルを選んでダウンロードしたら、ダウンロードしたファイルを解凍して任意の場所に置く。
+Go to [tmdmaker download site][download] and download the file that suits your environment. Unzip the downloaded file and put it in any location.
 
-## 実行
+## Run
 
-解凍したフォルダを開いて、tmdmaker.exeをダブルクリックする(mac版はTMD-Maker.app)。
+Double-click tmdmaker. (TMD-Maker.app for mac version).
 
 
-[sdi]: http://www.sdi-net.co.jp
+[sdi]: http://www.sdi-net.co.jp/english-index.htm
 [index]: index.html
 [tmrule]: doc/p2.html
 [support_rdbms]: doc/database.html
 [download]: https://osdn.net/projects/tmdmaker/releases/
-[jre]: https://java.com/ja/download/
+

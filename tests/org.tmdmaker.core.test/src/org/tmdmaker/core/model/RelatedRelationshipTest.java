@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org>
+ * Copyright 2009-2021 TMD-Maker Project <https://www.tmdmaker.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,18 +18,6 @@ package org.tmdmaker.core.model;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.tmdmaker.core.model.AbstractConnectionModel;
-import org.tmdmaker.core.model.AbstractRelationship;
-import org.tmdmaker.core.model.CombinationTable;
-import org.tmdmaker.core.model.Diagram;
-import org.tmdmaker.core.model.Entity;
-import org.tmdmaker.core.model.Entity2VirtualSupersetTypeRelationship;
-import org.tmdmaker.core.model.Header2DetailRelationship;
-import org.tmdmaker.core.model.Identifier;
-import org.tmdmaker.core.model.MultivalueAndAggregator;
-import org.tmdmaker.core.model.RelatedRelationship;
-import org.tmdmaker.core.model.VirtualSuperset;
-import org.tmdmaker.core.model.VirtualSupersetType;
 import org.tmdmaker.core.model.parts.ModelName;
 import org.tmdmaker.core.model.relationship.Relationship;
 
