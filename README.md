@@ -39,7 +39,7 @@ git clone https://github.com/tmdmaker/tmdmaker.git
 
 cd tmdmaker
 
-mvn -P 2020-09 clean verify 
+mvn -P 2020-12 clean verify 
 ```
 
 ## Installation
