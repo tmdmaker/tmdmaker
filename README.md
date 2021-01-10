@@ -13,6 +13,7 @@ TMD-Makerは、佐藤正美氏が考案したTM(T字形ER手法)の表記法で�
 TMとは、ビジネスを解析しながらデータベース構造も同時に作る手法です。TMとTMDの詳細は[株式会社SDI](http://www.sdi-net.co.jp)のサイトを参照してください。
 
 ## Status
+![Java CI with Maven](https://github.com/tmdmaker/tmdmaker/workflows/Java%20CI%20with%20Maven/badge.svg)
 [![Build Status](https://travis-ci.org/tmdmaker/tmdmaker.svg?branch=develop)](https://travis-ci.org/tmdmaker/tmdmaker)[![Coverage Status](https://coveralls.io/repos/github/tmdmaker/tmdmaker/badge.svg?branch=develop)](https://coveralls.io/github/tmdmaker/tmdmaker?branch=develop)
 
 ## Requirements
