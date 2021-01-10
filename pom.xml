@@ -79,7 +79,7 @@
 					<jacocoReports>
 						<jacocoReport>./docs/org.tmdmaker.coverage/target/site/jacoco/report/jacoco.xml</jacocoReport>
 					</jacocoReports>
-					<repoToken>${env.GITHUB_TOKEN}</repoToken>
+					<repoToken>${env.COVERALLS_TOKEN}</repoToken>
 					<sourceDirectories>./bundles/</sourceDirectories>
 				</configuration>
 			</plugin>
