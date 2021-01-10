@@ -32,4 +32,6 @@ jobs:
     - name: Build with Maven
       uses: GabrielBB/xvfb-action@v1
       with:
-        run: mvn -B -P 2020-12 verify -Dtycho.disableP2Mirrors=true
+        run: |
+          mvn -B -P 2020-12 verify -Dtycho.disableP2Mirrors=true
+          mvn -B -P 2020-12 jacoco:report coveralls:report
