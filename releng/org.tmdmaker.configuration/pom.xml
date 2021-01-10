@@ -46,7 +46,7 @@
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
 		<xstream-version>1.4.10</xstream-version>
-		<opencsv-version>2.3</opencsv-version>
+		<opencsv-version>3.1</opencsv-version>
 		<ddlutils-version>1.0</ddlutils-version>
 		<slf4j-version>1.7.26</slf4j-version>
 		<!-- build settings -->
@@ -54,12 +54,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://www.tmdmaker.org</project-url>
-		<target-file>2020-09</target-file>
+		<target-file>2020-12</target-file>
 		<compiler-verion>1.8</compiler-verion>
 		<!-- Website dependencies version -->
-		<reflow-velocity-tools-version>2.3.0</reflow-velocity-tools-version>
-		<fontawesomeVersion>5.4.1</fontawesomeVersion>
-		<popperVersion>1.14.3</popperVersion>
+		<site-skin-version>2.0.10</site-skin-version>
 		<!-- Other -->
 	</properties>
 
@@ -91,6 +89,15 @@
 			</activation>
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>2020-12</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2020-12</target-file>
 			</properties>
 		</profile>
 		<profile>
@@ -220,8 +227,7 @@
 					<artifactId>maven-site-plugin</artifactId>
 					<version>${maven-site-plugin-version}</version>
 					<configuration>
-						<locales>ja</locales>
-						<inputEncoding>UTF-8</inputEncoding>
+ 						<inputEncoding>UTF-8</inputEncoding>
 						<outputEncoding>UTF-8</outputEncoding>
 					</configuration>
 					<executions>
@@ -243,10 +249,11 @@
 							<artifactId>velocity</artifactId>
 							<version>${velocity-version}</version>
 						</dependency>
+						<!-- Docs Maven Skin -->
 						<dependency>
-							<groupId>io.github.devacfr.maven.skins</groupId>
-							<artifactId>reflow-velocity-tools</artifactId>
-							<version>${reflow-velocity-tools-version}</version>
+							<groupId>com.bernardomg.maven.skins</groupId>
+							<artifactId>docs-maven-skin</artifactId>
+							<version>${site-skin-version}</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -271,7 +278,7 @@
 								<version>${ddlutils-version}</version>
 							</additionalDependency>
 							<additionalDependency>
-								<groupId>au.com.bytecode</groupId>
+								<groupId>com.opencsv</groupId>
 								<artifactId>opencsv</artifactId>
 								<version>${opencsv-version}</version>
 							</additionalDependency>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org>
+ * Copyright 2009-2021 TMD-Maker Project <https://www.tmdmaker.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,17 +18,6 @@ package org.tmdmaker.core.model;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.tmdmaker.core.model.CombinationTable;
-import org.tmdmaker.core.model.Detail;
-import org.tmdmaker.core.model.Entity;
-import org.tmdmaker.core.model.Laputa;
-import org.tmdmaker.core.model.MappingList;
-import org.tmdmaker.core.model.MultivalueAndSuperset;
-import org.tmdmaker.core.model.MultivalueOrEntity;
-import org.tmdmaker.core.model.RecursiveTable;
-import org.tmdmaker.core.model.SubsetEntity;
-import org.tmdmaker.core.model.VirtualEntity;
-import org.tmdmaker.core.model.VirtualSuperset;
 import org.tmdmaker.core.model.other.Memo;
 import org.tmdmaker.core.model.other.TurboFile;
 
