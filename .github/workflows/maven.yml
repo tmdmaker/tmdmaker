@@ -20,8 +20,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11.0.2
+
     - name: Build with Maven
-      run: mvn -B package -P 2020-12 install -Dtycho.disableP2Mirrors=true
-  
-    - name: Build with Maven
-      run: mvn -B package -P 2020-12 jacoco:report coveralls:report
+      uses: GabrielBB/xvfb-action@v1
+      with:
+        run: mvn -B -P 2020-12 install -Dtycho.disableP2Mirrors=true
