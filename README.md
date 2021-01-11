@@ -14,7 +14,7 @@ TMとは、ビジネスを解析しながらデータベース構造も同時に
 
 ## Status
 ![Java CI with Maven](https://github.com/tmdmaker/tmdmaker/workflows/Java%20CI%20with%20Maven/badge.svg)
-[![Build Status](https://travis-ci.org/tmdmaker/tmdmaker.svg?branch=develop)](https://travis-ci.org/tmdmaker/tmdmaker)[![Coverage Status](https://coveralls.io/repos/github/tmdmaker/tmdmaker/badge.svg?branch=develop)](https://coveralls.io/github/tmdmaker/tmdmaker?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/tmdmaker/tmdmaker/badge.svg?branch=develop)](https://coveralls.io/github/tmdmaker/tmdmaker?branch=develop)
 
 ## Requirements
 

@@ -49,7 +49,7 @@
 							<resources>
 								<resource>
 									<directory>./docs/tmdmaker.doc/target/site/doc/</directory>
-									<filtering>true</filtering>
+									<filtering>false</filtering>
 								</resource>
 							</resources>
 						</configuration>
@@ -65,7 +65,7 @@
 							<resources>
 								<resource>
 									<directory>./docs/org.tmdmaker.coverage/target/site/jacoco/</directory>
-									<filtering>true</filtering>
+									<filtering>false</filtering>
 								</resource>
 							</resources>
 						</configuration>
