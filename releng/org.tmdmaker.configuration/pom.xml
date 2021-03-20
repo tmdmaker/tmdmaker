@@ -54,7 +54,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://www.tmdmaker.org</project-url>
-		<target-file>2020-12</target-file>
+		<target-file>2021-03</target-file>
 		<compiler-verion>1.8</compiler-verion>
 		<!-- Website dependencies version -->
 		<site-skin-version>2.0.10</site-skin-version>
@@ -89,6 +89,15 @@
 			</activation>
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>2021-03</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2021-03</target-file>
 			</properties>
 		</profile>
 		<profile>
