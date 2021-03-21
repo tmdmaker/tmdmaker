@@ -56,23 +56,5 @@
 			<version>3.10</version>
 			<type>jar</type>
 		</location>
-		<location includeDependencyScope="compile" missingManifest="generate" type="Maven">
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.30</version>
-			<type>jar</type>
-		</location>
-		<location missingManifest="generate" type="Maven">
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.30</version>
-			<type>jar</type>
-		</location>
-		<location missingManifest="generate" type="Maven">
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>1.7.30</version>
-			<type>jar</type>
-		</location>
 	</locations>
 </target>

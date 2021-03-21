@@ -5,7 +5,18 @@ Bundle-SymbolicName: org.tmdmaker.core
 Bundle-Version: 0.9.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
-Export-Package: org.tmdmaker.core,
+Export-Package: org.apache.commons.logging,
+ org.apache.commons.logging.impl,
+ org.slf4j;uses:="new org.slf4j,org.slf4j.spi,org.slf4j.helpers",
+ org.slf4j.event;uses:="org.slf4j,org.slf4j.helpers",
+ org.slf4j.helpers;uses:="org.slf4j,org.slf4j.spi,org.slf4j.event",
+ org.slf4j.impl;
+  uses:="org.slf4j,
+   org.slf4j.spi,
+   org.slf4j.event,
+   org.slf4j.helpers",
+ org.slf4j.spi;uses:="org.slf4j",
+ org.tmdmaker.core,
  org.tmdmaker.core.model;
   uses:="org.tmdmaker.core.model.multivalue,
    org.tmdmaker.core.model.constraint,
@@ -23,7 +34,8 @@ Export-Package: org.tmdmaker.core,
  org.tmdmaker.core.model.rule;uses:="org.tmdmaker.core.model",
  org.tmdmaker.core.model.subset;uses:="org.tmdmaker.core.model,org.tmdmaker.core.model.parts",
  org.tmdmaker.core.model.virtual;uses:="org.tmdmaker.core.model,org.tmdmaker.core.model.parts"
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/slf4j-api-1.7.30.jar,
+ lib/slf4j-simple-1.7.30.jar,
+ lib/jcl-over-slf4j-1.7.30.jar
 Automatic-Module-Name: org.tmdmaker.core
-Require-Bundle: slf4j.api;bundle-version="1.7.30";visibility:=reexport,
- jcl.over.slf4j;bundle-version="1.7.30";visibility:=reexport
