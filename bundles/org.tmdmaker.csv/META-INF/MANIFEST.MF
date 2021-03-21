@@ -5,9 +5,9 @@ Bundle-SymbolicName: org.tmdmaker.csv;singleton:=true
 Bundle-Version: 0.9.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.tmdmaker.core;bundle-version="0.9.0",
- org.tmdmaker.extensions;bundle-version="0.9.0"
-Bundle-ClassPath: .,
- lib/opencsv-3.10.jar
+ org.tmdmaker.extensions;bundle-version="0.9.0",
+ com.opencsv;bundle-version="3.10.0"
+Bundle-ClassPath: .
 Export-Package: org.tmdmaker.csv;x-internal:=true,
  org.tmdmaker.generate.csv.attributelist;uses:="org.tmdmaker.model.generate",
  org.tmdmaker.importer.csv;uses:="org.tmdmaker.model.importer"
