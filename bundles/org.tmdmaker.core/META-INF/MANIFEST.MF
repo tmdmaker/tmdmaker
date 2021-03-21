@@ -5,27 +5,25 @@ Bundle-SymbolicName: org.tmdmaker.core
 Bundle-Version: 0.9.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
-Export-Package: org.apache.commons.logging,
- org.apache.commons.logging.impl,
- org.slf4j,
- org.slf4j.event,
- org.slf4j.helpers,
- org.slf4j.impl,
- org.slf4j.spi,
- org.tmdmaker.core,
- org.tmdmaker.core.model,
+Export-Package: org.tmdmaker.core,
+ org.tmdmaker.core.model;
+  uses:="org.tmdmaker.core.model.multivalue,
+   org.tmdmaker.core.model.constraint,
+   org.tmdmaker.core.model.parts,
+   org.tmdmaker.core.model.subset,
+   org.tmdmaker.core.model.virtual,
+   org.tmdmaker.core.model.other",
  org.tmdmaker.core.model.constraint,
  org.tmdmaker.core.model.filter;x-internal:=true,
- org.tmdmaker.core.model.generate.attributelist,
- org.tmdmaker.core.model.multivalue,
- org.tmdmaker.core.model.other,
+ org.tmdmaker.core.model.generate.attributelist;uses:="org.tmdmaker.core.model",
+ org.tmdmaker.core.model.multivalue;uses:="org.tmdmaker.core.model,org.tmdmaker.core.model.parts",
+ org.tmdmaker.core.model.other;uses:="org.tmdmaker.core.model",
  org.tmdmaker.core.model.parts,
- org.tmdmaker.core.model.relationship,
- org.tmdmaker.core.model.rule,
- org.tmdmaker.core.model.subset,
- org.tmdmaker.core.model.virtual
-Bundle-ClassPath: .,
- lib/jcl-over-slf4j-1.7.26.jar,
- lib/slf4j-api-1.7.26.jar,
- lib/slf4j-simple-1.7.26.jar
+ org.tmdmaker.core.model.relationship;uses:="org.tmdmaker.core.model",
+ org.tmdmaker.core.model.rule;uses:="org.tmdmaker.core.model",
+ org.tmdmaker.core.model.subset;uses:="org.tmdmaker.core.model,org.tmdmaker.core.model.parts",
+ org.tmdmaker.core.model.virtual;uses:="org.tmdmaker.core.model,org.tmdmaker.core.model.parts"
+Bundle-ClassPath: .
 Automatic-Module-Name: org.tmdmaker.core
+Require-Bundle: slf4j.api;bundle-version="1.7.30";visibility:=reexport,
+ jcl.over.slf4j;bundle-version="1.7.30";visibility:=reexport

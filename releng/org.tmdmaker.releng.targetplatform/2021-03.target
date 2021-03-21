@@ -18,8 +18,6 @@
 			<unit id="org.apache.batik.swing" version="1.6.0.v201011041432"/>
 			<unit id="org.apache.batik.transcoder" version="1.6.0.v201011041432"/>
 			<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
-			<unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
-			<unit id="org.slf4j.jcl" version="1.7.2.v20130115-1340"/>
 			<unit id="org.apache.commons.beanutils" version="1.8.0.v201205091237"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -56,6 +54,24 @@
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 			<version>3.10</version>
+			<type>jar</type>
+		</location>
+		<location includeDependencyScope="compile" missingManifest="generate" type="Maven">
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.30</version>
+			<type>jar</type>
+		</location>
+		<location missingManifest="generate" type="Maven">
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.30</version>
+			<type>jar</type>
+		</location>
+		<location missingManifest="generate" type="Maven">
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.30</version>
 			<type>jar</type>
 		</location>
 	</locations>
