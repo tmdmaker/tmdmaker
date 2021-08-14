@@ -54,7 +54,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://www.tmdmaker.org</project-url>
-		<target-file>2021-03</target-file>
+		<target-file>2021-06</target-file>
 		<compiler-verion>1.8</compiler-verion>
 		<!-- Website dependencies version -->
 		<site-skin-version>2.0.10</site-skin-version>
@@ -92,118 +92,88 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>2021-03</id>
+			<id>2021-06</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<properties>
+				<target-file>2021-06</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2021-03</id>
 			<properties>
 				<target-file>2021-03</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2020-12</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2020-12</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2020-09</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2020-09</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2020-06</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2020-06</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2020-03</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2020-03</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2019-12</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2019-12</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2019-09</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2019-09</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2019-06</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2019-06</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2019-03</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2019-03</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2018-12</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2018-12</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2018-09</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2018-09</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>photon</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>photon</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>oxygen</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>oxygen</target-file>
 			</properties>
@@ -476,7 +446,7 @@
 				<configuration>
 					<target>
 						<artifact>
-							<groupId>tmdmaker</groupId>
+ 							<groupId>tmdmaker</groupId>
 							<artifactId>org.tmdmaker.releng.targetplatform</artifactId>
 							<version>${project.version}</version>
 							<classifier>${target-file}</classifier>
