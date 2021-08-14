@@ -9,7 +9,7 @@
 	<inceptionYear>2009</inceptionYear>
 
 	<name>TMD-Maker Release Engineering Configuration</name>
-	<description>TMD-Makerのビルド設定用</description>
+	<description>The build settings of TMD-Maker</description>
 
 	<organization>
 		<name>TMD-Maker Project</name>
@@ -18,7 +18,7 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>2.2.0</tycho-version>
+		<tycho-version>2.4.0</tycho-version>
 		<jacoco-version>0.8.6</jacoco-version>
 		<antrun-version>3.0.0</antrun-version>
 		<sphinx-maven-plugin-version>2.9.0</sphinx-maven-plugin-version>
