@@ -56,5 +56,11 @@
 			<version>3.10</version>
 			<type>jar</type>
 		</location>
+		<location includeSource="true" missingManifest="generate" type="Maven">
+			<groupId>com.twelvemonkeys.imageio</groupId>
+			<artifactId>imageio-tiff</artifactId>
+			<version>3.7.0</version>
+			<type>jar</type>
+		</location>
 	</locations>
 </target>

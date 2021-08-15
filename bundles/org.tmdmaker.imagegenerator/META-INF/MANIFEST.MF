@@ -15,14 +15,12 @@ Require-Bundle: org.eclipse.ui,
  org.apache.batik.dom;bundle-version="1.6.1",
  org.apache.batik.transcoder;bundle-version="1.6.0",
  org.apache.batik.svggen;bundle-version="1.6.0",
- org.apache.batik.pdf;bundle-version="1.6.0"
+ org.apache.batik.pdf;bundle-version="1.6.0",
+ wrapped.com.twelvemonkeys.imageio.imageio-tiff;bundle-version="3.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
 Bundle-ClassPath: .,
- lib/imageio-tiff-3.4.1.jar,
- lib/imageio-metadata-3.4.1.jar,
- lib/imageio-core-3.4.1.jar,
  lib/common-lang-3.4.1.jar,
  lib/common-io-3.4.1.jar
 Export-Package: org.eclipse.gmf.runtime.common.ui.util;x-internal:=true,
