@@ -62,5 +62,11 @@
 			<version>3.7.0</version>
 			<type>jar</type>
 		</location>
+		<location includeSource="true" missingManifest="generate" type="Maven">
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+			<type>jar</type>
+		</location>
 	</locations>
 </target>
