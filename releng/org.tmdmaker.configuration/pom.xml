@@ -19,36 +19,36 @@
 	<properties>
 		<!-- plugin versions -->
 		<tycho-version>2.4.0</tycho-version>
-		<jacoco-version>0.8.6</jacoco-version>
+		<jacoco-version>0.8.7</jacoco-version>
 		<antrun-version>3.0.0</antrun-version>
-		<sphinx-maven-plugin-version>2.9.0</sphinx-maven-plugin-version>
-		<maven-dependency-plugin-version>3.1.2</maven-dependency-plugin-version>
+		<sphinx-maven-plugin-version>2.10.0</sphinx-maven-plugin-version>
+		<maven-dependency-plugin-version>3.2.0</maven-dependency-plugin-version>
 		<maven-site-plugin-version>3.9.1</maven-site-plugin-version>
-		<wagon-ssh-version>3.4.1</wagon-ssh-version>
+		<wagon-ssh-version>3.4.3</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
-		<maven-project-info-reports-plugin-version>3.1.1</maven-project-info-reports-plugin-version>
-		<maven-checkstyle-plugin-version>3.1.1</maven-checkstyle-plugin-version>
-		<checkstyle-version>8.39</checkstyle-version>
+		<maven-project-info-reports-plugin-version>3.1.2</maven-project-info-reports-plugin-version>
+		<maven-checkstyle-plugin-version>3.1.2</maven-checkstyle-plugin-version>
+		<checkstyle-version>8.45.1</checkstyle-version>
 		<maven-pmd-plugin-version>3.14.0</maven-pmd-plugin-version>
-		<pmd-version>6.30.0</pmd-version>
+		<pmd-version>6.37.0</pmd-version>
 		<maven-surefire-report-plugin-version>3.0.0-M5</maven-surefire-report-plugin-version>
-		<spotbugs-maven-plugin-version>4.2.0</spotbugs-maven-plugin-version>
-		<spotbugs-version>4.2.0</spotbugs-version>
+		<spotbugs-maven-plugin-version>4.3.0</spotbugs-maven-plugin-version>
+		<spotbugs-version>4.3.0</spotbugs-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
-		<maven-javadoc-plugin-version>3.2.0</maven-javadoc-plugin-version>
+		<maven-javadoc-plugin-version>3.3.0</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
 		<maven-assembly-plugin-version>3.3.0</maven-assembly-plugin-version>
-		<maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
-		<xtend-version>2.24.0</xtend-version>
-		<license-maven-plugin-version>4.0.rc2</license-maven-plugin-version>
+		<maven-jxr-plugin-version>3.1.1</maven-jxr-plugin-version>
+		<xtend-version>2.25.0</xtend-version>
+		<license-maven-plugin-version>4.1</license-maven-plugin-version>
 		<!-- plugin dependencies -->
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
 		<xstream-version>1.4.10</xstream-version>
 		<opencsv-version>3.10</opencsv-version>
 		<ddlutils-version>1.0</ddlutils-version>
-		<slf4j-version>1.7.26</slf4j-version>
+		<slf4j-version>1.7.30</slf4j-version>
 		<!-- build settings -->
 		<release-version>0.9.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,7 +57,7 @@
 		<target-file>2021-06</target-file>
 		<compiler-verion>1.8</compiler-verion>
 		<!-- Website dependencies version -->
-		<site-skin-version>2.0.10</site-skin-version>
+		<site-skin-version>2.2.4</site-skin-version>
 		<!-- Other -->
 	</properties>
 
