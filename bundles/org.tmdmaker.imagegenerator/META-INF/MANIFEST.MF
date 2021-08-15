@@ -20,9 +20,7 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
-Bundle-ClassPath: .,
- lib/common-lang-3.4.1.jar,
- lib/common-io-3.4.1.jar
+Bundle-ClassPath: .
 Export-Package: org.eclipse.gmf.runtime.common.ui.util;x-internal:=true,
  org.eclipse.gmf.runtime.draw2d.ui.figures;x-internal:=true,
  org.eclipse.gmf.runtime.draw2d.ui.graphics;x-internal:=true,
