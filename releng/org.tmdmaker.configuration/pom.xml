@@ -29,14 +29,14 @@
 		<maven-project-info-reports-plugin-version>3.1.2</maven-project-info-reports-plugin-version>
 		<maven-checkstyle-plugin-version>3.1.2</maven-checkstyle-plugin-version>
 		<checkstyle-version>8.45.1</checkstyle-version>
-		<maven-pmd-plugin-version>3.14.0</maven-pmd-plugin-version>
-		<pmd-version>6.37.0</pmd-version>
+		<maven-pmd-plugin-version>3.15.0</maven-pmd-plugin-version>
+		<pmd-version>6.38.0</pmd-version>
 		<maven-surefire-report-plugin-version>3.0.0-M5</maven-surefire-report-plugin-version>
 		<spotbugs-maven-plugin-version>4.3.0</spotbugs-maven-plugin-version>
 		<spotbugs-version>4.3.0</spotbugs-version>
 		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
-		<maven-javadoc-plugin-version>3.3.0</maven-javadoc-plugin-version>
+		<maven-javadoc-plugin-version>3.3.1</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
 		<maven-assembly-plugin-version>3.3.0</maven-assembly-plugin-version>
 		<maven-jxr-plugin-version>3.1.1</maven-jxr-plugin-version>
@@ -45,8 +45,7 @@
 		<!-- plugin dependencies -->
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
-		<xstream-version>1.4.10</xstream-version>
-		<opencsv-version>3.10</opencsv-version>
+		<xstream-version>1.4.11</xstream-version>
 		<ddlutils-version>1.0</ddlutils-version>
 		<slf4j-version>1.7.30</slf4j-version>
 		<!-- build settings -->
@@ -265,12 +264,12 @@
 								<artifactId>ddlutils</artifactId>
 								<version>${ddlutils-version}</version>
 							</additionalDependency>
-							<additionalDependency>
+<!-- 							<additionalDependency>
 								<groupId>com.opencsv</groupId>
 								<artifactId>opencsv</artifactId>
 								<version>${opencsv-version}</version>
 							</additionalDependency>
-							<additionalDependency>
+ -->							<additionalDependency>
 								<groupId>org.apache.velocity</groupId>
 								<artifactId>velocity</artifactId>
 								<version>${velocity-version}</version>
