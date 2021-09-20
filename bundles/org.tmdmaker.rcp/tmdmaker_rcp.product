@@ -318,7 +318,6 @@
       <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
       <plugin id="org.eclipse.core.runtime.nl_ja" fragment="true"/>
       <plugin id="org.eclipse.draw2d"/>
-      <plugin id="org.eclipse.draw2d.nl_ja" fragment="true"/>
       <plugin id="org.eclipse.e4.core.commands"/>
       <plugin id="org.eclipse.e4.core.contexts"/>
       <plugin id="org.eclipse.e4.core.contexts.nl_ja" fragment="true"/>
@@ -516,7 +515,7 @@
       <feature id="org.eclipse.ecf.core.ssl.feature"/>
       <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
       <feature id="org.tmdmaker.plugin.feature" installMode="root"/>
-      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
+      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full"/>
    </features>
 
    <configurations>
