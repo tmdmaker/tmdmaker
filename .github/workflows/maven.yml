@@ -35,5 +35,5 @@ jobs:
         COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
       with:
         run: |
-          mvn -B -P 2021-09 verify -Dtycho.disableP2Mirrors=true
+          mvn -B -P 2021-09 verify
           mvn -B -P 2021-09 jacoco:report coveralls:report
