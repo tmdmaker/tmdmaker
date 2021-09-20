@@ -36,4 +36,5 @@ jobs:
       with:
         run: |
           mvn -B -P 2021-09 verify
+
           mvn -B -P 2021-09 jacoco:report coveralls:report
