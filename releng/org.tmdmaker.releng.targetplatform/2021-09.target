@@ -7,7 +7,7 @@
 			<unit id="org.eclipse.babel.nls_tools.gef_ja.feature.group" version="4.5.0.v20171231064042"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
+			<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
 			<unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
 			<unit id="org.hamcrest.integration" version="1.3.0.v201305210900"/>
 			<unit id="org.hamcrest.library" version="1.3.0.v201505072020"/>
@@ -29,11 +29,11 @@
 			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.25.0.v20210301-1429"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/technology/babel/update-site/R0.19.0/2021-06/"/>
+			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.19.0/2021-06/"/>
 			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.20.0.v20210630020001"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/eclipse/updates/4.21"/>
+			<repository location="https://download.eclipse.org/eclipse/updates/4.21"/>
 			<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.2.1400.v20210823-1805"/>
 			<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="4.21.0.v20210604-0630"/>
 			<unit id="org.eclipse.e4.rcp.feature.group" version="4.21.0.v20210906-0842"/>
@@ -414,6 +414,7 @@
 		<plugin id="org.eclipse.draw2d"/>
 		<plugin id="org.eclipse.draw2d.doc.isv"/>
 		<plugin id="org.eclipse.draw2d.source"/>
+		<plugin id="org.eclipse.draw2d.nl_ja"/>
 		<plugin id="org.eclipse.e4.core.commands" version="1.0.0.v20210507-1901"/>
 		<plugin id="org.eclipse.e4.core.commands" version="1.0.0.v20210507-1901"/>
 		<plugin id="org.eclipse.e4.core.commands" version="1.0.0.v20210507-1901"/>
