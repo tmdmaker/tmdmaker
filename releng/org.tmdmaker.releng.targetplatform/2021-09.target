@@ -29,10 +29,6 @@
 			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.25.0.v20210301-1429"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.19.0/2021-06/"/>
-			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.20.0.v20210630020001"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/eclipse/updates/4.21"/>
 			<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.2.1400.v20210823-1805"/>
 			<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="4.21.0.v20210604-0630"/>
@@ -50,6 +46,10 @@
 			<unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="3.1.0.202106041005"/>
 			<unit id="org.eclipse.swtbot.ide.feature.group" version="3.1.0.202106041005"/>
 			<unit id="org.eclipse.swtbot.generator.feature.feature.group" version="3.1.0.202106041005"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.19.1/2021-09/"/>
+			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.21.0.v20210925020001"/>
 		</location>
 		<location includeDependencyScope="compile" missingManifest="generate" type="Maven">
 			<groupId>com.opencsv</groupId>
