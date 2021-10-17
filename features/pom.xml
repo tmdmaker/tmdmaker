@@ -18,5 +18,6 @@
 		<module>org.tmdmaker.plugin.e3.feature</module>
 		<module>org.tmdmaker.rcp.feature</module>
 		<module>org.tmdmaker.extensions.scaffold.feature</module>
+		<module>org.eclipse.babel.nls_tools.gef_ja.feature</module>
 	</modules>
 </project>

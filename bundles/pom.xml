@@ -30,6 +30,8 @@
 		<module>org.tmdmaker.extensions</module>
 		<module>org.tmdmaker.ui</module>
 		<module>org.tmdmaker.ui.nl_ja</module>
+		<module>org.eclipse.draw2d.nl_ja</module>
+		<module>org.eclipse.gef.nl_ja</module>
 	</modules>
 
 </project>

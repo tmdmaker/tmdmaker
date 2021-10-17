@@ -450,7 +450,7 @@
 
    <features>
       <feature id="org.eclipse.e4.rcp"/>
-      <feature id="org.tmdmaker.rcp.feature"/>
+      <feature id="org.tmdmaker.rcp.feature" installMode="root"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.gef"/>
@@ -468,7 +468,7 @@
       <feature id="org.eclipse.justj.openjdk.hotspot.jre.full"/>
       <feature id="org.eclipse.ecf.filetransfer.httpclient45.feature"/>
       <feature id="org.tmdmaker.plugin.feature" installMode="root"/>
-      <feature id="org.eclipse.babel.nls_tools.gef_ja"/>
+      <feature id="org.eclipse.babel.nls_tools.gef_ja.feature"/>
    </features>
 
    <configurations>

@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-Name: org.eclipse.gef Japanese NLS Support
+Bundle-SymbolicName: org.eclipse.gef.nl_ja ;singleton=true
+Bundle-Version: 0.9.0.qualifier
+Bundle-Vendor: Eclipse.org
+Fragment-Host: org.eclipse.gef;bundle-version="3.11.0.201606061308"
