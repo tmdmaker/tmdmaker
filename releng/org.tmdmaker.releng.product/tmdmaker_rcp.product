@@ -14,7 +14,7 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>--add-modules=ALL-SYSTEM
+      <vmArgs>--add-modules=ALL-SYSTEM --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.desktop/java.beans=ALL-UNNAMED --illegal-access=warn
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

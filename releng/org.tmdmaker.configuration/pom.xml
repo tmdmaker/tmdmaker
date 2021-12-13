@@ -45,7 +45,7 @@
 		<!-- plugin dependencies -->
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
-		<xstream-version>1.4.11</xstream-version>
+		<xstream-version>1.4.18</xstream-version>
 		<ddlutils-version>1.0</ddlutils-version>
 		<slf4j-version>1.7.30</slf4j-version>
 		<!-- build settings -->
@@ -469,7 +469,7 @@
 							<classifier>${target-file}</classifier>
 						</artifact>
 					</target>
-					<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-11</executionEnvironment>
+					<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-17</executionEnvironment>
 					<environments>
 						<environment>
 							<os>win32</os>
