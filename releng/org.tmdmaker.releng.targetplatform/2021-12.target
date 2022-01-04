@@ -21,10 +21,6 @@
 			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.25.0.v20210301-1429"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.19.1/2021-09/"/>
-			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.21.0.v20210925020001"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/eclipse/updates/4.22"/>
 			<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.2.1500.v20211104-1730"/>
 			<unit id="org.eclipse.e4.rcp.feature.group" version="4.22.0.v20211123-0851"/>
@@ -46,6 +42,10 @@
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/justj/jres/17/updates/release/17.0.1"/>
 			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="17.0.1.v20211116-1657"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://archive.eclipse.org/technology/babel/update-site/R0.19.2/2021-12/"/>
+			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.22.0.v20211218020001"/>
 		</location>
 		<location includeDependencyScope="compile" missingManifest="generate" type="Maven">
 			<dependencies>
