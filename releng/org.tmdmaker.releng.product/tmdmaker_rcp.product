@@ -451,24 +451,22 @@
    <features>
       <feature id="org.eclipse.e4.rcp"/>
       <feature id="org.tmdmaker.rcp.feature" installMode="root"/>
-      <feature id="org.eclipse.emf.ecore"/>
-      <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.gef"/>
       <feature id="org.eclipse.draw2d"/>
       <feature id="org.eclipse.rcp"/>
-      <feature id="org.eclipse.core.runtime.feature"/>
-      <feature id="org.eclipse.equinox.core.feature"/>
       <feature id="org.eclipse.babel.nls_eclipse_ja"/>
-      <feature id="org.eclipse.equinox.p2.extras.feature"/>
-      <feature id="org.eclipse.equinox.p2.core.feature"/>
-      <feature id="org.eclipse.ecf.core.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.feature"/>
-      <feature id="org.eclipse.ecf.core.ssl.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
       <feature id="org.eclipse.justj.openjdk.hotspot.jre.full"/>
-      <feature id="org.eclipse.ecf.filetransfer.httpclient45.feature"/>
       <feature id="org.tmdmaker.plugin.feature" installMode="root"/>
       <feature id="org.eclipse.babel.nls_tools.gef_ja.feature"/>
+      <feature id="org.eclipse.emf.ecore" installMode="root"/>
+      <feature id="org.eclipse.emf.common" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient5.feature" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.core.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.core.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature" installMode="root"/>
    </features>
 
    <configurations>
