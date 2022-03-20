@@ -30,4 +30,4 @@ jobs:
       with:
         run: |
           mvn -e -B -P 2022-03 clean verify -Dtycho.disableP2Mirrors=false
-          mvn -B -P 2022-03 jacoco:report coveralls:report -D repoToken=${{ secrets.COVERALLS_TOKEN }} 
+          mvn -B -P 2022-03 jacoco:report coveralls:report 

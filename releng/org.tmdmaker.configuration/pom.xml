@@ -337,6 +337,11 @@
 					<groupId>org.eluder.coveralls</groupId>
 					<artifactId>coveralls-maven-plugin</artifactId>
 					<version>${coveralls-maven-plugin-version}</version>
+					<configuration>
+						<sourceDirectories>
+							<sourceDirectory>${basedir}/src/</sourceDirectory>
+						</sourceDirectories>
+					</configuration>
 					<dependencies>
 						<dependency>
 							<groupId>javax.xml.bind</groupId>
