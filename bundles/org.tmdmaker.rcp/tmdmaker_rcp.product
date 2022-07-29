@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="org.tmdmaker.rcp.product" application="org.tmdmaker.rcp.application" version="0.9.0" useFeatures="true" includeLaunchers="true">
+<product name="TMD-Maker for RCP" uid="tmdmaker.rcp.product" id="org.tmdmaker.rcp.product" application="org.tmdmaker.rcp.application" version="0.9.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/org.tmdmaker.rcp/icons/tmd_about.gif"/>

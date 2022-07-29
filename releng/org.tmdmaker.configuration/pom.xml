@@ -18,7 +18,7 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>2.7.0</tycho-version>
+		<tycho-version>2.7.4</tycho-version>
 		<jacoco-version>0.8.7</jacoco-version>
 		<antrun-version>3.0.0</antrun-version>
 		<sphinx-maven-plugin-version>2.10.0</sphinx-maven-plugin-version>
@@ -40,7 +40,7 @@
 		<maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
 		<maven-assembly-plugin-version>3.3.0</maven-assembly-plugin-version>
 		<maven-jxr-plugin-version>3.1.1</maven-jxr-plugin-version>
-		<xtend-version>2.26.0</xtend-version>
+		<xtend-version>2.27.0</xtend-version>
 		<license-maven-plugin-version>4.2.rc2</license-maven-plugin-version>
 		<!-- plugin dependencies -->
 		<velocity-version>1.7</velocity-version>
@@ -53,7 +53,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://www.tmdmaker.org</project-url>
-		<target-file>2022-03</target-file>
+		<target-file>2022-06</target-file>
 		<compiler-verion>1.8</compiler-verion>
 		<!-- Website dependencies version -->
 		<site-skin-version>2.2.4</site-skin-version>
@@ -88,6 +88,15 @@
 			</activation>
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>2022-06</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2022-06</target-file>
 			</properties>
 		</profile>
 		<profile>
@@ -190,18 +199,6 @@
 			<id>2018-09</id>
 			<properties>
 				<target-file>2018-09</target-file>
-			</properties>
-		</profile>
-		<profile>
-			<id>photon</id>
-			<properties>
-				<target-file>photon</target-file>
-			</properties>
-		</profile>
-		<profile>
-			<id>oxygen</id>
-			<properties>
-				<target-file>oxygen</target-file>
 			</properties>
 		</profile>
 	</profiles>
@@ -501,6 +498,11 @@
 							<os>macosx</os>
 							<ws>cocoa</ws>
 							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>aarch64</arch>
 						</environment>
 					</environments>
 					<dependency-resolution>
