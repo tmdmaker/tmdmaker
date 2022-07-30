@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org>
+ * Copyright 2009-2021 TMD-Maker Project <https://www.tmdmaker.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,12 +28,14 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
  */
 public class NewDiagramFile {
 	private SWTWorkbenchBot bot = new SWTWorkbenchBot();
+	private static final String WIZARD_TITLE_NAME = "Select a wizard";
 
 	public void create(final String projectName, final String fileName) throws Exception {
 		BotWait wait = new BotWait();
+
 		bot.menu("File").menu("New").menu("Other...").click();
-		bot.waitUntil(Conditions.shellIsActive("New"));
-		SWTBotShell shell = bot.shell("New");
+		bot.waitUntil(Conditions.shellIsActive(WIZARD_TITLE_NAME));
+		SWTBotShell shell = bot.shell(WIZARD_TITLE_NAME);
 		shell.activate();
 		wait.waitDefault();
 		SWTBotTree wizardTree = bot.tree();

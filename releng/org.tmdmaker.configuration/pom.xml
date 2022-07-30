@@ -4,61 +4,59 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tmdmaker</groupId>
 	<artifactId>org.tmdmaker.configuration</artifactId>
-	<version>0.9.0-SNAPSHOT</version>
+	<version>0.10.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<inceptionYear>2009</inceptionYear>
 
 	<name>TMD-Maker Release Engineering Configuration</name>
-	<description>TMD-Makerのビルド設定用</description>
+	<description>The build settings of TMD-Maker</description>
 
 	<organization>
 		<name>TMD-Maker Project</name>
-		<url>https://www.tmdmaker.org</url>
+		<url>${project-url}</url>
 	</organization>
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>1.5.1</tycho-version>
-		<jacoco-version>0.8.5</jacoco-version>
-		<antrun-version>1.8</antrun-version>
-		<sphinx-maven-plugin-version>2.6.0</sphinx-maven-plugin-version>
-		<maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
-		<maven-site-plugin-version>3.8.2</maven-site-plugin-version>
-		<wagon-ssh-version>3.3.4</wagon-ssh-version>
+		<tycho-version>2.7.4</tycho-version>
+		<jacoco-version>0.8.7</jacoco-version>
+		<antrun-version>3.0.0</antrun-version>
+		<sphinx-maven-plugin-version>2.10.0</sphinx-maven-plugin-version>
+		<maven-dependency-plugin-version>3.3.0</maven-dependency-plugin-version>
+		<maven-site-plugin-version>3.11.0</maven-site-plugin-version>
+		<wagon-ssh-version>3.5.1</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
-		<maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
-		<maven-checkstyle-plugin-version>3.1.0</maven-checkstyle-plugin-version>
-		<maven-pmd-plugin-version>3.12.0</maven-pmd-plugin-version>
-		<pmd-version>6.15.0</pmd-version>
-		<maven-surefire-report-plugin-version>3.0.0-M4</maven-surefire-report-plugin-version>
-		<spotbugs-maven-plugin-version>3.1.12.2</spotbugs-maven-plugin-version>
-		<spotbugs-version>3.1.12</spotbugs-version>
-		<taglist-maven-plugin-version>2.4</taglist-maven-plugin-version>
+		<maven-project-info-reports-plugin-version>3.2.2</maven-project-info-reports-plugin-version>
+		<maven-checkstyle-plugin-version>3.1.2</maven-checkstyle-plugin-version>
+		<checkstyle-version>10.1</checkstyle-version>
+		<maven-pmd-plugin-version>3.16.0</maven-pmd-plugin-version>
+		<pmd-version>6.43.0</pmd-version>
+		<maven-surefire-report-plugin-version>3.0.0-M5</maven-surefire-report-plugin-version>
+		<spotbugs-maven-plugin-version>4.5.3.0</spotbugs-maven-plugin-version>
+		<spotbugs-version>4.6.0</spotbugs-version>
+		<taglist-maven-plugin-version>3.0.0</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
-		<maven-javadoc-plugin-version>3.1.1</maven-javadoc-plugin-version>
-		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
-		<maven-assembly-plugin-version>3.2.0</maven-assembly-plugin-version>
-		<maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
-		<xtend-version>2.19.0</xtend-version>
-		<license-maven-plugin-version>3.0</license-maven-plugin-version>
+		<maven-javadoc-plugin-version>3.3.2</maven-javadoc-plugin-version>
+		<maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
+		<maven-assembly-plugin-version>3.3.0</maven-assembly-plugin-version>
+		<maven-jxr-plugin-version>3.1.1</maven-jxr-plugin-version>
+		<xtend-version>2.27.0</xtend-version>
+		<license-maven-plugin-version>4.2.rc2</license-maven-plugin-version>
 		<!-- plugin dependencies -->
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
-		<xstream-version>1.4.10</xstream-version>
-		<opencsv-version>2.3</opencsv-version>
+		<xstream-version>1.4.18</xstream-version>
 		<ddlutils-version>1.0</ddlutils-version>
-		<slf4j-version>1.7.26</slf4j-version>
+		<slf4j-version>1.7.30</slf4j-version>
 		<!-- build settings -->
-		<release-version>0.9.0</release-version>
+		<release-version>0.10.0</release-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://www.tmdmaker.org</project-url>
-		<target-file>2019-09</target-file>
+		<target-file>2022-06</target-file>
 		<compiler-verion>1.8</compiler-verion>
 		<!-- Website dependencies version -->
-		<reflow-velocity-tools-version>2.0.2</reflow-velocity-tools-version>
-		<fontawesomeVersion>5.4.1</fontawesomeVersion>
-		<popperVersion>1.14.3</popperVersion>
+		<site-skin-version>2.2.4</site-skin-version>
 		<!-- Other -->
 	</properties>
 
@@ -93,66 +91,114 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>2019-09</id>
+			<id>2022-06</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<properties>
+				<target-file>2022-06</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2022-03</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2022-03</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2021-12</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2021-12</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2021-09</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2021-09</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2021-06</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2021-06</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2021-03</id>
+			<properties>
+				<target-file>2021-03</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2020-12</id>
+			<properties>
+				<target-file>2020-12</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2020-09</id>
+			<properties>
+				<target-file>2020-09</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2020-06</id>
+			<properties>
+				<target-file>2020-06</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2020-03</id>
+			<properties>
+				<target-file>2020-03</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2019-12</id>
+			<properties>
+				<target-file>2019-12</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2019-09</id>
 			<properties>
 				<target-file>2019-09</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2019-06</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2019-06</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2019-03</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2019-03</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2018-12</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2018-12</target-file>
 			</properties>
 		</profile>
 		<profile>
 			<id>2018-09</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<target-file>2018-09</target-file>
-			</properties>
-		</profile>
-		<profile>
-			<id>photon</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<target-file>photon</target-file>
-			</properties>
-		</profile>
-		<profile>
-			<id>oxygen</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<target-file>oxygen</target-file>
 			</properties>
 		</profile>
 	</profiles>
@@ -183,8 +229,7 @@
 					<artifactId>maven-site-plugin</artifactId>
 					<version>${maven-site-plugin-version}</version>
 					<configuration>
-						<locales>ja</locales>
-						<inputEncoding>UTF-8</inputEncoding>
+ 						<inputEncoding>UTF-8</inputEncoding>
 						<outputEncoding>UTF-8</outputEncoding>
 					</configuration>
 					<executions>
@@ -206,10 +251,11 @@
 							<artifactId>velocity</artifactId>
 							<version>${velocity-version}</version>
 						</dependency>
+						<!-- Docs Maven Skin -->
 						<dependency>
-							<groupId>io.github.devacfr.maven.skins</groupId>
-							<artifactId>reflow-velocity-tools</artifactId>
-							<version>${reflow-velocity-tools-version}</version>
+							<groupId>com.bernardomg.maven.skins</groupId>
+							<artifactId>docs-maven-skin</artifactId>
+							<version>${site-skin-version}</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -233,12 +279,12 @@
 								<artifactId>ddlutils</artifactId>
 								<version>${ddlutils-version}</version>
 							</additionalDependency>
-							<additionalDependency>
-								<groupId>au.com.bytecode</groupId>
+<!-- 							<additionalDependency>
+								<groupId>com.opencsv</groupId>
 								<artifactId>opencsv</artifactId>
 								<version>${opencsv-version}</version>
 							</additionalDependency>
-							<additionalDependency>
+ -->							<additionalDependency>
 								<groupId>org.apache.velocity</groupId>
 								<artifactId>velocity</artifactId>
 								<version>${velocity-version}</version>
@@ -260,6 +306,16 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>${maven-resources-plugin-version}</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<nonFilteredFileExtensions>
+							<nonFilteredFileExtension>otf</nonFilteredFileExtension>
+							<nonFilteredFileExtension>eot</nonFilteredFileExtension>
+							<nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+							<nonFilteredFileExtension>woff</nonFilteredFileExtension>
+							<nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+						</nonFilteredFileExtensions>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -278,6 +334,13 @@
 					<groupId>org.eluder.coveralls</groupId>
 					<artifactId>coveralls-maven-plugin</artifactId>
 					<version>${coveralls-maven-plugin-version}</version>
+					<configuration>
+						<repoToken>${env.COVERALLS_TOKEN}</repoToken>
+                    	<sourceEncoding>UTF-8</sourceEncoding>
+						<sourceDirectories>
+							<sourceDirectory>${basedir}/src</sourceDirectory>
+						</sourceDirectories>
+					</configuration>
 					<dependencies>
 						<dependency>
 							<groupId>javax.xml.bind</groupId>
@@ -403,6 +466,7 @@
 				<configuration>
 					<compilerVersion>${compiler-verion}</compilerVersion>
 					<useProjectSettings>false</useProjectSettings>
+					<deriveReleaseCompilerArgumentFromTargetLevel>false</deriveReleaseCompilerArgumentFromTargetLevel>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -412,12 +476,13 @@
 				<configuration>
 					<target>
 						<artifact>
-							<groupId>tmdmaker</groupId>
+ 							<groupId>tmdmaker</groupId>
 							<artifactId>org.tmdmaker.releng.targetplatform</artifactId>
 							<version>${project.version}</version>
 							<classifier>${target-file}</classifier>
 						</artifact>
 					</target>
+					<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-17</executionEnvironment>
 					<environments>
 						<environment>
 							<os>win32</os>
@@ -433,6 +498,11 @@
 							<os>macosx</os>
 							<ws>cocoa</ws>
 							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>aarch64</arch>
 						</environment>
 					</environments>
 					<dependency-resolution>
@@ -469,7 +539,22 @@
 				<configuration>
 					<newVersion>${release-version}.qualifier</newVersion>
 				</configuration>
-			</plugin>			
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${maven-checkstyle-plugin-version}</version>
+				<configuration>
+					<configLocation>sun_check_eclipse.xml</configLocation>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyle-version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -513,10 +598,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${maven-checkstyle-plugin-version}</version>
-				<configuration>
-					<configLocation>sun_check_eclipse.xml</configLocation>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

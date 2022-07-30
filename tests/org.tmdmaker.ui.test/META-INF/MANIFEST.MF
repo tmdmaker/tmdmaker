@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker UI Test
 Bundle-SymbolicName: org.tmdmaker.ui.test
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 0.10.0.qualifier
 Fragment-Host: org.tmdmaker.ui
 Automatic-Module-Name: org.tmdmaker.ui.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -21,7 +21,6 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.apache.log4j,
  org.eclipse.ui.views,
  org.eclipse.swtbot.eclipse.core,
- org.eclipse.platform,
  org.eclipse.swtbot.e4.finder,
  org.hamcrest.library;bundle-version="1.3.0",
  org.tmdmaker.csv;bundle-version="0.9.0",

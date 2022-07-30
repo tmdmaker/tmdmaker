@@ -16,9 +16,9 @@
 	</poweredBy>
 
 	<skin>
-		<groupId>io.github.devacfr.maven.skins</groupId>
-		<artifactId>reflow-maven-skin</artifactId>
-		<version>2.0.2</version>
+		<groupId>com.bernardomg.maven.skins</groupId>
+		<artifactId>docs-maven-skin</artifactId>
+		<version>2.0.10</version>
 	</skin>
 
 	<body>
@@ -29,62 +29,39 @@
 		]]>
 		</head>
 		<links>
-			<item name="ダウンロード" href="https://osdn.net/projects/tmdmaker/releases/" />
+			<item name="Download" href="https://osdn.net/projects/tmdmaker/releases/" />
 		</links>
 
-		<menu name="ドキュメント" inherit="top">
-			<item name="リリースバージョン" >
-				<item name="マニュアル" href="./doc/index.html" />
-				<item name="よくある質問" href="./doc/faq.html" />
+		<menu name="Document" inherit="top">
+			<item name="Release Version" >
+				<item name="Manual" href="./doc/index.html" />
+				<item name="FAQ" href="./doc/faq.html" />
 			</item>
 			<item name="Latest" href="https://tmdmaker.readthedocs.io/ja/latest/index.html" />
 	    </menu>
 
-		<menu name="プロジェクト" inherit="top">
+		<menu name="Lang" inherit="top">
+			<item name="en" href="./" />
+			<item name="ja" href="./ja/" />
+	    </menu>
+
+		<menu name="Project" inherit="top">
 			<item name="GitHub" href="https://github.com/tmdmaker/tmdmaker/" />
 		</menu>
 
-	    <menu name="プロジェクト文書" ref="reports" inherit="bottom" />
+	    <menu name="Project Document" ref="reports" inherit="bottom" />
 
 	</body>
 
 	<custom>
-		<reflowSkin>
-			<absoluteResourceURL>https://www.tmdmaker.org</absoluteResourceURL>
-			<protocolRelativeURLs>true</protocolRelativeURLs>
-			<smoothScroll>true</smoothScroll>
-			<highlightJs>true</highlightJs>	
-			<brand>
-				<name>TMD-Maker</name>
-				<href>https://www.tmdmaker.org</href>
-			</brand>
-			<slogan> <![CDATA[
-			<p>ビジネス解析とデータベース設計を同時に実現する</p>
-			<p />
-			<a href='https://travis-ci.org/tmdmaker/tmdmaker'><img src='https://travis-ci.org/tmdmaker/tmdmaker.svg?branch=develop' alt='Build Status' /></a>
-			<a href='https://coveralls.io/github/tmdmaker/tmdmaker?branch=develop'><img src='https://coveralls.io/repos/github/tmdmaker/tmdmaker/badge.svg?branch=develop' alt='Coverage Status' /></a>
-			]]>
-			</slogan>
-			<titleTemplate>%2$s | %1$s</titleTemplate>
-			<toc>top</toc>
-			<navbar filterMenu="ドキュメント|プロジェクト|プロジェクト文書"></navbar>
-			<bottomNav>
-        		<column>ドキュメント</column>
-        		<column>プロジェクト文書</column>
-			</bottomNav>
-			<breadcrumbs>false</breadcrumbs>
-			<pages>
-        		<index>
-        			<toc>false</toc>
-					<markPageHeader>false</markPageHeader>
-					<sections>
-						<carousel />
-						<columns>2</columns>
-						<body />
-						<sidebar />
-					</sections>
-				</index>
-			</pages>
-		</reflowSkin>
+		<skinConfig>
+			<twitterSite>@TMDMakerTweet</twitterSite>
+			<topNav>
+            <menu>Document</menu>
+            <menu>Project</menu>
+            <menu>Project Document</menu>
+            <menu>Lang</menu>
+			</topNav>
+		</skinConfig>
 	</custom>
 </project>

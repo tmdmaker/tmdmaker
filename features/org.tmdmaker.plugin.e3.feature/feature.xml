@@ -2,7 +2,7 @@
 <feature
       id="org.tmdmaker.plugin.e3.feature"
       label="TMD-Maker Plug-in for Eclipse3.x"
-      version="0.9.0.qualifier"
+      version="0.10.0.qualifier"
       provider-name="TMD-Maker Project"
       plugin="org.tmdmaker">
 

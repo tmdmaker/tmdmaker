@@ -20,10 +20,14 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.tmdmaker.ui.test.AbstractTester;
 
 /**
@@ -41,6 +45,8 @@ public class OutlineViewTester extends AbstractTester {
 	@Override
 	protected void doTest() {
 		SWTBotView outlineBot = bot.viewByTitle("Outline");
+		maximize(outlineBot);
+
 		SWTBotTree viewTree = outlineBot.bot().tree();
 		SWTBotTreeItem[] identifierItems = viewTree.expandNode("顧客").expandNode("Identifier").getItems();
 		assertEquals(identifierItems.length, 1);
@@ -92,6 +98,29 @@ public class OutlineViewTester extends AbstractTester {
 		viewTree.expandNode("顧客").expandNode("Key definitions").getNode(0).click();
 		wait.waitDefault();
 
+		normalize(outlineBot);
+	}
+
+	protected void normalize(SWTBotView outlineBot) {
+		VoidResult normalizeShell = new VoidResult() {
+			@Override
+			public void run() {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+						.setPartState(outlineBot.getReference(), IWorkbenchPage.STATE_RESTORED);
+			}
+		};
+		UIThreadRunnable.syncExec(normalizeShell);
+	}
+
+	protected void maximize(SWTBotView outlineBot) {
+		VoidResult maximizeShell = new VoidResult() {
+			@Override
+			public void run() {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+						.setPartState(outlineBot.getReference(), IWorkbenchPage.STATE_MAXIMIZED);
+			}
+		};
+		UIThreadRunnable.syncExec(maximizeShell);
 	}
 
 }

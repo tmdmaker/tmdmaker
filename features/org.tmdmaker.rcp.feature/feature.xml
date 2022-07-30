@@ -2,7 +2,7 @@
 <feature
       id="org.tmdmaker.rcp.feature"
       label="TMD-Maker RCP Feature"
-      version="0.9.0.qualifier"
+      version="0.10.0.qualifier"
       provider-name="TMD-Maker Project"
       plugin="org.tmdmaker.rcp">
 

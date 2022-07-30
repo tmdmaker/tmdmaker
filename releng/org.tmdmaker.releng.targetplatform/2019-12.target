@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<target name="Running Platform">
+	<locations>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://archive.eclipse.org/technology/babel/update-site/R0.15.1/mars"/>
+			<unit id="org.eclipse.babel.nls_tools.gef_ja.feature.group" version="4.5.0.v20171231064042"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/technology/swtbot/releases/2.8.0"/>
+			<unit id="org.eclipse.swtbot.eclipse.test.junit.feature.group" version="2.8.0.201906121535"/>
+			<unit id="org.eclipse.swtbot.generator.feature.feature.group" version="2.8.0.201906121535"/>
+			<unit id="org.eclipse.swtbot.ide.feature.group" version="2.8.0.201906121535"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
+			<unit id="org.apache.batik.pdf" version="1.6.0.v201105071520"/>
+			<unit id="org.apache.batik.extension" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.batik.svggen" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.batik.swing" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.batik.transcoder" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
+			<unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
+			<unit id="org.slf4j.jcl" version="1.7.2.v20130115-1340"/>
+			<unit id="org.apache.commons.beanutils" version="1.8.0.v201205091237"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/eclipse/updates/4.14"/>
+			<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.2.700.v20191122-2104"/>
+			<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="4.14.0.v20191115-2149"/>
+			<unit id="org.eclipse.e4.rcp.feature.group" version="4.14.0.v20191204-0601"/>
+			<unit id="org.eclipse.equinox.executable" version="3.8.600.v20191014-2025"/>
+			<unit id="org.eclipse.equinox.executable.feature.group" version="3.8.600.v20191014-2025"/>
+			<unit id="org.eclipse.pde.api.tools.ee.feature.feature.group" version="1.0.700.v20190929-1236"/>
+			<unit id="org.eclipse.platform.feature.group" version="4.14.0.v20191210-0610"/>
+			<unit id="org.eclipse.platform.sdk" version="4.14.0.I20191210-0610"/>
+			<unit id="org.eclipse.rcp.feature.group" version="4.14.0.v20191210-0610"/>
+			<unit id="org.eclipse.sdk.ide" version="4.14.0.I20191210-0610"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/releases/2019-12"/>
+			<unit id="org.eclipse.emf.sdk.feature.group" version="2.20.0.v20191028-0905"/>
+			<unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
+			<unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="2.8.0.201906121535"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.20.0"/>
+			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.20.0.v20191202-1256"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.17.1/2019-12/"/>
+			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.14.0.v20200113020001"/>
+		</location>
+	</locations>
+</target>

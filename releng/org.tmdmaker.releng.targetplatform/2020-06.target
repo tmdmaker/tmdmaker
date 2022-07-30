@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<target name="Running Platform">
+	<locations>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://archive.eclipse.org/technology/babel/update-site/R0.15.1/mars"/>
+			<unit id="org.eclipse.babel.nls_tools.gef_ja.feature.group" version="4.5.0.v20171231064042"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
+			<unit id="org.apache.batik.pdf" version="1.6.0.v201105071520"/>
+			<unit id="org.apache.batik.extension" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.batik.svggen" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.batik.swing" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.batik.transcoder" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
+			<unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
+			<unit id="org.slf4j.jcl" version="1.7.2.v20130115-1340"/>
+			<unit id="org.apache.commons.beanutils" version="1.8.0.v201205091237"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/eclipse/updates/4.16"/>
+			<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.2.900.v20200525-1407"/>
+			<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="4.16.0.v20200522-1402"/>
+			<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.19.300.v20200525-1407"/>
+			<unit id="org.eclipse.equinox.sdk.feature.group" version="3.20.200.v20200528-0603"/>
+			<unit id="org.eclipse.platform.sdk" version="4.16.0.I20200604-0540"/>
+			<unit id="org.eclipse.rcp.feature.group" version="4.16.0.v20200604-0951"/>
+			<unit id="org.eclipse.rcp.sdk.id" version="4.16.0.I20200604-0540"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/releases/2020-06"/>
+			<unit id="org.eclipse.emf.sdk.feature.group" version="2.22.0.v20200519-1135"/>
+			<unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
+			<unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="3.0.0.202006031738"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.22.0"/>
+			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.22.0.v20200602-1533"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.18.0/2020-06/"/>
+			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.16.0.v20200711020001"/>
+		</location>
+	</locations>
+	<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"/>
+</target>

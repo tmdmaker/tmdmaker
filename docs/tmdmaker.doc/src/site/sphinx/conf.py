@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org>
+# Copyright 2009-2022 TMD-Maker Project <https://www.tmdmaker.org>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,10 +34,10 @@ source_encoding = 'utf-8-sig'
 master_doc = 'index'
 
 project = 'TMD-Maker'
-copyright = '2019, TMD-Maker Project'
+copyright = '2022, TMD-Maker Project'
 author = 'TMD-Maker Project'
-version = '0.9'
-release = '0.9.0-SNAPSHOT'
+version = '0.10'
+release = '0.10.0-SNAPSHOT'
 
 language = 'ja'
 

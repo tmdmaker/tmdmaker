@@ -30,6 +30,10 @@ import org.tmdmaker.model.persistence.Serializer;
 import org.tmdmaker.persistence.handler.SerializerHandler;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
+import com.thoughtworks.xstream.security.NoTypePermission;
+import com.thoughtworks.xstream.security.NullPermission;
+import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 
 /**
  * XStreamを使ったTMDシリアライズ用クラス
@@ -92,6 +96,9 @@ public class XStreamSerializer implements Serializer {
 	 */
 	private String serializeAsString(Object obj, ClassLoader loader) {
 		XStream xstream = new XStream();
+		xstream .addPermission(NullPermission.NULL);
+		xstream .addPermission(PrimitiveTypePermission.PRIMITIVES); 
+		xstream.addPermission(AnyTypePermission.ANY);
 		xstream.setClassLoader(loader);
 		String result = "<?xml version=\"1.0\" encoding=\"" + ENCODING + "\"?>\n" + xstream.toXML(obj);
 
@@ -177,6 +184,9 @@ public class XStreamSerializer implements Serializer {
 	 */
 	private Object deserialize(InputStream in, ClassLoader loader) throws UnsupportedEncodingException {
 		XStream xstream = new XStream();
+		xstream.addPermission(NullPermission.NULL);
+		xstream.addPermission(PrimitiveTypePermission.PRIMITIVES); 
+		xstream.addPermission(AnyTypePermission.ANY);
 		xstream.setClassLoader(loader);
 
 		return xstream.fromXML(new InputStreamReader(in, ENCODING));

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker's ImageGenerator
 Bundle-SymbolicName: org.tmdmaker.imagegenerator;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 0.10.0.qualifier
 Bundle-Activator: org.tmdmaker.imagegenerator.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -15,16 +15,12 @@ Require-Bundle: org.eclipse.ui,
  org.apache.batik.dom;bundle-version="1.6.1",
  org.apache.batik.transcoder;bundle-version="1.6.0",
  org.apache.batik.svggen;bundle-version="1.6.0",
- org.apache.batik.pdf;bundle-version="1.6.0"
+ org.apache.batik.pdf;bundle-version="1.6.0",
+ wrapped.com.twelvemonkeys.imageio.imageio-tiff;bundle-version="3.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: TMD-Maker Project
-Bundle-ClassPath: .,
- lib/imageio-tiff-3.4.1.jar,
- lib/imageio-metadata-3.4.1.jar,
- lib/imageio-core-3.4.1.jar,
- lib/common-lang-3.4.1.jar,
- lib/common-io-3.4.1.jar
+Bundle-ClassPath: .
 Export-Package: org.eclipse.gmf.runtime.common.ui.util;x-internal:=true,
  org.eclipse.gmf.runtime.draw2d.ui.figures;x-internal:=true,
  org.eclipse.gmf.runtime.draw2d.ui.graphics;x-internal:=true,
@@ -38,7 +34,7 @@ Export-Package: org.eclipse.gmf.runtime.common.ui.util;x-internal:=true,
  org.eclipse.gmf.runtime.draw2d.ui.render.internal;x-internal:=true,
  org.eclipse.gmf.runtime.draw2d.ui.render.internal.factory;x-internal:=true,
  org.eclipse.gmf.runtime.draw2d.ui.render.internal.image;x-internal:=true,
- org.tmdmaker.imagegenerator,
+ org.tmdmaker.imagegenerator;uses:="org.osgi.framework,org.eclipse.draw2d,org.eclipse.ui.plugin",
  org.tmdmaker.imagegenerator.generator;x-internal:=true,
  org.tmdmaker.imagegenerator.generator.converter;x-internal:=true
 Automatic-Module-Name: tmdmaker.imagegenerator

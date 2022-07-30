@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2019 TMD-Maker Project <https://www.tmdmaker.org>
+ * Copyright 2009-2021 TMD-Maker Project <https://www.tmdmaker.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package org.tmdmaker.importer.csv;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +34,8 @@ import org.tmdmaker.core.model.parts.ModelName;
 import org.tmdmaker.csv.Messages;
 import org.tmdmaker.model.importer.FileImporter;
 
-import au.com.bytecode.opencsv.CSVReader;
+import com.opencsv.CSVReader;
+
 
 /**
  * エンティティをCSVファイルからインポートするクラス
@@ -64,7 +64,7 @@ public class EntityFileImporter implements FileImporter {
 	 */
 	@Override
 	public List<AbstractEntityModel> importEntities(String filePath)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 		CSVReader reader = new CSVReader(new BufferedReader(new FileReader(filePath)));
 		String[] nextLine;
 		AbstractEntityModel l = null;

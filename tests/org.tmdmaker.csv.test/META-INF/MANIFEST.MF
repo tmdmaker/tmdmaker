@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker CSV Test
 Bundle-SymbolicName: org.tmdmaker.csv.test
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 0.10.0.qualifier
 Fragment-Host: org.tmdmaker.csv;bundle-version="0.9.0"
 Automatic-Module-Name: org.tmdmaker.csv.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
