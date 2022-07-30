@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>tmdmaker</groupId>
 		<artifactId>org.tmdmaker.configuration</artifactId>
-		<version>0.9.0-SNAPSHOT</version>
+		<version>0.10.0-SNAPSHOT</version>
 		<relativePath>./releng/org.tmdmaker.configuration</relativePath>
 	</parent>
 
@@ -87,4 +87,5 @@
 	</build>
 
 
+<version>0.10.0-SNAPSHOT</version>
 </project>

@@ -12,25 +12,14 @@ TMD-Makerは、ほぼ全てのプラットフォームで動作可能なクラ�
 
    もしもあなたの環境に対応したファイルがなければ、 `新規チケット <https://ja.osdn.net/ticket/newticket.php?group_id=4743>`_ でリクエストをください。
 
--  Java 6
-   Runtime以降（セキュリティを考慮してJava8以降の最新版をお勧めします）
-
 新規インストール
 --------
 
-1. Java Runtimeのインストール
-
-   `Javaのサイト <https://www.java.com/ja/download/>`_ から各自の環境に対応するファイルをダウンロードする。
-
-   ダウンロードしたファイルをダブルクリックして、あとは指示に従って進めればインストールできるでしょう。
-
-   既にインストール済みの人は、さっさと先に進みましょう。
-
-2. TMD-Makerのインストール
+1. TMD-Makerのインストール
 
    `tmdmakerのダウンロードサイト <https://ja.osdn.net/projects/tmdmaker/releases/>`_ で各自の環境に合ったファイルを選んでダウンロードしたら、ダウンロードしたファイルを解凍して任意の場所に置く。
 
-3. TMD-Makerの起動
+2. TMD-Makerの起動
 
    解凍したフォルダを開いて、tmdmaker.exeをダブルクリックする(mac版はTMD-Maker.app)。
 

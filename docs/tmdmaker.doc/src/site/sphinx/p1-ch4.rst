@@ -10,13 +10,13 @@ TMD-Maker Pluginは、EclipseのPluginです。普段Eclipseを使用してい�
 
    恐らくJava6以降が動作するOSなら動作します
 
--  Java 6 Runtime　または Java 6 SDK
-   以降（セキュリティを考慮してJava8以降の最新版をお勧めします）
+-  Java 8 Runtime　または Java 8 SDK
+   以降（セキュリティを考慮してJava11以降の最新版をお勧めします）
 
--  Eclipse 3.4 以上（4.x以降推奨）
+-  Eclipse 4.x以降
 
    現在、Eclipse
-   4.10.0(2018-12)で開発しています。またPluginの動作確認では、バージョン3.4.2以降を使用していますので、多分バージョン3.5以降と4.2以降で動作します。もしかしたらまだバージョン3.3でも動作するかも知れません。
+   2022-06で開発しています。またPluginの動作確認では、バージョン3.4.2以降を使用していましたので、もしかしたらまだバージョン3系でも動作するかも知れません。
 
 -  GEF(Eclipse Graphical Editing Framework) 
 
