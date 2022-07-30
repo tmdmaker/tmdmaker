@@ -19,12 +19,12 @@ TMとは、ビジネスを解析しながらデータベース構造も同時に
 ## Requirements
 
 ### Java Application(Eclipse RCP)
-- Nothing. TMD-Maker includes Java11 JRE.
+- Nothing. TMD-Maker includes Java17 JRE.
 
 ### Eclipse Plugin
-- java6 or later(java8 or java11 is recommended).
+- java8 or later(java11 is recommended).
 
-- eclipse 3.4 or later(eclipse 4.x is recommended).
+- eclipse 4.x.
 
 - GEF(MVC) 3.x（Eclipse Graphical Editing Framework）.
 
@@ -40,7 +40,7 @@ git clone https://github.com/tmdmaker/tmdmaker.git
 
 cd tmdmaker
 
-mvn -P 2021-06 clean verify 
+mvn -P 2022-06 clean verify 
 ```
 
 ## Installation
@@ -75,4 +75,3 @@ ASL
 ## Alternatives
 - [TER-MINE](https://www.its-inc.co.jp/products/index.html)
 - [modebi](http://www.modebi.jp/)
-- [freeThinker](http://members3.jcom.home.ne.jp/4054315601/tools.html) missing?
