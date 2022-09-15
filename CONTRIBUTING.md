@@ -6,13 +6,11 @@
 
 2.Install Eclipse. Latest 4.x is recommended.
 
-3.Install Tycho Configurator from Marketplace or Preferences/Maven/Discovery.
-
-4.Change target platform.
+3.Change target platform.
 
   Open tmdmaker.releng.targetplatform/2021-06.target. and Click "Set as Target Platform".
 
-5.(Optional) Install plugins. 
+4.(Optional) Install plugins. 
 - PropertiesEditor 
 
   http://propedit.sourceforge.jp/eclipse/updates/
