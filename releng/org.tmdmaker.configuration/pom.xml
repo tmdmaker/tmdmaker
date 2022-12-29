@@ -96,7 +96,7 @@
 				<jdk>17</jdk>
 			</activation>
 			<properties>
-				<jvm-flags>--add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED</jvm-flags>
+				<jvm-flags>--add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.desktop/java.beans=ALL-UNNAMED</jvm-flags>
 			</properties>
 		</profile>
 		<profile>
