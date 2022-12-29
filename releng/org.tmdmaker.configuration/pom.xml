@@ -100,6 +100,15 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>2022-12</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2022-12</target-file>
+			</properties>
+		</profile>
+		<profile>
 			<id>2022-09</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
