@@ -18,29 +18,29 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>3.0.1</tycho-version>
+		<tycho-version>3.0.4</tycho-version>
 		<jacoco-version>0.8.8</jacoco-version>
 		<antrun-version>3.1.0</antrun-version>
 		<sphinx-maven-plugin-version>2.10.0</sphinx-maven-plugin-version>
-		<maven-dependency-plugin-version>3.3.0</maven-dependency-plugin-version>
+		<maven-dependency-plugin-version>3.5.0</maven-dependency-plugin-version>
 		<maven-site-plugin-version>3.12.1</maven-site-plugin-version>
-		<wagon-ssh-version>3.5.2</wagon-ssh-version>
+		<wagon-ssh-version>3.5.3</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
-		<maven-project-info-reports-plugin-version>3.4.1</maven-project-info-reports-plugin-version>
-		<maven-checkstyle-plugin-version>3.2.0</maven-checkstyle-plugin-version>
-		<checkstyle-version>10.3.3</checkstyle-version>
-		<maven-pmd-plugin-version>3.19.0</maven-pmd-plugin-version>
-		<pmd-version>6.49.0</pmd-version>
-		<maven-surefire-report-plugin-version>3.0.0-M7</maven-surefire-report-plugin-version>
-		<spotbugs-maven-plugin-version>4.7.2.0</spotbugs-maven-plugin-version>
-		<spotbugs-version>4.7.2</spotbugs-version>
+		<maven-project-info-reports-plugin-version>3.4.2</maven-project-info-reports-plugin-version>
+		<maven-checkstyle-plugin-version>3.2.1</maven-checkstyle-plugin-version>
+		<checkstyle-version>10.9.2</checkstyle-version>
+		<maven-pmd-plugin-version>3.20.0</maven-pmd-plugin-version>
+		<pmd-version>6.55.0</pmd-version>
+		<maven-surefire-report-plugin-version>3.0.0</maven-surefire-report-plugin-version>
+		<spotbugs-maven-plugin-version>4.7.3.2</spotbugs-maven-plugin-version>
+		<spotbugs-version>4.7.3</spotbugs-version>
 		<taglist-maven-plugin-version>3.0.0</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
-		<maven-javadoc-plugin-version>3.4.1</maven-javadoc-plugin-version>
+		<maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
 		<maven-resources-plugin-version>3.3.0</maven-resources-plugin-version>
-		<maven-assembly-plugin-version>3.4.2</maven-assembly-plugin-version>
+		<maven-assembly-plugin-version>3.5.0</maven-assembly-plugin-version>
 		<maven-jxr-plugin-version>3.3.0</maven-jxr-plugin-version>
-		<xtend-version>2.29.0</xtend-version>
+		<xtend-version>2.30.0</xtend-version>
 		<license-maven-plugin-version>4.2.rc3</license-maven-plugin-version>
 		<!-- plugin dependencies -->
 		<velocity-version>1.7</velocity-version>
@@ -53,7 +53,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<project-url>https://www.tmdmaker.org</project-url>
-		<target-file>2022-12</target-file>
+		<target-file>2023-06</target-file>
 		<compiler-verion>17</compiler-verion>
 		<!-- Website dependencies version -->
 		<site-skin-version>2.2.4</site-skin-version>
@@ -97,6 +97,24 @@
 			</activation>
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.desktop/java.beans=ALL-UNNAMED</jvm-flags>
+			</properties>
+		</profile>
+		<profile>
+			<id>2023-06</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2023-06</target-file>
+			</properties>
+		</profile>
+		<profile>
+			<id>2023-03</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<target-file>2023-03</target-file>
 			</properties>
 		</profile>
 		<profile>

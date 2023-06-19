@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<target includeMode="feature" name="Running Platform">
+	<locations>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
+			<unit id="org.apache.commons.lang" version="2.6.0.v201404270220"/>
+			<unit id="org.apache.batik.extension" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.batik.pdf" version="1.6.0.v201105071520"/>
+			<unit id="org.apache.batik.svggen" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.batik.swing" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.batik.transcoder" version="1.6.0.v201011041432"/>
+			<unit id="org.apache.commons.beanutils" version="1.8.0.v201205091237"/>
+			<unit id="org.apache.commons.collections.source" version="3.2.2.v201511171945"/>
+			<unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
+			<unit id="org.hamcrest.integration" version="1.3.0.v201305210900"/>
+			<unit id="org.junit" version="4.12.0.v201504281640"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.20.0/2022-12/"/>
+			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.26.0.v20230220105658"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.30.0"/>
+			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.30.0.v20230227-1344"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/justj/jres/17/updates/release/17.0.6"/>
+			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="17.0.6.v20230125-1136"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/eclipse/updates/4.28"/>
+			<unit id="org.eclipse.e4.core.tools.feature.source.feature.group" version="4.28.0.v20230510-1239"/>
+			<unit id="org.eclipse.equinox.sdk.feature.group" version="3.23.800.v20230523-2142"/>
+			<unit id="org.eclipse.rcp.feature.group" version="4.28.0.v20230605-0440"/>
+			<unit id="org.eclipse.swt.tools.feature.feature.group" version="3.109.0.v20230502-1350"/>
+			<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.24.0.v20230523-2142"/>
+			<unit id="org.eclipse.equinox.executable" version="3.8.2100.v20230415-0944"/>
+			<unit id="org.eclipse.equinox.executable.feature.group" version="3.8.2100.v20230415-0944"/>
+			<unit id="org.eclipse.equinox.p2.rcp.feature.feature.group" version="1.4.2000.v20230510-1208"/>
+			<unit id="org.eclipse.rcp.sdk.id" version="4.28.0.I20230605-0440"/>
+			<unit id="org.eclipse.sdk.feature.group" version="4.28.0.v20230605-0440"/>
+			<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.4.0.v20230523-2142"/>
+			<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.11.2000.v20230510-1208"/>
+			<unit id="org.eclipse.platform.ide" version="4.28.0.I20230605-0440"/>
+			<unit id="org.eclipse.platform.sdk" version="4.28.0.I20230605-0440"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/releases/2023-06"/>
+			<unit id="org.eclipse.gef.sdk.feature.group" version="3.16.0.202306071707"/>
+			<unit id="org.eclipse.swtbot.eclipse.feature.group" version="4.1.0.202306071420"/>
+			<unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="4.1.0.202306071420"/>
+			<unit id="org.eclipse.swtbot.feature.group" version="4.1.0.202306071420"/>
+			<unit id="org.eclipse.swtbot.ide.feature.group" version="4.1.0.202306071420"/>
+		</location>
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>com.opencsv</groupId>
+					<artifactId>opencsv</artifactId>
+					<version>3.10</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+		</location>
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>com.twelvemonkeys.imageio</groupId>
+					<artifactId>imageio-tiff</artifactId>
+					<version>3.7.0</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+		</location>
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.velocity</groupId>
+					<artifactId>velocity</artifactId>
+					<version>1.7</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+		</location>
+	</locations>
+</target>

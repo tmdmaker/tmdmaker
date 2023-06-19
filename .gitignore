@@ -3,3 +3,4 @@ workspace
 target
 bin
 /velocity.log
+.tycho-consumer-pom.xml

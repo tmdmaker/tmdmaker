@@ -284,7 +284,7 @@
    <extension
          point="org.eclipse.ui.intro.config">
       <config
-            content="%welcome.page"
+            content="introContent.xml"
             id="tmdmaker.rcp.config"
             introId="tmdmaker.rcp.intro">
          <presentation
