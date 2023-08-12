@@ -18,34 +18,34 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>3.0.4</tycho-version>
-		<jacoco-version>0.8.8</jacoco-version>
+		<tycho-version>4.0.1</tycho-version>
+		<jacoco-version>0.8.10</jacoco-version>
 		<antrun-version>3.1.0</antrun-version>
 		<sphinx-maven-plugin-version>2.10.0</sphinx-maven-plugin-version>
-		<maven-dependency-plugin-version>3.5.0</maven-dependency-plugin-version>
-		<maven-site-plugin-version>3.12.1</maven-site-plugin-version>
+		<maven-dependency-plugin-version>3.6.0</maven-dependency-plugin-version>
+		<maven-site-plugin-version>4.0.0-M8</maven-site-plugin-version>
 		<wagon-ssh-version>3.5.3</wagon-ssh-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
-		<maven-project-info-reports-plugin-version>3.4.2</maven-project-info-reports-plugin-version>
-		<maven-checkstyle-plugin-version>3.2.1</maven-checkstyle-plugin-version>
+		<maven-project-info-reports-plugin-version>3.4.5</maven-project-info-reports-plugin-version>
+		<maven-checkstyle-plugin-version>3.3.0</maven-checkstyle-plugin-version>
 		<checkstyle-version>10.9.2</checkstyle-version>
-		<maven-pmd-plugin-version>3.20.0</maven-pmd-plugin-version>
+		<maven-pmd-plugin-version>3.21.0</maven-pmd-plugin-version>
 		<pmd-version>6.55.0</pmd-version>
-		<maven-surefire-report-plugin-version>3.0.0</maven-surefire-report-plugin-version>
+		<maven-surefire-report-plugin-version>3.1.2</maven-surefire-report-plugin-version>
 		<spotbugs-maven-plugin-version>4.7.3.2</spotbugs-maven-plugin-version>
 		<spotbugs-version>4.7.3</spotbugs-version>
 		<taglist-maven-plugin-version>3.0.0</taglist-maven-plugin-version>
 		<jdepend-maven-plugin-version>2.0</jdepend-maven-plugin-version>
 		<maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
-		<maven-resources-plugin-version>3.3.0</maven-resources-plugin-version>
-		<maven-assembly-plugin-version>3.5.0</maven-assembly-plugin-version>
+		<maven-resources-plugin-version>3.3.1</maven-resources-plugin-version>
+		<maven-assembly-plugin-version>3.6.0</maven-assembly-plugin-version>
 		<maven-jxr-plugin-version>3.3.0</maven-jxr-plugin-version>
-		<xtend-version>2.30.0</xtend-version>
+		<xtend-version>2.32.0.M2</xtend-version>
 		<license-maven-plugin-version>4.2.rc3</license-maven-plugin-version>
 		<!-- plugin dependencies -->
 		<velocity-version>1.7</velocity-version>
 		<jaxb-api-version>2.4.0-b180830.0359</jaxb-api-version>
-		<xstream-version>1.4.19</xstream-version>
+		<xstream-version>1.4.20</xstream-version>
 		<ddlutils-version>1.0</ddlutils-version>
 		<slf4j-version>1.7.30</slf4j-version>
 		<!-- build settings -->
@@ -572,7 +572,7 @@
   					<product>org.tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
 					<argLine>
-						${tycho.testArgLine} -Xms40m -Xmx1G ${jvm-flags} ${os-jvm-flags}
+						${tycho.testArgLine} -Xms40m -Xmx2G ${jvm-flags} ${os-jvm-flags}
 					</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>

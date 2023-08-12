@@ -21,14 +21,6 @@
 			<unit id="org.eclipse.babel.nls_eclipse_ja.feature.group" version="4.26.0.v20230220105658"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.30.0"/>
-			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.30.0.v20230227-1344"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/justj/jres/17/updates/release/17.0.6"/>
-			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="17.0.6.v20230125-1136"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/eclipse/updates/4.28"/>
 			<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.4.0.v20230523-2142"/>
 			<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.24.0.v20230523-2142"/>
@@ -49,6 +41,14 @@
 			<unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="4.1.0.202306071420"/>
 			<unit id="org.eclipse.swtbot.feature.group" version="4.1.0.202306071420"/>
 			<unit id="org.eclipse.swtbot.ide.feature.group" version="4.1.0.202306071420"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/justj/jres/17/updates/release"/>
+			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="17.0.7.v20230425-1502"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.31.0"/>
+			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.31.0.v20230529-0659"/>
 		</location>
 		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" missingManifest="generate" type="Maven">
 			<dependencies>
