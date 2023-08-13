@@ -22,7 +22,7 @@ TMとは、ビジネスを解析しながらデータベース構造も同時に
 - Nothing. TMD-Maker includes Java17 JRE.
 
 ### Eclipse Plugin
-- java8 or later(java11 is recommended).
+- java8 or later(java17 is recommended).
 
 - eclipse 4.x.
 
@@ -40,7 +40,7 @@ git clone https://github.com/tmdmaker/tmdmaker.git
 
 cd tmdmaker
 
-mvn -P 2022-12 clean verify 
+mvn -P 2023-06 clean verify 
 ```
 
 ## Installation
