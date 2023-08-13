@@ -27,7 +27,7 @@
 					<execution>
 						<phase>package</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<echo message="copy file" />
 								<copy
 									toDir="${project.build.directory}/org.tmdmaker.extensions.scaffold">
@@ -42,7 +42,7 @@
 								<zip
 									destfile="${project.build.directory}/org.tmdmaker.extensions.scaffold_${release-version}.zip"
 									basedir="${project.build.directory}/org.tmdmaker.extensions.scaffold" />
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>

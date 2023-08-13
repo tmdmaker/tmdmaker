@@ -28,10 +28,10 @@
 					<execution>
 						<phase>package</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<echo message="unzipping file" />
 								<unzip src="${project.build.directory}/repository/features/org.tmdmaker.plugin.feature_${release-version}.${buildQualifier}.jar" dest="${project.build.directory}/repository/features/org.tmdmaker_${release-version}.${buildQualifier}" />
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>
