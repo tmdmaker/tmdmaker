@@ -5,6 +5,12 @@ on:
     tags:
       - 'v*'
 
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'release tag'
+        required: true
+
 jobs:
   build:
     name: Create Release
