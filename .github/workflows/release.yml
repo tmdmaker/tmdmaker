@@ -41,8 +41,7 @@ jobs:
         tag_name: ${{ github.ref }}
 
     - name: upload artifacts
-      uses: AButler/upload-release-assets@v2.0
+      uses: shogo82148/actions-upload-release-asset@v1
       with:
-          files: './releng/org.tmdmaker.releng.product/target/products/tmdmaker_*'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          release-tag: ${{ github.ref }}
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./releng/org.tmdmaker.releng.product/target/products/tmdmaker_*
