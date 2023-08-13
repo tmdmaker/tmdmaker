@@ -46,3 +46,4 @@ jobs:
       with:
           files: './releng/org.tmdmaker.releng.product/target/products/tmdmaker_*'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          release-tag: ${{ github.ref }}
