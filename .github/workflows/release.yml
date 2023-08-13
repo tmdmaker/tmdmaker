@@ -33,6 +33,8 @@ jobs:
     - name: release
       uses: actions/create-release@v1
       id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         draft: false
         prerelease: false
