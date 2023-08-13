@@ -40,11 +40,7 @@ jobs:
         tag_name: ${{ github.ref }}
 
     - name: upload artifacts
-      uses: actions/upload-release-asset@v1
-      id: create_release
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+      uses: AButler/upload-release-assets@v2.0
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./releng/org.tmdmaker.releng.product/target/products/tmdmaker_*
-  
+          files: './releng/org.tmdmaker.releng.product/target/products/tmdmaker_*'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
