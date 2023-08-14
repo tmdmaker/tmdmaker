@@ -20,6 +20,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Set up create-dmg
+      run: brew install create-dmg 
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -30,7 +33,7 @@ jobs:
     - name: Build with Maven
       run: mvn -e -B -P 2023-06 clean verify -Dtycho.disableP2Mirrors=false -Dmaven.test.skip=true
  
-    - name: release
+    - name: Create Release
       uses: actions/create-release@v1
       id: create_release
       env:
@@ -40,8 +43,26 @@ jobs:
         prerelease: false
         tag_name: ${{ github.ref }}
 
-    - name: upload artifacts
+    - name: Get tag version
+      id: get_tag_version
+      run: |
+        tag_version=`echo ${{ github.ref_name}} | sed 's/v.//'`
+        echo "tag_version=$tag_version" >> $GITHUB_OUTPUT
+
+    - name: Create DMG aarch64
+      run: create-dmg --app-drop-link 85 220 --window-size 600 500 --volname "TMD-Maker Installer" ./releng/org.tmdmaker.releng.product/target/tmdmaker_${{ step.get_tag_version.outputs.tag_version }}.macosx.aarch64.dmg ./releng/org.tmdmaker.releng.product/target/products/tmdmaker.rcp.product/macosx/cocoa/aarch64/TMD-Maker.app/
+
+    - name: Create DMG x86_64
+      run: create-dmg --app-drop-link 85 220 --window-size 600 500 --volname "TMD-Maker Installer" ./releng/org.tmdmaker.releng.product/target/tmdmaker_${{ step.get_tag_version.outputs.tag_version }}.macosx.x86_64.dmg ./releng/org.tmdmaker.releng.product/target/products/tmdmaker.rcp.product/macosx/cocoa/x86_64/TMD-Maker.app/
+
+    - name: Upload archive artifacts
       uses: shogo82148/actions-upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./releng/org.tmdmaker.releng.product/target/products/tmdmaker_*
+
+    - name: Upload dmg artifacts
+      uses: shogo82148/actions-upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./releng/org.tmdmaker.releng.product/target/tmdmaker_*.dmg
