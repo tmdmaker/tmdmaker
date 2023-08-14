@@ -50,10 +50,10 @@ jobs:
         echo "tag_version=$tag_version" >> $GITHUB_OUTPUT
 
     - name: Create DMG aarch64
-      run: create-dmg --app-drop-link 85 220 --window-size 600 500 --volname "TMD-Maker Installer" ./releng/org.tmdmaker.releng.product/target/tmdmaker_${{ step.get_tag_version.outputs.tag_version }}.macosx.aarch64.dmg ./releng/org.tmdmaker.releng.product/target/products/tmdmaker.rcp.product/macosx/cocoa/aarch64/TMD-Maker.app/
+      run: create-dmg --app-drop-link 85 220 --window-size 600 500 --volname "TMD-Maker Installer" ./releng/org.tmdmaker.releng.product/target/tmdmaker_${{ steps.get_tag_version.outputs.tag_version }}.macosx.aarch64.dmg ./releng/org.tmdmaker.releng.product/target/products/tmdmaker.rcp.product/macosx/cocoa/aarch64/TMD-Maker.app/
 
     - name: Create DMG x86_64
-      run: create-dmg --app-drop-link 85 220 --window-size 600 500 --volname "TMD-Maker Installer" ./releng/org.tmdmaker.releng.product/target/tmdmaker_${{ step.get_tag_version.outputs.tag_version }}.macosx.x86_64.dmg ./releng/org.tmdmaker.releng.product/target/products/tmdmaker.rcp.product/macosx/cocoa/x86_64/TMD-Maker.app/
+      run: create-dmg --app-drop-link 85 220 --window-size 600 500 --volname "TMD-Maker Installer" ./releng/org.tmdmaker.releng.product/target/tmdmaker_${{ steps.get_tag_version.outputs.tag_version }}.macosx.x86_64.dmg ./releng/org.tmdmaker.releng.product/target/products/tmdmaker.rcp.product/macosx/cocoa/x86_64/TMD-Maker.app/
 
     - name: Upload archive artifacts
       uses: shogo82148/actions-upload-release-asset@v1
