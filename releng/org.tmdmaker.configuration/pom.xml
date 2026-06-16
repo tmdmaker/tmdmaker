@@ -100,6 +100,24 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>mac-sphinx-binary</id>
+			<activation>
+				<os><family>mac</family></os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>kr.motd.maven</groupId>
+						<artifactId>sphinx-maven-plugin</artifactId>
+						<version>${sphinx-maven-plugin-version}</version>
+						<configuration>
+							<binaryUrl>https://github.com/trustin/sphinx-binary/releases/download/v0.8.2/sphinx.osx-x86_64</binaryUrl>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>2023-06</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
