@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.ui,
  org.apache.batik.pdf;bundle-version="1.6.0",
  wrapped.com.twelvemonkeys.imageio.imageio-tiff;bundle-version="3.7.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: TMD-Maker Project
 Bundle-ClassPath: .
 Export-Package: org.eclipse.gmf.runtime.common.ui.util;x-internal:=true,

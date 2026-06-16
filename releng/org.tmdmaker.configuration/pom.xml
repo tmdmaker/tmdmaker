@@ -18,7 +18,7 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>4.0.1</tycho-version>
+		<tycho-version>4.0.13</tycho-version>
 		<jacoco-version>0.8.10</jacoco-version>
 		<antrun-version>3.1.0</antrun-version>
 		<sphinx-maven-plugin-version>2.10.0</sphinx-maven-plugin-version>
@@ -98,6 +98,24 @@
 			<properties>
 				<jvm-flags>--add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.desktop/java.beans=ALL-UNNAMED</jvm-flags>
 			</properties>
+		</profile>
+		<profile>
+			<id>mac-sphinx-binary</id>
+			<activation>
+				<os><family>mac</family></os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>kr.motd.maven</groupId>
+						<artifactId>sphinx-maven-plugin</artifactId>
+						<version>${sphinx-maven-plugin-version}</version>
+						<configuration>
+							<binaryUrl>https://github.com/trustin/sphinx-binary/releases/download/v0.8.2/sphinx.osx-x86_64</binaryUrl>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>2023-06</id>
@@ -577,7 +595,7 @@
   					<product>org.tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
 					<argLine>
-						${tycho.testArgLine} -Xms40m -Xmx2G ${jvm-flags} ${os-jvm-flags}
+						${tycho.testArgLine} -Xms40m -Xmx2G ${os-jvm-flags} --add-opens java.desktop/java.beans=ALL-UNNAMED
 					</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>
