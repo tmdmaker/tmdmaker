@@ -15,10 +15,6 @@
  */
 package org.tmdmaker.ui.preferences;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
@@ -44,7 +40,9 @@ public class PreferencesTester extends AbstractTester {
 	protected void doTest() {
 		botEditor.setFocus();
 		try {
-			bot.menu("Window").menu("Preferences").click();
+			bot.menu("SWT").click();
+			wait.waitDefault();
+			bot.menu("Settings...").click();
 		} catch (Exception e) {
 			openPreferenceForMac();
 		}
@@ -71,25 +69,18 @@ public class PreferencesTester extends AbstractTester {
 
 	private void openPreferenceForMac() {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
-		workbench.getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-				if (window != null) {
-					Menu appMenu = workbench.getDisplay().getSystemMenu();
-					for (MenuItem item : appMenu.getItems()) {
-						if (item.getText().startsWith("Preferences")) {
-							Event event = new Event();
-							event.time = (int) System.currentTimeMillis();
-							event.widget = item;
-							event.display = workbench.getDisplay();
-							item.setSelection(true);
-							item.notifyListeners(SWT.Selection, event);
-							break;
-						}
-					}
-				}
-			}
-		});
+	    workbench.getDisplay().asyncExec(new Runnable() {
+	        public void run() {
+	            IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+	            if (window != null) {
+	                org.eclipse.ui.internal.dialogs.WorkbenchPreferenceDialog dialog =
+	                    org.eclipse.ui.internal.dialogs.WorkbenchPreferenceDialog
+	                        .createDialogOn(window.getShell(), null);
+	                dialog.open();
+	            }
+	        }
+	    });
+
 	}
 
 }
