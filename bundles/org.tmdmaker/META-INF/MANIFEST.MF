@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: TMD-Maker Plugin
 Bundle-SymbolicName: org.tmdmaker;singleton:=true
 Bundle-Version: 0.10.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .
 Bundle-Vendor: TMD-Maker Project
 Automatic-Module-Name: org.tmdmaker

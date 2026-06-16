@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.tmdmaker.ui.nl_ja
 Bundle-Version: 0.10.0.qualifier
 Fragment-Host: org.tmdmaker.ui;bundle-version="0.9.0"
 Automatic-Module-Name: org.tmdmaker.ui.nl_ja
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: TMD-Maker Project
 Bundle-Localization: plugin
 Export-Package: org.tmdmaker.ui

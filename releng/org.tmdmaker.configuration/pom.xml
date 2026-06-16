@@ -18,7 +18,7 @@
 
 	<properties>
 		<!-- plugin versions -->
-		<tycho-version>4.0.1</tycho-version>
+		<tycho-version>4.0.13</tycho-version>
 		<jacoco-version>0.8.10</jacoco-version>
 		<antrun-version>3.1.0</antrun-version>
 		<sphinx-maven-plugin-version>2.10.0</sphinx-maven-plugin-version>
@@ -577,7 +577,7 @@
   					<product>org.tmdmaker.rcp.product</product>
 					<!-- <application>org.eclipse.e4.ui.workbench.swt.E4Application</application> -->
 					<argLine>
-						${tycho.testArgLine} -Xms40m -Xmx2G ${jvm-flags} ${os-jvm-flags}
+						${tycho.testArgLine} -Xms40m -Xmx2G ${os-jvm-flags} --add-opens java.desktop/java.beans=ALL-UNNAMED
 					</argLine>
 					<appArgLine>-clean -nl en</appArgLine>
 				</configuration>
