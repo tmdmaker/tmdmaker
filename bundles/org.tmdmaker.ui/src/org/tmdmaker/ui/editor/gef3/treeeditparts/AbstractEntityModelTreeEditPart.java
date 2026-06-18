@@ -387,7 +387,7 @@ public class AbstractEntityModelTreeEditPart<T extends AbstractEntityModel>
 		int i;
 
 		@SuppressWarnings("unchecked")
-		List<FolderTreeEditPart<?>> children = getChildren();
+		List<FolderTreeEditPart<?>> children = (List<FolderTreeEditPart<?>>) getChildren();
 		int size = children.size();
 		Map<List<?>, FolderTreeEditPart<?>> modelToEditPart = new HashMap<List<?>, FolderTreeEditPart<?>>();
 		if (size > 0) {

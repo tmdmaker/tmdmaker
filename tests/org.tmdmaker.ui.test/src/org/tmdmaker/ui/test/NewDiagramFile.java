@@ -28,7 +28,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
  */
 public class NewDiagramFile {
 	private SWTWorkbenchBot bot = new SWTWorkbenchBot();
-	private static final String WIZARD_TITLE_NAME = "Select a wizard";
+	private static final String WIZARD_TITLE_NAME = "New";
 
 	public void create(final String projectName, final String fileName) throws Exception {
 		BotWait wait = new BotWait();
