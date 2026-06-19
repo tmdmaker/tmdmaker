@@ -101,8 +101,8 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		ActionRegistry registry = getActionRegistry();
 
 		EditPartViewer viewer = getViewer();
-		@SuppressWarnings("unchecked")
-		List<EditPart> list = viewer.getSelectedEditParts();
+
+		List<? extends EditPart> list = viewer.getSelectedEditParts();
 		if (list != null) {
 			printDebugLog(list);
 
@@ -175,7 +175,7 @@ public class TMDContextMenuProvider extends ContextMenuProvider {
 		addGeneratorMenus(menu, registry);
 	}
 
-	private void printDebugLog(List<EditPart> list) {
+	private void printDebugLog(List<? extends EditPart> list) {
 		if (!logger.isDebugEnabled()) {
 			return;
 		}
