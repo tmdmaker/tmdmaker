@@ -25,7 +25,7 @@ Require-Bundle: org.eclipse.ui,
  org.tmdmaker.ui,
  org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.tmdmaker.rcp
 Export-Package: org.tmdmaker.rcp
