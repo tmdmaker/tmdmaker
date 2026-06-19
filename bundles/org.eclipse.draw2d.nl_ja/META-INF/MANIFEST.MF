@@ -1,6 +1,8 @@
 Manifest-Version: 1.0
 Bundle-Name: org.eclipse.draw2d Japanese NLS Support
-Bundle-SymbolicName: org.eclipse.draw2d.nl_ja ;singleton=true
+Bundle-SymbolicName: org.eclipse.draw2d.nl_ja;singleton:=true
 Bundle-Version: 0.10.0.qualifier
 Bundle-Vendor: Eclipse.org
 Fragment-Host: org.eclipse.draw2d;bundle-version="3.10.100.201606061308"
+Automatic-Module-Name: org.eclipse.draw2d.nl.ja
+Bundle-ManifestVersion: 2

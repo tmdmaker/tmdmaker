@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.tmdmaker.serializer,
  org.tmdmaker.core;bundle-version="0.9.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: TMD-Maker Project
 Bundle-ClassPath: .
 Automatic-Module-Name: org.tmdmaker.serializer.handler.patch

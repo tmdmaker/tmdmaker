@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.tmdmaker.csv.test
 Bundle-Version: 0.10.0.qualifier
 Fragment-Host: org.tmdmaker.csv;bundle-version="0.9.0"
 Automatic-Module-Name: org.tmdmaker.csv.test
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: TMD-Maker Project
 Require-Bundle: org.junit
 Export-Package: org.tmdmaker.importer.csv;x-internal:=true
